@@ -1,0 +1,88 @@
+现在信息完全足够了。我可以确认：**我们的代码只用了这个数据集中非常小的一部分信号，有大量高价值指标被完全忽略了。**
+
+---
+
+## 完整模态覆盖分析
+
+### Metrics.csv：49 种指标，我们只用了 5 种（覆盖率 10%）
+
+我们当前代码使用的 5 种：
+- `istio-latency-99` ✅
+- `istio-error-total` ✅
+- `container-cpu-usage-seconds-total` ✅
+- `container-memory-failures-total` ✅
+- `container-memory-working-set-bytes` ✅
+
+**被完全忽略、但极可能有价值的高优先级指标**：
+
+| 指标 | 为什么被忽略 | 能带来什么 |
+|------|-------------|-----------|
+| **`istio-latency-50`、`istio-latency-90`、`istio-latency-95`** | 我们只看了 P99 | 中位数和 P90/P95 对"持续缓慢故障"比 P99 更敏感 |
+| **`istio-request-total`** | 完全没用 | 看 QPS 是正常还是掉底——emailservice 静默故障时 QPS 可能掉到 0 |
+| **`container-memory-usage-bytes`** | 只看 working-set | 容器实际内存使用量，比 working-set 更直接 |
+| **`container-memory-rss`** | 忽略 | RSS 是进程实际驻留内存，OOM 前兆 |
+| **`container-network-receive-errors-total`** | 忽略 | 网络故障的强信号 |
+| **`container-network-transmit-errors-total`** | 忽略 | 同上 |
+| **`container-fs-reads-total`、`container-fs-writes-total`** | 忽略 | 磁盘 I/O 异常可能暗示数据污染 |
+| **`container-spec-memory-limit-bytes`** | 忽略 | 看容器是否在内存限制边缘运行 |
+
+**被完全忽略、但可能对 f5 资源耗尽型故障非常有用的 node 级指标**：
+
+| 指标 | 能带来什么 |
+|------|-----------|
+| **`node-memory-active-bytes`** | 宿主机内存压力——adservice_f5 的根因可能在这里 |
+| **`node-network-receive-errs-total`** | 宿主机网络丢包——emailservice_f5 的网络故障可能在这里 |
+| **`node-disk-read-bytes-total`** | 宿主机磁盘 I/O 竞争 |
+
+### Traces.csv：所有字段我们都在用，但有一个维度没用
+
+Traces 列：`traceID, spanID, serviceName, methodName, operationName, startTimeMillis, startTime, duration, statusCode, parentSpanID`
+
+- **`methodName` 和 `operationName`**：我们完全没碰。这两个字段可以区分"同一个服务的不同接口是否异常"。比如 emailservice 的 `SendOrderConfirmation` 接口挂掉了，但 `GetSupportedCurrencies` 接口正常——这个细粒度信号我们没捕捉到。
+
+### Logs.csv：我们只做了关键词匹配，没做日志频率和模式分析
+
+Logs 列：`timestamp, container_name, message, pod_name, node_name`
+
+- **`pod_name` 和 `node_name`**：我们完全没碰。这个信息可以关联到同宿主机的容器——adservice_f5 的根因很可能和它处于同一宿主机的其他容器有关。
+- **日志频率**：故障前后日志条数的变化（突然暴增或突然骤降）本身就是一个强信号。
+- **日志模式**：正常日志 vs 异常日志的模式切换（比如全是 INFO 突然变成全是 ERROR）。
+
+---
+
+## 最关键的发现
+
+**adservice_f5/2 和 f5/3 的 BindException 日志我们已经捕获到了（V7.3 日志驱动召回），但排序时 adservice 还是被压住了。** 如果我们在全模态融合时加入 `node-memory-active-bytes` 或 `container-memory-rss`，很可能发现 adservice 的宿主机内存压力是根因，而 currencyservice 只是被波及的——这个因果链我们目前完全没有信号支持。
+
+**emailservice 静默故障（f2/3、f5/3）可能不是真的静默。** 它们可能表现为 `istio-request-total` 掉底（QPS 归零），或者 `container-network-receive-packets-total` 骤降——这些信号我们的代码完全没有监控。
+
+---
+
+echo "=== 当前已使用 (5种) ==="
+echo "istio-latency-99, istio-error-total, container-cpu-usage-seconds-total, container-memory-failures-total, container-memory-working-set-bytes"
+
+echo ""
+echo "=== 建议新增：高优先级 (8种) ==="
+echo "istio-request-total (QPS掉底=静默故障信号)"
+echo "istio-latency-50 (中位数延迟，比P99更稳定)"
+echo "container-memory-usage-bytes (实际内存使用)"
+echo "container-memory-rss (进程驻留内存，OOM前兆)"
+echo "container-network-receive-errors-total (网络故障强信号)"
+echo "container-network-transmit-errors-total (网络故障强信号)"
+echo "container-spec-memory-limit-bytes (内存限制边缘)"
+echo "node-memory-active-bytes (宿主机内存压力)"
+
+echo ""
+echo "=== 建议新增：中优先级 (6种) ==="
+echo "istio-latency-90, istio-latency-95 (中高延迟)"
+echo "istio-bytes-99 (响应体大小异常)"
+echo "container-cpu-user-seconds-total (用户态CPU)"
+echo "container-fs-writes-total (磁盘写入异常)"
+echo "node-network-receive-errs-total (宿主机网络丢包)"
+
+echo ""
+echo "=== 建议新增：低优先级(仅用于特定故障) ==="
+echo "container-blkio-device-usage-total (磁盘I/O)"
+echo "container-sockets (连接数异常=连接泄漏)"
+echo "container-memory-swap (Swap使用=内存压力)"
+echo "node-disk-read-bytes-total (宿主机磁盘I/O竞争)"

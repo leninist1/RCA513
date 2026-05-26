@@ -1,0 +1,84 @@
+{
+  "generation": 2,
+  "champion": "V7.3-CFboost_TypeCx2",
+  "variants": [
+    {
+      "id": "V7.3-CFboost_TypeCx2",
+      "agent": "deepseek",
+      "target": "1",
+      "metrics": {
+        "accuracy": 0.44,
+        "stability": 1.0,
+        "generalization": 0.48,
+        "top3_rate": 0.68,
+        "mrr": 0.5416666666666667,
+        "per_type": {
+          "MEM": {
+            "correct": 20,
+            "total": 20
+          },
+          "DISK": {
+            "correct": 9,
+            "total": 19
+          },
+          "LOSS": {
+            "correct": 3,
+            "total": 20
+          },
+          "DELAY": {
+            "correct": 3,
+            "total": 20
+          },
+          "CPU": {
+            "correct": 9,
+            "total": 21
+          }
+        },
+        "complexity_penalty": 0.1,
+        "ablation_survival": 0.8,
+        "R_ext": 0.6120000000000001,
+        "R_int": 0,
+        "R_total": 0.6120000000000001
+      }
+    },
+    {
+      "id": "V7.3-TypeC_topo_bidirectional",
+      "agent": "claude_proxy",
+      "target": "3",
+      "metrics": {
+        "accuracy": 0.4,
+        "stability": 1.0,
+        "generalization": 0.52,
+        "top3_rate": 0.66,
+        "mrr": 0.5116666666666668,
+        "per_type": {
+          "MEM": {
+            "correct": 20,
+            "total": 20
+          },
+          "DISK": {
+            "correct": 9,
+            "total": 19
+          },
+          "LOSS": {
+            "correct": 3,
+            "total": 20
+          },
+          "DELAY": {
+            "correct": 2,
+            "total": 20
+          },
+          "CPU": {
+            "correct": 6,
+            "total": 21
+          }
+        },
+        "complexity_penalty": 0.1,
+        "ablation_survival": 0.8,
+        "R_ext": 0.5980000000000001,
+        "R_int": 0,
+        "R_total": 0.5980000000000001
+      }
+    }
+  ]
+}

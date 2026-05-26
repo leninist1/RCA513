@@ -1,0 +1,30 @@
+# 这是 V7.0 的算子配置，会作为 Champion 的基础
+operators:
+  - id: 1
+    name: "scoring_function"
+    class: "ScoringFunction"
+    params:
+      weight_time: 0.4
+      weight_topo: 0.3
+      weight_metric: 0.3
+  - id: 2
+    name: "counterfactual"
+    class: "CounterfactualVerification"
+    params:
+      trigger_diff_threshold: 0.15
+  - id: 3
+    name: "fusion"
+    class: "FusionPolicy"
+    params:
+      unconditional_favor_counterfactual: true
+  - id: 4
+    name: "temporal"
+    class: "TemporalLogic"
+    params:
+      window_minutes: 5
+      adaptive: false
+  - id: 5
+    name: "gating"
+    class: "GatingLogic"
+    params:
+      threshold: 0.85

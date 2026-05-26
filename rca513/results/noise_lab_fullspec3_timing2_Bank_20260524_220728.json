@@ -1,0 +1,5392 @@
+{
+  "config": {
+    "system": "Bank",
+    "max_queries": 3,
+    "variant": "fullspec3_timing2",
+    "candidate_systems": [
+      "Bank",
+      "Telecom",
+      "Market"
+    ],
+    "timestamp": "2026-05-24 22:07:28"
+  },
+  "summary": {
+    "total": 3,
+    "top1": 0,
+    "top3": 1,
+    "top5": 2,
+    "avg_gt_rank": 9.0,
+    "skipped": 0,
+    "top1_pct": 0.0,
+    "top3_pct": 33.33,
+    "top5_pct": 66.67
+  },
+  "per_query": [
+    {
+      "query_id": "Bank_task_1",
+      "task_index": "task_1",
+      "status": "ok",
+      "ground_truth": {
+        "component": "Mysql02",
+        "reason": "high memory usage",
+        "datetime": "2021-03-04 14:57:00"
+      },
+      "gt_rank": 4,
+      "top_candidates": [
+        {
+          "object_id": "tomcat02",
+          "entity": "Tomcat02",
+          "score": 0.729703,
+          "reason": "disk I/O consumption",
+          "noise": {
+            "local_noise": 1.0,
+            "resonance_mass": 0.611178,
+            "source_signal": 0.93124,
+            "reverb_mass": 0.0,
+            "unexplained_residual": 1.0,
+            "collapse_gain": 0.641338,
+            "collapse_recovery_score": 1.0,
+            "exclusive_explanation": 0.95713,
+            "temporal_source_score": 1.0,
+            "multi_lead_consistency": 0.073344,
+            "hotspot_bias": 0.591064,
+            "root_source_score": 1.0,
+            "influenced_objects": [
+              "tomcat04",
+              "apache01"
+            ],
+            "noise_field_chain": [
+              "tomcat02",
+              "tomcat04",
+              "apache01"
+            ]
+          },
+          "structure": {
+            "upstream_context": 0.0,
+            "downstream_context": 0.657556,
+            "temporal_lead": 1.0,
+            "mechanism_focus": 0.074671,
+            "propagation_signature": 1.0,
+            "source_likelihood": 0.82088,
+            "symptom_likelihood": 0.0,
+            "structural_uniqueness": 0.857272,
+            "propagation_role_score": 1.0,
+            "hard_negative_resistance": 0.142857,
+            "multi_view_consistency": 0.841056,
+            "topological_eccentricity": 1.0,
+            "structural_score": 1.0,
+            "embedding": [
+              0.0,
+              0.657556,
+              1.0,
+              0.074671,
+              1.0,
+              0.82088,
+              0.0,
+              0.857272,
+              1.0,
+              0.142857,
+              0.841056,
+              1.0
+            ]
+          },
+          "delay": {
+            "source_time_consistency": 0.853313,
+            "average_delay_gain": 0.595152,
+            "observer_coverage": 0.333333,
+            "reverse_penalty": 0.0,
+            "lead_pairs": [
+              {
+                "object_id": "tomcat04",
+                "score": 0.983471
+              },
+              {
+                "object_id": "apache01",
+                "score": 0.869841
+              }
+            ]
+          },
+          "beam": {
+            "beamformed_explanation": 0.855197,
+            "directional_focus": 0.673442,
+            "offbeam_penalty": 0.5,
+            "mechanism_coherence": 1.0,
+            "beam_targets": [
+              {
+                "object_id": "tomcat04",
+                "score": 0.987578
+              },
+              {
+                "object_id": "apache01",
+                "score": 0.9007
+              }
+            ]
+          },
+          "subspace": {
+            "local_residual_source_energy": 0.0,
+            "sector_source_ratio": 0.0,
+            "sector_reverb_ratio": 1.0,
+            "residual_distinctiveness": 0.823025,
+            "local_common_mode_alignment": 1.0,
+            "replaceability": 0.999078,
+            "sector_size": 0.333333
+          },
+          "reverb_mask": {
+            "gated_reverb_penalty": 0.659239,
+            "source_protection": 0.812757,
+            "replaceability_penalty": 0.999493,
+            "local_hub_pressure": 0.534236
+          }
+        },
+        {
+          "object_id": "redis02",
+          "entity": "Redis02",
+          "score": 0.670455,
+          "reason": "disk I/O consumption",
+          "noise": {
+            "local_noise": 0.90566,
+            "resonance_mass": 0.374996,
+            "source_signal": 0.650672,
+            "reverb_mass": 0.0,
+            "unexplained_residual": 0.90566,
+            "collapse_gain": 0.863127,
+            "collapse_recovery_score": 0.749999,
+            "exclusive_explanation": 0.0,
+            "temporal_source_score": 1.0,
+            "multi_lead_consistency": 0.0,
+            "hotspot_bias": 0.337656,
+            "root_source_score": 0.860747,
+            "influenced_objects": [
+              "ig01",
+              "servicetest10",
+              "ig02",
+              "mg01",
+              "redis01"
+            ],
+            "noise_field_chain": [
+              "redis02",
+              "ig01",
+              "ig02",
+              "mg01",
+              "redis01"
+            ]
+          },
+          "structure": {
+            "upstream_context": 0.0,
+            "downstream_context": 0.374996,
+            "temporal_lead": 1.0,
+            "mechanism_focus": 0.098792,
+            "propagation_signature": 0.749253,
+            "source_likelihood": 0.591222,
+            "symptom_likelihood": 0.0,
+            "structural_uniqueness": 0.58613,
+            "propagation_role_score": 0.948194,
+            "hard_negative_resistance": 0.071429,
+            "multi_view_consistency": 0.689397,
+            "topological_eccentricity": 1.0,
+            "structural_score": 0.863222,
+            "embedding": [
+              0.0,
+              0.374996,
+              1.0,
+              0.098792,
+              0.749253,
+              0.591222,
+              0.0,
+              0.58613,
+              0.948194,
+              0.071429,
+              0.689397,
+              1.0
+            ]
+          },
+          "delay": {
+            "source_time_consistency": 1.0,
+            "average_delay_gain": 0.0,
+            "observer_coverage": 0.833333,
+            "reverse_penalty": 0.0,
+            "lead_pairs": [
+              {
+                "object_id": "ig01",
+                "score": 1.0
+              },
+              {
+                "object_id": "servicetest10",
+                "score": 1.0
+              },
+              {
+                "object_id": "ig02",
+                "score": 0.82
+              },
+              {
+                "object_id": "mg01",
+                "score": 0.82
+              },
+              {
+                "object_id": "redis01",
+                "score": 0.82
+              }
+            ]
+          },
+          "beam": {
+            "beamformed_explanation": 0.920007,
+            "directional_focus": 1.0,
+            "offbeam_penalty": 0.5,
+            "mechanism_coherence": 0.678218,
+            "beam_targets": [
+              {
+                "object_id": "ig01",
+                "score": 0.55
+              },
+              {
+                "object_id": "servicetest10",
+                "score": 0.55
+              },
+              {
+                "object_id": "ig02",
+                "score": 0.4675
+              },
+              {
+                "object_id": "mg01",
+                "score": 0.4675
+              },
+              {
+                "object_id": "redis01",
+                "score": 0.397375
+              },
+              {
+                "object_id": "mysql01",
+                "score": 0.185773
+              },
+              {
+                "object_id": "servicetest5",
+                "score": 0.185773
+              }
+            ]
+          },
+          "subspace": {
+            "local_residual_source_energy": 0.0,
+            "sector_source_ratio": 0.0,
+            "sector_reverb_ratio": 1.0,
+            "residual_distinctiveness": 0.0,
+            "local_common_mode_alignment": 1.0,
+            "replaceability": 0.0,
+            "sector_size": 1.0
+          },
+          "reverb_mask": {
+            "gated_reverb_penalty": 0.257735,
+            "source_protection": 0.869429,
+            "replaceability_penalty": 0.45,
+            "local_hub_pressure": 0.251296
+          }
+        },
+        {
+          "object_id": "tomcat01",
+          "entity": "Tomcat01",
+          "score": 0.569323,
+          "reason": "disk I/O consumption",
+          "noise": {
+            "local_noise": 1.0,
+            "resonance_mass": 0.328734,
+            "source_signal": 0.582091,
+            "reverb_mass": 0.0,
+            "unexplained_residual": 1.0,
+            "collapse_gain": 0.878339,
+            "collapse_recovery_score": 0.749999,
+            "exclusive_explanation": 0.0,
+            "temporal_source_score": 1.0,
+            "multi_lead_consistency": 0.123367,
+            "hotspot_bias": 0.591064,
+            "root_source_score": 0.819823,
+            "influenced_objects": [
+              "ig01",
+              "servicetest10",
+              "ig02",
+              "mg01",
+              "redis01"
+            ],
+            "noise_field_chain": [
+              "tomcat01",
+              "ig01",
+              "ig02",
+              "mg01",
+              "redis01"
+            ]
+          },
+          "structure": {
+            "upstream_context": 0.0,
+            "downstream_context": 0.374996,
+            "temporal_lead": 1.0,
+            "mechanism_focus": 0.057622,
+            "propagation_signature": 0.749253,
+            "source_likelihood": 0.582604,
+            "symptom_likelihood": 0.0,
+            "structural_uniqueness": 0.58613,
+            "propagation_role_score": 0.948194,
+            "hard_negative_resistance": 0.142857,
+            "multi_view_consistency": 0.623702,
+            "topological_eccentricity": 1.0,
+            "structural_score": 0.847702,
+            "embedding": [
+              0.0,
+              0.374996,
+              1.0,
+              0.057622,
+              0.749253,
+              0.582604,
+              0.0,
+              0.58613,
+              0.948194,
+              0.142857,
+              0.623702,
+              1.0
+            ]
+          },
+          "delay": {
+            "source_time_consistency": 0.753266,
+            "average_delay_gain": 1.0,
+            "observer_coverage": 0.833333,
+            "reverse_penalty": 0.0,
+            "lead_pairs": [
+              {
+                "object_id": "ig01",
+                "score": 0.876633
+              },
+              {
+                "object_id": "servicetest10",
+                "score": 0.876633
+              },
+              {
+                "object_id": "ig02",
+                "score": 0.718839
+              },
+              {
+                "object_id": "mg01",
+                "score": 0.718839
+              },
+              {
+                "object_id": "redis01",
+                "score": 0.718839
+              }
+            ]
+          },
+          "beam": {
+            "beamformed_explanation": 0.824048,
+            "directional_focus": 0.843974,
+            "offbeam_penalty": 0.5,
+            "mechanism_coherence": 0.671602,
+            "beam_targets": [
+              {
+                "object_id": "ig01",
+                "score": 0.498283
+              },
+              {
+                "object_id": "servicetest10",
+                "score": 0.498283
+              },
+              {
+                "object_id": "ig02",
+                "score": 0.383715
+              },
+              {
+                "object_id": "mg01",
+                "score": 0.383715
+              },
+              {
+                "object_id": "redis01",
+                "score": 0.326158
+              },
+              {
+                "object_id": "mysql01",
+                "score": 0.138141
+              },
+              {
+                "object_id": "servicetest5",
+                "score": 0.138141
+              }
+            ]
+          },
+          "subspace": {
+            "local_residual_source_energy": 0.0,
+            "sector_source_ratio": 0.0,
+            "sector_reverb_ratio": 1.0,
+            "residual_distinctiveness": 0.898023,
+            "local_common_mode_alignment": 1.0,
+            "replaceability": 1.0,
+            "sector_size": 1.0
+          },
+          "reverb_mask": {
+            "gated_reverb_penalty": 0.562947,
+            "source_protection": 1.0,
+            "replaceability_penalty": 1.0,
+            "local_hub_pressure": 0.51631
+          }
+        },
+        {
+          "object_id": "mysql02",
+          "entity": "Mysql02",
+          "score": 0.525345,
+          "reason": "db fault",
+          "noise": {
+            "local_noise": 0.90566,
+            "resonance_mass": 0.349585,
+            "source_signal": 0.427304,
+            "reverb_mass": 0.0,
+            "unexplained_residual": 0.90566,
+            "collapse_gain": 0.416006,
+            "collapse_recovery_score": 1.0,
+            "exclusive_explanation": 0.051812,
+            "temporal_source_score": 1.0,
+            "multi_lead_consistency": 0.0,
+            "hotspot_bias": 0.37249,
+            "root_source_score": 0.664408,
+            "influenced_objects": [
+              "servicetest11",
+              "servicetest4",
+              "apache01"
+            ],
+            "noise_field_chain": [
+              "mysql02",
+              "apache01"
+            ]
+          },
+          "structure": {
+            "upstream_context": 0.0,
+            "downstream_context": 0.349585,
+            "temporal_lead": 1.0,
+            "mechanism_focus": 0.408246,
+            "propagation_signature": 0.607718,
+            "source_likelihood": 0.617702,
+            "symptom_likelihood": 0.0,
+            "structural_uniqueness": 0.56307,
+            "propagation_role_score": 0.926208,
+            "hard_negative_resistance": 0.071429,
+            "multi_view_consistency": 1.0,
+            "topological_eccentricity": 1.0,
+            "structural_score": 0.882428,
+            "embedding": [
+              0.0,
+              0.349585,
+              1.0,
+              0.408246,
+              0.607718,
+              0.617702,
+              0.0,
+              0.56307,
+              0.926208,
+              0.071429,
+              1.0,
+              1.0
+            ]
+          },
+          "delay": {
+            "source_time_consistency": 1.0,
+            "average_delay_gain": 0.0,
+            "observer_coverage": 0.5,
+            "reverse_penalty": 0.0,
+            "lead_pairs": [
+              {
+                "object_id": "servicetest11",
+                "score": 1.0
+              },
+              {
+                "object_id": "servicetest4",
+                "score": 1.0
+              },
+              {
+                "object_id": "apache01",
+                "score": 1.0
+              }
+            ]
+          },
+          "beam": {
+            "beamformed_explanation": 0.408754,
+            "directional_focus": 0.487413,
+            "offbeam_penalty": 0.5,
+            "mechanism_coherence": 0.620427,
+            "beam_targets": [
+              {
+                "object_id": "servicetest11",
+                "score": 0.75
+              },
+              {
+                "object_id": "servicetest4",
+                "score": 0.75
+              },
+              {
+                "object_id": "apache01",
+                "score": 0.55
+              }
+            ]
+          },
+          "subspace": {
+            "local_residual_source_energy": 0.0,
+            "sector_source_ratio": 0.0,
+            "sector_reverb_ratio": 1.0,
+            "residual_distinctiveness": 0.474037,
+            "local_common_mode_alignment": 1.0,
+            "replaceability": 0.0,
+            "sector_size": 0.5
+          },
+          "reverb_mask": {
+            "gated_reverb_penalty": 0.326561,
+            "source_protection": 0.750423,
+            "replaceability_penalty": 0.45,
+            "local_hub_pressure": 0.31552
+          }
+        },
+        {
+          "object_id": "ig02",
+          "entity": "IG02",
+          "score": 0.479897,
+          "reason": "disk I/O consumption",
+          "noise": {
+            "local_noise": 0.90566,
+            "resonance_mass": 0.967812,
+            "source_signal": 0.794559,
+            "reverb_mass": 1.0,
+            "unexplained_residual": 0.0,
+            "collapse_gain": 0.828125,
+            "collapse_recovery_score": 1.0,
+            "exclusive_explanation": 0.0,
+            "temporal_source_score": 1.0,
+            "multi_lead_consistency": 0.0,
+            "hotspot_bias": 0.651208,
+            "root_source_score": 0.868195,
+            "influenced_objects": [
+              "mg01",
+              "redis01",
+              "mysql01",
+              "servicetest5"
+            ],
+            "noise_field_chain": [
+              "ig02",
+              "mg01",
+              "redis01",
+              "mysql01",
+              "servicetest5"
+            ]
+          },
+          "structure": {
+            "upstream_context": 0.299996,
+            "downstream_context": 0.967812,
+            "temporal_lead": 1.0,
+            "mechanism_focus": 0.103745,
+            "propagation_signature": 0.823709,
+            "source_likelihood": 1.0,
+            "symptom_likelihood": 0.304403,
+            "structural_uniqueness": 0.96886,
+            "propagation_role_score": 1.0,
+            "hard_negative_resistance": 0.357779,
+            "multi_view_consistency": 0.756172,
+            "topological_eccentricity": 0.5,
+            "structural_score": 0.921521,
+            "embedding": [
+              0.299996,
+              0.967812,
+              1.0,
+              0.103745,
+              0.823709,
+              1.0,
+              0.304403,
+              0.96886,
+              1.0,
+              0.357779,
+              0.756172,
+              0.5
+            ]
+          },
+          "delay": {
+            "source_time_consistency": 1.0,
+            "average_delay_gain": 0.0,
+            "observer_coverage": 0.666667,
+            "reverse_penalty": 0.0,
+            "lead_pairs": [
+              {
+                "object_id": "mg01",
+                "score": 1.0
+              },
+              {
+                "object_id": "redis01",
+                "score": 1.0
+              },
+              {
+                "object_id": "mysql01",
+                "score": 1.0
+              },
+              {
+                "object_id": "servicetest5",
+                "score": 1.0
+              }
+            ]
+          },
+          "beam": {
+            "beamformed_explanation": 1.0,
+            "directional_focus": 0.526049,
+            "offbeam_penalty": 0.5,
+            "mechanism_coherence": 0.736229,
+            "beam_targets": [
+              {
+                "object_id": "mg01",
+                "score": 1.0
+              },
+              {
+                "object_id": "redis01",
+                "score": 0.85
+              },
+              {
+                "object_id": "mysql01",
+                "score": 0.55
+              },
+              {
+                "object_id": "servicetest5",
+                "score": 0.55
+              }
+            ]
+          },
+          "subspace": {
+            "local_residual_source_energy": 0.0,
+            "sector_source_ratio": 0.0,
+            "sector_reverb_ratio": 1.0,
+            "residual_distinctiveness": 0.070521,
+            "local_common_mode_alignment": 1.0,
+            "replaceability": 0.0,
+            "sector_size": 0.666667
+          },
+          "reverb_mask": {
+            "gated_reverb_penalty": 0.448212,
+            "source_protection": 0.833304,
+            "replaceability_penalty": 0.45,
+            "local_hub_pressure": 0.564339
+          }
+        }
+      ],
+      "noise_heatmap": [
+        {
+          "object_id": "tomcat02",
+          "root_source_score": 1.0,
+          "source_signal": 0.93124,
+          "exclusive_explanation": 0.95713,
+          "multi_lead_consistency": 0.073344,
+          "reverb_mass": 0.0,
+          "collapse_gain": 0.641338,
+          "hotspot_bias": 0.591064,
+          "influenced_objects": [
+            "tomcat04",
+            "apache01"
+          ],
+          "noise_field_chain": [
+            "tomcat02",
+            "tomcat04",
+            "apache01"
+          ]
+        },
+        {
+          "object_id": "ig01",
+          "root_source_score": 0.92882,
+          "source_signal": 0.813693,
+          "exclusive_explanation": 0.0,
+          "multi_lead_consistency": 0.0,
+          "reverb_mass": 1.0,
+          "collapse_gain": 1.0,
+          "hotspot_bias": 0.699569,
+          "influenced_objects": [
+            "servicetest10",
+            "ig02",
+            "mg01",
+            "redis01",
+            "mysql01",
+            "servicetest5"
+          ],
+          "noise_field_chain": [
+            "ig01",
+            "ig02",
+            "mg01",
+            "redis01",
+            "mysql01"
+          ]
+        },
+        {
+          "object_id": "ig02",
+          "root_source_score": 0.868195,
+          "source_signal": 0.794559,
+          "exclusive_explanation": 0.0,
+          "multi_lead_consistency": 0.0,
+          "reverb_mass": 1.0,
+          "collapse_gain": 0.828125,
+          "hotspot_bias": 0.651208,
+          "influenced_objects": [
+            "mg01",
+            "redis01",
+            "mysql01",
+            "servicetest5"
+          ],
+          "noise_field_chain": [
+            "ig02",
+            "mg01",
+            "redis01",
+            "mysql01",
+            "servicetest5"
+          ]
+        },
+        {
+          "object_id": "redis02",
+          "root_source_score": 0.860747,
+          "source_signal": 0.650672,
+          "exclusive_explanation": 0.0,
+          "multi_lead_consistency": 0.0,
+          "reverb_mass": 0.0,
+          "collapse_gain": 0.863127,
+          "hotspot_bias": 0.337656,
+          "influenced_objects": [
+            "ig01",
+            "servicetest10",
+            "ig02",
+            "mg01",
+            "redis01"
+          ],
+          "noise_field_chain": [
+            "redis02",
+            "ig01",
+            "ig02",
+            "mg01",
+            "redis01"
+          ]
+        },
+        {
+          "object_id": "tomcat01",
+          "root_source_score": 0.819823,
+          "source_signal": 0.582091,
+          "exclusive_explanation": 0.0,
+          "multi_lead_consistency": 0.123367,
+          "reverb_mass": 0.0,
+          "collapse_gain": 0.878339,
+          "hotspot_bias": 0.591064,
+          "influenced_objects": [
+            "ig01",
+            "servicetest10",
+            "ig02",
+            "mg01",
+            "redis01"
+          ],
+          "noise_field_chain": [
+            "tomcat01",
+            "ig01",
+            "ig02",
+            "mg01",
+            "redis01"
+          ]
+        },
+        {
+          "object_id": "servicetest10",
+          "root_source_score": 0.716437,
+          "source_signal": 0.944129,
+          "exclusive_explanation": 0.0,
+          "multi_lead_consistency": 0.0,
+          "reverb_mass": 1.0,
+          "collapse_gain": 0.831238,
+          "hotspot_bias": 0.778996,
+          "influenced_objects": [
+            "ig02",
+            "mg01",
+            "redis01",
+            "mysql01",
+            "servicetest5"
+          ],
+          "noise_field_chain": [
+            "servicetest10",
+            "ig02",
+            "mg01",
+            "redis01",
+            "mysql01"
+          ]
+        },
+        {
+          "object_id": "mysql02",
+          "root_source_score": 0.664408,
+          "source_signal": 0.427304,
+          "exclusive_explanation": 0.051812,
+          "multi_lead_consistency": 0.0,
+          "reverb_mass": 0.0,
+          "collapse_gain": 0.416006,
+          "hotspot_bias": 0.37249,
+          "influenced_objects": [
+            "servicetest11",
+            "servicetest4",
+            "apache01"
+          ],
+          "noise_field_chain": [
+            "mysql02",
+            "apache01"
+          ]
+        },
+        {
+          "object_id": "mg01",
+          "root_source_score": 0.643392,
+          "source_signal": 0.735496,
+          "exclusive_explanation": 0.0,
+          "multi_lead_consistency": 0.0,
+          "reverb_mass": 1.0,
+          "collapse_gain": 0.60495,
+          "hotspot_bias": 0.780418,
+          "influenced_objects": [
+            "redis01",
+            "mysql01",
+            "servicetest5"
+          ],
+          "noise_field_chain": [
+            "mg01",
+            "redis01",
+            "mysql01",
+            "servicetest5"
+          ]
+        }
+      ],
+      "delay_heatmap": [
+        {
+          "object_id": "ig01",
+          "source_time_consistency": 1.0,
+          "average_delay_gain": 0.0,
+          "reverse_penalty": 1.0,
+          "lead_pairs": [
+            {
+              "object_id": "servicetest10",
+              "score": 1.0
+            },
+            {
+              "object_id": "ig02",
+              "score": 1.0
+            },
+            {
+              "object_id": "mg01",
+              "score": 1.0
+            },
+            {
+              "object_id": "redis01",
+              "score": 1.0
+            },
+            {
+              "object_id": "mysql01",
+              "score": 0.82
+            },
+            {
+              "object_id": "servicetest5",
+              "score": 0.82
+            }
+          ]
+        },
+        {
+          "object_id": "ig02",
+          "source_time_consistency": 1.0,
+          "average_delay_gain": 0.0,
+          "reverse_penalty": 0.0,
+          "lead_pairs": [
+            {
+              "object_id": "mg01",
+              "score": 1.0
+            },
+            {
+              "object_id": "redis01",
+              "score": 1.0
+            },
+            {
+              "object_id": "mysql01",
+              "score": 1.0
+            },
+            {
+              "object_id": "servicetest5",
+              "score": 1.0
+            }
+          ]
+        },
+        {
+          "object_id": "mg01",
+          "source_time_consistency": 1.0,
+          "average_delay_gain": 0.0,
+          "reverse_penalty": 0.0,
+          "lead_pairs": [
+            {
+              "object_id": "redis01",
+              "score": 1.0
+            },
+            {
+              "object_id": "mysql01",
+              "score": 1.0
+            },
+            {
+              "object_id": "servicetest5",
+              "score": 1.0
+            }
+          ]
+        },
+        {
+          "object_id": "mysql01",
+          "source_time_consistency": 1.0,
+          "average_delay_gain": 0.0,
+          "reverse_penalty": 0.0,
+          "lead_pairs": [
+            {
+              "object_id": "servicetest5",
+              "score": 1.0
+            }
+          ]
+        },
+        {
+          "object_id": "mysql02",
+          "source_time_consistency": 1.0,
+          "average_delay_gain": 0.0,
+          "reverse_penalty": 0.0,
+          "lead_pairs": [
+            {
+              "object_id": "servicetest11",
+              "score": 1.0
+            },
+            {
+              "object_id": "servicetest4",
+              "score": 1.0
+            },
+            {
+              "object_id": "apache01",
+              "score": 1.0
+            }
+          ]
+        },
+        {
+          "object_id": "redis01",
+          "source_time_consistency": 1.0,
+          "average_delay_gain": 0.0,
+          "reverse_penalty": 0.0,
+          "lead_pairs": [
+            {
+              "object_id": "mysql01",
+              "score": 1.0
+            },
+            {
+              "object_id": "servicetest5",
+              "score": 1.0
+            }
+          ]
+        },
+        {
+          "object_id": "redis02",
+          "source_time_consistency": 1.0,
+          "average_delay_gain": 0.0,
+          "reverse_penalty": 0.0,
+          "lead_pairs": [
+            {
+              "object_id": "ig01",
+              "score": 1.0
+            },
+            {
+              "object_id": "servicetest10",
+              "score": 1.0
+            },
+            {
+              "object_id": "ig02",
+              "score": 0.82
+            },
+            {
+              "object_id": "mg01",
+              "score": 0.82
+            },
+            {
+              "object_id": "redis01",
+              "score": 0.82
+            }
+          ]
+        },
+        {
+          "object_id": "servicetest10",
+          "source_time_consistency": 1.0,
+          "average_delay_gain": 0.0,
+          "reverse_penalty": 0.666667,
+          "lead_pairs": [
+            {
+              "object_id": "ig02",
+              "score": 1.0
+            },
+            {
+              "object_id": "mg01",
+              "score": 1.0
+            },
+            {
+              "object_id": "redis01",
+              "score": 1.0
+            },
+            {
+              "object_id": "mysql01",
+              "score": 0.82
+            },
+            {
+              "object_id": "servicetest5",
+              "score": 0.82
+            }
+          ]
+        }
+      ],
+      "beam_heatmap": [
+        {
+          "object_id": "ig02",
+          "beamformed_explanation": 1.0,
+          "directional_focus": 0.526049,
+          "offbeam_penalty": 0.5,
+          "mechanism_coherence": 0.736229,
+          "beam_targets": [
+            {
+              "object_id": "mg01",
+              "score": 1.0
+            },
+            {
+              "object_id": "redis01",
+              "score": 0.85
+            },
+            {
+              "object_id": "mysql01",
+              "score": 0.55
+            },
+            {
+              "object_id": "servicetest5",
+              "score": 0.55
+            }
+          ]
+        },
+        {
+          "object_id": "redis02",
+          "beamformed_explanation": 0.920007,
+          "directional_focus": 1.0,
+          "offbeam_penalty": 0.5,
+          "mechanism_coherence": 0.678218,
+          "beam_targets": [
+            {
+              "object_id": "ig01",
+              "score": 0.55
+            },
+            {
+              "object_id": "servicetest10",
+              "score": 0.55
+            },
+            {
+              "object_id": "ig02",
+              "score": 0.4675
+            },
+            {
+              "object_id": "mg01",
+              "score": 0.4675
+            },
+            {
+              "object_id": "redis01",
+              "score": 0.397375
+            },
+            {
+              "object_id": "mysql01",
+              "score": 0.185773
+            },
+            {
+              "object_id": "servicetest5",
+              "score": 0.185773
+            }
+          ]
+        },
+        {
+          "object_id": "ig01",
+          "beamformed_explanation": 0.870002,
+          "directional_focus": 0.48401,
+          "offbeam_penalty": 0.5,
+          "mechanism_coherence": 0.4375,
+          "beam_targets": [
+            {
+              "object_id": "servicetest10",
+              "score": 0.55
+            },
+            {
+              "object_id": "ig02",
+              "score": 0.55
+            },
+            {
+              "object_id": "mg01",
+              "score": 0.55
+            },
+            {
+              "object_id": "redis01",
+              "score": 0.55
+            },
+            {
+              "object_id": "mysql01",
+              "score": 0.257125
+            },
+            {
+              "object_id": "servicetest5",
+              "score": 0.257125
+            }
+          ]
+        },
+        {
+          "object_id": "tomcat02",
+          "beamformed_explanation": 0.855197,
+          "directional_focus": 0.673442,
+          "offbeam_penalty": 0.5,
+          "mechanism_coherence": 1.0,
+          "beam_targets": [
+            {
+              "object_id": "tomcat04",
+              "score": 0.987578
+            },
+            {
+              "object_id": "apache01",
+              "score": 0.9007
+            }
+          ]
+        },
+        {
+          "object_id": "tomcat01",
+          "beamformed_explanation": 0.824048,
+          "directional_focus": 0.843974,
+          "offbeam_penalty": 0.5,
+          "mechanism_coherence": 0.671602,
+          "beam_targets": [
+            {
+              "object_id": "ig01",
+              "score": 0.498283
+            },
+            {
+              "object_id": "servicetest10",
+              "score": 0.498283
+            },
+            {
+              "object_id": "ig02",
+              "score": 0.383715
+            },
+            {
+              "object_id": "mg01",
+              "score": 0.383715
+            },
+            {
+              "object_id": "redis01",
+              "score": 0.326158
+            },
+            {
+              "object_id": "mysql01",
+              "score": 0.138141
+            },
+            {
+              "object_id": "servicetest5",
+              "score": 0.138141
+            }
+          ]
+        },
+        {
+          "object_id": "servicetest10",
+          "beamformed_explanation": 0.710404,
+          "directional_focus": 0.586827,
+          "offbeam_penalty": 0.5,
+          "mechanism_coherence": 0.579561,
+          "beam_targets": [
+            {
+              "object_id": "ig02",
+              "score": 0.55
+            },
+            {
+              "object_id": "mg01",
+              "score": 0.55
+            },
+            {
+              "object_id": "redis01",
+              "score": 0.55
+            },
+            {
+              "object_id": "servicetest5",
+              "score": 0.4675
+            },
+            {
+              "object_id": "mysql01",
+              "score": 0.350625
+            }
+          ]
+        },
+        {
+          "object_id": "mg01",
+          "beamformed_explanation": 0.673049,
+          "directional_focus": 0.463637,
+          "offbeam_penalty": 0.5,
+          "mechanism_coherence": 0.600962,
+          "beam_targets": [
+            {
+              "object_id": "redis01",
+              "score": 0.85
+            },
+            {
+              "object_id": "mysql01",
+              "score": 0.55
+            },
+            {
+              "object_id": "servicetest5",
+              "score": 0.55
+            }
+          ]
+        },
+        {
+          "object_id": "tomcat04",
+          "beamformed_explanation": 0.513449,
+          "directional_focus": 0.650538,
+          "offbeam_penalty": 0.5,
+          "mechanism_coherence": 1.0,
+          "beam_targets": [
+            {
+              "object_id": "apache01",
+              "score": 0.912029
+            }
+          ]
+        }
+      ],
+      "subspace_heatmap": [
+        {
+          "object_id": "ig01",
+          "local_residual_source_energy": 0.0,
+          "sector_source_ratio": 0.0,
+          "sector_reverb_ratio": 1.0,
+          "residual_distinctiveness": 0.030585,
+          "local_common_mode_alignment": 1.0,
+          "replaceability": 0.0
+        },
+        {
+          "object_id": "ig02",
+          "local_residual_source_energy": 0.0,
+          "sector_source_ratio": 0.0,
+          "sector_reverb_ratio": 1.0,
+          "residual_distinctiveness": 0.070521,
+          "local_common_mode_alignment": 1.0,
+          "replaceability": 0.0
+        },
+        {
+          "object_id": "mg01",
+          "local_residual_source_energy": 0.0,
+          "sector_source_ratio": 0.0,
+          "sector_reverb_ratio": 1.0,
+          "residual_distinctiveness": 0.213639,
+          "local_common_mode_alignment": 1.0,
+          "replaceability": 0.0
+        },
+        {
+          "object_id": "mg02",
+          "local_residual_source_energy": 0.0,
+          "sector_source_ratio": 1.0,
+          "sector_reverb_ratio": 0.0,
+          "residual_distinctiveness": 1.0,
+          "local_common_mode_alignment": 0.0,
+          "replaceability": 0.0
+        },
+        {
+          "object_id": "mysql01",
+          "local_residual_source_energy": 0.0,
+          "sector_source_ratio": 0.0,
+          "sector_reverb_ratio": 1.0,
+          "residual_distinctiveness": 0.257694,
+          "local_common_mode_alignment": 1.0,
+          "replaceability": 0.0
+        },
+        {
+          "object_id": "mysql02",
+          "local_residual_source_energy": 0.0,
+          "sector_source_ratio": 0.0,
+          "sector_reverb_ratio": 1.0,
+          "residual_distinctiveness": 0.474037,
+          "local_common_mode_alignment": 1.0,
+          "replaceability": 0.0
+        },
+        {
+          "object_id": "redis01",
+          "local_residual_source_energy": 0.0,
+          "sector_source_ratio": 0.0,
+          "sector_reverb_ratio": 1.0,
+          "residual_distinctiveness": 0.073614,
+          "local_common_mode_alignment": 1.0,
+          "replaceability": 0.0
+        },
+        {
+          "object_id": "redis02",
+          "local_residual_source_energy": 0.0,
+          "sector_source_ratio": 0.0,
+          "sector_reverb_ratio": 1.0,
+          "residual_distinctiveness": 0.0,
+          "local_common_mode_alignment": 1.0,
+          "replaceability": 0.0
+        }
+      ],
+      "reverb_heatmap": [
+        {
+          "object_id": "tomcat04",
+          "gated_reverb_penalty": 1.0,
+          "source_protection": 0.641383,
+          "replaceability_penalty": 0.999981,
+          "local_hub_pressure": 0.940835
+        },
+        {
+          "object_id": "mysql01",
+          "gated_reverb_penalty": 0.863438,
+          "source_protection": 0.503417,
+          "replaceability_penalty": 0.45,
+          "local_hub_pressure": 1.0
+        },
+        {
+          "object_id": "redis01",
+          "gated_reverb_penalty": 0.787415,
+          "source_protection": 0.570025,
+          "replaceability_penalty": 0.45,
+          "local_hub_pressure": 0.935068
+        },
+        {
+          "object_id": "apache01",
+          "gated_reverb_penalty": 0.781789,
+          "source_protection": 0.065134,
+          "replaceability_penalty": 0.0,
+          "local_hub_pressure": 0.949619
+        },
+        {
+          "object_id": "servicetest5",
+          "gated_reverb_penalty": 0.721191,
+          "source_protection": 0.020422,
+          "replaceability_penalty": 0.0,
+          "local_hub_pressure": 0.857687
+        },
+        {
+          "object_id": "tomcat02",
+          "gated_reverb_penalty": 0.659239,
+          "source_protection": 0.812757,
+          "replaceability_penalty": 0.999493,
+          "local_hub_pressure": 0.534236
+        },
+        {
+          "object_id": "servicetest4",
+          "gated_reverb_penalty": 0.640404,
+          "source_protection": 0.488616,
+          "replaceability_penalty": 0.45,
+          "local_hub_pressure": 0.666672
+        },
+        {
+          "object_id": "servicetest10",
+          "gated_reverb_penalty": 0.61948,
+          "source_protection": 0.872572,
+          "replaceability_penalty": 0.45,
+          "local_hub_pressure": 0.89093
+        }
+      ],
+      "graph_debug": {
+        "query": "task_1",
+        "objects": {
+          "ig01": {
+            "members": [
+              "IG01"
+            ],
+            "representative": "IG01",
+            "anomaly_score": 0.9057,
+            "metric_score": 1.0,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "network fault"
+          },
+          "ig02": {
+            "members": [
+              "IG02"
+            ],
+            "representative": "IG02",
+            "anomaly_score": 0.9057,
+            "metric_score": 1.0,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "disk I/O consumption"
+          },
+          "mg01": {
+            "members": [
+              "MG01"
+            ],
+            "representative": "MG01",
+            "anomaly_score": 0.9057,
+            "metric_score": 1.0,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "disk I/O consumption"
+          },
+          "mg02": {
+            "members": [
+              "MG02"
+            ],
+            "representative": "MG02",
+            "anomaly_score": 0.9057,
+            "metric_score": 1.0,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "disk I/O consumption"
+          },
+          "mysql01": {
+            "members": [
+              "Mysql01"
+            ],
+            "representative": "Mysql01",
+            "anomaly_score": 0.9057,
+            "metric_score": 1.0,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "db fault"
+          },
+          "mysql02": {
+            "members": [
+              "Mysql02"
+            ],
+            "representative": "Mysql02",
+            "anomaly_score": 0.9057,
+            "metric_score": 1.0,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "db fault"
+          },
+          "redis01": {
+            "members": [
+              "Redis01"
+            ],
+            "representative": "Redis01",
+            "anomaly_score": 0.9057,
+            "metric_score": 1.0,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "CPU fault"
+          },
+          "redis02": {
+            "members": [
+              "Redis02"
+            ],
+            "representative": "Redis02",
+            "anomaly_score": 0.9057,
+            "metric_score": 1.0,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "disk I/O consumption"
+          },
+          "servicetest1": {
+            "members": [
+              "ServiceTest1"
+            ],
+            "representative": "ServiceTest1",
+            "anomaly_score": 0.1243,
+            "metric_score": 0.2072,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "high memory usage"
+          },
+          "servicetest10": {
+            "members": [
+              "ServiceTest10"
+            ],
+            "representative": "ServiceTest10",
+            "anomaly_score": 0.1811,
+            "metric_score": 0.3019,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "high memory usage"
+          },
+          "servicetest11": {
+            "members": [
+              "ServiceTest11"
+            ],
+            "representative": "ServiceTest11",
+            "anomaly_score": 0.0476,
+            "metric_score": 0.0794,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "high memory usage"
+          },
+          "servicetest2": {
+            "members": [
+              "ServiceTest2"
+            ],
+            "representative": "ServiceTest2",
+            "anomaly_score": 0.0387,
+            "metric_score": 0.0646,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "high memory usage"
+          },
+          "servicetest3": {
+            "members": [
+              "ServiceTest3"
+            ],
+            "representative": "ServiceTest3",
+            "anomaly_score": 0.2407,
+            "metric_score": 0.4012,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "high memory usage"
+          },
+          "servicetest4": {
+            "members": [
+              "ServiceTest4"
+            ],
+            "representative": "ServiceTest4",
+            "anomaly_score": 0.0598,
+            "metric_score": 0.0997,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "high memory usage"
+          },
+          "servicetest5": {
+            "members": [
+              "ServiceTest5"
+            ],
+            "representative": "ServiceTest5",
+            "anomaly_score": 0.0878,
+            "metric_score": 0.1464,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "high memory usage"
+          },
+          "servicetest6": {
+            "members": [
+              "ServiceTest6"
+            ],
+            "representative": "ServiceTest6",
+            "anomaly_score": 0.0341,
+            "metric_score": 0.0568,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "high memory usage"
+          },
+          "servicetest7": {
+            "members": [
+              "ServiceTest7"
+            ],
+            "representative": "ServiceTest7",
+            "anomaly_score": 0.0418,
+            "metric_score": 0.0696,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "high memory usage"
+          },
+          "servicetest8": {
+            "members": [
+              "ServiceTest8"
+            ],
+            "representative": "ServiceTest8",
+            "anomaly_score": 0.0845,
+            "metric_score": 0.1408,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "high memory usage"
+          },
+          "servicetest9": {
+            "members": [
+              "ServiceTest9"
+            ],
+            "representative": "ServiceTest9",
+            "anomaly_score": 0.0649,
+            "metric_score": 0.1081,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "high memory usage"
+          },
+          "tomcat01": {
+            "members": [
+              "Tomcat01"
+            ],
+            "representative": "Tomcat01",
+            "anomaly_score": 1.0,
+            "metric_score": 1.0,
+            "log_score": 0.3774,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "disk I/O consumption"
+          },
+          "tomcat02": {
+            "members": [
+              "Tomcat02"
+            ],
+            "representative": "Tomcat02",
+            "anomaly_score": 1.0,
+            "metric_score": 1.0,
+            "log_score": 0.3774,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "disk I/O consumption"
+          },
+          "tomcat03": {
+            "members": [
+              "Tomcat03"
+            ],
+            "representative": "Tomcat03",
+            "anomaly_score": 1.0,
+            "metric_score": 1.0,
+            "log_score": 0.3774,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "CPU fault"
+          },
+          "tomcat04": {
+            "members": [
+              "Tomcat04"
+            ],
+            "representative": "Tomcat04",
+            "anomaly_score": 1.0,
+            "metric_score": 1.0,
+            "log_score": 0.3774,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "disk I/O consumption"
+          },
+          "apache01": {
+            "members": [
+              "apache01"
+            ],
+            "representative": "apache01",
+            "anomaly_score": 0.9057,
+            "metric_score": 1.0,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "disk I/O consumption"
+          },
+          "apache02": {
+            "members": [
+              "apache02"
+            ],
+            "representative": "apache02",
+            "anomaly_score": 0.9057,
+            "metric_score": 1.0,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "disk I/O consumption"
+          },
+          "dockera1": {
+            "members": [
+              "dockerA1"
+            ],
+            "representative": "dockerA1",
+            "anomaly_score": 0.9057,
+            "metric_score": 1.0,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "network fault"
+          },
+          "dockera2": {
+            "members": [
+              "dockerA2"
+            ],
+            "representative": "dockerA2",
+            "anomaly_score": 0.0,
+            "metric_score": 0.0,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "high memory usage"
+          },
+          "dockerb1": {
+            "members": [
+              "dockerB1"
+            ],
+            "representative": "dockerB1",
+            "anomaly_score": 0.9057,
+            "metric_score": 1.0,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "CPU fault"
+          },
+          "dockerb2": {
+            "members": [
+              "dockerB2"
+            ],
+            "representative": "dockerB2",
+            "anomaly_score": 0.0,
+            "metric_score": 0.0,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "high memory usage"
+          }
+        }
+      }
+    },
+    {
+      "query_id": "Bank_task_6",
+      "task_index": "task_6",
+      "status": "ok",
+      "ground_truth": {
+        "component": "Redis02",
+        "reason": "high memory usage",
+        "datetime": "2021-03-04 18:09:00"
+      },
+      "gt_rank": 20,
+      "top_candidates": [
+        {
+          "object_id": "ig01",
+          "entity": "IG01",
+          "score": 0.778469,
+          "reason": "disk I/O consumption",
+          "noise": {
+            "local_noise": 0.90566,
+            "resonance_mass": 0.600913,
+            "source_signal": 0.588845,
+            "reverb_mass": 0.0,
+            "unexplained_residual": 0.90566,
+            "collapse_gain": 1.0,
+            "collapse_recovery_score": 0.813635,
+            "exclusive_explanation": 0.925263,
+            "temporal_source_score": 0.8,
+            "multi_lead_consistency": 0.088271,
+            "hotspot_bias": 0.368424,
+            "root_source_score": 1.0,
+            "influenced_objects": [
+              "mysql01",
+              "tomcat03",
+              "mg01",
+              "servicetest4",
+              "servicetest6",
+              "mg02"
+            ],
+            "noise_field_chain": [
+              "ig01",
+              "tomcat03",
+              "mg01",
+              "mg02",
+              "redis02"
+            ]
+          },
+          "structure": {
+            "upstream_context": 0.0,
+            "downstream_context": 0.817135,
+            "temporal_lead": 0.8,
+            "mechanism_focus": 0.647443,
+            "propagation_signature": 0.748387,
+            "source_likelihood": 0.935605,
+            "symptom_likelihood": 0.03136,
+            "structural_uniqueness": 0.977113,
+            "propagation_role_score": 1.0,
+            "hard_negative_resistance": 0.066667,
+            "multi_view_consistency": 0.773387,
+            "topological_eccentricity": 1.0,
+            "structural_score": 1.0,
+            "embedding": [
+              0.0,
+              0.817135,
+              0.8,
+              0.647443,
+              0.748387,
+              0.935605,
+              0.03136,
+              0.977113,
+              1.0,
+              0.066667,
+              0.773387,
+              1.0
+            ]
+          },
+          "delay": {
+            "source_time_consistency": 0.889197,
+            "average_delay_gain": 0.0,
+            "observer_coverage": 1.0,
+            "reverse_penalty": 0.0,
+            "lead_pairs": [
+              {
+                "object_id": "mysql01",
+                "score": 1.0
+              },
+              {
+                "object_id": "mg01",
+                "score": 1.0
+              },
+              {
+                "object_id": "servicetest4",
+                "score": 1.0
+              },
+              {
+                "object_id": "servicetest6",
+                "score": 1.0
+              },
+              {
+                "object_id": "mg02",
+                "score": 0.82
+              },
+              {
+                "object_id": "redis01",
+                "score": 0.82
+              }
+            ]
+          },
+          "beam": {
+            "beamformed_explanation": 1.0,
+            "directional_focus": 0.385188,
+            "offbeam_penalty": 0.8,
+            "mechanism_coherence": 0.901223,
+            "beam_targets": [
+              {
+                "object_id": "mysql01",
+                "score": 1.0
+              },
+              {
+                "object_id": "mg01",
+                "score": 1.0
+              },
+              {
+                "object_id": "mg02",
+                "score": 0.85
+              },
+              {
+                "object_id": "redis02",
+                "score": 0.85
+              },
+              {
+                "object_id": "apache01",
+                "score": 0.85
+              },
+              {
+                "object_id": "ig02",
+                "score": 0.614125
+              },
+              {
+                "object_id": "servicetest4",
+                "score": 0.55
+              },
+              {
+                "object_id": "servicetest6",
+                "score": 0.55
+              }
+            ]
+          },
+          "subspace": {
+            "local_residual_source_energy": 0.0,
+            "sector_source_ratio": 0.0,
+            "sector_reverb_ratio": 1.0,
+            "residual_distinctiveness": 0.187431,
+            "local_common_mode_alignment": 1.0,
+            "replaceability": 0.0,
+            "sector_size": 1.0
+          },
+          "reverb_mask": {
+            "gated_reverb_penalty": 0.282835,
+            "source_protection": 0.947429,
+            "replaceability_penalty": 0.45,
+            "local_hub_pressure": 0.449519
+          }
+        },
+        {
+          "object_id": "tomcat02",
+          "entity": "Tomcat02",
+          "score": 0.61034,
+          "reason": "disk I/O consumption",
+          "noise": {
+            "local_noise": 1.0,
+            "resonance_mass": 0.554296,
+            "source_signal": 0.54825,
+            "reverb_mass": 0.0,
+            "unexplained_residual": 1.0,
+            "collapse_gain": 0.602645,
+            "collapse_recovery_score": 0.892258,
+            "exclusive_explanation": 1.0,
+            "temporal_source_score": 1.0,
+            "multi_lead_consistency": 0.168442,
+            "hotspot_bias": 0.589515,
+            "root_source_score": 0.820226,
+            "influenced_objects": [
+              "mysql02",
+              "servicetest11",
+              "servicetest3",
+              "servicetest5",
+              "tomcat01",
+              "tomcat04"
+            ],
+            "noise_field_chain": [
+              "tomcat02",
+              "tomcat01",
+              "tomcat04"
+            ]
+          },
+          "structure": {
+            "upstream_context": 0.0,
+            "downstream_context": 0.598077,
+            "temporal_lead": 1.0,
+            "mechanism_focus": 0.105762,
+            "propagation_signature": 0.658936,
+            "source_likelihood": 0.769753,
+            "symptom_likelihood": 0.0,
+            "structural_uniqueness": 0.920707,
+            "propagation_role_score": 1.0,
+            "hard_negative_resistance": 0.133333,
+            "multi_view_consistency": 0.487292,
+            "topological_eccentricity": 1.0,
+            "structural_score": 0.900032,
+            "embedding": [
+              0.0,
+              0.598077,
+              1.0,
+              0.105762,
+              0.658936,
+              0.769753,
+              0.0,
+              0.920707,
+              1.0,
+              0.133333,
+              0.487292,
+              1.0
+            ]
+          },
+          "delay": {
+            "source_time_consistency": 0.768939,
+            "average_delay_gain": 1.0,
+            "observer_coverage": 0.6,
+            "reverse_penalty": 0.0,
+            "lead_pairs": [
+              {
+                "object_id": "tomcat01",
+                "score": 0.979654
+              },
+              {
+                "object_id": "mysql02",
+                "score": 0.88446
+              },
+              {
+                "object_id": "servicetest11",
+                "score": 0.88446
+              },
+              {
+                "object_id": "servicetest3",
+                "score": 0.88446
+              },
+              {
+                "object_id": "servicetest5",
+                "score": 0.88446
+              },
+              {
+                "object_id": "tomcat04",
+                "score": 0.078001
+              }
+            ]
+          },
+          "beam": {
+            "beamformed_explanation": 0.497742,
+            "directional_focus": 0.213084,
+            "offbeam_penalty": 0.0,
+            "mechanism_coherence": 0.755726,
+            "beam_targets": [
+              {
+                "object_id": "tomcat01",
+                "score": 0.984702
+              },
+              {
+                "object_id": "mysql02",
+                "score": 0.912029
+              },
+              {
+                "object_id": "servicetest11",
+                "score": 0.501616
+              },
+              {
+                "object_id": "servicetest3",
+                "score": 0.501616
+              },
+              {
+                "object_id": "servicetest5",
+                "score": 0.501616
+              },
+              {
+                "object_id": "tomcat04",
+                "score": 0.063694
+              }
+            ]
+          },
+          "subspace": {
+            "local_residual_source_energy": 0.0,
+            "sector_source_ratio": 0.0,
+            "sector_reverb_ratio": 1.0,
+            "residual_distinctiveness": 0.783647,
+            "local_common_mode_alignment": 1.0,
+            "replaceability": 0.998866,
+            "sector_size": 1.0
+          },
+          "reverb_mask": {
+            "gated_reverb_penalty": 0.519488,
+            "source_protection": 0.785631,
+            "replaceability_penalty": 0.999376,
+            "local_hub_pressure": 0.551688
+          }
+        },
+        {
+          "object_id": "apache02",
+          "entity": "apache02",
+          "score": 0.515596,
+          "reason": "CPU fault",
+          "noise": {
+            "local_noise": 0.90566,
+            "resonance_mass": 0.0,
+            "source_signal": 1.0,
+            "reverb_mass": 0.0,
+            "unexplained_residual": 0.90566,
+            "collapse_gain": 0.124827,
+            "collapse_recovery_score": 0.0,
+            "exclusive_explanation": 0.0,
+            "temporal_source_score": 0.5,
+            "multi_lead_consistency": 0.104493,
+            "hotspot_bias": 0.221091,
+            "root_source_score": 0.445104,
+            "influenced_objects": [],
+            "noise_field_chain": [
+              "apache02"
+            ]
+          },
+          "structure": {
+            "upstream_context": 0.0,
+            "downstream_context": 0.0,
+            "temporal_lead": 0.5,
+            "mechanism_focus": 0.290342,
+            "propagation_signature": 0.493482,
+            "source_likelihood": 0.102633,
+            "symptom_likelihood": 0.078401,
+            "structural_uniqueness": 0.919751,
+            "propagation_role_score": 0.5325,
+            "hard_negative_resistance": 0.066667,
+            "multi_view_consistency": 0.385508,
+            "topological_eccentricity": 1.0,
+            "structural_score": 0.503041,
+            "embedding": [
+              0.0,
+              0.0,
+              0.5,
+              0.290342,
+              0.493482,
+              0.102633,
+              0.078401,
+              0.919751,
+              0.5325,
+              0.066667,
+              0.385508,
+              1.0
+            ]
+          },
+          "delay": {
+            "source_time_consistency": 0.450891,
+            "average_delay_gain": 0.0,
+            "observer_coverage": 0.0,
+            "reverse_penalty": 0.0,
+            "lead_pairs": []
+          },
+          "beam": {
+            "beamformed_explanation": 0.101857,
+            "directional_focus": 0.0,
+            "offbeam_penalty": 0.0,
+            "mechanism_coherence": 0.0,
+            "beam_targets": []
+          },
+          "subspace": {
+            "local_residual_source_energy": 0.0,
+            "sector_source_ratio": 1.0,
+            "sector_reverb_ratio": 0.0,
+            "residual_distinctiveness": 1.0,
+            "local_common_mode_alignment": 0.0,
+            "replaceability": 0.0,
+            "sector_size": 0.0
+          },
+          "reverb_mask": {
+            "gated_reverb_penalty": 0.031761,
+            "source_protection": 0.282616,
+            "replaceability_penalty": 0.0,
+            "local_hub_pressure": 0.059058
+          }
+        },
+        {
+          "object_id": "dockera1",
+          "entity": "dockerA1",
+          "score": 0.510881,
+          "reason": "high memory usage",
+          "noise": {
+            "local_noise": 0.90566,
+            "resonance_mass": 0.0,
+            "source_signal": 1.0,
+            "reverb_mass": 0.0,
+            "unexplained_residual": 0.90566,
+            "collapse_gain": 0.124827,
+            "collapse_recovery_score": 0.0,
+            "exclusive_explanation": 0.0,
+            "temporal_source_score": 0.5,
+            "multi_lead_consistency": 0.104493,
+            "hotspot_bias": 0.221091,
+            "root_source_score": 0.445104,
+            "influenced_objects": [],
+            "noise_field_chain": [
+              "dockera1"
+            ]
+          },
+          "structure": {
+            "upstream_context": 0.0,
+            "downstream_context": 0.0,
+            "temporal_lead": 0.5,
+            "mechanism_focus": 0.168033,
+            "propagation_signature": 0.493482,
+            "source_likelihood": 0.091907,
+            "symptom_likelihood": 0.078401,
+            "structural_uniqueness": 0.919751,
+            "propagation_role_score": 0.5325,
+            "hard_negative_resistance": 0.066667,
+            "multi_view_consistency": 0.333545,
+            "topological_eccentricity": 1.0,
+            "structural_score": 0.495097,
+            "embedding": [
+              0.0,
+              0.0,
+              0.5,
+              0.168033,
+              0.493482,
+              0.091907,
+              0.078401,
+              0.919751,
+              0.5325,
+              0.066667,
+              0.333545,
+              1.0
+            ]
+          },
+          "delay": {
+            "source_time_consistency": 0.450891,
+            "average_delay_gain": 0.0,
+            "observer_coverage": 0.0,
+            "reverse_penalty": 0.0,
+            "lead_pairs": []
+          },
+          "beam": {
+            "beamformed_explanation": 0.101857,
+            "directional_focus": 0.0,
+            "offbeam_penalty": 0.0,
+            "mechanism_coherence": 0.0,
+            "beam_targets": []
+          },
+          "subspace": {
+            "local_residual_source_energy": 0.0,
+            "sector_source_ratio": 1.0,
+            "sector_reverb_ratio": 0.0,
+            "residual_distinctiveness": 1.0,
+            "local_common_mode_alignment": 0.0,
+            "replaceability": 0.0,
+            "sector_size": 0.0
+          },
+          "reverb_mask": {
+            "gated_reverb_penalty": 0.031761,
+            "source_protection": 0.282616,
+            "replaceability_penalty": 0.0,
+            "local_hub_pressure": 0.059058
+          }
+        },
+        {
+          "object_id": "mg02",
+          "entity": "MG02",
+          "score": 0.509975,
+          "reason": "disk I/O consumption",
+          "noise": {
+            "local_noise": 0.90566,
+            "resonance_mass": 0.883672,
+            "source_signal": 0.808453,
+            "reverb_mass": 1.0,
+            "unexplained_residual": 0.0,
+            "collapse_gain": 0.786107,
+            "collapse_recovery_score": 0.904397,
+            "exclusive_explanation": 0.0,
+            "temporal_source_score": 1.0,
+            "multi_lead_consistency": 0.104493,
+            "hotspot_bias": 0.613018,
+            "root_source_score": 0.818945,
+            "influenced_objects": [
+              "redis01",
+              "redis02",
+              "servicetest8",
+              "apache01",
+              "ig02",
+              "mysql02"
+            ],
+            "noise_field_chain": [
+              "mg02",
+              "redis02",
+              "apache01",
+              "ig02",
+              "mysql02"
+            ]
+          },
+          "structure": {
+            "upstream_context": 0.299475,
+            "downstream_context": 0.883672,
+            "temporal_lead": 1.0,
+            "mechanism_focus": 0.43214,
+            "propagation_signature": 0.801027,
+            "source_likelihood": 1.0,
+            "symptom_likelihood": 0.306241,
+            "structural_uniqueness": 0.964452,
+            "propagation_role_score": 1.0,
+            "hard_negative_resistance": 0.34561,
+            "multi_view_consistency": 0.705207,
+            "topological_eccentricity": 0.625,
+            "structural_score": 0.864829,
+            "embedding": [
+              0.299475,
+              0.883672,
+              1.0,
+              0.43214,
+              0.801027,
+              1.0,
+              0.306241,
+              0.964452,
+              1.0,
+              0.34561,
+              0.705207,
+              0.625
+            ]
+          },
+          "delay": {
+            "source_time_consistency": 1.0,
+            "average_delay_gain": 0.0,
+            "observer_coverage": 0.9,
+            "reverse_penalty": 0.0,
+            "lead_pairs": [
+              {
+                "object_id": "redis01",
+                "score": 1.0
+              },
+              {
+                "object_id": "redis02",
+                "score": 1.0
+              },
+              {
+                "object_id": "servicetest8",
+                "score": 1.0
+              },
+              {
+                "object_id": "apache01",
+                "score": 1.0
+              },
+              {
+                "object_id": "ig02",
+                "score": 1.0
+              },
+              {
+                "object_id": "mysql02",
+                "score": 0.82
+              }
+            ]
+          },
+          "beam": {
+            "beamformed_explanation": 0.847197,
+            "directional_focus": 0.361875,
+            "offbeam_penalty": 0.0,
+            "mechanism_coherence": 0.805491,
+            "beam_targets": [
+              {
+                "object_id": "redis02",
+                "score": 1.0
+              },
+              {
+                "object_id": "apache01",
+                "score": 1.0
+              },
+              {
+                "object_id": "ig02",
+                "score": 1.0
+              },
+              {
+                "object_id": "mysql02",
+                "score": 0.85
+              },
+              {
+                "object_id": "redis01",
+                "score": 0.55
+              },
+              {
+                "object_id": "servicetest8",
+                "score": 0.55
+              },
+              {
+                "object_id": "servicetest11",
+                "score": 0.4675
+              },
+              {
+                "object_id": "servicetest3",
+                "score": 0.4675
+              }
+            ]
+          },
+          "subspace": {
+            "local_residual_source_energy": 0.0,
+            "sector_source_ratio": 0.0,
+            "sector_reverb_ratio": 1.0,
+            "residual_distinctiveness": 0.152386,
+            "local_common_mode_alignment": 1.0,
+            "replaceability": 0.0,
+            "sector_size": 1.0
+          },
+          "reverb_mask": {
+            "gated_reverb_penalty": 0.32996,
+            "source_protection": 0.89085,
+            "replaceability_penalty": 0.45,
+            "local_hub_pressure": 0.534645
+          }
+        }
+      ],
+      "noise_heatmap": [
+        {
+          "object_id": "ig01",
+          "root_source_score": 1.0,
+          "source_signal": 0.588845,
+          "exclusive_explanation": 0.925263,
+          "multi_lead_consistency": 0.088271,
+          "reverb_mass": 0.0,
+          "collapse_gain": 1.0,
+          "hotspot_bias": 0.368424,
+          "influenced_objects": [
+            "mysql01",
+            "tomcat03",
+            "mg01",
+            "servicetest4",
+            "servicetest6",
+            "mg02"
+          ],
+          "noise_field_chain": [
+            "ig01",
+            "tomcat03",
+            "mg01",
+            "mg02",
+            "redis02"
+          ]
+        },
+        {
+          "object_id": "mg01",
+          "root_source_score": 0.831522,
+          "source_signal": 0.682538,
+          "exclusive_explanation": 0.0,
+          "multi_lead_consistency": 0.104493,
+          "reverb_mass": 1.0,
+          "collapse_gain": 0.789364,
+          "hotspot_bias": 0.684877,
+          "influenced_objects": [
+            "servicetest4",
+            "servicetest6",
+            "mg02",
+            "redis01",
+            "redis02",
+            "servicetest8"
+          ],
+          "noise_field_chain": [
+            "mg01",
+            "mg02",
+            "redis02",
+            "apache01",
+            "ig02"
+          ]
+        },
+        {
+          "object_id": "tomcat02",
+          "root_source_score": 0.820226,
+          "source_signal": 0.54825,
+          "exclusive_explanation": 1.0,
+          "multi_lead_consistency": 0.168442,
+          "reverb_mass": 0.0,
+          "collapse_gain": 0.602645,
+          "hotspot_bias": 0.589515,
+          "influenced_objects": [
+            "mysql02",
+            "servicetest11",
+            "servicetest3",
+            "servicetest5",
+            "tomcat01",
+            "tomcat04"
+          ],
+          "noise_field_chain": [
+            "tomcat02",
+            "tomcat01",
+            "tomcat04"
+          ]
+        },
+        {
+          "object_id": "mg02",
+          "root_source_score": 0.818945,
+          "source_signal": 0.808453,
+          "exclusive_explanation": 0.0,
+          "multi_lead_consistency": 0.104493,
+          "reverb_mass": 1.0,
+          "collapse_gain": 0.786107,
+          "hotspot_bias": 0.613018,
+          "influenced_objects": [
+            "redis01",
+            "redis02",
+            "servicetest8",
+            "apache01",
+            "ig02",
+            "mysql02"
+          ],
+          "noise_field_chain": [
+            "mg02",
+            "redis02",
+            "apache01",
+            "ig02",
+            "mysql02"
+          ]
+        },
+        {
+          "object_id": "servicetest4",
+          "root_source_score": 0.668599,
+          "source_signal": 0.743873,
+          "exclusive_explanation": 0.0,
+          "multi_lead_consistency": 0.104493,
+          "reverb_mass": 1.0,
+          "collapse_gain": 0.674321,
+          "hotspot_bias": 0.741767,
+          "influenced_objects": [
+            "servicetest6",
+            "mg02",
+            "redis01",
+            "redis02",
+            "servicetest8",
+            "apache01"
+          ],
+          "noise_field_chain": [
+            "servicetest4",
+            "mg02",
+            "redis02",
+            "apache01",
+            "ig02"
+          ]
+        },
+        {
+          "object_id": "redis01",
+          "root_source_score": 0.657705,
+          "source_signal": 0.799226,
+          "exclusive_explanation": 0.0,
+          "multi_lead_consistency": 0.104493,
+          "reverb_mass": 1.0,
+          "collapse_gain": 0.643273,
+          "hotspot_bias": 0.701299,
+          "influenced_objects": [
+            "redis02",
+            "servicetest8",
+            "apache01",
+            "ig02",
+            "mysql02",
+            "servicetest11"
+          ],
+          "noise_field_chain": [
+            "redis01",
+            "redis02",
+            "apache01",
+            "ig02",
+            "mysql02"
+          ]
+        },
+        {
+          "object_id": "servicetest6",
+          "root_source_score": 0.646132,
+          "source_signal": 0.840307,
+          "exclusive_explanation": 0.0,
+          "multi_lead_consistency": 0.104493,
+          "reverb_mass": 1.0,
+          "collapse_gain": 0.649143,
+          "hotspot_bias": 0.766877,
+          "influenced_objects": [
+            "mg02",
+            "redis01",
+            "redis02",
+            "servicetest8",
+            "apache01",
+            "ig02"
+          ],
+          "noise_field_chain": [
+            "servicetest6",
+            "mg02",
+            "redis02",
+            "apache01",
+            "ig02"
+          ]
+        },
+        {
+          "object_id": "mysql01",
+          "root_source_score": 0.643438,
+          "source_signal": 0.453418,
+          "exclusive_explanation": 0.0,
+          "multi_lead_consistency": 0.086649,
+          "reverb_mass": 0.90566,
+          "collapse_gain": 0.8463,
+          "hotspot_bias": 0.521359,
+          "influenced_objects": [
+            "tomcat03",
+            "mg01",
+            "servicetest4",
+            "servicetest6",
+            "mg02",
+            "redis01"
+          ],
+          "noise_field_chain": [
+            "mysql01",
+            "tomcat03",
+            "mg01",
+            "mg02",
+            "redis02"
+          ]
+        }
+      ],
+      "delay_heatmap": [
+        {
+          "object_id": "ig02",
+          "source_time_consistency": 1.0,
+          "average_delay_gain": 0.0,
+          "reverse_penalty": 0.0,
+          "lead_pairs": [
+            {
+              "object_id": "mysql02",
+              "score": 1.0
+            },
+            {
+              "object_id": "servicetest11",
+              "score": 1.0
+            },
+            {
+              "object_id": "servicetest3",
+              "score": 1.0
+            },
+            {
+              "object_id": "servicetest5",
+              "score": 1.0
+            }
+          ]
+        },
+        {
+          "object_id": "mg01",
+          "source_time_consistency": 1.0,
+          "average_delay_gain": 0.0,
+          "reverse_penalty": 0.403904,
+          "lead_pairs": [
+            {
+              "object_id": "servicetest4",
+              "score": 1.0
+            },
+            {
+              "object_id": "servicetest6",
+              "score": 1.0
+            },
+            {
+              "object_id": "mg02",
+              "score": 1.0
+            },
+            {
+              "object_id": "redis01",
+              "score": 1.0
+            },
+            {
+              "object_id": "redis02",
+              "score": 1.0
+            },
+            {
+              "object_id": "servicetest8",
+              "score": 1.0
+            }
+          ]
+        },
+        {
+          "object_id": "mg02",
+          "source_time_consistency": 1.0,
+          "average_delay_gain": 0.0,
+          "reverse_penalty": 0.0,
+          "lead_pairs": [
+            {
+              "object_id": "redis01",
+              "score": 1.0
+            },
+            {
+              "object_id": "redis02",
+              "score": 1.0
+            },
+            {
+              "object_id": "servicetest8",
+              "score": 1.0
+            },
+            {
+              "object_id": "apache01",
+              "score": 1.0
+            },
+            {
+              "object_id": "ig02",
+              "score": 1.0
+            },
+            {
+              "object_id": "mysql02",
+              "score": 0.82
+            }
+          ]
+        },
+        {
+          "object_id": "mysql02",
+          "source_time_consistency": 1.0,
+          "average_delay_gain": 0.0,
+          "reverse_penalty": 1.0,
+          "lead_pairs": [
+            {
+              "object_id": "servicetest11",
+              "score": 1.0
+            },
+            {
+              "object_id": "servicetest3",
+              "score": 1.0
+            },
+            {
+              "object_id": "servicetest5",
+              "score": 1.0
+            }
+          ]
+        },
+        {
+          "object_id": "redis01",
+          "source_time_consistency": 1.0,
+          "average_delay_gain": 0.0,
+          "reverse_penalty": 0.0,
+          "lead_pairs": [
+            {
+              "object_id": "redis02",
+              "score": 1.0
+            },
+            {
+              "object_id": "servicetest8",
+              "score": 1.0
+            },
+            {
+              "object_id": "apache01",
+              "score": 1.0
+            },
+            {
+              "object_id": "ig02",
+              "score": 1.0
+            },
+            {
+              "object_id": "mysql02",
+              "score": 0.82
+            },
+            {
+              "object_id": "servicetest11",
+              "score": 0.82
+            }
+          ]
+        },
+        {
+          "object_id": "redis02",
+          "source_time_consistency": 1.0,
+          "average_delay_gain": 0.0,
+          "reverse_penalty": 0.0,
+          "lead_pairs": [
+            {
+              "object_id": "servicetest8",
+              "score": 1.0
+            },
+            {
+              "object_id": "apache01",
+              "score": 1.0
+            },
+            {
+              "object_id": "ig02",
+              "score": 1.0
+            },
+            {
+              "object_id": "mysql02",
+              "score": 0.82
+            },
+            {
+              "object_id": "servicetest11",
+              "score": 0.82
+            },
+            {
+              "object_id": "servicetest3",
+              "score": 0.82
+            }
+          ]
+        },
+        {
+          "object_id": "servicetest11",
+          "source_time_consistency": 1.0,
+          "average_delay_gain": 0.0,
+          "reverse_penalty": 0.666667,
+          "lead_pairs": [
+            {
+              "object_id": "servicetest3",
+              "score": 1.0
+            },
+            {
+              "object_id": "servicetest5",
+              "score": 1.0
+            }
+          ]
+        },
+        {
+          "object_id": "servicetest3",
+          "source_time_consistency": 1.0,
+          "average_delay_gain": 0.0,
+          "reverse_penalty": 0.5,
+          "lead_pairs": [
+            {
+              "object_id": "servicetest5",
+              "score": 1.0
+            }
+          ]
+        }
+      ],
+      "beam_heatmap": [
+        {
+          "object_id": "ig01",
+          "beamformed_explanation": 1.0,
+          "directional_focus": 0.385188,
+          "offbeam_penalty": 0.8,
+          "mechanism_coherence": 0.901223,
+          "beam_targets": [
+            {
+              "object_id": "mysql01",
+              "score": 1.0
+            },
+            {
+              "object_id": "mg01",
+              "score": 1.0
+            },
+            {
+              "object_id": "mg02",
+              "score": 0.85
+            },
+            {
+              "object_id": "redis02",
+              "score": 0.85
+            },
+            {
+              "object_id": "apache01",
+              "score": 0.85
+            },
+            {
+              "object_id": "ig02",
+              "score": 0.614125
+            },
+            {
+              "object_id": "servicetest4",
+              "score": 0.55
+            },
+            {
+              "object_id": "servicetest6",
+              "score": 0.55
+            }
+          ]
+        },
+        {
+          "object_id": "mg01",
+          "beamformed_explanation": 0.954764,
+          "directional_focus": 0.268546,
+          "offbeam_penalty": 0.054225,
+          "mechanism_coherence": 0.8482,
+          "beam_targets": [
+            {
+              "object_id": "mg02",
+              "score": 1.0
+            },
+            {
+              "object_id": "redis02",
+              "score": 1.0
+            },
+            {
+              "object_id": "apache01",
+              "score": 1.0
+            },
+            {
+              "object_id": "ig02",
+              "score": 0.85
+            },
+            {
+              "object_id": "mysql02",
+              "score": 0.614125
+            },
+            {
+              "object_id": "servicetest4",
+              "score": 0.55
+            },
+            {
+              "object_id": "servicetest6",
+              "score": 0.55
+            },
+            {
+              "object_id": "redis01",
+              "score": 0.55
+            }
+          ]
+        },
+        {
+          "object_id": "mysql01",
+          "beamformed_explanation": 0.897127,
+          "directional_focus": 0.440555,
+          "offbeam_penalty": 1.0,
+          "mechanism_coherence": 0.846166,
+          "beam_targets": [
+            {
+              "object_id": "mg01",
+              "score": 1.0
+            },
+            {
+              "object_id": "mg02",
+              "score": 0.85
+            },
+            {
+              "object_id": "redis02",
+              "score": 0.85
+            },
+            {
+              "object_id": "apache01",
+              "score": 0.85
+            },
+            {
+              "object_id": "ig02",
+              "score": 0.614125
+            },
+            {
+              "object_id": "servicetest4",
+              "score": 0.55
+            },
+            {
+              "object_id": "servicetest6",
+              "score": 0.55
+            },
+            {
+              "object_id": "redis01",
+              "score": 0.4675
+            }
+          ]
+        },
+        {
+          "object_id": "mg02",
+          "beamformed_explanation": 0.847197,
+          "directional_focus": 0.361875,
+          "offbeam_penalty": 0.0,
+          "mechanism_coherence": 0.805491,
+          "beam_targets": [
+            {
+              "object_id": "redis02",
+              "score": 1.0
+            },
+            {
+              "object_id": "apache01",
+              "score": 1.0
+            },
+            {
+              "object_id": "ig02",
+              "score": 1.0
+            },
+            {
+              "object_id": "mysql02",
+              "score": 0.85
+            },
+            {
+              "object_id": "redis01",
+              "score": 0.55
+            },
+            {
+              "object_id": "servicetest8",
+              "score": 0.55
+            },
+            {
+              "object_id": "servicetest11",
+              "score": 0.4675
+            },
+            {
+              "object_id": "servicetest3",
+              "score": 0.4675
+            }
+          ]
+        },
+        {
+          "object_id": "tomcat03",
+          "beamformed_explanation": 0.837423,
+          "directional_focus": 0.538715,
+          "offbeam_penalty": 0.0,
+          "mechanism_coherence": 0.842763,
+          "beam_targets": [
+            {
+              "object_id": "mg01",
+              "score": 0.951229
+            },
+            {
+              "object_id": "mg02",
+              "score": 0.769112
+            },
+            {
+              "object_id": "redis02",
+              "score": 0.769112
+            },
+            {
+              "object_id": "apache01",
+              "score": 0.769112
+            },
+            {
+              "object_id": "ig02",
+              "score": 0.528582
+            },
+            {
+              "object_id": "servicetest4",
+              "score": 0.523176
+            },
+            {
+              "object_id": "servicetest6",
+              "score": 0.523176
+            },
+            {
+              "object_id": "redis01",
+              "score": 0.423011
+            }
+          ]
+        },
+        {
+          "object_id": "redis02",
+          "beamformed_explanation": 0.610955,
+          "directional_focus": 0.492185,
+          "offbeam_penalty": 0.0,
+          "mechanism_coherence": 0.771311,
+          "beam_targets": [
+            {
+              "object_id": "apache01",
+              "score": 1.0
+            },
+            {
+              "object_id": "ig02",
+              "score": 1.0
+            },
+            {
+              "object_id": "mysql02",
+              "score": 0.85
+            },
+            {
+              "object_id": "servicetest8",
+              "score": 0.55
+            },
+            {
+              "object_id": "servicetest11",
+              "score": 0.4675
+            },
+            {
+              "object_id": "servicetest3",
+              "score": 0.4675
+            },
+            {
+              "object_id": "servicetest5",
+              "score": 0.4675
+            }
+          ]
+        },
+        {
+          "object_id": "servicetest4",
+          "beamformed_explanation": 0.521842,
+          "directional_focus": 0.266732,
+          "offbeam_penalty": 0.0,
+          "mechanism_coherence": 0.726149,
+          "beam_targets": [
+            {
+              "object_id": "servicetest6",
+              "score": 1.0
+            },
+            {
+              "object_id": "servicetest8",
+              "score": 1.0
+            },
+            {
+              "object_id": "redis01",
+              "score": 0.75
+            },
+            {
+              "object_id": "mg02",
+              "score": 0.55
+            },
+            {
+              "object_id": "redis02",
+              "score": 0.55
+            },
+            {
+              "object_id": "apache01",
+              "score": 0.55
+            },
+            {
+              "object_id": "ig02",
+              "score": 0.4675
+            },
+            {
+              "object_id": "servicetest11",
+              "score": 0.337769
+            }
+          ]
+        },
+        {
+          "object_id": "servicetest6",
+          "beamformed_explanation": 0.504308,
+          "directional_focus": 0.279357,
+          "offbeam_penalty": 0.0,
+          "mechanism_coherence": 0.68623,
+          "beam_targets": [
+            {
+              "object_id": "servicetest8",
+              "score": 1.0
+            },
+            {
+              "object_id": "redis01",
+              "score": 0.75
+            },
+            {
+              "object_id": "mg02",
+              "score": 0.55
+            },
+            {
+              "object_id": "redis02",
+              "score": 0.55
+            },
+            {
+              "object_id": "apache01",
+              "score": 0.55
+            },
+            {
+              "object_id": "ig02",
+              "score": 0.4675
+            },
+            {
+              "object_id": "servicetest11",
+              "score": 0.337769
+            },
+            {
+              "object_id": "servicetest3",
+              "score": 0.337769
+            }
+          ]
+        }
+      ],
+      "subspace_heatmap": [
+        {
+          "object_id": "ig01",
+          "local_residual_source_energy": 0.0,
+          "sector_source_ratio": 0.0,
+          "sector_reverb_ratio": 1.0,
+          "residual_distinctiveness": 0.187431,
+          "local_common_mode_alignment": 1.0,
+          "replaceability": 0.0
+        },
+        {
+          "object_id": "ig02",
+          "local_residual_source_energy": 0.0,
+          "sector_source_ratio": 0.0,
+          "sector_reverb_ratio": 1.0,
+          "residual_distinctiveness": 0.055324,
+          "local_common_mode_alignment": 1.0,
+          "replaceability": 0.0
+        },
+        {
+          "object_id": "mg01",
+          "local_residual_source_energy": 0.0,
+          "sector_source_ratio": 0.0,
+          "sector_reverb_ratio": 1.0,
+          "residual_distinctiveness": 0.073754,
+          "local_common_mode_alignment": 1.0,
+          "replaceability": 0.0
+        },
+        {
+          "object_id": "mg02",
+          "local_residual_source_energy": 0.0,
+          "sector_source_ratio": 0.0,
+          "sector_reverb_ratio": 1.0,
+          "residual_distinctiveness": 0.152386,
+          "local_common_mode_alignment": 1.0,
+          "replaceability": 0.0
+        },
+        {
+          "object_id": "mysql01",
+          "local_residual_source_energy": 0.0,
+          "sector_source_ratio": 0.0,
+          "sector_reverb_ratio": 1.0,
+          "residual_distinctiveness": 0.309653,
+          "local_common_mode_alignment": 1.0,
+          "replaceability": 0.0
+        },
+        {
+          "object_id": "mysql02",
+          "local_residual_source_energy": 0.0,
+          "sector_source_ratio": 0.0,
+          "sector_reverb_ratio": 1.0,
+          "residual_distinctiveness": 0.300723,
+          "local_common_mode_alignment": 1.0,
+          "replaceability": 0.0
+        },
+        {
+          "object_id": "redis01",
+          "local_residual_source_energy": 0.0,
+          "sector_source_ratio": 0.0,
+          "sector_reverb_ratio": 1.0,
+          "residual_distinctiveness": 0.0,
+          "local_common_mode_alignment": 1.0,
+          "replaceability": 0.0
+        },
+        {
+          "object_id": "redis02",
+          "local_residual_source_energy": 0.0,
+          "sector_source_ratio": 0.0,
+          "sector_reverb_ratio": 1.0,
+          "residual_distinctiveness": 0.171952,
+          "local_common_mode_alignment": 1.0,
+          "replaceability": 0.0
+        }
+      ],
+      "reverb_heatmap": [
+        {
+          "object_id": "tomcat01",
+          "gated_reverb_penalty": 1.0,
+          "source_protection": 0.0,
+          "replaceability_penalty": 0.998501,
+          "local_hub_pressure": 0.935052
+        },
+        {
+          "object_id": "servicetest11",
+          "gated_reverb_penalty": 0.681355,
+          "source_protection": 0.402557,
+          "replaceability_penalty": 0.45,
+          "local_hub_pressure": 0.992058
+        },
+        {
+          "object_id": "servicetest3",
+          "gated_reverb_penalty": 0.674256,
+          "source_protection": 0.437231,
+          "replaceability_penalty": 0.45,
+          "local_hub_pressure": 1.0
+        },
+        {
+          "object_id": "mysql02",
+          "gated_reverb_penalty": 0.629808,
+          "source_protection": 0.513096,
+          "replaceability_penalty": 0.45,
+          "local_hub_pressure": 0.961398
+        },
+        {
+          "object_id": "ig02",
+          "gated_reverb_penalty": 0.603819,
+          "source_protection": 0.508398,
+          "replaceability_penalty": 0.45,
+          "local_hub_pressure": 0.907475
+        },
+        {
+          "object_id": "tomcat03",
+          "gated_reverb_penalty": 0.596067,
+          "source_protection": 1.0,
+          "replaceability_penalty": 1.0,
+          "local_hub_pressure": 0.91049
+        },
+        {
+          "object_id": "servicetest8",
+          "gated_reverb_penalty": 0.55365,
+          "source_protection": 0.61931,
+          "replaceability_penalty": 0.45,
+          "local_hub_pressure": 0.873857
+        },
+        {
+          "object_id": "apache01",
+          "gated_reverb_penalty": 0.536235,
+          "source_protection": 0.691096,
+          "replaceability_penalty": 0.45,
+          "local_hub_pressure": 0.882344
+        }
+      ],
+      "graph_debug": {
+        "query": "task_6",
+        "objects": {
+          "ig01": {
+            "members": [
+              "IG01"
+            ],
+            "representative": "IG01",
+            "anomaly_score": 0.9057,
+            "metric_score": 1.0,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "disk I/O consumption"
+          },
+          "ig02": {
+            "members": [
+              "IG02"
+            ],
+            "representative": "IG02",
+            "anomaly_score": 0.7291,
+            "metric_score": 1.0,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "disk I/O consumption"
+          },
+          "mg01": {
+            "members": [
+              "MG01"
+            ],
+            "representative": "MG01",
+            "anomaly_score": 0.9057,
+            "metric_score": 1.0,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "disk I/O consumption"
+          },
+          "mg02": {
+            "members": [
+              "MG02"
+            ],
+            "representative": "MG02",
+            "anomaly_score": 0.9057,
+            "metric_score": 1.0,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "disk I/O consumption"
+          },
+          "mysql01": {
+            "members": [
+              "Mysql01"
+            ],
+            "representative": "Mysql01",
+            "anomaly_score": 0.9057,
+            "metric_score": 1.0,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "disk I/O consumption"
+          },
+          "mysql02": {
+            "members": [
+              "Mysql02"
+            ],
+            "representative": "Mysql02",
+            "anomaly_score": 0.9057,
+            "metric_score": 1.0,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "disk I/O consumption"
+          },
+          "redis01": {
+            "members": [
+              "Redis01"
+            ],
+            "representative": "Redis01",
+            "anomaly_score": 0.7043,
+            "metric_score": 1.0,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "db fault"
+          },
+          "redis02": {
+            "members": [
+              "Redis02"
+            ],
+            "representative": "Redis02",
+            "anomaly_score": 0.9057,
+            "metric_score": 1.0,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "disk I/O consumption"
+          },
+          "servicetest1": {
+            "members": [
+              "ServiceTest1"
+            ],
+            "representative": "ServiceTest1",
+            "anomaly_score": 0.0458,
+            "metric_score": 0.0763,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "high memory usage"
+          },
+          "servicetest10": {
+            "members": [
+              "ServiceTest10"
+            ],
+            "representative": "ServiceTest10",
+            "anomaly_score": 0.123,
+            "metric_score": 0.2049,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "high memory usage"
+          },
+          "servicetest11": {
+            "members": [
+              "ServiceTest11"
+            ],
+            "representative": "ServiceTest11",
+            "anomaly_score": 0.0485,
+            "metric_score": 0.0809,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "high memory usage"
+          },
+          "servicetest2": {
+            "members": [
+              "ServiceTest2"
+            ],
+            "representative": "ServiceTest2",
+            "anomaly_score": 0.0578,
+            "metric_score": 0.0964,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "high memory usage"
+          },
+          "servicetest3": {
+            "members": [
+              "ServiceTest3"
+            ],
+            "representative": "ServiceTest3",
+            "anomaly_score": 0.1533,
+            "metric_score": 0.2555,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "high memory usage"
+          },
+          "servicetest4": {
+            "members": [
+              "ServiceTest4"
+            ],
+            "representative": "ServiceTest4",
+            "anomaly_score": 0.1778,
+            "metric_score": 0.2964,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "high memory usage"
+          },
+          "servicetest5": {
+            "members": [
+              "ServiceTest5"
+            ],
+            "representative": "ServiceTest5",
+            "anomaly_score": 0.141,
+            "metric_score": 0.235,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "high memory usage"
+          },
+          "servicetest6": {
+            "members": [
+              "ServiceTest6"
+            ],
+            "representative": "ServiceTest6",
+            "anomaly_score": 0.0829,
+            "metric_score": 0.1382,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "high memory usage"
+          },
+          "servicetest7": {
+            "members": [
+              "ServiceTest7"
+            ],
+            "representative": "ServiceTest7",
+            "anomaly_score": 0.2106,
+            "metric_score": 0.351,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "high memory usage"
+          },
+          "servicetest8": {
+            "members": [
+              "ServiceTest8"
+            ],
+            "representative": "ServiceTest8",
+            "anomaly_score": 0.0949,
+            "metric_score": 0.1582,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "high memory usage"
+          },
+          "servicetest9": {
+            "members": [
+              "ServiceTest9"
+            ],
+            "representative": "ServiceTest9",
+            "anomaly_score": 0.2513,
+            "metric_score": 0.4188,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "high memory usage"
+          },
+          "tomcat01": {
+            "members": [
+              "Tomcat01"
+            ],
+            "representative": "Tomcat01",
+            "anomaly_score": 1.0,
+            "metric_score": 1.0,
+            "log_score": 0.3774,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "disk I/O consumption"
+          },
+          "tomcat02": {
+            "members": [
+              "Tomcat02"
+            ],
+            "representative": "Tomcat02",
+            "anomaly_score": 1.0,
+            "metric_score": 1.0,
+            "log_score": 0.3774,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "disk I/O consumption"
+          },
+          "tomcat03": {
+            "members": [
+              "Tomcat03"
+            ],
+            "representative": "Tomcat03",
+            "anomaly_score": 1.0,
+            "metric_score": 1.0,
+            "log_score": 0.3774,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "disk I/O consumption"
+          },
+          "tomcat04": {
+            "members": [
+              "Tomcat04"
+            ],
+            "representative": "Tomcat04",
+            "anomaly_score": 1.0,
+            "metric_score": 1.0,
+            "log_score": 0.3774,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "disk I/O consumption"
+          },
+          "apache01": {
+            "members": [
+              "apache01"
+            ],
+            "representative": "apache01",
+            "anomaly_score": 0.8883,
+            "metric_score": 1.0,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "disk I/O consumption"
+          },
+          "apache02": {
+            "members": [
+              "apache02"
+            ],
+            "representative": "apache02",
+            "anomaly_score": 0.9057,
+            "metric_score": 1.0,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "CPU fault"
+          },
+          "dockera1": {
+            "members": [
+              "dockerA1"
+            ],
+            "representative": "dockerA1",
+            "anomaly_score": 0.9057,
+            "metric_score": 1.0,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "high memory usage"
+          },
+          "dockera2": {
+            "members": [
+              "dockerA2"
+            ],
+            "representative": "dockerA2",
+            "anomaly_score": 0.0,
+            "metric_score": 0.0,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "high memory usage"
+          },
+          "dockerb1": {
+            "members": [
+              "dockerB1"
+            ],
+            "representative": "dockerB1",
+            "anomaly_score": 0.0,
+            "metric_score": 0.0,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "high memory usage"
+          },
+          "dockerb2": {
+            "members": [
+              "dockerB2"
+            ],
+            "representative": "dockerB2",
+            "anomaly_score": 0.0,
+            "metric_score": 0.0,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "high memory usage"
+          }
+        }
+      }
+    },
+    {
+      "query_id": "Bank_task_6",
+      "task_index": "task_6",
+      "status": "ok",
+      "ground_truth": {
+        "component": "Tomcat01",
+        "reason": "high memory usage",
+        "datetime": "2021-03-06 06:20:00"
+      },
+      "gt_rank": 3,
+      "top_candidates": [
+        {
+          "object_id": "ig02",
+          "entity": "IG02",
+          "score": 0.833542,
+          "reason": "disk I/O consumption",
+          "noise": {
+            "local_noise": 1.0,
+            "resonance_mass": 1.0,
+            "source_signal": 0.803468,
+            "reverb_mass": 0.0,
+            "unexplained_residual": 1.0,
+            "collapse_gain": 0.996772,
+            "collapse_recovery_score": 0.93361,
+            "exclusive_explanation": 1.0,
+            "temporal_source_score": 1.0,
+            "multi_lead_consistency": 0.015078,
+            "hotspot_bias": 0.392744,
+            "root_source_score": 1.0,
+            "influenced_objects": [
+              "mysql01",
+              "mysql02",
+              "redis02",
+              "servicetest6",
+              "servicetest7",
+              "tomcat04"
+            ],
+            "noise_field_chain": [
+              "ig02",
+              "mysql01",
+              "mysql02",
+              "tomcat04",
+              "redis01"
+            ]
+          },
+          "structure": {
+            "upstream_context": 0.0,
+            "downstream_context": 0.925863,
+            "temporal_lead": 1.0,
+            "mechanism_focus": 0.0,
+            "propagation_signature": 0.837047,
+            "source_likelihood": 0.984057,
+            "symptom_likelihood": 0.0,
+            "structural_uniqueness": 1.0,
+            "propagation_role_score": 1.0,
+            "hard_negative_resistance": 0.071429,
+            "multi_view_consistency": 0.4307,
+            "topological_eccentricity": 1.0,
+            "structural_score": 1.0,
+            "embedding": [
+              0.0,
+              0.925863,
+              1.0,
+              0.0,
+              0.837047,
+              0.984057,
+              0.0,
+              1.0,
+              1.0,
+              0.071429,
+              0.4307,
+              1.0
+            ]
+          },
+          "delay": {
+            "source_time_consistency": 1.0,
+            "average_delay_gain": 0.0,
+            "observer_coverage": 0.7,
+            "reverse_penalty": 0.0,
+            "lead_pairs": [
+              {
+                "object_id": "mysql01",
+                "score": 1.0
+              },
+              {
+                "object_id": "mysql02",
+                "score": 1.0
+              },
+              {
+                "object_id": "redis02",
+                "score": 1.0
+              },
+              {
+                "object_id": "servicetest6",
+                "score": 1.0
+              },
+              {
+                "object_id": "servicetest7",
+                "score": 1.0
+              },
+              {
+                "object_id": "tomcat04",
+                "score": 1.0
+              }
+            ]
+          },
+          "beam": {
+            "beamformed_explanation": 1.0,
+            "directional_focus": 0.232835,
+            "offbeam_penalty": 0.0,
+            "mechanism_coherence": 0.703979,
+            "beam_targets": [
+              {
+                "object_id": "mysql01",
+                "score": 1.0
+              },
+              {
+                "object_id": "tomcat04",
+                "score": 0.85
+              },
+              {
+                "object_id": "redis01",
+                "score": 0.614125
+              },
+              {
+                "object_id": "mysql02",
+                "score": 0.55
+              },
+              {
+                "object_id": "redis02",
+                "score": 0.55
+              },
+              {
+                "object_id": "servicetest6",
+                "score": 0.55
+              },
+              {
+                "object_id": "servicetest7",
+                "score": 0.55
+              },
+              {
+                "object_id": "apache01",
+                "score": 0.443705
+              }
+            ]
+          },
+          "subspace": {
+            "local_residual_source_energy": 0.0,
+            "sector_source_ratio": 0.0,
+            "sector_reverb_ratio": 1.0,
+            "residual_distinctiveness": 0.067607,
+            "local_common_mode_alignment": 1.0,
+            "replaceability": 0.0,
+            "sector_size": 1.0
+          },
+          "reverb_mask": {
+            "gated_reverb_penalty": 0.344568,
+            "source_protection": 1.0,
+            "replaceability_penalty": 0.45,
+            "local_hub_pressure": 0.331494
+          }
+        },
+        {
+          "object_id": "mysql01",
+          "entity": "Mysql01",
+          "score": 0.470392,
+          "reason": "disk I/O consumption",
+          "noise": {
+            "local_noise": 1.0,
+            "resonance_mass": 0.765911,
+            "source_signal": 0.75448,
+            "reverb_mass": 1.0,
+            "unexplained_residual": 0.0,
+            "collapse_gain": 0.815576,
+            "collapse_recovery_score": 0.918069,
+            "exclusive_explanation": 0.0,
+            "temporal_source_score": 1.0,
+            "multi_lead_consistency": 0.015078,
+            "hotspot_bias": 0.526813,
+            "root_source_score": 0.694892,
+            "influenced_objects": [
+              "mysql02",
+              "redis02",
+              "servicetest6",
+              "servicetest7",
+              "tomcat04",
+              "redis01"
+            ],
+            "noise_field_chain": [
+              "mysql01",
+              "mysql02",
+              "tomcat04",
+              "redis01",
+              "apache01"
+            ]
+          },
+          "structure": {
+            "upstream_context": 0.189686,
+            "downstream_context": 0.709128,
+            "temporal_lead": 1.0,
+            "mechanism_focus": 0.191716,
+            "propagation_signature": 0.813306,
+            "source_likelihood": 0.824525,
+            "symptom_likelihood": 0.18632,
+            "structural_uniqueness": 0.943885,
+            "propagation_role_score": 1.0,
+            "hard_negative_resistance": 0.255086,
+            "multi_view_consistency": 0.542266,
+            "topological_eccentricity": 0.947368,
+            "structural_score": 0.81126,
+            "embedding": [
+              0.189686,
+              0.709128,
+              1.0,
+              0.191716,
+              0.813306,
+              0.824525,
+              0.18632,
+              0.943885,
+              1.0,
+              0.255086,
+              0.542266,
+              0.947368
+            ]
+          },
+          "delay": {
+            "source_time_consistency": 1.0,
+            "average_delay_gain": 0.0,
+            "observer_coverage": 0.6,
+            "reverse_penalty": 0.0,
+            "lead_pairs": [
+              {
+                "object_id": "mysql02",
+                "score": 1.0
+              },
+              {
+                "object_id": "redis02",
+                "score": 1.0
+              },
+              {
+                "object_id": "servicetest6",
+                "score": 1.0
+              },
+              {
+                "object_id": "servicetest7",
+                "score": 1.0
+              },
+              {
+                "object_id": "tomcat04",
+                "score": 1.0
+              },
+              {
+                "object_id": "redis01",
+                "score": 0.82
+              }
+            ]
+          },
+          "beam": {
+            "beamformed_explanation": 0.804554,
+            "directional_focus": 0.238051,
+            "offbeam_penalty": 0.0,
+            "mechanism_coherence": 0.621015,
+            "beam_targets": [
+              {
+                "object_id": "tomcat04",
+                "score": 0.85
+              },
+              {
+                "object_id": "redis01",
+                "score": 0.614125
+              },
+              {
+                "object_id": "mysql02",
+                "score": 0.55
+              },
+              {
+                "object_id": "redis02",
+                "score": 0.55
+              },
+              {
+                "object_id": "servicetest6",
+                "score": 0.55
+              },
+              {
+                "object_id": "servicetest7",
+                "score": 0.55
+              },
+              {
+                "object_id": "apache01",
+                "score": 0.443705
+              },
+              {
+                "object_id": "servicetest1",
+                "score": 0.244038
+              }
+            ]
+          },
+          "subspace": {
+            "local_residual_source_energy": 0.0,
+            "sector_source_ratio": 0.0,
+            "sector_reverb_ratio": 1.0,
+            "residual_distinctiveness": 0.181911,
+            "local_common_mode_alignment": 1.0,
+            "replaceability": 0.0,
+            "sector_size": 1.0
+          },
+          "reverb_mask": {
+            "gated_reverb_penalty": 0.459953,
+            "source_protection": 0.9307,
+            "replaceability_penalty": 0.45,
+            "local_hub_pressure": 0.486779
+          }
+        },
+        {
+          "object_id": "tomcat01",
+          "entity": "Tomcat01",
+          "score": 0.464897,
+          "reason": "disk I/O consumption",
+          "noise": {
+            "local_noise": 1.0,
+            "resonance_mass": 0.45622,
+            "source_signal": 0.59351,
+            "reverb_mass": 0.0,
+            "unexplained_residual": 1.0,
+            "collapse_gain": 0.648877,
+            "collapse_recovery_score": 0.893028,
+            "exclusive_explanation": 0.0,
+            "temporal_source_score": 1.0,
+            "multi_lead_consistency": 0.211096,
+            "hotspot_bias": 0.586132,
+            "root_source_score": 0.63167,
+            "influenced_objects": [
+              "redis02",
+              "servicetest6",
+              "servicetest7",
+              "tomcat04",
+              "redis01"
+            ],
+            "noise_field_chain": [
+              "tomcat01",
+              "tomcat04",
+              "redis01",
+              "apache01",
+              "mg02"
+            ]
+          },
+          "structure": {
+            "upstream_context": 0.0,
+            "downstream_context": 0.492394,
+            "temporal_lead": 1.0,
+            "mechanism_focus": 0.165845,
+            "propagation_signature": 0.777695,
+            "source_likelihood": 0.656707,
+            "symptom_likelihood": 0.0,
+            "structural_uniqueness": 0.949155,
+            "propagation_role_score": 1.0,
+            "hard_negative_resistance": 0.142857,
+            "multi_view_consistency": 0.503416,
+            "topological_eccentricity": 1.0,
+            "structural_score": 0.829258,
+            "embedding": [
+              0.0,
+              0.492394,
+              1.0,
+              0.165845,
+              0.777695,
+              0.656707,
+              0.0,
+              0.949155,
+              1.0,
+              0.142857,
+              0.503416,
+              1.0
+            ]
+          },
+          "delay": {
+            "source_time_consistency": 0.715687,
+            "average_delay_gain": 1.0,
+            "observer_coverage": 0.5,
+            "reverse_penalty": 0.0,
+            "lead_pairs": [
+              {
+                "object_id": "redis02",
+                "score": 0.857844
+              },
+              {
+                "object_id": "servicetest6",
+                "score": 0.857844
+              },
+              {
+                "object_id": "servicetest7",
+                "score": 0.857844
+              },
+              {
+                "object_id": "tomcat04",
+                "score": 0.857844
+              },
+              {
+                "object_id": "redis01",
+                "score": 0.703432
+              }
+            ]
+          },
+          "beam": {
+            "beamformed_explanation": 0.626197,
+            "directional_focus": 0.230856,
+            "offbeam_penalty": 0.0,
+            "mechanism_coherence": 0.628203,
+            "beam_targets": [
+              {
+                "object_id": "tomcat04",
+                "score": 0.757661
+              },
+              {
+                "object_id": "redis02",
+                "score": 0.490251
+              },
+              {
+                "object_id": "servicetest6",
+                "score": 0.490251
+              },
+              {
+                "object_id": "servicetest7",
+                "score": 0.490251
+              },
+              {
+                "object_id": "redis01",
+                "score": 0.487943
+              },
+              {
+                "object_id": "apache01",
+                "score": 0.314241
+              },
+              {
+                "object_id": "servicetest1",
+                "score": 0.172833
+              },
+              {
+                "object_id": "servicetest10",
+                "score": 0.172833
+              }
+            ]
+          },
+          "subspace": {
+            "local_residual_source_energy": 0.0,
+            "sector_source_ratio": 0.0,
+            "sector_reverb_ratio": 1.0,
+            "residual_distinctiveness": 0.809592,
+            "local_common_mode_alignment": 1.0,
+            "replaceability": 1.0,
+            "sector_size": 1.0
+          },
+          "reverb_mask": {
+            "gated_reverb_penalty": 0.758361,
+            "source_protection": 0.848987,
+            "replaceability_penalty": 1.0,
+            "local_hub_pressure": 0.547908
+          }
+        },
+        {
+          "object_id": "mg01",
+          "entity": "MG01",
+          "score": 0.423718,
+          "reason": "disk I/O consumption",
+          "noise": {
+            "local_noise": 1.0,
+            "resonance_mass": 0.0,
+            "source_signal": 1.0,
+            "reverb_mass": 0.0,
+            "unexplained_residual": 1.0,
+            "collapse_gain": 0.144465,
+            "collapse_recovery_score": 0.0,
+            "exclusive_explanation": 0.0,
+            "temporal_source_score": 0.0,
+            "multi_lead_consistency": 0.015078,
+            "hotspot_bias": 0.227092,
+            "root_source_score": 0.39892,
+            "influenced_objects": [],
+            "noise_field_chain": [
+              "mg01"
+            ]
+          },
+          "structure": {
+            "upstream_context": 0.0,
+            "downstream_context": 0.0,
+            "temporal_lead": 0.0,
+            "mechanism_focus": 0.275337,
+            "propagation_signature": 0.530973,
+            "source_likelihood": 0.082283,
+            "symptom_likelihood": 0.057966,
+            "structural_uniqueness": 0.973146,
+            "propagation_role_score": 0.5325,
+            "hard_negative_resistance": 0.071429,
+            "multi_view_consistency": 0.256842,
+            "topological_eccentricity": 1.0,
+            "structural_score": 0.51714,
+            "embedding": [
+              0.0,
+              0.0,
+              0.0,
+              0.275337,
+              0.530973,
+              0.082283,
+              0.057966,
+              0.973146,
+              0.5325,
+              0.071429,
+              0.256842,
+              1.0
+            ]
+          },
+          "delay": {
+            "source_time_consistency": 0.0,
+            "average_delay_gain": 0.0,
+            "observer_coverage": 0.0,
+            "reverse_penalty": 0.0,
+            "lead_pairs": []
+          },
+          "beam": {
+            "beamformed_explanation": 0.127264,
+            "directional_focus": 0.0,
+            "offbeam_penalty": 0.0,
+            "mechanism_coherence": 0.0,
+            "beam_targets": []
+          },
+          "subspace": {
+            "local_residual_source_energy": 0.0,
+            "sector_source_ratio": 1.0,
+            "sector_reverb_ratio": 0.0,
+            "residual_distinctiveness": 1.0,
+            "local_common_mode_alignment": 0.0,
+            "replaceability": 0.0,
+            "sector_size": 0.0
+          },
+          "reverb_mask": {
+            "gated_reverb_penalty": 0.05282,
+            "source_protection": 0.062981,
+            "replaceability_penalty": 0.0,
+            "local_hub_pressure": 0.059998
+          }
+        },
+        {
+          "object_id": "dockerb1",
+          "entity": "dockerB1",
+          "score": 0.410607,
+          "reason": "CPU fault",
+          "noise": {
+            "local_noise": 1.0,
+            "resonance_mass": 0.0,
+            "source_signal": 1.0,
+            "reverb_mass": 0.0,
+            "unexplained_residual": 1.0,
+            "collapse_gain": 0.144465,
+            "collapse_recovery_score": 0.0,
+            "exclusive_explanation": 0.0,
+            "temporal_source_score": 0.0,
+            "multi_lead_consistency": 0.015078,
+            "hotspot_bias": 0.227092,
+            "root_source_score": 0.39892,
+            "influenced_objects": [],
+            "noise_field_chain": [
+              "dockerb1"
+            ]
+          },
+          "structure": {
+            "upstream_context": 0.0,
+            "downstream_context": 0.0,
+            "temporal_lead": 0.0,
+            "mechanism_focus": 0.001157,
+            "propagation_signature": 0.530973,
+            "source_likelihood": 0.063625,
+            "symptom_likelihood": 0.057966,
+            "structural_uniqueness": 0.973146,
+            "propagation_role_score": 0.5325,
+            "hard_negative_resistance": 0.071429,
+            "multi_view_consistency": 0.082765,
+            "topological_eccentricity": 1.0,
+            "structural_score": 0.504255,
+            "embedding": [
+              0.0,
+              0.0,
+              0.0,
+              0.001157,
+              0.530973,
+              0.063625,
+              0.057966,
+              0.973146,
+              0.5325,
+              0.071429,
+              0.082765,
+              1.0
+            ]
+          },
+          "delay": {
+            "source_time_consistency": 0.0,
+            "average_delay_gain": 0.0,
+            "observer_coverage": 0.0,
+            "reverse_penalty": 0.0,
+            "lead_pairs": []
+          },
+          "beam": {
+            "beamformed_explanation": 0.127264,
+            "directional_focus": 0.0,
+            "offbeam_penalty": 0.0,
+            "mechanism_coherence": 0.0,
+            "beam_targets": []
+          },
+          "subspace": {
+            "local_residual_source_energy": 0.0,
+            "sector_source_ratio": 1.0,
+            "sector_reverb_ratio": 0.0,
+            "residual_distinctiveness": 1.0,
+            "local_common_mode_alignment": 0.0,
+            "replaceability": 0.0,
+            "sector_size": 0.0
+          },
+          "reverb_mask": {
+            "gated_reverb_penalty": 0.05282,
+            "source_protection": 0.062981,
+            "replaceability_penalty": 0.0,
+            "local_hub_pressure": 0.059998
+          }
+        }
+      ],
+      "noise_heatmap": [
+        {
+          "object_id": "ig02",
+          "root_source_score": 1.0,
+          "source_signal": 0.803468,
+          "exclusive_explanation": 1.0,
+          "multi_lead_consistency": 0.015078,
+          "reverb_mass": 0.0,
+          "collapse_gain": 0.996772,
+          "hotspot_bias": 0.392744,
+          "influenced_objects": [
+            "mysql01",
+            "mysql02",
+            "redis02",
+            "servicetest6",
+            "servicetest7",
+            "tomcat04"
+          ],
+          "noise_field_chain": [
+            "ig02",
+            "mysql01",
+            "mysql02",
+            "tomcat04",
+            "redis01"
+          ]
+        },
+        {
+          "object_id": "servicetest1",
+          "root_source_score": 0.707164,
+          "source_signal": 0.843181,
+          "exclusive_explanation": 0.0,
+          "multi_lead_consistency": 0.004523,
+          "reverb_mass": 1.0,
+          "collapse_gain": 1.0,
+          "hotspot_bias": 0.506162,
+          "influenced_objects": [
+            "servicetest10",
+            "apache01",
+            "mg02",
+            "tomcat03",
+            "apache02",
+            "ig01"
+          ],
+          "noise_field_chain": [
+            "servicetest1",
+            "mg02",
+            "tomcat03",
+            "apache02",
+            "ig01"
+          ]
+        },
+        {
+          "object_id": "mysql01",
+          "root_source_score": 0.694892,
+          "source_signal": 0.75448,
+          "exclusive_explanation": 0.0,
+          "multi_lead_consistency": 0.015078,
+          "reverb_mass": 1.0,
+          "collapse_gain": 0.815576,
+          "hotspot_bias": 0.526813,
+          "influenced_objects": [
+            "mysql02",
+            "redis02",
+            "servicetest6",
+            "servicetest7",
+            "tomcat04",
+            "redis01"
+          ],
+          "noise_field_chain": [
+            "mysql01",
+            "mysql02",
+            "tomcat04",
+            "redis01",
+            "apache01"
+          ]
+        },
+        {
+          "object_id": "servicetest10",
+          "root_source_score": 0.689482,
+          "source_signal": 0.862897,
+          "exclusive_explanation": 0.0,
+          "multi_lead_consistency": 0.003351,
+          "reverb_mass": 1.0,
+          "collapse_gain": 0.939332,
+          "hotspot_bias": 0.565681,
+          "influenced_objects": [
+            "apache01",
+            "mg02",
+            "tomcat03",
+            "apache02",
+            "ig01",
+            "servicetest11"
+          ],
+          "noise_field_chain": [
+            "servicetest10",
+            "mg02",
+            "tomcat03",
+            "apache02",
+            "ig01"
+          ]
+        },
+        {
+          "object_id": "tomcat01",
+          "root_source_score": 0.63167,
+          "source_signal": 0.59351,
+          "exclusive_explanation": 0.0,
+          "multi_lead_consistency": 0.211096,
+          "reverb_mass": 0.0,
+          "collapse_gain": 0.648877,
+          "hotspot_bias": 0.586132,
+          "influenced_objects": [
+            "redis02",
+            "servicetest6",
+            "servicetest7",
+            "tomcat04",
+            "redis01"
+          ],
+          "noise_field_chain": [
+            "tomcat01",
+            "tomcat04",
+            "redis01",
+            "apache01",
+            "mg02"
+          ]
+        },
+        {
+          "object_id": "apache01",
+          "root_source_score": 0.597945,
+          "source_signal": 0.819519,
+          "exclusive_explanation": 0.0,
+          "multi_lead_consistency": 0.001885,
+          "reverb_mass": 1.0,
+          "collapse_gain": 0.803121,
+          "hotspot_bias": 0.650946,
+          "influenced_objects": [
+            "mg02",
+            "tomcat03",
+            "apache02",
+            "ig01",
+            "servicetest11",
+            "servicetest3"
+          ],
+          "noise_field_chain": [
+            "apache01",
+            "mg02",
+            "tomcat03",
+            "apache02",
+            "ig01"
+          ]
+        },
+        {
+          "object_id": "mg02",
+          "root_source_score": 0.567363,
+          "source_signal": 0.464766,
+          "exclusive_explanation": 0.0,
+          "multi_lead_consistency": 0.0,
+          "reverb_mass": 1.0,
+          "collapse_gain": 0.714559,
+          "hotspot_bias": 0.673488,
+          "influenced_objects": [
+            "tomcat03",
+            "apache02",
+            "ig01",
+            "servicetest11",
+            "servicetest3",
+            "servicetest5"
+          ],
+          "noise_field_chain": [
+            "mg02",
+            "tomcat03",
+            "apache02",
+            "ig01",
+            "servicetest5"
+          ]
+        },
+        {
+          "object_id": "redis01",
+          "root_source_score": 0.561575,
+          "source_signal": 0.705379,
+          "exclusive_explanation": 0.391231,
+          "multi_lead_consistency": 0.005483,
+          "reverb_mass": 1.0,
+          "collapse_gain": 0.784374,
+          "hotspot_bias": 0.75009,
+          "influenced_objects": [
+            "servicetest1",
+            "servicetest10",
+            "apache01",
+            "mg02",
+            "tomcat03",
+            "apache02"
+          ],
+          "noise_field_chain": [
+            "redis01",
+            "apache01",
+            "mg02",
+            "tomcat03",
+            "apache02"
+          ]
+        }
+      ],
+      "delay_heatmap": [
+        {
+          "object_id": "ig01",
+          "source_time_consistency": 1.0,
+          "average_delay_gain": 0.0,
+          "reverse_penalty": 0.261487,
+          "lead_pairs": [
+            {
+              "object_id": "servicetest11",
+              "score": 1.0
+            },
+            {
+              "object_id": "servicetest3",
+              "score": 1.0
+            },
+            {
+              "object_id": "servicetest5",
+              "score": 1.0
+            },
+            {
+              "object_id": "servicetest8",
+              "score": 1.0
+            }
+          ]
+        },
+        {
+          "object_id": "ig02",
+          "source_time_consistency": 1.0,
+          "average_delay_gain": 0.0,
+          "reverse_penalty": 0.0,
+          "lead_pairs": [
+            {
+              "object_id": "mysql01",
+              "score": 1.0
+            },
+            {
+              "object_id": "mysql02",
+              "score": 1.0
+            },
+            {
+              "object_id": "redis02",
+              "score": 1.0
+            },
+            {
+              "object_id": "servicetest6",
+              "score": 1.0
+            },
+            {
+              "object_id": "servicetest7",
+              "score": 1.0
+            },
+            {
+              "object_id": "tomcat04",
+              "score": 1.0
+            }
+          ]
+        },
+        {
+          "object_id": "mysql01",
+          "source_time_consistency": 1.0,
+          "average_delay_gain": 0.0,
+          "reverse_penalty": 0.0,
+          "lead_pairs": [
+            {
+              "object_id": "mysql02",
+              "score": 1.0
+            },
+            {
+              "object_id": "redis02",
+              "score": 1.0
+            },
+            {
+              "object_id": "servicetest6",
+              "score": 1.0
+            },
+            {
+              "object_id": "servicetest7",
+              "score": 1.0
+            },
+            {
+              "object_id": "tomcat04",
+              "score": 1.0
+            },
+            {
+              "object_id": "redis01",
+              "score": 0.82
+            }
+          ]
+        },
+        {
+          "object_id": "mysql02",
+          "source_time_consistency": 1.0,
+          "average_delay_gain": 0.0,
+          "reverse_penalty": 0.0,
+          "lead_pairs": [
+            {
+              "object_id": "redis02",
+              "score": 1.0
+            },
+            {
+              "object_id": "servicetest6",
+              "score": 1.0
+            },
+            {
+              "object_id": "servicetest7",
+              "score": 1.0
+            },
+            {
+              "object_id": "tomcat04",
+              "score": 1.0
+            },
+            {
+              "object_id": "redis01",
+              "score": 0.82
+            }
+          ]
+        },
+        {
+          "object_id": "redis02",
+          "source_time_consistency": 1.0,
+          "average_delay_gain": 0.0,
+          "reverse_penalty": 1.0,
+          "lead_pairs": [
+            {
+              "object_id": "servicetest6",
+              "score": 1.0
+            },
+            {
+              "object_id": "servicetest7",
+              "score": 1.0
+            },
+            {
+              "object_id": "tomcat04",
+              "score": 1.0
+            },
+            {
+              "object_id": "redis01",
+              "score": 1.0
+            },
+            {
+              "object_id": "servicetest1",
+              "score": 0.82
+            },
+            {
+              "object_id": "servicetest10",
+              "score": 0.82
+            }
+          ]
+        },
+        {
+          "object_id": "servicetest11",
+          "source_time_consistency": 1.0,
+          "average_delay_gain": 0.0,
+          "reverse_penalty": 0.196116,
+          "lead_pairs": [
+            {
+              "object_id": "servicetest3",
+              "score": 1.0
+            },
+            {
+              "object_id": "servicetest5",
+              "score": 1.0
+            },
+            {
+              "object_id": "servicetest8",
+              "score": 1.0
+            }
+          ]
+        },
+        {
+          "object_id": "servicetest3",
+          "source_time_consistency": 1.0,
+          "average_delay_gain": 0.0,
+          "reverse_penalty": 0.156892,
+          "lead_pairs": [
+            {
+              "object_id": "servicetest5",
+              "score": 1.0
+            },
+            {
+              "object_id": "servicetest8",
+              "score": 1.0
+            }
+          ]
+        },
+        {
+          "object_id": "servicetest5",
+          "source_time_consistency": 1.0,
+          "average_delay_gain": 0.0,
+          "reverse_penalty": 0.130744,
+          "lead_pairs": [
+            {
+              "object_id": "servicetest8",
+              "score": 1.0
+            }
+          ]
+        }
+      ],
+      "beam_heatmap": [
+        {
+          "object_id": "ig02",
+          "beamformed_explanation": 1.0,
+          "directional_focus": 0.232835,
+          "offbeam_penalty": 0.0,
+          "mechanism_coherence": 0.703979,
+          "beam_targets": [
+            {
+              "object_id": "mysql01",
+              "score": 1.0
+            },
+            {
+              "object_id": "tomcat04",
+              "score": 0.85
+            },
+            {
+              "object_id": "redis01",
+              "score": 0.614125
+            },
+            {
+              "object_id": "mysql02",
+              "score": 0.55
+            },
+            {
+              "object_id": "redis02",
+              "score": 0.55
+            },
+            {
+              "object_id": "servicetest6",
+              "score": 0.55
+            },
+            {
+              "object_id": "servicetest7",
+              "score": 0.55
+            },
+            {
+              "object_id": "apache01",
+              "score": 0.443705
+            }
+          ]
+        },
+        {
+          "object_id": "mysql01",
+          "beamformed_explanation": 0.804554,
+          "directional_focus": 0.238051,
+          "offbeam_penalty": 0.0,
+          "mechanism_coherence": 0.621015,
+          "beam_targets": [
+            {
+              "object_id": "tomcat04",
+              "score": 0.85
+            },
+            {
+              "object_id": "redis01",
+              "score": 0.614125
+            },
+            {
+              "object_id": "mysql02",
+              "score": 0.55
+            },
+            {
+              "object_id": "redis02",
+              "score": 0.55
+            },
+            {
+              "object_id": "servicetest6",
+              "score": 0.55
+            },
+            {
+              "object_id": "servicetest7",
+              "score": 0.55
+            },
+            {
+              "object_id": "apache01",
+              "score": 0.443705
+            },
+            {
+              "object_id": "servicetest1",
+              "score": 0.244038
+            }
+          ]
+        },
+        {
+          "object_id": "redis01",
+          "beamformed_explanation": 0.792485,
+          "directional_focus": 0.392436,
+          "offbeam_penalty": 0.0,
+          "mechanism_coherence": 0.698119,
+          "beam_targets": [
+            {
+              "object_id": "apache01",
+              "score": 0.85
+            },
+            {
+              "object_id": "apache02",
+              "score": 0.7225
+            },
+            {
+              "object_id": "mg02",
+              "score": 0.614125
+            },
+            {
+              "object_id": "servicetest1",
+              "score": 0.55
+            },
+            {
+              "object_id": "servicetest10",
+              "score": 0.55
+            },
+            {
+              "object_id": "ig01",
+              "score": 0.443705
+            },
+            {
+              "object_id": "servicetest11",
+              "score": 0.287103
+            },
+            {
+              "object_id": "servicetest3",
+              "score": 0.287103
+            }
+          ]
+        },
+        {
+          "object_id": "tomcat04",
+          "beamformed_explanation": 0.781023,
+          "directional_focus": 1.0,
+          "offbeam_penalty": 0.0,
+          "mechanism_coherence": 0.794654,
+          "beam_targets": [
+            {
+              "object_id": "redis01",
+              "score": 1.0
+            },
+            {
+              "object_id": "apache01",
+              "score": 0.7225
+            },
+            {
+              "object_id": "apache02",
+              "score": 0.522006
+            },
+            {
+              "object_id": "servicetest1",
+              "score": 0.4675
+            },
+            {
+              "object_id": "servicetest10",
+              "score": 0.4675
+            },
+            {
+              "object_id": "mg02",
+              "score": 0.443705
+            },
+            {
+              "object_id": "tomcat03",
+              "score": 0.033042
+            }
+          ]
+        },
+        {
+          "object_id": "apache01",
+          "beamformed_explanation": 0.741402,
+          "directional_focus": 0.423427,
+          "offbeam_penalty": 0.0,
+          "mechanism_coherence": 0.739206,
+          "beam_targets": [
+            {
+              "object_id": "mg02",
+              "score": 1.0
+            },
+            {
+              "object_id": "apache02",
+              "score": 0.85
+            },
+            {
+              "object_id": "ig01",
+              "score": 0.85
+            },
+            {
+              "object_id": "servicetest11",
+              "score": 0.4675
+            },
+            {
+              "object_id": "servicetest3",
+              "score": 0.4675
+            },
+            {
+              "object_id": "servicetest5",
+              "score": 0.4675
+            },
+            {
+              "object_id": "servicetest8",
+              "score": 0.4675
+            },
+            {
+              "object_id": "tomcat03",
+              "score": 0.074467
+            }
+          ]
+        },
+        {
+          "object_id": "mysql02",
+          "beamformed_explanation": 0.691401,
+          "directional_focus": 0.287858,
+          "offbeam_penalty": 0.0,
+          "mechanism_coherence": 0.690275,
+          "beam_targets": [
+            {
+              "object_id": "redis02",
+              "score": 1.0
+            },
+            {
+              "object_id": "servicetest6",
+              "score": 0.75
+            },
+            {
+              "object_id": "servicetest7",
+              "score": 0.75
+            },
+            {
+              "object_id": "tomcat04",
+              "score": 0.55
+            },
+            {
+              "object_id": "redis01",
+              "score": 0.4675
+            },
+            {
+              "object_id": "servicetest1",
+              "score": 0.253327
+            },
+            {
+              "object_id": "servicetest10",
+              "score": 0.253327
+            },
+            {
+              "object_id": "apache01",
+              "score": 0.185773
+            }
+          ]
+        },
+        {
+          "object_id": "tomcat01",
+          "beamformed_explanation": 0.626197,
+          "directional_focus": 0.230856,
+          "offbeam_penalty": 0.0,
+          "mechanism_coherence": 0.628203,
+          "beam_targets": [
+            {
+              "object_id": "tomcat04",
+              "score": 0.757661
+            },
+            {
+              "object_id": "redis02",
+              "score": 0.490251
+            },
+            {
+              "object_id": "servicetest6",
+              "score": 0.490251
+            },
+            {
+              "object_id": "servicetest7",
+              "score": 0.490251
+            },
+            {
+              "object_id": "redis01",
+              "score": 0.487943
+            },
+            {
+              "object_id": "apache01",
+              "score": 0.314241
+            },
+            {
+              "object_id": "servicetest1",
+              "score": 0.172833
+            },
+            {
+              "object_id": "servicetest10",
+              "score": 0.172833
+            }
+          ]
+        },
+        {
+          "object_id": "mg02",
+          "beamformed_explanation": 0.579325,
+          "directional_focus": 0.161151,
+          "offbeam_penalty": 0.0,
+          "mechanism_coherence": 0.66132,
+          "beam_targets": [
+            {
+              "object_id": "ig01",
+              "score": 1.0
+            },
+            {
+              "object_id": "apache02",
+              "score": 0.85
+            },
+            {
+              "object_id": "servicetest11",
+              "score": 0.55
+            },
+            {
+              "object_id": "servicetest3",
+              "score": 0.55
+            },
+            {
+              "object_id": "servicetest5",
+              "score": 0.55
+            },
+            {
+              "object_id": "servicetest8",
+              "score": 0.55
+            },
+            {
+              "object_id": "tomcat03",
+              "score": 0.074467
+            }
+          ]
+        }
+      ],
+      "subspace_heatmap": [
+        {
+          "object_id": "ig01",
+          "local_residual_source_energy": 0.0,
+          "sector_source_ratio": 0.0,
+          "sector_reverb_ratio": 1.0,
+          "residual_distinctiveness": 0.263493,
+          "local_common_mode_alignment": 1.0,
+          "replaceability": 0.0
+        },
+        {
+          "object_id": "ig02",
+          "local_residual_source_energy": 0.0,
+          "sector_source_ratio": 0.0,
+          "sector_reverb_ratio": 1.0,
+          "residual_distinctiveness": 0.067607,
+          "local_common_mode_alignment": 1.0,
+          "replaceability": 0.0
+        },
+        {
+          "object_id": "mg01",
+          "local_residual_source_energy": 0.0,
+          "sector_source_ratio": 1.0,
+          "sector_reverb_ratio": 0.0,
+          "residual_distinctiveness": 1.0,
+          "local_common_mode_alignment": 0.0,
+          "replaceability": 0.0
+        },
+        {
+          "object_id": "mg02",
+          "local_residual_source_energy": 0.0,
+          "sector_source_ratio": 0.0,
+          "sector_reverb_ratio": 1.0,
+          "residual_distinctiveness": 0.136943,
+          "local_common_mode_alignment": 1.0,
+          "replaceability": 0.0
+        },
+        {
+          "object_id": "mysql01",
+          "local_residual_source_energy": 0.0,
+          "sector_source_ratio": 0.0,
+          "sector_reverb_ratio": 1.0,
+          "residual_distinctiveness": 0.181911,
+          "local_common_mode_alignment": 1.0,
+          "replaceability": 0.0
+        },
+        {
+          "object_id": "mysql02",
+          "local_residual_source_energy": 0.0,
+          "sector_source_ratio": 0.0,
+          "sector_reverb_ratio": 1.0,
+          "residual_distinctiveness": 0.482999,
+          "local_common_mode_alignment": 1.0,
+          "replaceability": 0.0
+        },
+        {
+          "object_id": "redis01",
+          "local_residual_source_energy": 0.0,
+          "sector_source_ratio": 0.0,
+          "sector_reverb_ratio": 1.0,
+          "residual_distinctiveness": 0.162773,
+          "local_common_mode_alignment": 1.0,
+          "replaceability": 0.0
+        },
+        {
+          "object_id": "redis02",
+          "local_residual_source_energy": 0.0,
+          "sector_source_ratio": 0.0,
+          "sector_reverb_ratio": 1.0,
+          "residual_distinctiveness": 0.097256,
+          "local_common_mode_alignment": 1.0,
+          "replaceability": 0.0
+        }
+      ],
+      "reverb_heatmap": [
+        {
+          "object_id": "tomcat03",
+          "gated_reverb_penalty": 1.0,
+          "source_protection": 0.902214,
+          "replaceability_penalty": 0.991043,
+          "local_hub_pressure": 0.962574
+        },
+        {
+          "object_id": "servicetest5",
+          "gated_reverb_penalty": 0.999706,
+          "source_protection": 0.463099,
+          "replaceability_penalty": 0.45,
+          "local_hub_pressure": 1.0
+        },
+        {
+          "object_id": "servicetest3",
+          "gated_reverb_penalty": 0.949224,
+          "source_protection": 0.550476,
+          "replaceability_penalty": 0.45,
+          "local_hub_pressure": 0.985942
+        },
+        {
+          "object_id": "servicetest11",
+          "gated_reverb_penalty": 0.926781,
+          "source_protection": 0.581873,
+          "replaceability_penalty": 0.45,
+          "local_hub_pressure": 0.974892
+        },
+        {
+          "object_id": "ig01",
+          "gated_reverb_penalty": 0.869696,
+          "source_protection": 0.627568,
+          "replaceability_penalty": 0.45,
+          "local_hub_pressure": 0.92505
+        },
+        {
+          "object_id": "tomcat04",
+          "gated_reverb_penalty": 0.864567,
+          "source_protection": 0.709265,
+          "replaceability_penalty": 0.45,
+          "local_hub_pressure": 0.967502
+        },
+        {
+          "object_id": "servicetest7",
+          "gated_reverb_penalty": 0.859533,
+          "source_protection": 0.740865,
+          "replaceability_penalty": 0.45,
+          "local_hub_pressure": 0.980421
+        },
+        {
+          "object_id": "servicetest6",
+          "gated_reverb_penalty": 0.830326,
+          "source_protection": 0.802552,
+          "replaceability_penalty": 0.45,
+          "local_hub_pressure": 0.978199
+        }
+      ],
+      "graph_debug": {
+        "query": "task_6",
+        "objects": {
+          "ig01": {
+            "members": [
+              "IG01"
+            ],
+            "representative": "IG01",
+            "anomaly_score": 1.0,
+            "metric_score": 1.0,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "disk I/O consumption"
+          },
+          "ig02": {
+            "members": [
+              "IG02"
+            ],
+            "representative": "IG02",
+            "anomaly_score": 1.0,
+            "metric_score": 1.0,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "disk I/O consumption"
+          },
+          "mg01": {
+            "members": [
+              "MG01"
+            ],
+            "representative": "MG01",
+            "anomaly_score": 1.0,
+            "metric_score": 1.0,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "disk I/O consumption"
+          },
+          "mg02": {
+            "members": [
+              "MG02"
+            ],
+            "representative": "MG02",
+            "anomaly_score": 1.0,
+            "metric_score": 1.0,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "disk I/O consumption"
+          },
+          "mysql01": {
+            "members": [
+              "Mysql01"
+            ],
+            "representative": "Mysql01",
+            "anomaly_score": 1.0,
+            "metric_score": 1.0,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "disk I/O consumption"
+          },
+          "mysql02": {
+            "members": [
+              "Mysql02"
+            ],
+            "representative": "Mysql02",
+            "anomaly_score": 1.0,
+            "metric_score": 1.0,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "db fault"
+          },
+          "redis01": {
+            "members": [
+              "Redis01"
+            ],
+            "representative": "Redis01",
+            "anomaly_score": 1.0,
+            "metric_score": 1.0,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "CPU fault"
+          },
+          "redis02": {
+            "members": [
+              "Redis02"
+            ],
+            "representative": "Redis02",
+            "anomaly_score": 0.8384,
+            "metric_score": 1.0,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "db fault"
+          },
+          "servicetest1": {
+            "members": [
+              "ServiceTest1"
+            ],
+            "representative": "ServiceTest1",
+            "anomaly_score": 0.1867,
+            "metric_score": 0.3112,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "high memory usage"
+          },
+          "servicetest10": {
+            "members": [
+              "ServiceTest10"
+            ],
+            "representative": "ServiceTest10",
+            "anomaly_score": 0.6579,
+            "metric_score": 1.0,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "high memory usage"
+          },
+          "servicetest11": {
+            "members": [
+              "ServiceTest11"
+            ],
+            "representative": "ServiceTest11",
+            "anomaly_score": 0.1187,
+            "metric_score": 0.1979,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "high memory usage"
+          },
+          "servicetest2": {
+            "members": [
+              "ServiceTest2"
+            ],
+            "representative": "ServiceTest2",
+            "anomaly_score": 0.0678,
+            "metric_score": 0.1131,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "high memory usage"
+          },
+          "servicetest3": {
+            "members": [
+              "ServiceTest3"
+            ],
+            "representative": "ServiceTest3",
+            "anomaly_score": 0.0798,
+            "metric_score": 0.1331,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "high memory usage"
+          },
+          "servicetest4": {
+            "members": [
+              "ServiceTest4"
+            ],
+            "representative": "ServiceTest4",
+            "anomaly_score": 0.2489,
+            "metric_score": 0.4148,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "high memory usage"
+          },
+          "servicetest5": {
+            "members": [
+              "ServiceTest5"
+            ],
+            "representative": "ServiceTest5",
+            "anomaly_score": 0.1378,
+            "metric_score": 0.2297,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "high memory usage"
+          },
+          "servicetest6": {
+            "members": [
+              "ServiceTest6"
+            ],
+            "representative": "ServiceTest6",
+            "anomaly_score": 0.194,
+            "metric_score": 0.3234,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "high memory usage"
+          },
+          "servicetest7": {
+            "members": [
+              "ServiceTest7"
+            ],
+            "representative": "ServiceTest7",
+            "anomaly_score": 0.2395,
+            "metric_score": 0.3991,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "high memory usage"
+          },
+          "servicetest8": {
+            "members": [
+              "ServiceTest8"
+            ],
+            "representative": "ServiceTest8",
+            "anomaly_score": 0.0581,
+            "metric_score": 0.0968,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "high memory usage"
+          },
+          "servicetest9": {
+            "members": [
+              "ServiceTest9"
+            ],
+            "representative": "ServiceTest9",
+            "anomaly_score": 0.0633,
+            "metric_score": 0.1056,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "high memory usage"
+          },
+          "tomcat01": {
+            "members": [
+              "Tomcat01"
+            ],
+            "representative": "Tomcat01",
+            "anomaly_score": 1.0,
+            "metric_score": 1.0,
+            "log_score": 0.4167,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "disk I/O consumption"
+          },
+          "tomcat02": {
+            "members": [
+              "Tomcat02"
+            ],
+            "representative": "Tomcat02",
+            "anomaly_score": 0.919,
+            "metric_score": 1.0,
+            "log_score": 0.4167,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "disk I/O consumption"
+          },
+          "tomcat03": {
+            "members": [
+              "Tomcat03"
+            ],
+            "representative": "Tomcat03",
+            "anomaly_score": 1.0,
+            "metric_score": 1.0,
+            "log_score": 0.4167,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "disk I/O consumption"
+          },
+          "tomcat04": {
+            "members": [
+              "Tomcat04"
+            ],
+            "representative": "Tomcat04",
+            "anomaly_score": 1.0,
+            "metric_score": 1.0,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "CPU fault"
+          },
+          "apache01": {
+            "members": [
+              "apache01"
+            ],
+            "representative": "apache01",
+            "anomaly_score": 0.956,
+            "metric_score": 1.0,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "disk I/O consumption"
+          },
+          "apache02": {
+            "members": [
+              "apache02"
+            ],
+            "representative": "apache02",
+            "anomaly_score": 1.0,
+            "metric_score": 1.0,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "CPU fault"
+          },
+          "dockera1": {
+            "members": [
+              "dockerA1"
+            ],
+            "representative": "dockerA1",
+            "anomaly_score": 0.0,
+            "metric_score": 0.0,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "high memory usage"
+          },
+          "dockera2": {
+            "members": [
+              "dockerA2"
+            ],
+            "representative": "dockerA2",
+            "anomaly_score": 0.0,
+            "metric_score": 0.0,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "high memory usage"
+          },
+          "dockerb1": {
+            "members": [
+              "dockerB1"
+            ],
+            "representative": "dockerB1",
+            "anomaly_score": 1.0,
+            "metric_score": 1.0,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "CPU fault"
+          },
+          "dockerb2": {
+            "members": [
+              "dockerB2"
+            ],
+            "representative": "dockerB2",
+            "anomaly_score": 0.0,
+            "metric_score": 0.0,
+            "log_score": 0.0,
+            "trace_score": 0.0,
+            "change_score": 0.0,
+            "reason": "high memory usage"
+          }
+        }
+      }
+    }
+  ]
+}

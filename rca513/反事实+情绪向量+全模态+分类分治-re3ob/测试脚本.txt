@@ -1,0 +1,112 @@
+cat > /home/admin/rca-workspace/test_v3_parallel.py << 'ENDOFFILE'
+import sys, os, json
+sys.path.insert(0, "/home/admin/rca-workspace")
+from emotion_real import RCA, EMOTION_HIGH_ANXIETY, EMOTION_HIGH_CURIOSITY, EMOTION_BALANCED
+import pandas as pd
+from multiprocessing import Pool
+
+# 预缓存
+CACHE = {}
+def preload():
+    global CACHE
+    data_root = "/home/admin/RCAEval/data/RE3/RE3-OB"
+    for fault_name in sorted(os.listdir(data_root)):
+        fault_path = os.path.join(data_root, fault_name)
+        if not os.path.isdir(fault_path): continue
+        for rep in sorted(os.listdir(fault_path)):
+            case_dir = os.path.join(fault_path, rep)
+            if not os.path.isdir(case_dir): continue
+            case_id = f"{fault_name}/{rep}"
+            mp = os.path.join(case_dir, "metrics.csv")
+            ip = os.path.join(case_dir, "inject_time.txt")
+            tp = os.path.join(case_dir, "traces.csv")
+            lp = os.path.join(case_dir, "logs.csv")
+            if not all(os.path.exists(p) for p in [mp, ip]): continue
+            with open(ip) as f: inject_time = int(f.read().strip())
+            CACHE[case_id] = {
+                "metrics_path": mp, "inject_time": inject_time,
+                "traces_df": pd.read_csv(tp) if os.path.exists(tp) else None,
+                "logs_df": pd.read_csv(lp, on_bad_lines='skip') if os.path.exists(lp) else None
+            }
+    print(f"预加载 {len(CACHE)} 个 case 到内存")
+
+_emotion = None
+_ground_truth = None
+
+def init_worker(emotion, gt):
+    global _emotion, _ground_truth
+    _emotion = emotion; _ground_truth = gt
+
+def run_one(case_id):
+    global _emotion, _ground_truth
+    c = CACHE[case_id]
+    tdf = c["traces_df"]
+    if tdf is not None and 'startTimeMillis' in tdf.columns:
+        tdf = tdf.copy(); tdf['time'] = tdf['startTimeMillis'] // 1000
+    results, trace = RCA(c["metrics_path"], c["inject_time"], traces_df=tdf, logs_df=c["logs_df"], emotion_config=_emotion)
+    if not results: return None
+    svcs = [s for s, _, _ in results]
+    true = _ground_truth.get(case_id, "")
+    hit = svcs[0] == true
+    top3_hit = true in svcs[:3]
+    mrr = 0
+    for rk, sv in enumerate(svcs, 1):
+        if sv == true: mrr = 1.0/rk; break
+    return {"case_id": case_id, "predicted": svcs[0], "true": true, "hit": hit, "top3_hit": top3_hit, "mrr": mrr, 
+            "trace": trace, "top3": svcs[:3]}
+
+def run_all(emotion, label):
+    print(f"\n{'='*60}")
+    print(f"🧠 情绪配置: {label} = {emotion}")
+    print(f"{'='*60}")
+    with Pool(4, initializer=init_worker, initargs=(emotion, _ground_truth)) as pool:
+        results = pool.map(run_one, list(CACHE.keys()))
+    results = [r for r in results if r is not None]
+    
+    top1 = sum(1 for r in results if r["hit"])
+    top3 = sum(1 for r in results if r["top3_hit"])
+    mrr = sum(r["mrr"] for r in results)
+    n = len(results)
+    
+    action_stats = {}
+    type_stats = {}
+    for r in results:
+        act = r["trace"]["action"]
+        ft = r["trace"]["fault_type"]
+        action_stats.setdefault(act, {"total": 0, "hit": 0})
+        type_stats.setdefault(ft, {"total": 0, "hit": 0})
+        action_stats[act]["total"] += 1
+        type_stats[ft]["total"] += 1
+        if r["hit"]:
+            action_stats[act]["hit"] += 1
+            type_stats[ft]["hit"] += 1
+    
+    print(f"\n📊 {label} 结果 (n={n}):")
+    print(f"Top-1: {top1/n:.3f} ({top1}/{n})")
+    print(f"Top-3: {top3/n:.3f} ({top3}/{n})")
+    print(f"MRR:   {mrr/n:.3f}")
+    
+    print(f"\n🎬 情绪动作统计:")
+    for act, st in sorted(action_stats.items()):
+        print(f"  {act}: {st['hit']}/{st['total']} ({st['hit']/st['total']:.3f})")
+    
+    print(f"\n🔬 故障类型统计:")
+    for ft, st in sorted(type_stats.items()):
+        print(f"  Type {ft}: {st['hit']}/{st['total']} ({st['hit']/st['total']:.3f})")
+    
+    print(f"\n📋 逐case详情:")
+    for r in results:
+        act = r["trace"]["action"]
+        ft = r["trace"]["fault_type"]
+        h = "✅" if r["hit"] else "❌"
+        print(f"  {h} {r['case_id']} | Type {ft} | 动作: {act} | 预测: {r['predicted']} | 真实: {r['true']} | Top3: {r['top3']}")
+
+if __name__ == "__main__":
+    with open("/home/admin/phase4-evolution-re3/data/annotations/ground_truth.json") as f:
+        _ground_truth = json.load(f)
+    preload()
+    run_all(EMOTION_HIGH_ANXIETY, "高焦虑[2,9,3]")
+    run_all(EMOTION_HIGH_CURIOSITY, "高好奇[8,2,1]")
+    run_all(EMOTION_BALANCED, "平衡型[5,5,4]")
+ENDOFFILE
+echo "测试脚本已完整创建"

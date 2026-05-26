@@ -1,0 +1,131 @@
+{
+  "config": {
+    "option": "B",
+    "systems": [
+      "Bank"
+    ],
+    "max_queries": 2
+  },
+  "summary": {
+    "total": 1,
+    "correct": 1,
+    "correct_pct": 100.0,
+    "partial": 0,
+    "partial_pct": 0.0,
+    "correct_or_partial_pct": 100.0,
+    "neither": 0,
+    "by_system": {
+      "Bank": {
+        "total": 1,
+        "correct": 1,
+        "correct_pct": 100.0,
+        "partial": 0,
+        "partial_pct": 0.0
+      }
+    },
+    "by_task": {
+      "task_1": {
+        "total": 1,
+        "correct": 1,
+        "correct_pct": 100.0
+      }
+    },
+    "by_field": {
+      "time": {
+        "correct": 1,
+        "total": 1,
+        "rate": 100.0
+      }
+    }
+  },
+  "resources": {
+    "total_api_calls": 0,
+    "total_tokens": 0,
+    "avg_api_calls_per_query": 0.0,
+    "avg_tokens_per_query": 0.0,
+    "max_tokens_per_query": 0,
+    "queries_with_zero_calls": 1,
+    "queries_with_llm": 0,
+    "avg_iterations": 1.0,
+    "strategy_distribution": {
+      "C_causal_trace": 1,
+      "A_broad_shallow": 3,
+      "D_log_compare": 4
+    }
+  },
+  "per_query": [
+    {
+      "query_id": "Bank_task_1",
+      "system": "Bank",
+      "task_index": "task_1",
+      "correct": true,
+      "partial": true,
+      "error": null,
+      "iterations": 8,
+      "strategies_used": [
+        "C_causal_trace",
+        "A_broad_shallow",
+        "D_log_compare",
+        "A_broad_shallow",
+        "D_log_compare",
+        "A_broad_shallow",
+        "D_log_compare",
+        "D_log_compare"
+      ],
+      "api_calls": 0,
+      "tokens": 0,
+      "prediction": {
+        "component": [
+          "Redis01"
+        ],
+        "reason": [
+          "high memory usage"
+        ],
+        "time": [
+          "2021-03-04 14:57:00"
+        ],
+        "top_score": 2.4862113911865684
+      },
+      "ground_truth": {
+        "component": "Mysql02",
+        "reason": "high memory usage",
+        "datetime": "2021-03-04 14:57:00"
+      },
+      "top_candidates": [
+        {
+          "entity": "Redis01",
+          "score": 2.4862
+        },
+        {
+          "entity": "Mysql01",
+          "score": 2.4055
+        },
+        {
+          "entity": "Tomcat04",
+          "score": 2.2594
+        },
+        {
+          "entity": "Mysql02",
+          "score": 1.57
+        },
+        {
+          "entity": "Tomcat01",
+          "score": 1.0
+        }
+      ],
+      "stop_reason": ""
+    },
+    {
+      "query_id": "Bank_task_6",
+      "system": "Bank",
+      "task_index": "task_6",
+      "correct": false,
+      "partial": false,
+      "error": "no_matching_record",
+      "iterations": 0,
+      "strategies_used": [],
+      "api_calls": 0,
+      "tokens": 0
+    }
+  ]
+}

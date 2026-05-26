@@ -1,0 +1,1061 @@
+RE1-TT最终使用了40种指标，按类别分组如下：
+
+**Istio 层（10种）**
+`istio-latency-99`(1.5), `istio-latency-95`(1.2), `istio-latency-90`(1.0), `istio-latency-50`(0.8), `istio-error-total`(2.5), `istio-request-total`(1.5), `istio-bytes-99`(0.5), `istio-bytes-95`(0.5), `istio-bytes-90`(0.5), `istio-bytes-50`(0.5)
+
+**容器CPU（3种）**
+`container-cpu-usage-seconds-total`(1.5), `container-cpu-user-seconds-total`(0.8), `container-cpu-system-seconds-total`(0.6)
+
+**容器内存（9种）**
+`container-memory-failures-total`(3.0), `container-memory-working-set-bytes`(0.5), `container-memory-usage-bytes`(0.8), `container-memory-rss`(0.8), `container-memory-max-usage-bytes`(0.8), `container-memory-swap`(0.8), `container-memory-cache`(0.4), `container-memory-mapped-file`(0.4), `container-spec-memory-limit-bytes`(0.5)
+
+**容器CPU配额（1种）**
+`container-spec-cpu-quota`(0.5)
+
+**容器磁盘（4种）**
+`container-fs-writes-total`(0.5), `container-fs-writes-bytes-total`(0.5), `container-fs-reads-total`(0.5), `container-fs-reads-bytes-total`(0.5)
+
+**宿主机节点级（13种）**
+`node-memory-active-bytes`(0.7), `node-memory-inactive-bytes`(0.7), `node-cpu-seconds-total`(0.6), `node-network-receive-errs-total`(1.0), `node-network-receive-drop-total`(1.0), `node-network-transmit-errs-total`(1.0), `node-network-transmit-drop-total`(1.0), `node-disk-read-bytes-total`(0.5), `node-disk-written-bytes-total`(0.5), `node-disk-reads-completed-total`(0.4), `node-disk-writes-completed-total`(0.4), `node-network-receive-packets-total`(0.3), `node-network-transmit-packets-total`(0.3)
+
+**被排除的8种指标**（仅1个服务有数据，无法用于服务级根因定位）：所有 `container-network-*` 系列（接收/发送的 packets/bytes/errors/dropped）
+
+
+
+============================================================
+🔥 P-CoE V8.5 RE1-TT（LOSS: 节点网络指标 + 全局容器网络）
+============================================================
+
+
+📋 Case 1: ts-auth-service_cpu/1  🎯 ts-auth-service
+  🔬 故障类型: CPU
+✅ 命中! | Top3: ts-auth-service(0.205), ts-preserve-service(0.140), ts-payment-service(0.071)
+
+📋 Case 2: ts-auth-service_cpu/2  🎯 ts-auth-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-auth-service(0.119), ts-preserve-service(0.109), ts-user-service(0.106)
+
+📋 Case 3: ts-auth-service_cpu/3  🎯 ts-auth-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-assurance-service) | Top3: ts-assurance-service(0.318), ts-consign-price-service(0.246), ts-auth-service(0.032)
+
+📋 Case 4: ts-auth-service_cpu/4  🎯 ts-auth-service
+  🔬 故障类型: CPU
+✅ 命中! | Top3: ts-auth-service(0.175), ts-consign-service(0.116), ts-travel-service(0.076)
+
+📋 Case 5: ts-auth-service_cpu/5  🎯 ts-auth-service
+  🔬 故障类型: DELAY
+✅ 命中! | Top3: ts-auth-service(0.254), ts-food-service(0.136), ts-order-service(0.037)
+
+📋 Case 6: ts-auth-service_delay/1  🎯 ts-auth-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-consign-service) | Top3: ts-consign-service(0.194), ts-security-service(0.161), ts-notification-service(0.140)
+
+📋 Case 7: ts-auth-service_delay/2  🎯 ts-auth-service
+  🔬 故障类型: DELAY
+❌ 未命中 (输出: ts-preserve-service) | Top3: ts-preserve-service(0.145), ts-inside-payment-service(0.127), ts-payment-service(0.117)
+
+📋 Case 8: ts-auth-service_delay/3  🎯 ts-auth-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-security-service) | Top3: ts-security-service(0.350), ts-notification-service(0.131), ts-consign-service(0.027)
+
+📋 Case 9: ts-auth-service_delay/4  🎯 ts-auth-service
+  🔬 故障类型: CPU
+❌ 未命中 (输出: ts-order-service) | Top3: ts-order-service(0.107), ts-auth-service(0.082), ts-inside-payment-service(0.052)
+
+📋 Case 10: ts-auth-service_delay/5  🎯 ts-auth-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-food-service) | Top3: ts-food-service(0.340), ts-order-service(0.048), ts-consign-price-service(0.037)
+
+📋 Case 11: ts-auth-service_disk/1  🎯 ts-auth-service
+  🔬 故障类型: DELAY
+❌ 未命中 (输出: ts-order-service) | Top3: ts-order-service(0.189), ts-auth-service(0.106), ts-travel2-service(0.062)
+
+📋 Case 12: ts-auth-service_disk/2  🎯 ts-auth-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-auth-service(0.174), ts-order-service(0.072), ts-travel2-service(0.060)
+
+📋 Case 13: ts-auth-service_disk/3  🎯 ts-auth-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-travel2-service) | Top3: ts-travel2-service(0.217), ts-auth-service(0.118), ts-order-other-service(0.057)
+
+📋 Case 14: ts-auth-service_disk/4  🎯 ts-auth-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-order-other-service) | Top3: ts-order-other-service(0.275), ts-auth-service(0.086), ts-station-service(0.105)
+
+📋 Case 15: ts-auth-service_disk/5  🎯 ts-auth-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-order-other-service) | Top3: ts-order-other-service(0.376), ts-auth-service(0.084), ts-admin-basic-info-service(0.052)
+
+📋 Case 16: ts-auth-service_loss/1  🎯 ts-auth-service
+  🔬 故障类型: DELAY
+❌ 未命中 (输出: ts-payment-service) | Top3: ts-payment-service(0.444), ts-order-service(0.079), ts-order-other-service(0.028)
+
+📋 Case 17: ts-auth-service_loss/2  🎯 ts-auth-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-preserve-service) | Top3: ts-preserve-service(0.171), ts-auth-service(0.064), ts-travel-service(0.050)
+
+📋 Case 18: ts-auth-service_loss/3  🎯 ts-auth-service
+  🔬 故障类型: CPU
+❌ 未命中 (输出: ts-order-other-service) | Top3: ts-order-other-service(0.113), ts-user-service(0.121), ts-preserve-service(0.062)
+
+📋 Case 19: ts-auth-service_loss/4  🎯 ts-auth-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-assurance-service) | Top3: ts-assurance-service(0.162), ts-auth-service(0.140), ts-order-other-service(0.090)
+
+📋 Case 20: ts-auth-service_loss/5  🎯 ts-auth-service
+  🔬 故障类型: CPU
+❌ 未命中 (输出: ts-consign-price-service) | Top3: ts-consign-price-service(0.129), ts-order-service(0.071), ts-auth-service(0.078)
+
+📋 Case 21: ts-auth-service_mem/1  🎯 ts-auth-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-auth-service(0.671), ts-payment-service(0.004), ts-travel-service(0.003)
+
+📋 Case 22: ts-auth-service_mem/2  🎯 ts-auth-service
+  🔬 故障类型: DELAY
+✅ 命中! | Top3: ts-auth-service(0.608), ts-assurance-service(0.047), ts-admin-basic-info-service(0.022)
+
+📋 Case 23: ts-auth-service_mem/3  🎯 ts-auth-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-auth-service(0.688), ts-auth-mongo(0.001), ts-contacts-service(0.001)
+
+📋 Case 24: ts-auth-service_mem/4  🎯 ts-auth-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-auth-service(0.690), ts-auth-mongo(0.002), ts-order-other-service(0.001)
+
+📋 Case 25: ts-auth-service_mem/5  🎯 ts-auth-service
+  🔬 故障类型: DELAY
+✅ 命中! | Top3: ts-auth-service(0.686), ts-admin-travel-service(0.002), ts-order-other-service(0.001)
+
+📋 Case 26: ts-order-service_cpu/1  🎯 ts-order-service
+  🔬 故障类型: CPU
+❌ 未命中 (输出: ts-payment-service) | Top3: ts-payment-service(0.101), ts-config-service(0.090), ts-preserve-service(0.073)
+
+📋 Case 27: ts-order-service_cpu/2  🎯 ts-order-service
+  🔬 故障类型: CPU
+❌ 未命中 (输出: ts-contacts-service) | Top3: ts-contacts-service(0.171), ts-consign-service(0.148), ts-inside-payment-service(0.107)
+
+📋 Case 28: ts-order-service_cpu/3  🎯 ts-order-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-order-service(0.242), ts-inside-payment-service(0.089), ts-order-other-service(0.060)
+
+📋 Case 29: ts-order-service_cpu/4  🎯 ts-order-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-consign-price-service) | Top3: ts-consign-price-service(0.547), ts-order-service(0.067), ts-consign-service(0.013)
+
+📋 Case 30: ts-order-service_cpu/5  🎯 ts-order-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-order-service(0.244), ts-assurance-service(0.087), ts-order-other-service(0.069)
+
+📋 Case 31: ts-order-service_delay/1  🎯 ts-order-service
+  🔬 故障类型: DELAY
+❌ 未命中 (输出: ts-consign-service) | Top3: ts-consign-service(0.180), ts-inside-payment-service(0.154), ts-consign-price-service(0.137)
+
+📋 Case 32: ts-order-service_delay/2  🎯 ts-order-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-order-service(0.239), ts-security-service(0.048), ts-contacts-service(0.042)
+
+📋 Case 33: ts-order-service_delay/3  🎯 ts-order-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-travel2-service) | Top3: ts-travel2-service(0.109), ts-order-service(0.076), ts-inside-payment-service(0.040)
+
+📋 Case 34: ts-order-service_delay/4  🎯 ts-order-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-order-service(0.126), ts-ticket-office-service(0.064), ts-order-other-service(0.049)
+
+📋 Case 35: ts-order-service_delay/5  🎯 ts-order-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-order-service(0.129), ts-travel2-service(0.082), ts-ticket-office-service(0.079)
+
+📋 Case 36: ts-order-service_disk/1  🎯 ts-order-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-order-service(0.259), ts-travel2-service(0.091), ts-order-other-service(0.090)
+
+📋 Case 37: ts-order-service_disk/2  🎯 ts-order-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-order-other-service) | Top3: ts-order-other-service(0.180), ts-travel2-service(0.096), ts-order-service(0.087)
+
+📋 Case 38: ts-order-service_disk/3  🎯 ts-order-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-travel2-service) | Top3: ts-travel2-service(0.443), ts-order-service(0.067), ts-order-other-service(0.068)
+
+📋 Case 39: ts-order-service_disk/4  🎯 ts-order-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-order-other-service) | Top3: ts-order-other-service(0.235), ts-seat-service(0.161), ts-order-service(0.097)
+
+📋 Case 40: ts-order-service_disk/5  🎯 ts-order-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-order-other-service) | Top3: ts-order-other-service(0.318), ts-order-service(0.168), ts-order-mongo(0.028)
+
+📋 Case 41: ts-order-service_loss/1  🎯 ts-order-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-payment-service) | Top3: ts-payment-service(0.412), ts-order-service(0.033), ts-preserve-other-service(0.093)
+
+📋 Case 42: ts-order-service_loss/2  🎯 ts-order-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-order-other-service) | Top3: ts-order-other-service(0.144), ts-preserve-service(0.155), ts-auth-service(0.104)
+
+📋 Case 43: ts-order-service_loss/3  🎯 ts-order-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-inside-payment-service) | Top3: ts-inside-payment-service(0.359), ts-consign-service(0.188), ts-order-service(0.055)
+
+📋 Case 44: ts-order-service_loss/4  🎯 ts-order-service
+  🔬 故障类型: CPU
+❌ 未命中 (输出: ts-consign-service) | Top3: ts-consign-service(0.344), ts-inside-payment-service(0.170), ts-order-service(0.031)
+
+📋 Case 45: ts-order-service_loss/5  🎯 ts-order-service
+  🔬 故障类型: CPU
+❌ 未命中 (输出: ts-assurance-service) | Top3: ts-assurance-service(0.266), ts-consign-service(0.167), ts-inside-payment-service(0.102)
+
+📋 Case 46: ts-order-service_mem/1  🎯 ts-order-service
+  🔬 故障类型: CPU
+✅ 命中! | Top3: ts-order-service(0.652), ts-auth-service(0.007), ts-consign-price-service(0.004)
+
+📋 Case 47: ts-order-service_mem/2  🎯 ts-order-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-order-service(0.651), ts-auth-service(0.008), ts-consign-service(0.006)
+
+📋 Case 48: ts-order-service_mem/3  🎯 ts-order-service
+  🔬 故障类型: CPU
+✅ 命中! | Top3: ts-order-service(0.669), ts-auth-service(0.004), ts-station-service(0.003)
+
+📋 Case 49: ts-order-service_mem/4  🎯 ts-order-service
+  🔬 故障类型: CPU
+✅ 命中! | Top3: ts-order-service(0.633), ts-inside-payment-service(0.021), ts-auth-service(0.008)
+
+📋 Case 50: ts-order-service_mem/5  🎯 ts-order-service
+  🔬 故障类型: CPU
+✅ 命中! | Top3: ts-order-service(0.647), ts-basic-service(0.017), ts-travel2-service(0.005)
+
+📋 Case 51: ts-route-service_cpu/1  🎯 ts-route-service
+  🔬 故障类型: DELAY
+❌ 未命中 (输出: ts-preserve-service) | Top3: ts-preserve-service(0.168), ts-security-service(0.073), ts-route-service(0.043)
+
+📋 Case 52: ts-route-service_cpu/2  🎯 ts-route-service
+  🔬 故障类型: CPU
+❌ 未命中 (输出: ts-assurance-service) | Top3: ts-assurance-service(0.268), ts-preserve-other-service(0.104), ts-consign-service(0.069)
+
+📋 Case 53: ts-route-service_cpu/3  🎯 ts-route-service
+  🔬 故障类型: DELAY
+❌ 未命中 (输出: ts-contacts-service) | Top3: ts-contacts-service(0.268), ts-assurance-service(0.143), ts-inside-payment-service(0.109)
+
+📋 Case 54: ts-route-service_cpu/4  🎯 ts-route-service
+  🔬 故障类型: CPU
+❌ 未命中 (输出: ts-consign-price-service) | Top3: ts-consign-price-service(0.497), ts-route-service(0.064), ts-food-service(0.025)
+
+📋 Case 55: ts-route-service_cpu/5  🎯 ts-route-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-route-service(0.203), ts-order-service(0.068), ts-inside-payment-service(0.048)
+
+📋 Case 56: ts-route-service_delay/1  🎯 ts-route-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-security-service) | Top3: ts-security-service(0.287), ts-consign-price-service(0.165), ts-inside-payment-service(0.081)
+
+📋 Case 57: ts-route-service_delay/2  🎯 ts-route-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-preserve-service) | Top3: ts-preserve-service(0.213), ts-travel2-service(0.061), ts-seat-service(0.051)
+
+📋 Case 58: ts-route-service_delay/3  🎯 ts-route-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-notification-service) | Top3: ts-notification-service(0.375), ts-admin-travel-service(0.041), ts-travel-service(0.027)
+
+📋 Case 59: ts-route-service_delay/4  🎯 ts-route-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-admin-travel-service) | Top3: ts-admin-travel-service(0.150), ts-travel2-service(0.144), ts-travel-service(0.068)
+
+📋 Case 60: ts-route-service_delay/5  🎯 ts-route-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-travel-service) | Top3: ts-travel-service(0.262), ts-travel2-service(0.099), ts-inside-payment-service(0.042)
+
+📋 Case 61: ts-route-service_disk/1  🎯 ts-route-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-route-service(0.145), ts-order-other-service(0.141), ts-inside-payment-service(0.080)
+
+📋 Case 62: ts-route-service_disk/2  🎯 ts-route-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-route-service(0.186), ts-travel2-service(0.084), ts-seat-service(0.076)
+
+📋 Case 63: ts-route-service_disk/3  🎯 ts-route-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-route-service(0.145), ts-order-service(0.096), ts-order-other-service(0.066)
+
+📋 Case 64: ts-route-service_disk/4  🎯 ts-route-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-route-service(0.202), ts-seat-service(0.087), ts-order-service(0.041)
+
+📋 Case 65: ts-route-service_disk/5  🎯 ts-route-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-route-service(0.254), ts-basic-service(0.038), ts-order-mongo(0.057)
+
+📋 Case 66: ts-route-service_loss/1  🎯 ts-route-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-order-other-service) | Top3: ts-order-other-service(0.253), ts-inside-payment-service(0.098), ts-route-service(0.049)
+
+📋 Case 67: ts-route-service_loss/2  🎯 ts-route-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-payment-service) | Top3: ts-payment-service(0.128), ts-consign-service(0.094), ts-assurance-service(0.053)
+
+📋 Case 68: ts-route-service_loss/3  🎯 ts-route-service
+  🔬 故障类型: CPU
+❌ 未命中 (输出: ts-contacts-service) | Top3: ts-contacts-service(0.272), ts-consign-service(0.132), ts-assurance-service(0.105)
+
+📋 Case 69: ts-route-service_loss/4  🎯 ts-route-service
+  🔬 故障类型: CPU
+❌ 未命中 (输出: ts-travel-service) | Top3: ts-travel-service(0.130), ts-route-service(0.079), ts-admin-travel-service(0.057)
+
+📋 Case 70: ts-route-service_loss/5  🎯 ts-route-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-travel-service) | Top3: ts-travel-service(0.082), ts-travel2-service(0.087), ts-order-other-service(0.041)
+
+📋 Case 71: ts-route-service_mem/1  🎯 ts-route-service
+  🔬 故障类型: CPU
+✅ 命中! | Top3: ts-route-service(0.629), ts-order-service(0.019), ts-auth-service(0.013)
+
+📋 Case 72: ts-route-service_mem/2  🎯 ts-route-service
+  🔬 故障类型: CPU
+✅ 命中! | Top3: ts-route-service(0.511), ts-inside-payment-service(0.071), ts-order-service(0.035)
+
+📋 Case 73: ts-route-service_mem/3  🎯 ts-route-service
+  🔬 故障类型: CPU
+✅ 命中! | Top3: ts-route-service(0.609), ts-inside-payment-service(0.054), ts-consign-service(0.016)
+
+📋 Case 74: ts-route-service_mem/4  🎯 ts-route-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-route-service(0.640), ts-auth-service(0.007), ts-order-other-service(0.007)
+
+📋 Case 75: ts-route-service_mem/5  🎯 ts-route-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-route-service(0.671), ts-auth-service(0.009), ts-config-service(0.004)
+
+📋 Case 76: ts-train-service_cpu/1  🎯 ts-train-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-preserve-service) | Top3: ts-preserve-service(0.262), ts-auth-service(0.044), ts-train-service(0.032)
+
+📋 Case 77: ts-train-service_cpu/2  🎯 ts-train-service
+  🔬 故障类型: CPU
+❌ 未命中 (输出: ts-security-service) | Top3: ts-security-service(0.256), ts-user-service(0.177), ts-inside-payment-service(0.068)
+
+📋 Case 78: ts-train-service_cpu/3  🎯 ts-train-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-train-service(0.135), ts-notification-service(0.181), ts-admin-travel-service(0.046)
+
+📋 Case 79: ts-train-service_cpu/4  🎯 ts-train-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-consign-price-service) | Top3: ts-consign-price-service(0.497), ts-train-service(0.070), ts-consign-service(0.016)
+
+📋 Case 80: ts-train-service_cpu/5  🎯 ts-train-service
+  🔬 故障类型: CPU
+❌ 未命中 (输出: ts-consign-price-service) | Top3: ts-consign-price-service(0.548), ts-train-service(0.046), ts-order-service(0.012)
+
+📋 Case 81: ts-train-service_delay/1  🎯 ts-train-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-notification-service) | Top3: ts-notification-service(0.185), ts-consign-service(0.152), ts-inside-payment-service(0.111)
+
+📋 Case 82: ts-train-service_delay/2  🎯 ts-train-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-travel2-service) | Top3: ts-travel2-service(0.150), ts-train-mongo(0.088), ts-admin-travel-service(0.067)
+
+📋 Case 83: ts-train-service_delay/3  🎯 ts-train-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-travel-service) | Top3: ts-travel-service(0.178), ts-order-service(0.094), ts-admin-travel-service(0.084)
+
+📋 Case 84: ts-train-service_delay/4  🎯 ts-train-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-admin-travel-service) | Top3: ts-admin-travel-service(0.195), ts-train-mongo(0.063), ts-ticket-office-service(0.053)
+
+📋 Case 85: ts-train-service_delay/5  🎯 ts-train-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-travel-service) | Top3: ts-travel-service(0.219), ts-admin-travel-service(0.104), ts-train-service(0.097)
+
+📋 Case 86: ts-train-service_disk/1  🎯 ts-train-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-travel2-service) | Top3: ts-travel2-service(0.123), ts-basic-service(0.086), ts-order-other-service(0.063)
+
+📋 Case 87: ts-train-service_disk/2  🎯 ts-train-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-train-service(0.295), ts-order-service(0.072), ts-inside-payment-service(0.045)
+
+📋 Case 88: ts-train-service_disk/3  🎯 ts-train-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-seat-service) | Top3: ts-seat-service(0.218), ts-train-service(0.168), ts-order-mongo(0.080)
+
+📋 Case 89: ts-train-service_disk/4  🎯 ts-train-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-order-service) | Top3: ts-order-service(0.204), ts-train-service(0.140), ts-seat-service(0.095)
+
+📋 Case 90: ts-train-service_disk/5  🎯 ts-train-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-order-service) | Top3: ts-order-service(0.231), ts-seat-service(0.182), ts-train-service(0.103)
+
+📋 Case 91: ts-train-service_loss/1  🎯 ts-train-service
+  🔬 故障类型: CPU
+❌ 未命中 (输出: ts-travel-service) | Top3: ts-travel-service(0.233), ts-admin-travel-service(0.105), ts-order-other-service(0.060)
+
+📋 Case 92: ts-train-service_loss/2  🎯 ts-train-service
+  🔬 故障类型: CPU
+❌ 未命中 (输出: ts-user-service) | Top3: ts-user-service(0.155), ts-preserve-service(0.108), ts-travel-service(0.081)
+
+📋 Case 93: ts-train-service_loss/3  🎯 ts-train-service
+  🔬 故障类型: CPU
+❌ 未命中 (输出: ts-inside-payment-service) | Top3: ts-inside-payment-service(0.276), ts-consign-price-service(0.194), ts-train-service(0.031)
+
+📋 Case 94: ts-train-service_loss/4  🎯 ts-train-service
+  🔬 故障类型: CPU
+❌ 未命中 (输出: ts-consign-service) | Top3: ts-consign-service(0.221), ts-consign-price-service(0.207), ts-inside-payment-service(0.120)
+
+📋 Case 95: ts-train-service_loss/5  🎯 ts-train-service
+  🔬 故障类型: CPU
+❌ 未命中 (输出: ts-consign-service) | Top3: ts-consign-service(0.219), ts-inside-payment-service(0.197), ts-train-service(0.079)
+
+📋 Case 96: ts-train-service_mem/1  🎯 ts-train-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-train-service(0.642), ts-preserve-service(0.023), ts-payment-service(0.006)
+
+📋 Case 97: ts-train-service_mem/2  🎯 ts-train-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-train-service(0.671), ts-payment-service(0.014), ts-preserve-other-service(0.003)
+
+📋 Case 98: ts-train-service_mem/3  🎯 ts-train-service
+  🔬 故障类型: CPU
+✅ 命中! | Top3: ts-train-service(0.635), ts-order-other-service(0.022), ts-preserve-service(0.014)
+
+📋 Case 99: ts-train-service_mem/4  🎯 ts-train-service
+  🔬 故障类型: CPU
+✅ 命中! | Top3: ts-train-service(0.667), ts-auth-service(0.002), ts-order-service(0.008)
+
+📋 Case 100: ts-train-service_mem/5  🎯 ts-train-service
+  🔬 故障类型: CPU
+✅ 命中! | Top3: ts-train-service(0.668), ts-inside-payment-service(0.006), ts-auth-service(0.005)
+
+📋 Case 101: ts-travel-service_cpu/1  🎯 ts-travel-service
+  🔬 故障类型: DELAY
+❌ 未命中 (输出: ts-preserve-other-service) | Top3: ts-preserve-other-service(0.280), ts-order-service(0.087), ts-travel-service(0.065)
+
+📋 Case 102: ts-travel-service_cpu/2  🎯 ts-travel-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-travel-service(0.135), ts-inside-payment-service(0.137), ts-consign-service(0.101)
+
+📋 Case 103: ts-travel-service_cpu/3  🎯 ts-travel-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-security-service) | Top3: ts-security-service(0.209), ts-notification-service(0.145), ts-user-service(0.097)
+
+📋 Case 104: ts-travel-service_cpu/4  🎯 ts-travel-service
+  🔬 故障类型: DELAY
+✅ 命中! | Top3: ts-travel-service(0.230), ts-order-service(0.087), ts-food-map-service(0.046)
+
+📋 Case 105: ts-travel-service_cpu/5  🎯 ts-travel-service
+  🔬 故障类型: DELAY
+✅ 命中! | Top3: ts-travel-service(0.188), ts-admin-travel-service(0.118), ts-food-service(0.159)
+
+📋 Case 106: ts-travel-service_delay/1  🎯 ts-travel-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-notification-service) | Top3: ts-notification-service(0.331), ts-security-service(0.121), ts-travel-service(0.036)
+
+📋 Case 107: ts-travel-service_delay/2  🎯 ts-travel-service
+  🔬 故障类型: CPU
+❌ 未命中 (输出: ts-inside-payment-service) | Top3: ts-inside-payment-service(0.328), ts-consign-service(0.102), ts-route-service(0.063)
+
+📋 Case 108: ts-travel-service_delay/3  🎯 ts-travel-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-admin-travel-service) | Top3: ts-admin-travel-service(0.217), ts-inside-payment-service(0.034), ts-travel-service(0.042)
+
+📋 Case 109: ts-travel-service_delay/4  🎯 ts-travel-service
+  🔬 故障类型: CPU
+✅ 命中! | Top3: ts-travel-service(0.224), ts-food-service(0.205), ts-admin-travel-service(0.073)
+
+📋 Case 110: ts-travel-service_delay/5  🎯 ts-travel-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-travel-service(0.166), ts-food-service(0.155), ts-admin-travel-service(0.044)
+
+📋 Case 111: ts-travel-service_disk/1  🎯 ts-travel-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-travel-service(0.163), ts-order-service(0.140), ts-contacts-service(0.037)
+
+📋 Case 112: ts-travel-service_disk/2  🎯 ts-travel-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-travel-service(0.274), ts-food-map-mongo(0.051), ts-inside-payment-service(0.054)
+
+📋 Case 113: ts-travel-service_disk/3  🎯 ts-travel-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-order-service) | Top3: ts-order-service(0.268), ts-station-service(0.132), ts-travel-service(0.134)
+
+📋 Case 114: ts-travel-service_disk/4  🎯 ts-travel-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-seat-service) | Top3: ts-seat-service(0.366), ts-travel-service(0.152), ts-inside-payment-service(0.021)
+
+📋 Case 115: ts-travel-service_disk/5  🎯 ts-travel-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-travel-service(0.219), ts-admin-travel-service(0.235), ts-order-mongo(0.033)
+
+📋 Case 116: ts-travel-service_loss/1  🎯 ts-travel-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-travel-service(0.312), ts-seat-service(0.127), ts-route-service(0.028)
+
+📋 Case 117: ts-travel-service_loss/2  🎯 ts-travel-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-consign-price-service) | Top3: ts-consign-price-service(0.087), ts-order-service(0.070), ts-consign-mongo(0.067)
+
+📋 Case 118: ts-travel-service_loss/3  🎯 ts-travel-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-order-other-service) | Top3: ts-order-other-service(0.245), ts-travel-service(0.171), ts-config-service(0.034)
+
+📋 Case 119: ts-travel-service_loss/4  🎯 ts-travel-service
+  🔬 故障类型: DELAY
+✅ 命中! | Top3: ts-travel-service(0.277), ts-order-other-service(0.101), ts-order-service(0.034)
+
+📋 Case 120: ts-travel-service_loss/5  🎯 ts-travel-service
+  🔬 故障类型: CPU
+✅ 命中! | Top3: ts-travel-service(0.215), ts-order-other-service(0.067), ts-travel2-service(0.064)
+
+📋 Case 121: ts-travel-service_mem/1  🎯 ts-travel-service
+  🔬 故障类型: CPU
+✅ 命中! | Top3: ts-travel-service(0.621), ts-preserve-service(0.016), ts-payment-service(0.010)
+
+📋 Case 122: ts-travel-service_mem/2  🎯 ts-travel-service
+  🔬 故障类型: CPU
+✅ 命中! | Top3: ts-travel-service(0.678), ts-consign-service(0.003), ts-order-other-service(0.003)
+
+📋 Case 123: ts-travel-service_mem/3  🎯 ts-travel-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-travel-service(0.682), ts-route-service(0.003), ts-order-other-service(0.003)
+
+📋 Case 124: ts-travel-service_mem/4  🎯 ts-travel-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-travel-service(0.650), ts-consign-service(0.004), ts-auth-service(0.005)
+
+📋 Case 125: ts-travel-service_mem/5  🎯 ts-travel-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-travel-service(0.515), ts-notification-service(0.052), ts-security-service(0.036)
+
+============================================================
+🔥 P-CoE V8.5 RE1-TT 结果（125个case）
+============================================================
+Top-1 Accuracy: 0.440 (55/125)
+Top-3 Hit Rate: 0.736 (92/125)
+MRR:            0.585
+
+故障类型统计:
+  CPU: 22/50 (0.440)
+  MEM: 25/25 (1.000)
+  DELAY: 5/25 (0.200)
+  LOSS: 3/25 (0.120)
+============================================================
+(venv) admin@iZt4nh3tgg0alpz55btq5zZ:~$ python3 /home/admin/rca-workspace/run_re1tt.py
+
+============================================================
+🔥 P-CoE V8.3 RE1-TT（故障类型条件化 + LOSS专用评分 + 关L3）
+============================================================
+
+
+📋 Case 1: ts-auth-service_cpu/1  🎯 ts-auth-service
+  🔬 故障类型: CPU
+✅ 命中! | Top3: ts-auth-service(0.205), ts-preserve-service(0.140), ts-payment-service(0.071)
+
+📋 Case 2: ts-auth-service_cpu/2  🎯 ts-auth-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-auth-service(0.119), ts-preserve-service(0.109), ts-user-service(0.106)
+
+📋 Case 3: ts-auth-service_cpu/3  🎯 ts-auth-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-assurance-service) | Top3: ts-assurance-service(0.318), ts-consign-price-service(0.246), ts-auth-service(0.032)
+
+📋 Case 4: ts-auth-service_cpu/4  🎯 ts-auth-service
+  🔬 故障类型: CPU
+✅ 命中! | Top3: ts-auth-service(0.175), ts-consign-service(0.116), ts-travel-service(0.076)
+
+📋 Case 5: ts-auth-service_cpu/5  🎯 ts-auth-service
+  🔬 故障类型: DELAY
+✅ 命中! | Top3: ts-auth-service(0.254), ts-food-service(0.136), ts-order-service(0.037)
+
+📋 Case 6: ts-auth-service_delay/1  🎯 ts-auth-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-consign-service) | Top3: ts-consign-service(0.194), ts-security-service(0.161), ts-notification-service(0.140)
+
+📋 Case 7: ts-auth-service_delay/2  🎯 ts-auth-service
+  🔬 故障类型: DELAY
+❌ 未命中 (输出: ts-preserve-service) | Top3: ts-preserve-service(0.145), ts-inside-payment-service(0.127), ts-payment-service(0.117)
+
+📋 Case 8: ts-auth-service_delay/3  🎯 ts-auth-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-security-service) | Top3: ts-security-service(0.350), ts-notification-service(0.131), ts-consign-service(0.027)
+
+📋 Case 9: ts-auth-service_delay/4  🎯 ts-auth-service
+  🔬 故障类型: CPU
+❌ 未命中 (输出: ts-order-service) | Top3: ts-order-service(0.107), ts-auth-service(0.082), ts-inside-payment-service(0.052)
+
+📋 Case 10: ts-auth-service_delay/5  🎯 ts-auth-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-food-service) | Top3: ts-food-service(0.340), ts-order-service(0.048), ts-consign-price-service(0.037)
+
+📋 Case 11: ts-auth-service_disk/1  🎯 ts-auth-service
+  🔬 故障类型: DELAY
+❌ 未命中 (输出: ts-order-service) | Top3: ts-order-service(0.189), ts-auth-service(0.106), ts-travel2-service(0.062)
+
+📋 Case 12: ts-auth-service_disk/2  🎯 ts-auth-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-auth-service(0.174), ts-order-service(0.072), ts-travel2-service(0.060)
+
+📋 Case 13: ts-auth-service_disk/3  🎯 ts-auth-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-travel2-service) | Top3: ts-travel2-service(0.217), ts-auth-service(0.118), ts-order-other-service(0.057)
+
+📋 Case 14: ts-auth-service_disk/4  🎯 ts-auth-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-order-other-service) | Top3: ts-order-other-service(0.275), ts-auth-service(0.086), ts-station-service(0.105)
+
+📋 Case 15: ts-auth-service_disk/5  🎯 ts-auth-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-order-other-service) | Top3: ts-order-other-service(0.376), ts-auth-service(0.084), ts-admin-basic-info-service(0.052)
+
+📋 Case 16: ts-auth-service_loss/1  🎯 ts-auth-service
+  🔬 故障类型: DELAY
+❌ 未命中 (输出: ts-payment-service) | Top3: ts-payment-service(0.444), ts-order-service(0.079), ts-order-other-service(0.028)
+
+📋 Case 17: ts-auth-service_loss/2  🎯 ts-auth-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-preserve-service) | Top3: ts-preserve-service(0.171), ts-auth-service(0.064), ts-travel-service(0.050)
+
+📋 Case 18: ts-auth-service_loss/3  🎯 ts-auth-service
+  🔬 故障类型: CPU
+❌ 未命中 (输出: ts-order-other-service) | Top3: ts-order-other-service(0.113), ts-user-service(0.121), ts-preserve-service(0.062)
+
+📋 Case 19: ts-auth-service_loss/4  🎯 ts-auth-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-assurance-service) | Top3: ts-assurance-service(0.162), ts-auth-service(0.140), ts-order-other-service(0.090)
+
+📋 Case 20: ts-auth-service_loss/5  🎯 ts-auth-service
+  🔬 故障类型: CPU
+❌ 未命中 (输出: ts-consign-price-service) | Top3: ts-consign-price-service(0.129), ts-order-service(0.071), ts-auth-service(0.078)
+
+📋 Case 21: ts-auth-service_mem/1  🎯 ts-auth-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-auth-service(0.671), ts-payment-service(0.004), ts-travel-service(0.003)
+
+📋 Case 22: ts-auth-service_mem/2  🎯 ts-auth-service
+  🔬 故障类型: DELAY
+✅ 命中! | Top3: ts-auth-service(0.608), ts-assurance-service(0.047), ts-admin-basic-info-service(0.022)
+
+📋 Case 23: ts-auth-service_mem/3  🎯 ts-auth-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-auth-service(0.688), ts-auth-mongo(0.001), ts-contacts-service(0.001)
+
+📋 Case 24: ts-auth-service_mem/4  🎯 ts-auth-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-auth-service(0.690), ts-auth-mongo(0.002), ts-order-other-service(0.001)
+
+📋 Case 25: ts-auth-service_mem/5  🎯 ts-auth-service
+  🔬 故障类型: DELAY
+✅ 命中! | Top3: ts-auth-service(0.686), ts-admin-travel-service(0.002), ts-order-other-service(0.001)
+
+📋 Case 26: ts-order-service_cpu/1  🎯 ts-order-service
+  🔬 故障类型: CPU
+❌ 未命中 (输出: ts-payment-service) | Top3: ts-payment-service(0.101), ts-config-service(0.090), ts-preserve-service(0.073)
+
+📋 Case 27: ts-order-service_cpu/2  🎯 ts-order-service
+  🔬 故障类型: CPU
+❌ 未命中 (输出: ts-contacts-service) | Top3: ts-contacts-service(0.171), ts-consign-service(0.148), ts-inside-payment-service(0.107)
+
+📋 Case 28: ts-order-service_cpu/3  🎯 ts-order-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-order-service(0.242), ts-inside-payment-service(0.089), ts-order-other-service(0.060)
+
+📋 Case 29: ts-order-service_cpu/4  🎯 ts-order-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-consign-price-service) | Top3: ts-consign-price-service(0.547), ts-order-service(0.067), ts-consign-service(0.013)
+
+📋 Case 30: ts-order-service_cpu/5  🎯 ts-order-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-order-service(0.244), ts-assurance-service(0.087), ts-order-other-service(0.069)
+
+📋 Case 31: ts-order-service_delay/1  🎯 ts-order-service
+  🔬 故障类型: DELAY
+❌ 未命中 (输出: ts-consign-service) | Top3: ts-consign-service(0.180), ts-inside-payment-service(0.154), ts-consign-price-service(0.137)
+
+📋 Case 32: ts-order-service_delay/2  🎯 ts-order-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-order-service(0.239), ts-security-service(0.048), ts-contacts-service(0.042)
+
+📋 Case 33: ts-order-service_delay/3  🎯 ts-order-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-travel2-service) | Top3: ts-travel2-service(0.109), ts-order-service(0.076), ts-inside-payment-service(0.040)
+
+📋 Case 34: ts-order-service_delay/4  🎯 ts-order-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-order-service(0.126), ts-ticket-office-service(0.064), ts-order-other-service(0.049)
+
+📋 Case 35: ts-order-service_delay/5  🎯 ts-order-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-order-service(0.129), ts-travel2-service(0.082), ts-ticket-office-service(0.079)
+
+📋 Case 36: ts-order-service_disk/1  🎯 ts-order-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-order-service(0.259), ts-travel2-service(0.091), ts-order-other-service(0.090)
+
+📋 Case 37: ts-order-service_disk/2  🎯 ts-order-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-order-other-service) | Top3: ts-order-other-service(0.180), ts-travel2-service(0.096), ts-order-service(0.087)
+
+📋 Case 38: ts-order-service_disk/3  🎯 ts-order-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-travel2-service) | Top3: ts-travel2-service(0.443), ts-order-service(0.067), ts-order-other-service(0.068)
+
+📋 Case 39: ts-order-service_disk/4  🎯 ts-order-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-order-other-service) | Top3: ts-order-other-service(0.235), ts-seat-service(0.161), ts-order-service(0.097)
+
+📋 Case 40: ts-order-service_disk/5  🎯 ts-order-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-order-other-service) | Top3: ts-order-other-service(0.318), ts-order-service(0.168), ts-order-mongo(0.028)
+
+📋 Case 41: ts-order-service_loss/1  🎯 ts-order-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-payment-service) | Top3: ts-payment-service(0.412), ts-order-service(0.033), ts-preserve-other-service(0.093)
+
+📋 Case 42: ts-order-service_loss/2  🎯 ts-order-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-order-other-service) | Top3: ts-order-other-service(0.144), ts-preserve-service(0.155), ts-auth-service(0.104)
+
+📋 Case 43: ts-order-service_loss/3  🎯 ts-order-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-inside-payment-service) | Top3: ts-inside-payment-service(0.359), ts-consign-service(0.188), ts-order-service(0.055)
+
+📋 Case 44: ts-order-service_loss/4  🎯 ts-order-service
+  🔬 故障类型: CPU
+❌ 未命中 (输出: ts-consign-service) | Top3: ts-consign-service(0.344), ts-inside-payment-service(0.170), ts-order-service(0.031)
+
+📋 Case 45: ts-order-service_loss/5  🎯 ts-order-service
+  🔬 故障类型: CPU
+❌ 未命中 (输出: ts-assurance-service) | Top3: ts-assurance-service(0.266), ts-consign-service(0.167), ts-inside-payment-service(0.102)
+
+📋 Case 46: ts-order-service_mem/1  🎯 ts-order-service
+  🔬 故障类型: CPU
+✅ 命中! | Top3: ts-order-service(0.652), ts-auth-service(0.007), ts-consign-price-service(0.004)
+
+📋 Case 47: ts-order-service_mem/2  🎯 ts-order-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-order-service(0.651), ts-auth-service(0.008), ts-consign-service(0.006)
+
+📋 Case 48: ts-order-service_mem/3  🎯 ts-order-service
+  🔬 故障类型: CPU
+✅ 命中! | Top3: ts-order-service(0.669), ts-auth-service(0.004), ts-station-service(0.003)
+
+📋 Case 49: ts-order-service_mem/4  🎯 ts-order-service
+  🔬 故障类型: CPU
+✅ 命中! | Top3: ts-order-service(0.633), ts-inside-payment-service(0.021), ts-auth-service(0.008)
+
+📋 Case 50: ts-order-service_mem/5  🎯 ts-order-service
+  🔬 故障类型: CPU
+✅ 命中! | Top3: ts-order-service(0.647), ts-basic-service(0.017), ts-travel2-service(0.005)
+
+📋 Case 51: ts-route-service_cpu/1  🎯 ts-route-service
+  🔬 故障类型: DELAY
+❌ 未命中 (输出: ts-preserve-service) | Top3: ts-preserve-service(0.168), ts-security-service(0.073), ts-route-service(0.043)
+
+📋 Case 52: ts-route-service_cpu/2  🎯 ts-route-service
+  🔬 故障类型: CPU
+❌ 未命中 (输出: ts-assurance-service) | Top3: ts-assurance-service(0.268), ts-preserve-other-service(0.104), ts-consign-service(0.069)
+
+📋 Case 53: ts-route-service_cpu/3  🎯 ts-route-service
+  🔬 故障类型: DELAY
+❌ 未命中 (输出: ts-contacts-service) | Top3: ts-contacts-service(0.268), ts-assurance-service(0.143), ts-inside-payment-service(0.109)
+
+📋 Case 54: ts-route-service_cpu/4  🎯 ts-route-service
+  🔬 故障类型: CPU
+❌ 未命中 (输出: ts-consign-price-service) | Top3: ts-consign-price-service(0.497), ts-route-service(0.064), ts-food-service(0.025)
+
+📋 Case 55: ts-route-service_cpu/5  🎯 ts-route-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-route-service(0.203), ts-order-service(0.068), ts-inside-payment-service(0.048)
+
+📋 Case 56: ts-route-service_delay/1  🎯 ts-route-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-security-service) | Top3: ts-security-service(0.287), ts-consign-price-service(0.165), ts-inside-payment-service(0.081)
+
+📋 Case 57: ts-route-service_delay/2  🎯 ts-route-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-preserve-service) | Top3: ts-preserve-service(0.213), ts-travel2-service(0.061), ts-seat-service(0.051)
+
+📋 Case 58: ts-route-service_delay/3  🎯 ts-route-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-notification-service) | Top3: ts-notification-service(0.375), ts-admin-travel-service(0.041), ts-travel-service(0.027)
+
+📋 Case 59: ts-route-service_delay/4  🎯 ts-route-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-admin-travel-service) | Top3: ts-admin-travel-service(0.150), ts-travel2-service(0.144), ts-travel-service(0.068)
+
+📋 Case 60: ts-route-service_delay/5  🎯 ts-route-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-travel-service) | Top3: ts-travel-service(0.262), ts-travel2-service(0.099), ts-inside-payment-service(0.042)
+
+📋 Case 61: ts-route-service_disk/1  🎯 ts-route-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-route-service(0.145), ts-order-other-service(0.141), ts-inside-payment-service(0.080)
+
+📋 Case 62: ts-route-service_disk/2  🎯 ts-route-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-route-service(0.186), ts-travel2-service(0.084), ts-seat-service(0.076)
+
+📋 Case 63: ts-route-service_disk/3  🎯 ts-route-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-route-service(0.145), ts-order-service(0.096), ts-order-other-service(0.066)
+
+📋 Case 64: ts-route-service_disk/4  🎯 ts-route-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-route-service(0.202), ts-seat-service(0.087), ts-order-service(0.041)
+
+📋 Case 65: ts-route-service_disk/5  🎯 ts-route-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-route-service(0.254), ts-basic-service(0.038), ts-order-mongo(0.057)
+
+📋 Case 66: ts-route-service_loss/1  🎯 ts-route-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-order-other-service) | Top3: ts-order-other-service(0.253), ts-inside-payment-service(0.098), ts-route-service(0.049)
+
+📋 Case 67: ts-route-service_loss/2  🎯 ts-route-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-payment-service) | Top3: ts-payment-service(0.128), ts-consign-service(0.094), ts-assurance-service(0.053)
+
+📋 Case 68: ts-route-service_loss/3  🎯 ts-route-service
+  🔬 故障类型: CPU
+❌ 未命中 (输出: ts-contacts-service) | Top3: ts-contacts-service(0.272), ts-consign-service(0.132), ts-assurance-service(0.105)
+
+📋 Case 69: ts-route-service_loss/4  🎯 ts-route-service
+  🔬 故障类型: CPU
+❌ 未命中 (输出: ts-travel-service) | Top3: ts-travel-service(0.130), ts-route-service(0.079), ts-admin-travel-service(0.057)
+
+📋 Case 70: ts-route-service_loss/5  🎯 ts-route-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-travel-service) | Top3: ts-travel-service(0.082), ts-travel2-service(0.087), ts-order-other-service(0.041)
+
+📋 Case 71: ts-route-service_mem/1  🎯 ts-route-service
+  🔬 故障类型: CPU
+✅ 命中! | Top3: ts-route-service(0.629), ts-order-service(0.019), ts-auth-service(0.013)
+
+📋 Case 72: ts-route-service_mem/2  🎯 ts-route-service
+  🔬 故障类型: CPU
+✅ 命中! | Top3: ts-route-service(0.511), ts-inside-payment-service(0.071), ts-order-service(0.035)
+
+📋 Case 73: ts-route-service_mem/3  🎯 ts-route-service
+  🔬 故障类型: CPU
+✅ 命中! | Top3: ts-route-service(0.609), ts-inside-payment-service(0.054), ts-consign-service(0.016)
+
+📋 Case 74: ts-route-service_mem/4  🎯 ts-route-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-route-service(0.640), ts-auth-service(0.007), ts-order-other-service(0.007)
+
+📋 Case 75: ts-route-service_mem/5  🎯 ts-route-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-route-service(0.671), ts-auth-service(0.009), ts-config-service(0.004)
+
+📋 Case 76: ts-train-service_cpu/1  🎯 ts-train-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-preserve-service) | Top3: ts-preserve-service(0.262), ts-auth-service(0.044), ts-train-service(0.032)
+
+📋 Case 77: ts-train-service_cpu/2  🎯 ts-train-service
+  🔬 故障类型: CPU
+❌ 未命中 (输出: ts-security-service) | Top3: ts-security-service(0.256), ts-user-service(0.177), ts-inside-payment-service(0.068)
+
+📋 Case 78: ts-train-service_cpu/3  🎯 ts-train-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-train-service(0.135), ts-notification-service(0.181), ts-admin-travel-service(0.046)
+
+📋 Case 79: ts-train-service_cpu/4  🎯 ts-train-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-consign-price-service) | Top3: ts-consign-price-service(0.497), ts-train-service(0.070), ts-consign-service(0.016)
+
+📋 Case 80: ts-train-service_cpu/5  🎯 ts-train-service
+  🔬 故障类型: CPU
+❌ 未命中 (输出: ts-consign-price-service) | Top3: ts-consign-price-service(0.548), ts-train-service(0.046), ts-order-service(0.012)
+
+📋 Case 81: ts-train-service_delay/1  🎯 ts-train-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-notification-service) | Top3: ts-notification-service(0.185), ts-consign-service(0.152), ts-inside-payment-service(0.111)
+
+📋 Case 82: ts-train-service_delay/2  🎯 ts-train-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-travel2-service) | Top3: ts-travel2-service(0.150), ts-train-mongo(0.088), ts-admin-travel-service(0.067)
+
+📋 Case 83: ts-train-service_delay/3  🎯 ts-train-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-travel-service) | Top3: ts-travel-service(0.178), ts-order-service(0.094), ts-admin-travel-service(0.084)
+
+📋 Case 84: ts-train-service_delay/4  🎯 ts-train-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-admin-travel-service) | Top3: ts-admin-travel-service(0.195), ts-train-mongo(0.063), ts-ticket-office-service(0.053)
+
+📋 Case 85: ts-train-service_delay/5  🎯 ts-train-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-travel-service) | Top3: ts-travel-service(0.219), ts-admin-travel-service(0.104), ts-train-service(0.097)
+
+📋 Case 86: ts-train-service_disk/1  🎯 ts-train-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-travel2-service) | Top3: ts-travel2-service(0.123), ts-basic-service(0.086), ts-order-other-service(0.063)
+
+📋 Case 87: ts-train-service_disk/2  🎯 ts-train-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-train-service(0.295), ts-order-service(0.072), ts-inside-payment-service(0.045)
+
+📋 Case 88: ts-train-service_disk/3  🎯 ts-train-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-seat-service) | Top3: ts-seat-service(0.218), ts-train-service(0.168), ts-order-mongo(0.080)
+
+📋 Case 89: ts-train-service_disk/4  🎯 ts-train-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-order-service) | Top3: ts-order-service(0.204), ts-train-service(0.140), ts-seat-service(0.095)
+
+📋 Case 90: ts-train-service_disk/5  🎯 ts-train-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-order-service) | Top3: ts-order-service(0.231), ts-seat-service(0.182), ts-train-service(0.103)
+
+📋 Case 91: ts-train-service_loss/1  🎯 ts-train-service
+  🔬 故障类型: CPU
+❌ 未命中 (输出: ts-travel-service) | Top3: ts-travel-service(0.233), ts-admin-travel-service(0.105), ts-order-other-service(0.060)
+
+📋 Case 92: ts-train-service_loss/2  🎯 ts-train-service
+  🔬 故障类型: CPU
+❌ 未命中 (输出: ts-user-service) | Top3: ts-user-service(0.155), ts-preserve-service(0.108), ts-travel-service(0.081)
+
+📋 Case 93: ts-train-service_loss/3  🎯 ts-train-service
+  🔬 故障类型: CPU
+❌ 未命中 (输出: ts-inside-payment-service) | Top3: ts-inside-payment-service(0.276), ts-consign-price-service(0.194), ts-train-service(0.031)
+
+📋 Case 94: ts-train-service_loss/4  🎯 ts-train-service
+  🔬 故障类型: CPU
+❌ 未命中 (输出: ts-consign-service) | Top3: ts-consign-service(0.221), ts-consign-price-service(0.207), ts-inside-payment-service(0.120)
+
+📋 Case 95: ts-train-service_loss/5  🎯 ts-train-service
+  🔬 故障类型: CPU
+❌ 未命中 (输出: ts-consign-service) | Top3: ts-consign-service(0.219), ts-inside-payment-service(0.197), ts-train-service(0.079)
+
+📋 Case 96: ts-train-service_mem/1  🎯 ts-train-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-train-service(0.642), ts-preserve-service(0.023), ts-payment-service(0.006)
+
+📋 Case 97: ts-train-service_mem/2  🎯 ts-train-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-train-service(0.671), ts-payment-service(0.014), ts-preserve-other-service(0.003)
+
+📋 Case 98: ts-train-service_mem/3  🎯 ts-train-service
+  🔬 故障类型: CPU
+✅ 命中! | Top3: ts-train-service(0.635), ts-order-other-service(0.022), ts-preserve-service(0.014)
+
+📋 Case 99: ts-train-service_mem/4  🎯 ts-train-service
+  🔬 故障类型: CPU
+✅ 命中! | Top3: ts-train-service(0.667), ts-auth-service(0.002), ts-order-service(0.008)
+
+📋 Case 100: ts-train-service_mem/5  🎯 ts-train-service
+  🔬 故障类型: CPU
+✅ 命中! | Top3: ts-train-service(0.668), ts-inside-payment-service(0.006), ts-auth-service(0.005)
+
+📋 Case 101: ts-travel-service_cpu/1  🎯 ts-travel-service
+  🔬 故障类型: DELAY
+❌ 未命中 (输出: ts-preserve-other-service) | Top3: ts-preserve-other-service(0.280), ts-order-service(0.087), ts-travel-service(0.065)
+
+📋 Case 102: ts-travel-service_cpu/2  🎯 ts-travel-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-travel-service(0.135), ts-inside-payment-service(0.137), ts-consign-service(0.101)
+
+📋 Case 103: ts-travel-service_cpu/3  🎯 ts-travel-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-security-service) | Top3: ts-security-service(0.209), ts-notification-service(0.145), ts-user-service(0.097)
+
+📋 Case 104: ts-travel-service_cpu/4  🎯 ts-travel-service
+  🔬 故障类型: DELAY
+✅ 命中! | Top3: ts-travel-service(0.230), ts-order-service(0.087), ts-food-map-service(0.046)
+
+📋 Case 105: ts-travel-service_cpu/5  🎯 ts-travel-service
+  🔬 故障类型: DELAY
+✅ 命中! | Top3: ts-travel-service(0.188), ts-admin-travel-service(0.118), ts-food-service(0.159)
+
+📋 Case 106: ts-travel-service_delay/1  🎯 ts-travel-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-notification-service) | Top3: ts-notification-service(0.331), ts-security-service(0.121), ts-travel-service(0.036)
+
+📋 Case 107: ts-travel-service_delay/2  🎯 ts-travel-service
+  🔬 故障类型: CPU
+❌ 未命中 (输出: ts-inside-payment-service) | Top3: ts-inside-payment-service(0.328), ts-consign-service(0.102), ts-route-service(0.063)
+
+📋 Case 108: ts-travel-service_delay/3  🎯 ts-travel-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-admin-travel-service) | Top3: ts-admin-travel-service(0.217), ts-inside-payment-service(0.034), ts-travel-service(0.042)
+
+📋 Case 109: ts-travel-service_delay/4  🎯 ts-travel-service
+  🔬 故障类型: CPU
+✅ 命中! | Top3: ts-travel-service(0.224), ts-food-service(0.205), ts-admin-travel-service(0.073)
+
+📋 Case 110: ts-travel-service_delay/5  🎯 ts-travel-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-travel-service(0.166), ts-food-service(0.155), ts-admin-travel-service(0.044)
+
+📋 Case 111: ts-travel-service_disk/1  🎯 ts-travel-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-travel-service(0.163), ts-order-service(0.140), ts-contacts-service(0.037)
+
+📋 Case 112: ts-travel-service_disk/2  🎯 ts-travel-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-travel-service(0.274), ts-food-map-mongo(0.051), ts-inside-payment-service(0.054)
+
+📋 Case 113: ts-travel-service_disk/3  🎯 ts-travel-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-order-service) | Top3: ts-order-service(0.268), ts-station-service(0.132), ts-travel-service(0.134)
+
+📋 Case 114: ts-travel-service_disk/4  🎯 ts-travel-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-seat-service) | Top3: ts-seat-service(0.366), ts-travel-service(0.152), ts-inside-payment-service(0.021)
+
+📋 Case 115: ts-travel-service_disk/5  🎯 ts-travel-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-travel-service(0.219), ts-admin-travel-service(0.235), ts-order-mongo(0.033)
+
+📋 Case 116: ts-travel-service_loss/1  🎯 ts-travel-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-travel-service(0.312), ts-seat-service(0.127), ts-route-service(0.028)
+
+📋 Case 117: ts-travel-service_loss/2  🎯 ts-travel-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-consign-price-service) | Top3: ts-consign-price-service(0.087), ts-order-service(0.070), ts-consign-mongo(0.067)
+
+📋 Case 118: ts-travel-service_loss/3  🎯 ts-travel-service
+  🔬 故障类型: MEM
+❌ 未命中 (输出: ts-order-other-service) | Top3: ts-order-other-service(0.245), ts-travel-service(0.171), ts-config-service(0.034)
+
+📋 Case 119: ts-travel-service_loss/4  🎯 ts-travel-service
+  🔬 故障类型: DELAY
+✅ 命中! | Top3: ts-travel-service(0.277), ts-order-other-service(0.101), ts-order-service(0.034)
+
+📋 Case 120: ts-travel-service_loss/5  🎯 ts-travel-service
+  🔬 故障类型: CPU
+✅ 命中! | Top3: ts-travel-service(0.215), ts-order-other-service(0.067), ts-travel2-service(0.064)
+
+📋 Case 121: ts-travel-service_mem/1  🎯 ts-travel-service
+  🔬 故障类型: CPU
+✅ 命中! | Top3: ts-travel-service(0.621), ts-preserve-service(0.016), ts-payment-service(0.010)
+
+📋 Case 122: ts-travel-service_mem/2  🎯 ts-travel-service
+  🔬 故障类型: CPU
+✅ 命中! | Top3: ts-travel-service(0.678), ts-consign-service(0.003), ts-order-other-service(0.003)
+
+📋 Case 123: ts-travel-service_mem/3  🎯 ts-travel-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-travel-service(0.682), ts-route-service(0.003), ts-order-other-service(0.003)
+
+📋 Case 124: ts-travel-service_mem/4  🎯 ts-travel-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-travel-service(0.650), ts-consign-service(0.004), ts-auth-service(0.005)
+
+📋 Case 125: ts-travel-service_mem/5  🎯 ts-travel-service
+  🔬 故障类型: MEM
+✅ 命中! | Top3: ts-travel-service(0.515), ts-notification-service(0.052), ts-security-service(0.036)
+
+============================================================
+🔥 P-CoE V8.3 RE1-TT 结果（125个case）
+============================================================
+Top-1 Accuracy: 0.440 (55/125)
+Top-3 Hit Rate: 0.736 (92/125)
+MRR:            0.585
+
+故障类型统计:
+  CPU: 22/50 (0.440)
+  MEM: 25/25 (1.000)
+  DELAY: 5/25 (0.200)
+  LOSS: 3/25 (0.120)

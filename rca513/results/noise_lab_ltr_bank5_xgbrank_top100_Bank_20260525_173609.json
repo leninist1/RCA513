@@ -1,0 +1,380 @@
+{
+  "config": {
+    "system": "Bank",
+    "max_queries": 5,
+    "top_k": 100,
+    "folds": 5,
+    "variant": "bank5_xgbrank_top100",
+    "timestamp": "2026-05-25 17:36:08"
+  },
+  "summary": {
+    "total": 5,
+    "top1": 1,
+    "top3": 1,
+    "top5": 1,
+    "avg_gt_rank": 12.4,
+    "top1_pct": 20.0,
+    "top3_pct": 20.0,
+    "top5_pct": 20.0
+  },
+  "base_summary": {
+    "total": 5,
+    "top1": 1,
+    "top3": 2,
+    "top5": 2,
+    "avg_gt_rank": 12.6,
+    "top1_pct": 20.0,
+    "top3_pct": 40.0,
+    "top5_pct": 40.0
+  },
+  "feature_columns": [
+    "anomaly_score",
+    "base_rank",
+    "base_score",
+    "beam_beamformed_explanation",
+    "beam_directional_focus",
+    "beam_mechanism_coherence",
+    "beam_offbeam_penalty",
+    "change_score",
+    "degree_in",
+    "degree_out",
+    "degree_total",
+    "delay_average_delay_gain",
+    "delay_observer_coverage",
+    "delay_reverse_penalty",
+    "delay_source_time_consistency",
+    "earliest_offset",
+    "has_earliest",
+    "incoming_mass",
+    "is_isolated",
+    "log_score",
+    "mask_gated_reverb_penalty",
+    "mask_local_hub_pressure",
+    "mask_replaceability_penalty",
+    "mask_source_protection",
+    "member_count",
+    "member_log",
+    "metric_score",
+    "noise_collapse_gain",
+    "noise_collapse_recovery_score",
+    "noise_exclusive_explanation",
+    "noise_hotspot_bias",
+    "noise_local_noise",
+    "noise_multi_lead_consistency",
+    "noise_resonance_mass",
+    "noise_reverb_mass",
+    "noise_root_source_score",
+    "noise_source_signal",
+    "noise_temporal_source_score",
+    "noise_unexplained_residual",
+    "prefix_adservice",
+    "prefix_apache",
+    "prefix_cartservice",
+    "prefix_checkoutservice",
+    "prefix_currencyservice",
+    "prefix_emailservice",
+    "prefix_frontend",
+    "prefix_ig",
+    "prefix_mg",
+    "prefix_mysql",
+    "prefix_node",
+    "prefix_paymentservice",
+    "prefix_productcatalogservice",
+    "prefix_recommendationservice",
+    "prefix_redis",
+    "prefix_servicetest",
+    "prefix_shippingservice",
+    "prefix_tomcat",
+    "rank_log",
+    "rank_recip",
+    "reason_cpu",
+    "reason_db",
+    "reason_disk",
+    "reason_memory",
+    "reason_network",
+    "reason_process",
+    "structure_downstream_context",
+    "structure_hard_negative_resistance",
+    "structure_mechanism_focus",
+    "structure_multi_view_consistency",
+    "structure_propagation_role_score",
+    "structure_propagation_signature",
+    "structure_source_likelihood",
+    "structure_structural_score",
+    "structure_structural_uniqueness",
+    "structure_symptom_likelihood",
+    "structure_temporal_lead",
+    "structure_topological_eccentricity",
+    "structure_upstream_context",
+    "subspace_local_common_mode_alignment",
+    "subspace_local_residual_source_energy",
+    "subspace_replaceability",
+    "subspace_residual_distinctiveness",
+    "subspace_sector_reverb_ratio",
+    "subspace_sector_size",
+    "subspace_sector_source_ratio",
+    "topological_mass",
+    "trace_score"
+  ],
+  "per_query": [
+    {
+      "query_id": "Bank:1:task_6:Redis02:2021-03-04 18:09:00",
+      "ground_truth": "Redis02",
+      "base_gt_rank": 8,
+      "ltr_gt_rank": 9,
+      "top_candidates": [
+        {
+          "object_id": "tomcat02",
+          "ltr_score": 0.495505,
+          "base_rank": 1,
+          "base_score": 0.684805,
+          "label": 0
+        },
+        {
+          "object_id": "tomcat01",
+          "ltr_score": -0.085141,
+          "base_rank": 29,
+          "base_score": -0.464749,
+          "label": 0
+        },
+        {
+          "object_id": "tomcat03",
+          "ltr_score": -1.38455,
+          "base_rank": 4,
+          "base_score": 0.464044,
+          "label": 0
+        },
+        {
+          "object_id": "tomcat04",
+          "ltr_score": -1.487996,
+          "base_rank": 3,
+          "base_score": 0.517473,
+          "label": 0
+        },
+        {
+          "object_id": "dockera1",
+          "ltr_score": -1.506317,
+          "base_rank": 19,
+          "base_score": 0.055666,
+          "label": 0
+        }
+      ]
+    },
+    {
+      "query_id": "Bank:3:task_1:Tomcat02:2021-03-04 19:22:00",
+      "ground_truth": "Tomcat02",
+      "base_gt_rank": 23,
+      "ltr_gt_rank": 22,
+      "top_candidates": [
+        {
+          "object_id": "redis01",
+          "ltr_score": -0.431403,
+          "base_rank": 7,
+          "base_score": 0.213752,
+          "label": 0
+        },
+        {
+          "object_id": "mysql01",
+          "ltr_score": -0.55706,
+          "base_rank": 2,
+          "base_score": 0.424308,
+          "label": 0
+        },
+        {
+          "object_id": "mg02",
+          "ltr_score": -0.752624,
+          "base_rank": 1,
+          "base_score": 0.739065,
+          "label": 0
+        },
+        {
+          "object_id": "apache01",
+          "ltr_score": -0.890333,
+          "base_rank": 9,
+          "base_score": 0.206384,
+          "label": 0
+        },
+        {
+          "object_id": "tomcat03",
+          "ltr_score": -0.894951,
+          "base_rank": 12,
+          "base_score": 0.138449,
+          "label": 0
+        }
+      ]
+    },
+    {
+      "query_id": "Bank:4:task_6:Tomcat04:2021-03-06 00:53:00",
+      "ground_truth": "Tomcat04",
+      "base_gt_rank": 29,
+      "ltr_gt_rank": 17,
+      "top_candidates": [
+        {
+          "object_id": "ig02",
+          "ltr_score": -0.58604,
+          "base_rank": 1,
+          "base_score": 0.573427,
+          "label": 0
+        },
+        {
+          "object_id": "dockerb1",
+          "ltr_score": -0.638635,
+          "base_rank": 27,
+          "base_score": -0.124015,
+          "label": 0
+        },
+        {
+          "object_id": "tomcat03",
+          "ltr_score": -1.04792,
+          "base_rank": 28,
+          "base_score": -0.167766,
+          "label": 0
+        },
+        {
+          "object_id": "tomcat02",
+          "ltr_score": -1.056624,
+          "base_rank": 11,
+          "base_score": 0.115548,
+          "label": 0
+        },
+        {
+          "object_id": "tomcat01",
+          "ltr_score": -1.067066,
+          "base_rank": 14,
+          "base_score": -0.044132,
+          "label": 0
+        }
+      ]
+    },
+    {
+      "query_id": "Bank:0:task_1:Mysql02:2021-03-04 14:57:00",
+      "ground_truth": "Mysql02",
+      "base_gt_rank": 1,
+      "ltr_gt_rank": 13,
+      "top_candidates": [
+        {
+          "object_id": "tomcat01",
+          "ltr_score": -0.719603,
+          "base_rank": 3,
+          "base_score": 0.654282,
+          "label": 0
+        },
+        {
+          "object_id": "redis02",
+          "ltr_score": -0.72569,
+          "base_rank": 2,
+          "base_score": 0.675511,
+          "label": 0
+        },
+        {
+          "object_id": "tomcat02",
+          "ltr_score": -0.760956,
+          "base_rank": 4,
+          "base_score": 0.600342,
+          "label": 0
+        },
+        {
+          "object_id": "tomcat04",
+          "ltr_score": -1.080521,
+          "base_rank": 16,
+          "base_score": 0.059526,
+          "label": 0
+        },
+        {
+          "object_id": "redis01",
+          "ltr_score": -1.085155,
+          "base_rank": 10,
+          "base_score": 0.246071,
+          "label": 0
+        }
+      ]
+    },
+    {
+      "query_id": "Bank:2:task_6:Tomcat01:2021-03-06 06:20:00",
+      "ground_truth": "Tomcat01",
+      "base_gt_rank": 2,
+      "ltr_gt_rank": 1,
+      "top_candidates": [
+        {
+          "object_id": "tomcat01",
+          "ltr_score": -0.235249,
+          "base_rank": 2,
+          "base_score": 0.597057,
+          "label": 1
+        },
+        {
+          "object_id": "mysql01",
+          "ltr_score": -0.380987,
+          "base_rank": 4,
+          "base_score": 0.336143,
+          "label": 0
+        },
+        {
+          "object_id": "tomcat03",
+          "ltr_score": -0.460172,
+          "base_rank": 9,
+          "base_score": 0.19633,
+          "label": 0
+        },
+        {
+          "object_id": "ig02",
+          "ltr_score": -0.92651,
+          "base_rank": 1,
+          "base_score": 0.751951,
+          "label": 0
+        },
+        {
+          "object_id": "dockerb1",
+          "ltr_score": -1.072172,
+          "base_rank": 22,
+          "base_score": -0.054946,
+          "label": 0
+        }
+      ]
+    }
+  ],
+  "feature_metadata": {
+    "system": "Bank",
+    "max_queries": 5,
+    "top_k": 100,
+    "variant": "bank5_xgbrank_top100",
+    "timestamp": "2026-05-25 17:36:08",
+    "per_query": [
+      {
+        "query_id": "Bank:0:task_1:Mysql02:2021-03-04 14:57:00",
+        "status": "ok",
+        "ground_truth": "Mysql02",
+        "base_gt_rank": 1,
+        "num_candidates": 29
+      },
+      {
+        "query_id": "Bank:1:task_6:Redis02:2021-03-04 18:09:00",
+        "status": "ok",
+        "ground_truth": "Redis02",
+        "base_gt_rank": 8,
+        "num_candidates": 29
+      },
+      {
+        "query_id": "Bank:2:task_6:Tomcat01:2021-03-06 06:20:00",
+        "status": "ok",
+        "ground_truth": "Tomcat01",
+        "base_gt_rank": 2,
+        "num_candidates": 29
+      },
+      {
+        "query_id": "Bank:3:task_1:Tomcat02:2021-03-04 19:22:00",
+        "status": "ok",
+        "ground_truth": "Tomcat02",
+        "base_gt_rank": 23,
+        "num_candidates": 29
+      },
+      {
+        "query_id": "Bank:4:task_6:Tomcat04:2021-03-06 00:53:00",
+        "status": "ok",
+        "ground_truth": "Tomcat04",
+        "base_gt_rank": 29,
+        "num_candidates": 29
+      }
+    ]
+  }
+}

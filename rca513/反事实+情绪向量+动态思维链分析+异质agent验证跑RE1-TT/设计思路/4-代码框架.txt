@@ -1,0 +1,511 @@
+好的，下面把整个框架转为可直接落地的 Python 项目。我会给出完整的项目结构、核心模块代码、配置文件和运行示例。
+
+---
+
+## 项目结构
+
+```
+phase4-evolution/
+├── configs/
+│   ├── agents.yaml                 # 各 LLM agent 的身份与初始状态
+│   ├── v7_operators.yaml           # V7.0 算子定义（参数）
+│   └── evaluation.yaml             # 评估权重、case 路径等
+├── src/
+│   ├── __init__.py
+│   ├── evolution_manager.py        # 进化主循环
+│   ├── llm_clients.py              # LLM 调用接口封装
+│   ├── operators.py                # 算子基类与 V7.0 具体实现
+│   ├── variant.py                  # Variant 数据类
+│   ├── evaluator.py                # 多维评估器
+│   ├── internal_state_tracker.py   # 内部状态更新
+│   ├── selector.py                 # Top-K 选择器
+│   ├── failure_memory.py           # 失败记忆库
+│   ├── rca_system.py               # 由算子构建的 RCA 系统
+│   ├── prompt_builder.py           # 根据上下文构建 prompt
+│   └── utils.py                    # 辅助函数（编辑距离、BERTScore 等）
+├── data/
+│   ├── cases/                      # 30 个训练 case（每个 case 一个文件夹）
+│   ├── holdout_cases/              # 5 个留出 case
+│   └── annotations/                # 标注根因
+├── logs/
+├── checkpoints/
+├── run_evolution.py                # 启动脚本
+├── requirements.txt
+└── README.md
+```
+
+---
+
+## 1. 配置文件 `configs/agents.yaml`
+
+```yaml
+agents:
+  claude_structured:
+    llm_client: claude
+    model: claude-sonnet-4-20250514
+    attribution_philosophy: earliest_anomaly
+    search_bias: structured_decomposition
+    initial_state:
+      u: 0.68
+      c: 0.5
+      s: 2
+      e: 0.80
+    prompt_template: "claude_structured.jinja"   # 可选的模板文件
+
+  gemini_restructurer:
+    llm_client: gemini
+    model: gemini-2.5-flash
+    attribution_philosophy: topology_fingerprint
+    search_bias: end_to_end_refactor
+    initial_state:
+      u: 0.72
+      c: 0.45
+      s: 3
+      e: 0.90
+```
+
+---
+
+## 2. 算子定义 `configs/v7_operators.yaml`
+
+```yaml
+operators:
+  - id: 1
+    name: scoring_function
+    class: ScoringFunction
+    params:
+      weight_time: 0.4
+      weight_topo: 0.3
+      weight_metric: 0.3
+    description: "综合异常分数计算"
+  - id: 2
+    name: counterfactual_verification
+    class: CounterfactualVerification
+    params:
+      trigger_diff_threshold: 0.15
+    description: "Type B 反事实验证"
+  - id: 3
+    name: fusion_policy
+    class: FusionPolicy
+    params:
+      unconditional_favor_counterfactual: true
+    description: "融合策略"
+  - id: 4
+    name: temporal_logic
+    class: TemporalLogic
+    params:
+      window_minutes: 5
+      adaptive: false
+    description: "固定时间窗口"
+  - id: 5
+    name: gating_logic
+    class: GatingLogic
+    params:
+      threshold: 0.85
+    description: "Gating 跳过验证"
+```
+
+---
+
+## 3. 核心模块代码
+
+### `src/variant.py`
+
+```python
+from dataclasses import dataclass, field
+from typing import Dict, Optional
+
+@dataclass
+class Variant:
+    variant_id: str
+    parent_version: str
+    target_operator: str          # e.g., "1", "1.5", "5"
+    modification: Dict             # 包含 what_changes, new_logic 等
+    proposer_agent: str
+    proposer_internal_state: Dict  # 提案时的 {u,c,s,e}
+    
+    # 评估后填充
+    metrics: Dict = field(default_factory=dict)
+    
+    @classmethod
+    def from_proposal(cls, proposal: dict, agent_id: str, state: dict) -> 'Variant':
+        return cls(
+            variant_id=proposal["variant_id"],
+            parent_version=proposal.get("parent_version", "V7.0"),
+            target_operator=proposal["target_operator"],
+            modification=proposal["modification"],
+            proposer_agent=agent_id,
+            proposer_internal_state=state
+        )
+```
+
+### `src/operators.py`
+
+```python
+from abc import ABC, abstractmethod
+from typing import Any, Dict
+
+class BaseOperator(ABC):
+    def __init__(self, params: Dict = None):
+        self.params = params or {}
+    
+    @abstractmethod
+    def __call__(self, input_data: Dict) -> Dict:
+        pass
+
+class ScoringFunction(BaseOperator):
+    def __call__(self, input_data):
+        # 根据 params 中的权重计算异常分数
+        # 返回增加 score 字段的结果
+        w_t = self.params.get('weight_time', 0.4)
+        w_o = self.params.get('weight_topo', 0.3)
+        w_m = self.params.get('weight_metric', 0.3)
+        # 模拟计算 (实际应从 input_data 提取特征)
+        score = (w_t * input_data['time_anomaly'] +
+                 w_o * input_data['topo_match'] +
+                 w_m * input_data['metric_deviation'])
+        input_data['candidate_scores'] = [score]  # 简化为单个服务
+        return input_data
+
+class CounterfactualVerification(BaseOperator):
+    def __call__(self, input_data):
+        diff = input_data.get('top_score_diff', 0)
+        if diff < self.params.get('trigger_diff_threshold', 0.15):
+            # 执行反事实
+            input_data['counterfactual_result'] = 'top-1' if some_condition else 'top-2'
+        return input_data
+
+class FusionPolicy(BaseOperator):
+    def __call__(self, input_data):
+        if self.params.get('unconditional_favor_counterfactual', True):
+            input_data['root_cause'] = input_data.get('counterfactual_result', input_data['top_candidate'])
+        return input_data
+
+class TemporalLogic(BaseOperator):
+    def __call__(self, input_data):
+        window = self.params.get('window_minutes', 5)
+        # 截取 window 内的数据
+        return input_data
+
+class GatingLogic(BaseOperator):
+    def __call__(self, input_data):
+        if input_data['top_score'] > self.params.get('threshold', 0.85):
+            input_data['root_cause'] = input_data['top_candidate']
+            input_data['skip_verification'] = True
+        return input_data
+```
+
+### `src/rca_system.py`
+
+```python
+from typing import List
+from src.operators import BaseOperator
+
+class RCASystem:
+    def __init__(self, operators: List[BaseOperator]):
+        self.pipeline = operators
+    
+    def find_root_cause(self, case_data: dict) -> dict:
+        """返回包含 root_cause 和中间信息的字典"""
+        data = case_data.copy()
+        for op in self.pipeline:
+            data = op(data)
+            # 如果提前得出根因，可以中断
+            if data.get('root_cause') and not data.get('continue_processing', False):
+                break
+        return data
+```
+
+### `src/evaluator.py`
+
+```python
+import random
+from typing import Dict, List
+from src.variant import Variant
+from src.rca_system import RCASystem
+
+class Evaluator:
+    def __init__(self, config: dict, case_loader, holdout_loader):
+        self.case_loader = case_loader
+        self.holdout_loader = holdout_loader
+        self.weights = config['evaluation']['weights']
+    
+    def evaluate(self, variant: Variant, champion: Variant, agent_state: dict) -> Dict:
+        # 根据 variant 构建临时 RCA 系统
+        rca_system = self._build_rca_from_variant(variant)
+        champ_rca = self._build_rca_from_variant(champion)
+        
+        # 1. 准确定 (30 cases)
+        acc, traces = self._run_accuracy(rca_system, self.case_loader.get_cases())
+        
+        # 2. 稳定性
+        stability = self._compute_stability(rca_system)
+        
+        # 3. 泛化
+        gen_acc = self._run_accuracy(rca_system, self.holdout_loader.get_cases())[0]
+        
+        # 4. 复杂度惩罚 (与 champion 比较)
+        complexity_penalty = self._calc_complexity_penalty(variant, champion)
+        
+        # 5. 消融测试
+        ablation_score = self._run_ablation(variant, rca_system)
+        
+        # 组合 R_ext
+        R_ext = (acc * self.weights['accuracy'] +
+                 stability * self.weights['stability'] +
+                 gen_acc * self.weights['generalization'] +
+                 (1 - complexity_penalty) * self.weights['complexity_penalty'] +
+                 ablation_score * self.weights['ablation_survival'])
+        
+        # 计算 R_int (情绪一致性)
+        R_int = self._compute_emotion_consistency(variant, agent_state, traces)
+        
+        metrics = {
+            'accuracy': acc,
+            'stability': stability,
+            'generalization': gen_acc,
+            'complexity_penalty': complexity_penalty,
+            'ablation_survival': ablation_score,
+            'R_ext': R_ext,
+            'R_int': R_int,
+            'R_total': R_ext + self.config['lambda'] * R_int
+        }
+        return metrics, traces
+    
+    def _build_rca_from_variant(self, variant: Variant) -> RCASystem:
+        # 加载基础 V7.0 算子配置
+        # 根据 variant.target_operator 修改或插入算子
+        # 返回新的 RCASystem
+        ...
+```
+
+（为节省篇幅，部分抽象方法只给出签名，实际实现需要对接 case 数据）
+
+### `src/internal_state_tracker.py`
+
+```python
+class InternalStateTracker:
+    def __init__(self, config):
+        self.history = {}  # agent_id -> list of state snapshots
+    
+    def update(self, agent_id: str, old_state: dict, variant: Variant, 
+               metrics: dict, reasoning_traces: list) -> dict:
+        u = self._calc_uncertainty(reasoning_traces)
+        c = self._extract_confidence(reasoning_traces)
+        s = self._update_fatigue(agent_id, variant)
+        e = self._update_exploration(agent_id, metrics, variant)
+        new_state = {"u": u, "c": c, "s": s, "e": e}
+        self.history.setdefault(agent_id, []).append(new_state)
+        return new_state
+    
+    def _calc_uncertainty(self, traces):
+        # 统计不确定词汇 / 对比多次推理一致性
+        return 0.7  # dummy
+```
+
+### `src/selector.py`
+
+```python
+from typing import List
+from src.variant import Variant
+
+class Selector:
+    def __init__(self, strategy: str = "top_r_total", k=3):
+        self.strategy = strategy
+        self.k = k
+    
+    def select(self, variants: List[Variant], champion: Variant) -> List[Variant]:
+        # 按 R_total 排序
+        sorted_variants = sorted(variants, key=lambda v: v.metrics['R_total'], reverse=True)
+        selected = [sorted_variants[0]]
+        # 多样性变体 (编辑距离最大)
+        # 局部最优 (Type C 最高)
+        # ...
+        return selected[:self.k]
+```
+
+### `src/llm_clients.py`
+
+```python
+import anthropic
+import google.generativeai as genai
+from abc import ABC, abstractmethod
+
+class BaseLLMClient(ABC):
+    @abstractmethod
+    def generate(self, prompt: str, system: str = "") -> str:
+        pass
+
+class ClaudeClient(BaseLLMClient):
+    def __init__(self, model: str):
+        self.client = anthropic.Anthropic()
+        self.model = model
+    def generate(self, prompt, system=""):
+        resp = self.client.messages.create(
+            model=self.model,
+            max_tokens=4096,
+            system=system,
+            messages=[{"role": "user", "content": prompt}]
+        )
+        return resp.content[0].text
+
+class GeminiClient(BaseLLMClient):
+    def __init__(self, model: str):
+        genai.configure(api_key="...")
+        self.model = genai.GenerativeModel(model)
+    def generate(self, prompt, system=None):
+        # Gemini 可以把 system 拼入 prompt
+        full_prompt = f"{system}\n\n{prompt}" if system else prompt
+        resp = self.model.generate_content(full_prompt)
+        return resp.text
+```
+
+### `src/failure_memory.py`
+
+```python
+from collections import deque
+
+class FailureMemory:
+    def __init__(self, capacity=20):
+        self.memory = deque(maxlen=capacity)
+    
+    def add(self, entry: dict):
+        self.memory.append(entry)
+    
+    def summarize(self, philosophy: str) -> str:
+        # 挑选与该归因哲学相关的失败案例
+        relevant = [e for e in self.memory if e.get('philosophy') == philosophy]
+        if not relevant:
+            return "暂无相关失败记录。"
+        # 生成摘要文本
+        summary = "近期失败教训：\n"
+        for i, entry in enumerate(relevant[-3:]):
+            summary += f"{i+1}. 故障类型 {entry['fault_type']}: {entry['reason']}\n"
+        return summary
+```
+
+### `src/prompt_builder.py`
+
+```python
+def build_agent_prompt(agent_cfg: dict, champion: Variant, failure_summary: str, gen: int) -> str:
+    """
+    构建发给 LLM 的最终 prompt，融入所有上下文。
+    可从外部模板文件读取。
+    """
+    state = agent_cfg['internal_state']
+    instructions = ""
+    if state['u'] > 0.6:
+        instructions += "你的不确定度较高，请优先设计能提高推理确定性的变体。\n"
+    if state['s'] >= 3:
+        instructions += "你已经连续多代使用同类改进，请提出结构上不同的变异方向。\n"
+    if state['e'] > 0.8:
+        instructions += "Type C 故障准确率长期为零，请专门针对它提出激进改进。\n"
+    
+    prompt = f"""=== 实验背景 ===
+当前进化第 {gen} 代，Champion: {champion.variant_id}
+...
+【你的内部状态】不确定度={state['u']:.2f}, 疲惫度={state['s']:.1f}, 探索冲动={state['e']:.2f}
+{failure_summary}
+
+{instructions}
+
+请基于你的固定身份（归因哲学：{agent_cfg['attribution_philosophy']}，搜索偏置：{agent_cfg['search_bias']}），提出一个变体。
+...
+"""
+    return prompt
+```
+
+### `src/evolution_manager.py`
+
+```python
+import yaml
+import os
+from src.variant import Variant
+from src.evaluator import Evaluator
+from src.selector import Selector
+from src.internal_state_tracker import InternalStateTracker
+from src.failure_memory import FailureMemory
+from src.prompt_builder import build_agent_prompt
+
+class EvolutionManager:
+    def __init__(self, config_path="configs/"):
+        with open(os.path.join(config_path, "agents.yaml")) as f:
+            self.agents_cfg = yaml.safe_load(f)['agents']
+        with open(os.path.join(config_path, "evaluation.yaml")) as f:
+            self.eval_cfg = yaml.safe_load(f)
+        # 初始化组件
+        self.llm_clients = self._init_llm_clients()
+        self.evaluator = Evaluator(self.eval_cfg, case_loader, holdout_loader)
+        self.selector = Selector()
+        self.tracker = InternalStateTracker()
+        self.memory = FailureMemory()
+        self.lambda_r = self.eval_cfg.get('lambda', 0.1)
+        self.champion = self._load_base_champion("V7.0")
+        self.history = []
+    
+    def _init_llm_clients(self):
+        clients = {}
+        for agent_id, cfg in self.agents_cfg.items():
+            if cfg['llm_client'] == 'claude':
+                clients[agent_id] = ClaudeClient(cfg['model'])
+            elif cfg['llm_client'] == 'gemini':
+                clients[agent_id] = GeminiClient(cfg['model'])
+            # ...
+        return clients
+    
+    def run_generation(self, gen: int):
+        variants = []
+        for agent_id, cfg in self.agents_cfg.items():
+            # 构建 prompt
+            failure_summary = self.memory.summarize(cfg['attribution_philosophy'])
+            prompt = build_agent_prompt(cfg, self.champion, failure_summary, gen)
+            # 调用 LLM
+            client = self.llm_clients[agent_id]
+            raw_response = client.generate(prompt)
+            proposal = self._parse_json(raw_response)
+            if not proposal:
+                continue
+            variant = Variant.from_proposal(proposal, agent_id, cfg['internal_state'])
+            # 评估
+            metrics, traces = self.evaluator.evaluate(variant, self.champion, cfg['internal_state'])
+            variant.metrics = metrics
+            # 更新内部状态
+            new_state = self.tracker.update(agent_id, cfg['internal_state'], variant, metrics, traces)
+            cfg['internal_state'] = new_state
+            # 记录失败
+            if metrics['accuracy'] < 0.5:
+                self.memory.add({
+                    'philosophy': cfg['attribution_philosophy'],
+                    'fault_type': 'Type C',
+                    'reason': 'scoring too low'
+                })
+            variants.append(variant)
+        # 选择
+        parents = self.selector.select(variants, self.champion)
+        self.champion = max(parents, key=lambda v: v.metrics['R_total'])
+        self.history.append({'gen': gen, 'variants': variants, 'parents': parents})
+        self._log(gen)
+        self._checkpoint(gen)
+```
+
+### 启动脚本 `run_evolution.py`
+
+```python
+from src.evolution_manager import EvolutionManager
+
+if __name__ == "__main__":
+    manager = EvolutionManager()
+    for gen in range(10):
+        manager.run_generation(gen)
+```
+
+---
+
+## 4. 落地建议
+
+- **最小可行路径**：先用 Mock 的 LLM 客户端（返回固定 JSON）和 Mock 的评估器（返回随机分数），把进化循环跑通，验证数据流是否闭合。
+- **真实验证**：接入真正的 Claude/Gemini API，但初期可只跑 2 个 agent 各 3 代，用手工标记的少量 case 评估，避免成本过高。
+- **算子构建**：`build_rca_from_variant` 是工程难点，需要解析变体的自然语言描述并转换为算子修改。可以先用 struct 格式严格限定变体描述，例如只允许修改参数或插入一个预定义的算子模板，降低解析难度。
+- **失败记忆库**：初期可以只记录 Type C 失败案例，每代只保留最近 5 条，手动写入。
+
+这个 Python 项目框架可以直接开始编码。如果你需要我展开某个具体文件（如完整的 `evaluator.py` 或 `prompt_builder.py` 逻辑），告诉我，我继续填充。

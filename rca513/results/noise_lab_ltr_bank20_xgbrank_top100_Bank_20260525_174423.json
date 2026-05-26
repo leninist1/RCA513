@@ -1,0 +1,1130 @@
+{
+  "config": {
+    "system": "Bank",
+    "max_queries": 20,
+    "top_k": 100,
+    "folds": 5,
+    "variant": "bank20_xgbrank_top100",
+    "timestamp": "2026-05-25 17:44:21"
+  },
+  "summary": {
+    "total": 20,
+    "top1": 7,
+    "top3": 14,
+    "top5": 16,
+    "avg_gt_rank": 3.9,
+    "top1_pct": 35.0,
+    "top3_pct": 70.0,
+    "top5_pct": 80.0
+  },
+  "base_summary": {
+    "total": 20,
+    "top1": 5,
+    "top3": 8,
+    "top5": 12,
+    "avg_gt_rank": 7.85,
+    "top1_pct": 25.0,
+    "top3_pct": 40.0,
+    "top5_pct": 60.0
+  },
+  "feature_columns": [
+    "anomaly_score",
+    "base_rank",
+    "base_score",
+    "beam_beamformed_explanation",
+    "beam_directional_focus",
+    "beam_mechanism_coherence",
+    "beam_offbeam_penalty",
+    "change_score",
+    "degree_in",
+    "degree_out",
+    "degree_total",
+    "delay_average_delay_gain",
+    "delay_observer_coverage",
+    "delay_reverse_penalty",
+    "delay_source_time_consistency",
+    "earliest_offset",
+    "has_earliest",
+    "incoming_mass",
+    "is_isolated",
+    "log_score",
+    "mask_gated_reverb_penalty",
+    "mask_local_hub_pressure",
+    "mask_replaceability_penalty",
+    "mask_source_protection",
+    "member_count",
+    "member_log",
+    "metric_score",
+    "noise_collapse_gain",
+    "noise_collapse_recovery_score",
+    "noise_exclusive_explanation",
+    "noise_hotspot_bias",
+    "noise_local_noise",
+    "noise_multi_lead_consistency",
+    "noise_resonance_mass",
+    "noise_reverb_mass",
+    "noise_root_source_score",
+    "noise_source_signal",
+    "noise_temporal_source_score",
+    "noise_unexplained_residual",
+    "prefix_adservice",
+    "prefix_apache",
+    "prefix_cartservice",
+    "prefix_checkoutservice",
+    "prefix_currencyservice",
+    "prefix_emailservice",
+    "prefix_frontend",
+    "prefix_ig",
+    "prefix_mg",
+    "prefix_mysql",
+    "prefix_node",
+    "prefix_paymentservice",
+    "prefix_productcatalogservice",
+    "prefix_recommendationservice",
+    "prefix_redis",
+    "prefix_servicetest",
+    "prefix_shippingservice",
+    "prefix_tomcat",
+    "rank_log",
+    "rank_recip",
+    "reason_cpu",
+    "reason_db",
+    "reason_disk",
+    "reason_memory",
+    "reason_network",
+    "reason_process",
+    "structure_downstream_context",
+    "structure_hard_negative_resistance",
+    "structure_mechanism_focus",
+    "structure_multi_view_consistency",
+    "structure_propagation_role_score",
+    "structure_propagation_signature",
+    "structure_source_likelihood",
+    "structure_structural_score",
+    "structure_structural_uniqueness",
+    "structure_symptom_likelihood",
+    "structure_temporal_lead",
+    "structure_topological_eccentricity",
+    "structure_upstream_context",
+    "subspace_local_common_mode_alignment",
+    "subspace_local_residual_source_energy",
+    "subspace_replaceability",
+    "subspace_residual_distinctiveness",
+    "subspace_sector_reverb_ratio",
+    "subspace_sector_size",
+    "subspace_sector_source_ratio",
+    "topological_mass",
+    "trace_score"
+  ],
+  "per_query": [
+    {
+      "query_id": "Bank:1:task_6:Redis02:2021-03-04 18:09:00",
+      "ground_truth": "Redis02",
+      "base_gt_rank": 8,
+      "ltr_gt_rank": 14,
+      "top_candidates": [
+        {
+          "object_id": "tomcat02",
+          "ltr_score": 1.53844,
+          "base_rank": 1,
+          "base_score": 0.684805,
+          "label": 0
+        },
+        {
+          "object_id": "tomcat01",
+          "ltr_score": 0.447393,
+          "base_rank": 29,
+          "base_score": -0.464749,
+          "label": 0
+        },
+        {
+          "object_id": "tomcat03",
+          "ltr_score": -0.114311,
+          "base_rank": 4,
+          "base_score": 0.464044,
+          "label": 0
+        },
+        {
+          "object_id": "tomcat04",
+          "ltr_score": -0.974156,
+          "base_rank": 3,
+          "base_score": 0.517473,
+          "label": 0
+        },
+        {
+          "object_id": "ig01",
+          "ltr_score": -1.567217,
+          "base_rank": 2,
+          "base_score": 0.64084,
+          "label": 0
+        }
+      ]
+    },
+    {
+      "query_id": "Bank:8:task_7:MG01:2021-03-06 23:36:00",
+      "ground_truth": "MG01",
+      "base_gt_rank": 5,
+      "ltr_gt_rank": 2,
+      "top_candidates": [
+        {
+          "object_id": "ig01",
+          "ltr_score": 0.926767,
+          "base_rank": 1,
+          "base_score": 0.749798,
+          "label": 0
+        },
+        {
+          "object_id": "mg01",
+          "ltr_score": 0.033561,
+          "base_rank": 5,
+          "base_score": 0.454117,
+          "label": 1
+        },
+        {
+          "object_id": "tomcat03",
+          "ltr_score": -0.768414,
+          "base_rank": 3,
+          "base_score": 0.516981,
+          "label": 0
+        },
+        {
+          "object_id": "tomcat02",
+          "ltr_score": -1.045795,
+          "base_rank": 29,
+          "base_score": -0.316981,
+          "label": 0
+        },
+        {
+          "object_id": "tomcat01",
+          "ltr_score": -1.156757,
+          "base_rank": 10,
+          "base_score": 0.233952,
+          "label": 0
+        }
+      ]
+    },
+    {
+      "query_id": "Bank:11:task_1:MG01:2021-03-07 16:08:00",
+      "ground_truth": "MG01",
+      "base_gt_rank": 1,
+      "ltr_gt_rank": 2,
+      "top_candidates": [
+        {
+          "object_id": "tomcat02",
+          "ltr_score": 0.126084,
+          "base_rank": 2,
+          "base_score": 0.540734,
+          "label": 0
+        },
+        {
+          "object_id": "mg01",
+          "ltr_score": 0.073754,
+          "base_rank": 1,
+          "base_score": 0.649801,
+          "label": 1
+        },
+        {
+          "object_id": "tomcat01",
+          "ltr_score": 0.001113,
+          "base_rank": 15,
+          "base_score": 0.147119,
+          "label": 0
+        },
+        {
+          "object_id": "tomcat04",
+          "ltr_score": -0.40242,
+          "base_rank": 29,
+          "base_score": -0.075111,
+          "label": 0
+        },
+        {
+          "object_id": "mg02",
+          "ltr_score": -0.893281,
+          "base_rank": 4,
+          "base_score": 0.363597,
+          "label": 0
+        }
+      ]
+    },
+    {
+      "query_id": "Bank:12:task_3:MG01:2021-03-07 16:08:00",
+      "ground_truth": "MG01",
+      "base_gt_rank": 1,
+      "ltr_gt_rank": 2,
+      "top_candidates": [
+        {
+          "object_id": "tomcat02",
+          "ltr_score": 0.126084,
+          "base_rank": 2,
+          "base_score": 0.540734,
+          "label": 0
+        },
+        {
+          "object_id": "mg01",
+          "ltr_score": 0.073754,
+          "base_rank": 1,
+          "base_score": 0.649801,
+          "label": 1
+        },
+        {
+          "object_id": "tomcat01",
+          "ltr_score": 0.001113,
+          "base_rank": 15,
+          "base_score": 0.147119,
+          "label": 0
+        },
+        {
+          "object_id": "tomcat04",
+          "ltr_score": -0.40242,
+          "base_rank": 29,
+          "base_score": -0.075111,
+          "label": 0
+        },
+        {
+          "object_id": "mg02",
+          "ltr_score": -0.893281,
+          "base_rank": 4,
+          "base_score": 0.363597,
+          "label": 0
+        }
+      ]
+    },
+    {
+      "query_id": "Bank:16:task_1:IG02:2021-03-09 09:18:00",
+      "ground_truth": "IG02",
+      "base_gt_rank": 6,
+      "ltr_gt_rank": 1,
+      "top_candidates": [
+        {
+          "object_id": "ig02",
+          "ltr_score": 0.048332,
+          "base_rank": 6,
+          "base_score": 0.108191,
+          "label": 1
+        },
+        {
+          "object_id": "redis01",
+          "ltr_score": -0.607242,
+          "base_rank": 10,
+          "base_score": 0.064661,
+          "label": 0
+        },
+        {
+          "object_id": "tomcat04",
+          "ltr_score": -0.795489,
+          "base_rank": 11,
+          "base_score": 0.031495,
+          "label": 0
+        },
+        {
+          "object_id": "tomcat01",
+          "ltr_score": -0.834478,
+          "base_rank": 5,
+          "base_score": 0.129956,
+          "label": 0
+        },
+        {
+          "object_id": "tomcat03",
+          "ltr_score": -1.356862,
+          "base_rank": 15,
+          "base_score": -0.075197,
+          "label": 0
+        }
+      ]
+    },
+    {
+      "query_id": "Bank:5:task_5:Tomcat03:2021-03-06 14:46:00",
+      "ground_truth": "Tomcat03",
+      "base_gt_rank": 4,
+      "ltr_gt_rank": 1,
+      "top_candidates": [
+        {
+          "object_id": "tomcat03",
+          "ltr_score": -0.027843,
+          "base_rank": 4,
+          "base_score": 0.499695,
+          "label": 1
+        },
+        {
+          "object_id": "apache01",
+          "ltr_score": -0.19205,
+          "base_rank": 24,
+          "base_score": -0.042909,
+          "label": 0
+        },
+        {
+          "object_id": "ig02",
+          "ltr_score": -0.24878,
+          "base_rank": 6,
+          "base_score": 0.327722,
+          "label": 0
+        },
+        {
+          "object_id": "tomcat01",
+          "ltr_score": -0.818272,
+          "base_rank": 2,
+          "base_score": 0.520069,
+          "label": 0
+        },
+        {
+          "object_id": "ig01",
+          "ltr_score": -0.833767,
+          "base_rank": 1,
+          "base_score": 0.673811,
+          "label": 0
+        }
+      ]
+    },
+    {
+      "query_id": "Bank:7:task_3:Tomcat01:2021-03-06 23:18:00",
+      "ground_truth": "Tomcat01",
+      "base_gt_rank": 13,
+      "ltr_gt_rank": 6,
+      "top_candidates": [
+        {
+          "object_id": "ig01",
+          "ltr_score": 0.101038,
+          "base_rank": 1,
+          "base_score": 0.715251,
+          "label": 0
+        },
+        {
+          "object_id": "ig02",
+          "ltr_score": -1.241799,
+          "base_rank": 3,
+          "base_score": 0.58733,
+          "label": 0
+        },
+        {
+          "object_id": "tomcat03",
+          "ltr_score": -1.691753,
+          "base_rank": 22,
+          "base_score": -0.013687,
+          "label": 0
+        },
+        {
+          "object_id": "redis01",
+          "ltr_score": -1.928212,
+          "base_rank": 11,
+          "base_score": 0.155146,
+          "label": 0
+        },
+        {
+          "object_id": "tomcat02",
+          "ltr_score": -1.961071,
+          "base_rank": 29,
+          "base_score": -0.108087,
+          "label": 0
+        }
+      ]
+    },
+    {
+      "query_id": "Bank:14:task_2:Tomcat01:2021-03-07 21:36:00",
+      "ground_truth": "Tomcat01",
+      "base_gt_rank": 29,
+      "ltr_gt_rank": 3,
+      "top_candidates": [
+        {
+          "object_id": "tomcat04",
+          "ltr_score": -0.222353,
+          "base_rank": 2,
+          "base_score": 0.610703,
+          "label": 0
+        },
+        {
+          "object_id": "mg02",
+          "ltr_score": -0.482192,
+          "base_rank": 1,
+          "base_score": 0.635813,
+          "label": 0
+        },
+        {
+          "object_id": "tomcat01",
+          "ltr_score": -0.828664,
+          "base_rank": 29,
+          "base_score": -0.345014,
+          "label": 1
+        },
+        {
+          "object_id": "ig01",
+          "ltr_score": -1.133452,
+          "base_rank": 3,
+          "base_score": 0.585579,
+          "label": 0
+        },
+        {
+          "object_id": "apache01",
+          "ltr_score": -1.379359,
+          "base_rank": 8,
+          "base_score": 0.305774,
+          "label": 0
+        }
+      ]
+    },
+    {
+      "query_id": "Bank:15:task_4:apache02:2021-03-09 08:13:00",
+      "ground_truth": "apache02",
+      "base_gt_rank": 4,
+      "ltr_gt_rank": 1,
+      "top_candidates": [
+        {
+          "object_id": "apache02",
+          "ltr_score": 0.274313,
+          "base_rank": 4,
+          "base_score": 0.281484,
+          "label": 1
+        },
+        {
+          "object_id": "tomcat03",
+          "ltr_score": 0.134595,
+          "base_rank": 7,
+          "base_score": 0.220389,
+          "label": 0
+        },
+        {
+          "object_id": "mysql01",
+          "ltr_score": -0.141896,
+          "base_rank": 5,
+          "base_score": 0.268947,
+          "label": 0
+        },
+        {
+          "object_id": "tomcat01",
+          "ltr_score": -0.288715,
+          "base_rank": 11,
+          "base_score": 0.181028,
+          "label": 0
+        },
+        {
+          "object_id": "tomcat04",
+          "ltr_score": -0.791417,
+          "base_rank": 16,
+          "base_score": -0.040373,
+          "label": 0
+        }
+      ]
+    },
+    {
+      "query_id": "Bank:3:task_1:Tomcat02:2021-03-04 19:22:00",
+      "ground_truth": "Tomcat02",
+      "base_gt_rank": 23,
+      "ltr_gt_rank": 13,
+      "top_candidates": [
+        {
+          "object_id": "redis01",
+          "ltr_score": -0.520261,
+          "base_rank": 7,
+          "base_score": 0.213752,
+          "label": 0
+        },
+        {
+          "object_id": "ig01",
+          "ltr_score": -1.020072,
+          "base_rank": 11,
+          "base_score": 0.15925,
+          "label": 0
+        },
+        {
+          "object_id": "mg02",
+          "ltr_score": -1.168711,
+          "base_rank": 1,
+          "base_score": 0.739065,
+          "label": 0
+        },
+        {
+          "object_id": "tomcat03",
+          "ltr_score": -1.27558,
+          "base_rank": 12,
+          "base_score": 0.138449,
+          "label": 0
+        },
+        {
+          "object_id": "mysql01",
+          "ltr_score": -2.141945,
+          "base_rank": 2,
+          "base_score": 0.424308,
+          "label": 0
+        }
+      ]
+    },
+    {
+      "query_id": "Bank:9:task_6:MG02:2021-03-07 00:32:00",
+      "ground_truth": "MG02",
+      "base_gt_rank": 1,
+      "ltr_gt_rank": 1,
+      "top_candidates": [
+        {
+          "object_id": "mg02",
+          "ltr_score": 0.581727,
+          "base_rank": 1,
+          "base_score": 0.808027,
+          "label": 1
+        },
+        {
+          "object_id": "tomcat04",
+          "ltr_score": 0.512318,
+          "base_rank": 2,
+          "base_score": 0.702346,
+          "label": 0
+        },
+        {
+          "object_id": "ig02",
+          "ltr_score": -0.186094,
+          "base_rank": 29,
+          "base_score": -0.148185,
+          "label": 0
+        },
+        {
+          "object_id": "tomcat02",
+          "ltr_score": -0.408185,
+          "base_rank": 15,
+          "base_score": 0.114241,
+          "label": 0
+        },
+        {
+          "object_id": "tomcat01",
+          "ltr_score": -0.67245,
+          "base_rank": 3,
+          "base_score": 0.502887,
+          "label": 0
+        }
+      ]
+    },
+    {
+      "query_id": "Bank:13:task_4:apache02:2021-03-07 18:59:00",
+      "ground_truth": "apache02",
+      "base_gt_rank": 3,
+      "ltr_gt_rank": 3,
+      "top_candidates": [
+        {
+          "object_id": "apache01",
+          "ltr_score": 1.064927,
+          "base_rank": 1,
+          "base_score": 0.559873,
+          "label": 0
+        },
+        {
+          "object_id": "tomcat03",
+          "ltr_score": -0.334346,
+          "base_rank": 16,
+          "base_score": -0.089469,
+          "label": 0
+        },
+        {
+          "object_id": "apache02",
+          "ltr_score": -0.69354,
+          "base_rank": 3,
+          "base_score": 0.348033,
+          "label": 1
+        },
+        {
+          "object_id": "ig02",
+          "ltr_score": -0.695759,
+          "base_rank": 13,
+          "base_score": -0.000544,
+          "label": 0
+        },
+        {
+          "object_id": "tomcat01",
+          "ltr_score": -0.702911,
+          "base_rank": 7,
+          "base_score": 0.232945,
+          "label": 0
+        }
+      ]
+    },
+    {
+      "query_id": "Bank:18:task_6:MG02:2021-03-09 13:10:00",
+      "ground_truth": "MG02",
+      "base_gt_rank": 5,
+      "ltr_gt_rank": 1,
+      "top_candidates": [
+        {
+          "object_id": "mg02",
+          "ltr_score": 0.566743,
+          "base_rank": 5,
+          "base_score": 0.219098,
+          "label": 1
+        },
+        {
+          "object_id": "tomcat04",
+          "ltr_score": 0.444655,
+          "base_rank": 14,
+          "base_score": 0.078057,
+          "label": 0
+        },
+        {
+          "object_id": "tomcat03",
+          "ltr_score": 0.353874,
+          "base_rank": 15,
+          "base_score": -0.025622,
+          "label": 0
+        },
+        {
+          "object_id": "mysql01",
+          "ltr_score": -0.595585,
+          "base_rank": 8,
+          "base_score": 0.174375,
+          "label": 0
+        },
+        {
+          "object_id": "tomcat02",
+          "ltr_score": -0.747082,
+          "base_rank": 3,
+          "base_score": 0.345291,
+          "label": 0
+        }
+      ]
+    },
+    {
+      "query_id": "Bank:0:task_1:Mysql02:2021-03-04 14:57:00",
+      "ground_truth": "Mysql02",
+      "base_gt_rank": 1,
+      "ltr_gt_rank": 12,
+      "top_candidates": [
+        {
+          "object_id": "tomcat01",
+          "ltr_score": 0.144755,
+          "base_rank": 3,
+          "base_score": 0.654282,
+          "label": 0
+        },
+        {
+          "object_id": "mg01",
+          "ltr_score": -0.338385,
+          "base_rank": 8,
+          "base_score": 0.315338,
+          "label": 0
+        },
+        {
+          "object_id": "redis02",
+          "ltr_score": -0.926871,
+          "base_rank": 2,
+          "base_score": 0.675511,
+          "label": 0
+        },
+        {
+          "object_id": "ig02",
+          "ltr_score": -1.145425,
+          "base_rank": 6,
+          "base_score": 0.346037,
+          "label": 0
+        },
+        {
+          "object_id": "ig01",
+          "ltr_score": -1.286622,
+          "base_rank": 11,
+          "base_score": 0.177852,
+          "label": 0
+        }
+      ]
+    },
+    {
+      "query_id": "Bank:2:task_6:Tomcat01:2021-03-06 06:20:00",
+      "ground_truth": "Tomcat01",
+      "base_gt_rank": 2,
+      "ltr_gt_rank": 1,
+      "top_candidates": [
+        {
+          "object_id": "tomcat01",
+          "ltr_score": 0.347713,
+          "base_rank": 2,
+          "base_score": 0.597057,
+          "label": 1
+        },
+        {
+          "object_id": "mysql01",
+          "ltr_score": 0.329893,
+          "base_rank": 4,
+          "base_score": 0.336143,
+          "label": 0
+        },
+        {
+          "object_id": "ig02",
+          "ltr_score": -0.486898,
+          "base_rank": 1,
+          "base_score": 0.751951,
+          "label": 0
+        },
+        {
+          "object_id": "tomcat03",
+          "ltr_score": -0.751768,
+          "base_rank": 9,
+          "base_score": 0.19633,
+          "label": 0
+        },
+        {
+          "object_id": "dockerb1",
+          "ltr_score": -1.387869,
+          "base_rank": 22,
+          "base_score": -0.054946,
+          "label": 0
+        }
+      ]
+    },
+    {
+      "query_id": "Bank:4:task_6:Tomcat04:2021-03-06 00:53:00",
+      "ground_truth": "Tomcat04",
+      "base_gt_rank": 29,
+      "ltr_gt_rank": 2,
+      "top_candidates": [
+        {
+          "object_id": "tomcat03",
+          "ltr_score": -0.461135,
+          "base_rank": 28,
+          "base_score": -0.167766,
+          "label": 0
+        },
+        {
+          "object_id": "tomcat04",
+          "ltr_score": -0.767076,
+          "base_rank": 29,
+          "base_score": -0.173367,
+          "label": 1
+        },
+        {
+          "object_id": "dockerb1",
+          "ltr_score": -1.086163,
+          "base_rank": 27,
+          "base_score": -0.124015,
+          "label": 0
+        },
+        {
+          "object_id": "tomcat01",
+          "ltr_score": -1.512524,
+          "base_rank": 14,
+          "base_score": -0.044132,
+          "label": 0
+        },
+        {
+          "object_id": "tomcat02",
+          "ltr_score": -1.697829,
+          "base_rank": 11,
+          "base_score": 0.115548,
+          "label": 0
+        }
+      ]
+    },
+    {
+      "query_id": "Bank:6:task_7:apache02:2021-03-06 18:52:00",
+      "ground_truth": "apache02",
+      "base_gt_rank": 1,
+      "ltr_gt_rank": 5,
+      "top_candidates": [
+        {
+          "object_id": "tomcat01",
+          "ltr_score": 0.553902,
+          "base_rank": 4,
+          "base_score": 0.279648,
+          "label": 0
+        },
+        {
+          "object_id": "dockerb1",
+          "ltr_score": -1.647038,
+          "base_rank": 16,
+          "base_score": -0.075016,
+          "label": 0
+        },
+        {
+          "object_id": "tomcat02",
+          "ltr_score": -2.423018,
+          "base_rank": 2,
+          "base_score": 0.579909,
+          "label": 0
+        },
+        {
+          "object_id": "mg01",
+          "ltr_score": -2.49459,
+          "base_rank": 12,
+          "base_score": 0.165206,
+          "label": 0
+        },
+        {
+          "object_id": "apache02",
+          "ltr_score": -2.752485,
+          "base_rank": 1,
+          "base_score": 0.634557,
+          "label": 1
+        }
+      ]
+    },
+    {
+      "query_id": "Bank:10:task_3:Tomcat02:2021-03-07 07:32:00",
+      "ground_truth": "Tomcat02",
+      "base_gt_rank": 2,
+      "ltr_gt_rank": 2,
+      "top_candidates": [
+        {
+          "object_id": "ig02",
+          "ltr_score": 0.957048,
+          "base_rank": 6,
+          "base_score": 0.227292,
+          "label": 0
+        },
+        {
+          "object_id": "tomcat02",
+          "ltr_score": -0.20741,
+          "base_rank": 2,
+          "base_score": 0.519285,
+          "label": 1
+        },
+        {
+          "object_id": "tomcat01",
+          "ltr_score": -1.222842,
+          "base_rank": 28,
+          "base_score": -0.120366,
+          "label": 0
+        },
+        {
+          "object_id": "redis01",
+          "ltr_score": -1.263464,
+          "base_rank": 4,
+          "base_score": 0.304485,
+          "label": 0
+        },
+        {
+          "object_id": "tomcat04",
+          "ltr_score": -1.289097,
+          "base_rank": 27,
+          "base_score": -0.112802,
+          "label": 0
+        }
+      ]
+    },
+    {
+      "query_id": "Bank:17:task_6:Tomcat01:2021-03-09 11:20:00",
+      "ground_truth": "Tomcat01",
+      "base_gt_rank": 6,
+      "ltr_gt_rank": 1,
+      "top_candidates": [
+        {
+          "object_id": "tomcat01",
+          "ltr_score": 0.961308,
+          "base_rank": 6,
+          "base_score": 0.262692,
+          "label": 1
+        },
+        {
+          "object_id": "tomcat04",
+          "ltr_score": 0.149784,
+          "base_rank": 10,
+          "base_score": 0.089116,
+          "label": 0
+        },
+        {
+          "object_id": "tomcat02",
+          "ltr_score": 0.030243,
+          "base_rank": 5,
+          "base_score": 0.413962,
+          "label": 0
+        },
+        {
+          "object_id": "tomcat03",
+          "ltr_score": -0.424995,
+          "base_rank": 9,
+          "base_score": 0.112249,
+          "label": 0
+        },
+        {
+          "object_id": "mg02",
+          "ltr_score": -1.441698,
+          "base_rank": 25,
+          "base_score": -0.118079,
+          "label": 0
+        }
+      ]
+    },
+    {
+      "query_id": "Bank:19:task_3:MG02:2021-03-09 14:14:00",
+      "ground_truth": "MG02",
+      "base_gt_rank": 13,
+      "ltr_gt_rank": 5,
+      "top_candidates": [
+        {
+          "object_id": "redis02",
+          "ltr_score": 0.469023,
+          "base_rank": 1,
+          "base_score": 0.651061,
+          "label": 0
+        },
+        {
+          "object_id": "tomcat02",
+          "ltr_score": -0.288246,
+          "base_rank": 3,
+          "base_score": 0.423704,
+          "label": 0
+        },
+        {
+          "object_id": "tomcat01",
+          "ltr_score": -1.681926,
+          "base_rank": 4,
+          "base_score": 0.416426,
+          "label": 0
+        },
+        {
+          "object_id": "apache02",
+          "ltr_score": -1.729164,
+          "base_rank": 5,
+          "base_score": 0.402783,
+          "label": 0
+        },
+        {
+          "object_id": "mg02",
+          "ltr_score": -1.928578,
+          "base_rank": 13,
+          "base_score": -0.041919,
+          "label": 1
+        }
+      ]
+    }
+  ],
+  "feature_metadata": {
+    "system": "Bank",
+    "max_queries": 20,
+    "top_k": 100,
+    "variant": "bank20_xgbrank_top100",
+    "timestamp": "2026-05-25 17:44:21",
+    "per_query": [
+      {
+        "query_id": "Bank:0:task_1:Mysql02:2021-03-04 14:57:00",
+        "status": "ok",
+        "ground_truth": "Mysql02",
+        "base_gt_rank": 1,
+        "num_candidates": 29
+      },
+      {
+        "query_id": "Bank:1:task_6:Redis02:2021-03-04 18:09:00",
+        "status": "ok",
+        "ground_truth": "Redis02",
+        "base_gt_rank": 8,
+        "num_candidates": 29
+      },
+      {
+        "query_id": "Bank:2:task_6:Tomcat01:2021-03-06 06:20:00",
+        "status": "ok",
+        "ground_truth": "Tomcat01",
+        "base_gt_rank": 2,
+        "num_candidates": 29
+      },
+      {
+        "query_id": "Bank:3:task_1:Tomcat02:2021-03-04 19:22:00",
+        "status": "ok",
+        "ground_truth": "Tomcat02",
+        "base_gt_rank": 23,
+        "num_candidates": 29
+      },
+      {
+        "query_id": "Bank:4:task_6:Tomcat04:2021-03-06 00:53:00",
+        "status": "ok",
+        "ground_truth": "Tomcat04",
+        "base_gt_rank": 29,
+        "num_candidates": 29
+      },
+      {
+        "query_id": "Bank:5:task_5:Tomcat03:2021-03-06 14:46:00",
+        "status": "ok",
+        "ground_truth": "Tomcat03",
+        "base_gt_rank": 4,
+        "num_candidates": 29
+      },
+      {
+        "query_id": "Bank:6:task_7:apache02:2021-03-06 18:52:00",
+        "status": "ok",
+        "ground_truth": "apache02",
+        "base_gt_rank": 1,
+        "num_candidates": 29
+      },
+      {
+        "query_id": "Bank:7:task_3:Tomcat01:2021-03-06 23:18:00",
+        "status": "ok",
+        "ground_truth": "Tomcat01",
+        "base_gt_rank": 13,
+        "num_candidates": 29
+      },
+      {
+        "query_id": "Bank:8:task_7:MG01:2021-03-06 23:36:00",
+        "status": "ok",
+        "ground_truth": "MG01",
+        "base_gt_rank": 5,
+        "num_candidates": 29
+      },
+      {
+        "query_id": "Bank:9:task_6:MG02:2021-03-07 00:32:00",
+        "status": "ok",
+        "ground_truth": "MG02",
+        "base_gt_rank": 1,
+        "num_candidates": 29
+      },
+      {
+        "query_id": "Bank:10:task_3:Tomcat02:2021-03-07 07:32:00",
+        "status": "ok",
+        "ground_truth": "Tomcat02",
+        "base_gt_rank": 2,
+        "num_candidates": 29
+      },
+      {
+        "query_id": "Bank:11:task_1:MG01:2021-03-07 16:08:00",
+        "status": "ok",
+        "ground_truth": "MG01",
+        "base_gt_rank": 1,
+        "num_candidates": 29
+      },
+      {
+        "query_id": "Bank:12:task_3:MG01:2021-03-07 16:08:00",
+        "status": "ok",
+        "ground_truth": "MG01",
+        "base_gt_rank": 1,
+        "num_candidates": 29
+      },
+      {
+        "query_id": "Bank:13:task_4:apache02:2021-03-07 18:59:00",
+        "status": "ok",
+        "ground_truth": "apache02",
+        "base_gt_rank": 3,
+        "num_candidates": 29
+      },
+      {
+        "query_id": "Bank:14:task_2:Tomcat01:2021-03-07 21:36:00",
+        "status": "ok",
+        "ground_truth": "Tomcat01",
+        "base_gt_rank": 29,
+        "num_candidates": 29
+      },
+      {
+        "query_id": "Bank:15:task_4:apache02:2021-03-09 08:13:00",
+        "status": "ok",
+        "ground_truth": "apache02",
+        "base_gt_rank": 4,
+        "num_candidates": 29
+      },
+      {
+        "query_id": "Bank:16:task_1:IG02:2021-03-09 09:18:00",
+        "status": "ok",
+        "ground_truth": "IG02",
+        "base_gt_rank": 6,
+        "num_candidates": 29
+      },
+      {
+        "query_id": "Bank:17:task_6:Tomcat01:2021-03-09 11:20:00",
+        "status": "ok",
+        "ground_truth": "Tomcat01",
+        "base_gt_rank": 6,
+        "num_candidates": 29
+      },
+      {
+        "query_id": "Bank:18:task_6:MG02:2021-03-09 13:10:00",
+        "status": "ok",
+        "ground_truth": "MG02",
+        "base_gt_rank": 5,
+        "num_candidates": 29
+      },
+      {
+        "query_id": "Bank:19:task_3:MG02:2021-03-09 14:14:00",
+        "status": "ok",
+        "ground_truth": "MG02",
+        "base_gt_rank": 13,
+        "num_candidates": 29
+      }
+    ]
+  }
+}

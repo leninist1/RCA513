@@ -1,0 +1,84 @@
+{
+  "generation": 0,
+  "champion": "V7.1-topo-bidir-expDecay",
+  "variants": [
+    {
+      "id": "V7.1-topo-bidir-expDecay",
+      "agent": "claude_proxy",
+      "target": "1",
+      "metrics": {
+        "accuracy": 0.41,
+        "stability": 1.0,
+        "generalization": 0.48,
+        "top3_rate": 0.71,
+        "mrr": 0.5366666666666667,
+        "per_type": {
+          "MEM": {
+            "correct": 20,
+            "total": 20
+          },
+          "DISK": {
+            "correct": 9,
+            "total": 19
+          },
+          "LOSS": {
+            "correct": 2,
+            "total": 20
+          },
+          "DELAY": {
+            "correct": 2,
+            "total": 20
+          },
+          "CPU": {
+            "correct": 8,
+            "total": 21
+          }
+        },
+        "complexity_penalty": 0.1,
+        "ablation_survival": 0.8,
+        "R_ext": 0.597,
+        "R_int": 0,
+        "R_total": 0.597
+      }
+    },
+    {
+      "id": "V7.1-propagation-fix",
+      "agent": "deepseek",
+      "target": "传播链追踪算子",
+      "metrics": {
+        "accuracy": 0.37,
+        "stability": 1.0,
+        "generalization": 0.56,
+        "top3_rate": 0.62,
+        "mrr": 0.4766666666666668,
+        "per_type": {
+          "MEM": {
+            "correct": 17,
+            "total": 20
+          },
+          "DISK": {
+            "correct": 9,
+            "total": 19
+          },
+          "LOSS": {
+            "correct": 2,
+            "total": 20
+          },
+          "DELAY": {
+            "correct": 2,
+            "total": 20
+          },
+          "CPU": {
+            "correct": 7,
+            "total": 21
+          }
+        },
+        "complexity_penalty": 0.1,
+        "ablation_survival": 0.8,
+        "R_ext": 0.589,
+        "R_int": 0,
+        "R_total": 0.589
+      }
+    }
+  ]
+}

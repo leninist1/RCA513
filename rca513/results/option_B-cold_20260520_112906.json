@@ -1,0 +1,1653 @@
+{
+  "config": {
+    "option": "B-cold",
+    "systems": [
+      "Market"
+    ],
+    "max_queries": 4
+  },
+  "summary": {
+    "total": 8,
+    "correct": 2,
+    "correct_pct": 25.0,
+    "partial": 0,
+    "partial_pct": 0.0,
+    "correct_or_partial_pct": 25.0,
+    "neither": 6,
+    "by_system": {
+      "Market": {
+        "total": 8,
+        "correct": 2,
+        "correct_pct": 25.0,
+        "partial": 0,
+        "partial_pct": 0.0
+      }
+    },
+    "by_task": {
+      "task_1": {
+        "total": 2,
+        "correct": 2,
+        "correct_pct": 100.0
+      },
+      "task_2": {
+        "total": 1,
+        "correct": 0,
+        "correct_pct": 0.0
+      },
+      "task_3": {
+        "total": 2,
+        "correct": 0,
+        "correct_pct": 0.0
+      },
+      "task_6": {
+        "total": 3,
+        "correct": 0,
+        "correct_pct": 0.0
+      }
+    },
+    "by_field": {}
+  },
+  "per_query": [
+    {
+      "query_id": "Market_task_1",
+      "system": "Market",
+      "task_index": "task_1",
+      "correct": true,
+      "partial": true,
+      "error": null,
+      "iterations": 6,
+      "strategies_used": [
+        "VERIFY_S1",
+        "VERIFY_S4",
+        "GRAPH_EXPAND"
+      ],
+      "api_calls": 0,
+      "tokens": 0,
+      "emotion_trajectory": [],
+      "hypothesis_summary": {
+        "active": [
+          {
+            "entity": "adservice2.ts:8088",
+            "confidence": 1.0,
+            "status": "active",
+            "n_support": 1,
+            "n_refute": 0,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "checkoutservice-0.source.checkoutservice.jaeger-collector",
+            "confidence": 0.8,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 1,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "adservice-0.source.adservice.jaeger-collector",
+            "confidence": 0.8,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 1,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "adservice.ts:8088",
+            "confidence": 0.8,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 1,
+            "reason_family": "unknown"
+          }
+        ],
+        "reserved": [
+          {
+            "entity": "adservice-grpc",
+            "confidence": 0.0
+          },
+          {
+            "entity": "adservice-0.destination.frontend.adservice",
+            "confidence": 0.0
+          },
+          {
+            "entity": "adservice-1.destination.frontend.adservice",
+            "confidence": 0.0
+          },
+          {
+            "entity": "cartservice-1.destination.checkoutservice.cartservice",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-2",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-4",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-5.adservice-2",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-5.frontend-1",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-6.adservice-0",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-6.cartservice-1",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-6.checkoutservice-1",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-6.currencyservice2-0",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-6.emailservice-0",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-6.emailservice2-0",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-6.frontend2-0",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-6.paymentservice-2",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-6.productcatalogservice2-0",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-6.recommendationservice-2",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-6.redis-cart-0",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-6.shippingservice2-0",
+            "confidence": 0.0
+          },
+          {
+            "entity": "shippingservice2-0.source.shippingservice2.jaeger-collector",
+            "confidence": 0.0
+          }
+        ],
+        "eliminated": [
+          {
+            "entity": "cartservice-grpc"
+          },
+          {
+            "entity": "cartservice-2.destination.frontend.cartservice"
+          },
+          {
+            "entity": "cartservice2-0.source.cartservice2.redis-cart2"
+          },
+          {
+            "entity": "cartservice-0.destination.frontend.cartservice"
+          }
+        ]
+      },
+      "prediction": {
+        "component": [
+          "adservice2.ts:8088"
+        ],
+        "reason": [
+          "high memory usage"
+        ],
+        "time": [
+          "2022-03-20 10:25:33"
+        ],
+        "top_score": 1.0
+      },
+      "ground_truth": {
+        "component": "node-1",
+        "reason": "node memory consumption",
+        "datetime": "2022-03-20 10:25:33"
+      },
+      "top_candidates": [
+        {
+          "entity": "adservice2.ts:8088",
+          "score": 1.0
+        },
+        {
+          "entity": "checkoutservice-0.source.checkoutservice.jaeger-collector",
+          "score": 0.8
+        },
+        {
+          "entity": "adservice-0.source.adservice.jaeger-collector",
+          "score": 0.8
+        },
+        {
+          "entity": "adservice.ts:8088",
+          "score": 0.8
+        }
+      ],
+      "stop_reason": ""
+    },
+    {
+      "query_id": "Market_task_6",
+      "system": "Market",
+      "task_index": "task_6",
+      "correct": false,
+      "partial": false,
+      "error": null,
+      "iterations": 6,
+      "strategies_used": [
+        "VERIFY_S1",
+        "VERIFY_S4",
+        "GRAPH_EXPAND"
+      ],
+      "api_calls": 0,
+      "tokens": 0,
+      "emotion_trajectory": [],
+      "hypothesis_summary": {
+        "active": [
+          {
+            "entity": "checkoutservice-0.source.checkoutservice.productcatalogservice",
+            "confidence": 1.0,
+            "status": "active",
+            "n_support": 1,
+            "n_refute": 0,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "cartservice-0.destination.frontend.cartservice",
+            "confidence": 0.8,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 1,
+            "reason_family": "unknown"
+          }
+        ],
+        "reserved": [
+          {
+            "entity": "adservice-grpc",
+            "confidence": 0.0
+          },
+          {
+            "entity": "adservice-1.destination.frontend.adservice",
+            "confidence": 0.0
+          },
+          {
+            "entity": "adservice2-0.destination.unknown.adservice2",
+            "confidence": 0.0
+          },
+          {
+            "entity": "adservice-0.destination.unknown.adservice",
+            "confidence": 0.0
+          },
+          {
+            "entity": "adservice-1.source.adservice.jaeger-collector",
+            "confidence": 0.0
+          },
+          {
+            "entity": "cartservice2-0.destination.checkoutservice2.cartservice2",
+            "confidence": 0.0
+          },
+          {
+            "entity": "checkoutservice-0.destination.frontend.checkoutservice",
+            "confidence": 0.0
+          },
+          {
+            "entity": "checkoutservice-0.source.checkoutservice.cartservice",
+            "confidence": 0.0
+          },
+          {
+            "entity": "checkoutservice-0.source.checkoutservice.currencyservice",
+            "confidence": 0.0
+          },
+          {
+            "entity": "checkoutservice-0.source.checkoutservice.emailservice",
+            "confidence": 0.0
+          },
+          {
+            "entity": "checkoutservice-0.source.checkoutservice.jaeger-collector",
+            "confidence": 0.0
+          },
+          {
+            "entity": "checkoutservice-0.source.checkoutservice.paymentservice",
+            "confidence": 0.0
+          },
+          {
+            "entity": "checkoutservice-2.source.checkoutservice.currencyservice",
+            "confidence": 0.0
+          },
+          {
+            "entity": "checkoutservice-2.source.checkoutservice.jaeger-collector",
+            "confidence": 0.0
+          },
+          {
+            "entity": "checkoutservice2-0.destination.frontend2.checkoutservice2",
+            "confidence": 0.0
+          },
+          {
+            "entity": "checkoutservice2-0.source.checkoutservice2.productcatalogservice2",
+            "confidence": 0.0
+          },
+          {
+            "entity": "checkoutservice2-0.source.checkoutservice2.shippingservice2",
+            "confidence": 0.0
+          },
+          {
+            "entity": "currencyservice2-0.destination.checkoutservice2.currencyservice2",
+            "confidence": 0.0
+          },
+          {
+            "entity": "emailservice-0.destination.checkoutservice.emailservice",
+            "confidence": 0.0
+          },
+          {
+            "entity": "emailservice-0.source.emailservice.jaeger-collector",
+            "confidence": 0.0
+          },
+          {
+            "entity": "frontend-0.source.frontend.jaeger-collector",
+            "confidence": 0.0
+          },
+          {
+            "entity": "frontend-1.source.frontend.jaeger-collector",
+            "confidence": 0.0
+          },
+          {
+            "entity": "frontend-2.destination.unknown.frontend",
+            "confidence": 0.0
+          },
+          {
+            "entity": "frontend-2.source.frontend.cartservice",
+            "confidence": 0.0
+          },
+          {
+            "entity": "frontend-2.source.frontend.checkoutservice",
+            "confidence": 0.0
+          },
+          {
+            "entity": "frontend2-0.source.frontend2.checkoutservice2",
+            "confidence": 0.0
+          },
+          {
+            "entity": "frontend2-0.source.frontend2.shippingservice2",
+            "confidence": 0.0
+          },
+          {
+            "entity": "istio-egressgateway-7bfdcc9d86-zpjpg",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-4",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-5.checkoutservice-2",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-5.shippingservice-2",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-6",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-6.adservice-0",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-6.adservice-1",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-6.cartservice-0",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-6.checkoutservice-1",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-6.checkoutservice2-0",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-6.currencyservice-2",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-6.emailservice-0",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-6.emailservice2-0",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-6.paymentservice-0",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-6.shippingservice-0",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-6.shippingservice-1",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-6.shippingservice2-0",
+            "confidence": 0.0
+          },
+          {
+            "entity": "paymentservice-0.destination.checkoutservice.paymentservice",
+            "confidence": 0.0
+          },
+          {
+            "entity": "productcatalogservice-0.source.productcatalogservice.jaeger-collector",
+            "confidence": 0.0
+          },
+          {
+            "entity": "shippingservice-grpc",
+            "confidence": 0.0
+          }
+        ],
+        "eliminated": [
+          {
+            "entity": "adservice.ts:8088"
+          },
+          {
+            "entity": "adservice-0.source.adservice.jaeger-collector"
+          },
+          {
+            "entity": "adservice2.ts:8088"
+          },
+          {
+            "entity": "cartservice-grpc"
+          },
+          {
+            "entity": "cartservice-0.source.cartservice.redis-cart"
+          },
+          {
+            "entity": "cartservice2-0.destination.frontend2.cartservice2"
+          }
+        ]
+      },
+      "prediction": {
+        "component": [
+          "checkoutservice-0.source.checkoutservice.productcatalogservice"
+        ],
+        "reason": [
+          "high memory usage"
+        ],
+        "time": [
+          "2022-03-20 09:09:06"
+        ],
+        "top_score": 1.0
+      },
+      "ground_truth": {
+        "component": "shippingservice-1",
+        "reason": "container read I/O load",
+        "datetime": "2022-03-20 09:09:06"
+      },
+      "top_candidates": [
+        {
+          "entity": "checkoutservice-0.source.checkoutservice.productcatalogservice",
+          "score": 1.0
+        },
+        {
+          "entity": "cartservice-0.destination.frontend.cartservice",
+          "score": 0.8
+        }
+      ],
+      "stop_reason": ""
+    },
+    {
+      "query_id": "Market_task_1",
+      "system": "Market",
+      "task_index": "task_1",
+      "correct": true,
+      "partial": true,
+      "error": null,
+      "iterations": 6,
+      "strategies_used": [
+        "VERIFY_S1",
+        "VERIFY_S4",
+        "GRAPH_EXPAND"
+      ],
+      "api_calls": 0,
+      "tokens": 0,
+      "emotion_trajectory": [],
+      "hypothesis_summary": {
+        "active": [
+          {
+            "entity": "adservice.ts:8088",
+            "confidence": 1.0,
+            "status": "active",
+            "n_support": 1,
+            "n_refute": 0,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "adservice2.ts:8088",
+            "confidence": 0.8,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 1,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "adservice-0.source.adservice.jaeger-collector",
+            "confidence": 0.8,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 1,
+            "reason_family": "unknown"
+          }
+        ],
+        "reserved": [
+          {
+            "entity": "adservice2-0.destination.frontend2.adservice2",
+            "confidence": 0.0
+          },
+          {
+            "entity": "adservice-grpc",
+            "confidence": 0.0
+          },
+          {
+            "entity": "cartservice-1.destination.frontend.cartservice",
+            "confidence": 0.0
+          },
+          {
+            "entity": "cartservice-1.destination.checkoutservice.cartservice",
+            "confidence": 0.0
+          },
+          {
+            "entity": "adservice-1.source.adservice.jaeger-collector",
+            "confidence": 0.0
+          },
+          {
+            "entity": "adservice-2.source.adservice.jaeger-collector",
+            "confidence": 0.0
+          }
+        ],
+        "eliminated": [
+          {
+            "entity": "adservice-0.destination.frontend.adservice"
+          },
+          {
+            "entity": "adservice2-0.source.adservice2.jaeger-collector"
+          },
+          {
+            "entity": "checkoutservice-0.source.checkoutservice.jaeger-collector"
+          },
+          {
+            "entity": "adservice-1.destination.frontend.adservice"
+          },
+          {
+            "entity": "cartservice2-0.destination.frontend2.cartservice2"
+          }
+        ]
+      },
+      "prediction": {
+        "component": [
+          "adservice.ts:8088"
+        ],
+        "reason": [
+          "high memory usage"
+        ],
+        "time": [
+          "2022-03-20 09:54:59"
+        ],
+        "top_score": 1.0
+      },
+      "ground_truth": {
+        "component": "emailservice-0",
+        "reason": "container read I/O load",
+        "datetime": "2022-03-20 09:54:59"
+      },
+      "top_candidates": [
+        {
+          "entity": "adservice.ts:8088",
+          "score": 1.0
+        },
+        {
+          "entity": "adservice2.ts:8088",
+          "score": 0.8
+        },
+        {
+          "entity": "adservice-0.source.adservice.jaeger-collector",
+          "score": 0.8
+        }
+      ],
+      "stop_reason": ""
+    },
+    {
+      "query_id": "Market_task_6",
+      "system": "Market",
+      "task_index": "task_6",
+      "correct": false,
+      "partial": false,
+      "error": null,
+      "iterations": 6,
+      "strategies_used": [
+        "VERIFY_S1",
+        "VERIFY_S4",
+        "GRAPH_EXPAND"
+      ],
+      "api_calls": 0,
+      "tokens": 0,
+      "emotion_trajectory": [],
+      "hypothesis_summary": {
+        "active": [
+          {
+            "entity": "adservice.ts:8088",
+            "confidence": 1.0,
+            "status": "active",
+            "n_support": 1,
+            "n_refute": 0,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "adservice2.ts:8088",
+            "confidence": 0.8,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 1,
+            "reason_family": "unknown"
+          }
+        ],
+        "reserved": [
+          {
+            "entity": "cartservice-2.destination.frontend.cartservice",
+            "confidence": 0.0
+          },
+          {
+            "entity": "cartservice-0.source.cartservice.redis-cart",
+            "confidence": 0.0
+          },
+          {
+            "entity": "adservice-grpc",
+            "confidence": 0.0
+          },
+          {
+            "entity": "adservice-2.destination.frontend.adservice",
+            "confidence": 0.0
+          },
+          {
+            "entity": "adservice-1.source.adservice.jaeger-collector",
+            "confidence": 0.0
+          }
+        ],
+        "eliminated": [
+          {
+            "entity": "checkoutservice-0.source.checkoutservice.productcatalogservice"
+          },
+          {
+            "entity": "checkoutservice-0.source.checkoutservice.jaeger-collector"
+          },
+          {
+            "entity": "cartservice-1.destination.frontend.cartservice"
+          },
+          {
+            "entity": "cartservice-0.destination.frontend.cartservice"
+          },
+          {
+            "entity": "checkoutservice-0.source.checkoutservice.currencyservice"
+          },
+          {
+            "entity": "adservice2-0.destination.frontend2.adservice2"
+          }
+        ]
+      },
+      "prediction": {
+        "component": [
+          "adservice.ts:8088"
+        ],
+        "reason": [
+          "high memory usage"
+        ],
+        "time": [
+          "2022-03-20 10:52:07"
+        ],
+        "top_score": 1.0
+      },
+      "ground_truth": {
+        "component": "node-1",
+        "reason": "node memory consumption",
+        "datetime": "2022-03-20 10:52:07"
+      },
+      "top_candidates": [
+        {
+          "entity": "adservice.ts:8088",
+          "score": 1.0
+        },
+        {
+          "entity": "adservice2.ts:8088",
+          "score": 0.8
+        }
+      ],
+      "stop_reason": ""
+    },
+    {
+      "query_id": "Market_task_2",
+      "system": "Market",
+      "task_index": "task_2",
+      "correct": false,
+      "partial": false,
+      "error": null,
+      "iterations": 6,
+      "strategies_used": [
+        "VERIFY_S1",
+        "VERIFY_S4",
+        "GRAPH_EXPAND"
+      ],
+      "api_calls": 0,
+      "tokens": 0,
+      "emotion_trajectory": [],
+      "hypothesis_summary": {
+        "active": [
+          {
+            "entity": "cartservice-grpc",
+            "confidence": 0.8,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 1,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "cartservice2-0.destination.frontend2.cartservice2",
+            "confidence": 0.8,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 1,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "adservice-2.source.adservice.jaeger-collector",
+            "confidence": 0.8,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 1,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "adservice.ts:8088",
+            "confidence": 0.7984,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 1,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "adservice2.ts:8088",
+            "confidence": 0.794,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 1,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "cartservice2-0.destination.checkoutservice2.cartservice2",
+            "confidence": 0.794,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 1,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "checkoutservice-1.destination.frontend.checkoutservice",
+            "confidence": 0.794,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 1,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "checkoutservice-1.source.checkoutservice.cartservice",
+            "confidence": 0.6577,
+            "status": "active",
+            "n_support": 1,
+            "n_refute": 0,
+            "reason_family": "unknown"
+          }
+        ],
+        "reserved": [
+          {
+            "entity": "adservice-2.destination.frontend.adservice",
+            "confidence": 0.0011
+          },
+          {
+            "entity": "adservice-0.source.adservice.jaeger-collector",
+            "confidence": 0.0005
+          },
+          {
+            "entity": "adservice2-0.destination.frontend2.adservice2",
+            "confidence": 0.0
+          },
+          {
+            "entity": "cartservice-2.source.cartservice.redis-cart",
+            "confidence": 0.0
+          },
+          {
+            "entity": "adservice2-0.source.adservice2.jaeger-collector",
+            "confidence": 0.0
+          },
+          {
+            "entity": "checkoutservice-1.source.checkoutservice.currencyservice",
+            "confidence": 0.0
+          },
+          {
+            "entity": "checkoutservice-1.source.checkoutservice.productcatalogservice",
+            "confidence": 0.0
+          },
+          {
+            "entity": "checkoutservice-2.source.checkoutservice.cartservice",
+            "confidence": 0.0
+          },
+          {
+            "entity": "checkoutservice-2.source.checkoutservice.currencyservice",
+            "confidence": 0.0
+          },
+          {
+            "entity": "checkoutservice-2.source.checkoutservice.emailservice",
+            "confidence": 0.0
+          },
+          {
+            "entity": "checkoutservice-2.source.checkoutservice.productcatalogservice",
+            "confidence": 0.0
+          },
+          {
+            "entity": "checkoutservice2-0.destination.frontend2.checkoutservice2",
+            "confidence": 0.0
+          },
+          {
+            "entity": "checkoutservice2-0.source.checkoutservice2.cartservice2",
+            "confidence": 0.0
+          },
+          {
+            "entity": "checkoutservice2-0.source.checkoutservice2.emailservice2",
+            "confidence": 0.0
+          },
+          {
+            "entity": "currencyservice-1.destination.checkoutservice.currencyservice",
+            "confidence": 0.0
+          },
+          {
+            "entity": "currencyservice2-0.destination.checkoutservice2.currencyservice2",
+            "confidence": 0.0
+          },
+          {
+            "entity": "emailservice-1.destination.checkoutservice.emailservice",
+            "confidence": 0.0
+          },
+          {
+            "entity": "emailservice-1.source.emailservice.jaeger-collector",
+            "confidence": 0.0
+          },
+          {
+            "entity": "emailservice-grpc",
+            "confidence": 0.0
+          },
+          {
+            "entity": "emailservice2-0.destination.checkoutservice2.emailservice2",
+            "confidence": 0.0
+          },
+          {
+            "entity": "emailservice2-0.source.emailservice2.jaeger-collector",
+            "confidence": 0.0
+          },
+          {
+            "entity": "frontend-0.source.frontend.jaeger-collector",
+            "confidence": 0.0
+          },
+          {
+            "entity": "frontend-1.destination.unknown.frontend",
+            "confidence": 0.0
+          },
+          {
+            "entity": "frontend-1.source.frontend.checkoutservice",
+            "confidence": 0.0
+          },
+          {
+            "entity": "frontend-1.source.frontend.jaeger-collector",
+            "confidence": 0.0
+          },
+          {
+            "entity": "frontend2-0.destination.unknown.frontend2",
+            "confidence": 0.0
+          },
+          {
+            "entity": "frontend2-0.source.frontend2.cartservice2",
+            "confidence": 0.0
+          },
+          {
+            "entity": "frontend2-0.source.frontend2.checkoutservice2",
+            "confidence": 0.0
+          },
+          {
+            "entity": "istio-ingressgateway-565bffd4d-rn678",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-1",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-2",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-5",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-5.cartservice-0",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-5.cartservice-1",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-5.checkoutservice-0",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-5.checkoutservice-1",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-5.checkoutservice-2",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-5.currencyservice-0",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-5.emailservice-0",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-5.emailservice-2",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-5.emailservice2-0",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-5.frontend-2",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-5.paymentservice-1",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-5.paymentservice-2",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-5.redis-cart-0",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-5.shippingservice-1",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-5.shippingservice-2",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-5.shippingservice2-0",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-6",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-6.adservice2-0",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-6.cartservice2-0",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-6.productcatalogservice2-0",
+            "confidence": 0.0
+          },
+          {
+            "entity": "paymentservice-0.destination.checkoutservice.paymentservice",
+            "confidence": 0.0
+          },
+          {
+            "entity": "paymentservice-1.destination.checkoutservice.paymentservice",
+            "confidence": 0.0
+          },
+          {
+            "entity": "paymentservice-2.destination.checkoutservice.paymentservice",
+            "confidence": 0.0
+          },
+          {
+            "entity": "paymentservice2-0.destination.checkoutservice2.paymentservice2",
+            "confidence": 0.0
+          },
+          {
+            "entity": "productcatalogservice-1.source.productcatalogservice.jaeger-collector",
+            "confidence": 0.0
+          }
+        ],
+        "eliminated": []
+      },
+      "prediction": {
+        "component": [
+          "cartservice-grpc"
+        ],
+        "reason": [
+          "high memory usage"
+        ],
+        "time": [
+          "2022-03-20 09:16:55"
+        ],
+        "top_score": 0.8
+      },
+      "ground_truth": {
+        "component": "cartservice2-0",
+        "reason": "container memory load",
+        "datetime": "2022-03-20 09:16:55"
+      },
+      "top_candidates": [
+        {
+          "entity": "cartservice-grpc",
+          "score": 0.8
+        },
+        {
+          "entity": "cartservice2-0.destination.frontend2.cartservice2",
+          "score": 0.8
+        },
+        {
+          "entity": "adservice-2.source.adservice.jaeger-collector",
+          "score": 0.8
+        },
+        {
+          "entity": "adservice.ts:8088",
+          "score": 0.7984
+        },
+        {
+          "entity": "adservice2.ts:8088",
+          "score": 0.794
+        }
+      ],
+      "stop_reason": ""
+    },
+    {
+      "query_id": "Market_task_3",
+      "system": "Market",
+      "task_index": "task_3",
+      "correct": false,
+      "partial": false,
+      "error": null,
+      "iterations": 6,
+      "strategies_used": [
+        "VERIFY_S1",
+        "VERIFY_S4",
+        "GRAPH_EXPAND"
+      ],
+      "api_calls": 0,
+      "tokens": 0,
+      "emotion_trajectory": [],
+      "hypothesis_summary": {
+        "active": [
+          {
+            "entity": "adservice.ts:8088",
+            "confidence": 0.9,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 0,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "cartservice-1.destination.checkoutservice.cartservice",
+            "confidence": 0.8,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 1,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "adservice2.ts:8088",
+            "confidence": 0.7983,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 1,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "checkoutservice-0.source.checkoutservice.jaeger-collector",
+            "confidence": 0.2752,
+            "status": "active",
+            "n_support": 1,
+            "n_refute": 0,
+            "reason_family": "unknown"
+          }
+        ],
+        "reserved": [
+          {
+            "entity": "checkoutservice-0.source.checkoutservice.emailservice",
+            "confidence": 0.0175
+          },
+          {
+            "entity": "checkoutservice-0.source.checkoutservice.paymentservice",
+            "confidence": 0.0156
+          },
+          {
+            "entity": "checkoutservice-0.destination.frontend.checkoutservice",
+            "confidence": 0.0074
+          },
+          {
+            "entity": "cartservice2-0.destination.frontend2.cartservice2",
+            "confidence": 0.0
+          },
+          {
+            "entity": "adservice-1.source.adservice.jaeger-collector",
+            "confidence": 0.0
+          },
+          {
+            "entity": "adservice-2.source.adservice.jaeger-collector",
+            "confidence": 0.0
+          },
+          {
+            "entity": "checkoutservice-2.source.checkoutservice.paymentservice",
+            "confidence": 0.0
+          },
+          {
+            "entity": "currencyservice-0.destination.frontend.currencyservice",
+            "confidence": 0.0
+          },
+          {
+            "entity": "emailservice-1.destination.checkoutservice.emailservice",
+            "confidence": 0.0
+          },
+          {
+            "entity": "emailservice-1.source.emailservice.jaeger-collector",
+            "confidence": 0.0
+          },
+          {
+            "entity": "frontend-1.destination.unknown.frontend",
+            "confidence": 0.0
+          },
+          {
+            "entity": "frontend-1.source.frontend.shippingservice",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-3",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-5.emailservice-1",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-5.emailservice-2",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-5.paymentservice-2",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-5.recommendationservice-2",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-5.shippingservice2-0",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-6",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-6.productcatalogservice2-0",
+            "confidence": 0.0
+          },
+          {
+            "entity": "paymentservice-2.destination.checkoutservice.paymentservice",
+            "confidence": 0.0
+          },
+          {
+            "entity": "paymentservice-grpc",
+            "confidence": 0.0
+          },
+          {
+            "entity": "paymentservice2-0.destination.checkoutservice2.paymentservice2",
+            "confidence": 0.0
+          }
+        ],
+        "eliminated": [
+          {
+            "entity": "checkoutservice-0.source.checkoutservice.currencyservice"
+          },
+          {
+            "entity": "checkoutservice-0.source.checkoutservice.cartservice"
+          },
+          {
+            "entity": "checkoutservice-0.source.checkoutservice.shippingservice"
+          },
+          {
+            "entity": "checkoutservice-0.source.checkoutservice.productcatalogservice"
+          }
+        ]
+      },
+      "prediction": {
+        "component": [
+          "adservice.ts:8088"
+        ],
+        "reason": [
+          "high memory usage"
+        ],
+        "time": [
+          "2022-03-20 08:35:07"
+        ],
+        "top_score": 0.8999550521194857
+      },
+      "ground_truth": {
+        "component": "recommendationservice2-0",
+        "reason": "container write I/O load",
+        "datetime": "2022-03-20 08:35:07"
+      },
+      "top_candidates": [
+        {
+          "entity": "adservice.ts:8088",
+          "score": 0.9
+        },
+        {
+          "entity": "cartservice-1.destination.checkoutservice.cartservice",
+          "score": 0.8
+        },
+        {
+          "entity": "adservice2.ts:8088",
+          "score": 0.7983
+        },
+        {
+          "entity": "checkoutservice-0.source.checkoutservice.jaeger-collector",
+          "score": 0.2752
+        }
+      ],
+      "stop_reason": ""
+    },
+    {
+      "query_id": "Market_task_3",
+      "system": "Market",
+      "task_index": "task_3",
+      "correct": false,
+      "partial": false,
+      "error": null,
+      "iterations": 6,
+      "strategies_used": [
+        "VERIFY_S1",
+        "VERIFY_S4",
+        "GRAPH_EXPAND"
+      ],
+      "api_calls": 0,
+      "tokens": 0,
+      "emotion_trajectory": [],
+      "hypothesis_summary": {
+        "active": [
+          {
+            "entity": "adservice.ts:8088",
+            "confidence": 0.9,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 0,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "cartservice-1.destination.checkoutservice.cartservice",
+            "confidence": 0.8,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 1,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "adservice2.ts:8088",
+            "confidence": 0.7983,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 1,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "checkoutservice-0.source.checkoutservice.jaeger-collector",
+            "confidence": 0.2752,
+            "status": "active",
+            "n_support": 1,
+            "n_refute": 0,
+            "reason_family": "unknown"
+          }
+        ],
+        "reserved": [
+          {
+            "entity": "checkoutservice-0.source.checkoutservice.emailservice",
+            "confidence": 0.0175
+          },
+          {
+            "entity": "checkoutservice-0.source.checkoutservice.paymentservice",
+            "confidence": 0.0156
+          },
+          {
+            "entity": "checkoutservice-0.destination.frontend.checkoutservice",
+            "confidence": 0.0074
+          },
+          {
+            "entity": "cartservice2-0.destination.frontend2.cartservice2",
+            "confidence": 0.0
+          },
+          {
+            "entity": "adservice-1.source.adservice.jaeger-collector",
+            "confidence": 0.0
+          },
+          {
+            "entity": "adservice-2.source.adservice.jaeger-collector",
+            "confidence": 0.0
+          },
+          {
+            "entity": "checkoutservice-2.source.checkoutservice.paymentservice",
+            "confidence": 0.0
+          },
+          {
+            "entity": "currencyservice-0.destination.frontend.currencyservice",
+            "confidence": 0.0
+          },
+          {
+            "entity": "emailservice-1.destination.checkoutservice.emailservice",
+            "confidence": 0.0
+          },
+          {
+            "entity": "emailservice-1.source.emailservice.jaeger-collector",
+            "confidence": 0.0
+          },
+          {
+            "entity": "frontend-1.destination.unknown.frontend",
+            "confidence": 0.0
+          },
+          {
+            "entity": "frontend-1.source.frontend.shippingservice",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-3",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-5.emailservice-1",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-5.emailservice-2",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-5.paymentservice-2",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-5.recommendationservice-2",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-5.shippingservice2-0",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-6",
+            "confidence": 0.0
+          },
+          {
+            "entity": "node-6.productcatalogservice2-0",
+            "confidence": 0.0
+          },
+          {
+            "entity": "paymentservice-2.destination.checkoutservice.paymentservice",
+            "confidence": 0.0
+          },
+          {
+            "entity": "paymentservice-grpc",
+            "confidence": 0.0
+          },
+          {
+            "entity": "paymentservice2-0.destination.checkoutservice2.paymentservice2",
+            "confidence": 0.0
+          }
+        ],
+        "eliminated": [
+          {
+            "entity": "checkoutservice-0.source.checkoutservice.currencyservice"
+          },
+          {
+            "entity": "checkoutservice-0.source.checkoutservice.cartservice"
+          },
+          {
+            "entity": "checkoutservice-0.source.checkoutservice.shippingservice"
+          },
+          {
+            "entity": "checkoutservice-0.source.checkoutservice.productcatalogservice"
+          }
+        ]
+      },
+      "prediction": {
+        "component": [
+          "adservice.ts:8088"
+        ],
+        "reason": [
+          "high memory usage"
+        ],
+        "time": [
+          "2022-03-20 08:35:07"
+        ],
+        "top_score": 0.8999550521194857
+      },
+      "ground_truth": {
+        "component": "recommendationservice2-0",
+        "reason": "container write I/O load",
+        "datetime": "2022-03-20 08:35:07"
+      },
+      "top_candidates": [
+        {
+          "entity": "adservice.ts:8088",
+          "score": 0.9
+        },
+        {
+          "entity": "cartservice-1.destination.checkoutservice.cartservice",
+          "score": 0.8
+        },
+        {
+          "entity": "adservice2.ts:8088",
+          "score": 0.7983
+        },
+        {
+          "entity": "checkoutservice-0.source.checkoutservice.jaeger-collector",
+          "score": 0.2752
+        }
+      ],
+      "stop_reason": ""
+    },
+    {
+      "query_id": "Market_task_6",
+      "system": "Market",
+      "task_index": "task_6",
+      "correct": false,
+      "partial": false,
+      "error": null,
+      "iterations": 6,
+      "strategies_used": [
+        "VERIFY_S1",
+        "VERIFY_S4",
+        "GRAPH_EXPAND"
+      ],
+      "api_calls": 0,
+      "tokens": 0,
+      "emotion_trajectory": [],
+      "hypothesis_summary": {
+        "active": [
+          {
+            "entity": "adservice2.ts:8088",
+            "confidence": 1.0,
+            "status": "active",
+            "n_support": 1,
+            "n_refute": 0,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "adservice-0.source.adservice.jaeger-collector",
+            "confidence": 0.95,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 0,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "adservice-0.destination.frontend.adservice",
+            "confidence": 0.95,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 0,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "adservice-2.source.adservice.jaeger-collector",
+            "confidence": 0.9,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 0,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "adservice-2.destination.frontend.adservice",
+            "confidence": 0.9,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 0,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "adservice-1.source.adservice.jaeger-collector",
+            "confidence": 0.9,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 0,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "adservice-1.destination.frontend.adservice",
+            "confidence": 0.9,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 0,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "adservice2-0.destination.frontend2.adservice2",
+            "confidence": 0.9,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 0,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "adservice-grpc",
+            "confidence": 0.85,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 1,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "adservice.ts:8088",
+            "confidence": 0.85,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 1,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "cartservice-grpc",
+            "confidence": 0.7343,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 0,
+            "reason_family": "unknown"
+          }
+        ],
+        "reserved": [
+          {
+            "entity": "checkoutservice-0.source.checkoutservice.productcatalogservice",
+            "confidence": 0.0
+          },
+          {
+            "entity": "adservice2-0.source.adservice2.jaeger-collector",
+            "confidence": 0.0
+          }
+        ],
+        "eliminated": []
+      },
+      "prediction": {
+        "component": [
+          "adservice2.ts:8088"
+        ],
+        "reason": [
+          "high memory usage"
+        ],
+        "time": [
+          "2022-03-20 09:37:49"
+        ],
+        "top_score": 1.0
+      },
+      "ground_truth": {
+        "component": "productcatalogservice",
+        "reason": "container network packet corruption",
+        "datetime": "2022-03-20 09:37:49"
+      },
+      "top_candidates": [
+        {
+          "entity": "adservice2.ts:8088",
+          "score": 1.0
+        },
+        {
+          "entity": "adservice-0.source.adservice.jaeger-collector",
+          "score": 0.95
+        },
+        {
+          "entity": "adservice-0.destination.frontend.adservice",
+          "score": 0.95
+        },
+        {
+          "entity": "adservice-2.source.adservice.jaeger-collector",
+          "score": 0.9
+        },
+        {
+          "entity": "adservice-2.destination.frontend.adservice",
+          "score": 0.9
+        }
+      ],
+      "stop_reason": ""
+    }
+  ]
+}

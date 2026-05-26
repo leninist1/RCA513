@@ -1,0 +1,4657 @@
+{
+  "config": {
+    "option": "MACE",
+    "systems": [
+      "Bank"
+    ],
+    "max_queries": 1
+  },
+  "summary": {
+    "total": 1,
+    "correct": 0,
+    "correct_pct": 0.0,
+    "partial": 0,
+    "partial_pct": 0.0,
+    "correct_or_partial_pct": 0.0,
+    "neither": 1,
+    "by_system": {
+      "Bank": {
+        "total": 1,
+        "correct": 0,
+        "correct_pct": 0.0,
+        "partial": 0,
+        "partial_pct": 0.0
+      }
+    },
+    "by_task": {
+      "task_1": {
+        "total": 1,
+        "correct": 0,
+        "correct_pct": 0.0
+      }
+    },
+    "by_field": {}
+  },
+  "per_query": [
+    {
+      "query_id": "Bank_task_1",
+      "system": "Bank",
+      "task_index": "task_1",
+      "correct": false,
+      "partial": false,
+      "error": null,
+      "iterations": 23,
+      "strategies_used": [
+        "AGENT_TIMELINE",
+        "AGENT_DEPENDENCY",
+        "AGENT_CHANGE",
+        "AGENT_RESOURCE",
+        "AGENT_TIMELINE",
+        "AGENT_DEPENDENCY",
+        "AGENT_CHANGE",
+        "AGENT_RESOURCE",
+        "GRAFT",
+        "GRAFT",
+        "GRAFT",
+        "GRAFT",
+        "GRAFT",
+        "GRAFT",
+        "CLAIM_COUNTERFACTUAL",
+        "CLAIM_COUNTERFACTUAL",
+        "CLAIM_COUNTERFACTUAL",
+        "CLAIM_COUNTERFACTUAL",
+        "DEBATE",
+        "DEBATE",
+        "TOURNAMENT",
+        "TOURNAMENT",
+        "TOURNAMENT"
+      ],
+      "api_calls": 28,
+      "tokens": 248676,
+      "emotion_trajectory": [],
+      "hypothesis_summary": {
+        "initial_candidates": [
+          {
+            "object_id": "tomcat01",
+            "entity": "Tomcat01",
+            "score": 7.709
+          },
+          {
+            "object_id": "tomcat02",
+            "entity": "Tomcat02",
+            "score": 5.7551
+          },
+          {
+            "object_id": "ig01",
+            "entity": "IG01",
+            "score": 2.298
+          },
+          {
+            "object_id": "mg01",
+            "entity": "MG01",
+            "score": 0.9276
+          },
+          {
+            "object_id": "dockerb1",
+            "entity": "dockerB1",
+            "score": 0.5605
+          }
+        ],
+        "final_candidates": [
+          {
+            "object_id": "tomcat01",
+            "entity": "Tomcat01",
+            "score": 0.9794
+          },
+          {
+            "object_id": "tomcat02",
+            "entity": "Tomcat02",
+            "score": 0.8479
+          },
+          {
+            "object_id": "ig01",
+            "entity": "IG01",
+            "score": 0.5217
+          },
+          {
+            "object_id": "mg01",
+            "entity": "MG01",
+            "score": 0.4153
+          },
+          {
+            "object_id": "dockerb1",
+            "entity": "dockerB1",
+            "score": 0.0742
+          }
+        ]
+      },
+      "prediction": {
+        "component": [
+          "Tomcat01"
+        ],
+        "reason": [
+          "Strongest evidence (CPU util z-scores ~49M), highest root-adjusted score (9.949), high exclusivity (4.80), disk I/O mechanism explains downstream propagation, and debate wins over tomcat02 and ig01."
+        ],
+        "time": [
+          "2021-03-04 14:30:00"
+        ],
+        "top_score": 0.9794280824911705
+      },
+      "top_candidates": [
+        {
+          "object_id": "tomcat01",
+          "entity": "Tomcat01",
+          "score": 0.9794
+        },
+        {
+          "object_id": "tomcat02",
+          "entity": "Tomcat02",
+          "score": 0.8479
+        },
+        {
+          "object_id": "ig01",
+          "entity": "IG01",
+          "score": 0.5217
+        },
+        {
+          "object_id": "mg01",
+          "entity": "MG01",
+          "score": 0.4153
+        },
+        {
+          "object_id": "dockerb1",
+          "entity": "dockerB1",
+          "score": 0.0742
+        }
+      ],
+      "stop_reason": "mace_deliberation_complete",
+      "mace_trace": [
+        {
+          "step": 0,
+          "action": "AGENT_TIMELINE",
+          "round": 0,
+          "top_objects": [
+            "tomcat01",
+            "tomcat02",
+            "ig01"
+          ],
+          "rationales": [
+            "Tomcat01 experienced a disk I/O bottleneck causing high CPU utilization, which propagated to downstream services.",
+            "Tomcat02 also experienced disk I/O pressure, contributing to the propagation chain."
+          ]
+        },
+        {
+          "step": 1,
+          "action": "AGENT_DEPENDENCY",
+          "round": 0,
+          "top_objects": [
+            "tomcat01",
+            "tomcat02"
+          ],
+          "rationales": [
+            "Tomcat01 experienced high CPU utilization due to disk I/O, causing downstream propagation to IG01 and IG02.",
+            "Tomcat02 is a high-priority backbone candidate with disk i/o consumption evidence."
+          ]
+        },
+        {
+          "step": 2,
+          "action": "AGENT_CHANGE",
+          "round": 0,
+          "top_objects": [
+            "tomcat01",
+            "tomcat02"
+          ],
+          "rationales": [
+            "Tomcat01 experienced a disk I/O bottleneck due to a change, causing high CPU utilization and propagating to downstream services.",
+            "Tomcat02 is a high-priority backbone candidate with disk i/o consumption evidence."
+          ]
+        },
+        {
+          "step": 3,
+          "action": "AGENT_RESOURCE",
+          "round": 0,
+          "top_objects": [
+            "tomcat01",
+            "tomcat02"
+          ],
+          "rationales": [
+            "Tomcat01 experienced high CPU utilization due to disk I/O, causing downstream propagation.",
+            "Tomcat02 is a high-priority backbone candidate with disk i/o consumption evidence."
+          ]
+        },
+        {
+          "step": 4,
+          "action": "AGENT_TIMELINE",
+          "round": 1,
+          "top_objects": [
+            "tomcat01",
+            "ig01",
+            "mg01"
+          ],
+          "rationales": [
+            "Tomcat01 experienced a disk I/O bottleneck causing high CPU utilization, which propagated to downstream services.",
+            "IG01 shows symptoms of network latency or resource contention, likely propagated from upstream Tomcat01."
+          ]
+        },
+        {
+          "step": 5,
+          "action": "AGENT_DEPENDENCY",
+          "round": 1,
+          "top_objects": [
+            "tomcat01",
+            "tomcat02"
+          ],
+          "rationales": [
+            "Tomcat01 experienced high CPU utilization due to disk I/O, causing downstream propagation to IG01 and MG01.",
+            "Tomcat02 is a high-priority backbone candidate with disk i/o consumption evidence."
+          ]
+        },
+        {
+          "step": 6,
+          "action": "AGENT_CHANGE",
+          "round": 1,
+          "top_objects": [
+            "tomcat01",
+            "tomcat02",
+            "ig01"
+          ],
+          "rationales": [
+            "Tomcat01 experienced a disk I/O bottleneck due to a change, causing high CPU utilization.",
+            "Tomcat02 experienced a disk I/O bottleneck due to a change, causing high CPU utilization."
+          ]
+        },
+        {
+          "step": 7,
+          "action": "AGENT_RESOURCE",
+          "round": 1,
+          "top_objects": [
+            "tomcat01",
+            "tomcat02"
+          ],
+          "rationales": [
+            "Tomcat01 experienced high CPU utilization due to disk I/O consumption, causing downstream propagation to IG01 and IG02.",
+            "Tomcat02 is a high-priority backbone candidate with disk i/o consumption evidence."
+          ]
+        },
+        {
+          "step": 8,
+          "action": "GRAFT",
+          "source_claim_id": "claim_ead1a0b01967",
+          "target_claim_id": "claim_72bd17c86688",
+          "summary": "Both claims are identical in content and refer to the same object and evidence, differing only in agent (dependency vs. change). Merge to combine perspectives."
+        },
+        {
+          "step": 9,
+          "action": "GRAFT",
+          "source_claim_id": "claim_ead1a0b01967",
+          "target_claim_id": "claim_b76a9e817972",
+          "summary": "Both claims are identical in content and evidence, differing only in agent (dependency vs. resource). They can be merged into a single claim."
+        },
+        {
+          "step": 10,
+          "action": "GRAFT",
+          "source_claim_id": "claim_ead1a0b01967",
+          "target_claim_id": "claim_b00450f4d860",
+          "summary": "Both claims are identical in content and refer to the same object and evidence, differing only in agent (dependency vs resource). Merging avoids duplication."
+        },
+        {
+          "step": 11,
+          "action": "GRAFT",
+          "source_claim_id": "claim_72bd17c86688",
+          "target_claim_id": "claim_b76a9e817972",
+          "summary": "Both claims are identical in content and evidence, differing only in agent (change vs resource). Merging them into a single claim avoids duplication."
+        },
+        {
+          "step": 12,
+          "action": "GRAFT",
+          "source_claim_id": "claim_72bd17c86688",
+          "target_claim_id": "claim_2ce22ae5454b",
+          "summary": "Both claims describe the same object, mechanism, and evidence, differing only in agent and confidence. Merge to unify."
+        },
+        {
+          "step": 13,
+          "action": "GRAFT",
+          "source_claim_id": "claim_72bd17c86688",
+          "target_claim_id": "claim_b00450f4d860",
+          "summary": "Both claims are identical in content and evidence, differing only in agent (change vs resource). Merging them consolidates the same root cause information."
+        },
+        {
+          "step": 14,
+          "action": "CLAIM_COUNTERFACTUAL",
+          "claim_id": "claim_df225e18ac12",
+          "object_id": "tomcat01",
+          "supports_claim": true,
+          "summary": "The local intervention counterfactual shows that intervening on tomcat01 removes significant downstream mass (2.854) with high exclusivity (4.804), indicating that tomcat01 is a key causal node. This strengthens the claim that tomcat01's disk I/O bottleneck caused high CPU and propagated downstream."
+        },
+        {
+          "step": 15,
+          "action": "CLAIM_COUNTERFACTUAL",
+          "claim_id": "claim_b00450f4d860",
+          "object_id": "tomcat02",
+          "supports_claim": true,
+          "summary": "Local intervention on tomcat02 removes 2.239 mass with high coverage (0.770) and exclusivity (2.906), strongly supporting its causal role in the disk I/O bottleneck."
+        },
+        {
+          "step": 16,
+          "action": "CLAIM_COUNTERFACTUAL",
+          "claim_id": "claim_d1bd0ace8c5d",
+          "object_id": "ig01",
+          "supports_claim": true,
+          "summary": "Local intervention on IG01 removes significant downstream mass (coverage 0.67, exclusivity 3.84), indicating IG01 is a key propagation node. This supports the claim that IG01's network latency is due to upstream pressure, as intervening locally alleviates downstream anomalies."
+        },
+        {
+          "step": 17,
+          "action": "CLAIM_COUNTERFACTUAL",
+          "claim_id": "claim_9a8e36f09207",
+          "object_id": "mg01",
+          "supports_claim": true,
+          "summary": "Local intervention on MG01 removes significant mass (2.14) with high coverage (0.76) and exclusivity (1.81), strongly indicating that MG01 is a key causal node, supporting the claim that it is affected by upstream propagation."
+        },
+        {
+          "step": 18,
+          "action": "DEBATE",
+          "objects": [
+            "tomcat01",
+            "tomcat02"
+          ],
+          "winner": "tomcat01",
+          "summary": "tomcat01 has higher root-adjusted score (9.609 vs 7.748), stronger evidence (CPU util z-scores ~49M vs ~4M), and higher exclusivity (4.80 vs 2.91). Its disk I/O mechanism explains downstream propagation to IG01 and MG01, while tomcat02's evidence is weaker and its symptom score is non-zero, indicating it may be a downstream effect."
+        },
+        {
+          "step": 19,
+          "action": "DEBATE",
+          "objects": [
+            "tomcat01",
+            "ig01"
+          ],
+          "winner": "tomcat01",
+          "summary": "tomcat01 has stronger evidence (CPU util z-scores ~49M), higher root-adjusted score (9.779 vs 2.909), and higher exclusivity (4.80 vs 3.84). Its disk I/O mechanism explains downstream propagation, while ig01 shows only weak JVM symptoms and is likely a downstream effect."
+        },
+        {
+          "step": 20,
+          "action": "TOURNAMENT",
+          "objects": [
+            "tomcat01",
+            "tomcat02"
+          ],
+          "winner": "tomcat01",
+          "summary": "tomcat01 has stronger evidence (CPU util z-scores ~49M vs ~4M), higher root-adjusted score (9.949 vs 7.621), higher exclusivity (4.80 vs 2.91), and zero symptom score, while tomcat02 has non-zero symptom score and weaker evidence, indicating it is likely a downstream effect."
+        },
+        {
+          "step": 21,
+          "action": "TOURNAMENT",
+          "objects": [
+            "tomcat01",
+            "ig01"
+          ],
+          "winner": "tomcat01",
+          "summary": "tomcat01 has stronger evidence (CPU util z-scores ~49M), higher root-adjusted score (9.949 vs 2.781), and higher exclusivity (4.80 vs 3.84). Its disk I/O mechanism explains downstream propagation, while ig01 shows only weak JVM symptoms and is likely a downstream effect."
+        },
+        {
+          "step": 22,
+          "action": "TOURNAMENT",
+          "objects": [
+            "tomcat02",
+            "ig01"
+          ],
+          "winner": "tomcat02",
+          "summary": "tomcat02 has higher root-adjusted score (7.621 vs 2.781), stronger evidence (CPU util z-scores up to 4M), and higher exclusivity (2.906 vs 3.844). Its disk I/O mechanism explains downstream propagation to IG01, while IG01 shows only weak JVM symptoms and is likely a downstream effect."
+        }
+      ],
+      "debug": {
+        "graph": {
+          "nodes": {
+            "ig01": {
+              "representative": "IG01",
+              "members": [
+                "IG01"
+              ],
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "network fault"
+            },
+            "ig02": {
+              "representative": "IG02",
+              "members": [
+                "IG02"
+              ],
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "mg01": {
+              "representative": "MG01",
+              "members": [
+                "MG01"
+              ],
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "mg02": {
+              "representative": "MG02",
+              "members": [
+                "MG02"
+              ],
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "mysql01": {
+              "representative": "Mysql01",
+              "members": [
+                "Mysql01"
+              ],
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "db fault"
+            },
+            "mysql02": {
+              "representative": "Mysql02",
+              "members": [
+                "Mysql02"
+              ],
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "db fault"
+            },
+            "redis01": {
+              "representative": "Redis01",
+              "members": [
+                "Redis01"
+              ],
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "CPU fault"
+            },
+            "redis02": {
+              "representative": "Redis02",
+              "members": [
+                "Redis02"
+              ],
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "servicetest1": {
+              "representative": "ServiceTest1",
+              "members": [
+                "ServiceTest1"
+              ],
+              "anomaly_score": 0.1243,
+              "metric_score": 0.2072,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest10": {
+              "representative": "ServiceTest10",
+              "members": [
+                "ServiceTest10"
+              ],
+              "anomaly_score": 0.1811,
+              "metric_score": 0.3019,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest11": {
+              "representative": "ServiceTest11",
+              "members": [
+                "ServiceTest11"
+              ],
+              "anomaly_score": 0.0476,
+              "metric_score": 0.0794,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest2": {
+              "representative": "ServiceTest2",
+              "members": [
+                "ServiceTest2"
+              ],
+              "anomaly_score": 0.0387,
+              "metric_score": 0.0646,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest3": {
+              "representative": "ServiceTest3",
+              "members": [
+                "ServiceTest3"
+              ],
+              "anomaly_score": 0.2407,
+              "metric_score": 0.4012,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest4": {
+              "representative": "ServiceTest4",
+              "members": [
+                "ServiceTest4"
+              ],
+              "anomaly_score": 0.0598,
+              "metric_score": 0.0997,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest5": {
+              "representative": "ServiceTest5",
+              "members": [
+                "ServiceTest5"
+              ],
+              "anomaly_score": 0.0878,
+              "metric_score": 0.1464,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest6": {
+              "representative": "ServiceTest6",
+              "members": [
+                "ServiceTest6"
+              ],
+              "anomaly_score": 0.0341,
+              "metric_score": 0.0568,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest7": {
+              "representative": "ServiceTest7",
+              "members": [
+                "ServiceTest7"
+              ],
+              "anomaly_score": 0.0418,
+              "metric_score": 0.0696,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest8": {
+              "representative": "ServiceTest8",
+              "members": [
+                "ServiceTest8"
+              ],
+              "anomaly_score": 0.0845,
+              "metric_score": 0.1408,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest9": {
+              "representative": "ServiceTest9",
+              "members": [
+                "ServiceTest9"
+              ],
+              "anomaly_score": 0.0649,
+              "metric_score": 0.1081,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "tomcat01": {
+              "representative": "Tomcat01",
+              "members": [
+                "Tomcat01"
+              ],
+              "anomaly_score": 1.0,
+              "metric_score": 1.0,
+              "log_score": 0.3774,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "tomcat02": {
+              "representative": "Tomcat02",
+              "members": [
+                "Tomcat02"
+              ],
+              "anomaly_score": 1.0,
+              "metric_score": 1.0,
+              "log_score": 0.3774,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "tomcat03": {
+              "representative": "Tomcat03",
+              "members": [
+                "Tomcat03"
+              ],
+              "anomaly_score": 1.0,
+              "metric_score": 1.0,
+              "log_score": 0.3774,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "CPU fault"
+            },
+            "tomcat04": {
+              "representative": "Tomcat04",
+              "members": [
+                "Tomcat04"
+              ],
+              "anomaly_score": 1.0,
+              "metric_score": 1.0,
+              "log_score": 0.3774,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "apache01": {
+              "representative": "apache01",
+              "members": [
+                "apache01"
+              ],
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "apache02": {
+              "representative": "apache02",
+              "members": [
+                "apache02"
+              ],
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "dockera1": {
+              "representative": "dockerA1",
+              "members": [
+                "dockerA1"
+              ],
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "network fault"
+            },
+            "dockera2": {
+              "representative": "dockerA2",
+              "members": [
+                "dockerA2"
+              ],
+              "anomaly_score": 0.0,
+              "metric_score": 0.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "dockerb1": {
+              "representative": "dockerB1",
+              "members": [
+                "dockerB1"
+              ],
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "CPU fault"
+            },
+            "dockerb2": {
+              "representative": "dockerB2",
+              "members": [
+                "dockerB2"
+              ],
+              "anomaly_score": 0.0,
+              "metric_score": 0.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            }
+          },
+          "adjacency": {
+            "mysql02": {
+              "servicetest11": 1.0,
+              "servicetest4": 1.0,
+              "apache01": 1.0
+            },
+            "servicetest11": {
+              "servicetest4": 1.0,
+              "apache01": 1.0
+            },
+            "servicetest4": {
+              "apache01": 1.0
+            },
+            "tomcat02": {
+              "tomcat04": 1.0,
+              "apache01": 1.0
+            },
+            "tomcat04": {
+              "apache01": 1.0
+            },
+            "redis02": {
+              "ig01": 1.0,
+              "servicetest10": 1.0
+            },
+            "tomcat01": {
+              "ig01": 1.0,
+              "servicetest10": 1.0
+            },
+            "ig01": {
+              "servicetest10": 1.0,
+              "ig02": 1.0,
+              "mg01": 1.0,
+              "redis01": 1.0
+            },
+            "servicetest10": {
+              "ig02": 1.0,
+              "mg01": 1.0,
+              "redis01": 1.0
+            },
+            "ig02": {
+              "mg01": 1.0,
+              "redis01": 1.0,
+              "mysql01": 1.0,
+              "servicetest5": 1.0
+            },
+            "mg01": {
+              "redis01": 1.0,
+              "mysql01": 1.0,
+              "servicetest5": 1.0
+            },
+            "redis01": {
+              "mysql01": 1.0,
+              "servicetest5": 1.0
+            },
+            "mysql01": {
+              "servicetest5": 1.0
+            }
+          }
+        },
+        "graph_debug": {
+          "entity_to_object": {
+            "IG01": "ig01",
+            "IG02": "ig02",
+            "MG01": "mg01",
+            "MG02": "mg02",
+            "Mysql01": "mysql01",
+            "Mysql02": "mysql02",
+            "Redis01": "redis01",
+            "Redis02": "redis02",
+            "ServiceTest1": "servicetest1",
+            "ServiceTest10": "servicetest10",
+            "ServiceTest11": "servicetest11",
+            "ServiceTest2": "servicetest2",
+            "ServiceTest3": "servicetest3",
+            "ServiceTest4": "servicetest4",
+            "ServiceTest5": "servicetest5",
+            "ServiceTest6": "servicetest6",
+            "ServiceTest7": "servicetest7",
+            "ServiceTest8": "servicetest8",
+            "ServiceTest9": "servicetest9",
+            "Tomcat01": "tomcat01",
+            "Tomcat02": "tomcat02",
+            "Tomcat03": "tomcat03",
+            "Tomcat04": "tomcat04",
+            "apache01": "apache01",
+            "apache02": "apache02",
+            "dockerA1": "dockera1",
+            "dockerA2": "dockera2",
+            "dockerB1": "dockerb1",
+            "dockerB2": "dockerb2"
+          },
+          "objects": {
+            "ig01": {
+              "members": [
+                "IG01"
+              ],
+              "representative": "IG01",
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "network fault"
+            },
+            "ig02": {
+              "members": [
+                "IG02"
+              ],
+              "representative": "IG02",
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "mg01": {
+              "members": [
+                "MG01"
+              ],
+              "representative": "MG01",
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "mg02": {
+              "members": [
+                "MG02"
+              ],
+              "representative": "MG02",
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "mysql01": {
+              "members": [
+                "Mysql01"
+              ],
+              "representative": "Mysql01",
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "db fault"
+            },
+            "mysql02": {
+              "members": [
+                "Mysql02"
+              ],
+              "representative": "Mysql02",
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "db fault"
+            },
+            "redis01": {
+              "members": [
+                "Redis01"
+              ],
+              "representative": "Redis01",
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "CPU fault"
+            },
+            "redis02": {
+              "members": [
+                "Redis02"
+              ],
+              "representative": "Redis02",
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "servicetest1": {
+              "members": [
+                "ServiceTest1"
+              ],
+              "representative": "ServiceTest1",
+              "anomaly_score": 0.1243,
+              "metric_score": 0.2072,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest10": {
+              "members": [
+                "ServiceTest10"
+              ],
+              "representative": "ServiceTest10",
+              "anomaly_score": 0.1811,
+              "metric_score": 0.3019,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest11": {
+              "members": [
+                "ServiceTest11"
+              ],
+              "representative": "ServiceTest11",
+              "anomaly_score": 0.0476,
+              "metric_score": 0.0794,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest2": {
+              "members": [
+                "ServiceTest2"
+              ],
+              "representative": "ServiceTest2",
+              "anomaly_score": 0.0387,
+              "metric_score": 0.0646,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest3": {
+              "members": [
+                "ServiceTest3"
+              ],
+              "representative": "ServiceTest3",
+              "anomaly_score": 0.2407,
+              "metric_score": 0.4012,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest4": {
+              "members": [
+                "ServiceTest4"
+              ],
+              "representative": "ServiceTest4",
+              "anomaly_score": 0.0598,
+              "metric_score": 0.0997,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest5": {
+              "members": [
+                "ServiceTest5"
+              ],
+              "representative": "ServiceTest5",
+              "anomaly_score": 0.0878,
+              "metric_score": 0.1464,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest6": {
+              "members": [
+                "ServiceTest6"
+              ],
+              "representative": "ServiceTest6",
+              "anomaly_score": 0.0341,
+              "metric_score": 0.0568,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest7": {
+              "members": [
+                "ServiceTest7"
+              ],
+              "representative": "ServiceTest7",
+              "anomaly_score": 0.0418,
+              "metric_score": 0.0696,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest8": {
+              "members": [
+                "ServiceTest8"
+              ],
+              "representative": "ServiceTest8",
+              "anomaly_score": 0.0845,
+              "metric_score": 0.1408,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest9": {
+              "members": [
+                "ServiceTest9"
+              ],
+              "representative": "ServiceTest9",
+              "anomaly_score": 0.0649,
+              "metric_score": 0.1081,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "tomcat01": {
+              "members": [
+                "Tomcat01"
+              ],
+              "representative": "Tomcat01",
+              "anomaly_score": 1.0,
+              "metric_score": 1.0,
+              "log_score": 0.3774,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "tomcat02": {
+              "members": [
+                "Tomcat02"
+              ],
+              "representative": "Tomcat02",
+              "anomaly_score": 1.0,
+              "metric_score": 1.0,
+              "log_score": 0.3774,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "tomcat03": {
+              "members": [
+                "Tomcat03"
+              ],
+              "representative": "Tomcat03",
+              "anomaly_score": 1.0,
+              "metric_score": 1.0,
+              "log_score": 0.3774,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "CPU fault"
+            },
+            "tomcat04": {
+              "members": [
+                "Tomcat04"
+              ],
+              "representative": "Tomcat04",
+              "anomaly_score": 1.0,
+              "metric_score": 1.0,
+              "log_score": 0.3774,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "apache01": {
+              "members": [
+                "apache01"
+              ],
+              "representative": "apache01",
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "apache02": {
+              "members": [
+                "apache02"
+              ],
+              "representative": "apache02",
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "dockera1": {
+              "members": [
+                "dockerA1"
+              ],
+              "representative": "dockerA1",
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "network fault"
+            },
+            "dockera2": {
+              "members": [
+                "dockerA2"
+              ],
+              "representative": "dockerA2",
+              "anomaly_score": 0.0,
+              "metric_score": 0.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "dockerb1": {
+              "members": [
+                "dockerB1"
+              ],
+              "representative": "dockerB1",
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "CPU fault"
+            },
+            "dockerb2": {
+              "members": [
+                "dockerB2"
+              ],
+              "representative": "dockerB2",
+              "anomaly_score": 0.0,
+              "metric_score": 0.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            }
+          },
+          "query": "task_1"
+        },
+        "prism_backbone": {
+          "objects": {
+            "ig01": {
+              "exposure_signal": 0.384702,
+              "evidence_specificity": 0.493316,
+              "causal_uniqueness": 0.907915,
+              "downstream_recovery": 0.880385,
+              "symptomness_prior": 0.319794,
+              "popularity_bias": 1.0,
+              "rootness_prior": 0.3847,
+              "raw_popularity": 4.367017,
+              "raw_exposure": 0.207387,
+              "raw_specificity": 0.333559,
+              "raw_uniqueness": 0.752069,
+              "raw_symptomness": 0.380654,
+              "intervention": {
+                "score": 0.882487,
+                "coverage": 0.668961,
+                "exclusivity": 3.844421,
+                "removed_mass": 3.209174
+              }
+            },
+            "ig02": {
+              "exposure_signal": 0.402331,
+              "evidence_specificity": 0.317091,
+              "causal_uniqueness": 0.89922,
+              "downstream_recovery": 0.89848,
+              "symptomness_prior": 0.319125,
+              "popularity_bias": 0.999062,
+              "rootness_prior": 0.355469,
+              "raw_popularity": 4.175668,
+              "raw_exposure": 0.21689,
+              "raw_specificity": 0.214404,
+              "raw_uniqueness": 0.744867,
+              "raw_symptomness": 0.380287,
+              "intervention": {
+                "score": 0.90287,
+                "coverage": 0.735429,
+                "exclusivity": 3.167087,
+                "removed_mass": 2.72879
+              }
+            },
+            "mg01": {
+              "exposure_signal": 0.39379,
+              "evidence_specificity": 0.485498,
+              "causal_uniqueness": 0.860385,
+              "downstream_recovery": 0.865465,
+              "symptomness_prior": 0.437713,
+              "popularity_bias": 0.999551,
+              "rootness_prior": 0.345518,
+              "raw_popularity": 4.266235,
+              "raw_exposure": 0.212286,
+              "raw_specificity": 0.328273,
+              "raw_uniqueness": 0.712698,
+              "raw_symptomness": 0.446904,
+              "intervention": {
+                "score": 0.894307,
+                "coverage": 0.763013,
+                "exclusivity": 1.808596,
+                "removed_mass": 2.14011
+              }
+            },
+            "mg02": {
+              "exposure_signal": 0.7,
+              "evidence_specificity": 0.363871,
+              "causal_uniqueness": 0.963014,
+              "downstream_recovery": 0.700808,
+              "symptomness_prior": 0.304542,
+              "popularity_bias": 0.899995,
+              "rootness_prior": 0.437045,
+              "raw_popularity": 2.4,
+              "raw_exposure": 0.377358,
+              "raw_specificity": 0.246034,
+              "raw_uniqueness": 0.797711,
+              "raw_symptomness": 0.372323,
+              "intervention": {
+                "score": 0.817378,
+                "coverage": 1.0,
+                "exclusivity": 0.90566,
+                "removed_mass": 0.90566
+              }
+            },
+            "mysql01": {
+              "exposure_signal": 0.441145,
+              "evidence_specificity": 0.635115,
+              "causal_uniqueness": 0.468783,
+              "downstream_recovery": 0.713125,
+              "symptomness_prior": 0.842138,
+              "popularity_bias": 0.995863,
+              "rootness_prior": 0.177817,
+              "raw_popularity": 3.808276,
+              "raw_exposure": 0.237814,
+              "raw_specificity": 0.429438,
+              "raw_uniqueness": 0.388315,
+              "raw_symptomness": 0.711588,
+              "intervention": {
+                "score": 0.674646,
+                "coverage": 0.969057,
+                "exclusivity": 0.0,
+                "removed_mass": 0.962752
+              }
+            },
+            "mysql02": {
+              "exposure_signal": 0.53819,
+              "evidence_specificity": 0.648837,
+              "causal_uniqueness": 0.986785,
+              "downstream_recovery": 0.812697,
+              "symptomness_prior": 0.101357,
+              "popularity_bias": 0.977766,
+              "rootness_prior": 0.51318,
+              "raw_popularity": 3.121576,
+              "raw_exposure": 0.290129,
+              "raw_specificity": 0.438716,
+              "raw_uniqueness": 0.817401,
+              "raw_symptomness": 0.265464,
+              "intervention": {
+                "score": 0.889127,
+                "coverage": 0.815198,
+                "exclusivity": 1.918792,
+                "removed_mass": 1.564196
+              }
+            },
+            "redis01": {
+              "exposure_signal": 0.385604,
+              "evidence_specificity": 0.230878,
+              "causal_uniqueness": 0.639944,
+              "downstream_recovery": 0.811163,
+              "symptomness_prior": 0.718188,
+              "popularity_bias": 0.999958,
+              "rootness_prior": 0.168032,
+              "raw_popularity": 4.356801,
+              "raw_exposure": 0.207873,
+              "raw_specificity": 0.15611,
+              "raw_uniqueness": 0.530096,
+              "raw_symptomness": 0.622301,
+              "intervention": {
+                "score": 0.781624,
+                "coverage": 0.816906,
+                "exclusivity": 0.450106,
+                "removed_mass": 1.551431
+              }
+            },
+            "redis02": {
+              "exposure_signal": 0.573298,
+              "evidence_specificity": 0.257433,
+              "causal_uniqueness": 0.884819,
+              "downstream_recovery": 0.795951,
+              "symptomness_prior": 0.171934,
+              "popularity_bias": 0.966507,
+              "rootness_prior": 0.402365,
+              "raw_popularity": 2.930413,
+              "raw_exposure": 0.309056,
+              "raw_specificity": 0.174065,
+              "raw_uniqueness": 0.732938,
+              "raw_symptomness": 0.301803,
+              "intervention": {
+                "score": 0.851497,
+                "coverage": 0.586057,
+                "exclusivity": 4.709418,
+                "removed_mass": 2.759989
+              }
+            },
+            "servicetest1": {
+              "exposure_signal": 0.137303,
+              "evidence_specificity": 0.309329,
+              "causal_uniqueness": 0.445553,
+              "downstream_recovery": 0.700808,
+              "symptomness_prior": 0.459375,
+              "popularity_bias": 0.582459,
+              "rootness_prior": 0.159685,
+              "raw_popularity": 1.68,
+              "raw_exposure": 0.074018,
+              "raw_specificity": 0.209155,
+              "raw_uniqueness": 0.369073,
+              "raw_symptomness": 0.45947,
+              "intervention": {
+                "score": 0.430413,
+                "coverage": 1.0,
+                "exclusivity": 0.12435,
+                "removed_mass": 0.12435
+              }
+            },
+            "servicetest10": {
+              "exposure_signal": 0.087846,
+              "evidence_specificity": 0.2547,
+              "causal_uniqueness": 0.804009,
+              "downstream_recovery": 0.955751,
+              "symptomness_prior": 0.437978,
+              "popularity_bias": 0.99606,
+              "rootness_prior": 0.222895,
+              "raw_popularity": 3.824528,
+              "raw_exposure": 0.047356,
+              "raw_specificity": 0.172217,
+              "raw_uniqueness": 0.665999,
+              "raw_symptomness": 0.447057,
+              "intervention": {
+                "score": 0.852276,
+                "coverage": 0.60821,
+                "exclusivity": 2.48593,
+                "removed_mass": 2.366905
+              }
+            },
+            "servicetest11": {
+              "exposure_signal": 0.034042,
+              "evidence_specificity": 0.229239,
+              "causal_uniqueness": 0.52087,
+              "downstream_recovery": 1.0,
+              "symptomness_prior": 0.487106,
+              "popularity_bias": 0.932773,
+              "rootness_prior": 0.140612,
+              "raw_popularity": 2.595106,
+              "raw_exposure": 0.018352,
+              "raw_specificity": 0.155001,
+              "raw_uniqueness": 0.431462,
+              "raw_symptomness": 0.475757,
+              "intervention": {
+                "score": 0.599675,
+                "coverage": 0.666453,
+                "exclusivity": 0.560302,
+                "removed_mass": 0.675204
+              }
+            },
+            "servicetest2": {
+              "exposure_signal": 0.042776,
+              "evidence_specificity": 0.314654,
+              "causal_uniqueness": 0.371679,
+              "downstream_recovery": 0.700808,
+              "symptomness_prior": 0.48707,
+              "popularity_bias": 0.582459,
+              "rootness_prior": 0.11235,
+              "raw_popularity": 1.68,
+              "raw_exposure": 0.02306,
+              "raw_specificity": 0.212756,
+              "raw_uniqueness": 0.307879,
+              "raw_symptomness": 0.475736,
+              "intervention": {
+                "score": 0.375169,
+                "coverage": 1.0,
+                "exclusivity": 0.03874,
+                "removed_mass": 0.03874
+              }
+            },
+            "servicetest3": {
+              "exposure_signal": 0.265775,
+              "evidence_specificity": 0.187627,
+              "causal_uniqueness": 0.543291,
+              "downstream_recovery": 0.700808,
+              "symptomness_prior": 0.453994,
+              "popularity_bias": 0.582459,
+              "rootness_prior": 0.193388,
+              "raw_popularity": 1.68,
+              "raw_exposure": 0.143275,
+              "raw_specificity": 0.126865,
+              "raw_uniqueness": 0.450034,
+              "raw_symptomness": 0.456335,
+              "intervention": {
+                "score": 0.503503,
+                "coverage": 1.0,
+                "exclusivity": 0.240702,
+                "removed_mass": 0.240702
+              }
+            },
+            "servicetest4": {
+              "exposure_signal": 0.042725,
+              "evidence_specificity": 0.296011,
+              "causal_uniqueness": 0.496254,
+              "downstream_recovery": 0.991204,
+              "symptomness_prior": 0.496012,
+              "popularity_bias": 0.933225,
+              "rootness_prior": 0.146719,
+              "raw_popularity": 2.598402,
+              "raw_exposure": 0.023032,
+              "raw_specificity": 0.20015,
+              "raw_uniqueness": 0.411071,
+              "raw_symptomness": 0.481038,
+              "intervention": {
+                "score": 0.582561,
+                "coverage": 0.671695,
+                "exclusivity": 0.488864,
+                "removed_mass": 0.648526
+              }
+            },
+            "servicetest5": {
+              "exposure_signal": 0.04972,
+              "evidence_specificity": 0.295592,
+              "causal_uniqueness": 0.258567,
+              "downstream_recovery": 0.700808,
+              "symptomness_prior": 1.0,
+              "popularity_bias": 0.984234,
+              "rootness_prior": 0.0,
+              "raw_popularity": 3.276981,
+              "raw_exposure": 0.026803,
+              "raw_specificity": 0.199867,
+              "raw_uniqueness": 0.214183,
+              "raw_symptomness": 0.841763,
+              "intervention": {
+                "score": 0.389424,
+                "coverage": 1.0,
+                "exclusivity": 0.0,
+                "removed_mass": 0.087833
+              }
+            },
+            "servicetest6": {
+              "exposure_signal": 0.037626,
+              "evidence_specificity": 0.215841,
+              "causal_uniqueness": 0.36763,
+              "downstream_recovery": 0.700808,
+              "symptomness_prior": 0.515544,
+              "popularity_bias": 0.582459,
+              "rootness_prior": 0.084013,
+              "raw_popularity": 1.68,
+              "raw_exposure": 0.020284,
+              "raw_specificity": 0.145943,
+              "raw_uniqueness": 0.304526,
+              "raw_symptomness": 0.492707,
+              "intervention": {
+                "score": 0.372141,
+                "coverage": 1.0,
+                "exclusivity": 0.034077,
+                "removed_mass": 0.034077
+              }
+            },
+            "servicetest7": {
+              "exposure_signal": 0.046122,
+              "evidence_specificity": 0.280703,
+              "causal_uniqueness": 0.374309,
+              "downstream_recovery": 0.700808,
+              "symptomness_prior": 0.495337,
+              "popularity_bias": 0.582459,
+              "rootness_prior": 0.105242,
+              "raw_popularity": 1.68,
+              "raw_exposure": 0.024864,
+              "raw_specificity": 0.189799,
+              "raw_uniqueness": 0.310058,
+              "raw_symptomness": 0.480636,
+              "intervention": {
+                "score": 0.377135,
+                "coverage": 1.0,
+                "exclusivity": 0.041771,
+                "removed_mass": 0.041771
+              }
+            },
+            "servicetest8": {
+              "exposure_signal": 0.093253,
+              "evidence_specificity": 0.318843,
+              "causal_uniqueness": 0.411257,
+              "downstream_recovery": 0.700808,
+              "symptomness_prior": 0.470352,
+              "popularity_bias": 0.582459,
+              "rootness_prior": 0.139489,
+              "raw_popularity": 1.68,
+              "raw_exposure": 0.050271,
+              "raw_specificity": 0.215588,
+              "raw_uniqueness": 0.340664,
+              "raw_symptomness": 0.465889,
+              "intervention": {
+                "score": 0.404766,
+                "coverage": 1.0,
+                "exclusivity": 0.084455,
+                "removed_mass": 0.084455
+              }
+            },
+            "servicetest9": {
+              "exposure_signal": 0.07161,
+              "evidence_specificity": 0.203903,
+              "causal_uniqueness": 0.394314,
+              "downstream_recovery": 0.700808,
+              "symptomness_prior": 0.508472,
+              "popularity_bias": 0.582459,
+              "rootness_prior": 0.098421,
+              "raw_popularity": 1.68,
+              "raw_exposure": 0.038604,
+              "raw_specificity": 0.137871,
+              "raw_uniqueness": 0.326629,
+              "raw_symptomness": 0.488468,
+              "intervention": {
+                "score": 0.392096,
+                "coverage": 1.0,
+                "exclusivity": 0.064854,
+                "removed_mass": 0.064854
+              }
+            },
+            "tomcat01": {
+              "exposure_signal": 0.547131,
+              "evidence_specificity": 0.299196,
+              "causal_uniqueness": 0.894087,
+              "downstream_recovery": 0.788915,
+              "symptomness_prior": 0.173281,
+              "popularity_bias": 0.987839,
+              "rootness_prior": 0.402017,
+              "raw_popularity": 3.390413,
+              "raw_exposure": 0.294949,
+              "raw_specificity": 0.202304,
+              "raw_uniqueness": 0.740615,
+              "raw_symptomness": 0.302503,
+              "intervention": {
+                "score": 0.854963,
+                "coverage": 0.594187,
+                "exclusivity": 4.803757,
+                "removed_mass": 2.854329
+              }
+            },
+            "tomcat02": {
+              "exposure_signal": 0.53172,
+              "evidence_specificity": 0.289156,
+              "causal_uniqueness": 0.969805,
+              "downstream_recovery": 0.857201,
+              "symptomness_prior": 0.174577,
+              "popularity_bias": 0.990365,
+              "rootness_prior": 0.425877,
+              "raw_popularity": 3.488679,
+              "raw_exposure": 0.286641,
+              "raw_specificity": 0.195515,
+              "raw_uniqueness": 0.803336,
+              "raw_symptomness": 0.303178,
+              "intervention": {
+                "score": 0.908353,
+                "coverage": 0.770455,
+                "exclusivity": 2.90566,
+                "removed_mass": 2.238679
+              }
+            },
+            "tomcat03": {
+              "exposure_signal": 0.648601,
+              "evidence_specificity": 0.27532,
+              "causal_uniqueness": 1.0,
+              "downstream_recovery": 0.700808,
+              "symptomness_prior": 0.341473,
+              "popularity_bias": 0.961156,
+              "rootness_prior": 0.399383,
+              "raw_popularity": 2.86,
+              "raw_exposure": 0.34965,
+              "raw_specificity": 0.186159,
+              "raw_uniqueness": 0.828348,
+              "raw_symptomness": 0.392583,
+              "intervention": {
+                "score": 0.845036,
+                "coverage": 1.0,
+                "exclusivity": 1.0,
+                "removed_mass": 1.0
+              }
+            },
+            "tomcat04": {
+              "exposure_signal": 0.516903,
+              "evidence_specificity": 0.460198,
+              "causal_uniqueness": 0.853159,
+              "downstream_recovery": 0.796705,
+              "symptomness_prior": 0.505069,
+              "popularity_bias": 0.992475,
+              "rootness_prior": 0.344387,
+              "raw_popularity": 3.588679,
+              "raw_exposure": 0.278654,
+              "raw_specificity": 0.311166,
+              "raw_uniqueness": 0.706713,
+              "raw_symptomness": 0.486434,
+              "intervention": {
+                "score": 0.883072,
+                "coverage": 0.833663,
+                "exclusivity": 1.40566,
+                "removed_mass": 1.588679
+              }
+            },
+            "apache01": {
+              "exposure_signal": 0.413499,
+              "evidence_specificity": 0.256877,
+              "causal_uniqueness": 0.472323,
+              "downstream_recovery": 0.700808,
+              "symptomness_prior": 0.945904,
+              "popularity_bias": 0.998316,
+              "rootness_prior": 0.070491,
+              "raw_popularity": 4.062889,
+              "raw_exposure": 0.22291,
+              "raw_specificity": 0.173689,
+              "raw_uniqueness": 0.391248,
+              "raw_symptomness": 0.794617,
+              "intervention": {
+                "score": 0.673569,
+                "coverage": 1.0,
+                "exclusivity": 0.0,
+                "removed_mass": 0.90566
+              }
+            },
+            "apache02": {
+              "exposure_signal": 0.7,
+              "evidence_specificity": 0.245172,
+              "causal_uniqueness": 0.963014,
+              "downstream_recovery": 0.700808,
+              "symptomness_prior": 0.339668,
+              "popularity_bias": 0.899995,
+              "rootness_prior": 0.405577,
+              "raw_popularity": 2.4,
+              "raw_exposure": 0.377358,
+              "raw_specificity": 0.165775,
+              "raw_uniqueness": 0.797711,
+              "raw_symptomness": 0.391585,
+              "intervention": {
+                "score": 0.817378,
+                "coverage": 1.0,
+                "exclusivity": 0.90566,
+                "removed_mass": 0.90566
+              }
+            },
+            "dockera1": {
+              "exposure_signal": 1.0,
+              "evidence_specificity": 1.0,
+              "causal_uniqueness": 0.963014,
+              "downstream_recovery": 0.700808,
+              "symptomness_prior": 0.0,
+              "popularity_bias": 0.582459,
+              "rootness_prior": 0.747374,
+              "raw_popularity": 1.68,
+              "raw_exposure": 0.539084,
+              "raw_specificity": 0.676157,
+              "raw_uniqueness": 0.797711,
+              "raw_symptomness": 0.214427,
+              "intervention": {
+                "score": 0.817378,
+                "coverage": 1.0,
+                "exclusivity": 0.90566,
+                "removed_mass": 0.90566
+              }
+            },
+            "dockera2": {
+              "exposure_signal": 0.0,
+              "evidence_specificity": 0.0,
+              "causal_uniqueness": 0.0,
+              "downstream_recovery": 0.0,
+              "symptomness_prior": 0.436115,
+              "popularity_bias": 0.0,
+              "rootness_prior": 0.0,
+              "raw_popularity": 1.22,
+              "raw_exposure": 0.0,
+              "raw_specificity": 0.0,
+              "raw_uniqueness": 0.0,
+              "raw_symptomness": 0.445982,
+              "intervention": {
+                "score": 0.0,
+                "coverage": 0.0,
+                "exclusivity": 0.0,
+                "removed_mass": 0.0
+              }
+            },
+            "dockerb1": {
+              "exposure_signal": 1.0,
+              "evidence_specificity": 1.0,
+              "causal_uniqueness": 0.963014,
+              "downstream_recovery": 0.700808,
+              "symptomness_prior": 0.0,
+              "popularity_bias": 0.582459,
+              "rootness_prior": 0.747374,
+              "raw_popularity": 1.68,
+              "raw_exposure": 0.539084,
+              "raw_specificity": 0.676157,
+              "raw_uniqueness": 0.797711,
+              "raw_symptomness": 0.214427,
+              "intervention": {
+                "score": 0.817378,
+                "coverage": 1.0,
+                "exclusivity": 0.90566,
+                "removed_mass": 0.90566
+              }
+            },
+            "dockerb2": {
+              "exposure_signal": 0.0,
+              "evidence_specificity": 0.0,
+              "causal_uniqueness": 0.0,
+              "downstream_recovery": 0.0,
+              "symptomness_prior": 0.436115,
+              "popularity_bias": 0.0,
+              "rootness_prior": 0.0,
+              "raw_popularity": 1.22,
+              "raw_exposure": 0.0,
+              "raw_specificity": 0.0,
+              "raw_uniqueness": 0.0,
+              "raw_symptomness": 0.445982,
+              "intervention": {
+                "score": 0.0,
+                "coverage": 0.0,
+                "exclusivity": 0.0,
+                "removed_mass": 0.0
+              }
+            }
+          }
+        },
+        "memory_scores": {
+          "ig01": 2.298,
+          "ig02": 0.2666,
+          "mg01": 0.9276,
+          "mg02": 0.3278,
+          "mysql01": 0.1334,
+          "mysql02": 0.3849,
+          "redis01": 0.126,
+          "redis02": 0.3018,
+          "servicetest1": 0.1198,
+          "servicetest10": 0.1672,
+          "servicetest11": 0.1055,
+          "servicetest2": 0.0843,
+          "servicetest3": 0.145,
+          "servicetest4": 0.11,
+          "servicetest5": 0.0,
+          "servicetest6": 0.063,
+          "servicetest7": 0.0789,
+          "servicetest8": 0.1046,
+          "servicetest9": 0.0738,
+          "tomcat01": 7.709,
+          "tomcat02": 5.7551,
+          "tomcat03": 0.2995,
+          "tomcat04": 0.2583,
+          "apache01": 0.0529,
+          "apache02": 0.3042,
+          "dockera1": 0.5605,
+          "dockera2": 0.0,
+          "dockerb1": 0.5605,
+          "dockerb2": 0.0
+        },
+        "intervention": [
+          {
+            "object_id": "tomcat02",
+            "score": 0.9083531322200459,
+            "removed_mass": 2.2386792452830186,
+            "self_removed_mass": 1.0,
+            "downstream_removed_mass": 1.2386792452830186,
+            "coverage": 0.7704545454545454,
+            "exclusivity": 2.9056603773584904,
+            "representative": "Tomcat02",
+            "impacted": {
+              "tomcat02": 1.0,
+              "tomcat04": 0.65,
+              "apache01": 0.65
+            }
+          },
+          {
+            "object_id": "mg01",
+            "score": 0.894306816099223,
+            "removed_mass": 2.1401104954980466,
+            "self_removed_mass": 0.9056603773584906,
+            "downstream_removed_mass": 1.234450118139556,
+            "coverage": 0.7630132287827674,
+            "exclusivity": 1.8085961211855055,
+            "representative": "MG01",
+            "impacted": {
+              "mg01": 1.0,
+              "redis01": 0.65,
+              "mysql01": 0.65,
+              "servicetest5": 0.65
+            }
+          },
+          {
+            "object_id": "ig01",
+            "score": 0.8824874965064311,
+            "removed_mass": 3.209174459302251,
+            "self_removed_mass": 0.9056603773584906,
+            "downstream_removed_mass": 2.30351408194376,
+            "coverage": 0.6689611356753203,
+            "exclusivity": 3.8444207847462435,
+            "representative": "IG01",
+            "impacted": {
+              "ig01": 1.0,
+              "servicetest10": 0.65,
+              "ig02": 0.65,
+              "mg01": 0.65,
+              "redis01": 0.65,
+              "mysql01": 0.42250000000000004,
+              "servicetest5": 0.42250000000000004
+            }
+          },
+          {
+            "object_id": "tomcat01",
+            "score": 0.8549629444917097,
+            "removed_mass": 2.85432905232286,
+            "self_removed_mass": 1.0,
+            "downstream_removed_mass": 1.8543290523228602,
+            "coverage": 0.5941867709947934,
+            "exclusivity": 4.80375732287697,
+            "representative": "Tomcat01",
+            "impacted": {
+              "tomcat01": 1.0,
+              "ig01": 0.65,
+              "servicetest10": 0.65,
+              "ig02": 0.42250000000000004,
+              "mg01": 0.42250000000000004,
+              "redis01": 0.42250000000000004
+            }
+          }
+        ],
+        "llm_agents": {
+          "enabled": true,
+          "agents": {
+            "timeline": [
+              {
+                "success": true,
+                "payload": {
+                  "proposals": [
+                    {
+                      "object_id": "tomcat01",
+                      "score": 0.85,
+                      "confidence": 0.9,
+                      "claim": "Tomcat01 experienced a disk I/O bottleneck causing high CPU utilization, which propagated to downstream services.",
+                      "reason": "High CPU utilization with strong evidence and downstream mass.",
+                      "evidence_summary": "CPU-0 util baseline=1.379, fault=50.665, z=49285250; CPU-2 util baseline=1.546, fault=49.876, z=48329800.",
+                      "counterfactual": "If Tomcat01 were not faulty, downstream services like IG01 and MG01 would not have experienced cascading failures.",
+                      "needs_graft_with": null,
+                      "role": "cause",
+                      "bridge_to": "ig01",
+                      "mechanism": "disk_io"
+                    },
+                    {
+                      "object_id": "tomcat02",
+                      "score": 0.8,
+                      "confidence": 0.85,
+                      "claim": "Tomcat02 also experienced disk I/O pressure, contributing to the propagation chain.",
+                      "reason": "High CPU utilization with strong evidence and downstream mass.",
+                      "evidence_summary": "CPU-0 util baseline=1.630, fault=5.655, z=4024800; CPU-1 util baseline=1.914, fault=2.662, z=748350.",
+                      "counterfactual": "If Tomcat02 were not faulty, downstream impact on IG01 would be reduced.",
+                      "needs_graft_with": null,
+                      "role": "cause",
+                      "bridge_to": "ig01",
+                      "mechanism": "disk_io"
+                    },
+                    {
+                      "object_id": "ig01",
+                      "score": 0.7,
+                      "confidence": 0.8,
+                      "claim": "IG01 shows symptoms of network latency due to upstream pressure from Tomcat01 and Tomcat02.",
+                      "reason": "High incoming mass and downstream mass, but weak evidence specificity.",
+                      "evidence_summary": "JVM Uptime z=3.68, HeapMemoryUsage z=1.15.",
+                      "counterfactual": "If IG01 were not affected, downstream MG01 would not have anomalies.",
+                      "needs_graft_with": "tomcat01",
+                      "role": "propagation",
+                      "bridge_to": "mg01",
+                      "mechanism": "network_latency"
+                    },
+                    {
+                      "object_id": "mg01",
+                      "score": 0.6,
+                      "confidence": 0.7,
+                      "claim": "MG01 shows symptoms of disk I/O consumption as a downstream effect.",
+                      "reason": "High incoming mass, moderate evidence.",
+                      "evidence_summary": "JVM Uptime z=5.00, HeapMemoryUsage z=2.02.",
+                      "counterfactual": "If MG01 were not faulty, the symptom chain would be shorter.",
+                      "needs_graft_with": "ig01",
+                      "role": "symptom",
+                      "bridge_to": null,
+                      "mechanism": "disk_io"
+                    }
+                  ]
+                }
+              },
+              {
+                "success": true,
+                "payload": {
+                  "proposals": [
+                    {
+                      "object_id": "tomcat01",
+                      "score": 0.85,
+                      "confidence": 0.9,
+                      "claim": "Tomcat01 experienced a disk I/O bottleneck causing high CPU utilization, which propagated to downstream services.",
+                      "reason": "high cpu utilization with disk_io mechanism",
+                      "evidence_summary": "CPU-0 util baseline=1.379 fault=50.665 z=49285250; CPU-2 util baseline=1.546 fault=49.876 z=48329800",
+                      "counterfactual": "If Tomcat01 had not experienced disk I/O pressure, downstream services like IG01 and MG01 would not have shown anomalies.",
+                      "needs_graft_with": null,
+                      "role": "cause",
+                      "bridge_to": "ig01",
+                      "mechanism": "disk_io"
+                    },
+                    {
+                      "object_id": "ig01",
+                      "score": 0.6,
+                      "confidence": 0.7,
+                      "claim": "IG01 shows symptoms of network latency or resource contention, likely propagated from upstream Tomcat01.",
+                      "reason": "high downstream_mass and incoming_mass",
+                      "evidence_summary": "JVM Uptime z=3.68; HeapMemoryUsage z=1.15",
+                      "counterfactual": "If IG01 were not impacted by upstream faults, its JVM metrics would remain stable.",
+                      "needs_graft_with": "tomcat01",
+                      "role": "propagation",
+                      "bridge_to": null,
+                      "mechanism": "network_latency"
+                    },
+                    {
+                      "object_id": "mg01",
+                      "score": 0.5,
+                      "confidence": 0.6,
+                      "claim": "MG01 shows symptoms of disk I/O or memory pressure, likely propagated from upstream services.",
+                      "reason": "high downstream_mass and incoming_mass",
+                      "evidence_summary": "JVM Uptime z=5.00; HeapMemoryUsage z=2.02",
+                      "counterfactual": "If MG01 were not affected, its heap memory usage would not have deviated.",
+                      "needs_graft_with": "tomcat01",
+                      "role": "propagation",
+                      "bridge_to": null,
+                      "mechanism": "disk_io"
+                    }
+                  ]
+                }
+              }
+            ],
+            "dependency": [
+              {
+                "success": true,
+                "payload": {
+                  "object_id": "tomcat01",
+                  "score": 0.85,
+                  "confidence": 0.9,
+                  "claim": "Tomcat01 experienced high CPU utilization due to disk I/O, causing downstream propagation to IG01 and IG02.",
+                  "reason": "disk_io",
+                  "evidence_summary": "CPU-0 util baseline=1.379, fault=50.665, z=49285250; CPU-2 util baseline=1.546, fault=49.876, z=48329800",
+                  "counterfactual": "If Tomcat01 were not faulty, downstream IG01 and IG02 would not have received anomalous traffic.",
+                  "needs_graft_with": null,
+                  "role": "cause",
+                  "bridge_to": "ig01",
+                  "mechanism": "disk_io"
+                }
+              },
+              {
+                "success": true,
+                "payload": {
+                  "object_id": "tomcat01",
+                  "score": 0.85,
+                  "confidence": 0.9,
+                  "claim": "Tomcat01 experienced high CPU utilization due to disk I/O, causing downstream propagation to IG01 and MG01.",
+                  "reason": "disk_io",
+                  "evidence_summary": "CPU-0 util baseline=1.379, fault=50.665, z=49285250; CPU-2 util baseline=1.546, fault=49.876, z=48329800",
+                  "counterfactual": "If Tomcat01 were not faulty, downstream IG01 and MG01 would not have experienced propagation.",
+                  "needs_graft_with": null,
+                  "role": "propagation",
+                  "bridge_to": "ig01",
+                  "mechanism": "disk_io"
+                }
+              }
+            ],
+            "change": [
+              {
+                "success": true,
+                "payload": {
+                  "object_id": "tomcat01",
+                  "score": 0.85,
+                  "confidence": 0.9,
+                  "claim": "Tomcat01 experienced a disk I/O bottleneck due to a change, causing high CPU utilization and propagating to downstream services.",
+                  "reason": "High CPU utilization with disk I/O mechanism, high downstream mass, and change agent view.",
+                  "evidence_summary": "CPU-0 util baseline=1.379, fault=50.665, z=49285250; CPU-2 util baseline=1.546, fault=49.876, z=48329800.",
+                  "counterfactual": "If Tomcat01 were not faulty, CPU utilization would remain low and downstream services would not experience propagation.",
+                  "needs_graft_with": null,
+                  "role": "cause",
+                  "bridge_to": "ig01",
+                  "mechanism": "disk_io"
+                }
+              },
+              {
+                "success": true,
+                "payload": {
+                  "proposals": [
+                    {
+                      "object_id": "tomcat01",
+                      "score": 0.85,
+                      "confidence": 0.9,
+                      "claim": "Tomcat01 experienced a disk I/O bottleneck due to a change, causing high CPU utilization.",
+                      "reason": "High CPU utilization with disk I/O mechanism",
+                      "evidence_summary": "CPU-0 util baseline=1.379, fault=50.665, z=49285250; CPU-2 util baseline=1.546, fault=49.876, z=48329800",
+                      "counterfactual": "If Tomcat01 were not faulty, downstream objects like IG01 and MG01 would not have experienced propagation.",
+                      "needs_graft_with": null,
+                      "role": "cause",
+                      "bridge_to": "ig01",
+                      "mechanism": "disk_io"
+                    },
+                    {
+                      "object_id": "tomcat02",
+                      "score": 0.8,
+                      "confidence": 0.85,
+                      "claim": "Tomcat02 experienced a disk I/O bottleneck due to a change, causing high CPU utilization.",
+                      "reason": "High CPU utilization with disk I/O mechanism",
+                      "evidence_summary": "CPU-0 util baseline=1.630, fault=5.655, z=4024800; CPU-1 util baseline=1.914, fault=2.662, z=748350",
+                      "counterfactual": "If Tomcat02 were not faulty, downstream objects like IG01 would not have experienced propagation.",
+                      "needs_graft_with": null,
+                      "role": "cause",
+                      "bridge_to": "ig01",
+                      "mechanism": "disk_io"
+                    },
+                    {
+                      "object_id": "ig01",
+                      "score": 0.6,
+                      "confidence": 0.7,
+                      "claim": "IG01 experienced network latency as a propagation from upstream disk I/O issues.",
+                      "reason": "Network fault mechanism with moderate evidence",
+                      "evidence_summary": "JVM Uptime z=3.68, HeapMemoryUsage z=1.15",
+                      "counterfactual": "If IG01 were not faulty, downstream objects like MG01 would not have experienced propagation.",
+                      "needs_graft_with": "tomcat01",
+                      "role": "propagation",
+                      "bridge_to": "mg01",
+                      "mechanism": "network_latency"
+                    },
+                    {
+                      "object_id": "mg01",
+                      "score": 0.5,
+                      "confidence": 0.6,
+                      "claim": "MG01 experienced disk I/O as a symptom of upstream network latency.",
+                      "reason": "Disk I/O mechanism with moderate evidence",
+                      "evidence_summary": "JVM Uptime z=5.00, HeapMemoryUsage z=2.02",
+                      "counterfactual": "If MG01 were not faulty, the symptom would not be observed.",
+                      "needs_graft_with": "ig01",
+                      "role": "symptom",
+                      "bridge_to": null,
+                      "mechanism": "disk_io"
+                    }
+                  ]
+                }
+              }
+            ],
+            "resource": [
+              {
+                "success": true,
+                "payload": {
+                  "object_id": "tomcat01",
+                  "score": 0.85,
+                  "confidence": 0.9,
+                  "claim": "Tomcat01 experienced high CPU utilization due to disk I/O, causing downstream propagation.",
+                  "reason": "disk_io",
+                  "evidence_summary": "CPU-0 util baseline=1.379, fault=50.665, z=49285250; CPU-2 util baseline=1.546, fault=49.876, z=48329800.",
+                  "counterfactual": "If Tomcat01 were not faulty, downstream objects like IG01 would not have received high load.",
+                  "needs_graft_with": null,
+                  "role": "propagation",
+                  "bridge_to": "ig01",
+                  "mechanism": "disk_io"
+                }
+              },
+              {
+                "success": true,
+                "payload": {
+                  "object_id": "tomcat01",
+                  "score": 0.85,
+                  "confidence": 0.9,
+                  "claim": "Tomcat01 experienced high CPU utilization due to disk I/O consumption, causing downstream propagation to IG01 and IG02.",
+                  "reason": "disk_io",
+                  "evidence_summary": "CPU-0 util baseline=1.379, fault=50.665, z=49285250; CPU-2 util baseline=1.546, fault=49.876, z=48329800",
+                  "counterfactual": "If Tomcat01 were not faulty, CPU utilization would remain low and downstream objects would not experience propagation.",
+                  "needs_graft_with": null,
+                  "role": "propagation",
+                  "bridge_to": "ig01",
+                  "mechanism": "disk_io"
+                }
+              }
+            ]
+          }
+        },
+        "bridge_generation": {
+          "created": []
+        },
+        "symptom_suppression": {
+          "updates": []
+        },
+        "grafting": {
+          "enabled": true,
+          "suggestions": [
+            {
+              "source_claim_id": "claim_ead1a0b01967",
+              "target_claim_id": "claim_72bd17c86688",
+              "compatibility": 0.9871,
+              "detail": {
+                "same_object": 1.0,
+                "reason_match": 1.0,
+                "token_overlap": 1.0,
+                "evidence_overlap": 0.9355,
+                "topology_support": 1.0
+              },
+              "decision": {
+                "apply": true,
+                "graft_type": "merge",
+                "summary": "Both claims are identical in content and refer to the same object and evidence, differing only in agent (dependency vs. change). Merge to combine perspectives."
+              }
+            },
+            {
+              "source_claim_id": "claim_ead1a0b01967",
+              "target_claim_id": "claim_b76a9e817972",
+              "compatibility": 0.9871,
+              "detail": {
+                "same_object": 1.0,
+                "reason_match": 1.0,
+                "token_overlap": 1.0,
+                "evidence_overlap": 0.9355,
+                "topology_support": 1.0
+              },
+              "decision": {
+                "apply": true,
+                "graft_type": "merge",
+                "summary": "Both claims are identical in content and evidence, differing only in agent (dependency vs. resource). They can be merged into a single claim."
+              }
+            },
+            {
+              "source_claim_id": "claim_ead1a0b01967",
+              "target_claim_id": "claim_b00450f4d860",
+              "compatibility": 0.9871,
+              "detail": {
+                "same_object": 1.0,
+                "reason_match": 1.0,
+                "token_overlap": 1.0,
+                "evidence_overlap": 0.9355,
+                "topology_support": 1.0
+              },
+              "decision": {
+                "apply": true,
+                "graft_type": "merge",
+                "summary": "Both claims are identical in content and refer to the same object and evidence, differing only in agent (dependency vs resource). Merging avoids duplication."
+              }
+            },
+            {
+              "source_claim_id": "claim_72bd17c86688",
+              "target_claim_id": "claim_b76a9e817972",
+              "compatibility": 0.9871,
+              "detail": {
+                "same_object": 1.0,
+                "reason_match": 1.0,
+                "token_overlap": 1.0,
+                "evidence_overlap": 0.9355,
+                "topology_support": 1.0
+              },
+              "decision": {
+                "apply": true,
+                "graft_type": "merge",
+                "summary": "Both claims are identical in content and evidence, differing only in agent (change vs resource). Merging them into a single claim avoids duplication."
+              }
+            },
+            {
+              "source_claim_id": "claim_72bd17c86688",
+              "target_claim_id": "claim_2ce22ae5454b",
+              "compatibility": 0.9871,
+              "detail": {
+                "same_object": 1.0,
+                "reason_match": 1.0,
+                "token_overlap": 1.0,
+                "evidence_overlap": 0.9355,
+                "topology_support": 1.0
+              },
+              "decision": {
+                "apply": true,
+                "graft_type": "merge",
+                "summary": "Both claims describe the same object, mechanism, and evidence, differing only in agent and confidence. Merge to unify."
+              }
+            },
+            {
+              "source_claim_id": "claim_72bd17c86688",
+              "target_claim_id": "claim_b00450f4d860",
+              "compatibility": 0.9871,
+              "detail": {
+                "same_object": 1.0,
+                "reason_match": 1.0,
+                "token_overlap": 1.0,
+                "evidence_overlap": 0.9355,
+                "topology_support": 1.0
+              },
+              "decision": {
+                "apply": true,
+                "graft_type": "merge",
+                "summary": "Both claims are identical in content and evidence, differing only in agent (change vs resource). Merging them consolidates the same root cause information."
+              }
+            }
+          ],
+          "applied": [
+            {
+              "source_claim_id": "claim_ead1a0b01967",
+              "target_claim_id": "claim_72bd17c86688",
+              "graft_type": "merge",
+              "summary": "Both claims are identical in content and refer to the same object and evidence, differing only in agent (dependency vs. change). Merge to combine perspectives."
+            },
+            {
+              "source_claim_id": "claim_ead1a0b01967",
+              "target_claim_id": "claim_b76a9e817972",
+              "graft_type": "merge",
+              "summary": "Both claims are identical in content and evidence, differing only in agent (dependency vs. resource). They can be merged into a single claim."
+            },
+            {
+              "source_claim_id": "claim_ead1a0b01967",
+              "target_claim_id": "claim_b00450f4d860",
+              "graft_type": "merge",
+              "summary": "Both claims are identical in content and refer to the same object and evidence, differing only in agent (dependency vs resource). Merging avoids duplication."
+            },
+            {
+              "source_claim_id": "claim_72bd17c86688",
+              "target_claim_id": "claim_b76a9e817972",
+              "graft_type": "merge",
+              "summary": "Both claims are identical in content and evidence, differing only in agent (change vs resource). Merging them into a single claim avoids duplication."
+            },
+            {
+              "source_claim_id": "claim_72bd17c86688",
+              "target_claim_id": "claim_2ce22ae5454b",
+              "graft_type": "merge",
+              "summary": "Both claims describe the same object, mechanism, and evidence, differing only in agent and confidence. Merge to unify."
+            },
+            {
+              "source_claim_id": "claim_72bd17c86688",
+              "target_claim_id": "claim_b00450f4d860",
+              "graft_type": "merge",
+              "summary": "Both claims are identical in content and evidence, differing only in agent (change vs resource). Merging them consolidates the same root cause information."
+            }
+          ]
+        },
+        "llm_controller": {
+          "enabled": true,
+          "success": true,
+          "candidate_list": [
+            "tomcat01",
+            "tomcat02",
+            "ig01",
+            "mg01"
+          ],
+          "sleeping_objects": [
+            "dockera1",
+            "dockerb1",
+            "mysql02",
+            "dockera1",
+            "dockerb1"
+          ],
+          "summary": "tomcat01 and tomcat02 are strong root cause candidates with high causal_uniqueness and evidence_specificity, low symptom_score, and strong outbound propagation evidence to ig01 and mg01. ig01 and mg01 are kept as propagation nodes to maintain the causal chain. Other objects lack active claims or have weak evidence, so they are moved to sleeping.",
+          "ballots": [
+            {
+              "candidate_list": [
+                "tomcat01",
+                "tomcat02",
+                "ig01",
+                "mg01"
+              ],
+              "sleeping_objects": [
+                "dockera1",
+                "dockerb1",
+                "mysql02",
+                "mg02",
+                "redis02",
+                "apache02",
+                "tomcat03",
+                "ig02"
+              ],
+              "controller_summary": "tomcat01 and tomcat02 are strong root cause candidates with high causal_uniqueness and evidence_specificity, low symptom_score, and strong outbound propagation evidence to ig01 and mg01. ig01 and mg01 are kept as propagation nodes to maintain the causal chain. Other objects lack active claims or have weak evidence, so they are moved to sleeping."
+            },
+            {
+              "candidate_list": [
+                "tomcat01",
+                "tomcat02",
+                "ig01",
+                "mg01"
+              ],
+              "sleeping_objects": [
+                "dockera1",
+                "dockerb1",
+                "mysql02",
+                "mg02",
+                "redis02",
+                "apache02",
+                "tomcat03",
+                "ig02"
+              ],
+              "controller_summary": "tomcat01 and tomcat02 have strong causal_uniqueness (0.894, 0.970) and evidence_specificity (0.299, 0.289) with disk I/O mechanism, low symptom_score (0.0, 0.1), and high downstream_mass (1.0868, 1.9057) indicating outbound propagation. ig01 and mg01 are retained as propagation nodes with moderate evidence and downstream_mass. Other objects lack active claims or have high symptomness_prior without strong propagation evidence."
+            }
+          ],
+          "vote_score": {
+            "tomcat01": 10.0,
+            "tomcat02": 8.0,
+            "ig01": 6.0,
+            "mg01": 4.0
+          }
+        },
+        "claim_counterfactual": {
+          "enabled": true,
+          "validations": [
+            {
+              "claim_id": "claim_df225e18ac12",
+              "object_id": "tomcat01",
+              "supports_claim": true,
+              "confidence": 0.85,
+              "summary": "The local intervention counterfactual shows that intervening on tomcat01 removes significant downstream mass (2.854) with high exclusivity (4.804), indicating that tomcat01 is a key causal node. This strengthens the claim that tomcat01's disk I/O bottleneck caused high CPU and propagated downstream."
+            },
+            {
+              "claim_id": "claim_b00450f4d860",
+              "object_id": "tomcat02",
+              "supports_claim": true,
+              "confidence": 0.908,
+              "summary": "Local intervention on tomcat02 removes 2.239 mass with high coverage (0.770) and exclusivity (2.906), strongly supporting its causal role in the disk I/O bottleneck."
+            },
+            {
+              "claim_id": "claim_d1bd0ace8c5d",
+              "object_id": "ig01",
+              "supports_claim": true,
+              "confidence": 0.88,
+              "summary": "Local intervention on IG01 removes significant downstream mass (coverage 0.67, exclusivity 3.84), indicating IG01 is a key propagation node. This supports the claim that IG01's network latency is due to upstream pressure, as intervening locally alleviates downstream anomalies."
+            },
+            {
+              "claim_id": "claim_9a8e36f09207",
+              "object_id": "mg01",
+              "supports_claim": true,
+              "confidence": 0.89,
+              "summary": "Local intervention on MG01 removes significant mass (2.14) with high coverage (0.76) and exclusivity (1.81), strongly indicating that MG01 is a key causal node, supporting the claim that it is affected by upstream propagation."
+            }
+          ]
+        },
+        "debates": {
+          "enabled": true,
+          "pairs": [
+            {
+              "winner_object_id": "tomcat01",
+              "confidence": 0.85,
+              "verdict": "tomcat01 is the root cause",
+              "summary": "tomcat01 has higher root-adjusted score (9.609 vs 7.748), stronger evidence (CPU util z-scores ~49M vs ~4M), and higher exclusivity (4.80 vs 2.91). Its disk I/O mechanism explains downstream propagation to IG01 and MG01, while tomcat02's evidence is weaker and its symptom score is non-zero, indicating it may be a downstream effect."
+            },
+            {
+              "winner_object_id": "tomcat01",
+              "confidence": 0.85,
+              "verdict": "tomcat01 is the root cause",
+              "summary": "tomcat01 has stronger evidence (CPU util z-scores ~49M), higher root-adjusted score (9.779 vs 2.909), and higher exclusivity (4.80 vs 3.84). Its disk I/O mechanism explains downstream propagation, while ig01 shows only weak JVM symptoms and is likely a downstream effect."
+            }
+          ],
+          "records": [
+            {
+              "object_a": "tomcat01",
+              "object_b": "tomcat02",
+              "winner_object_id": "tomcat01",
+              "summary": "tomcat01 has higher root-adjusted score (9.609 vs 7.748), stronger evidence (CPU util z-scores ~49M vs ~4M), and higher exclusivity (4.80 vs 2.91). Its disk I/O mechanism explains downstream propagation to IG01 and MG01, while tomcat02's evidence is weaker and its symptom score is non-zero, indicating it may be a downstream effect.",
+              "confidence": 0.85
+            },
+            {
+              "object_a": "tomcat01",
+              "object_b": "ig01",
+              "winner_object_id": "tomcat01",
+              "summary": "tomcat01 has stronger evidence (CPU util z-scores ~49M), higher root-adjusted score (9.779 vs 2.909), and higher exclusivity (4.80 vs 3.84). Its disk I/O mechanism explains downstream propagation, while ig01 shows only weak JVM symptoms and is likely a downstream effect.",
+              "confidence": 0.85
+            }
+          ]
+        },
+        "tournament": {
+          "enabled": true,
+          "rounds": [
+            {
+              "object_a": "tomcat01",
+              "object_b": "tomcat02",
+              "winner": "tomcat01",
+              "confidence": 0.85,
+              "summary": "tomcat01 has stronger evidence (CPU util z-scores ~49M vs ~4M), higher root-adjusted score (9.949 vs 7.621), higher exclusivity (4.80 vs 2.91), and zero symptom score, while tomcat02 has non-zero symptom score and weaker evidence, indicating it is likely a downstream effect.",
+              "raw": {
+                "winner_object_id": "tomcat01",
+                "confidence": 0.85,
+                "verdict": "tomcat01 is the root cause",
+                "summary": "tomcat01 has stronger evidence (CPU util z-scores ~49M vs ~4M), higher root-adjusted score (9.949 vs 7.621), higher exclusivity (4.80 vs 2.91), and zero symptom score, while tomcat02 has non-zero symptom score and weaker evidence, indicating it is likely a downstream effect."
+              }
+            },
+            {
+              "object_a": "tomcat01",
+              "object_b": "ig01",
+              "winner": "tomcat01",
+              "confidence": 0.85,
+              "summary": "tomcat01 has stronger evidence (CPU util z-scores ~49M), higher root-adjusted score (9.949 vs 2.781), and higher exclusivity (4.80 vs 3.84). Its disk I/O mechanism explains downstream propagation, while ig01 shows only weak JVM symptoms and is likely a downstream effect.",
+              "raw": {
+                "winner_object_id": "tomcat01",
+                "confidence": 0.85,
+                "verdict": "tomcat01 is the root cause",
+                "summary": "tomcat01 has stronger evidence (CPU util z-scores ~49M), higher root-adjusted score (9.949 vs 2.781), and higher exclusivity (4.80 vs 3.84). Its disk I/O mechanism explains downstream propagation, while ig01 shows only weak JVM symptoms and is likely a downstream effect."
+              }
+            },
+            {
+              "object_a": "tomcat02",
+              "object_b": "ig01",
+              "winner": "tomcat02",
+              "confidence": 0.85,
+              "summary": "tomcat02 has higher root-adjusted score (7.621 vs 2.781), stronger evidence (CPU util z-scores up to 4M), and higher exclusivity (2.906 vs 3.844). Its disk I/O mechanism explains downstream propagation to IG01, while IG01 shows only weak JVM symptoms and is likely a downstream effect.",
+              "raw": {
+                "winner_object_id": "tomcat02",
+                "confidence": 0.85,
+                "verdict": "tomcat02 is the root cause",
+                "summary": "tomcat02 has higher root-adjusted score (7.621 vs 2.781), stronger evidence (CPU util z-scores up to 4M), and higher exclusivity (2.906 vs 3.844). Its disk I/O mechanism explains downstream propagation to IG01, while IG01 shows only weak JVM symptoms and is likely a downstream effect."
+              }
+            }
+          ],
+          "scores": {
+            "tomcat01": 1.7,
+            "tomcat02": 0.85,
+            "ig01": 0.0
+          },
+          "ranking": [
+            "tomcat01",
+            "tomcat02",
+            "ig01"
+          ]
+        },
+        "llm_final": {
+          "enabled": true,
+          "success": true,
+          "chosen_object_id": "tomcat01",
+          "reason": "Strongest evidence (CPU util z-scores ~49M), highest root-adjusted score (9.949), high exclusivity (4.80), disk I/O mechanism explains downstream propagation, and debate wins over tomcat02 and ig01.",
+          "confidence": 0.9499999999999998,
+          "evidence_summary": "CPU-0 util baseline=1.379, fault=50.665, z=49285250; CPU-2 util baseline=1.546, fault=49.876, z=48329800; disk I/O bottleneck causing high CPU utilization and downstream propagation to IG01 and MG01.",
+          "time": "2021-03-04 14:30:00",
+          "payload": {
+            "chosen_object_id": "tomcat01",
+            "reason": "Strongest evidence (CPU util z-scores ~49M), highest root-adjusted score (9.949), high exclusivity (4.80), disk I/O mechanism explains downstream propagation, and debate wins over tomcat02 and ig01.",
+            "confidence": 0.95,
+            "evidence_summary": "CPU-0 util baseline=1.379, fault=50.665, z=49285250; CPU-2 util baseline=1.546, fault=49.876, z=48329800; disk I/O bottleneck causing high CPU utilization and downstream propagation to IG01 and MG01.",
+            "time": "2021-03-04 14:30:00"
+          },
+          "ballots": [
+            {
+              "chosen_object_id": "tomcat01",
+              "reason": "Strongest evidence (CPU util z-scores ~49M), highest root-adjusted score (9.949), high exclusivity (4.80), disk I/O mechanism explains downstream propagation, and debate wins over tomcat02 and ig01.",
+              "confidence": 0.95,
+              "evidence_summary": "CPU-0 util baseline=1.379, fault=50.665, z=49285250; CPU-2 util baseline=1.546, fault=49.876, z=48329800; disk I/O bottleneck causing high CPU utilization and downstream propagation to IG01 and MG01.",
+              "time": "2021-03-04 14:30:00"
+            },
+            {
+              "chosen_object_id": "tomcat01",
+              "reason": "Strongest evidence (CPU util z-scores ~49M), highest root-adjusted score (9.949), high exclusivity (4.80), and disk I/O mechanism explains downstream propagation to IG01 and MG01.",
+              "confidence": 0.95,
+              "evidence_summary": "CPU-0 util baseline=1.379, fault=50.665, z=49285250; CPU-2 util baseline=1.546, fault=49.876, z=48329800.",
+              "time": "2021-03-04 14:30:00"
+            },
+            {
+              "chosen_object_id": "tomcat01",
+              "reason": "Strongest evidence (CPU util z-scores ~49M), highest root-adjusted score (9.949), high exclusivity (4.80), and disk I/O mechanism explains downstream propagation to IG01 and MG01.",
+              "confidence": 0.95,
+              "evidence_summary": "CPU-0 util baseline=1.379, fault=50.665, z=49285250; CPU-2 util baseline=1.546, fault=49.876, z=48329800.",
+              "time": "2021-03-04 14:30:00"
+            }
+          ],
+          "vote_score": {
+            "tomcat01": 2.85
+          }
+        },
+        "memory_snapshot": {
+          "object_scores": {
+            "ig01": 2.298,
+            "ig02": 0.2666,
+            "mg01": 0.9276,
+            "mg02": 0.3278,
+            "mysql01": 0.1334,
+            "mysql02": 0.3849,
+            "redis01": 0.126,
+            "redis02": 0.3018,
+            "servicetest1": 0.1198,
+            "servicetest10": 0.1672,
+            "servicetest11": 0.1055,
+            "servicetest2": 0.0843,
+            "servicetest3": 0.145,
+            "servicetest4": 0.11,
+            "servicetest5": 0.0,
+            "servicetest6": 0.063,
+            "servicetest7": 0.0789,
+            "servicetest8": 0.1046,
+            "servicetest9": 0.0738,
+            "tomcat01": 7.709,
+            "tomcat02": 5.7551,
+            "tomcat03": 0.2995,
+            "tomcat04": 0.2583,
+            "apache01": 0.0529,
+            "apache02": 0.3042,
+            "dockera1": 0.5605,
+            "dockera2": 0.0,
+            "dockerb1": 0.5605,
+            "dockerb2": 0.0
+          },
+          "object_priors": {
+            "ig01": {
+              "exposure_signal": 0.3847,
+              "evidence_specificity": 0.4933,
+              "causal_uniqueness": 0.9079,
+              "downstream_recovery": 0.8804,
+              "symptomness_prior": 0.3198,
+              "popularity_bias": 1.0,
+              "rootness_prior": 0.3847
+            },
+            "ig02": {
+              "exposure_signal": 0.4023,
+              "evidence_specificity": 0.3171,
+              "causal_uniqueness": 0.8992,
+              "downstream_recovery": 0.8985,
+              "symptomness_prior": 0.3191,
+              "popularity_bias": 0.9991,
+              "rootness_prior": 0.3555
+            },
+            "mg01": {
+              "exposure_signal": 0.3938,
+              "evidence_specificity": 0.4855,
+              "causal_uniqueness": 0.8604,
+              "downstream_recovery": 0.8655,
+              "symptomness_prior": 0.4377,
+              "popularity_bias": 0.9996,
+              "rootness_prior": 0.3455
+            },
+            "mg02": {
+              "exposure_signal": 0.7,
+              "evidence_specificity": 0.3639,
+              "causal_uniqueness": 0.963,
+              "downstream_recovery": 0.7008,
+              "symptomness_prior": 0.3045,
+              "popularity_bias": 0.9,
+              "rootness_prior": 0.437
+            },
+            "mysql01": {
+              "exposure_signal": 0.4411,
+              "evidence_specificity": 0.6351,
+              "causal_uniqueness": 0.4688,
+              "downstream_recovery": 0.7131,
+              "symptomness_prior": 0.8421,
+              "popularity_bias": 0.9959,
+              "rootness_prior": 0.1778
+            },
+            "mysql02": {
+              "exposure_signal": 0.5382,
+              "evidence_specificity": 0.6488,
+              "causal_uniqueness": 0.9868,
+              "downstream_recovery": 0.8127,
+              "symptomness_prior": 0.1014,
+              "popularity_bias": 0.9778,
+              "rootness_prior": 0.5132
+            },
+            "redis01": {
+              "exposure_signal": 0.3856,
+              "evidence_specificity": 0.2309,
+              "causal_uniqueness": 0.6399,
+              "downstream_recovery": 0.8112,
+              "symptomness_prior": 0.7182,
+              "popularity_bias": 1.0,
+              "rootness_prior": 0.168
+            },
+            "redis02": {
+              "exposure_signal": 0.5733,
+              "evidence_specificity": 0.2574,
+              "causal_uniqueness": 0.8848,
+              "downstream_recovery": 0.796,
+              "symptomness_prior": 0.1719,
+              "popularity_bias": 0.9665,
+              "rootness_prior": 0.4024
+            },
+            "servicetest1": {
+              "exposure_signal": 0.1373,
+              "evidence_specificity": 0.3093,
+              "causal_uniqueness": 0.4456,
+              "downstream_recovery": 0.7008,
+              "symptomness_prior": 0.4594,
+              "popularity_bias": 0.5825,
+              "rootness_prior": 0.1597
+            },
+            "servicetest10": {
+              "exposure_signal": 0.0878,
+              "evidence_specificity": 0.2547,
+              "causal_uniqueness": 0.804,
+              "downstream_recovery": 0.9558,
+              "symptomness_prior": 0.438,
+              "popularity_bias": 0.9961,
+              "rootness_prior": 0.2229
+            },
+            "servicetest11": {
+              "exposure_signal": 0.034,
+              "evidence_specificity": 0.2292,
+              "causal_uniqueness": 0.5209,
+              "downstream_recovery": 1.0,
+              "symptomness_prior": 0.4871,
+              "popularity_bias": 0.9328,
+              "rootness_prior": 0.1406
+            },
+            "servicetest2": {
+              "exposure_signal": 0.0428,
+              "evidence_specificity": 0.3147,
+              "causal_uniqueness": 0.3717,
+              "downstream_recovery": 0.7008,
+              "symptomness_prior": 0.4871,
+              "popularity_bias": 0.5825,
+              "rootness_prior": 0.1124
+            },
+            "servicetest3": {
+              "exposure_signal": 0.2658,
+              "evidence_specificity": 0.1876,
+              "causal_uniqueness": 0.5433,
+              "downstream_recovery": 0.7008,
+              "symptomness_prior": 0.454,
+              "popularity_bias": 0.5825,
+              "rootness_prior": 0.1934
+            },
+            "servicetest4": {
+              "exposure_signal": 0.0427,
+              "evidence_specificity": 0.296,
+              "causal_uniqueness": 0.4963,
+              "downstream_recovery": 0.9912,
+              "symptomness_prior": 0.496,
+              "popularity_bias": 0.9332,
+              "rootness_prior": 0.1467
+            },
+            "servicetest5": {
+              "exposure_signal": 0.0497,
+              "evidence_specificity": 0.2956,
+              "causal_uniqueness": 0.2586,
+              "downstream_recovery": 0.7008,
+              "symptomness_prior": 1.0,
+              "popularity_bias": 0.9842,
+              "rootness_prior": 0.0
+            },
+            "servicetest6": {
+              "exposure_signal": 0.0376,
+              "evidence_specificity": 0.2158,
+              "causal_uniqueness": 0.3676,
+              "downstream_recovery": 0.7008,
+              "symptomness_prior": 0.5155,
+              "popularity_bias": 0.5825,
+              "rootness_prior": 0.084
+            },
+            "servicetest7": {
+              "exposure_signal": 0.0461,
+              "evidence_specificity": 0.2807,
+              "causal_uniqueness": 0.3743,
+              "downstream_recovery": 0.7008,
+              "symptomness_prior": 0.4953,
+              "popularity_bias": 0.5825,
+              "rootness_prior": 0.1052
+            },
+            "servicetest8": {
+              "exposure_signal": 0.0933,
+              "evidence_specificity": 0.3188,
+              "causal_uniqueness": 0.4113,
+              "downstream_recovery": 0.7008,
+              "symptomness_prior": 0.4704,
+              "popularity_bias": 0.5825,
+              "rootness_prior": 0.1395
+            },
+            "servicetest9": {
+              "exposure_signal": 0.0716,
+              "evidence_specificity": 0.2039,
+              "causal_uniqueness": 0.3943,
+              "downstream_recovery": 0.7008,
+              "symptomness_prior": 0.5085,
+              "popularity_bias": 0.5825,
+              "rootness_prior": 0.0984
+            },
+            "tomcat01": {
+              "exposure_signal": 0.5471,
+              "evidence_specificity": 0.2992,
+              "causal_uniqueness": 0.8941,
+              "downstream_recovery": 0.7889,
+              "symptomness_prior": 0.1733,
+              "popularity_bias": 0.9878,
+              "rootness_prior": 0.402
+            },
+            "tomcat02": {
+              "exposure_signal": 0.5317,
+              "evidence_specificity": 0.2892,
+              "causal_uniqueness": 0.9698,
+              "downstream_recovery": 0.8572,
+              "symptomness_prior": 0.1746,
+              "popularity_bias": 0.9904,
+              "rootness_prior": 0.4259
+            },
+            "tomcat03": {
+              "exposure_signal": 0.6486,
+              "evidence_specificity": 0.2753,
+              "causal_uniqueness": 1.0,
+              "downstream_recovery": 0.7008,
+              "symptomness_prior": 0.3415,
+              "popularity_bias": 0.9612,
+              "rootness_prior": 0.3994
+            },
+            "tomcat04": {
+              "exposure_signal": 0.5169,
+              "evidence_specificity": 0.4602,
+              "causal_uniqueness": 0.8532,
+              "downstream_recovery": 0.7967,
+              "symptomness_prior": 0.5051,
+              "popularity_bias": 0.9925,
+              "rootness_prior": 0.3444
+            },
+            "apache01": {
+              "exposure_signal": 0.4135,
+              "evidence_specificity": 0.2569,
+              "causal_uniqueness": 0.4723,
+              "downstream_recovery": 0.7008,
+              "symptomness_prior": 0.9459,
+              "popularity_bias": 0.9983,
+              "rootness_prior": 0.0705
+            },
+            "apache02": {
+              "exposure_signal": 0.7,
+              "evidence_specificity": 0.2452,
+              "causal_uniqueness": 0.963,
+              "downstream_recovery": 0.7008,
+              "symptomness_prior": 0.3397,
+              "popularity_bias": 0.9,
+              "rootness_prior": 0.4056
+            },
+            "dockera1": {
+              "exposure_signal": 1.0,
+              "evidence_specificity": 1.0,
+              "causal_uniqueness": 0.963,
+              "downstream_recovery": 0.7008,
+              "symptomness_prior": 0.0,
+              "popularity_bias": 0.5825,
+              "rootness_prior": 0.7474
+            },
+            "dockera2": {
+              "exposure_signal": 0.0,
+              "evidence_specificity": 0.0,
+              "causal_uniqueness": 0.0,
+              "downstream_recovery": 0.0,
+              "symptomness_prior": 0.4361,
+              "popularity_bias": 0.0,
+              "rootness_prior": 0.0
+            },
+            "dockerb1": {
+              "exposure_signal": 1.0,
+              "evidence_specificity": 1.0,
+              "causal_uniqueness": 0.963,
+              "downstream_recovery": 0.7008,
+              "symptomness_prior": 0.0,
+              "popularity_bias": 0.5825,
+              "rootness_prior": 0.7474
+            },
+            "dockerb2": {
+              "exposure_signal": 0.0,
+              "evidence_specificity": 0.0,
+              "causal_uniqueness": 0.0,
+              "downstream_recovery": 0.0,
+              "symptomness_prior": 0.4361,
+              "popularity_bias": 0.0,
+              "rootness_prior": 0.0
+            }
+          },
+          "claims": {
+            "claim_3dd17dd60373": {
+              "claim_id": "claim_3dd17dd60373",
+              "object_id": "tomcat01",
+              "agent": "timeline",
+              "claim": "Tomcat01 experienced a disk I/O bottleneck causing high CPU utilization, which propagated to downstream services.",
+              "reason": "High CPU utilization with strong evidence and downstream mass.",
+              "score": 0.85,
+              "confidence": 0.9,
+              "evidence_summary": "CPU-0 util baseline=1.379, fault=50.665, z=49285250; CPU-2 util baseline=1.546, fault=49.876, z=48329800.",
+              "role": "cause",
+              "bridge_to": "ig01",
+              "mechanism": "disk_io",
+              "symptom_score": 0.0,
+              "evidence": [
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-0_SingleCpuUtil",
+                  "content": "OSLinux-CPU_CPU-0_SingleCpuUtil: baseline=1.379, fault=50.665, z=49285250.00",
+                  "confidence": 1.0,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-2_SingleCpuUtil",
+                  "content": "OSLinux-CPU_CPU-2_SingleCpuUtil: baseline=1.546, fault=49.876, z=48329800.00",
+                  "confidence": 1.0,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-2_SingleCpuidle",
+                  "content": "OSLinux-CPU_CPU-2_SingleCpuidle: baseline=49.035, fault=98.328, z=0.71",
+                  "confidence": 0.34383495106508166,
+                  "timestamp": 1614841200.0
+                },
+                {
+                  "kind": "llm_summary",
+                  "source": "timeline",
+                  "content": "CPU-0 util baseline=1.379, fault=50.665, z=49285250; CPU-2 util baseline=1.546, fault=49.876, z=48329800.",
+                  "confidence": 0.9,
+                  "timestamp": null
+                }
+              ],
+              "counterfactuals": [
+                {
+                  "object_id": "tomcat01",
+                  "summary": "If Tomcat01 were not faulty, downstream services like IG01 and MG01 would not have experienced cascading failures.",
+                  "removed_mass": 0.0,
+                  "coverage": 0.0,
+                  "exclusivity": 0.0,
+                  "confidence": 0.9,
+                  "created_by": "timeline",
+                  "target_claim_id": "",
+                  "verdict": ""
+                },
+                {
+                  "object_id": "tomcat01",
+                  "summary": "If tomcat01 were intervened on locally, removed_mass=2.854, coverage=0.594, exclusivity=4.804.",
+                  "removed_mass": 2.85432905232286,
+                  "coverage": 0.5941867709947934,
+                  "exclusivity": 4.80375732287697,
+                  "confidence": 0.8549629444917097,
+                  "created_by": "local_intervention",
+                  "target_claim_id": "",
+                  "verdict": ""
+                }
+              ],
+              "supports": [],
+              "contradicts": [],
+              "grafted_from": [],
+              "vitality": 0.9216,
+              "status": "active",
+              "round_idx": 0
+            },
+            "claim_2613ad90055c": {
+              "claim_id": "claim_2613ad90055c",
+              "object_id": "tomcat02",
+              "agent": "timeline",
+              "claim": "Tomcat02 also experienced disk I/O pressure, contributing to the propagation chain.",
+              "reason": "High CPU utilization with strong evidence and downstream mass.",
+              "score": 0.8,
+              "confidence": 0.85,
+              "evidence_summary": "CPU-0 util baseline=1.630, fault=5.655, z=4024800; CPU-1 util baseline=1.914, fault=2.662, z=748350.",
+              "role": "cause",
+              "bridge_to": "ig01",
+              "mechanism": "disk_io",
+              "symptom_score": 0.0,
+              "evidence": [
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-0_SingleCpuUtil",
+                  "content": "OSLinux-CPU_CPU-0_SingleCpuUtil: baseline=1.630, fault=5.655, z=4024800.00",
+                  "confidence": 1.0,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-1_SingleCpuUtil",
+                  "content": "OSLinux-CPU_CPU-1_SingleCpuUtil: baseline=1.914, fault=2.662, z=748350.00",
+                  "confidence": 1.0,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-2_SingleCpuUtil",
+                  "content": "OSLinux-CPU_CPU-2_SingleCpuUtil: baseline=2.229, fault=3.179, z=950150.00",
+                  "confidence": 1.0,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "llm_summary",
+                  "source": "timeline",
+                  "content": "CPU-0 util baseline=1.630, fault=5.655, z=4024800; CPU-1 util baseline=1.914, fault=2.662, z=748350.",
+                  "confidence": 0.85,
+                  "timestamp": null
+                }
+              ],
+              "counterfactuals": [
+                {
+                  "object_id": "tomcat02",
+                  "summary": "If Tomcat02 were not faulty, downstream impact on IG01 would be reduced.",
+                  "removed_mass": 0.0,
+                  "coverage": 0.0,
+                  "exclusivity": 0.0,
+                  "confidence": 0.85,
+                  "created_by": "timeline",
+                  "target_claim_id": "",
+                  "verdict": ""
+                },
+                {
+                  "object_id": "tomcat02",
+                  "summary": "If tomcat02 were intervened on locally, removed_mass=2.239, coverage=0.770, exclusivity=2.906.",
+                  "removed_mass": 2.2386792452830186,
+                  "coverage": 0.7704545454545454,
+                  "exclusivity": 2.9056603773584904,
+                  "confidence": 0.9083531322200459,
+                  "created_by": "local_intervention",
+                  "target_claim_id": "",
+                  "verdict": ""
+                }
+              ],
+              "supports": [],
+              "contradicts": [],
+              "grafted_from": [],
+              "vitality": 0.9216,
+              "status": "active",
+              "round_idx": 0
+            },
+            "claim_d1bd0ace8c5d": {
+              "claim_id": "claim_d1bd0ace8c5d",
+              "object_id": "ig01",
+              "agent": "timeline",
+              "claim": "IG01 shows symptoms of network latency due to upstream pressure from Tomcat01 and Tomcat02.",
+              "reason": "High incoming mass and downstream mass, but weak evidence specificity.",
+              "score": 0.7704,
+              "confidence": 0.9056,
+              "evidence_summary": "JVM Uptime z=3.68, HeapMemoryUsage z=1.15.",
+              "role": "propagation",
+              "bridge_to": "mg01",
+              "mechanism": "network_latency",
+              "symptom_score": 0.1075,
+              "evidence": [
+                {
+                  "kind": "metric",
+                  "source": "JVM-Runtime_7778_JVM_JVM_Uptime",
+                  "content": "JVM-Runtime_7778_JVM_JVM_Uptime: baseline=1904152.500, fault=1904437.500, z=3.68",
+                  "confidence": 0.28616433999308094,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "metric",
+                  "source": "JVM-Memory_7778_JVM_Memory_HeapMemoryUsage",
+                  "content": "JVM-Memory_7778_JVM_Memory_HeapMemoryUsage: baseline=25.392, fault=37.342, z=1.15",
+                  "confidence": 0.22939041737669566,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "metric",
+                  "source": "JVM-Memory_7778_JVM_Memory_HeapMemoryUsed",
+                  "content": "JVM-Memory_7778_JVM_Memory_HeapMemoryUsed: baseline=712545792.000, fault=559151685.333, z=0.68",
+                  "confidence": 0.11851238343471625,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "llm_summary",
+                  "source": "timeline",
+                  "content": "JVM Uptime z=3.68, HeapMemoryUsage z=1.15.",
+                  "confidence": 0.8,
+                  "timestamp": null
+                }
+              ],
+              "counterfactuals": [
+                {
+                  "object_id": "ig01",
+                  "summary": "If IG01 were not affected, downstream MG01 would not have anomalies.",
+                  "removed_mass": 0.0,
+                  "coverage": 0.0,
+                  "exclusivity": 0.0,
+                  "confidence": 0.8,
+                  "created_by": "timeline",
+                  "target_claim_id": "",
+                  "verdict": ""
+                },
+                {
+                  "object_id": "ig01",
+                  "summary": "If ig01 were intervened on locally, removed_mass=3.209, coverage=0.669, exclusivity=3.844.",
+                  "removed_mass": 3.209174459302251,
+                  "coverage": 0.6689611356753203,
+                  "exclusivity": 3.8444207847462435,
+                  "confidence": 0.8824874965064311,
+                  "created_by": "local_intervention",
+                  "target_claim_id": "",
+                  "verdict": ""
+                }
+              ],
+              "supports": [],
+              "contradicts": [
+                "claim_df225e18ac12"
+              ],
+              "grafted_from": [],
+              "vitality": 0.7516,
+              "status": "active",
+              "round_idx": 0
+            },
+            "claim_f1c85471637a": {
+              "claim_id": "claim_f1c85471637a",
+              "object_id": "tomcat01",
+              "agent": "dependency",
+              "claim": "Tomcat01 experienced high CPU utilization due to disk I/O, causing downstream propagation to IG01 and IG02.",
+              "reason": "disk_io",
+              "score": 0.85,
+              "confidence": 0.9,
+              "evidence_summary": "CPU-0 util baseline=1.379, fault=50.665, z=49285250; CPU-2 util baseline=1.546, fault=49.876, z=48329800",
+              "role": "cause",
+              "bridge_to": "ig01",
+              "mechanism": "disk_io",
+              "symptom_score": 0.0,
+              "evidence": [
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-0_SingleCpuUtil",
+                  "content": "OSLinux-CPU_CPU-0_SingleCpuUtil: baseline=1.379, fault=50.665, z=49285250.00",
+                  "confidence": 1.0,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-2_SingleCpuUtil",
+                  "content": "OSLinux-CPU_CPU-2_SingleCpuUtil: baseline=1.546, fault=49.876, z=48329800.00",
+                  "confidence": 1.0,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-2_SingleCpuidle",
+                  "content": "OSLinux-CPU_CPU-2_SingleCpuidle: baseline=49.035, fault=98.328, z=0.71",
+                  "confidence": 0.34383495106508166,
+                  "timestamp": 1614841200.0
+                },
+                {
+                  "kind": "llm_summary",
+                  "source": "dependency",
+                  "content": "CPU-0 util baseline=1.379, fault=50.665, z=49285250; CPU-2 util baseline=1.546, fault=49.876, z=48329800",
+                  "confidence": 0.9,
+                  "timestamp": null
+                }
+              ],
+              "counterfactuals": [
+                {
+                  "object_id": "tomcat01",
+                  "summary": "If Tomcat01 were not faulty, downstream IG01 and IG02 would not have received anomalous traffic.",
+                  "removed_mass": 0.0,
+                  "coverage": 0.0,
+                  "exclusivity": 0.0,
+                  "confidence": 0.9,
+                  "created_by": "dependency",
+                  "target_claim_id": "",
+                  "verdict": ""
+                },
+                {
+                  "object_id": "tomcat01",
+                  "summary": "If tomcat01 were intervened on locally, removed_mass=2.854, coverage=0.594, exclusivity=4.804.",
+                  "removed_mass": 2.85432905232286,
+                  "coverage": 0.5941867709947934,
+                  "exclusivity": 4.80375732287697,
+                  "confidence": 0.8549629444917097,
+                  "created_by": "local_intervention",
+                  "target_claim_id": "",
+                  "verdict": ""
+                }
+              ],
+              "supports": [],
+              "contradicts": [],
+              "grafted_from": [],
+              "vitality": 0.9216,
+              "status": "active",
+              "round_idx": 0
+            },
+            "claim_ead1a0b01967": {
+              "claim_id": "claim_ead1a0b01967",
+              "object_id": "tomcat02",
+              "agent": "dependency",
+              "claim": "Tomcat02 is a high-priority backbone candidate with disk i/o consumption evidence.",
+              "reason": "disk I/O consumption",
+              "score": 0.4259,
+              "confidence": 0.9698,
+              "evidence_summary": "rootness=0.426, specificity=0.289, uniqueness=0.970",
+              "role": "cause",
+              "bridge_to": "",
+              "mechanism": "disk_io",
+              "symptom_score": 0.1,
+              "evidence": [
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-0_SingleCpuUtil",
+                  "content": "OSLinux-CPU_CPU-0_SingleCpuUtil: baseline=1.630, fault=5.655, z=4024800.00",
+                  "confidence": 1.0,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-1_SingleCpuUtil",
+                  "content": "OSLinux-CPU_CPU-1_SingleCpuUtil: baseline=1.914, fault=2.662, z=748350.00",
+                  "confidence": 1.0,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-2_SingleCpuUtil",
+                  "content": "OSLinux-CPU_CPU-2_SingleCpuUtil: baseline=2.229, fault=3.179, z=950150.00",
+                  "confidence": 1.0,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "llm_summary",
+                  "source": "dependency",
+                  "content": "rootness=0.426, specificity=0.289, uniqueness=0.970",
+                  "confidence": 0.969805,
+                  "timestamp": null
+                }
+              ],
+              "counterfactuals": [
+                {
+                  "object_id": "tomcat02",
+                  "summary": "If Tomcat02 were not causal, its backbone uniqueness and recovery contribution would drop.",
+                  "removed_mass": 0.0,
+                  "coverage": 0.0,
+                  "exclusivity": 0.0,
+                  "confidence": 0.969805,
+                  "created_by": "dependency",
+                  "target_claim_id": "",
+                  "verdict": ""
+                },
+                {
+                  "object_id": "tomcat02",
+                  "summary": "If tomcat02 were intervened on locally, removed_mass=2.239, coverage=0.770, exclusivity=2.906.",
+                  "removed_mass": 2.2386792452830186,
+                  "coverage": 0.7704545454545454,
+                  "exclusivity": 2.9056603773584904,
+                  "confidence": 0.9083531322200459,
+                  "created_by": "local_intervention",
+                  "target_claim_id": "",
+                  "verdict": ""
+                }
+              ],
+              "supports": [],
+              "contradicts": [],
+              "grafted_from": [],
+              "vitality": 0.9216,
+              "status": "active",
+              "round_idx": 0
+            },
+            "claim_347d8c16f852": {
+              "claim_id": "claim_347d8c16f852",
+              "object_id": "tomcat01",
+              "agent": "change",
+              "claim": "Tomcat01 experienced a disk I/O bottleneck due to a change, causing high CPU utilization and propagating to downstream services.",
+              "reason": "High CPU utilization with disk I/O mechanism, high downstream mass, and change agent view.",
+              "score": 0.85,
+              "confidence": 0.9,
+              "evidence_summary": "CPU-0 util baseline=1.379, fault=50.665, z=49285250; CPU-2 util baseline=1.546, fault=49.876, z=48329800.",
+              "role": "cause",
+              "bridge_to": "ig01",
+              "mechanism": "disk_io",
+              "symptom_score": 0.0,
+              "evidence": [
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-0_SingleCpuUtil",
+                  "content": "OSLinux-CPU_CPU-0_SingleCpuUtil: baseline=1.379, fault=50.665, z=49285250.00",
+                  "confidence": 1.0,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-2_SingleCpuUtil",
+                  "content": "OSLinux-CPU_CPU-2_SingleCpuUtil: baseline=1.546, fault=49.876, z=48329800.00",
+                  "confidence": 1.0,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-2_SingleCpuidle",
+                  "content": "OSLinux-CPU_CPU-2_SingleCpuidle: baseline=49.035, fault=98.328, z=0.71",
+                  "confidence": 0.34383495106508166,
+                  "timestamp": 1614841200.0
+                },
+                {
+                  "kind": "llm_summary",
+                  "source": "change",
+                  "content": "CPU-0 util baseline=1.379, fault=50.665, z=49285250; CPU-2 util baseline=1.546, fault=49.876, z=48329800.",
+                  "confidence": 0.9,
+                  "timestamp": null
+                }
+              ],
+              "counterfactuals": [
+                {
+                  "object_id": "tomcat01",
+                  "summary": "If Tomcat01 were not faulty, CPU utilization would remain low and downstream services would not experience propagation.",
+                  "removed_mass": 0.0,
+                  "coverage": 0.0,
+                  "exclusivity": 0.0,
+                  "confidence": 0.9,
+                  "created_by": "change",
+                  "target_claim_id": "",
+                  "verdict": ""
+                },
+                {
+                  "object_id": "tomcat01",
+                  "summary": "If tomcat01 were intervened on locally, removed_mass=2.854, coverage=0.594, exclusivity=4.804.",
+                  "removed_mass": 2.85432905232286,
+                  "coverage": 0.5941867709947934,
+                  "exclusivity": 4.80375732287697,
+                  "confidence": 0.8549629444917097,
+                  "created_by": "local_intervention",
+                  "target_claim_id": "",
+                  "verdict": ""
+                }
+              ],
+              "supports": [],
+              "contradicts": [],
+              "grafted_from": [],
+              "vitality": 0.9216,
+              "status": "active",
+              "round_idx": 0
+            },
+            "claim_72bd17c86688": {
+              "claim_id": "claim_72bd17c86688",
+              "object_id": "tomcat02",
+              "agent": "change",
+              "claim": "Tomcat02 is a high-priority backbone candidate with disk i/o consumption evidence.",
+              "reason": "disk I/O consumption",
+              "score": 0.5246,
+              "confidence": 1.0,
+              "evidence_summary": "rootness=0.426, specificity=0.289, uniqueness=0.970",
+              "role": "cause",
+              "bridge_to": "",
+              "mechanism": "disk_io",
+              "symptom_score": 0.1,
+              "evidence": [
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-0_SingleCpuUtil",
+                  "content": "OSLinux-CPU_CPU-0_SingleCpuUtil: baseline=1.630, fault=5.655, z=4024800.00",
+                  "confidence": 1.0,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-1_SingleCpuUtil",
+                  "content": "OSLinux-CPU_CPU-1_SingleCpuUtil: baseline=1.914, fault=2.662, z=748350.00",
+                  "confidence": 1.0,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-2_SingleCpuUtil",
+                  "content": "OSLinux-CPU_CPU-2_SingleCpuUtil: baseline=2.229, fault=3.179, z=950150.00",
+                  "confidence": 1.0,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "llm_summary",
+                  "source": "change",
+                  "content": "rootness=0.426, specificity=0.289, uniqueness=0.970",
+                  "confidence": 0.969805,
+                  "timestamp": null
+                }
+              ],
+              "counterfactuals": [
+                {
+                  "object_id": "tomcat02",
+                  "summary": "If Tomcat02 were not causal, its backbone uniqueness and recovery contribution would drop.",
+                  "removed_mass": 0.0,
+                  "coverage": 0.0,
+                  "exclusivity": 0.0,
+                  "confidence": 0.969805,
+                  "created_by": "change",
+                  "target_claim_id": "",
+                  "verdict": ""
+                },
+                {
+                  "object_id": "tomcat02",
+                  "summary": "If tomcat02 were intervened on locally, removed_mass=2.239, coverage=0.770, exclusivity=2.906.",
+                  "removed_mass": 2.2386792452830186,
+                  "coverage": 0.7704545454545454,
+                  "exclusivity": 2.9056603773584904,
+                  "confidence": 0.9083531322200459,
+                  "created_by": "local_intervention",
+                  "target_claim_id": "",
+                  "verdict": ""
+                }
+              ],
+              "supports": [
+                "claim_ead1a0b01967"
+              ],
+              "contradicts": [],
+              "grafted_from": [
+                "claim_ead1a0b01967"
+              ],
+              "vitality": 1.0203,
+              "status": "active",
+              "round_idx": 0
+            },
+            "claim_26ac45a75960": {
+              "claim_id": "claim_26ac45a75960",
+              "object_id": "tomcat01",
+              "agent": "resource",
+              "claim": "Tomcat01 experienced high CPU utilization due to disk I/O, causing downstream propagation.",
+              "reason": "disk_io",
+              "score": 0.85,
+              "confidence": 0.9,
+              "evidence_summary": "CPU-0 util baseline=1.379, fault=50.665, z=49285250; CPU-2 util baseline=1.546, fault=49.876, z=48329800.",
+              "role": "propagation",
+              "bridge_to": "ig01",
+              "mechanism": "disk_io",
+              "symptom_score": 0.0,
+              "evidence": [
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-0_SingleCpuUtil",
+                  "content": "OSLinux-CPU_CPU-0_SingleCpuUtil: baseline=1.379, fault=50.665, z=49285250.00",
+                  "confidence": 1.0,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-2_SingleCpuUtil",
+                  "content": "OSLinux-CPU_CPU-2_SingleCpuUtil: baseline=1.546, fault=49.876, z=48329800.00",
+                  "confidence": 1.0,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-2_SingleCpuidle",
+                  "content": "OSLinux-CPU_CPU-2_SingleCpuidle: baseline=49.035, fault=98.328, z=0.71",
+                  "confidence": 0.34383495106508166,
+                  "timestamp": 1614841200.0
+                },
+                {
+                  "kind": "llm_summary",
+                  "source": "resource",
+                  "content": "CPU-0 util baseline=1.379, fault=50.665, z=49285250; CPU-2 util baseline=1.546, fault=49.876, z=48329800.",
+                  "confidence": 0.9,
+                  "timestamp": null
+                }
+              ],
+              "counterfactuals": [
+                {
+                  "object_id": "tomcat01",
+                  "summary": "If Tomcat01 were not faulty, downstream objects like IG01 would not have received high load.",
+                  "removed_mass": 0.0,
+                  "coverage": 0.0,
+                  "exclusivity": 0.0,
+                  "confidence": 0.9,
+                  "created_by": "resource",
+                  "target_claim_id": "",
+                  "verdict": ""
+                },
+                {
+                  "object_id": "tomcat01",
+                  "summary": "If tomcat01 were intervened on locally, removed_mass=2.854, coverage=0.594, exclusivity=4.804.",
+                  "removed_mass": 2.85432905232286,
+                  "coverage": 0.5941867709947934,
+                  "exclusivity": 4.80375732287697,
+                  "confidence": 0.8549629444917097,
+                  "created_by": "local_intervention",
+                  "target_claim_id": "",
+                  "verdict": ""
+                }
+              ],
+              "supports": [],
+              "contradicts": [],
+              "grafted_from": [],
+              "vitality": 0.9216,
+              "status": "active",
+              "round_idx": 0
+            },
+            "claim_b76a9e817972": {
+              "claim_id": "claim_b76a9e817972",
+              "object_id": "tomcat02",
+              "agent": "resource",
+              "claim": "Tomcat02 is a high-priority backbone candidate with disk i/o consumption evidence.",
+              "reason": "disk I/O consumption",
+              "score": 0.6233,
+              "confidence": 1.0,
+              "evidence_summary": "rootness=0.426, specificity=0.289, uniqueness=0.970",
+              "role": "cause",
+              "bridge_to": "",
+              "mechanism": "disk_io",
+              "symptom_score": 0.1,
+              "evidence": [
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-0_SingleCpuUtil",
+                  "content": "OSLinux-CPU_CPU-0_SingleCpuUtil: baseline=1.630, fault=5.655, z=4024800.00",
+                  "confidence": 1.0,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-1_SingleCpuUtil",
+                  "content": "OSLinux-CPU_CPU-1_SingleCpuUtil: baseline=1.914, fault=2.662, z=748350.00",
+                  "confidence": 1.0,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-2_SingleCpuUtil",
+                  "content": "OSLinux-CPU_CPU-2_SingleCpuUtil: baseline=2.229, fault=3.179, z=950150.00",
+                  "confidence": 1.0,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "llm_summary",
+                  "source": "resource",
+                  "content": "rootness=0.426, specificity=0.289, uniqueness=0.970",
+                  "confidence": 0.969805,
+                  "timestamp": null
+                }
+              ],
+              "counterfactuals": [
+                {
+                  "object_id": "tomcat02",
+                  "summary": "If Tomcat02 were not causal, its backbone uniqueness and recovery contribution would drop.",
+                  "removed_mass": 0.0,
+                  "coverage": 0.0,
+                  "exclusivity": 0.0,
+                  "confidence": 0.969805,
+                  "created_by": "resource",
+                  "target_claim_id": "",
+                  "verdict": ""
+                },
+                {
+                  "object_id": "tomcat02",
+                  "summary": "If tomcat02 were intervened on locally, removed_mass=2.239, coverage=0.770, exclusivity=2.906.",
+                  "removed_mass": 2.2386792452830186,
+                  "coverage": 0.7704545454545454,
+                  "exclusivity": 2.9056603773584904,
+                  "confidence": 0.9083531322200459,
+                  "created_by": "local_intervention",
+                  "target_claim_id": "",
+                  "verdict": ""
+                }
+              ],
+              "supports": [
+                "claim_ead1a0b01967",
+                "claim_72bd17c86688"
+              ],
+              "contradicts": [],
+              "grafted_from": [
+                "claim_ead1a0b01967",
+                "claim_72bd17c86688"
+              ],
+              "vitality": 1.119,
+              "status": "active",
+              "round_idx": 0
+            },
+            "claim_df225e18ac12": {
+              "claim_id": "claim_df225e18ac12",
+              "object_id": "tomcat01",
+              "agent": "timeline",
+              "claim": "Tomcat01 experienced a disk I/O bottleneck causing high CPU utilization, which propagated to downstream services.",
+              "reason": "high cpu utilization with disk_io mechanism",
+              "score": 0.918,
+              "confidence": 1.0,
+              "evidence_summary": "CPU-0 util baseline=1.379 fault=50.665 z=49285250; CPU-2 util baseline=1.546 fault=49.876 z=48329800",
+              "role": "cause",
+              "bridge_to": "ig01",
+              "mechanism": "disk_io",
+              "symptom_score": 0.0,
+              "evidence": [
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-0_SingleCpuUtil",
+                  "content": "OSLinux-CPU_CPU-0_SingleCpuUtil: baseline=1.379, fault=50.665, z=49285250.00",
+                  "confidence": 1.0,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-2_SingleCpuUtil",
+                  "content": "OSLinux-CPU_CPU-2_SingleCpuUtil: baseline=1.546, fault=49.876, z=48329800.00",
+                  "confidence": 1.0,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-2_SingleCpuidle",
+                  "content": "OSLinux-CPU_CPU-2_SingleCpuidle: baseline=49.035, fault=98.328, z=0.71",
+                  "confidence": 0.34383495106508166,
+                  "timestamp": 1614841200.0
+                },
+                {
+                  "kind": "llm_summary",
+                  "source": "timeline",
+                  "content": "CPU-0 util baseline=1.379 fault=50.665 z=49285250; CPU-2 util baseline=1.546 fault=49.876 z=48329800",
+                  "confidence": 0.9,
+                  "timestamp": null
+                }
+              ],
+              "counterfactuals": [
+                {
+                  "object_id": "tomcat01",
+                  "summary": "If Tomcat01 had not experienced disk I/O pressure, downstream services like IG01 and MG01 would not have shown anomalies.",
+                  "removed_mass": 0.0,
+                  "coverage": 0.0,
+                  "exclusivity": 0.0,
+                  "confidence": 0.9,
+                  "created_by": "timeline",
+                  "target_claim_id": "",
+                  "verdict": ""
+                },
+                {
+                  "object_id": "tomcat01",
+                  "summary": "If tomcat01 were intervened on locally, removed_mass=2.854, coverage=0.594, exclusivity=4.804.",
+                  "removed_mass": 2.85432905232286,
+                  "coverage": 0.5941867709947934,
+                  "exclusivity": 4.80375732287697,
+                  "confidence": 0.8549629444917097,
+                  "created_by": "local_intervention",
+                  "target_claim_id": "",
+                  "verdict": ""
+                }
+              ],
+              "supports": [],
+              "contradicts": [],
+              "grafted_from": [],
+              "vitality": 1.215,
+              "status": "active",
+              "round_idx": 1
+            },
+            "claim_40a0bc84fcd0": {
+              "claim_id": "claim_40a0bc84fcd0",
+              "object_id": "ig01",
+              "agent": "timeline",
+              "claim": "IG01 shows symptoms of network latency or resource contention, likely propagated from upstream Tomcat01.",
+              "reason": "high downstream_mass and incoming_mass",
+              "score": 0.6,
+              "confidence": 0.7,
+              "evidence_summary": "JVM Uptime z=3.68; HeapMemoryUsage z=1.15",
+              "role": "propagation",
+              "bridge_to": "none",
+              "mechanism": "network_latency",
+              "symptom_score": 0.1075,
+              "evidence": [
+                {
+                  "kind": "metric",
+                  "source": "JVM-Runtime_7778_JVM_JVM_Uptime",
+                  "content": "JVM-Runtime_7778_JVM_JVM_Uptime: baseline=1904152.500, fault=1904437.500, z=3.68",
+                  "confidence": 0.28616433999308094,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "metric",
+                  "source": "JVM-Memory_7778_JVM_Memory_HeapMemoryUsage",
+                  "content": "JVM-Memory_7778_JVM_Memory_HeapMemoryUsage: baseline=25.392, fault=37.342, z=1.15",
+                  "confidence": 0.22939041737669566,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "metric",
+                  "source": "JVM-Memory_7778_JVM_Memory_HeapMemoryUsed",
+                  "content": "JVM-Memory_7778_JVM_Memory_HeapMemoryUsed: baseline=712545792.000, fault=559151685.333, z=0.68",
+                  "confidence": 0.11851238343471625,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "llm_summary",
+                  "source": "timeline",
+                  "content": "JVM Uptime z=3.68; HeapMemoryUsage z=1.15",
+                  "confidence": 0.7,
+                  "timestamp": null
+                }
+              ],
+              "counterfactuals": [
+                {
+                  "object_id": "ig01",
+                  "summary": "If IG01 were not impacted by upstream faults, its JVM metrics would remain stable.",
+                  "removed_mass": 0.0,
+                  "coverage": 0.0,
+                  "exclusivity": 0.0,
+                  "confidence": 0.7,
+                  "created_by": "timeline",
+                  "target_claim_id": "",
+                  "verdict": ""
+                },
+                {
+                  "object_id": "ig01",
+                  "summary": "If ig01 were intervened on locally, removed_mass=3.209, coverage=0.669, exclusivity=3.844.",
+                  "removed_mass": 3.209174459302251,
+                  "coverage": 0.6689611356753203,
+                  "exclusivity": 3.8444207847462435,
+                  "confidence": 0.8824874965064311,
+                  "created_by": "local_intervention",
+                  "target_claim_id": "",
+                  "verdict": ""
+                }
+              ],
+              "supports": [],
+              "contradicts": [],
+              "grafted_from": [],
+              "vitality": 0.96,
+              "status": "active",
+              "round_idx": 1
+            },
+            "claim_9a8e36f09207": {
+              "claim_id": "claim_9a8e36f09207",
+              "object_id": "mg01",
+              "agent": "timeline",
+              "claim": "MG01 shows symptoms of disk I/O or memory pressure, likely propagated from upstream services.",
+              "reason": "high downstream_mass and incoming_mass",
+              "score": 0.5712,
+              "confidence": 0.7068,
+              "evidence_summary": "JVM Uptime z=5.00; HeapMemoryUsage z=2.02",
+              "role": "propagation",
+              "bridge_to": "none",
+              "mechanism": "disk_io",
+              "symptom_score": 0.1762,
+              "evidence": [
+                {
+                  "kind": "metric",
+                  "source": "JVM-Runtime_7779_JVM_JVM_Uptime",
+                  "content": "JVM-Runtime_7779_JVM_JVM_Uptime: baseline=1903895.000, fault=1904195.000, z=5.00",
+                  "confidence": 0.3799894088699812,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "metric",
+                  "source": "JVM-Memory_7779_JVM_Memory_HeapMemoryUsage",
+                  "content": "JVM-Memory_7779_JVM_Memory_HeapMemoryUsage: baseline=29.039, fault=44.250, z=2.02",
+                  "confidence": 0.30846056178094333,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "metric",
+                  "source": "JVM-Memory_7779_JVM_Memory_HeapMemoryUsed",
+                  "content": "JVM-Memory_7779_JVM_Memory_HeapMemoryUsed: baseline=623326880.000, fault=796739261.333, z=1.03",
+                  "confidence": 0.1641327050330792,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "llm_summary",
+                  "source": "timeline",
+                  "content": "JVM Uptime z=5.00; HeapMemoryUsage z=2.02",
+                  "confidence": 0.6,
+                  "timestamp": null
+                }
+              ],
+              "counterfactuals": [
+                {
+                  "object_id": "mg01",
+                  "summary": "If MG01 were not affected, its heap memory usage would not have deviated.",
+                  "removed_mass": 0.0,
+                  "coverage": 0.0,
+                  "exclusivity": 0.0,
+                  "confidence": 0.6,
+                  "created_by": "timeline",
+                  "target_claim_id": "",
+                  "verdict": ""
+                },
+                {
+                  "object_id": "mg01",
+                  "summary": "If mg01 were intervened on locally, removed_mass=2.140, coverage=0.763, exclusivity=1.809.",
+                  "removed_mass": 2.1401104954980466,
+                  "coverage": 0.7630132287827674,
+                  "exclusivity": 1.8085961211855055,
+                  "confidence": 0.894306816099223,
+                  "created_by": "local_intervention",
+                  "target_claim_id": "",
+                  "verdict": ""
+                }
+              ],
+              "supports": [],
+              "contradicts": [],
+              "grafted_from": [],
+              "vitality": 0.96,
+              "status": "active",
+              "round_idx": 1
+            },
+            "claim_a982ad1532f4": {
+              "claim_id": "claim_a982ad1532f4",
+              "object_id": "tomcat01",
+              "agent": "dependency",
+              "claim": "Tomcat01 experienced high CPU utilization due to disk I/O, causing downstream propagation to IG01 and MG01.",
+              "reason": "disk_io",
+              "score": 0.85,
+              "confidence": 0.9,
+              "evidence_summary": "CPU-0 util baseline=1.379, fault=50.665, z=49285250; CPU-2 util baseline=1.546, fault=49.876, z=48329800",
+              "role": "propagation",
+              "bridge_to": "ig01",
+              "mechanism": "disk_io",
+              "symptom_score": 0.0,
+              "evidence": [
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-0_SingleCpuUtil",
+                  "content": "OSLinux-CPU_CPU-0_SingleCpuUtil: baseline=1.379, fault=50.665, z=49285250.00",
+                  "confidence": 1.0,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-2_SingleCpuUtil",
+                  "content": "OSLinux-CPU_CPU-2_SingleCpuUtil: baseline=1.546, fault=49.876, z=48329800.00",
+                  "confidence": 1.0,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-2_SingleCpuidle",
+                  "content": "OSLinux-CPU_CPU-2_SingleCpuidle: baseline=49.035, fault=98.328, z=0.71",
+                  "confidence": 0.34383495106508166,
+                  "timestamp": 1614841200.0
+                },
+                {
+                  "kind": "llm_summary",
+                  "source": "dependency",
+                  "content": "CPU-0 util baseline=1.379, fault=50.665, z=49285250; CPU-2 util baseline=1.546, fault=49.876, z=48329800",
+                  "confidence": 0.9,
+                  "timestamp": null
+                }
+              ],
+              "counterfactuals": [
+                {
+                  "object_id": "tomcat01",
+                  "summary": "If Tomcat01 were not faulty, downstream IG01 and MG01 would not have experienced propagation.",
+                  "removed_mass": 0.0,
+                  "coverage": 0.0,
+                  "exclusivity": 0.0,
+                  "confidence": 0.9,
+                  "created_by": "dependency",
+                  "target_claim_id": "",
+                  "verdict": ""
+                },
+                {
+                  "object_id": "tomcat01",
+                  "summary": "If tomcat01 were intervened on locally, removed_mass=2.854, coverage=0.594, exclusivity=4.804.",
+                  "removed_mass": 2.85432905232286,
+                  "coverage": 0.5941867709947934,
+                  "exclusivity": 4.80375732287697,
+                  "confidence": 0.8549629444917097,
+                  "created_by": "local_intervention",
+                  "target_claim_id": "",
+                  "verdict": ""
+                }
+              ],
+              "supports": [],
+              "contradicts": [],
+              "grafted_from": [],
+              "vitality": 0.96,
+              "status": "active",
+              "round_idx": 1
+            },
+            "claim_2ce22ae5454b": {
+              "claim_id": "claim_2ce22ae5454b",
+              "object_id": "tomcat02",
+              "agent": "dependency",
+              "claim": "Tomcat02 is a high-priority backbone candidate with disk i/o consumption evidence.",
+              "reason": "disk I/O consumption",
+              "score": 0.5246,
+              "confidence": 1.0,
+              "evidence_summary": "rootness=0.426, specificity=0.289, uniqueness=0.970",
+              "role": "cause",
+              "bridge_to": "",
+              "mechanism": "disk_io",
+              "symptom_score": 0.1,
+              "evidence": [
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-0_SingleCpuUtil",
+                  "content": "OSLinux-CPU_CPU-0_SingleCpuUtil: baseline=1.630, fault=5.655, z=4024800.00",
+                  "confidence": 1.0,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-1_SingleCpuUtil",
+                  "content": "OSLinux-CPU_CPU-1_SingleCpuUtil: baseline=1.914, fault=2.662, z=748350.00",
+                  "confidence": 1.0,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-2_SingleCpuUtil",
+                  "content": "OSLinux-CPU_CPU-2_SingleCpuUtil: baseline=2.229, fault=3.179, z=950150.00",
+                  "confidence": 1.0,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "llm_summary",
+                  "source": "dependency",
+                  "content": "rootness=0.426, specificity=0.289, uniqueness=0.970",
+                  "confidence": 0.969805,
+                  "timestamp": null
+                }
+              ],
+              "counterfactuals": [
+                {
+                  "object_id": "tomcat02",
+                  "summary": "If Tomcat02 were not causal, its backbone uniqueness and recovery contribution would drop.",
+                  "removed_mass": 0.0,
+                  "coverage": 0.0,
+                  "exclusivity": 0.0,
+                  "confidence": 0.969805,
+                  "created_by": "dependency",
+                  "target_claim_id": "",
+                  "verdict": ""
+                },
+                {
+                  "object_id": "tomcat02",
+                  "summary": "If tomcat02 were intervened on locally, removed_mass=2.239, coverage=0.770, exclusivity=2.906.",
+                  "removed_mass": 2.2386792452830186,
+                  "coverage": 0.7704545454545454,
+                  "exclusivity": 2.9056603773584904,
+                  "confidence": 0.9083531322200459,
+                  "created_by": "local_intervention",
+                  "target_claim_id": "",
+                  "verdict": ""
+                }
+              ],
+              "supports": [
+                "claim_72bd17c86688"
+              ],
+              "contradicts": [],
+              "grafted_from": [
+                "claim_72bd17c86688"
+              ],
+              "vitality": 1.0587,
+              "status": "active",
+              "round_idx": 1
+            },
+            "claim_2f6c30686a27": {
+              "claim_id": "claim_2f6c30686a27",
+              "object_id": "tomcat01",
+              "agent": "change",
+              "claim": "Tomcat01 experienced a disk I/O bottleneck due to a change, causing high CPU utilization.",
+              "reason": "High CPU utilization with disk I/O mechanism",
+              "score": 0.85,
+              "confidence": 0.9,
+              "evidence_summary": "CPU-0 util baseline=1.379, fault=50.665, z=49285250; CPU-2 util baseline=1.546, fault=49.876, z=48329800",
+              "role": "cause",
+              "bridge_to": "ig01",
+              "mechanism": "disk_io",
+              "symptom_score": 0.0,
+              "evidence": [
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-0_SingleCpuUtil",
+                  "content": "OSLinux-CPU_CPU-0_SingleCpuUtil: baseline=1.379, fault=50.665, z=49285250.00",
+                  "confidence": 1.0,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-2_SingleCpuUtil",
+                  "content": "OSLinux-CPU_CPU-2_SingleCpuUtil: baseline=1.546, fault=49.876, z=48329800.00",
+                  "confidence": 1.0,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-2_SingleCpuidle",
+                  "content": "OSLinux-CPU_CPU-2_SingleCpuidle: baseline=49.035, fault=98.328, z=0.71",
+                  "confidence": 0.34383495106508166,
+                  "timestamp": 1614841200.0
+                },
+                {
+                  "kind": "llm_summary",
+                  "source": "change",
+                  "content": "CPU-0 util baseline=1.379, fault=50.665, z=49285250; CPU-2 util baseline=1.546, fault=49.876, z=48329800",
+                  "confidence": 0.9,
+                  "timestamp": null
+                }
+              ],
+              "counterfactuals": [
+                {
+                  "object_id": "tomcat01",
+                  "summary": "If Tomcat01 were not faulty, downstream objects like IG01 and MG01 would not have experienced propagation.",
+                  "removed_mass": 0.0,
+                  "coverage": 0.0,
+                  "exclusivity": 0.0,
+                  "confidence": 0.9,
+                  "created_by": "change",
+                  "target_claim_id": "",
+                  "verdict": ""
+                },
+                {
+                  "object_id": "tomcat01",
+                  "summary": "If tomcat01 were intervened on locally, removed_mass=2.854, coverage=0.594, exclusivity=4.804.",
+                  "removed_mass": 2.85432905232286,
+                  "coverage": 0.5941867709947934,
+                  "exclusivity": 4.80375732287697,
+                  "confidence": 0.8549629444917097,
+                  "created_by": "local_intervention",
+                  "target_claim_id": "",
+                  "verdict": ""
+                }
+              ],
+              "supports": [],
+              "contradicts": [],
+              "grafted_from": [],
+              "vitality": 0.96,
+              "status": "active",
+              "round_idx": 1
+            },
+            "claim_61c8182ba9dd": {
+              "claim_id": "claim_61c8182ba9dd",
+              "object_id": "tomcat02",
+              "agent": "change",
+              "claim": "Tomcat02 experienced a disk I/O bottleneck due to a change, causing high CPU utilization.",
+              "reason": "High CPU utilization with disk I/O mechanism",
+              "score": 0.8,
+              "confidence": 0.85,
+              "evidence_summary": "CPU-0 util baseline=1.630, fault=5.655, z=4024800; CPU-1 util baseline=1.914, fault=2.662, z=748350",
+              "role": "cause",
+              "bridge_to": "ig01",
+              "mechanism": "disk_io",
+              "symptom_score": 0.0,
+              "evidence": [
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-0_SingleCpuUtil",
+                  "content": "OSLinux-CPU_CPU-0_SingleCpuUtil: baseline=1.630, fault=5.655, z=4024800.00",
+                  "confidence": 1.0,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-1_SingleCpuUtil",
+                  "content": "OSLinux-CPU_CPU-1_SingleCpuUtil: baseline=1.914, fault=2.662, z=748350.00",
+                  "confidence": 1.0,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-2_SingleCpuUtil",
+                  "content": "OSLinux-CPU_CPU-2_SingleCpuUtil: baseline=2.229, fault=3.179, z=950150.00",
+                  "confidence": 1.0,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "llm_summary",
+                  "source": "change",
+                  "content": "CPU-0 util baseline=1.630, fault=5.655, z=4024800; CPU-1 util baseline=1.914, fault=2.662, z=748350",
+                  "confidence": 0.85,
+                  "timestamp": null
+                }
+              ],
+              "counterfactuals": [
+                {
+                  "object_id": "tomcat02",
+                  "summary": "If Tomcat02 were not faulty, downstream objects like IG01 would not have experienced propagation.",
+                  "removed_mass": 0.0,
+                  "coverage": 0.0,
+                  "exclusivity": 0.0,
+                  "confidence": 0.85,
+                  "created_by": "change",
+                  "target_claim_id": "",
+                  "verdict": ""
+                },
+                {
+                  "object_id": "tomcat02",
+                  "summary": "If tomcat02 were intervened on locally, removed_mass=2.239, coverage=0.770, exclusivity=2.906.",
+                  "removed_mass": 2.2386792452830186,
+                  "coverage": 0.7704545454545454,
+                  "exclusivity": 2.9056603773584904,
+                  "confidence": 0.9083531322200459,
+                  "created_by": "local_intervention",
+                  "target_claim_id": "",
+                  "verdict": ""
+                }
+              ],
+              "supports": [],
+              "contradicts": [],
+              "grafted_from": [],
+              "vitality": 0.96,
+              "status": "active",
+              "round_idx": 1
+            },
+            "claim_a452aefadc7d": {
+              "claim_id": "claim_a452aefadc7d",
+              "object_id": "ig01",
+              "agent": "change",
+              "claim": "IG01 experienced network latency as a propagation from upstream disk I/O issues.",
+              "reason": "Network fault mechanism with moderate evidence",
+              "score": 0.6,
+              "confidence": 0.7,
+              "evidence_summary": "JVM Uptime z=3.68, HeapMemoryUsage z=1.15",
+              "role": "propagation",
+              "bridge_to": "mg01",
+              "mechanism": "network_latency",
+              "symptom_score": 0.1075,
+              "evidence": [
+                {
+                  "kind": "metric",
+                  "source": "JVM-Runtime_7778_JVM_JVM_Uptime",
+                  "content": "JVM-Runtime_7778_JVM_JVM_Uptime: baseline=1904152.500, fault=1904437.500, z=3.68",
+                  "confidence": 0.28616433999308094,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "metric",
+                  "source": "JVM-Memory_7778_JVM_Memory_HeapMemoryUsage",
+                  "content": "JVM-Memory_7778_JVM_Memory_HeapMemoryUsage: baseline=25.392, fault=37.342, z=1.15",
+                  "confidence": 0.22939041737669566,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "metric",
+                  "source": "JVM-Memory_7778_JVM_Memory_HeapMemoryUsed",
+                  "content": "JVM-Memory_7778_JVM_Memory_HeapMemoryUsed: baseline=712545792.000, fault=559151685.333, z=0.68",
+                  "confidence": 0.11851238343471625,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "llm_summary",
+                  "source": "change",
+                  "content": "JVM Uptime z=3.68, HeapMemoryUsage z=1.15",
+                  "confidence": 0.7,
+                  "timestamp": null
+                }
+              ],
+              "counterfactuals": [
+                {
+                  "object_id": "ig01",
+                  "summary": "If IG01 were not faulty, downstream objects like MG01 would not have experienced propagation.",
+                  "removed_mass": 0.0,
+                  "coverage": 0.0,
+                  "exclusivity": 0.0,
+                  "confidence": 0.7,
+                  "created_by": "change",
+                  "target_claim_id": "",
+                  "verdict": ""
+                },
+                {
+                  "object_id": "ig01",
+                  "summary": "If ig01 were intervened on locally, removed_mass=3.209, coverage=0.669, exclusivity=3.844.",
+                  "removed_mass": 3.209174459302251,
+                  "coverage": 0.6689611356753203,
+                  "exclusivity": 3.8444207847462435,
+                  "confidence": 0.8824874965064311,
+                  "created_by": "local_intervention",
+                  "target_claim_id": "",
+                  "verdict": ""
+                }
+              ],
+              "supports": [],
+              "contradicts": [],
+              "grafted_from": [],
+              "vitality": 0.96,
+              "status": "active",
+              "round_idx": 1
+            },
+            "claim_2342b8e34104": {
+              "claim_id": "claim_2342b8e34104",
+              "object_id": "tomcat01",
+              "agent": "resource",
+              "claim": "Tomcat01 experienced high CPU utilization due to disk I/O consumption, causing downstream propagation to IG01 and IG02.",
+              "reason": "disk_io",
+              "score": 0.85,
+              "confidence": 0.9,
+              "evidence_summary": "CPU-0 util baseline=1.379, fault=50.665, z=49285250; CPU-2 util baseline=1.546, fault=49.876, z=48329800",
+              "role": "propagation",
+              "bridge_to": "ig01",
+              "mechanism": "disk_io",
+              "symptom_score": 0.0,
+              "evidence": [
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-0_SingleCpuUtil",
+                  "content": "OSLinux-CPU_CPU-0_SingleCpuUtil: baseline=1.379, fault=50.665, z=49285250.00",
+                  "confidence": 1.0,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-2_SingleCpuUtil",
+                  "content": "OSLinux-CPU_CPU-2_SingleCpuUtil: baseline=1.546, fault=49.876, z=48329800.00",
+                  "confidence": 1.0,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-2_SingleCpuidle",
+                  "content": "OSLinux-CPU_CPU-2_SingleCpuidle: baseline=49.035, fault=98.328, z=0.71",
+                  "confidence": 0.34383495106508166,
+                  "timestamp": 1614841200.0
+                },
+                {
+                  "kind": "llm_summary",
+                  "source": "resource",
+                  "content": "CPU-0 util baseline=1.379, fault=50.665, z=49285250; CPU-2 util baseline=1.546, fault=49.876, z=48329800",
+                  "confidence": 0.9,
+                  "timestamp": null
+                }
+              ],
+              "counterfactuals": [
+                {
+                  "object_id": "tomcat01",
+                  "summary": "If Tomcat01 were not faulty, CPU utilization would remain low and downstream objects would not experience propagation.",
+                  "removed_mass": 0.0,
+                  "coverage": 0.0,
+                  "exclusivity": 0.0,
+                  "confidence": 0.9,
+                  "created_by": "resource",
+                  "target_claim_id": "",
+                  "verdict": ""
+                },
+                {
+                  "object_id": "tomcat01",
+                  "summary": "If tomcat01 were intervened on locally, removed_mass=2.854, coverage=0.594, exclusivity=4.804.",
+                  "removed_mass": 2.85432905232286,
+                  "coverage": 0.5941867709947934,
+                  "exclusivity": 4.80375732287697,
+                  "confidence": 0.8549629444917097,
+                  "created_by": "local_intervention",
+                  "target_claim_id": "",
+                  "verdict": ""
+                }
+              ],
+              "supports": [],
+              "contradicts": [],
+              "grafted_from": [],
+              "vitality": 0.96,
+              "status": "active",
+              "round_idx": 1
+            },
+            "claim_b00450f4d860": {
+              "claim_id": "claim_b00450f4d860",
+              "object_id": "tomcat02",
+              "agent": "resource",
+              "claim": "Tomcat02 is a high-priority backbone candidate with disk i/o consumption evidence.",
+              "reason": "disk I/O consumption",
+              "score": 0.6959,
+              "confidence": 1.0,
+              "evidence_summary": "rootness=0.426, specificity=0.289, uniqueness=0.970",
+              "role": "cause",
+              "bridge_to": "",
+              "mechanism": "disk_io",
+              "symptom_score": 0.1,
+              "evidence": [
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-0_SingleCpuUtil",
+                  "content": "OSLinux-CPU_CPU-0_SingleCpuUtil: baseline=1.630, fault=5.655, z=4024800.00",
+                  "confidence": 1.0,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-1_SingleCpuUtil",
+                  "content": "OSLinux-CPU_CPU-1_SingleCpuUtil: baseline=1.914, fault=2.662, z=748350.00",
+                  "confidence": 1.0,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-2_SingleCpuUtil",
+                  "content": "OSLinux-CPU_CPU-2_SingleCpuUtil: baseline=2.229, fault=3.179, z=950150.00",
+                  "confidence": 1.0,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "llm_summary",
+                  "source": "resource",
+                  "content": "rootness=0.426, specificity=0.289, uniqueness=0.970",
+                  "confidence": 0.969805,
+                  "timestamp": null
+                }
+              ],
+              "counterfactuals": [
+                {
+                  "object_id": "tomcat02",
+                  "summary": "If Tomcat02 were not causal, its backbone uniqueness and recovery contribution would drop.",
+                  "removed_mass": 0.0,
+                  "coverage": 0.0,
+                  "exclusivity": 0.0,
+                  "confidence": 0.969805,
+                  "created_by": "resource",
+                  "target_claim_id": "",
+                  "verdict": ""
+                },
+                {
+                  "object_id": "tomcat02",
+                  "summary": "If tomcat02 were intervened on locally, removed_mass=2.239, coverage=0.770, exclusivity=2.906.",
+                  "removed_mass": 2.2386792452830186,
+                  "coverage": 0.7704545454545454,
+                  "exclusivity": 2.9056603773584904,
+                  "confidence": 0.9083531322200459,
+                  "created_by": "local_intervention",
+                  "target_claim_id": "",
+                  "verdict": ""
+                }
+              ],
+              "supports": [
+                "claim_ead1a0b01967",
+                "claim_72bd17c86688"
+              ],
+              "contradicts": [
+                "claim_df225e18ac12"
+              ],
+              "grafted_from": [
+                "claim_ead1a0b01967",
+                "claim_72bd17c86688"
+              ],
+              "vitality": 0.9874,
+              "status": "active",
+              "round_idx": 1
+            }
+          },
+          "grafts": [
+            {
+              "source_claim_id": "claim_ead1a0b01967",
+              "target_claim_id": "claim_72bd17c86688",
+              "source_object_id": "tomcat02",
+              "target_object_id": "tomcat02",
+              "graft_type": "merge",
+              "compatibility": 0.9870967741935485,
+              "summary": "Both claims are identical in content and refer to the same object and evidence, differing only in agent (dependency vs. change). Merge to combine perspectives.",
+              "evidence_overlap": 0.9354838709677419,
+              "topology_support": 1.0
+            },
+            {
+              "source_claim_id": "claim_ead1a0b01967",
+              "target_claim_id": "claim_b76a9e817972",
+              "source_object_id": "tomcat02",
+              "target_object_id": "tomcat02",
+              "graft_type": "merge",
+              "compatibility": 0.9870967741935485,
+              "summary": "Both claims are identical in content and evidence, differing only in agent (dependency vs. resource). They can be merged into a single claim.",
+              "evidence_overlap": 0.9354838709677419,
+              "topology_support": 1.0
+            },
+            {
+              "source_claim_id": "claim_ead1a0b01967",
+              "target_claim_id": "claim_b00450f4d860",
+              "source_object_id": "tomcat02",
+              "target_object_id": "tomcat02",
+              "graft_type": "merge",
+              "compatibility": 0.9870967741935485,
+              "summary": "Both claims are identical in content and refer to the same object and evidence, differing only in agent (dependency vs resource). Merging avoids duplication.",
+              "evidence_overlap": 0.9354838709677419,
+              "topology_support": 1.0
+            },
+            {
+              "source_claim_id": "claim_72bd17c86688",
+              "target_claim_id": "claim_b76a9e817972",
+              "source_object_id": "tomcat02",
+              "target_object_id": "tomcat02",
+              "graft_type": "merge",
+              "compatibility": 0.9870967741935485,
+              "summary": "Both claims are identical in content and evidence, differing only in agent (change vs resource). Merging them into a single claim avoids duplication.",
+              "evidence_overlap": 0.9354838709677419,
+              "topology_support": 1.0
+            },
+            {
+              "source_claim_id": "claim_72bd17c86688",
+              "target_claim_id": "claim_2ce22ae5454b",
+              "source_object_id": "tomcat02",
+              "target_object_id": "tomcat02",
+              "graft_type": "merge",
+              "compatibility": 0.9870967741935485,
+              "summary": "Both claims describe the same object, mechanism, and evidence, differing only in agent and confidence. Merge to unify.",
+              "evidence_overlap": 0.9354838709677419,
+              "topology_support": 1.0
+            },
+            {
+              "source_claim_id": "claim_72bd17c86688",
+              "target_claim_id": "claim_b00450f4d860",
+              "source_object_id": "tomcat02",
+              "target_object_id": "tomcat02",
+              "graft_type": "merge",
+              "compatibility": 0.9870967741935485,
+              "summary": "Both claims are identical in content and evidence, differing only in agent (change vs resource). Merging them consolidates the same root cause information.",
+              "evidence_overlap": 0.9354838709677419,
+              "topology_support": 1.0
+            }
+          ],
+          "claim_relations": [
+            {
+              "source_claim_id": "claim_ead1a0b01967",
+              "target_claim_id": "claim_72bd17c86688",
+              "relation": "supports",
+              "weight": 0.9870967741935485,
+              "summary": "Both claims are identical in content and refer to the same object and evidence, differing only in agent (dependency vs. change). Merge to combine perspectives."
+            },
+            {
+              "source_claim_id": "claim_ead1a0b01967",
+              "target_claim_id": "claim_b76a9e817972",
+              "relation": "supports",
+              "weight": 0.9870967741935485,
+              "summary": "Both claims are identical in content and evidence, differing only in agent (dependency vs. resource). They can be merged into a single claim."
+            },
+            {
+              "source_claim_id": "claim_ead1a0b01967",
+              "target_claim_id": "claim_b00450f4d860",
+              "relation": "supports",
+              "weight": 0.9870967741935485,
+              "summary": "Both claims are identical in content and refer to the same object and evidence, differing only in agent (dependency vs resource). Merging avoids duplication."
+            },
+            {
+              "source_claim_id": "claim_72bd17c86688",
+              "target_claim_id": "claim_b76a9e817972",
+              "relation": "supports",
+              "weight": 0.9870967741935485,
+              "summary": "Both claims are identical in content and evidence, differing only in agent (change vs resource). Merging them into a single claim avoids duplication."
+            },
+            {
+              "source_claim_id": "claim_72bd17c86688",
+              "target_claim_id": "claim_2ce22ae5454b",
+              "relation": "supports",
+              "weight": 0.9870967741935485,
+              "summary": "Both claims describe the same object, mechanism, and evidence, differing only in agent and confidence. Merge to unify."
+            },
+            {
+              "source_claim_id": "claim_72bd17c86688",
+              "target_claim_id": "claim_b00450f4d860",
+              "relation": "supports",
+              "weight": 0.9870967741935485,
+              "summary": "Both claims are identical in content and evidence, differing only in agent (change vs resource). Merging them consolidates the same root cause information."
+            },
+            {
+              "source_claim_id": "claim_df225e18ac12",
+              "target_claim_id": "claim_b00450f4d860",
+              "relation": "contradicts",
+              "weight": 0.85,
+              "summary": "tomcat01 has higher root-adjusted score (9.609 vs 7.748), stronger evidence (CPU util z-scores ~49M vs ~4M), and higher exclusivity (4.80 vs 2.91). Its disk I/O mechanism explains downstream propagation to IG01 and MG01, while tomcat02's evidence is weaker and its symptom score is non-zero, indicating it may be a downstream effect."
+            },
+            {
+              "source_claim_id": "claim_df225e18ac12",
+              "target_claim_id": "claim_d1bd0ace8c5d",
+              "relation": "contradicts",
+              "weight": 0.85,
+              "summary": "tomcat01 has stronger evidence (CPU util z-scores ~49M), higher root-adjusted score (9.779 vs 2.909), and higher exclusivity (4.80 vs 3.84). Its disk I/O mechanism explains downstream propagation, while ig01 shows only weak JVM symptoms and is likely a downstream effect."
+            }
+          ],
+          "debates": [
+            {
+              "object_a": "tomcat01",
+              "object_b": "tomcat02",
+              "pro_claim_id": "claim_df225e18ac12",
+              "con_claim_id": "claim_b00450f4d860",
+              "winner_object_id": "tomcat01",
+              "verdict": "tomcat01 is the root cause",
+              "confidence": 0.85,
+              "summary": "tomcat01 has higher root-adjusted score (9.609 vs 7.748), stronger evidence (CPU util z-scores ~49M vs ~4M), and higher exclusivity (4.80 vs 2.91). Its disk I/O mechanism explains downstream propagation to IG01 and MG01, while tomcat02's evidence is weaker and its symptom score is non-zero, indicating it may be a downstream effect."
+            },
+            {
+              "object_a": "tomcat01",
+              "object_b": "ig01",
+              "pro_claim_id": "claim_df225e18ac12",
+              "con_claim_id": "claim_d1bd0ace8c5d",
+              "winner_object_id": "tomcat01",
+              "verdict": "tomcat01 is the root cause",
+              "confidence": 0.85,
+              "summary": "tomcat01 has stronger evidence (CPU util z-scores ~49M), higher root-adjusted score (9.779 vs 2.909), and higher exclusivity (4.80 vs 3.84). Its disk I/O mechanism explains downstream propagation, while ig01 shows only weak JVM symptoms and is likely a downstream effect."
+            }
+          ],
+          "archived_claims": []
+        },
+        "grouped_proposals": {
+          "tomcat01": [
+            {
+              "agent": "timeline",
+              "score": 0.85,
+              "confidence": 0.9,
+              "rationale": "Tomcat01 experienced a disk I/O bottleneck causing high CPU utilization, which propagated to downstream services.",
+              "claim": "Tomcat01 experienced a disk I/O bottleneck causing high CPU utilization, which propagated to downstream services.",
+              "evidence_summary": "CPU-0 util baseline=1.379, fault=50.665, z=49285250; CPU-2 util baseline=1.546, fault=49.876, z=48329800.",
+              "reason": "High CPU utilization with strong evidence and downstream mass.",
+              "counterfactual": "If Tomcat01 were not faulty, downstream services like IG01 and MG01 would not have experienced cascading failures.",
+              "needs_graft_with": "None",
+              "role": "cause",
+              "bridge_to": "ig01"
+            },
+            {
+              "agent": "dependency",
+              "score": 0.85,
+              "confidence": 0.9,
+              "rationale": "Tomcat01 experienced high CPU utilization due to disk I/O, causing downstream propagation to IG01 and IG02.",
+              "claim": "Tomcat01 experienced high CPU utilization due to disk I/O, causing downstream propagation to IG01 and IG02.",
+              "evidence_summary": "CPU-0 util baseline=1.379, fault=50.665, z=49285250; CPU-2 util baseline=1.546, fault=49.876, z=48329800",
+              "reason": "disk_io",
+              "counterfactual": "If Tomcat01 were not faulty, downstream IG01 and IG02 would not have received anomalous traffic.",
+              "needs_graft_with": "None",
+              "role": "cause",
+              "bridge_to": "ig01"
+            },
+            {
+              "agent": "change",
+              "score": 0.85,
+              "confidence": 0.9,
+              "rationale": "Tomcat01 experienced a disk I/O bottleneck due to a change, causing high CPU utilization and propagating to downstream services.",
+              "claim": "Tomcat01 experienced a disk I/O bottleneck due to a change, causing high CPU utilization and propagating to downstream services.",
+              "evidence_summary": "CPU-0 util baseline=1.379, fault=50.665, z=49285250; CPU-2 util baseline=1.546, fault=49.876, z=48329800.",
+              "reason": "High CPU utilization with disk I/O mechanism, high downstream mass, and change agent view.",
+              "counterfactual": "If Tomcat01 were not faulty, CPU utilization would remain low and downstream services would not experience propagation.",
+              "needs_graft_with": "None",
+              "role": "cause",
+              "bridge_to": "ig01"
+            },
+            {
+              "agent": "resource",
+              "score": 0.85,
+              "confidence": 0.9,
+              "rationale": "Tomcat01 experienced high CPU utilization due to disk I/O, causing downstream propagation.",
+              "claim": "Tomcat01 experienced high CPU utilization due to disk I/O, causing downstream propagation.",
+              "evidence_summary": "CPU-0 util baseline=1.379, fault=50.665, z=49285250; CPU-2 util baseline=1.546, fault=49.876, z=48329800.",
+              "reason": "disk_io",
+              "counterfactual": "If Tomcat01 were not faulty, downstream objects like IG01 would not have received high load.",
+              "needs_graft_with": "None",
+              "role": "propagation",
+              "bridge_to": "ig01"
+            },
+            {
+              "agent": "timeline",
+              "score": 0.85,
+              "confidence": 0.9,
+              "rationale": "Tomcat01 experienced a disk I/O bottleneck causing high CPU utilization, which propagated to downstream services.",
+              "claim": "Tomcat01 experienced a disk I/O bottleneck causing high CPU utilization, which propagated to downstream services.",
+              "evidence_summary": "CPU-0 util baseline=1.379 fault=50.665 z=49285250; CPU-2 util baseline=1.546 fault=49.876 z=48329800",
+              "reason": "high cpu utilization with disk_io mechanism",
+              "counterfactual": "If Tomcat01 had not experienced disk I/O pressure, downstream services like IG01 and MG01 would not have shown anomalies.",
+              "needs_graft_with": "None",
+              "role": "cause",
+              "bridge_to": "ig01"
+            },
+            {
+              "agent": "dependency",
+              "score": 0.85,
+              "confidence": 0.9,
+              "rationale": "Tomcat01 experienced high CPU utilization due to disk I/O, causing downstream propagation to IG01 and MG01.",
+              "claim": "Tomcat01 experienced high CPU utilization due to disk I/O, causing downstream propagation to IG01 and MG01.",
+              "evidence_summary": "CPU-0 util baseline=1.379, fault=50.665, z=49285250; CPU-2 util baseline=1.546, fault=49.876, z=48329800",
+              "reason": "disk_io",
+              "counterfactual": "If Tomcat01 were not faulty, downstream IG01 and MG01 would not have experienced propagation.",
+              "needs_graft_with": "None",
+              "role": "propagation",
+              "bridge_to": "ig01"
+            },
+            {
+              "agent": "change",
+              "score": 0.85,
+              "confidence": 0.9,
+              "rationale": "Tomcat01 experienced a disk I/O bottleneck due to a change, causing high CPU utilization.",
+              "claim": "Tomcat01 experienced a disk I/O bottleneck due to a change, causing high CPU utilization.",
+              "evidence_summary": "CPU-0 util baseline=1.379, fault=50.665, z=49285250; CPU-2 util baseline=1.546, fault=49.876, z=48329800",
+              "reason": "High CPU utilization with disk I/O mechanism",
+              "counterfactual": "If Tomcat01 were not faulty, downstream objects like IG01 and MG01 would not have experienced propagation.",
+              "needs_graft_with": "None",
+              "role": "cause",
+              "bridge_to": "ig01"
+            },
+            {
+              "agent": "resource",
+              "score": 0.85,
+              "confidence": 0.9,
+              "rationale": "Tomcat01 experienced high CPU utilization due to disk I/O consumption, causing downstream propagation to IG01 and IG02.",
+              "claim": "Tomcat01 experienced high CPU utilization due to disk I/O consumption, causing downstream propagation to IG01 and IG02.",
+              "evidence_summary": "CPU-0 util baseline=1.379, fault=50.665, z=49285250; CPU-2 util baseline=1.546, fault=49.876, z=48329800",
+              "reason": "disk_io",
+              "counterfactual": "If Tomcat01 were not faulty, CPU utilization would remain low and downstream objects would not experience propagation.",
+              "needs_graft_with": "None",
+              "role": "propagation",
+              "bridge_to": "ig01"
+            }
+          ],
+          "tomcat02": [
+            {
+              "agent": "timeline",
+              "score": 0.8,
+              "confidence": 0.85,
+              "rationale": "Tomcat02 also experienced disk I/O pressure, contributing to the propagation chain.",
+              "claim": "Tomcat02 also experienced disk I/O pressure, contributing to the propagation chain.",
+              "evidence_summary": "CPU-0 util baseline=1.630, fault=5.655, z=4024800; CPU-1 util baseline=1.914, fault=2.662, z=748350.",
+              "reason": "High CPU utilization with strong evidence and downstream mass.",
+              "counterfactual": "If Tomcat02 were not faulty, downstream impact on IG01 would be reduced.",
+              "needs_graft_with": "None",
+              "role": "cause",
+              "bridge_to": "ig01"
+            },
+            {
+              "agent": "dependency",
+              "score": 0.4259,
+              "confidence": 0.9698,
+              "rationale": "Backbone prior highlights Tomcat02 via exposure-normalized signal and causal uniqueness.",
+              "claim": "Tomcat02 is a high-priority backbone candidate with disk i/o consumption evidence.",
+              "evidence_summary": "rootness=0.426, specificity=0.289, uniqueness=0.970",
+              "reason": "disk I/O consumption",
+              "counterfactual": "If Tomcat02 were not causal, its backbone uniqueness and recovery contribution would drop.",
+              "needs_graft_with": "",
+              "role": "cause",
+              "bridge_to": ""
+            },
+            {
+              "agent": "change",
+              "score": 0.4259,
+              "confidence": 0.9698,
+              "rationale": "Backbone prior highlights Tomcat02 via exposure-normalized signal and causal uniqueness.",
+              "claim": "Tomcat02 is a high-priority backbone candidate with disk i/o consumption evidence.",
+              "evidence_summary": "rootness=0.426, specificity=0.289, uniqueness=0.970",
+              "reason": "disk I/O consumption",
+              "counterfactual": "If Tomcat02 were not causal, its backbone uniqueness and recovery contribution would drop.",
+              "needs_graft_with": "",
+              "role": "cause",
+              "bridge_to": ""
+            },
+            {
+              "agent": "resource",
+              "score": 0.4259,
+              "confidence": 0.9698,
+              "rationale": "Backbone prior highlights Tomcat02 via exposure-normalized signal and causal uniqueness.",
+              "claim": "Tomcat02 is a high-priority backbone candidate with disk i/o consumption evidence.",
+              "evidence_summary": "rootness=0.426, specificity=0.289, uniqueness=0.970",
+              "reason": "disk I/O consumption",
+              "counterfactual": "If Tomcat02 were not causal, its backbone uniqueness and recovery contribution would drop.",
+              "needs_graft_with": "",
+              "role": "cause",
+              "bridge_to": ""
+            },
+            {
+              "agent": "dependency",
+              "score": 0.4259,
+              "confidence": 0.9698,
+              "rationale": "Backbone prior highlights Tomcat02 via exposure-normalized signal and causal uniqueness.",
+              "claim": "Tomcat02 is a high-priority backbone candidate with disk i/o consumption evidence.",
+              "evidence_summary": "rootness=0.426, specificity=0.289, uniqueness=0.970",
+              "reason": "disk I/O consumption",
+              "counterfactual": "If Tomcat02 were not causal, its backbone uniqueness and recovery contribution would drop.",
+              "needs_graft_with": "",
+              "role": "cause",
+              "bridge_to": ""
+            },
+            {
+              "agent": "change",
+              "score": 0.8,
+              "confidence": 0.85,
+              "rationale": "Tomcat02 experienced a disk I/O bottleneck due to a change, causing high CPU utilization.",
+              "claim": "Tomcat02 experienced a disk I/O bottleneck due to a change, causing high CPU utilization.",
+              "evidence_summary": "CPU-0 util baseline=1.630, fault=5.655, z=4024800; CPU-1 util baseline=1.914, fault=2.662, z=748350",
+              "reason": "High CPU utilization with disk I/O mechanism",
+              "counterfactual": "If Tomcat02 were not faulty, downstream objects like IG01 would not have experienced propagation.",
+              "needs_graft_with": "None",
+              "role": "cause",
+              "bridge_to": "ig01"
+            },
+            {
+              "agent": "resource",
+              "score": 0.4259,
+              "confidence": 0.9698,
+              "rationale": "Backbone prior highlights Tomcat02 via exposure-normalized signal and causal uniqueness.",
+              "claim": "Tomcat02 is a high-priority backbone candidate with disk i/o consumption evidence.",
+              "evidence_summary": "rootness=0.426, specificity=0.289, uniqueness=0.970",
+              "reason": "disk I/O consumption",
+              "counterfactual": "If Tomcat02 were not causal, its backbone uniqueness and recovery contribution would drop.",
+              "needs_graft_with": "",
+              "role": "cause",
+              "bridge_to": ""
+            }
+          ],
+          "ig01": [
+            {
+              "agent": "timeline",
+              "score": 0.7,
+              "confidence": 0.8,
+              "rationale": "IG01 shows symptoms of network latency due to upstream pressure from Tomcat01 and Tomcat02.",
+              "claim": "IG01 shows symptoms of network latency due to upstream pressure from Tomcat01 and Tomcat02.",
+              "evidence_summary": "JVM Uptime z=3.68, HeapMemoryUsage z=1.15.",
+              "reason": "High incoming mass and downstream mass, but weak evidence specificity.",
+              "counterfactual": "If IG01 were not affected, downstream MG01 would not have anomalies.",
+              "needs_graft_with": "tomcat01",
+              "role": "propagation",
+              "bridge_to": "mg01"
+            },
+            {
+              "agent": "timeline",
+              "score": 0.6,
+              "confidence": 0.7,
+              "rationale": "IG01 shows symptoms of network latency or resource contention, likely propagated from upstream Tomcat01.",
+              "claim": "IG01 shows symptoms of network latency or resource contention, likely propagated from upstream Tomcat01.",
+              "evidence_summary": "JVM Uptime z=3.68; HeapMemoryUsage z=1.15",
+              "reason": "high downstream_mass and incoming_mass",
+              "counterfactual": "If IG01 were not impacted by upstream faults, its JVM metrics would remain stable.",
+              "needs_graft_with": "tomcat01",
+              "role": "propagation",
+              "bridge_to": "none"
+            },
+            {
+              "agent": "change",
+              "score": 0.6,
+              "confidence": 0.7,
+              "rationale": "IG01 experienced network latency as a propagation from upstream disk I/O issues.",
+              "claim": "IG01 experienced network latency as a propagation from upstream disk I/O issues.",
+              "evidence_summary": "JVM Uptime z=3.68, HeapMemoryUsage z=1.15",
+              "reason": "Network fault mechanism with moderate evidence",
+              "counterfactual": "If IG01 were not faulty, downstream objects like MG01 would not have experienced propagation.",
+              "needs_graft_with": "tomcat01",
+              "role": "propagation",
+              "bridge_to": "mg01"
+            }
+          ],
+          "mg01": [
+            {
+              "agent": "timeline",
+              "score": 0.5,
+              "confidence": 0.6,
+              "rationale": "MG01 shows symptoms of disk I/O or memory pressure, likely propagated from upstream services.",
+              "claim": "MG01 shows symptoms of disk I/O or memory pressure, likely propagated from upstream services.",
+              "evidence_summary": "JVM Uptime z=5.00; HeapMemoryUsage z=2.02",
+              "reason": "high downstream_mass and incoming_mass",
+              "counterfactual": "If MG01 were not affected, its heap memory usage would not have deviated.",
+              "needs_graft_with": "tomcat01",
+              "role": "propagation",
+              "bridge_to": "none"
+            }
+          ]
+        }
+      },
+      "ground_truth": {
+        "component": "Mysql02",
+        "reason": "high memory usage",
+        "datetime": "2021-03-04 14:57:00"
+      }
+    }
+  ]
+}

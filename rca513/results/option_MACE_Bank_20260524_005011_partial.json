@@ -1,0 +1,1613 @@
+{
+  "config": {
+    "option": "MACE",
+    "systems": [
+      "Bank"
+    ],
+    "max_queries": 1
+  },
+  "summary": {
+    "total": 1,
+    "correct": 0,
+    "correct_pct": 0.0,
+    "partial": 0,
+    "partial_pct": 0.0,
+    "correct_or_partial_pct": 0.0,
+    "neither": 1,
+    "by_system": {
+      "Bank": {
+        "total": 1,
+        "correct": 0,
+        "correct_pct": 0.0,
+        "partial": 0,
+        "partial_pct": 0.0
+      }
+    },
+    "by_task": {
+      "task_1": {
+        "total": 1,
+        "correct": 0,
+        "correct_pct": 0.0
+      }
+    },
+    "by_field": {}
+  },
+  "per_query": [
+    {
+      "query_id": "Bank_task_1",
+      "system": "Bank",
+      "task_index": "task_1",
+      "correct": false,
+      "partial": false,
+      "error": null,
+      "iterations": 8,
+      "strategies_used": [
+        "AGENT_TIMELINE",
+        "AGENT_DEPENDENCY",
+        "AGENT_CHANGE",
+        "AGENT_RESOURCE",
+        "AGENT_TIMELINE",
+        "AGENT_DEPENDENCY",
+        "AGENT_CHANGE",
+        "AGENT_RESOURCE"
+      ],
+      "api_calls": 10,
+      "tokens": 19597,
+      "emotion_trajectory": [],
+      "hypothesis_summary": {
+        "initial_candidates": [
+          {
+            "object_id": "tomcat02",
+            "entity": "Tomcat02",
+            "score": 7.1425
+          },
+          {
+            "object_id": "ig01",
+            "entity": "IG01",
+            "score": 5.6925
+          },
+          {
+            "object_id": "redis01",
+            "entity": "Redis01",
+            "score": 5.0925
+          }
+        ],
+        "final_candidates": [
+          {
+            "object_id": "tomcat02",
+            "entity": "Tomcat02",
+            "score": 1.0
+          },
+          {
+            "object_id": "ig01",
+            "entity": "IG01",
+            "score": 0.893
+          },
+          {
+            "object_id": "redis01",
+            "entity": "Redis01",
+            "score": 0.7941
+          },
+          {
+            "object_id": "tomcat01",
+            "entity": "Tomcat01",
+            "score": 0.0616
+          },
+          {
+            "object_id": "tomcat04",
+            "entity": "Tomcat04",
+            "score": 0.0601
+          }
+        ]
+      },
+      "prediction": {
+        "component": [
+          "Tomcat02"
+        ],
+        "reason": [
+          "highest anomaly score and downstream mass, zero incoming mass, consistent multi-agent claims"
+        ],
+        "time": [
+          "2021-03-04 14:30:00"
+        ],
+        "top_score": 1.0
+      },
+      "top_candidates": [
+        {
+          "object_id": "tomcat02",
+          "entity": "Tomcat02",
+          "score": 1.0
+        },
+        {
+          "object_id": "ig01",
+          "entity": "IG01",
+          "score": 0.893
+        },
+        {
+          "object_id": "redis01",
+          "entity": "Redis01",
+          "score": 0.7941
+        },
+        {
+          "object_id": "tomcat01",
+          "entity": "Tomcat01",
+          "score": 0.0616
+        },
+        {
+          "object_id": "tomcat04",
+          "entity": "Tomcat04",
+          "score": 0.0601
+        }
+      ],
+      "stop_reason": "mace_deliberation_complete",
+      "mace_trace": [
+        {
+          "step": 0,
+          "action": "AGENT_TIMELINE",
+          "round": 0,
+          "top_objects": [
+            "tomcat02",
+            "ig01",
+            "redis01"
+          ],
+          "rationales": [
+            "Tomcat02 experienced a disk I/O consumption anomaly around 14:30-15:00, which propagated downstream to IG01 and other services.",
+            "IG01 had a network fault that affected downstream services like Redis01 and Mysql01."
+          ]
+        },
+        {
+          "step": 1,
+          "action": "AGENT_DEPENDENCY",
+          "round": 0,
+          "top_objects": [
+            "ig01",
+            "redis01",
+            "tomcat02"
+          ],
+          "rationales": [
+            "IG01 network fault is the root cause due to its high downstream mass and incoming mass from tomcat02.",
+            "Redis01 CPU fault is the root cause as it has high incoming mass from IG01 and downstream mass to mysql01."
+          ]
+        },
+        {
+          "step": 2,
+          "action": "AGENT_CHANGE",
+          "round": 0,
+          "top_objects": [
+            "tomcat02",
+            "ig01",
+            "redis01"
+          ],
+          "rationales": [
+            "A change in tomcat02 caused disk I/O consumption, leading to downstream anomalies.",
+            "A change in ig01 caused network fault, affecting downstream components."
+          ]
+        },
+        {
+          "step": 3,
+          "action": "AGENT_RESOURCE",
+          "round": 0,
+          "top_objects": [
+            "tomcat02",
+            "ig01",
+            "redis01"
+          ],
+          "rationales": [
+            "Tomcat02 experienced a disk I/O consumption issue that caused downstream failures.",
+            "IG01 network fault propagated to multiple downstream components."
+          ]
+        },
+        {
+          "step": 4,
+          "action": "AGENT_TIMELINE",
+          "round": 1,
+          "top_objects": [
+            "tomcat02",
+            "tomcat01",
+            "tomcat04"
+          ],
+          "rationales": [
+            "tomcat02 is suspicious from timeline view",
+            "tomcat01 is suspicious from timeline view"
+          ]
+        },
+        {
+          "step": 5,
+          "action": "AGENT_DEPENDENCY",
+          "round": 1,
+          "top_objects": [
+            "ig01",
+            "tomcat02",
+            "redis01"
+          ],
+          "rationales": [
+            "IG01 is the root cause due to network fault, as it has high downstream mass and is upstream of many services.",
+            "Tomcat02 is a likely root cause due to disk I/O consumption, with high downstream mass and no incoming mass."
+          ]
+        },
+        {
+          "step": 6,
+          "action": "AGENT_CHANGE",
+          "round": 1,
+          "top_objects": [
+            "tomcat02",
+            "ig01",
+            "redis01"
+          ],
+          "rationales": [
+            "A change on tomcat02 caused disk I/O consumption, leading to the failure.",
+            "A change on ig01 caused network fault, propagating to downstream services."
+          ]
+        },
+        {
+          "step": 7,
+          "action": "AGENT_RESOURCE",
+          "round": 1,
+          "top_objects": [
+            "tomcat02",
+            "ig01",
+            "redis01"
+          ],
+          "rationales": [
+            "Tomcat02 experienced a disk I/O consumption fault that caused the failure.",
+            "IG01 network fault propagated to downstream components."
+          ]
+        }
+      ],
+      "debug": {
+        "graph": {
+          "nodes": {
+            "ig01": {
+              "representative": "IG01",
+              "members": [
+                "IG01"
+              ],
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "network fault"
+            },
+            "ig02": {
+              "representative": "IG02",
+              "members": [
+                "IG02"
+              ],
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "mg01": {
+              "representative": "MG01",
+              "members": [
+                "MG01"
+              ],
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "mg02": {
+              "representative": "MG02",
+              "members": [
+                "MG02"
+              ],
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "mysql01": {
+              "representative": "Mysql01",
+              "members": [
+                "Mysql01"
+              ],
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "db fault"
+            },
+            "mysql02": {
+              "representative": "Mysql02",
+              "members": [
+                "Mysql02"
+              ],
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "db fault"
+            },
+            "redis01": {
+              "representative": "Redis01",
+              "members": [
+                "Redis01"
+              ],
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "CPU fault"
+            },
+            "redis02": {
+              "representative": "Redis02",
+              "members": [
+                "Redis02"
+              ],
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "servicetest1": {
+              "representative": "ServiceTest1",
+              "members": [
+                "ServiceTest1"
+              ],
+              "anomaly_score": 0.1243,
+              "metric_score": 0.2072,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest10": {
+              "representative": "ServiceTest10",
+              "members": [
+                "ServiceTest10"
+              ],
+              "anomaly_score": 0.1811,
+              "metric_score": 0.3019,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest11": {
+              "representative": "ServiceTest11",
+              "members": [
+                "ServiceTest11"
+              ],
+              "anomaly_score": 0.0476,
+              "metric_score": 0.0794,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest2": {
+              "representative": "ServiceTest2",
+              "members": [
+                "ServiceTest2"
+              ],
+              "anomaly_score": 0.0387,
+              "metric_score": 0.0646,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest3": {
+              "representative": "ServiceTest3",
+              "members": [
+                "ServiceTest3"
+              ],
+              "anomaly_score": 0.2407,
+              "metric_score": 0.4012,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest4": {
+              "representative": "ServiceTest4",
+              "members": [
+                "ServiceTest4"
+              ],
+              "anomaly_score": 0.0598,
+              "metric_score": 0.0997,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest5": {
+              "representative": "ServiceTest5",
+              "members": [
+                "ServiceTest5"
+              ],
+              "anomaly_score": 0.0878,
+              "metric_score": 0.1464,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest6": {
+              "representative": "ServiceTest6",
+              "members": [
+                "ServiceTest6"
+              ],
+              "anomaly_score": 0.0341,
+              "metric_score": 0.0568,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest7": {
+              "representative": "ServiceTest7",
+              "members": [
+                "ServiceTest7"
+              ],
+              "anomaly_score": 0.0418,
+              "metric_score": 0.0696,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest8": {
+              "representative": "ServiceTest8",
+              "members": [
+                "ServiceTest8"
+              ],
+              "anomaly_score": 0.0845,
+              "metric_score": 0.1408,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest9": {
+              "representative": "ServiceTest9",
+              "members": [
+                "ServiceTest9"
+              ],
+              "anomaly_score": 0.0649,
+              "metric_score": 0.1081,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "tomcat01": {
+              "representative": "Tomcat01",
+              "members": [
+                "Tomcat01"
+              ],
+              "anomaly_score": 1.0,
+              "metric_score": 1.0,
+              "log_score": 0.3774,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "tomcat02": {
+              "representative": "Tomcat02",
+              "members": [
+                "Tomcat02"
+              ],
+              "anomaly_score": 1.0,
+              "metric_score": 1.0,
+              "log_score": 0.3774,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "tomcat03": {
+              "representative": "Tomcat03",
+              "members": [
+                "Tomcat03"
+              ],
+              "anomaly_score": 1.0,
+              "metric_score": 1.0,
+              "log_score": 0.3774,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "CPU fault"
+            },
+            "tomcat04": {
+              "representative": "Tomcat04",
+              "members": [
+                "Tomcat04"
+              ],
+              "anomaly_score": 1.0,
+              "metric_score": 1.0,
+              "log_score": 0.3774,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "apache01": {
+              "representative": "apache01",
+              "members": [
+                "apache01"
+              ],
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "apache02": {
+              "representative": "apache02",
+              "members": [
+                "apache02"
+              ],
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "dockera1": {
+              "representative": "dockerA1",
+              "members": [
+                "dockerA1"
+              ],
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "network fault"
+            },
+            "dockera2": {
+              "representative": "dockerA2",
+              "members": [
+                "dockerA2"
+              ],
+              "anomaly_score": 0.0,
+              "metric_score": 0.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "dockerb1": {
+              "representative": "dockerB1",
+              "members": [
+                "dockerB1"
+              ],
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "CPU fault"
+            },
+            "dockerb2": {
+              "representative": "dockerB2",
+              "members": [
+                "dockerB2"
+              ],
+              "anomaly_score": 0.0,
+              "metric_score": 0.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            }
+          },
+          "adjacency": {
+            "mysql02": {
+              "servicetest11": 1.0,
+              "servicetest4": 1.0,
+              "apache01": 1.0
+            },
+            "servicetest11": {
+              "servicetest4": 1.0,
+              "apache01": 1.0
+            },
+            "servicetest4": {
+              "apache01": 1.0
+            },
+            "tomcat02": {
+              "tomcat04": 1.0,
+              "apache01": 1.0
+            },
+            "tomcat04": {
+              "apache01": 1.0
+            },
+            "redis02": {
+              "ig01": 1.0,
+              "servicetest10": 1.0
+            },
+            "tomcat01": {
+              "ig01": 1.0,
+              "servicetest10": 1.0
+            },
+            "ig01": {
+              "servicetest10": 1.0,
+              "ig02": 1.0,
+              "mg01": 1.0,
+              "redis01": 1.0
+            },
+            "servicetest10": {
+              "ig02": 1.0,
+              "mg01": 1.0,
+              "redis01": 1.0
+            },
+            "ig02": {
+              "mg01": 1.0,
+              "redis01": 1.0,
+              "mysql01": 1.0,
+              "servicetest5": 1.0
+            },
+            "mg01": {
+              "redis01": 1.0,
+              "mysql01": 1.0,
+              "servicetest5": 1.0
+            },
+            "redis01": {
+              "mysql01": 1.0,
+              "servicetest5": 1.0
+            },
+            "mysql01": {
+              "servicetest5": 1.0
+            }
+          }
+        },
+        "graph_debug": {
+          "entity_to_object": {
+            "IG01": "ig01",
+            "IG02": "ig02",
+            "MG01": "mg01",
+            "MG02": "mg02",
+            "Mysql01": "mysql01",
+            "Mysql02": "mysql02",
+            "Redis01": "redis01",
+            "Redis02": "redis02",
+            "ServiceTest1": "servicetest1",
+            "ServiceTest10": "servicetest10",
+            "ServiceTest11": "servicetest11",
+            "ServiceTest2": "servicetest2",
+            "ServiceTest3": "servicetest3",
+            "ServiceTest4": "servicetest4",
+            "ServiceTest5": "servicetest5",
+            "ServiceTest6": "servicetest6",
+            "ServiceTest7": "servicetest7",
+            "ServiceTest8": "servicetest8",
+            "ServiceTest9": "servicetest9",
+            "Tomcat01": "tomcat01",
+            "Tomcat02": "tomcat02",
+            "Tomcat03": "tomcat03",
+            "Tomcat04": "tomcat04",
+            "apache01": "apache01",
+            "apache02": "apache02",
+            "dockerA1": "dockera1",
+            "dockerA2": "dockera2",
+            "dockerB1": "dockerb1",
+            "dockerB2": "dockerb2"
+          },
+          "objects": {
+            "ig01": {
+              "members": [
+                "IG01"
+              ],
+              "representative": "IG01",
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "network fault"
+            },
+            "ig02": {
+              "members": [
+                "IG02"
+              ],
+              "representative": "IG02",
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "mg01": {
+              "members": [
+                "MG01"
+              ],
+              "representative": "MG01",
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "mg02": {
+              "members": [
+                "MG02"
+              ],
+              "representative": "MG02",
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "mysql01": {
+              "members": [
+                "Mysql01"
+              ],
+              "representative": "Mysql01",
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "db fault"
+            },
+            "mysql02": {
+              "members": [
+                "Mysql02"
+              ],
+              "representative": "Mysql02",
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "db fault"
+            },
+            "redis01": {
+              "members": [
+                "Redis01"
+              ],
+              "representative": "Redis01",
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "CPU fault"
+            },
+            "redis02": {
+              "members": [
+                "Redis02"
+              ],
+              "representative": "Redis02",
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "servicetest1": {
+              "members": [
+                "ServiceTest1"
+              ],
+              "representative": "ServiceTest1",
+              "anomaly_score": 0.1243,
+              "metric_score": 0.2072,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest10": {
+              "members": [
+                "ServiceTest10"
+              ],
+              "representative": "ServiceTest10",
+              "anomaly_score": 0.1811,
+              "metric_score": 0.3019,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest11": {
+              "members": [
+                "ServiceTest11"
+              ],
+              "representative": "ServiceTest11",
+              "anomaly_score": 0.0476,
+              "metric_score": 0.0794,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest2": {
+              "members": [
+                "ServiceTest2"
+              ],
+              "representative": "ServiceTest2",
+              "anomaly_score": 0.0387,
+              "metric_score": 0.0646,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest3": {
+              "members": [
+                "ServiceTest3"
+              ],
+              "representative": "ServiceTest3",
+              "anomaly_score": 0.2407,
+              "metric_score": 0.4012,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest4": {
+              "members": [
+                "ServiceTest4"
+              ],
+              "representative": "ServiceTest4",
+              "anomaly_score": 0.0598,
+              "metric_score": 0.0997,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest5": {
+              "members": [
+                "ServiceTest5"
+              ],
+              "representative": "ServiceTest5",
+              "anomaly_score": 0.0878,
+              "metric_score": 0.1464,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest6": {
+              "members": [
+                "ServiceTest6"
+              ],
+              "representative": "ServiceTest6",
+              "anomaly_score": 0.0341,
+              "metric_score": 0.0568,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest7": {
+              "members": [
+                "ServiceTest7"
+              ],
+              "representative": "ServiceTest7",
+              "anomaly_score": 0.0418,
+              "metric_score": 0.0696,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest8": {
+              "members": [
+                "ServiceTest8"
+              ],
+              "representative": "ServiceTest8",
+              "anomaly_score": 0.0845,
+              "metric_score": 0.1408,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest9": {
+              "members": [
+                "ServiceTest9"
+              ],
+              "representative": "ServiceTest9",
+              "anomaly_score": 0.0649,
+              "metric_score": 0.1081,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "tomcat01": {
+              "members": [
+                "Tomcat01"
+              ],
+              "representative": "Tomcat01",
+              "anomaly_score": 1.0,
+              "metric_score": 1.0,
+              "log_score": 0.3774,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "tomcat02": {
+              "members": [
+                "Tomcat02"
+              ],
+              "representative": "Tomcat02",
+              "anomaly_score": 1.0,
+              "metric_score": 1.0,
+              "log_score": 0.3774,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "tomcat03": {
+              "members": [
+                "Tomcat03"
+              ],
+              "representative": "Tomcat03",
+              "anomaly_score": 1.0,
+              "metric_score": 1.0,
+              "log_score": 0.3774,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "CPU fault"
+            },
+            "tomcat04": {
+              "members": [
+                "Tomcat04"
+              ],
+              "representative": "Tomcat04",
+              "anomaly_score": 1.0,
+              "metric_score": 1.0,
+              "log_score": 0.3774,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "apache01": {
+              "members": [
+                "apache01"
+              ],
+              "representative": "apache01",
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "apache02": {
+              "members": [
+                "apache02"
+              ],
+              "representative": "apache02",
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "dockera1": {
+              "members": [
+                "dockerA1"
+              ],
+              "representative": "dockerA1",
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "network fault"
+            },
+            "dockera2": {
+              "members": [
+                "dockerA2"
+              ],
+              "representative": "dockerA2",
+              "anomaly_score": 0.0,
+              "metric_score": 0.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "dockerb1": {
+              "members": [
+                "dockerB1"
+              ],
+              "representative": "dockerB1",
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "CPU fault"
+            },
+            "dockerb2": {
+              "members": [
+                "dockerB2"
+              ],
+              "representative": "dockerB2",
+              "anomaly_score": 0.0,
+              "metric_score": 0.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            }
+          },
+          "query": "task_1"
+        },
+        "memory_scores": {
+          "tomcat02": 7.1425,
+          "ig01": 5.6925,
+          "redis01": 5.0925,
+          "tomcat01": 0.9785,
+          "tomcat04": 0.9538
+        },
+        "intervention": [
+          {
+            "object_id": "tomcat02",
+            "score": 0.9083531322200459,
+            "removed_mass": 2.2386792452830186,
+            "coverage": 0.7704545454545454,
+            "exclusivity": 2.9056603773584904,
+            "representative": "Tomcat02"
+          },
+          {
+            "object_id": "ig01",
+            "score": 0.8824874965064311,
+            "removed_mass": 3.209174459302251,
+            "coverage": 0.6689611356753203,
+            "exclusivity": 3.8444207847462435,
+            "representative": "IG01"
+          },
+          {
+            "object_id": "redis01",
+            "score": 0.7816240244236281,
+            "removed_mass": 1.5514312502150278,
+            "coverage": 0.8169064896357066,
+            "exclusivity": 0.45010555514776973,
+            "representative": "Redis01"
+          }
+        ],
+        "llm_agents": {
+          "enabled": true,
+          "agents": {
+            "timeline": [
+              {
+                "success": true,
+                "payload": {
+                  "proposals": [
+                    {
+                      "object_id": "tomcat02",
+                      "score": 0.95,
+                      "confidence": 0.9,
+                      "claim": "Tomcat02 experienced a disk I/O consumption anomaly around 14:30-15:00, which propagated downstream to IG01 and other services.",
+                      "reason": "highest downstream_mass and anomaly_score",
+                      "evidence_summary": "Tomcat02 has anomaly_score 1.0, downstream_mass 1.9057, and reason_hint 'disk I/O consumption'."
+                    },
+                    {
+                      "object_id": "ig01",
+                      "score": 0.85,
+                      "confidence": 0.8,
+                      "claim": "IG01 had a network fault that affected downstream services like Redis01 and Mysql01.",
+                      "reason": "high downstream_mass and incoming_mass from tomcat02",
+                      "evidence_summary": "IG01 has anomaly_score 0.9057, downstream_mass 2.8981, incoming_mass 1.9057, and reason_hint 'network fault'."
+                    },
+                    {
+                      "object_id": "redis01",
+                      "score": 0.8,
+                      "confidence": 0.75,
+                      "claim": "Redis01 experienced a CPU fault that impacted downstream services like Mysql01.",
+                      "reason": "high incoming_mass from ig01 and moderate downstream_mass",
+                      "evidence_summary": "Redis01 has anomaly_score 0.9057, incoming_mass 2.8981, downstream_mass 0.9935, and reason_hint 'CPU fault'."
+                    },
+                    {
+                      "object_id": "mysql01",
+                      "score": 0.75,
+                      "confidence": 0.7,
+                      "claim": "Mysql01 had a db fault that affected downstream services like Mysql02.",
+                      "reason": "highest incoming_mass among all objects",
+                      "evidence_summary": "Mysql01 has anomaly_score 0.9057, incoming_mass 2.717, downstream_mass 0.0878, and reason_hint 'db fault'."
+                    }
+                  ]
+                }
+              },
+              {
+                "success": true,
+                "payload": {
+                  "object_id": "ig01",
+                  "score": 0.95,
+                  "confidence": 0.9,
+                  "claim": "IG01 network fault at 14:35 triggered cascading failures downstream.",
+                  "reason": "highest downstream mass and incoming mass from tomcat02",
+                  "evidence_summary": "IG01 has downstream_mass 2.8981, incoming_mass 1.9057 from tomcat02, anomaly_score 0.9057, metric_score 1.0, log_score 0.0, trace_score 0.0, change_score 0.0."
+                },
+                "fallback": "heuristic"
+              }
+            ],
+            "dependency": [
+              {
+                "success": true,
+                "payload": {
+                  "proposals": [
+                    {
+                      "object_id": "ig01",
+                      "score": 0.95,
+                      "confidence": 0.9,
+                      "claim": "IG01 network fault is the root cause due to its high downstream mass and incoming mass from tomcat02.",
+                      "reason": "dependency propagation",
+                      "evidence_summary": "IG01 has highest downstream mass (2.8981) and incoming mass from tomcat02 (1.9057), indicating it is a central dependency."
+                    },
+                    {
+                      "object_id": "redis01",
+                      "score": 0.85,
+                      "confidence": 0.8,
+                      "claim": "Redis01 CPU fault is the root cause as it has high incoming mass from IG01 and downstream mass to mysql01.",
+                      "reason": "dependency propagation",
+                      "evidence_summary": "Redis01 has high incoming mass (2.8981) from IG01 and downstream mass (0.9935) to mysql01, suggesting it is a key dependency."
+                    },
+                    {
+                      "object_id": "tomcat02",
+                      "score": 0.8,
+                      "confidence": 0.75,
+                      "claim": "Tomcat02 disk I/O consumption is the root cause due to its high downstream mass and being a prior focus.",
+                      "reason": "prior focus and high downstream mass",
+                      "evidence_summary": "Tomcat02 has high downstream mass (1.9057) and is a prior focus object, indicating it may be the initial failure point."
+                    }
+                  ]
+                }
+              },
+              {
+                "success": true,
+                "payload": {
+                  "proposals": [
+                    {
+                      "object_id": "ig01",
+                      "score": 0.95,
+                      "confidence": 0.9,
+                      "claim": "IG01 is the root cause due to network fault, as it has high downstream mass and is upstream of many services.",
+                      "reason": "network fault",
+                      "evidence_summary": "IG01 has high downstream mass (2.8981) and incoming mass (1.9057), indicating it is a critical dependency. Its anomaly score is 0.9057 with metric score 1.0, and it is upstream of tomcat02, tomcat04, redis01, etc."
+                    },
+                    {
+                      "object_id": "tomcat02",
+                      "score": 0.85,
+                      "confidence": 0.8,
+                      "claim": "Tomcat02 is a likely root cause due to disk I/O consumption, with high downstream mass and no incoming mass.",
+                      "reason": "disk I/O consumption",
+                      "evidence_summary": "Tomcat02 has high downstream mass (1.9057) and zero incoming mass, suggesting it is a source of failure. Its anomaly score is 1.0 with metric score 1.0."
+                    },
+                    {
+                      "object_id": "redis01",
+                      "score": 0.8,
+                      "confidence": 0.75,
+                      "claim": "Redis01 is a potential root cause due to CPU fault, with high incoming mass from ig01 and downstream mass to mysql01.",
+                      "reason": "CPU fault",
+                      "evidence_summary": "Redis01 has high incoming mass (2.8981) from ig01 and downstream mass (0.9935) to mysql01. Its anomaly score is 0.9057 with metric score 1.0."
+                    }
+                  ]
+                }
+              }
+            ],
+            "change": [
+              {
+                "success": true,
+                "payload": {
+                  "proposals": [
+                    {
+                      "object_id": "tomcat02",
+                      "score": 0.9,
+                      "confidence": 0.8,
+                      "claim": "A change in tomcat02 caused disk I/O consumption, leading to downstream anomalies.",
+                      "reason": "high downstream mass and anomaly score",
+                      "evidence_summary": "tomcat02 has high downstream mass (1.9057) and anomaly score (1.0), with disk I/O consumption hint."
+                    },
+                    {
+                      "object_id": "ig01",
+                      "score": 0.7,
+                      "confidence": 0.6,
+                      "claim": "A change in ig01 caused network fault, affecting downstream components.",
+                      "reason": "high downstream mass and incoming mass",
+                      "evidence_summary": "ig01 has high downstream mass (2.8981) and incoming mass (1.9057), with network fault hint."
+                    },
+                    {
+                      "object_id": "redis01",
+                      "score": 0.6,
+                      "confidence": 0.5,
+                      "claim": "A change in redis01 caused CPU fault, impacting downstream services.",
+                      "reason": "high incoming mass and downstream mass",
+                      "evidence_summary": "redis01 has high incoming mass (2.8981) and downstream mass (0.9935), with CPU fault hint."
+                    }
+                  ]
+                }
+              },
+              {
+                "success": true,
+                "payload": {
+                  "proposals": [
+                    {
+                      "object_id": "tomcat02",
+                      "score": 0.9,
+                      "confidence": 0.8,
+                      "claim": "A change on tomcat02 caused disk I/O consumption, leading to the failure.",
+                      "reason": "change_score is 0, but prior focus and high downstream mass suggest change impact.",
+                      "evidence_summary": "tomcat02 has high anomaly and metric scores, and is a prior focus object."
+                    },
+                    {
+                      "object_id": "ig01",
+                      "score": 0.7,
+                      "confidence": 0.6,
+                      "claim": "A change on ig01 caused network fault, propagating to downstream services.",
+                      "reason": "high downstream mass and prior focus, but change_score is 0.",
+                      "evidence_summary": "ig01 has high downstream mass and is a prior focus object."
+                    },
+                    {
+                      "object_id": "redis01",
+                      "score": 0.6,
+                      "confidence": 0.5,
+                      "claim": "A change on redis01 caused CPU fault, affecting dependent services.",
+                      "reason": "high incoming mass and prior focus, but change_score is 0.",
+                      "evidence_summary": "redis01 has high incoming mass and is a prior focus object."
+                    }
+                  ]
+                }
+              }
+            ],
+            "resource": [
+              {
+                "success": true,
+                "payload": {
+                  "proposals": [
+                    {
+                      "object_id": "tomcat02",
+                      "score": 0.95,
+                      "confidence": 0.9,
+                      "claim": "Tomcat02 experienced a disk I/O consumption issue that caused downstream failures.",
+                      "reason": "high anomaly score and downstream mass",
+                      "evidence_summary": "Anomaly score 1.0, downstream mass 1.9057, prior focus object."
+                    },
+                    {
+                      "object_id": "ig01",
+                      "score": 0.85,
+                      "confidence": 0.8,
+                      "claim": "IG01 network fault propagated to multiple downstream components.",
+                      "reason": "high downstream mass and incoming mass",
+                      "evidence_summary": "Downstream mass 2.8981, incoming mass 1.9057, anomaly score 0.9057."
+                    },
+                    {
+                      "object_id": "redis01",
+                      "score": 0.8,
+                      "confidence": 0.75,
+                      "claim": "Redis01 CPU fault caused cascading failures in the system.",
+                      "reason": "high incoming mass and downstream mass",
+                      "evidence_summary": "Incoming mass 2.8981, downstream mass 0.9935, anomaly score 0.9057."
+                    }
+                  ]
+                }
+              },
+              {
+                "success": true,
+                "payload": {
+                  "proposals": [
+                    {
+                      "object_id": "tomcat02",
+                      "score": 0.95,
+                      "confidence": 0.9,
+                      "claim": "Tomcat02 experienced a disk I/O consumption fault that caused the failure.",
+                      "reason": "highest downstream mass and anomaly score",
+                      "evidence_summary": "Tomcat02 has anomaly_score 1.0, metric_score 1.0, log_score 0.3774, and highest downstream_mass 1.9057, indicating it is a likely root cause."
+                    },
+                    {
+                      "object_id": "ig01",
+                      "score": 0.85,
+                      "confidence": 0.8,
+                      "claim": "IG01 network fault propagated to downstream components.",
+                      "reason": "high downstream mass and incoming mass",
+                      "evidence_summary": "IG01 has anomaly_score 0.9057, downstream_mass 2.8981, incoming_mass 1.9057, suggesting it is a key propagation point."
+                    },
+                    {
+                      "object_id": "redis01",
+                      "score": 0.8,
+                      "confidence": 0.75,
+                      "claim": "Redis01 CPU fault caused downstream anomalies.",
+                      "reason": "high incoming mass and downstream mass",
+                      "evidence_summary": "Redis01 has anomaly_score 0.9057, incoming_mass 2.8981, downstream_mass 0.9935, indicating it receives from many and affects others."
+                    },
+                    {
+                      "object_id": "mysql01",
+                      "score": 0.75,
+                      "confidence": 0.7,
+                      "claim": "Mysql01 db fault is a potential root cause.",
+                      "reason": "highest incoming mass",
+                      "evidence_summary": "Mysql01 has anomaly_score 0.9057, incoming_mass 2.717, downstream_mass 0.0878, suggesting it is a sink but may be affected by upstream."
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        "llm_controller": {
+          "enabled": true,
+          "success": true,
+          "candidate_list": [
+            "tomcat02",
+            "ig01",
+            "redis01"
+          ],
+          "summary": "Tomcat02 has highest anomaly score and downstream mass with zero incoming mass, suggesting it is a source. IG01 has highest downstream mass and significant incoming mass, indicating a central failure. Redis01 has high incoming mass and moderate downstream mass, representing a different failure type (CPU fault). These three cover diverse plausible root causes: disk I/O, network, and CPU, avoiding symptom buckets like tomcat01 and tomcat04 which are similar to tomcat02.",
+          "payload": {
+            "candidate_list": [
+              "tomcat02",
+              "ig01",
+              "redis01"
+            ],
+            "controller_summary": "Tomcat02 has highest anomaly score and downstream mass with zero incoming mass, suggesting it is a source. IG01 has highest downstream mass and significant incoming mass, indicating a central failure. Redis01 has high incoming mass and moderate downstream mass, representing a different failure type (CPU fault). These three cover diverse plausible root causes: disk I/O, network, and CPU, avoiding symptom buckets like tomcat01 and tomcat04 which are similar to tomcat02."
+          }
+        },
+        "llm_final": {
+          "enabled": true,
+          "success": true,
+          "chosen_object_id": "tomcat02",
+          "reason": "highest anomaly score and downstream mass, zero incoming mass, consistent multi-agent claims",
+          "confidence": 0.95,
+          "evidence_summary": "Tomcat02 has anomaly_score 1.0, downstream_mass 1.9057, incoming_mass 0.0, and all agents (timeline, dependency, change, resource) identify it as root cause with disk I/O consumption. Intervention also shows high coverage and exclusivity.",
+          "time": "2021-03-04 14:30:00",
+          "payload": {
+            "chosen_object_id": "tomcat02",
+            "reason": "highest anomaly score and downstream mass, zero incoming mass, consistent multi-agent claims",
+            "confidence": 0.95,
+            "evidence_summary": "Tomcat02 has anomaly_score 1.0, downstream_mass 1.9057, incoming_mass 0.0, and all agents (timeline, dependency, change, resource) identify it as root cause with disk I/O consumption. Intervention also shows high coverage and exclusivity.",
+            "time": "2021-03-04 14:30:00"
+          }
+        },
+        "grouped_proposals": {
+          "tomcat02": [
+            {
+              "agent": "timeline",
+              "score": 0.95,
+              "confidence": 0.9,
+              "rationale": "Tomcat02 experienced a disk I/O consumption anomaly around 14:30-15:00, which propagated downstream to IG01 and other services.",
+              "claim": "Tomcat02 experienced a disk I/O consumption anomaly around 14:30-15:00, which propagated downstream to IG01 and other services.",
+              "evidence_summary": "Tomcat02 has anomaly_score 1.0, downstream_mass 1.9057, and reason_hint 'disk I/O consumption'.",
+              "reason": "highest downstream_mass and anomaly_score"
+            },
+            {
+              "agent": "dependency",
+              "score": 0.8,
+              "confidence": 0.75,
+              "rationale": "Tomcat02 disk I/O consumption is the root cause due to its high downstream mass and being a prior focus.",
+              "claim": "Tomcat02 disk I/O consumption is the root cause due to its high downstream mass and being a prior focus.",
+              "evidence_summary": "Tomcat02 has high downstream mass (1.9057) and is a prior focus object, indicating it may be the initial failure point.",
+              "reason": "prior focus and high downstream mass"
+            },
+            {
+              "agent": "change",
+              "score": 0.9,
+              "confidence": 0.8,
+              "rationale": "A change in tomcat02 caused disk I/O consumption, leading to downstream anomalies.",
+              "claim": "A change in tomcat02 caused disk I/O consumption, leading to downstream anomalies.",
+              "evidence_summary": "tomcat02 has high downstream mass (1.9057) and anomaly score (1.0), with disk I/O consumption hint.",
+              "reason": "high downstream mass and anomaly score"
+            },
+            {
+              "agent": "resource",
+              "score": 0.95,
+              "confidence": 0.9,
+              "rationale": "Tomcat02 experienced a disk I/O consumption issue that caused downstream failures.",
+              "claim": "Tomcat02 experienced a disk I/O consumption issue that caused downstream failures.",
+              "evidence_summary": "Anomaly score 1.0, downstream mass 1.9057, prior focus object.",
+              "reason": "high anomaly score and downstream mass"
+            },
+            {
+              "agent": "timeline",
+              "score": 1.0,
+              "confidence": 1.0,
+              "rationale": "earliest anomaly with strong object-level activity; signal=1.000",
+              "claim": "tomcat02 is suspicious from timeline view",
+              "evidence_summary": "earliest anomaly with strong object-level activity; signal=1.000",
+              "reason": ""
+            },
+            {
+              "agent": "dependency",
+              "score": 0.85,
+              "confidence": 0.8,
+              "rationale": "Tomcat02 is a likely root cause due to disk I/O consumption, with high downstream mass and no incoming mass.",
+              "claim": "Tomcat02 is a likely root cause due to disk I/O consumption, with high downstream mass and no incoming mass.",
+              "evidence_summary": "Tomcat02 has high downstream mass (1.9057) and zero incoming mass, suggesting it is a source of failure. Its anomaly score is 1.0 with metric score 1.0.",
+              "reason": "disk I/O consumption"
+            },
+            {
+              "agent": "change",
+              "score": 0.9,
+              "confidence": 0.8,
+              "rationale": "A change on tomcat02 caused disk I/O consumption, leading to the failure.",
+              "claim": "A change on tomcat02 caused disk I/O consumption, leading to the failure.",
+              "evidence_summary": "tomcat02 has high anomaly and metric scores, and is a prior focus object.",
+              "reason": "change_score is 0, but prior focus and high downstream mass suggest change impact."
+            },
+            {
+              "agent": "resource",
+              "score": 0.95,
+              "confidence": 0.9,
+              "rationale": "Tomcat02 experienced a disk I/O consumption fault that caused the failure.",
+              "claim": "Tomcat02 experienced a disk I/O consumption fault that caused the failure.",
+              "evidence_summary": "Tomcat02 has anomaly_score 1.0, metric_score 1.0, log_score 0.3774, and highest downstream_mass 1.9057, indicating it is a likely root cause.",
+              "reason": "highest downstream mass and anomaly score"
+            }
+          ],
+          "ig01": [
+            {
+              "agent": "timeline",
+              "score": 0.85,
+              "confidence": 0.8,
+              "rationale": "IG01 had a network fault that affected downstream services like Redis01 and Mysql01.",
+              "claim": "IG01 had a network fault that affected downstream services like Redis01 and Mysql01.",
+              "evidence_summary": "IG01 has anomaly_score 0.9057, downstream_mass 2.8981, incoming_mass 1.9057, and reason_hint 'network fault'.",
+              "reason": "high downstream_mass and incoming_mass from tomcat02"
+            },
+            {
+              "agent": "dependency",
+              "score": 0.95,
+              "confidence": 0.9,
+              "rationale": "IG01 network fault is the root cause due to its high downstream mass and incoming mass from tomcat02.",
+              "claim": "IG01 network fault is the root cause due to its high downstream mass and incoming mass from tomcat02.",
+              "evidence_summary": "IG01 has highest downstream mass (2.8981) and incoming mass from tomcat02 (1.9057), indicating it is a central dependency.",
+              "reason": "dependency propagation"
+            },
+            {
+              "agent": "change",
+              "score": 0.7,
+              "confidence": 0.6,
+              "rationale": "A change in ig01 caused network fault, affecting downstream components.",
+              "claim": "A change in ig01 caused network fault, affecting downstream components.",
+              "evidence_summary": "ig01 has high downstream mass (2.8981) and incoming mass (1.9057), with network fault hint.",
+              "reason": "high downstream mass and incoming mass"
+            },
+            {
+              "agent": "resource",
+              "score": 0.85,
+              "confidence": 0.8,
+              "rationale": "IG01 network fault propagated to multiple downstream components.",
+              "claim": "IG01 network fault propagated to multiple downstream components.",
+              "evidence_summary": "Downstream mass 2.8981, incoming mass 1.9057, anomaly score 0.9057.",
+              "reason": "high downstream mass and incoming mass"
+            },
+            {
+              "agent": "dependency",
+              "score": 0.95,
+              "confidence": 0.9,
+              "rationale": "IG01 is the root cause due to network fault, as it has high downstream mass and is upstream of many services.",
+              "claim": "IG01 is the root cause due to network fault, as it has high downstream mass and is upstream of many services.",
+              "evidence_summary": "IG01 has high downstream mass (2.8981) and incoming mass (1.9057), indicating it is a critical dependency. Its anomaly score is 0.9057 with metric score 1.0, and it is upstream of tomcat02, tomcat04, redis01, etc.",
+              "reason": "network fault"
+            },
+            {
+              "agent": "change",
+              "score": 0.7,
+              "confidence": 0.6,
+              "rationale": "A change on ig01 caused network fault, propagating to downstream services.",
+              "claim": "A change on ig01 caused network fault, propagating to downstream services.",
+              "evidence_summary": "ig01 has high downstream mass and is a prior focus object.",
+              "reason": "high downstream mass and prior focus, but change_score is 0."
+            },
+            {
+              "agent": "resource",
+              "score": 0.85,
+              "confidence": 0.8,
+              "rationale": "IG01 network fault propagated to downstream components.",
+              "claim": "IG01 network fault propagated to downstream components.",
+              "evidence_summary": "IG01 has anomaly_score 0.9057, downstream_mass 2.8981, incoming_mass 1.9057, suggesting it is a key propagation point.",
+              "reason": "high downstream mass and incoming mass"
+            }
+          ],
+          "redis01": [
+            {
+              "agent": "timeline",
+              "score": 0.8,
+              "confidence": 0.75,
+              "rationale": "Redis01 experienced a CPU fault that impacted downstream services like Mysql01.",
+              "claim": "Redis01 experienced a CPU fault that impacted downstream services like Mysql01.",
+              "evidence_summary": "Redis01 has anomaly_score 0.9057, incoming_mass 2.8981, downstream_mass 0.9935, and reason_hint 'CPU fault'.",
+              "reason": "high incoming_mass from ig01 and moderate downstream_mass"
+            },
+            {
+              "agent": "dependency",
+              "score": 0.85,
+              "confidence": 0.8,
+              "rationale": "Redis01 CPU fault is the root cause as it has high incoming mass from IG01 and downstream mass to mysql01.",
+              "claim": "Redis01 CPU fault is the root cause as it has high incoming mass from IG01 and downstream mass to mysql01.",
+              "evidence_summary": "Redis01 has high incoming mass (2.8981) from IG01 and downstream mass (0.9935) to mysql01, suggesting it is a key dependency.",
+              "reason": "dependency propagation"
+            },
+            {
+              "agent": "change",
+              "score": 0.6,
+              "confidence": 0.5,
+              "rationale": "A change in redis01 caused CPU fault, impacting downstream services.",
+              "claim": "A change in redis01 caused CPU fault, impacting downstream services.",
+              "evidence_summary": "redis01 has high incoming mass (2.8981) and downstream mass (0.9935), with CPU fault hint.",
+              "reason": "high incoming mass and downstream mass"
+            },
+            {
+              "agent": "resource",
+              "score": 0.8,
+              "confidence": 0.75,
+              "rationale": "Redis01 CPU fault caused cascading failures in the system.",
+              "claim": "Redis01 CPU fault caused cascading failures in the system.",
+              "evidence_summary": "Incoming mass 2.8981, downstream mass 0.9935, anomaly score 0.9057.",
+              "reason": "high incoming mass and downstream mass"
+            },
+            {
+              "agent": "dependency",
+              "score": 0.8,
+              "confidence": 0.75,
+              "rationale": "Redis01 is a potential root cause due to CPU fault, with high incoming mass from ig01 and downstream mass to mysql01.",
+              "claim": "Redis01 is a potential root cause due to CPU fault, with high incoming mass from ig01 and downstream mass to mysql01.",
+              "evidence_summary": "Redis01 has high incoming mass (2.8981) from ig01 and downstream mass (0.9935) to mysql01. Its anomaly score is 0.9057 with metric score 1.0.",
+              "reason": "CPU fault"
+            },
+            {
+              "agent": "change",
+              "score": 0.6,
+              "confidence": 0.5,
+              "rationale": "A change on redis01 caused CPU fault, affecting dependent services.",
+              "claim": "A change on redis01 caused CPU fault, affecting dependent services.",
+              "evidence_summary": "redis01 has high incoming mass and is a prior focus object.",
+              "reason": "high incoming mass and prior focus, but change_score is 0."
+            },
+            {
+              "agent": "resource",
+              "score": 0.8,
+              "confidence": 0.75,
+              "rationale": "Redis01 CPU fault caused downstream anomalies.",
+              "claim": "Redis01 CPU fault caused downstream anomalies.",
+              "evidence_summary": "Redis01 has anomaly_score 0.9057, incoming_mass 2.8981, downstream_mass 0.9935, indicating it receives from many and affects others.",
+              "reason": "high incoming mass and downstream mass"
+            }
+          ],
+          "tomcat01": [
+            {
+              "agent": "timeline",
+              "score": 0.9815,
+              "confidence": 0.9729,
+              "rationale": "earliest anomaly with strong object-level activity; signal=0.971",
+              "claim": "tomcat01 is suspicious from timeline view",
+              "evidence_summary": "earliest anomaly with strong object-level activity; signal=0.971",
+              "reason": ""
+            }
+          ],
+          "tomcat04": [
+            {
+              "agent": "timeline",
+              "score": 0.9603,
+              "confidence": 0.9419,
+              "rationale": "earliest anomaly with strong object-level activity; signal=0.939",
+              "claim": "tomcat04 is suspicious from timeline view",
+              "evidence_summary": "earliest anomaly with strong object-level activity; signal=0.939",
+              "reason": ""
+            }
+          ]
+        }
+      },
+      "ground_truth": {
+        "component": "Mysql02",
+        "reason": "high memory usage",
+        "datetime": "2021-03-04 14:57:00"
+      }
+    }
+  ]
+}

@@ -1,0 +1,1278 @@
+{
+  "config": {
+    "option": "MACE",
+    "systems": [
+      "Bank"
+    ],
+    "max_queries": 1
+  },
+  "summary": {
+    "total": 1,
+    "correct": 0,
+    "correct_pct": 0.0,
+    "partial": 0,
+    "partial_pct": 0.0,
+    "correct_or_partial_pct": 0.0,
+    "neither": 1,
+    "by_system": {
+      "Bank": {
+        "total": 1,
+        "correct": 0,
+        "correct_pct": 0.0,
+        "partial": 0,
+        "partial_pct": 0.0
+      }
+    },
+    "by_task": {
+      "task_1": {
+        "total": 1,
+        "correct": 0,
+        "correct_pct": 0.0
+      }
+    },
+    "by_field": {}
+  },
+  "per_query": [
+    {
+      "query_id": "Bank_task_1",
+      "system": "Bank",
+      "task_index": "task_1",
+      "correct": false,
+      "partial": false,
+      "error": null,
+      "iterations": 8,
+      "strategies_used": [
+        "AGENT_TIMELINE",
+        "AGENT_DEPENDENCY",
+        "AGENT_CHANGE",
+        "AGENT_RESOURCE",
+        "AGENT_TIMELINE",
+        "AGENT_DEPENDENCY",
+        "AGENT_CHANGE",
+        "AGENT_RESOURCE"
+      ],
+      "api_calls": 0,
+      "tokens": 0,
+      "emotion_trajectory": [],
+      "hypothesis_summary": {
+        "initial_candidates": [
+          {
+            "object_id": "tomcat02",
+            "entity": "Tomcat02",
+            "score": 5.9719
+          },
+          {
+            "object_id": "tomcat01",
+            "entity": "Tomcat01",
+            "score": 4.4828
+          },
+          {
+            "object_id": "tomcat04",
+            "entity": "Tomcat04",
+            "score": 4.4414
+          },
+          {
+            "object_id": "ig02",
+            "entity": "IG02",
+            "score": 1.9031
+          },
+          {
+            "object_id": "ig01",
+            "entity": "IG01",
+            "score": 1.8956
+          }
+        ],
+        "final_candidates": [
+          {
+            "object_id": "tomcat02",
+            "entity": "Tomcat02",
+            "score": 1.0
+          },
+          {
+            "object_id": "tomcat04",
+            "entity": "Tomcat04",
+            "score": 0.8694
+          },
+          {
+            "object_id": "tomcat01",
+            "entity": "Tomcat01",
+            "score": 0.8555
+          },
+          {
+            "object_id": "ig02",
+            "entity": "IG02",
+            "score": 0.6901
+          },
+          {
+            "object_id": "ig01",
+            "entity": "IG01",
+            "score": 0.6772
+          }
+        ]
+      },
+      "prediction": {
+        "component": [
+          "Tomcat02"
+        ],
+        "reason": [
+          "disk I/O consumption"
+        ],
+        "time": [
+          "2021-03-04 14:52:49"
+        ],
+        "top_score": 1.0
+      },
+      "top_candidates": [
+        {
+          "object_id": "tomcat02",
+          "entity": "Tomcat02",
+          "score": 1.0
+        },
+        {
+          "object_id": "tomcat04",
+          "entity": "Tomcat04",
+          "score": 0.8694
+        },
+        {
+          "object_id": "tomcat01",
+          "entity": "Tomcat01",
+          "score": 0.8555
+        },
+        {
+          "object_id": "ig02",
+          "entity": "IG02",
+          "score": 0.6901
+        },
+        {
+          "object_id": "ig01",
+          "entity": "IG01",
+          "score": 0.6772
+        }
+      ],
+      "stop_reason": "mace_deliberation_complete",
+      "mace_trace": [
+        {
+          "step": 0,
+          "action": "AGENT_TIMELINE",
+          "round": 0,
+          "top_objects": [
+            "tomcat02",
+            "tomcat01",
+            "tomcat04"
+          ],
+          "rationales": [
+            "earliest anomaly with strong object-level activity; signal=1.000",
+            "earliest anomaly with strong object-level activity; signal=0.971"
+          ]
+        },
+        {
+          "step": 1,
+          "action": "AGENT_DEPENDENCY",
+          "round": 0,
+          "top_objects": [
+            "tomcat02",
+            "ig02",
+            "ig01"
+          ],
+          "rationales": [
+            "strong downstream explanatory power under dependency constraints; signal=1.906",
+            "strong downstream explanatory power under dependency constraints; signal=2.424"
+          ]
+        },
+        {
+          "step": 2,
+          "action": "AGENT_CHANGE",
+          "round": 0,
+          "top_objects": [
+            "tomcat03",
+            "tomcat04",
+            "tomcat01"
+          ],
+          "rationales": [
+            "change-like evidence or restart/configuration signals; signal=0.000",
+            "change-like evidence or restart/configuration signals; signal=0.000"
+          ]
+        },
+        {
+          "step": 3,
+          "action": "AGENT_RESOURCE",
+          "round": 0,
+          "top_objects": [
+            "tomcat02",
+            "tomcat01",
+            "tomcat04"
+          ],
+          "rationales": [
+            "resource or failure-pattern evidence attached to the object; signal=5.832",
+            "resource or failure-pattern evidence attached to the object; signal=4.392"
+          ]
+        },
+        {
+          "step": 4,
+          "action": "AGENT_TIMELINE",
+          "round": 1,
+          "top_objects": [
+            "tomcat02",
+            "tomcat01",
+            "tomcat04"
+          ],
+          "rationales": [
+            "earliest anomaly with strong object-level activity; signal=1.000",
+            "earliest anomaly with strong object-level activity; signal=0.971"
+          ]
+        },
+        {
+          "step": 5,
+          "action": "AGENT_DEPENDENCY",
+          "round": 1,
+          "top_objects": [
+            "tomcat02",
+            "ig02",
+            "ig01"
+          ],
+          "rationales": [
+            "strong downstream explanatory power under dependency constraints; signal=1.906",
+            "strong downstream explanatory power under dependency constraints; signal=2.424"
+          ]
+        },
+        {
+          "step": 6,
+          "action": "AGENT_CHANGE",
+          "round": 1,
+          "top_objects": [
+            "tomcat03",
+            "tomcat04",
+            "tomcat01"
+          ],
+          "rationales": [
+            "change-like evidence or restart/configuration signals; signal=0.000",
+            "change-like evidence or restart/configuration signals; signal=0.000"
+          ]
+        },
+        {
+          "step": 7,
+          "action": "AGENT_RESOURCE",
+          "round": 1,
+          "top_objects": [
+            "tomcat02",
+            "tomcat01",
+            "tomcat04"
+          ],
+          "rationales": [
+            "resource or failure-pattern evidence attached to the object; signal=5.832",
+            "resource or failure-pattern evidence attached to the object; signal=4.392"
+          ]
+        }
+      ],
+      "debug": {
+        "graph": {
+          "nodes": {
+            "ig01": {
+              "representative": "IG01",
+              "members": [
+                "IG01"
+              ],
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "network fault"
+            },
+            "ig02": {
+              "representative": "IG02",
+              "members": [
+                "IG02"
+              ],
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "mg01": {
+              "representative": "MG01",
+              "members": [
+                "MG01"
+              ],
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "mg02": {
+              "representative": "MG02",
+              "members": [
+                "MG02"
+              ],
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "mysql01": {
+              "representative": "Mysql01",
+              "members": [
+                "Mysql01"
+              ],
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "db fault"
+            },
+            "mysql02": {
+              "representative": "Mysql02",
+              "members": [
+                "Mysql02"
+              ],
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "db fault"
+            },
+            "redis01": {
+              "representative": "Redis01",
+              "members": [
+                "Redis01"
+              ],
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "CPU fault"
+            },
+            "redis02": {
+              "representative": "Redis02",
+              "members": [
+                "Redis02"
+              ],
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "servicetest1": {
+              "representative": "ServiceTest1",
+              "members": [
+                "ServiceTest1"
+              ],
+              "anomaly_score": 0.1243,
+              "metric_score": 0.2072,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest10": {
+              "representative": "ServiceTest10",
+              "members": [
+                "ServiceTest10"
+              ],
+              "anomaly_score": 0.1811,
+              "metric_score": 0.3019,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest11": {
+              "representative": "ServiceTest11",
+              "members": [
+                "ServiceTest11"
+              ],
+              "anomaly_score": 0.0476,
+              "metric_score": 0.0794,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest2": {
+              "representative": "ServiceTest2",
+              "members": [
+                "ServiceTest2"
+              ],
+              "anomaly_score": 0.0387,
+              "metric_score": 0.0646,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest3": {
+              "representative": "ServiceTest3",
+              "members": [
+                "ServiceTest3"
+              ],
+              "anomaly_score": 0.2407,
+              "metric_score": 0.4012,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest4": {
+              "representative": "ServiceTest4",
+              "members": [
+                "ServiceTest4"
+              ],
+              "anomaly_score": 0.0598,
+              "metric_score": 0.0997,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest5": {
+              "representative": "ServiceTest5",
+              "members": [
+                "ServiceTest5"
+              ],
+              "anomaly_score": 0.0878,
+              "metric_score": 0.1464,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest6": {
+              "representative": "ServiceTest6",
+              "members": [
+                "ServiceTest6"
+              ],
+              "anomaly_score": 0.0341,
+              "metric_score": 0.0568,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest7": {
+              "representative": "ServiceTest7",
+              "members": [
+                "ServiceTest7"
+              ],
+              "anomaly_score": 0.0418,
+              "metric_score": 0.0696,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest8": {
+              "representative": "ServiceTest8",
+              "members": [
+                "ServiceTest8"
+              ],
+              "anomaly_score": 0.0845,
+              "metric_score": 0.1408,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest9": {
+              "representative": "ServiceTest9",
+              "members": [
+                "ServiceTest9"
+              ],
+              "anomaly_score": 0.0649,
+              "metric_score": 0.1081,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "tomcat01": {
+              "representative": "Tomcat01",
+              "members": [
+                "Tomcat01"
+              ],
+              "anomaly_score": 1.0,
+              "metric_score": 1.0,
+              "log_score": 0.3774,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "tomcat02": {
+              "representative": "Tomcat02",
+              "members": [
+                "Tomcat02"
+              ],
+              "anomaly_score": 1.0,
+              "metric_score": 1.0,
+              "log_score": 0.3774,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "tomcat03": {
+              "representative": "Tomcat03",
+              "members": [
+                "Tomcat03"
+              ],
+              "anomaly_score": 1.0,
+              "metric_score": 1.0,
+              "log_score": 0.3774,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "CPU fault"
+            },
+            "tomcat04": {
+              "representative": "Tomcat04",
+              "members": [
+                "Tomcat04"
+              ],
+              "anomaly_score": 1.0,
+              "metric_score": 1.0,
+              "log_score": 0.3774,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "apache01": {
+              "representative": "apache01",
+              "members": [
+                "apache01"
+              ],
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "apache02": {
+              "representative": "apache02",
+              "members": [
+                "apache02"
+              ],
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "dockera1": {
+              "representative": "dockerA1",
+              "members": [
+                "dockerA1"
+              ],
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "network fault"
+            },
+            "dockera2": {
+              "representative": "dockerA2",
+              "members": [
+                "dockerA2"
+              ],
+              "anomaly_score": 0.0,
+              "metric_score": 0.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "dockerb1": {
+              "representative": "dockerB1",
+              "members": [
+                "dockerB1"
+              ],
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "CPU fault"
+            },
+            "dockerb2": {
+              "representative": "dockerB2",
+              "members": [
+                "dockerB2"
+              ],
+              "anomaly_score": 0.0,
+              "metric_score": 0.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            }
+          },
+          "adjacency": {
+            "mysql02": {
+              "servicetest11": 1.0,
+              "servicetest4": 1.0,
+              "apache01": 1.0
+            },
+            "servicetest11": {
+              "servicetest4": 1.0,
+              "apache01": 1.0
+            },
+            "servicetest4": {
+              "apache01": 1.0
+            },
+            "tomcat02": {
+              "tomcat04": 1.0,
+              "apache01": 1.0
+            },
+            "tomcat04": {
+              "apache01": 1.0
+            },
+            "redis02": {
+              "ig01": 1.0,
+              "servicetest10": 1.0
+            },
+            "tomcat01": {
+              "ig01": 1.0,
+              "servicetest10": 1.0
+            },
+            "ig01": {
+              "servicetest10": 1.0,
+              "ig02": 1.0,
+              "mg01": 1.0,
+              "redis01": 1.0
+            },
+            "servicetest10": {
+              "ig02": 1.0,
+              "mg01": 1.0,
+              "redis01": 1.0
+            },
+            "ig02": {
+              "mg01": 1.0,
+              "redis01": 1.0,
+              "mysql01": 1.0,
+              "servicetest5": 1.0
+            },
+            "mg01": {
+              "redis01": 1.0,
+              "mysql01": 1.0,
+              "servicetest5": 1.0
+            },
+            "redis01": {
+              "mysql01": 1.0,
+              "servicetest5": 1.0
+            },
+            "mysql01": {
+              "servicetest5": 1.0
+            }
+          }
+        },
+        "graph_debug": {
+          "entity_to_object": {
+            "IG01": "ig01",
+            "IG02": "ig02",
+            "MG01": "mg01",
+            "MG02": "mg02",
+            "Mysql01": "mysql01",
+            "Mysql02": "mysql02",
+            "Redis01": "redis01",
+            "Redis02": "redis02",
+            "ServiceTest1": "servicetest1",
+            "ServiceTest10": "servicetest10",
+            "ServiceTest11": "servicetest11",
+            "ServiceTest2": "servicetest2",
+            "ServiceTest3": "servicetest3",
+            "ServiceTest4": "servicetest4",
+            "ServiceTest5": "servicetest5",
+            "ServiceTest6": "servicetest6",
+            "ServiceTest7": "servicetest7",
+            "ServiceTest8": "servicetest8",
+            "ServiceTest9": "servicetest9",
+            "Tomcat01": "tomcat01",
+            "Tomcat02": "tomcat02",
+            "Tomcat03": "tomcat03",
+            "Tomcat04": "tomcat04",
+            "apache01": "apache01",
+            "apache02": "apache02",
+            "dockerA1": "dockera1",
+            "dockerA2": "dockera2",
+            "dockerB1": "dockerb1",
+            "dockerB2": "dockerb2"
+          },
+          "objects": {
+            "ig01": {
+              "members": [
+                "IG01"
+              ],
+              "representative": "IG01",
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "network fault"
+            },
+            "ig02": {
+              "members": [
+                "IG02"
+              ],
+              "representative": "IG02",
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "mg01": {
+              "members": [
+                "MG01"
+              ],
+              "representative": "MG01",
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "mg02": {
+              "members": [
+                "MG02"
+              ],
+              "representative": "MG02",
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "mysql01": {
+              "members": [
+                "Mysql01"
+              ],
+              "representative": "Mysql01",
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "db fault"
+            },
+            "mysql02": {
+              "members": [
+                "Mysql02"
+              ],
+              "representative": "Mysql02",
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "db fault"
+            },
+            "redis01": {
+              "members": [
+                "Redis01"
+              ],
+              "representative": "Redis01",
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "CPU fault"
+            },
+            "redis02": {
+              "members": [
+                "Redis02"
+              ],
+              "representative": "Redis02",
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "servicetest1": {
+              "members": [
+                "ServiceTest1"
+              ],
+              "representative": "ServiceTest1",
+              "anomaly_score": 0.1243,
+              "metric_score": 0.2072,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest10": {
+              "members": [
+                "ServiceTest10"
+              ],
+              "representative": "ServiceTest10",
+              "anomaly_score": 0.1811,
+              "metric_score": 0.3019,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest11": {
+              "members": [
+                "ServiceTest11"
+              ],
+              "representative": "ServiceTest11",
+              "anomaly_score": 0.0476,
+              "metric_score": 0.0794,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest2": {
+              "members": [
+                "ServiceTest2"
+              ],
+              "representative": "ServiceTest2",
+              "anomaly_score": 0.0387,
+              "metric_score": 0.0646,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest3": {
+              "members": [
+                "ServiceTest3"
+              ],
+              "representative": "ServiceTest3",
+              "anomaly_score": 0.2407,
+              "metric_score": 0.4012,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest4": {
+              "members": [
+                "ServiceTest4"
+              ],
+              "representative": "ServiceTest4",
+              "anomaly_score": 0.0598,
+              "metric_score": 0.0997,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest5": {
+              "members": [
+                "ServiceTest5"
+              ],
+              "representative": "ServiceTest5",
+              "anomaly_score": 0.0878,
+              "metric_score": 0.1464,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest6": {
+              "members": [
+                "ServiceTest6"
+              ],
+              "representative": "ServiceTest6",
+              "anomaly_score": 0.0341,
+              "metric_score": 0.0568,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest7": {
+              "members": [
+                "ServiceTest7"
+              ],
+              "representative": "ServiceTest7",
+              "anomaly_score": 0.0418,
+              "metric_score": 0.0696,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest8": {
+              "members": [
+                "ServiceTest8"
+              ],
+              "representative": "ServiceTest8",
+              "anomaly_score": 0.0845,
+              "metric_score": 0.1408,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest9": {
+              "members": [
+                "ServiceTest9"
+              ],
+              "representative": "ServiceTest9",
+              "anomaly_score": 0.0649,
+              "metric_score": 0.1081,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "tomcat01": {
+              "members": [
+                "Tomcat01"
+              ],
+              "representative": "Tomcat01",
+              "anomaly_score": 1.0,
+              "metric_score": 1.0,
+              "log_score": 0.3774,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "tomcat02": {
+              "members": [
+                "Tomcat02"
+              ],
+              "representative": "Tomcat02",
+              "anomaly_score": 1.0,
+              "metric_score": 1.0,
+              "log_score": 0.3774,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "tomcat03": {
+              "members": [
+                "Tomcat03"
+              ],
+              "representative": "Tomcat03",
+              "anomaly_score": 1.0,
+              "metric_score": 1.0,
+              "log_score": 0.3774,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "CPU fault"
+            },
+            "tomcat04": {
+              "members": [
+                "Tomcat04"
+              ],
+              "representative": "Tomcat04",
+              "anomaly_score": 1.0,
+              "metric_score": 1.0,
+              "log_score": 0.3774,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "apache01": {
+              "members": [
+                "apache01"
+              ],
+              "representative": "apache01",
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "apache02": {
+              "members": [
+                "apache02"
+              ],
+              "representative": "apache02",
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "dockera1": {
+              "members": [
+                "dockerA1"
+              ],
+              "representative": "dockerA1",
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "network fault"
+            },
+            "dockera2": {
+              "members": [
+                "dockerA2"
+              ],
+              "representative": "dockerA2",
+              "anomaly_score": 0.0,
+              "metric_score": 0.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "dockerb1": {
+              "members": [
+                "dockerB1"
+              ],
+              "representative": "dockerB1",
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "CPU fault"
+            },
+            "dockerb2": {
+              "members": [
+                "dockerB2"
+              ],
+              "representative": "dockerB2",
+              "anomaly_score": 0.0,
+              "metric_score": 0.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            }
+          },
+          "query": "task_1"
+        },
+        "memory_scores": {
+          "tomcat02": 5.9719,
+          "tomcat01": 4.4828,
+          "tomcat04": 4.4414,
+          "ig02": 1.9031,
+          "ig01": 1.8956,
+          "tomcat03": 0.922
+        },
+        "intervention": [
+          {
+            "object_id": "tomcat02",
+            "score": 0.9083531322200459,
+            "removed_mass": 2.2386792452830186,
+            "coverage": 0.7704545454545454,
+            "exclusivity": 2.9056603773584904,
+            "representative": "Tomcat02"
+          },
+          {
+            "object_id": "ig02",
+            "score": 0.9028702819498671,
+            "removed_mass": 2.7287897407810653,
+            "coverage": 0.7354287256067287,
+            "exclusivity": 3.167086687223242,
+            "representative": "IG02"
+          },
+          {
+            "object_id": "tomcat04",
+            "score": 0.8830719473519326,
+            "removed_mass": 1.5886792452830187,
+            "coverage": 0.8336633663366336,
+            "exclusivity": 1.4056603773584906,
+            "representative": "Tomcat04"
+          },
+          {
+            "object_id": "ig01",
+            "score": 0.8824874965064311,
+            "removed_mass": 3.209174459302251,
+            "coverage": 0.6689611356753203,
+            "exclusivity": 3.8444207847462435,
+            "representative": "IG01"
+          },
+          {
+            "object_id": "tomcat01",
+            "score": 0.8549629444917097,
+            "removed_mass": 2.85432905232286,
+            "coverage": 0.5941867709947934,
+            "exclusivity": 4.80375732287697,
+            "representative": "Tomcat01"
+          }
+        ],
+        "grouped_proposals": {
+          "tomcat02": [
+            {
+              "agent": "timeline",
+              "score": 1.0,
+              "confidence": 1.0,
+              "rationale": "earliest anomaly with strong object-level activity; signal=1.000"
+            },
+            {
+              "agent": "dependency",
+              "score": 0.9784,
+              "confidence": 1.0,
+              "rationale": "strong downstream explanatory power under dependency constraints; signal=1.906"
+            },
+            {
+              "agent": "resource",
+              "score": 1.0,
+              "confidence": 1.0,
+              "rationale": "resource or failure-pattern evidence attached to the object; signal=5.832"
+            },
+            {
+              "agent": "timeline",
+              "score": 1.0,
+              "confidence": 1.0,
+              "rationale": "earliest anomaly with strong object-level activity; signal=1.000"
+            },
+            {
+              "agent": "dependency",
+              "score": 0.9784,
+              "confidence": 1.0,
+              "rationale": "strong downstream explanatory power under dependency constraints; signal=1.906"
+            },
+            {
+              "agent": "resource",
+              "score": 1.0,
+              "confidence": 1.0,
+              "rationale": "resource or failure-pattern evidence attached to the object; signal=5.832"
+            }
+          ],
+          "tomcat01": [
+            {
+              "agent": "timeline",
+              "score": 0.9815,
+              "confidence": 0.9729,
+              "rationale": "earliest anomaly with strong object-level activity; signal=0.971"
+            },
+            {
+              "agent": "change",
+              "score": 0.1262,
+              "confidence": 0.6007,
+              "rationale": "change-like evidence or restart/configuration signals; signal=0.000"
+            },
+            {
+              "agent": "resource",
+              "score": 0.9999,
+              "confidence": 0.9999,
+              "rationale": "resource or failure-pattern evidence attached to the object; signal=4.392"
+            },
+            {
+              "agent": "timeline",
+              "score": 0.9815,
+              "confidence": 0.9729,
+              "rationale": "earliest anomaly with strong object-level activity; signal=0.971"
+            },
+            {
+              "agent": "change",
+              "score": 0.1101,
+              "confidence": 0.4635,
+              "rationale": "change-like evidence or restart/configuration signals; signal=0.000"
+            },
+            {
+              "agent": "resource",
+              "score": 0.9999,
+              "confidence": 0.9999,
+              "rationale": "resource or failure-pattern evidence attached to the object; signal=4.392"
+            }
+          ],
+          "tomcat04": [
+            {
+              "agent": "timeline",
+              "score": 0.9603,
+              "confidence": 0.9419,
+              "rationale": "earliest anomaly with strong object-level activity; signal=0.939"
+            },
+            {
+              "agent": "change",
+              "score": 0.1274,
+              "confidence": 0.6107,
+              "rationale": "change-like evidence or restart/configuration signals; signal=0.000"
+            },
+            {
+              "agent": "resource",
+              "score": 0.9998,
+              "confidence": 0.9998,
+              "rationale": "resource or failure-pattern evidence attached to the object; signal=4.283"
+            },
+            {
+              "agent": "timeline",
+              "score": 0.9603,
+              "confidence": 0.9419,
+              "rationale": "earliest anomaly with strong object-level activity; signal=0.939"
+            },
+            {
+              "agent": "change",
+              "score": 0.111,
+              "confidence": 0.4722,
+              "rationale": "change-like evidence or restart/configuration signals; signal=0.000"
+            },
+            {
+              "agent": "resource",
+              "score": 0.9998,
+              "confidence": 0.9998,
+              "rationale": "resource or failure-pattern evidence attached to the object; signal=4.283"
+            }
+          ],
+          "ig02": [
+            {
+              "agent": "dependency",
+              "score": 0.9451,
+              "confidence": 0.9636,
+              "rationale": "strong downstream explanatory power under dependency constraints; signal=2.424"
+            },
+            {
+              "agent": "dependency",
+              "score": 0.9451,
+              "confidence": 0.9636,
+              "rationale": "strong downstream explanatory power under dependency constraints; signal=2.424"
+            }
+          ],
+          "ig01": [
+            {
+              "agent": "dependency",
+              "score": 0.9414,
+              "confidence": 0.9597,
+              "rationale": "strong downstream explanatory power under dependency constraints; signal=2.231"
+            },
+            {
+              "agent": "dependency",
+              "score": 0.9414,
+              "confidence": 0.9597,
+              "rationale": "strong downstream explanatory power under dependency constraints; signal=2.231"
+            }
+          ],
+          "tomcat03": [
+            {
+              "agent": "change",
+              "score": 0.1755,
+              "confidence": 1.0,
+              "rationale": "change-like evidence or restart/configuration signals; signal=0.000"
+            },
+            {
+              "agent": "change",
+              "score": 0.1661,
+              "confidence": 1.0,
+              "rationale": "change-like evidence or restart/configuration signals; signal=0.000"
+            }
+          ]
+        }
+      },
+      "ground_truth": {
+        "component": "Mysql02",
+        "reason": "high memory usage",
+        "datetime": "2021-03-04 14:57:00"
+      }
+    }
+  ]
+}

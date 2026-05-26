@@ -1,0 +1,2238 @@
+{
+  "config": {
+    "option": "MACE",
+    "systems": [
+      "Bank"
+    ],
+    "max_queries": 1
+  },
+  "summary": {
+    "total": 1,
+    "correct": 1,
+    "correct_pct": 100.0,
+    "partial": 0,
+    "partial_pct": 0.0,
+    "correct_or_partial_pct": 100.0,
+    "neither": 0,
+    "by_system": {
+      "Bank": {
+        "total": 1,
+        "correct": 1,
+        "correct_pct": 100.0,
+        "partial": 0,
+        "partial_pct": 0.0
+      }
+    },
+    "by_task": {
+      "task_1": {
+        "total": 1,
+        "correct": 1,
+        "correct_pct": 100.0
+      }
+    },
+    "by_field": {}
+  },
+  "per_query": [
+    {
+      "query_id": "Bank_task_1",
+      "system": "Bank",
+      "task_index": "task_1",
+      "correct": true,
+      "partial": true,
+      "error": null,
+      "iterations": 15,
+      "strategies_used": [
+        "AGENT_TIMELINE",
+        "AGENT_DEPENDENCY",
+        "AGENT_CHANGE",
+        "AGENT_RESOURCE",
+        "AGENT_TIMELINE",
+        "AGENT_DEPENDENCY",
+        "AGENT_CHANGE",
+        "AGENT_RESOURCE",
+        "GRAFT",
+        "GRAFT",
+        "GRAFT",
+        "GRAFT",
+        "GRAFT",
+        "GRAFT",
+        "CLAIM_COUNTERFACTUAL"
+      ],
+      "api_calls": 17,
+      "tokens": 71630,
+      "emotion_trajectory": [],
+      "hypothesis_summary": {
+        "initial_candidates": [
+          {
+            "object_id": "tomcat01",
+            "entity": "Tomcat01",
+            "score": 8.6132
+          }
+        ],
+        "final_candidates": [
+          {
+            "object_id": "tomcat01",
+            "entity": "Tomcat01",
+            "score": 1.0
+          }
+        ]
+      },
+      "prediction": {
+        "component": [
+          "Tomcat01"
+        ],
+        "reason": [
+          "disk I/O consumption causing high CPU utilization"
+        ],
+        "time": [
+          "2021-03-04 14:57:00"
+        ],
+        "top_score": 1.0
+      },
+      "top_candidates": [
+        {
+          "object_id": "tomcat01",
+          "entity": "Tomcat01",
+          "score": 1.0
+        }
+      ],
+      "stop_reason": "mace_deliberation_complete",
+      "mace_trace": [
+        {
+          "step": 0,
+          "action": "AGENT_TIMELINE",
+          "round": 0,
+          "top_objects": [
+            "tomcat01"
+          ],
+          "rationales": [
+            "Tomcat01 experienced high CPU utilization on CPU-0 and CPU-2 due to disk I/O consumption, initiating the failure cascade."
+          ]
+        },
+        {
+          "step": 1,
+          "action": "AGENT_DEPENDENCY",
+          "round": 0,
+          "top_objects": [
+            "tomcat01"
+          ],
+          "rationales": [
+            "Tomcat01 experienced high CPU utilization due to disk I/O consumption, causing propagation to downstream services."
+          ]
+        },
+        {
+          "step": 2,
+          "action": "AGENT_CHANGE",
+          "round": 0,
+          "top_objects": [
+            "tomcat01"
+          ],
+          "rationales": [
+            "Tomcat01 experienced a disk I/O spike causing high CPU utilization on CPU-0 and CPU-2."
+          ]
+        },
+        {
+          "step": 3,
+          "action": "AGENT_RESOURCE",
+          "round": 0,
+          "top_objects": [
+            "tomcat01"
+          ],
+          "rationales": [
+            "Tomcat01 experienced high CPU utilization due to disk I/O consumption, acting as the root cause."
+          ]
+        },
+        {
+          "step": 4,
+          "action": "AGENT_TIMELINE",
+          "round": 1,
+          "top_objects": [
+            "tomcat01"
+          ],
+          "rationales": [
+            "Tomcat01 experienced a disk I/O spike causing high CPU utilization on CPU-0 and CPU-2, which propagated to downstream services."
+          ]
+        },
+        {
+          "step": 5,
+          "action": "AGENT_DEPENDENCY",
+          "round": 1,
+          "top_objects": [
+            "tomcat01"
+          ],
+          "rationales": [
+            "Tomcat01 is the root cause due to disk I/O consumption causing high CPU utilization."
+          ]
+        },
+        {
+          "step": 6,
+          "action": "AGENT_CHANGE",
+          "round": 1,
+          "top_objects": [
+            "tomcat01"
+          ],
+          "rationales": [
+            "Tomcat01 is the root cause due to a disk I/O spike causing high CPU utilization."
+          ]
+        },
+        {
+          "step": 7,
+          "action": "AGENT_RESOURCE",
+          "round": 1,
+          "top_objects": [
+            "tomcat01"
+          ],
+          "rationales": [
+            "Tomcat01 experienced high CPU utilization due to disk I/O consumption, acting as the root cause."
+          ]
+        },
+        {
+          "step": 8,
+          "action": "GRAFT",
+          "source_claim_id": "claim_18c952c816d8",
+          "target_claim_id": "claim_7e3daab09083",
+          "summary": "Both claims identify Tomcat01 as root cause due to disk I/O causing high CPU, with identical evidence and graph summaries. The source has higher confidence (1.0 vs 0.9) and more precise reason ('consumption' vs 'spike'), so merging retains the stronger reason and confidence."
+        },
+        {
+          "step": 9,
+          "action": "GRAFT",
+          "source_claim_id": "claim_eabcdbf8624f",
+          "target_claim_id": "claim_31a621b0c2ce",
+          "summary": "Target claim adds downstream propagation detail to source claim's root cause, with high compatibility and same object/mechanism."
+        },
+        {
+          "step": 10,
+          "action": "GRAFT",
+          "source_claim_id": "claim_188169fadeb4",
+          "target_claim_id": "claim_18c952c816d8",
+          "summary": "Both claims identify tomcat01 as root cause due to disk I/O, with high compatibility (0.922) and identical evidence. Merging consolidates confidence and avoids redundancy."
+        },
+        {
+          "step": 11,
+          "action": "GRAFT",
+          "source_claim_id": "claim_18c952c816d8",
+          "target_claim_id": "claim_8595005b40df",
+          "summary": "Both claims identify Tomcat01 as root cause with identical evidence and mechanism, differing only in agent (dependency vs resource). Merge to unify perspectives."
+        },
+        {
+          "step": 12,
+          "action": "GRAFT",
+          "source_claim_id": "claim_188169fadeb4",
+          "target_claim_id": "claim_7e3daab09083",
+          "summary": "Both claims identify Tomcat01 as root cause due to disk I/O spike causing high CPU utilization, with high compatibility (0.894). Merging combines resource and change perspectives."
+        },
+        {
+          "step": 13,
+          "action": "GRAFT",
+          "source_claim_id": "claim_7e3daab09083",
+          "target_claim_id": "claim_8595005b40df",
+          "summary": "Both claims identify Tomcat01 as root cause due to disk I/O spike causing high CPU utilization, with identical evidence and graph summaries. The source claim specifies a change agent, while the target claim specifies a resource agent; merging them provides a complete view."
+        },
+        {
+          "step": 14,
+          "action": "CLAIM_COUNTERFACTUAL",
+          "claim_id": "claim_7e3daab09083",
+          "object_id": "tomcat01",
+          "supports_claim": true,
+          "summary": "Local intervention on tomcat01 removes significant anomaly mass (2.854) with high coverage (0.594) and exclusivity (4.804), indicating that tomcat01 is a critical causal node. This strengthens the claim that tomcat01 is the root cause due to disk I/O spike causing high CPU utilization."
+        }
+      ],
+      "debug": {
+        "graph": {
+          "nodes": {
+            "ig01": {
+              "representative": "IG01",
+              "members": [
+                "IG01"
+              ],
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "network fault"
+            },
+            "ig02": {
+              "representative": "IG02",
+              "members": [
+                "IG02"
+              ],
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "mg01": {
+              "representative": "MG01",
+              "members": [
+                "MG01"
+              ],
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "mg02": {
+              "representative": "MG02",
+              "members": [
+                "MG02"
+              ],
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "mysql01": {
+              "representative": "Mysql01",
+              "members": [
+                "Mysql01"
+              ],
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "db fault"
+            },
+            "mysql02": {
+              "representative": "Mysql02",
+              "members": [
+                "Mysql02"
+              ],
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "db fault"
+            },
+            "redis01": {
+              "representative": "Redis01",
+              "members": [
+                "Redis01"
+              ],
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "CPU fault"
+            },
+            "redis02": {
+              "representative": "Redis02",
+              "members": [
+                "Redis02"
+              ],
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "servicetest1": {
+              "representative": "ServiceTest1",
+              "members": [
+                "ServiceTest1"
+              ],
+              "anomaly_score": 0.1243,
+              "metric_score": 0.2072,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest10": {
+              "representative": "ServiceTest10",
+              "members": [
+                "ServiceTest10"
+              ],
+              "anomaly_score": 0.1811,
+              "metric_score": 0.3019,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest11": {
+              "representative": "ServiceTest11",
+              "members": [
+                "ServiceTest11"
+              ],
+              "anomaly_score": 0.0476,
+              "metric_score": 0.0794,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest2": {
+              "representative": "ServiceTest2",
+              "members": [
+                "ServiceTest2"
+              ],
+              "anomaly_score": 0.0387,
+              "metric_score": 0.0646,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest3": {
+              "representative": "ServiceTest3",
+              "members": [
+                "ServiceTest3"
+              ],
+              "anomaly_score": 0.2407,
+              "metric_score": 0.4012,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest4": {
+              "representative": "ServiceTest4",
+              "members": [
+                "ServiceTest4"
+              ],
+              "anomaly_score": 0.0598,
+              "metric_score": 0.0997,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest5": {
+              "representative": "ServiceTest5",
+              "members": [
+                "ServiceTest5"
+              ],
+              "anomaly_score": 0.0878,
+              "metric_score": 0.1464,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest6": {
+              "representative": "ServiceTest6",
+              "members": [
+                "ServiceTest6"
+              ],
+              "anomaly_score": 0.0341,
+              "metric_score": 0.0568,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest7": {
+              "representative": "ServiceTest7",
+              "members": [
+                "ServiceTest7"
+              ],
+              "anomaly_score": 0.0418,
+              "metric_score": 0.0696,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest8": {
+              "representative": "ServiceTest8",
+              "members": [
+                "ServiceTest8"
+              ],
+              "anomaly_score": 0.0845,
+              "metric_score": 0.1408,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest9": {
+              "representative": "ServiceTest9",
+              "members": [
+                "ServiceTest9"
+              ],
+              "anomaly_score": 0.0649,
+              "metric_score": 0.1081,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "tomcat01": {
+              "representative": "Tomcat01",
+              "members": [
+                "Tomcat01"
+              ],
+              "anomaly_score": 1.0,
+              "metric_score": 1.0,
+              "log_score": 0.3774,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "tomcat02": {
+              "representative": "Tomcat02",
+              "members": [
+                "Tomcat02"
+              ],
+              "anomaly_score": 1.0,
+              "metric_score": 1.0,
+              "log_score": 0.3774,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "tomcat03": {
+              "representative": "Tomcat03",
+              "members": [
+                "Tomcat03"
+              ],
+              "anomaly_score": 1.0,
+              "metric_score": 1.0,
+              "log_score": 0.3774,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "CPU fault"
+            },
+            "tomcat04": {
+              "representative": "Tomcat04",
+              "members": [
+                "Tomcat04"
+              ],
+              "anomaly_score": 1.0,
+              "metric_score": 1.0,
+              "log_score": 0.3774,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "apache01": {
+              "representative": "apache01",
+              "members": [
+                "apache01"
+              ],
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "apache02": {
+              "representative": "apache02",
+              "members": [
+                "apache02"
+              ],
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "dockera1": {
+              "representative": "dockerA1",
+              "members": [
+                "dockerA1"
+              ],
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "network fault"
+            },
+            "dockera2": {
+              "representative": "dockerA2",
+              "members": [
+                "dockerA2"
+              ],
+              "anomaly_score": 0.0,
+              "metric_score": 0.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "dockerb1": {
+              "representative": "dockerB1",
+              "members": [
+                "dockerB1"
+              ],
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "CPU fault"
+            },
+            "dockerb2": {
+              "representative": "dockerB2",
+              "members": [
+                "dockerB2"
+              ],
+              "anomaly_score": 0.0,
+              "metric_score": 0.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            }
+          },
+          "adjacency": {
+            "mysql02": {
+              "servicetest11": 1.0,
+              "servicetest4": 1.0,
+              "apache01": 1.0
+            },
+            "servicetest11": {
+              "servicetest4": 1.0,
+              "apache01": 1.0
+            },
+            "servicetest4": {
+              "apache01": 1.0
+            },
+            "tomcat02": {
+              "tomcat04": 1.0,
+              "apache01": 1.0
+            },
+            "tomcat04": {
+              "apache01": 1.0
+            },
+            "redis02": {
+              "ig01": 1.0,
+              "servicetest10": 1.0
+            },
+            "tomcat01": {
+              "ig01": 1.0,
+              "servicetest10": 1.0
+            },
+            "ig01": {
+              "servicetest10": 1.0,
+              "ig02": 1.0,
+              "mg01": 1.0,
+              "redis01": 1.0
+            },
+            "servicetest10": {
+              "ig02": 1.0,
+              "mg01": 1.0,
+              "redis01": 1.0
+            },
+            "ig02": {
+              "mg01": 1.0,
+              "redis01": 1.0,
+              "mysql01": 1.0,
+              "servicetest5": 1.0
+            },
+            "mg01": {
+              "redis01": 1.0,
+              "mysql01": 1.0,
+              "servicetest5": 1.0
+            },
+            "redis01": {
+              "mysql01": 1.0,
+              "servicetest5": 1.0
+            },
+            "mysql01": {
+              "servicetest5": 1.0
+            }
+          }
+        },
+        "graph_debug": {
+          "entity_to_object": {
+            "IG01": "ig01",
+            "IG02": "ig02",
+            "MG01": "mg01",
+            "MG02": "mg02",
+            "Mysql01": "mysql01",
+            "Mysql02": "mysql02",
+            "Redis01": "redis01",
+            "Redis02": "redis02",
+            "ServiceTest1": "servicetest1",
+            "ServiceTest10": "servicetest10",
+            "ServiceTest11": "servicetest11",
+            "ServiceTest2": "servicetest2",
+            "ServiceTest3": "servicetest3",
+            "ServiceTest4": "servicetest4",
+            "ServiceTest5": "servicetest5",
+            "ServiceTest6": "servicetest6",
+            "ServiceTest7": "servicetest7",
+            "ServiceTest8": "servicetest8",
+            "ServiceTest9": "servicetest9",
+            "Tomcat01": "tomcat01",
+            "Tomcat02": "tomcat02",
+            "Tomcat03": "tomcat03",
+            "Tomcat04": "tomcat04",
+            "apache01": "apache01",
+            "apache02": "apache02",
+            "dockerA1": "dockera1",
+            "dockerA2": "dockera2",
+            "dockerB1": "dockerb1",
+            "dockerB2": "dockerb2"
+          },
+          "objects": {
+            "ig01": {
+              "members": [
+                "IG01"
+              ],
+              "representative": "IG01",
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "network fault"
+            },
+            "ig02": {
+              "members": [
+                "IG02"
+              ],
+              "representative": "IG02",
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "mg01": {
+              "members": [
+                "MG01"
+              ],
+              "representative": "MG01",
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "mg02": {
+              "members": [
+                "MG02"
+              ],
+              "representative": "MG02",
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "mysql01": {
+              "members": [
+                "Mysql01"
+              ],
+              "representative": "Mysql01",
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "db fault"
+            },
+            "mysql02": {
+              "members": [
+                "Mysql02"
+              ],
+              "representative": "Mysql02",
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "db fault"
+            },
+            "redis01": {
+              "members": [
+                "Redis01"
+              ],
+              "representative": "Redis01",
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "CPU fault"
+            },
+            "redis02": {
+              "members": [
+                "Redis02"
+              ],
+              "representative": "Redis02",
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "servicetest1": {
+              "members": [
+                "ServiceTest1"
+              ],
+              "representative": "ServiceTest1",
+              "anomaly_score": 0.1243,
+              "metric_score": 0.2072,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest10": {
+              "members": [
+                "ServiceTest10"
+              ],
+              "representative": "ServiceTest10",
+              "anomaly_score": 0.1811,
+              "metric_score": 0.3019,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest11": {
+              "members": [
+                "ServiceTest11"
+              ],
+              "representative": "ServiceTest11",
+              "anomaly_score": 0.0476,
+              "metric_score": 0.0794,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest2": {
+              "members": [
+                "ServiceTest2"
+              ],
+              "representative": "ServiceTest2",
+              "anomaly_score": 0.0387,
+              "metric_score": 0.0646,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest3": {
+              "members": [
+                "ServiceTest3"
+              ],
+              "representative": "ServiceTest3",
+              "anomaly_score": 0.2407,
+              "metric_score": 0.4012,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest4": {
+              "members": [
+                "ServiceTest4"
+              ],
+              "representative": "ServiceTest4",
+              "anomaly_score": 0.0598,
+              "metric_score": 0.0997,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest5": {
+              "members": [
+                "ServiceTest5"
+              ],
+              "representative": "ServiceTest5",
+              "anomaly_score": 0.0878,
+              "metric_score": 0.1464,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest6": {
+              "members": [
+                "ServiceTest6"
+              ],
+              "representative": "ServiceTest6",
+              "anomaly_score": 0.0341,
+              "metric_score": 0.0568,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest7": {
+              "members": [
+                "ServiceTest7"
+              ],
+              "representative": "ServiceTest7",
+              "anomaly_score": 0.0418,
+              "metric_score": 0.0696,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest8": {
+              "members": [
+                "ServiceTest8"
+              ],
+              "representative": "ServiceTest8",
+              "anomaly_score": 0.0845,
+              "metric_score": 0.1408,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "servicetest9": {
+              "members": [
+                "ServiceTest9"
+              ],
+              "representative": "ServiceTest9",
+              "anomaly_score": 0.0649,
+              "metric_score": 0.1081,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "tomcat01": {
+              "members": [
+                "Tomcat01"
+              ],
+              "representative": "Tomcat01",
+              "anomaly_score": 1.0,
+              "metric_score": 1.0,
+              "log_score": 0.3774,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "tomcat02": {
+              "members": [
+                "Tomcat02"
+              ],
+              "representative": "Tomcat02",
+              "anomaly_score": 1.0,
+              "metric_score": 1.0,
+              "log_score": 0.3774,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "tomcat03": {
+              "members": [
+                "Tomcat03"
+              ],
+              "representative": "Tomcat03",
+              "anomaly_score": 1.0,
+              "metric_score": 1.0,
+              "log_score": 0.3774,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "CPU fault"
+            },
+            "tomcat04": {
+              "members": [
+                "Tomcat04"
+              ],
+              "representative": "Tomcat04",
+              "anomaly_score": 1.0,
+              "metric_score": 1.0,
+              "log_score": 0.3774,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "apache01": {
+              "members": [
+                "apache01"
+              ],
+              "representative": "apache01",
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "apache02": {
+              "members": [
+                "apache02"
+              ],
+              "representative": "apache02",
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "disk I/O consumption"
+            },
+            "dockera1": {
+              "members": [
+                "dockerA1"
+              ],
+              "representative": "dockerA1",
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "network fault"
+            },
+            "dockera2": {
+              "members": [
+                "dockerA2"
+              ],
+              "representative": "dockerA2",
+              "anomaly_score": 0.0,
+              "metric_score": 0.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            },
+            "dockerb1": {
+              "members": [
+                "dockerB1"
+              ],
+              "representative": "dockerB1",
+              "anomaly_score": 0.9057,
+              "metric_score": 1.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "CPU fault"
+            },
+            "dockerb2": {
+              "members": [
+                "dockerB2"
+              ],
+              "representative": "dockerB2",
+              "anomaly_score": 0.0,
+              "metric_score": 0.0,
+              "log_score": 0.0,
+              "trace_score": 0.0,
+              "change_score": 0.0,
+              "reason": "high memory usage"
+            }
+          },
+          "query": "task_1"
+        },
+        "memory_scores": {
+          "tomcat01": 8.6132
+        },
+        "intervention": [
+          {
+            "object_id": "tomcat01",
+            "score": 0.8549629444917097,
+            "removed_mass": 2.85432905232286,
+            "coverage": 0.5941867709947934,
+            "exclusivity": 4.80375732287697,
+            "representative": "Tomcat01"
+          }
+        ],
+        "llm_agents": {
+          "enabled": true,
+          "agents": {
+            "timeline": [
+              {
+                "success": true,
+                "payload": {
+                  "object_id": "tomcat01",
+                  "score": 1.0,
+                  "confidence": 0.9,
+                  "claim": "Tomcat01 experienced high CPU utilization on CPU-0 and CPU-2 due to disk I/O consumption, initiating the failure cascade.",
+                  "reason": "disk_io",
+                  "evidence_summary": "CPU-0 util baseline=1.379, fault=50.665, z=49285250; CPU-2 util baseline=1.546, fault=49.876, z=48329800",
+                  "counterfactual": "If Tomcat01 had not experienced disk I/O, CPU utilization would have remained normal, preventing downstream propagation.",
+                  "needs_graft_with": null,
+                  "role": "cause",
+                  "bridge_to": "ig02",
+                  "mechanism": "disk_io"
+                }
+              },
+              {
+                "success": true,
+                "payload": {
+                  "object_id": "tomcat01",
+                  "score": 1.0,
+                  "confidence": 0.9,
+                  "claim": "Tomcat01 experienced a disk I/O spike causing high CPU utilization on CPU-0 and CPU-2, which propagated to downstream services.",
+                  "reason": "disk_io",
+                  "evidence_summary": "CPU-0 util baseline=1.379, fault=50.665, z=49M; CPU-2 util baseline=1.546, fault=49.876, z=48M",
+                  "counterfactual": "If Tomcat01 had not experienced disk I/O, CPU utilization would have remained normal and downstream propagation would not have occurred.",
+                  "needs_graft_with": null,
+                  "role": "cause",
+                  "bridge_to": "ig02",
+                  "mechanism": "disk_io"
+                }
+              }
+            ],
+            "dependency": [
+              {
+                "success": true,
+                "payload": {
+                  "object_id": "tomcat01",
+                  "score": 1.0,
+                  "confidence": 0.9,
+                  "claim": "Tomcat01 experienced high CPU utilization due to disk I/O consumption, causing propagation to downstream services.",
+                  "reason": "disk_io",
+                  "evidence_summary": "CPU-0 util baseline=1.379, fault=50.665, z=49M; CPU-2 util baseline=1.546, fault=49.876, z=48M",
+                  "counterfactual": "If Tomcat01 were not faulty, CPU utilization would remain near baseline and downstream services would not experience backpressure.",
+                  "needs_graft_with": null,
+                  "role": "cause",
+                  "bridge_to": "ig02",
+                  "mechanism": "disk_io"
+                }
+              },
+              {
+                "success": true,
+                "payload": {
+                  "object_id": "tomcat01",
+                  "score": 1.0,
+                  "confidence": 1.0,
+                  "claim": "Tomcat01 is the root cause due to disk I/O consumption causing high CPU utilization.",
+                  "reason": "disk_io",
+                  "evidence_summary": "CPU-0 util baseline=1.379, fault=50.665, z=49M; CPU-2 util baseline=1.546, fault=49.876, z=48M",
+                  "counterfactual": "If Tomcat01 were not faulty, CPU utilization would remain low and downstream services would not experience propagation.",
+                  "needs_graft_with": null,
+                  "role": "cause",
+                  "bridge_to": "ig02",
+                  "mechanism": "disk_io"
+                }
+              }
+            ],
+            "change": [
+              {
+                "success": true,
+                "payload": {
+                  "object_id": "tomcat01",
+                  "score": 1.0,
+                  "confidence": 1.0,
+                  "claim": "Tomcat01 experienced a disk I/O spike causing high CPU utilization on CPU-0 and CPU-2.",
+                  "reason": "disk_io",
+                  "evidence_summary": "CPU-0 util baseline=1.379, fault=50.665, z=49M; CPU-2 util baseline=1.546, fault=49.876, z=48M",
+                  "counterfactual": "If Tomcat01 had no disk I/O spike, CPU utilization would remain near baseline and downstream propagation would not occur.",
+                  "needs_graft_with": null,
+                  "role": "cause",
+                  "bridge_to": "ig02",
+                  "mechanism": "disk_io"
+                }
+              },
+              {
+                "success": true,
+                "payload": {
+                  "object_id": "tomcat01",
+                  "score": 1.0,
+                  "confidence": 0.9,
+                  "claim": "Tomcat01 is the root cause due to a disk I/O spike causing high CPU utilization.",
+                  "reason": "disk_io",
+                  "evidence_summary": "CPU-0 util baseline=1.379, fault=50.665, z=49M; CPU-2 util baseline=1.546, fault=49.876, z=48M",
+                  "counterfactual": "If Tomcat01 had no disk I/O spike, CPU utilization would remain normal and downstream propagation would not occur.",
+                  "needs_graft_with": null,
+                  "role": "cause",
+                  "bridge_to": "ig02",
+                  "mechanism": "disk_io"
+                }
+              }
+            ],
+            "resource": [
+              {
+                "success": true,
+                "payload": {
+                  "object_id": "tomcat01",
+                  "score": 1.0,
+                  "confidence": 0.9,
+                  "claim": "Tomcat01 experienced high CPU utilization due to disk I/O consumption, acting as the root cause.",
+                  "reason": "disk_io",
+                  "evidence_summary": "CPU-0 util baseline=1.379, fault=50.665, z=49M; CPU-2 util baseline=1.546, fault=49.876, z=48M; high anomaly scores.",
+                  "counterfactual": "If Tomcat01 were not faulty, CPU utilization would remain low and downstream services would not experience propagation.",
+                  "needs_graft_with": null,
+                  "role": "cause",
+                  "bridge_to": "ig02",
+                  "mechanism": "disk_io"
+                }
+              },
+              {
+                "success": true,
+                "payload": {
+                  "object_id": "tomcat01",
+                  "score": 1.0,
+                  "confidence": 1.0,
+                  "claim": "Tomcat01 experienced high CPU utilization due to disk I/O consumption, acting as the root cause.",
+                  "reason": "disk_io",
+                  "evidence_summary": "CPU-0 util baseline=1.379, fault=50.665, z=49M; CPU-2 util baseline=1.546, fault=49.876, z=48M",
+                  "counterfactual": "If Tomcat01 were not faulty, CPU utilization would remain near baseline and downstream propagation would not occur.",
+                  "needs_graft_with": null,
+                  "role": "cause",
+                  "bridge_to": "ig02",
+                  "mechanism": "disk_io"
+                }
+              }
+            ]
+          }
+        },
+        "bridge_generation": {
+          "created": []
+        },
+        "symptom_suppression": {
+          "updates": []
+        },
+        "grafting": {
+          "enabled": true,
+          "suggestions": [
+            {
+              "source_claim_id": "claim_18c952c816d8",
+              "target_claim_id": "claim_7e3daab09083",
+              "compatibility": 0.9454,
+              "detail": {
+                "same_object": 1.0,
+                "reason_match": 1.0,
+                "token_overlap": 0.8125,
+                "evidence_overlap": 0.9333,
+                "topology_support": 1.0
+              },
+              "decision": {
+                "apply": true,
+                "graft_type": "merge",
+                "summary": "Both claims identify Tomcat01 as root cause due to disk I/O causing high CPU, with identical evidence and graph summaries. The source has higher confidence (1.0 vs 0.9) and more precise reason ('consumption' vs 'spike'), so merging retains the stronger reason and confidence."
+              }
+            },
+            {
+              "source_claim_id": "claim_eabcdbf8624f",
+              "target_claim_id": "claim_31a621b0c2ce",
+              "compatibility": 0.9288,
+              "detail": {
+                "same_object": 1.0,
+                "reason_match": 1.0,
+                "token_overlap": 0.7368,
+                "evidence_overlap": 0.9333,
+                "topology_support": 1.0
+              },
+              "decision": {
+                "apply": true,
+                "graft_type": "absorb",
+                "summary": "Target claim adds downstream propagation detail to source claim's root cause, with high compatibility and same object/mechanism."
+              }
+            },
+            {
+              "source_claim_id": "claim_188169fadeb4",
+              "target_claim_id": "claim_18c952c816d8",
+              "compatibility": 0.922,
+              "detail": {
+                "same_object": 1.0,
+                "reason_match": 1.0,
+                "token_overlap": 0.7059,
+                "evidence_overlap": 0.9333,
+                "topology_support": 1.0
+              },
+              "decision": {
+                "apply": true,
+                "graft_type": "merge",
+                "summary": "Both claims identify tomcat01 as root cause due to disk I/O, with high compatibility (0.922) and identical evidence. Merging consolidates confidence and avoids redundancy."
+              }
+            },
+            {
+              "source_claim_id": "claim_18c952c816d8",
+              "target_claim_id": "claim_8595005b40df",
+              "compatibility": 0.922,
+              "detail": {
+                "same_object": 1.0,
+                "reason_match": 1.0,
+                "token_overlap": 0.7059,
+                "evidence_overlap": 0.9333,
+                "topology_support": 1.0
+              },
+              "decision": {
+                "apply": true,
+                "graft_type": "merge",
+                "summary": "Both claims identify Tomcat01 as root cause with identical evidence and mechanism, differing only in agent (dependency vs resource). Merge to unify perspectives."
+              }
+            },
+            {
+              "source_claim_id": "claim_188169fadeb4",
+              "target_claim_id": "claim_7e3daab09083",
+              "compatibility": 0.894,
+              "detail": {
+                "same_object": 1.0,
+                "reason_match": 1.0,
+                "token_overlap": 0.5789,
+                "evidence_overlap": 0.9333,
+                "topology_support": 1.0
+              },
+              "decision": {
+                "apply": true,
+                "graft_type": "merge",
+                "summary": "Both claims identify Tomcat01 as root cause due to disk I/O spike causing high CPU utilization, with high compatibility (0.894). Merging combines resource and change perspectives."
+              }
+            },
+            {
+              "source_claim_id": "claim_7e3daab09083",
+              "target_claim_id": "claim_8595005b40df",
+              "compatibility": 0.894,
+              "detail": {
+                "same_object": 1.0,
+                "reason_match": 1.0,
+                "token_overlap": 0.5789,
+                "evidence_overlap": 0.9333,
+                "topology_support": 1.0
+              },
+              "decision": {
+                "apply": true,
+                "graft_type": "merge",
+                "summary": "Both claims identify Tomcat01 as root cause due to disk I/O spike causing high CPU utilization, with identical evidence and graph summaries. The source claim specifies a change agent, while the target claim specifies a resource agent; merging them provides a complete view."
+              }
+            }
+          ],
+          "applied": [
+            {
+              "source_claim_id": "claim_18c952c816d8",
+              "target_claim_id": "claim_7e3daab09083",
+              "graft_type": "merge",
+              "summary": "Both claims identify Tomcat01 as root cause due to disk I/O causing high CPU, with identical evidence and graph summaries. The source has higher confidence (1.0 vs 0.9) and more precise reason ('consumption' vs 'spike'), so merging retains the stronger reason and confidence."
+            },
+            {
+              "source_claim_id": "claim_eabcdbf8624f",
+              "target_claim_id": "claim_31a621b0c2ce",
+              "graft_type": "absorb",
+              "summary": "Target claim adds downstream propagation detail to source claim's root cause, with high compatibility and same object/mechanism."
+            },
+            {
+              "source_claim_id": "claim_188169fadeb4",
+              "target_claim_id": "claim_18c952c816d8",
+              "graft_type": "merge",
+              "summary": "Both claims identify tomcat01 as root cause due to disk I/O, with high compatibility (0.922) and identical evidence. Merging consolidates confidence and avoids redundancy."
+            },
+            {
+              "source_claim_id": "claim_18c952c816d8",
+              "target_claim_id": "claim_8595005b40df",
+              "graft_type": "merge",
+              "summary": "Both claims identify Tomcat01 as root cause with identical evidence and mechanism, differing only in agent (dependency vs resource). Merge to unify perspectives."
+            },
+            {
+              "source_claim_id": "claim_188169fadeb4",
+              "target_claim_id": "claim_7e3daab09083",
+              "graft_type": "merge",
+              "summary": "Both claims identify Tomcat01 as root cause due to disk I/O spike causing high CPU utilization, with high compatibility (0.894). Merging combines resource and change perspectives."
+            },
+            {
+              "source_claim_id": "claim_7e3daab09083",
+              "target_claim_id": "claim_8595005b40df",
+              "graft_type": "merge",
+              "summary": "Both claims identify Tomcat01 as root cause due to disk I/O spike causing high CPU utilization, with identical evidence and graph summaries. The source claim specifies a change agent, while the target claim specifies a resource agent; merging them provides a complete view."
+            }
+          ]
+        },
+        "llm_controller": {
+          "enabled": true,
+          "success": true,
+          "candidate_list": [
+            "tomcat01"
+          ],
+          "sleeping_objects": [],
+          "summary": "Tomcat01 is the sole candidate with strong cause role (score 7.87), zero symptom score, and multiple high-confidence claims identifying disk I/O as root cause with propagation evidence to ig02. No other objects in pool.",
+          "payload": {
+            "candidate_list": [
+              "tomcat01"
+            ],
+            "sleeping_objects": [],
+            "controller_summary": "Tomcat01 is the sole candidate with strong cause role (score 7.87), zero symptom score, and multiple high-confidence claims identifying disk I/O as root cause with propagation evidence to ig02. No other objects in pool."
+          }
+        },
+        "claim_counterfactual": {
+          "enabled": true,
+          "validations": [
+            {
+              "claim_id": "claim_7e3daab09083",
+              "object_id": "tomcat01",
+              "supports_claim": true,
+              "confidence": 0.85,
+              "summary": "Local intervention on tomcat01 removes significant anomaly mass (2.854) with high coverage (0.594) and exclusivity (4.804), indicating that tomcat01 is a critical causal node. This strengthens the claim that tomcat01 is the root cause due to disk I/O spike causing high CPU utilization."
+            }
+          ]
+        },
+        "debates": {
+          "enabled": true,
+          "pairs": [],
+          "records": []
+        },
+        "llm_final": {
+          "enabled": true,
+          "success": true,
+          "chosen_object_id": "tomcat01",
+          "reason": "disk I/O consumption causing high CPU utilization",
+          "confidence": 0.95,
+          "evidence_summary": "CPU-0 util baseline=1.379, fault=50.665, z=49M; CPU-2 util baseline=1.546, fault=49.876, z=48M; high anomaly scores; local intervention removes 2.854 mass with 0.594 coverage and 4.804 exclusivity.",
+          "time": "2021-03-04 14:57:00",
+          "payload": {
+            "chosen_object_id": "tomcat01",
+            "reason": "disk I/O consumption causing high CPU utilization",
+            "confidence": 0.95,
+            "evidence_summary": "CPU-0 util baseline=1.379, fault=50.665, z=49M; CPU-2 util baseline=1.546, fault=49.876, z=48M; high anomaly scores; local intervention removes 2.854 mass with 0.594 coverage and 4.804 exclusivity.",
+            "time": "2021-03-04 14:57:00"
+          }
+        },
+        "memory_snapshot": {
+          "object_scores": {
+            "tomcat01": 8.6132
+          },
+          "claims": {
+            "claim_2f8cc03ca009": {
+              "claim_id": "claim_2f8cc03ca009",
+              "object_id": "tomcat01",
+              "agent": "timeline",
+              "claim": "Tomcat01 experienced high CPU utilization on CPU-0 and CPU-2 due to disk I/O consumption, initiating the failure cascade.",
+              "reason": "disk_io",
+              "score": 1.0,
+              "confidence": 0.9,
+              "evidence_summary": "CPU-0 util baseline=1.379, fault=50.665, z=49285250; CPU-2 util baseline=1.546, fault=49.876, z=48329800",
+              "role": "cause",
+              "bridge_to": "ig02",
+              "mechanism": "disk_io",
+              "symptom_score": 0.0,
+              "evidence": [
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-0_SingleCpuUtil",
+                  "content": "OSLinux-CPU_CPU-0_SingleCpuUtil: baseline=1.379, fault=50.665, z=49285250.00",
+                  "confidence": 1.0,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-2_SingleCpuUtil",
+                  "content": "OSLinux-CPU_CPU-2_SingleCpuUtil: baseline=1.546, fault=49.876, z=48329800.00",
+                  "confidence": 1.0,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-2_SingleCpuidle",
+                  "content": "OSLinux-CPU_CPU-2_SingleCpuidle: baseline=49.035, fault=98.328, z=0.71",
+                  "confidence": 0.34383495106508166,
+                  "timestamp": 1614841200.0
+                },
+                {
+                  "kind": "llm_summary",
+                  "source": "timeline",
+                  "content": "CPU-0 util baseline=1.379, fault=50.665, z=49285250; CPU-2 util baseline=1.546, fault=49.876, z=48329800",
+                  "confidence": 0.9,
+                  "timestamp": null
+                }
+              ],
+              "counterfactuals": [
+                {
+                  "object_id": "tomcat01",
+                  "summary": "If Tomcat01 had not experienced disk I/O, CPU utilization would have remained normal, preventing downstream propagation.",
+                  "removed_mass": 0.0,
+                  "coverage": 0.0,
+                  "exclusivity": 0.0,
+                  "confidence": 0.9,
+                  "created_by": "timeline",
+                  "target_claim_id": "",
+                  "verdict": ""
+                },
+                {
+                  "object_id": "tomcat01",
+                  "summary": "If tomcat01 were intervened on locally, removed_mass=2.854, coverage=0.594, exclusivity=4.804.",
+                  "removed_mass": 2.85432905232286,
+                  "coverage": 0.5941867709947934,
+                  "exclusivity": 4.80375732287697,
+                  "confidence": 0.8549629444917097,
+                  "created_by": "local_intervention",
+                  "target_claim_id": "",
+                  "verdict": ""
+                }
+              ],
+              "supports": [],
+              "contradicts": [],
+              "grafted_from": [],
+              "vitality": 0.9216,
+              "status": "active",
+              "round_idx": 0
+            },
+            "claim_b3807f321dd9": {
+              "claim_id": "claim_b3807f321dd9",
+              "object_id": "tomcat01",
+              "agent": "dependency",
+              "claim": "Tomcat01 experienced high CPU utilization due to disk I/O consumption, causing propagation to downstream services.",
+              "reason": "disk_io",
+              "score": 1.0,
+              "confidence": 0.9,
+              "evidence_summary": "CPU-0 util baseline=1.379, fault=50.665, z=49M; CPU-2 util baseline=1.546, fault=49.876, z=48M",
+              "role": "cause",
+              "bridge_to": "ig02",
+              "mechanism": "disk_io",
+              "symptom_score": 0.0,
+              "evidence": [
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-0_SingleCpuUtil",
+                  "content": "OSLinux-CPU_CPU-0_SingleCpuUtil: baseline=1.379, fault=50.665, z=49285250.00",
+                  "confidence": 1.0,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-2_SingleCpuUtil",
+                  "content": "OSLinux-CPU_CPU-2_SingleCpuUtil: baseline=1.546, fault=49.876, z=48329800.00",
+                  "confidence": 1.0,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-2_SingleCpuidle",
+                  "content": "OSLinux-CPU_CPU-2_SingleCpuidle: baseline=49.035, fault=98.328, z=0.71",
+                  "confidence": 0.34383495106508166,
+                  "timestamp": 1614841200.0
+                },
+                {
+                  "kind": "llm_summary",
+                  "source": "dependency",
+                  "content": "CPU-0 util baseline=1.379, fault=50.665, z=49M; CPU-2 util baseline=1.546, fault=49.876, z=48M",
+                  "confidence": 0.9,
+                  "timestamp": null
+                }
+              ],
+              "counterfactuals": [
+                {
+                  "object_id": "tomcat01",
+                  "summary": "If Tomcat01 were not faulty, CPU utilization would remain near baseline and downstream services would not experience backpressure.",
+                  "removed_mass": 0.0,
+                  "coverage": 0.0,
+                  "exclusivity": 0.0,
+                  "confidence": 0.9,
+                  "created_by": "dependency",
+                  "target_claim_id": "",
+                  "verdict": ""
+                },
+                {
+                  "object_id": "tomcat01",
+                  "summary": "If tomcat01 were intervened on locally, removed_mass=2.854, coverage=0.594, exclusivity=4.804.",
+                  "removed_mass": 2.85432905232286,
+                  "coverage": 0.5941867709947934,
+                  "exclusivity": 4.80375732287697,
+                  "confidence": 0.8549629444917097,
+                  "created_by": "local_intervention",
+                  "target_claim_id": "",
+                  "verdict": ""
+                }
+              ],
+              "supports": [],
+              "contradicts": [],
+              "grafted_from": [],
+              "vitality": 0.9216,
+              "status": "active",
+              "round_idx": 0
+            },
+            "claim_eabcdbf8624f": {
+              "claim_id": "claim_eabcdbf8624f",
+              "object_id": "tomcat01",
+              "agent": "change",
+              "claim": "Tomcat01 experienced a disk I/O spike causing high CPU utilization on CPU-0 and CPU-2.",
+              "reason": "disk_io",
+              "score": 1.0,
+              "confidence": 1.0,
+              "evidence_summary": "CPU-0 util baseline=1.379, fault=50.665, z=49M; CPU-2 util baseline=1.546, fault=49.876, z=48M",
+              "role": "cause",
+              "bridge_to": "ig02",
+              "mechanism": "disk_io",
+              "symptom_score": 0.0,
+              "evidence": [
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-0_SingleCpuUtil",
+                  "content": "OSLinux-CPU_CPU-0_SingleCpuUtil: baseline=1.379, fault=50.665, z=49285250.00",
+                  "confidence": 1.0,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-2_SingleCpuUtil",
+                  "content": "OSLinux-CPU_CPU-2_SingleCpuUtil: baseline=1.546, fault=49.876, z=48329800.00",
+                  "confidence": 1.0,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-2_SingleCpuidle",
+                  "content": "OSLinux-CPU_CPU-2_SingleCpuidle: baseline=49.035, fault=98.328, z=0.71",
+                  "confidence": 0.34383495106508166,
+                  "timestamp": 1614841200.0
+                },
+                {
+                  "kind": "llm_summary",
+                  "source": "change",
+                  "content": "CPU-0 util baseline=1.379, fault=50.665, z=49M; CPU-2 util baseline=1.546, fault=49.876, z=48M",
+                  "confidence": 1.0,
+                  "timestamp": null
+                }
+              ],
+              "counterfactuals": [
+                {
+                  "object_id": "tomcat01",
+                  "summary": "If Tomcat01 had no disk I/O spike, CPU utilization would remain near baseline and downstream propagation would not occur.",
+                  "removed_mass": 0.0,
+                  "coverage": 0.0,
+                  "exclusivity": 0.0,
+                  "confidence": 1.0,
+                  "created_by": "change",
+                  "target_claim_id": "",
+                  "verdict": ""
+                },
+                {
+                  "object_id": "tomcat01",
+                  "summary": "If tomcat01 were intervened on locally, removed_mass=2.854, coverage=0.594, exclusivity=4.804.",
+                  "removed_mass": 2.85432905232286,
+                  "coverage": 0.5941867709947934,
+                  "exclusivity": 4.80375732287697,
+                  "confidence": 0.8549629444917097,
+                  "created_by": "local_intervention",
+                  "target_claim_id": "",
+                  "verdict": ""
+                }
+              ],
+              "supports": [],
+              "contradicts": [],
+              "grafted_from": [],
+              "vitality": 0.9216,
+              "status": "active",
+              "round_idx": 0
+            },
+            "claim_188169fadeb4": {
+              "claim_id": "claim_188169fadeb4",
+              "object_id": "tomcat01",
+              "agent": "resource",
+              "claim": "Tomcat01 experienced high CPU utilization due to disk I/O consumption, acting as the root cause.",
+              "reason": "disk_io",
+              "score": 1.0,
+              "confidence": 0.9,
+              "evidence_summary": "CPU-0 util baseline=1.379, fault=50.665, z=49M; CPU-2 util baseline=1.546, fault=49.876, z=48M; high anomaly scores.",
+              "role": "cause",
+              "bridge_to": "ig02",
+              "mechanism": "disk_io",
+              "symptom_score": 0.0,
+              "evidence": [
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-0_SingleCpuUtil",
+                  "content": "OSLinux-CPU_CPU-0_SingleCpuUtil: baseline=1.379, fault=50.665, z=49285250.00",
+                  "confidence": 1.0,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-2_SingleCpuUtil",
+                  "content": "OSLinux-CPU_CPU-2_SingleCpuUtil: baseline=1.546, fault=49.876, z=48329800.00",
+                  "confidence": 1.0,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-2_SingleCpuidle",
+                  "content": "OSLinux-CPU_CPU-2_SingleCpuidle: baseline=49.035, fault=98.328, z=0.71",
+                  "confidence": 0.34383495106508166,
+                  "timestamp": 1614841200.0
+                },
+                {
+                  "kind": "llm_summary",
+                  "source": "resource",
+                  "content": "CPU-0 util baseline=1.379, fault=50.665, z=49M; CPU-2 util baseline=1.546, fault=49.876, z=48M; high anomaly scores.",
+                  "confidence": 0.9,
+                  "timestamp": null
+                }
+              ],
+              "counterfactuals": [
+                {
+                  "object_id": "tomcat01",
+                  "summary": "If Tomcat01 were not faulty, CPU utilization would remain low and downstream services would not experience propagation.",
+                  "removed_mass": 0.0,
+                  "coverage": 0.0,
+                  "exclusivity": 0.0,
+                  "confidence": 0.9,
+                  "created_by": "resource",
+                  "target_claim_id": "",
+                  "verdict": ""
+                },
+                {
+                  "object_id": "tomcat01",
+                  "summary": "If tomcat01 were intervened on locally, removed_mass=2.854, coverage=0.594, exclusivity=4.804.",
+                  "removed_mass": 2.85432905232286,
+                  "coverage": 0.5941867709947934,
+                  "exclusivity": 4.80375732287697,
+                  "confidence": 0.8549629444917097,
+                  "created_by": "local_intervention",
+                  "target_claim_id": "",
+                  "verdict": ""
+                }
+              ],
+              "supports": [],
+              "contradicts": [],
+              "grafted_from": [],
+              "vitality": 0.9216,
+              "status": "active",
+              "round_idx": 0
+            },
+            "claim_31a621b0c2ce": {
+              "claim_id": "claim_31a621b0c2ce",
+              "object_id": "tomcat01",
+              "agent": "timeline",
+              "claim": "Tomcat01 experienced a disk I/O spike causing high CPU utilization on CPU-0 and CPU-2, which propagated to downstream services.",
+              "reason": "disk_io",
+              "score": 1.0,
+              "confidence": 0.9743,
+              "evidence_summary": "CPU-0 util baseline=1.379, fault=50.665, z=49M; CPU-2 util baseline=1.546, fault=49.876, z=48M",
+              "role": "cause",
+              "bridge_to": "ig02",
+              "mechanism": "disk_io",
+              "symptom_score": 0.0,
+              "evidence": [
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-0_SingleCpuUtil",
+                  "content": "OSLinux-CPU_CPU-0_SingleCpuUtil: baseline=1.379, fault=50.665, z=49285250.00",
+                  "confidence": 1.0,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-2_SingleCpuUtil",
+                  "content": "OSLinux-CPU_CPU-2_SingleCpuUtil: baseline=1.546, fault=49.876, z=48329800.00",
+                  "confidence": 1.0,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-2_SingleCpuidle",
+                  "content": "OSLinux-CPU_CPU-2_SingleCpuidle: baseline=49.035, fault=98.328, z=0.71",
+                  "confidence": 0.34383495106508166,
+                  "timestamp": 1614841200.0
+                },
+                {
+                  "kind": "llm_summary",
+                  "source": "timeline",
+                  "content": "CPU-0 util baseline=1.379, fault=50.665, z=49M; CPU-2 util baseline=1.546, fault=49.876, z=48M",
+                  "confidence": 0.9,
+                  "timestamp": null
+                }
+              ],
+              "counterfactuals": [
+                {
+                  "object_id": "tomcat01",
+                  "summary": "If Tomcat01 had not experienced disk I/O, CPU utilization would have remained normal and downstream propagation would not have occurred.",
+                  "removed_mass": 0.0,
+                  "coverage": 0.0,
+                  "exclusivity": 0.0,
+                  "confidence": 0.9,
+                  "created_by": "timeline",
+                  "target_claim_id": "",
+                  "verdict": ""
+                },
+                {
+                  "object_id": "tomcat01",
+                  "summary": "If tomcat01 were intervened on locally, removed_mass=2.854, coverage=0.594, exclusivity=4.804.",
+                  "removed_mass": 2.85432905232286,
+                  "coverage": 0.5941867709947934,
+                  "exclusivity": 4.80375732287697,
+                  "confidence": 0.8549629444917097,
+                  "created_by": "local_intervention",
+                  "target_claim_id": "",
+                  "verdict": ""
+                }
+              ],
+              "supports": [
+                "claim_eabcdbf8624f"
+              ],
+              "contradicts": [],
+              "grafted_from": [
+                "claim_eabcdbf8624f"
+              ],
+              "vitality": 1.0529,
+              "status": "active",
+              "round_idx": 1
+            },
+            "claim_18c952c816d8": {
+              "claim_id": "claim_18c952c816d8",
+              "object_id": "tomcat01",
+              "agent": "dependency",
+              "claim": "Tomcat01 is the root cause due to disk I/O consumption causing high CPU utilization.",
+              "reason": "disk_io",
+              "score": 1.0,
+              "confidence": 1.0,
+              "evidence_summary": "CPU-0 util baseline=1.379, fault=50.665, z=49M; CPU-2 util baseline=1.546, fault=49.876, z=48M",
+              "role": "cause",
+              "bridge_to": "ig02",
+              "mechanism": "disk_io",
+              "symptom_score": 0.0,
+              "evidence": [
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-0_SingleCpuUtil",
+                  "content": "OSLinux-CPU_CPU-0_SingleCpuUtil: baseline=1.379, fault=50.665, z=49285250.00",
+                  "confidence": 1.0,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-2_SingleCpuUtil",
+                  "content": "OSLinux-CPU_CPU-2_SingleCpuUtil: baseline=1.546, fault=49.876, z=48329800.00",
+                  "confidence": 1.0,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-2_SingleCpuidle",
+                  "content": "OSLinux-CPU_CPU-2_SingleCpuidle: baseline=49.035, fault=98.328, z=0.71",
+                  "confidence": 0.34383495106508166,
+                  "timestamp": 1614841200.0
+                },
+                {
+                  "kind": "llm_summary",
+                  "source": "dependency",
+                  "content": "CPU-0 util baseline=1.379, fault=50.665, z=49M; CPU-2 util baseline=1.546, fault=49.876, z=48M",
+                  "confidence": 1.0,
+                  "timestamp": null
+                }
+              ],
+              "counterfactuals": [
+                {
+                  "object_id": "tomcat01",
+                  "summary": "If Tomcat01 were not faulty, CPU utilization would remain low and downstream services would not experience propagation.",
+                  "removed_mass": 0.0,
+                  "coverage": 0.0,
+                  "exclusivity": 0.0,
+                  "confidence": 1.0,
+                  "created_by": "dependency",
+                  "target_claim_id": "",
+                  "verdict": ""
+                },
+                {
+                  "object_id": "tomcat01",
+                  "summary": "If tomcat01 were intervened on locally, removed_mass=2.854, coverage=0.594, exclusivity=4.804.",
+                  "removed_mass": 2.85432905232286,
+                  "coverage": 0.5941867709947934,
+                  "exclusivity": 4.80375732287697,
+                  "confidence": 0.8549629444917097,
+                  "created_by": "local_intervention",
+                  "target_claim_id": "",
+                  "verdict": ""
+                }
+              ],
+              "supports": [
+                "claim_188169fadeb4"
+              ],
+              "contradicts": [],
+              "grafted_from": [
+                "claim_188169fadeb4"
+              ],
+              "vitality": 1.0522,
+              "status": "active",
+              "round_idx": 1
+            },
+            "claim_7e3daab09083": {
+              "claim_id": "claim_7e3daab09083",
+              "object_id": "tomcat01",
+              "agent": "change",
+              "claim": "Tomcat01 is the root cause due to a disk I/O spike causing high CPU utilization.",
+              "reason": "disk_io",
+              "score": 1.0,
+              "confidence": 1.0,
+              "evidence_summary": "CPU-0 util baseline=1.379, fault=50.665, z=49M; CPU-2 util baseline=1.546, fault=49.876, z=48M",
+              "role": "cause",
+              "bridge_to": "ig02",
+              "mechanism": "disk_io",
+              "symptom_score": 0.0,
+              "evidence": [
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-0_SingleCpuUtil",
+                  "content": "OSLinux-CPU_CPU-0_SingleCpuUtil: baseline=1.379, fault=50.665, z=49285250.00",
+                  "confidence": 1.0,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-2_SingleCpuUtil",
+                  "content": "OSLinux-CPU_CPU-2_SingleCpuUtil: baseline=1.546, fault=49.876, z=48329800.00",
+                  "confidence": 1.0,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-2_SingleCpuidle",
+                  "content": "OSLinux-CPU_CPU-2_SingleCpuidle: baseline=49.035, fault=98.328, z=0.71",
+                  "confidence": 0.34383495106508166,
+                  "timestamp": 1614841200.0
+                },
+                {
+                  "kind": "llm_summary",
+                  "source": "change",
+                  "content": "CPU-0 util baseline=1.379, fault=50.665, z=49M; CPU-2 util baseline=1.546, fault=49.876, z=48M",
+                  "confidence": 0.9,
+                  "timestamp": null
+                }
+              ],
+              "counterfactuals": [
+                {
+                  "object_id": "tomcat01",
+                  "summary": "If Tomcat01 had no disk I/O spike, CPU utilization would remain normal and downstream propagation would not occur.",
+                  "removed_mass": 0.0,
+                  "coverage": 0.0,
+                  "exclusivity": 0.0,
+                  "confidence": 0.9,
+                  "created_by": "change",
+                  "target_claim_id": "",
+                  "verdict": ""
+                },
+                {
+                  "object_id": "tomcat01",
+                  "summary": "If tomcat01 were intervened on locally, removed_mass=2.854, coverage=0.594, exclusivity=4.804.",
+                  "removed_mass": 2.85432905232286,
+                  "coverage": 0.5941867709947934,
+                  "exclusivity": 4.80375732287697,
+                  "confidence": 0.8549629444917097,
+                  "created_by": "local_intervention",
+                  "target_claim_id": "",
+                  "verdict": ""
+                }
+              ],
+              "supports": [
+                "claim_18c952c816d8",
+                "claim_188169fadeb4"
+              ],
+              "contradicts": [],
+              "grafted_from": [
+                "claim_18c952c816d8",
+                "claim_188169fadeb4"
+              ],
+              "vitality": 1.1439,
+              "status": "active",
+              "round_idx": 1
+            },
+            "claim_8595005b40df": {
+              "claim_id": "claim_8595005b40df",
+              "object_id": "tomcat01",
+              "agent": "resource",
+              "claim": "Tomcat01 experienced high CPU utilization due to disk I/O consumption, acting as the root cause.",
+              "reason": "disk_io",
+              "score": 1.0,
+              "confidence": 1.0,
+              "evidence_summary": "CPU-0 util baseline=1.379, fault=50.665, z=49M; CPU-2 util baseline=1.546, fault=49.876, z=48M",
+              "role": "cause",
+              "bridge_to": "ig02",
+              "mechanism": "disk_io",
+              "symptom_score": 0.0,
+              "evidence": [
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-0_SingleCpuUtil",
+                  "content": "OSLinux-CPU_CPU-0_SingleCpuUtil: baseline=1.379, fault=50.665, z=49285250.00",
+                  "confidence": 1.0,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-2_SingleCpuUtil",
+                  "content": "OSLinux-CPU_CPU-2_SingleCpuUtil: baseline=1.546, fault=49.876, z=48329800.00",
+                  "confidence": 1.0,
+                  "timestamp": 1614841020.0
+                },
+                {
+                  "kind": "metric",
+                  "source": "OSLinux-CPU_CPU-2_SingleCpuidle",
+                  "content": "OSLinux-CPU_CPU-2_SingleCpuidle: baseline=49.035, fault=98.328, z=0.71",
+                  "confidence": 0.34383495106508166,
+                  "timestamp": 1614841200.0
+                },
+                {
+                  "kind": "llm_summary",
+                  "source": "resource",
+                  "content": "CPU-0 util baseline=1.379, fault=50.665, z=49M; CPU-2 util baseline=1.546, fault=49.876, z=48M",
+                  "confidence": 1.0,
+                  "timestamp": null
+                }
+              ],
+              "counterfactuals": [
+                {
+                  "object_id": "tomcat01",
+                  "summary": "If Tomcat01 were not faulty, CPU utilization would remain near baseline and downstream propagation would not occur.",
+                  "removed_mass": 0.0,
+                  "coverage": 0.0,
+                  "exclusivity": 0.0,
+                  "confidence": 1.0,
+                  "created_by": "resource",
+                  "target_claim_id": "",
+                  "verdict": ""
+                },
+                {
+                  "object_id": "tomcat01",
+                  "summary": "If tomcat01 were intervened on locally, removed_mass=2.854, coverage=0.594, exclusivity=4.804.",
+                  "removed_mass": 2.85432905232286,
+                  "coverage": 0.5941867709947934,
+                  "exclusivity": 4.80375732287697,
+                  "confidence": 0.8549629444917097,
+                  "created_by": "local_intervention",
+                  "target_claim_id": "",
+                  "verdict": ""
+                }
+              ],
+              "supports": [
+                "claim_18c952c816d8",
+                "claim_7e3daab09083"
+              ],
+              "contradicts": [],
+              "grafted_from": [
+                "claim_18c952c816d8",
+                "claim_7e3daab09083"
+              ],
+              "vitality": 1.1416,
+              "status": "active",
+              "round_idx": 1
+            }
+          },
+          "grafts": [
+            {
+              "source_claim_id": "claim_18c952c816d8",
+              "target_claim_id": "claim_7e3daab09083",
+              "source_object_id": "tomcat01",
+              "target_object_id": "tomcat01",
+              "graft_type": "merge",
+              "compatibility": 0.9454166666666667,
+              "summary": "Both claims identify Tomcat01 as root cause due to disk I/O causing high CPU, with identical evidence and graph summaries. The source has higher confidence (1.0 vs 0.9) and more precise reason ('consumption' vs 'spike'), so merging retains the stronger reason and confidence.",
+              "evidence_overlap": 0.9333333333333333,
+              "topology_support": 1.0
+            },
+            {
+              "source_claim_id": "claim_eabcdbf8624f",
+              "target_claim_id": "claim_31a621b0c2ce",
+              "source_object_id": "tomcat01",
+              "target_object_id": "tomcat01",
+              "graft_type": "absorb",
+              "compatibility": 0.9287719298245614,
+              "summary": "Target claim adds downstream propagation detail to source claim's root cause, with high compatibility and same object/mechanism.",
+              "evidence_overlap": 0.9333333333333333,
+              "topology_support": 1.0
+            },
+            {
+              "source_claim_id": "claim_188169fadeb4",
+              "target_claim_id": "claim_18c952c816d8",
+              "source_object_id": "tomcat01",
+              "target_object_id": "tomcat01",
+              "graft_type": "merge",
+              "compatibility": 0.9219607843137255,
+              "summary": "Both claims identify tomcat01 as root cause due to disk I/O, with high compatibility (0.922) and identical evidence. Merging consolidates confidence and avoids redundancy.",
+              "evidence_overlap": 0.9333333333333333,
+              "topology_support": 1.0
+            },
+            {
+              "source_claim_id": "claim_18c952c816d8",
+              "target_claim_id": "claim_8595005b40df",
+              "source_object_id": "tomcat01",
+              "target_object_id": "tomcat01",
+              "graft_type": "merge",
+              "compatibility": 0.9219607843137255,
+              "summary": "Both claims identify Tomcat01 as root cause with identical evidence and mechanism, differing only in agent (dependency vs resource). Merge to unify perspectives.",
+              "evidence_overlap": 0.9333333333333333,
+              "topology_support": 1.0
+            },
+            {
+              "source_claim_id": "claim_188169fadeb4",
+              "target_claim_id": "claim_7e3daab09083",
+              "source_object_id": "tomcat01",
+              "target_object_id": "tomcat01",
+              "graft_type": "merge",
+              "compatibility": 0.8940350877192982,
+              "summary": "Both claims identify Tomcat01 as root cause due to disk I/O spike causing high CPU utilization, with high compatibility (0.894). Merging combines resource and change perspectives.",
+              "evidence_overlap": 0.9333333333333333,
+              "topology_support": 1.0
+            },
+            {
+              "source_claim_id": "claim_7e3daab09083",
+              "target_claim_id": "claim_8595005b40df",
+              "source_object_id": "tomcat01",
+              "target_object_id": "tomcat01",
+              "graft_type": "merge",
+              "compatibility": 0.8940350877192982,
+              "summary": "Both claims identify Tomcat01 as root cause due to disk I/O spike causing high CPU utilization, with identical evidence and graph summaries. The source claim specifies a change agent, while the target claim specifies a resource agent; merging them provides a complete view.",
+              "evidence_overlap": 0.9333333333333333,
+              "topology_support": 1.0
+            }
+          ],
+          "claim_relations": [
+            {
+              "source_claim_id": "claim_18c952c816d8",
+              "target_claim_id": "claim_7e3daab09083",
+              "relation": "supports",
+              "weight": 0.9454166666666667,
+              "summary": "Both claims identify Tomcat01 as root cause due to disk I/O causing high CPU, with identical evidence and graph summaries. The source has higher confidence (1.0 vs 0.9) and more precise reason ('consumption' vs 'spike'), so merging retains the stronger reason and confidence."
+            },
+            {
+              "source_claim_id": "claim_eabcdbf8624f",
+              "target_claim_id": "claim_31a621b0c2ce",
+              "relation": "supports",
+              "weight": 0.9287719298245614,
+              "summary": "Target claim adds downstream propagation detail to source claim's root cause, with high compatibility and same object/mechanism."
+            },
+            {
+              "source_claim_id": "claim_188169fadeb4",
+              "target_claim_id": "claim_18c952c816d8",
+              "relation": "supports",
+              "weight": 0.9219607843137255,
+              "summary": "Both claims identify tomcat01 as root cause due to disk I/O, with high compatibility (0.922) and identical evidence. Merging consolidates confidence and avoids redundancy."
+            },
+            {
+              "source_claim_id": "claim_18c952c816d8",
+              "target_claim_id": "claim_8595005b40df",
+              "relation": "supports",
+              "weight": 0.9219607843137255,
+              "summary": "Both claims identify Tomcat01 as root cause with identical evidence and mechanism, differing only in agent (dependency vs resource). Merge to unify perspectives."
+            },
+            {
+              "source_claim_id": "claim_188169fadeb4",
+              "target_claim_id": "claim_7e3daab09083",
+              "relation": "supports",
+              "weight": 0.8940350877192982,
+              "summary": "Both claims identify Tomcat01 as root cause due to disk I/O spike causing high CPU utilization, with high compatibility (0.894). Merging combines resource and change perspectives."
+            },
+            {
+              "source_claim_id": "claim_7e3daab09083",
+              "target_claim_id": "claim_8595005b40df",
+              "relation": "supports",
+              "weight": 0.8940350877192982,
+              "summary": "Both claims identify Tomcat01 as root cause due to disk I/O spike causing high CPU utilization, with identical evidence and graph summaries. The source claim specifies a change agent, while the target claim specifies a resource agent; merging them provides a complete view."
+            }
+          ],
+          "debates": [],
+          "archived_claims": []
+        },
+        "grouped_proposals": {
+          "tomcat01": [
+            {
+              "agent": "timeline",
+              "score": 1.0,
+              "confidence": 0.9,
+              "rationale": "Tomcat01 experienced high CPU utilization on CPU-0 and CPU-2 due to disk I/O consumption, initiating the failure cascade.",
+              "claim": "Tomcat01 experienced high CPU utilization on CPU-0 and CPU-2 due to disk I/O consumption, initiating the failure cascade.",
+              "evidence_summary": "CPU-0 util baseline=1.379, fault=50.665, z=49285250; CPU-2 util baseline=1.546, fault=49.876, z=48329800",
+              "reason": "disk_io",
+              "counterfactual": "If Tomcat01 had not experienced disk I/O, CPU utilization would have remained normal, preventing downstream propagation.",
+              "needs_graft_with": "None",
+              "role": "cause",
+              "bridge_to": "ig02"
+            },
+            {
+              "agent": "dependency",
+              "score": 1.0,
+              "confidence": 0.9,
+              "rationale": "Tomcat01 experienced high CPU utilization due to disk I/O consumption, causing propagation to downstream services.",
+              "claim": "Tomcat01 experienced high CPU utilization due to disk I/O consumption, causing propagation to downstream services.",
+              "evidence_summary": "CPU-0 util baseline=1.379, fault=50.665, z=49M; CPU-2 util baseline=1.546, fault=49.876, z=48M",
+              "reason": "disk_io",
+              "counterfactual": "If Tomcat01 were not faulty, CPU utilization would remain near baseline and downstream services would not experience backpressure.",
+              "needs_graft_with": "None",
+              "role": "cause",
+              "bridge_to": "ig02"
+            },
+            {
+              "agent": "change",
+              "score": 1.0,
+              "confidence": 1.0,
+              "rationale": "Tomcat01 experienced a disk I/O spike causing high CPU utilization on CPU-0 and CPU-2.",
+              "claim": "Tomcat01 experienced a disk I/O spike causing high CPU utilization on CPU-0 and CPU-2.",
+              "evidence_summary": "CPU-0 util baseline=1.379, fault=50.665, z=49M; CPU-2 util baseline=1.546, fault=49.876, z=48M",
+              "reason": "disk_io",
+              "counterfactual": "If Tomcat01 had no disk I/O spike, CPU utilization would remain near baseline and downstream propagation would not occur.",
+              "needs_graft_with": "None",
+              "role": "cause",
+              "bridge_to": "ig02"
+            },
+            {
+              "agent": "resource",
+              "score": 1.0,
+              "confidence": 0.9,
+              "rationale": "Tomcat01 experienced high CPU utilization due to disk I/O consumption, acting as the root cause.",
+              "claim": "Tomcat01 experienced high CPU utilization due to disk I/O consumption, acting as the root cause.",
+              "evidence_summary": "CPU-0 util baseline=1.379, fault=50.665, z=49M; CPU-2 util baseline=1.546, fault=49.876, z=48M; high anomaly scores.",
+              "reason": "disk_io",
+              "counterfactual": "If Tomcat01 were not faulty, CPU utilization would remain low and downstream services would not experience propagation.",
+              "needs_graft_with": "None",
+              "role": "cause",
+              "bridge_to": "ig02"
+            },
+            {
+              "agent": "timeline",
+              "score": 1.0,
+              "confidence": 0.9,
+              "rationale": "Tomcat01 experienced a disk I/O spike causing high CPU utilization on CPU-0 and CPU-2, which propagated to downstream services.",
+              "claim": "Tomcat01 experienced a disk I/O spike causing high CPU utilization on CPU-0 and CPU-2, which propagated to downstream services.",
+              "evidence_summary": "CPU-0 util baseline=1.379, fault=50.665, z=49M; CPU-2 util baseline=1.546, fault=49.876, z=48M",
+              "reason": "disk_io",
+              "counterfactual": "If Tomcat01 had not experienced disk I/O, CPU utilization would have remained normal and downstream propagation would not have occurred.",
+              "needs_graft_with": "None",
+              "role": "cause",
+              "bridge_to": "ig02"
+            },
+            {
+              "agent": "dependency",
+              "score": 1.0,
+              "confidence": 1.0,
+              "rationale": "Tomcat01 is the root cause due to disk I/O consumption causing high CPU utilization.",
+              "claim": "Tomcat01 is the root cause due to disk I/O consumption causing high CPU utilization.",
+              "evidence_summary": "CPU-0 util baseline=1.379, fault=50.665, z=49M; CPU-2 util baseline=1.546, fault=49.876, z=48M",
+              "reason": "disk_io",
+              "counterfactual": "If Tomcat01 were not faulty, CPU utilization would remain low and downstream services would not experience propagation.",
+              "needs_graft_with": "None",
+              "role": "cause",
+              "bridge_to": "ig02"
+            },
+            {
+              "agent": "change",
+              "score": 1.0,
+              "confidence": 0.9,
+              "rationale": "Tomcat01 is the root cause due to a disk I/O spike causing high CPU utilization.",
+              "claim": "Tomcat01 is the root cause due to a disk I/O spike causing high CPU utilization.",
+              "evidence_summary": "CPU-0 util baseline=1.379, fault=50.665, z=49M; CPU-2 util baseline=1.546, fault=49.876, z=48M",
+              "reason": "disk_io",
+              "counterfactual": "If Tomcat01 had no disk I/O spike, CPU utilization would remain normal and downstream propagation would not occur.",
+              "needs_graft_with": "None",
+              "role": "cause",
+              "bridge_to": "ig02"
+            },
+            {
+              "agent": "resource",
+              "score": 1.0,
+              "confidence": 1.0,
+              "rationale": "Tomcat01 experienced high CPU utilization due to disk I/O consumption, acting as the root cause.",
+              "claim": "Tomcat01 experienced high CPU utilization due to disk I/O consumption, acting as the root cause.",
+              "evidence_summary": "CPU-0 util baseline=1.379, fault=50.665, z=49M; CPU-2 util baseline=1.546, fault=49.876, z=48M",
+              "reason": "disk_io",
+              "counterfactual": "If Tomcat01 were not faulty, CPU utilization would remain near baseline and downstream propagation would not occur.",
+              "needs_graft_with": "None",
+              "role": "cause",
+              "bridge_to": "ig02"
+            }
+          ]
+        }
+      },
+      "ground_truth": {
+        "component": "Mysql02",
+        "reason": "high memory usage",
+        "datetime": "2021-03-04 14:57:00"
+      }
+    }
+  ]
+}

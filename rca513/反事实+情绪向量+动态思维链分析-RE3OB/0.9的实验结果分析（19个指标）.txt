@@ -1,0 +1,501 @@
+============================================================
+🔥 P-CoE V7.4 批量测试启动（全模态扩展 19 种指标）
+============================================================
+
+
+============================================================
+📋 Case 1: adservice_f3/1
+🎯 真实根因: adservice
+============================================================
+  🔬 故障分类: Type B
+  🟡 Type B: 双头博弈型，反事实二元淘汰
+  ⚔️ 反事实裁决: adservice 胜出
+✅ Top-1 命中!
+🏆 P-CoE 最终排名:
+  1. adservice                 Rec=0.9589 Infl=1.6e+17 ← 真实根因
+  2. paymentservice            Rec=0.0190 Infl=3.2e+15
+  3. productcatalogservice     Rec=0.0038 Infl=6.4e+14
+  4. shippingservice           Rec=0.0033 Infl=5.5e+14
+  5. recommendationservice     Rec=0.0057 Infl=3.2e+14
+
+============================================================
+📋 Case 2: adservice_f3/2
+🎯 真实根因: adservice
+============================================================
+  🔬 故障分类: Type B
+  🟡 Type B: 双头博弈型，反事实二元淘汰
+  ⚔️ 反事实裁决: adservice 胜出
+✅ Top-1 命中!
+🏆 P-CoE 最终排名:
+  1. adservice                 Rec=0.9465 Infl=1.6e+17 ← 真实根因
+  2. currencyservice           Rec=0.0209 Infl=3.5e+15
+  3. paymentservice            Rec=0.0101 Infl=1.7e+15
+  4. checkoutservice           Rec=0.0385 Infl=6.6e+14
+  5. productcatalogservice     Rec=0.0035 Infl=5.9e+14
+
+============================================================
+📋 Case 3: adservice_f3/3
+🎯 真实根因: adservice
+============================================================
+  🔬 故障分类: Type B
+  🟡 Type B: 双头博弈型，反事实二元淘汰
+  ⚔️ 反事实裁决: adservice 胜出
+✅ Top-1 命中!
+🏆 P-CoE 最终排名:
+  1. adservice                 Rec=0.9438 Infl=1.6e+17 ← 真实根因
+  2. paymentservice            Rec=0.0189 Infl=3.1e+15
+  3. currencyservice           Rec=0.0174 Infl=2.9e+15
+  4. cartservice               Rec=0.0113 Infl=1.9e+15
+  5. checkoutservice           Rec=0.0417 Infl=4.8e+14
+
+============================================================
+📋 Case 4: adservice_f4/1
+🎯 真实根因: adservice
+============================================================
+  🔬 故障分类: Type B
+  🟡 Type B: 双头博弈型，反事实二元淘汰
+  ⚔️ 反事实裁决: adservice 胜出
+✅ Top-1 命中!
+🏆 P-CoE 最终排名:
+  1. adservice                 Rec=0.9610 Infl=1.8e+17 ← 真实根因
+  2. paymentservice            Rec=0.0155 Infl=2.8e+15
+  3. currencyservice           Rec=0.0119 Infl=2.2e+15
+  4. recommendationservice     Rec=0.0034 Infl=6.3e+14
+  5. redis                     Rec=0.0010 Infl=1.8e+14
+
+============================================================
+📋 Case 5: adservice_f4/2
+🎯 真实根因: adservice
+============================================================
+  🔬 故障分类: Type B
+  🟡 Type B: 双头博弈型，反事实二元淘汰
+  ⚔️ 反事实裁决: adservice 胜出
+✅ Top-1 命中!
+🏆 P-CoE 最终排名:
+  1. adservice                 Rec=0.9481 Infl=1.8e+17 ← 真实根因
+  2. currencyservice           Rec=0.0133 Infl=2.5e+15
+  3. paymentservice            Rec=0.0078 Infl=1.5e+15
+  4. cartservice               Rec=0.0071 Infl=1.3e+15
+  5. checkoutservice           Rec=0.0275 Infl=7.6e+14
+
+============================================================
+📋 Case 6: adservice_f4/3
+🎯 真实根因: adservice
+============================================================
+  🔬 故障分类: Type B
+  🟡 Type B: 双头博弈型，反事实二元淘汰
+  ⚔️ 反事实裁决: adservice 胜出
+✅ Top-1 命中!
+🏆 P-CoE 最终排名:
+  1. adservice                 Rec=0.9546 Infl=1.7e+17 ← 真实根因
+  2. productcatalogservice     Rec=0.0123 Infl=2.3e+15
+  3. paymentservice            Rec=0.0090 Infl=1.6e+15
+  4. checkoutservice           Rec=0.0306 Infl=8.2e+14
+  5. cartservice               Rec=0.0043 Infl=7.9e+14
+
+============================================================
+📋 Case 7: adservice_f5/1
+🎯 真实根因: adservice
+============================================================
+  🚨 日志致命召回: adservice (命中: BindException)
+  🔬 故障分类: Type C
+  🔴 Type C: 混沌共振型
+✅ Top-1 命中!
+🏆 P-CoE 最终排名:
+  1. adservice                 Rec=0.6920 Infl=1.1e+16 ← 真实根因
+  2. currencyservice           Rec=0.1049 Infl=1.7e+15
+  3. paymentservice            Rec=0.0534 Infl=8.6e+14
+  4. productcatalogservice     Rec=0.0369 Infl=5.9e+14
+  5. checkoutservice           Rec=0.2292 Infl=5.3e+14
+
+============================================================
+📋 Case 8: adservice_f5/2
+🎯 真实根因: adservice
+============================================================
+  🚨 日志致命召回: adservice (命中: BindException)
+  🔬 故障分类: Type C
+  🔴 Type C: 混沌共振型
+✅ Top-1 命中!
+🏆 P-CoE 最终排名:
+  1. adservice                 Rec=0.3018 Infl=3.4e+15 ← 真实根因
+  2. currencyservice           Rec=0.2424 Infl=2.7e+15
+  3. checkoutservice           Rec=0.5000 Infl=1.4e+15
+  4. paymentservice            Rec=0.1032 Infl=1.1e+15
+  5. recommendationservice     Rec=0.0664 Infl=4.1e+14
+
+============================================================
+📋 Case 9: adservice_f5/3
+🎯 真实根因: adservice
+============================================================
+  🚨 日志致命召回: adservice (命中: BindException)
+  🔬 故障分类: Type C
+  🔴 Type C: 混沌共振型
+❌ Top-1 未命中 (输出: paymentservice)
+🏆 P-CoE 最终排名:
+  1. paymentservice            Rec=0.3401 Infl=2.6e+15
+  2. adservice                 Rec=0.2412 Infl=1.8e+15 ← 真实根因
+  3. shippingservice           Rec=0.1355 Infl=1.0e+15
+  4. currencyservice           Rec=0.1118 Infl=8.5e+14
+  5. recommendationservice     Rec=0.0957 Infl=4.4e+14
+
+============================================================
+📋 Case 10: cartservice_f1/1
+🎯 真实根因: cartservice
+============================================================
+  🔬 故障分类: Type B
+  🟡 Type B: 双头博弈型，反事实二元淘汰
+  ⚔️ 反事实裁决: cartservice 胜出
+✅ Top-1 命中!
+🏆 P-CoE 最终排名:
+  1. cartservice               Rec=0.9243 Infl=7.9e+16 ← 真实根因
+  2. adservice                 Rec=0.0239 Infl=2.0e+15
+  3. currencyservice           Rec=0.0177 Infl=1.5e+15
+  4. paymentservice            Rec=0.0145 Infl=1.2e+15
+  5. checkoutservice           Rec=0.0469 Infl=8.8e+14
+
+============================================================
+📋 Case 11: cartservice_f1/2
+🎯 真实根因: cartservice
+============================================================
+  🔬 故障分类: Type B
+  🟡 Type B: 双头博弈型，反事实二元淘汰
+  ⚔️ 反事实裁决: cartservice 胜出
+✅ Top-1 命中!
+🏆 P-CoE 最终排名:
+  1. cartservice               Rec=0.9087 Infl=9.1e+16 ← 真实根因
+  2. currencyservice           Rec=0.0221 Infl=2.2e+15
+  3. adservice                 Rec=0.0193 Infl=1.9e+15
+  4. paymentservice            Rec=0.0171 Infl=1.7e+15
+  5. checkoutservice           Rec=0.0577 Infl=9.7e+14
+
+============================================================
+📋 Case 12: cartservice_f1/3
+🎯 真实根因: cartservice
+============================================================
+  🔬 故障分类: Type B
+  🟡 Type B: 双头博弈型，反事实二元淘汰
+  ⚔️ 反事实裁决: cartservice 胜出
+✅ Top-1 命中!
+🏆 P-CoE 最终排名:
+  1. cartservice               Rec=0.9267 Infl=9.5e+16 ← 真实根因
+  2. adservice                 Rec=0.0194 Infl=2.0e+15
+  3. currencyservice           Rec=0.0109 Infl=1.1e+15
+  4. paymentservice            Rec=0.0104 Infl=1.1e+15
+  5. productcatalogservice     Rec=0.0079 Infl=8.1e+14
+
+============================================================
+📋 Case 13: currencyservice_f1/1
+🎯 真实根因: currencyservice
+============================================================
+  🔬 故障分类: Type B
+  🟡 Type B: 双头博弈型，反事实二元淘汰
+  ⚔️ 反事实裁决: currencyservice 胜出
+✅ Top-1 命中!
+🏆 P-CoE 最终排名:
+  1. currencyservice           Rec=0.9233 Infl=2.2e+16 ← 真实根因
+  2. productcatalogservice     Rec=0.0374 Infl=9.1e+14
+  3. redis                     Rec=0.0114 Infl=2.8e+14
+  4. cartservice               Rec=0.0089 Infl=2.2e+14
+  5. recommendationservice     Rec=0.0463 Infl=2.2e+14
+
+============================================================
+📋 Case 14: currencyservice_f1/2
+🎯 真实根因: currencyservice
+============================================================
+  🔬 故障分类: Type B
+  🟡 Type B: 双头博弈型，反事实二元淘汰
+  ⚔️ 反事实裁决: currencyservice 胜出
+✅ Top-1 命中!
+🏆 P-CoE 最终排名:
+  1. currencyservice           Rec=0.9585 Infl=7.2e+16 ← 真实根因
+  2. productcatalogservice     Rec=0.0130 Infl=9.8e+14
+  3. cartservice               Rec=0.0093 Infl=7.0e+14
+  4. recommendationservice     Rec=0.0132 Infl=2.1e+13
+  5. adservice                 Rec=0.0001 Infl=5.3e+12
+
+============================================================
+📋 Case 15: currencyservice_f1/3
+🎯 真实根因: currencyservice
+============================================================
+  🔬 故障分类: Type B
+  🟡 Type B: 双头博弈型，反事实二元淘汰
+  ⚔️ 反事实裁决: currencyservice 胜出
+✅ Top-1 命中!
+🏆 P-CoE 最终排名:
+  1. currencyservice           Rec=0.9525 Infl=7.2e+16 ← 真实根因
+  2. cartservice               Rec=0.0244 Infl=1.8e+15
+  3. productcatalogservice     Rec=0.0096 Infl=7.3e+14
+  4. redis                     Rec=0.0014 Infl=1.1e+14
+  5. checkoutservice           Rec=0.9627 Infl=4.3e+13
+
+============================================================
+📋 Case 16: emailservice_f1/1
+🎯 真实根因: emailservice
+============================================================
+  🔬 故障分类: Type C
+  🔴 Type C: 混沌共振型
+✅ Top-1 命中!
+🏆 P-CoE 最终排名:
+  1. emailservice              Rec=0.5010 Infl=5.2e+15 ← 真实根因
+  2. currencyservice           Rec=0.1497 Infl=1.5e+15
+  3. productcatalogservice     Rec=0.0789 Infl=8.1e+14
+  4. shippingservice           Rec=0.0550 Infl=5.7e+14
+  5. cartservice               Rec=0.0419 Infl=4.3e+14
+
+============================================================
+📋 Case 17: emailservice_f1/2
+🎯 真实根因: emailservice
+============================================================
+  🔬 故障分类: Type C
+  🔴 Type C: 混沌共振型
+✅ Top-1 命中!
+🏆 P-CoE 最终排名:
+  1. emailservice              Rec=0.6020 Infl=1.2e+16 ← 真实根因
+  2. currencyservice           Rec=0.1223 Infl=2.5e+15
+  3. checkoutservice           Rec=0.8199 Infl=1.1e+15
+  4. productcatalogservice     Rec=0.0400 Infl=8.0e+14
+  5. cartservice               Rec=0.0192 Infl=3.9e+14
+
+============================================================
+📋 Case 18: emailservice_f1/3
+🎯 真实根因: emailservice
+============================================================
+  🔬 故障分类: Type C
+  🔴 Type C: 混沌共振型
+✅ Top-1 命中!
+🏆 P-CoE 最终排名:
+  1. emailservice              Rec=0.6610 Infl=1.1e+16 ← 真实根因
+  2. currencyservice           Rec=0.1329 Infl=2.3e+15
+  3. paymentservice            Rec=0.0813 Infl=1.4e+15
+  4. adservice                 Rec=0.0336 Infl=5.8e+14
+  5. checkoutservice           Rec=0.8897 Infl=2.5e+14
+
+============================================================
+📋 Case 19: emailservice_f2/1
+🎯 真实根因: emailservice
+============================================================
+  🔬 故障分类: Type C
+  🔴 Type C: 混沌共振型
+✅ Top-1 命中!
+🏆 P-CoE 最终排名:
+  1. emailservice              Rec=0.6208 Infl=1.1e+16 ← 真实根因
+  2. currencyservice           Rec=0.1176 Infl=2.1e+15
+  3. paymentservice            Rec=0.0622 Infl=1.1e+15
+  4. shippingservice           Rec=0.0361 Infl=6.6e+14
+  5. checkoutservice           Rec=0.8457 Infl=6.2e+14
+
+============================================================
+📋 Case 20: emailservice_f2/2
+🎯 真实根因: emailservice
+============================================================
+  🔬 故障分类: Type C
+  🔴 Type C: 混沌共振型
+✅ Top-1 命中!
+🏆 P-CoE 最终排名:
+  1. emailservice              Rec=0.6971 Infl=1.1e+16 ← 真实根因
+  2. paymentservice            Rec=0.0922 Infl=1.5e+15
+  3. productcatalogservice     Rec=0.0884 Infl=1.4e+15
+  4. checkoutservice           Rec=0.9382 Infl=6.6e+14
+  5. adservice                 Rec=0.0296 Infl=4.8e+14
+
+============================================================
+📋 Case 21: emailservice_f2/3
+🎯 真实根因: emailservice
+============================================================
+  🔬 故障分类: Type C
+  🔴 Type C: 混沌共振型
+❌ Top-1 未命中 (输出: currencyservice)
+🏆 P-CoE 最终排名:
+  1. currencyservice           Rec=0.2675 Infl=2.6e+15
+  2. productcatalogservice     Rec=0.2333 Infl=2.2e+15
+  3. emailservice              Rec=0.1689 Infl=1.6e+15 ← 真实根因
+  4. paymentservice            Rec=0.1251 Infl=1.2e+15
+  5. cartservice               Rec=0.0635 Infl=6.1e+14
+
+============================================================
+📋 Case 22: emailservice_f3/1
+🎯 真实根因: emailservice
+============================================================
+  🔬 故障分类: Type B
+  🟡 Type B: 双头博弈型，反事实二元淘汰
+  ⚔️ 反事实裁决: emailservice 胜出
+✅ Top-1 命中!
+🏆 P-CoE 最终排名:
+  1. emailservice              Rec=0.9609 Infl=9.0e+16 ← 真实根因
+  2. currencyservice           Rec=0.0135 Infl=1.3e+15
+  3. paymentservice            Rec=0.0104 Infl=9.7e+14
+  4. productcatalogservice     Rec=0.0059 Infl=5.6e+14
+  5. shippingservice           Rec=0.0039 Infl=3.6e+14
+
+============================================================
+📋 Case 23: emailservice_f3/2
+🎯 真实根因: emailservice
+============================================================
+  🔬 故障分类: Type B
+  🟡 Type B: 双头博弈型，反事实二元淘汰
+  ⚔️ 反事实裁决: emailservice 胜出
+✅ Top-1 命中!
+🏆 P-CoE 最终排名:
+  1. emailservice              Rec=0.9627 Infl=9.0e+16 ← 真实根因
+  2. productcatalogservice     Rec=0.0154 Infl=1.4e+15
+  3. checkoutservice           Rec=0.9904 Infl=8.4e+14
+  4. shippingservice           Rec=0.0042 Infl=3.9e+14
+  5. paymentservice            Rec=0.0033 Infl=3.1e+14
+
+============================================================
+📋 Case 24: emailservice_f3/3
+🎯 真实根因: emailservice
+============================================================
+  🔬 故障分类: Type B
+  🟡 Type B: 双头博弈型，反事实二元淘汰
+  ⚔️ 反事实裁决: emailservice 胜出
+✅ Top-1 命中!
+🏆 P-CoE 最终排名:
+  1. emailservice              Rec=0.9462 Infl=9.0e+16 ← 真实根因
+  2. paymentservice            Rec=0.0199 Infl=1.9e+15
+  3. currencyservice           Rec=0.0078 Infl=7.4e+14
+  4. cartservice               Rec=0.0043 Infl=4.1e+14
+  5. recommendationservice     Rec=0.0023 Infl=2.2e+14
+
+============================================================
+📋 Case 25: emailservice_f4/1
+🎯 真实根因: emailservice
+============================================================
+  🔬 故障分类: Type B
+  🟡 Type B: 双头博弈型，反事实二元淘汰
+  ⚔️ 反事实裁决: emailservice 胜出
+✅ Top-1 命中!
+🏆 P-CoE 最终排名:
+  1. emailservice              Rec=0.9283 Infl=9.1e+16 ← 真实根因
+  2. currencyservice           Rec=0.0274 Infl=2.7e+15
+  3. paymentservice            Rec=0.0104 Infl=1.0e+15
+  4. shippingservice           Rec=0.0087 Infl=8.5e+14
+  5. checkoutservice           Rec=0.9746 Infl=6.7e+14
+
+============================================================
+📋 Case 26: emailservice_f4/2
+🎯 真实根因: emailservice
+============================================================
+  🔬 故障分类: Type B
+  🟡 Type B: 双头博弈型，反事实二元淘汰
+  ⚔️ 反事实裁决: emailservice 胜出
+✅ Top-1 命中!
+🏆 P-CoE 最终排名:
+  1. emailservice              Rec=0.9699 Infl=9.1e+16 ← 真实根因
+  2. currencyservice           Rec=0.0110 Infl=1.0e+15
+  3. paymentservice            Rec=0.0069 Infl=6.5e+14
+  4. checkoutservice           Rec=0.9927 Infl=4.6e+14
+  5. adservice                 Rec=0.0030 Infl=2.8e+14
+
+============================================================
+📋 Case 27: emailservice_f4/3
+🎯 真实根因: emailservice
+============================================================
+  🔬 故障分类: Type B
+  🟡 Type B: 双头博弈型，反事实二元淘汰
+  ⚔️ 反事实裁决: emailservice 胜出
+✅ Top-1 命中!
+🏆 P-CoE 最终排名:
+  1. emailservice              Rec=0.9483 Infl=9.1e+16 ← 真实根因
+  2. currencyservice           Rec=0.0255 Infl=2.4e+15
+  3. productcatalogservice     Rec=0.0077 Infl=7.3e+14
+  4. paymentservice            Rec=0.0067 Infl=6.4e+14
+  5. checkoutservice           Rec=0.9919 Infl=3.6e+14
+
+============================================================
+📋 Case 28: emailservice_f5/1
+🎯 真实根因: emailservice
+============================================================
+  🔬 故障分类: Type B
+  🟡 Type B: 双头博弈型，反事实二元淘汰
+  ⚔️ 反事实裁决: emailservice 胜出
+✅ Top-1 命中!
+🏆 P-CoE 最终排名:
+  1. emailservice              Rec=0.9510 Infl=7.3e+16 ← 真实根因
+  2. paymentservice            Rec=0.0222 Infl=1.7e+15
+  3. shippingservice           Rec=0.0084 Infl=6.5e+14
+  4. currencyservice           Rec=0.0056 Infl=4.3e+14
+  5. redis                     Rec=0.0023 Infl=1.8e+14
+
+============================================================
+📋 Case 29: emailservice_f5/2
+🎯 真实根因: emailservice
+============================================================
+  🔬 故障分类: Type C
+  🔴 Type C: 混沌共振型
+✅ Top-1 命中!
+🏆 P-CoE 最终排名:
+  1. emailservice              Rec=0.5304 Infl=5.9e+15 ← 真实根因
+  2. paymentservice            Rec=0.1634 Infl=1.8e+15
+  3. currencyservice           Rec=0.1385 Infl=1.5e+15
+  4. redis                     Rec=0.0251 Infl=2.8e+14
+  5. shippingservice           Rec=0.0251 Infl=2.8e+14
+
+============================================================
+📋 Case 30: emailservice_f5/3
+🎯 真实根因: emailservice
+============================================================
+  🔬 故障分类: Type C
+  🔴 Type C: 混沌共振型
+❌ Top-1 未命中 (输出: shippingservice)
+🏆 P-CoE 最终排名:
+  1. shippingservice           Rec=0.2343 Infl=1.0e+15
+  2. currencyservice           Rec=0.2082 Infl=9.3e+14
+  3. paymentservice            Rec=0.1515 Infl=6.8e+14
+  4. productcatalogservice     Rec=0.1289 Infl=5.8e+14
+  5. checkoutservice           Rec=0.5773 Infl=4.0e+14
+
+============================================================
+🔥 P-CoE V7.4 批量测试结果（30个case）
+============================================================
+Top-1 Accuracy: 0.900 (27/30)
+Top-3 Hit Rate: 0.967 (29/30)
+MRR:            0.928
+L3 LLM 触发次数: 0, 命中: 0
+============================================================
+
+
+
+一、L3 触发门槛降低
+当前触发条件：全模态融合后 Top-2 差距 < 10%。
+
+改成：全模态融合后 Top-2 差距 < 20%，并且根因不在 Top-1 的位置（这需要在代码里传入 ground_truth 做判断，但实验时不传 ground_truth，仅用差距判断）。更简单的方式是直接放宽到 20%，让那 3 个失败 case 能进入 L3。
+**原有 19 种（V7.4）**：
+
+| # | 指标 | 权重 | 类别 |
+|---|------|------|------|
+| 1 | `istio-latency-99` | 1.0 | Istio 延迟 |
+| 2 | `istio-error-total` | 2.0 | Istio 错误 |
+| 3 | `istio-request-total` | 1.5 | Istio 流量（QPS 掉底 = 静默故障） |
+| 4 | `istio-latency-50` | 0.8 | Istio 中位数延迟 |
+| 5 | `istio-latency-90` | 0.8 | Istio P90 延迟 |
+| 6 | `istio-latency-95` | 0.9 | Istio P95 延迟 |
+| 7 | `container-cpu-usage-seconds-total` | 1.0 | 容器 CPU |
+| 8 | `container-memory-failures-total` | 2.0 | 容器内存故障 |
+| 9 | `container-memory-working-set-bytes` | 0.5 | 容器工作集内存 |
+| 10 | `container-memory-usage-bytes` | 0.8 | 容器实际内存使用 |
+| 11 | `container-memory-rss` | 0.8 | 进程驻留内存（OOM 前兆） |
+| 12 | `container-network-receive-errors-total` | 1.5 | 容器网络接收错误 |
+| 13 | `container-network-transmit-errors-total` | 1.5 | 容器网络发送错误 |
+| 14 | `container-spec-memory-limit-bytes` | 0.5 | 容器内存限制 |
+| 15 | `container-cpu-user-seconds-total` | 0.6 | 容器用户态 CPU |
+| 16 | `container-fs-writes-total` | 0.5 | 容器磁盘写入 |
+| 17 | `node-memory-active-bytes` | 0.7 | 宿主机活跃内存 |
+| 18 | `node-network-receive-errs-total` | 0.7 | 宿主机网络接收错误 |
+| 19 | `node-disk-read-bytes-total` | 0.5 | 宿主机磁盘读取 |
+
+**新增 10 种（V7.5）**：
+
+| # | 指标 | 权重 | 类别 |
+|---|------|------|------|
+| 20 | `container-sockets` | 1.0 | 连接数异常（连接泄漏） |
+| 21 | `container-memory-max-usage-bytes` | 0.8 | 容器内存使用峰值 |
+| 22 | `container-memory-swap` | 0.8 | Swap 使用（内存压力） |
+| 23 | `container-network-receive-packets-dropped-total` | 1.2 | 容器网络接收丢包 |
+| 24 | `container-network-transmit-packets-dropped-total` | 1.2 | 容器网络发送丢包 |
+| 25 | `container-blkio-device-usage-total` | 0.6 | 容器磁盘 I/O 阻塞 |
+| 26 | `node-memory-inactive-bytes` | 0.7 | 宿主机非活跃内存 |
+| 27 | `node-network-receive-drop-total` | 0.7 | 宿主机网络接收丢包 |
+| 28 | `node-network-transmit-drop-total` | 0.7 | 宿主机网络发送丢包 |
+| 29 | `node-cpu-seconds-total` | 0.6 | 宿主机 CPU 总消耗 |
+

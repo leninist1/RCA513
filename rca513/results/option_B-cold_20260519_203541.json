@@ -1,0 +1,1774 @@
+{
+  "config": {
+    "option": "B-cold",
+    "systems": [
+      "Bank"
+    ],
+    "max_queries": 15
+  },
+  "summary": {
+    "total": 15,
+    "correct": 3,
+    "correct_pct": 20.0,
+    "partial": 5,
+    "partial_pct": 33.33,
+    "correct_or_partial_pct": 53.33,
+    "neither": 7,
+    "by_system": {
+      "Bank": {
+        "total": 15,
+        "correct": 3,
+        "correct_pct": 20.0,
+        "partial": 5,
+        "partial_pct": 33.33
+      }
+    },
+    "by_task": {
+      "task_1": {
+        "total": 3,
+        "correct": 2,
+        "correct_pct": 66.67
+      },
+      "task_2": {
+        "total": 1,
+        "correct": 0,
+        "correct_pct": 0.0
+      },
+      "task_3": {
+        "total": 3,
+        "correct": 0,
+        "correct_pct": 0.0
+      },
+      "task_4": {
+        "total": 1,
+        "correct": 0,
+        "correct_pct": 0.0
+      },
+      "task_5": {
+        "total": 1,
+        "correct": 0,
+        "correct_pct": 0.0
+      },
+      "task_6": {
+        "total": 4,
+        "correct": 1,
+        "correct_pct": 25.0
+      },
+      "task_7": {
+        "total": 2,
+        "correct": 0,
+        "correct_pct": 0.0
+      }
+    },
+    "by_field": {}
+  },
+  "per_query": [
+    {
+      "query_id": "Bank_task_1",
+      "system": "Bank",
+      "task_index": "task_1",
+      "correct": true,
+      "partial": true,
+      "error": null,
+      "iterations": 4,
+      "strategies_used": [
+        "VERIFY_S1",
+        "VERIFY_S2"
+      ],
+      "api_calls": 0,
+      "tokens": 0,
+      "emotion_trajectory": [],
+      "hypothesis_summary": {
+        "active": [
+          {
+            "entity": "Tomcat01",
+            "confidence": 0.951,
+            "status": "active",
+            "n_support": 1,
+            "n_refute": 0,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "Redis02",
+            "confidence": 0.7269,
+            "status": "active",
+            "n_support": 1,
+            "n_refute": 1,
+            "reason_family": "unknown"
+          }
+        ],
+        "reserved": [
+          {
+            "entity": "Mysql02",
+            "confidence": 0.0
+          },
+          {
+            "entity": "IG01",
+            "confidence": 0.0
+          },
+          {
+            "entity": "MG01",
+            "confidence": 0.0
+          },
+          {
+            "entity": "MG02",
+            "confidence": 0.0
+          }
+        ],
+        "eliminated": [
+          {
+            "entity": "Tomcat02"
+          },
+          {
+            "entity": "Tomcat04"
+          },
+          {
+            "entity": "apache01"
+          },
+          {
+            "entity": "Redis01"
+          },
+          {
+            "entity": "Mysql01"
+          },
+          {
+            "entity": "Tomcat03"
+          }
+        ]
+      },
+      "prediction": {
+        "component": [
+          "Tomcat01"
+        ],
+        "reason": [
+          "high memory usage"
+        ],
+        "time": [
+          "2021-03-04 14:57:00"
+        ],
+        "top_score": 0.9509592133825076
+      },
+      "ground_truth": {
+        "component": "Mysql02",
+        "reason": "high memory usage",
+        "datetime": "2021-03-04 14:57:00"
+      },
+      "top_candidates": [
+        {
+          "entity": "Tomcat01",
+          "score": 0.951
+        },
+        {
+          "entity": "Redis02",
+          "score": 0.7269
+        }
+      ],
+      "stop_reason": ""
+    },
+    {
+      "query_id": "Bank_task_6",
+      "system": "Bank",
+      "task_index": "task_6",
+      "correct": false,
+      "partial": true,
+      "error": null,
+      "iterations": 4,
+      "strategies_used": [
+        "VERIFY_S1",
+        "VERIFY_S2"
+      ],
+      "api_calls": 0,
+      "tokens": 0,
+      "emotion_trajectory": [],
+      "hypothesis_summary": {
+        "active": [
+          {
+            "entity": "Tomcat03",
+            "confidence": 0.6455,
+            "status": "active",
+            "n_support": 1,
+            "n_refute": 0,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "Tomcat02",
+            "confidence": 0.6195,
+            "status": "active",
+            "n_support": 1,
+            "n_refute": 0,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "Mysql01",
+            "confidence": 0.4613,
+            "status": "active",
+            "n_support": 1,
+            "n_refute": 1,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "IG01",
+            "confidence": 0.3113,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 1,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "Tomcat01",
+            "confidence": 0.203,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 0,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "Mysql02",
+            "confidence": 0.153,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 0,
+            "reason_family": "unknown"
+          }
+        ],
+        "reserved": [
+          {
+            "entity": "MG01",
+            "confidence": 0.0
+          },
+          {
+            "entity": "Tomcat04",
+            "confidence": 0.0
+          }
+        ],
+        "eliminated": [
+          {
+            "entity": "Redis02"
+          },
+          {
+            "entity": "apache01"
+          },
+          {
+            "entity": "Redis01"
+          },
+          {
+            "entity": "MG02"
+          }
+        ]
+      },
+      "prediction": {
+        "component": [
+          "Tomcat03"
+        ],
+        "reason": [
+          "high memory usage"
+        ],
+        "time": [
+          "2021-03-04 18:09:00"
+        ],
+        "top_score": 0.6455431248160249
+      },
+      "ground_truth": {
+        "component": "Redis02",
+        "reason": "high memory usage",
+        "datetime": "2021-03-04 18:09:00"
+      },
+      "top_candidates": [
+        {
+          "entity": "Tomcat03",
+          "score": 0.6455
+        },
+        {
+          "entity": "Tomcat02",
+          "score": 0.6195
+        },
+        {
+          "entity": "Mysql01",
+          "score": 0.4613
+        },
+        {
+          "entity": "IG01",
+          "score": 0.3113
+        },
+        {
+          "entity": "Tomcat01",
+          "score": 0.203
+        }
+      ],
+      "stop_reason": ""
+    },
+    {
+      "query_id": "Bank_task_1",
+      "system": "Bank",
+      "task_index": "task_1",
+      "correct": true,
+      "partial": true,
+      "error": null,
+      "iterations": 4,
+      "strategies_used": [
+        "VERIFY_S1",
+        "VERIFY_S2"
+      ],
+      "api_calls": 0,
+      "tokens": 0,
+      "emotion_trajectory": [],
+      "hypothesis_summary": {
+        "active": [
+          {
+            "entity": "Tomcat04",
+            "confidence": 0.4331,
+            "status": "active",
+            "n_support": 1,
+            "n_refute": 1,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "Mysql02",
+            "confidence": 0.2831,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 1,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "Tomcat02",
+            "confidence": 0.206,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 0,
+            "reason_family": "unknown"
+          }
+        ],
+        "reserved": [
+          {
+            "entity": "MG01",
+            "confidence": 0.0002
+          },
+          {
+            "entity": "Mysql01",
+            "confidence": 0.0
+          },
+          {
+            "entity": "apache01",
+            "confidence": 0.0
+          },
+          {
+            "entity": "IG01",
+            "confidence": 0.0
+          },
+          {
+            "entity": "Tomcat03",
+            "confidence": 0.1107
+          }
+        ],
+        "eliminated": [
+          {
+            "entity": "Tomcat01"
+          },
+          {
+            "entity": "apache02"
+          },
+          {
+            "entity": "IG02"
+          },
+          {
+            "entity": "Redis01"
+          }
+        ]
+      },
+      "prediction": {
+        "component": [
+          "Tomcat04"
+        ],
+        "reason": [
+          "high memory usage"
+        ],
+        "time": [
+          "2021-03-04 19:22:00"
+        ],
+        "top_score": 0.43306744815740605
+      },
+      "ground_truth": {
+        "component": "Tomcat02",
+        "reason": "network latency",
+        "datetime": "2021-03-04 19:22:00"
+      },
+      "top_candidates": [
+        {
+          "entity": "Tomcat04",
+          "score": 0.4331
+        },
+        {
+          "entity": "Mysql02",
+          "score": 0.2831
+        },
+        {
+          "entity": "Tomcat02",
+          "score": 0.206
+        }
+      ],
+      "stop_reason": ""
+    },
+    {
+      "query_id": "Bank_task_6",
+      "system": "Bank",
+      "task_index": "task_6",
+      "correct": false,
+      "partial": false,
+      "error": null,
+      "iterations": 4,
+      "strategies_used": [
+        "VERIFY_S1",
+        "VERIFY_S2"
+      ],
+      "api_calls": 0,
+      "tokens": 0,
+      "emotion_trajectory": [],
+      "hypothesis_summary": {
+        "active": [
+          {
+            "entity": "Tomcat02",
+            "confidence": 1.0,
+            "status": "active",
+            "n_support": 1,
+            "n_refute": 0,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "Redis02",
+            "confidence": 0.9498,
+            "status": "active",
+            "n_support": 1,
+            "n_refute": 1,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "Tomcat01",
+            "confidence": 0.7998,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 1,
+            "reason_family": "unknown"
+          }
+        ],
+        "reserved": [
+          {
+            "entity": "IG02",
+            "confidence": 0.0001
+          },
+          {
+            "entity": "Mysql01",
+            "confidence": 0.0001
+          },
+          {
+            "entity": "Mysql02",
+            "confidence": 0.0
+          },
+          {
+            "entity": "MG01",
+            "confidence": 0.0
+          }
+        ],
+        "eliminated": [
+          {
+            "entity": "Tomcat04"
+          },
+          {
+            "entity": "Tomcat03"
+          },
+          {
+            "entity": "apache01"
+          },
+          {
+            "entity": "apache02"
+          },
+          {
+            "entity": "Redis01"
+          }
+        ]
+      },
+      "prediction": {
+        "component": [
+          "Tomcat02"
+        ],
+        "reason": [
+          "high memory usage"
+        ],
+        "time": [
+          "2021-03-06 00:53:00"
+        ],
+        "top_score": 1.0
+      },
+      "ground_truth": {
+        "component": "Tomcat04",
+        "reason": "network latency",
+        "datetime": "2021-03-06 00:53:00"
+      },
+      "top_candidates": [
+        {
+          "entity": "Tomcat02",
+          "score": 1.0
+        },
+        {
+          "entity": "Redis02",
+          "score": 0.9498
+        },
+        {
+          "entity": "Tomcat01",
+          "score": 0.7998
+        }
+      ],
+      "stop_reason": ""
+    },
+    {
+      "query_id": "Bank_task_5",
+      "system": "Bank",
+      "task_index": "task_5",
+      "correct": false,
+      "partial": true,
+      "error": null,
+      "iterations": 4,
+      "strategies_used": [
+        "VERIFY_S1",
+        "VERIFY_S2"
+      ],
+      "api_calls": 0,
+      "tokens": 0,
+      "emotion_trajectory": [],
+      "hypothesis_summary": {
+        "active": [
+          {
+            "entity": "Tomcat01",
+            "confidence": 0.846,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 0,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "Tomcat04",
+            "confidence": 0.6556,
+            "status": "active",
+            "n_support": 1,
+            "n_refute": 0,
+            "reason_family": "unknown"
+          }
+        ],
+        "reserved": [
+          {
+            "entity": "apache01",
+            "confidence": 0.0102
+          },
+          {
+            "entity": "MG02",
+            "confidence": 0.0102
+          },
+          {
+            "entity": "apache02",
+            "confidence": 0.0
+          },
+          {
+            "entity": "Redis02",
+            "confidence": 0.0
+          }
+        ],
+        "eliminated": [
+          {
+            "entity": "Tomcat03"
+          },
+          {
+            "entity": "Mysql02"
+          },
+          {
+            "entity": "MG01"
+          },
+          {
+            "entity": "IG01"
+          },
+          {
+            "entity": "Tomcat02"
+          },
+          {
+            "entity": "Mysql01"
+          }
+        ]
+      },
+      "prediction": {
+        "component": [
+          "Tomcat01"
+        ],
+        "reason": [
+          "high memory usage"
+        ],
+        "time": [
+          "2021-03-06 14:46:00"
+        ],
+        "top_score": 0.8459821949636825
+      },
+      "ground_truth": {
+        "component": "Tomcat03",
+        "reason": "network latency",
+        "datetime": "2021-03-06 14:46:00"
+      },
+      "top_candidates": [
+        {
+          "entity": "Tomcat01",
+          "score": 0.846
+        },
+        {
+          "entity": "Tomcat04",
+          "score": 0.6556
+        }
+      ],
+      "stop_reason": ""
+    },
+    {
+      "query_id": "Bank_task_3",
+      "system": "Bank",
+      "task_index": "task_3",
+      "correct": false,
+      "partial": false,
+      "error": null,
+      "iterations": 4,
+      "strategies_used": [
+        "VERIFY_S1",
+        "VERIFY_S2"
+      ],
+      "api_calls": 0,
+      "tokens": 0,
+      "emotion_trajectory": [],
+      "hypothesis_summary": {
+        "active": [
+          {
+            "entity": "Tomcat02",
+            "confidence": 0.9408,
+            "status": "active",
+            "n_support": 1,
+            "n_refute": 0,
+            "reason_family": "unknown"
+          }
+        ],
+        "reserved": [
+          {
+            "entity": "Tomcat03",
+            "confidence": 0.0574
+          },
+          {
+            "entity": "IG02",
+            "confidence": 0.0
+          },
+          {
+            "entity": "Mysql01",
+            "confidence": 0.0
+          },
+          {
+            "entity": "Mysql02",
+            "confidence": 0.0
+          },
+          {
+            "entity": "Redis01",
+            "confidence": 0.0
+          }
+        ],
+        "eliminated": [
+          {
+            "entity": "Tomcat01"
+          },
+          {
+            "entity": "Tomcat04"
+          },
+          {
+            "entity": "apache01"
+          },
+          {
+            "entity": "MG01"
+          },
+          {
+            "entity": "Redis02"
+          },
+          {
+            "entity": "MG02"
+          }
+        ]
+      },
+      "prediction": {
+        "component": [
+          "Tomcat02"
+        ],
+        "reason": [
+          "high memory usage"
+        ],
+        "time": [
+          "2021-03-06 23:18:00"
+        ],
+        "top_score": 0.9407586265928851
+      },
+      "ground_truth": {
+        "component": "Tomcat01",
+        "reason": "network latency",
+        "datetime": "2021-03-06 23:18:00"
+      },
+      "top_candidates": [
+        {
+          "entity": "Tomcat02",
+          "score": 0.9408
+        }
+      ],
+      "stop_reason": ""
+    },
+    {
+      "query_id": "Bank_task_7",
+      "system": "Bank",
+      "task_index": "task_7",
+      "correct": false,
+      "partial": true,
+      "error": null,
+      "iterations": 4,
+      "strategies_used": [
+        "VERIFY_S1",
+        "VERIFY_S2"
+      ],
+      "api_calls": 0,
+      "tokens": 0,
+      "emotion_trajectory": [],
+      "hypothesis_summary": {
+        "active": [
+          {
+            "entity": "Tomcat01",
+            "confidence": 0.708,
+            "status": "active",
+            "n_support": 1,
+            "n_refute": 0,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "IG01",
+            "confidence": 0.3656,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 1,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "Tomcat02",
+            "confidence": 0.3344,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 0,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "Redis01",
+            "confidence": 0.2844,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 1,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "Mysql01",
+            "confidence": 0.2656,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 2,
+            "reason_family": "unknown"
+          }
+        ],
+        "reserved": [
+          {
+            "entity": "Mysql02",
+            "confidence": 0.0
+          },
+          {
+            "entity": "IG02",
+            "confidence": 0.0
+          },
+          {
+            "entity": "apache01",
+            "confidence": 0.0
+          },
+          {
+            "entity": "MG02",
+            "confidence": 0.0
+          },
+          {
+            "entity": "apache02",
+            "confidence": 0.1344
+          }
+        ],
+        "eliminated": [
+          {
+            "entity": "Tomcat03"
+          },
+          {
+            "entity": "Tomcat04"
+          }
+        ]
+      },
+      "prediction": {
+        "component": [
+          "Tomcat01"
+        ],
+        "reason": [
+          "high memory usage"
+        ],
+        "time": [
+          "2021-03-06 23:36:00"
+        ],
+        "top_score": 0.7079861198696834
+      },
+      "ground_truth": {
+        "component": "MG01",
+        "reason": "network latency",
+        "datetime": "2021-03-06 23:36:00"
+      },
+      "top_candidates": [
+        {
+          "entity": "Tomcat01",
+          "score": 0.708
+        },
+        {
+          "entity": "IG01",
+          "score": 0.3656
+        },
+        {
+          "entity": "Tomcat02",
+          "score": 0.3344
+        },
+        {
+          "entity": "Redis01",
+          "score": 0.2844
+        },
+        {
+          "entity": "Mysql01",
+          "score": 0.2656
+        }
+      ],
+      "stop_reason": ""
+    },
+    {
+      "query_id": "Bank_task_6",
+      "system": "Bank",
+      "task_index": "task_6",
+      "correct": true,
+      "partial": true,
+      "error": null,
+      "iterations": 4,
+      "strategies_used": [
+        "VERIFY_S1",
+        "VERIFY_S2"
+      ],
+      "api_calls": 0,
+      "tokens": 0,
+      "emotion_trajectory": [],
+      "hypothesis_summary": {
+        "active": [
+          {
+            "entity": "Tomcat01",
+            "confidence": 0.9979,
+            "status": "active",
+            "n_support": 1,
+            "n_refute": 0,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "IG02",
+            "confidence": 0.7677,
+            "status": "active",
+            "n_support": 1,
+            "n_refute": 1,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "Mysql01",
+            "confidence": 0.6177,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 1,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "Mysql02",
+            "confidence": 0.6177,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 1,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "Tomcat04",
+            "confidence": 0.566,
+            "status": "active",
+            "n_support": 1,
+            "n_refute": 0,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "Redis02",
+            "confidence": 0.2922,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 1,
+            "reason_family": "unknown"
+          }
+        ],
+        "reserved": [
+          {
+            "entity": "Tomcat02",
+            "confidence": 0.0226
+          },
+          {
+            "entity": "MG02",
+            "confidence": 0.0
+          },
+          {
+            "entity": "Redis01",
+            "confidence": 0.0
+          },
+          {
+            "entity": "IG01",
+            "confidence": 0.0
+          },
+          {
+            "entity": "MG01",
+            "confidence": 0.0
+          }
+        ],
+        "eliminated": [
+          {
+            "entity": "Tomcat03"
+          }
+        ]
+      },
+      "prediction": {
+        "component": [
+          "Tomcat01"
+        ],
+        "reason": [
+          "high memory usage"
+        ],
+        "time": [
+          "2021-03-06 06:20:00"
+        ],
+        "top_score": 0.9978855062715933
+      },
+      "ground_truth": {
+        "component": "Tomcat01",
+        "reason": "high memory usage",
+        "datetime": "2021-03-06 06:20:00"
+      },
+      "top_candidates": [
+        {
+          "entity": "Tomcat01",
+          "score": 0.9979
+        },
+        {
+          "entity": "IG02",
+          "score": 0.7677
+        },
+        {
+          "entity": "Mysql01",
+          "score": 0.6177
+        },
+        {
+          "entity": "Mysql02",
+          "score": 0.6177
+        },
+        {
+          "entity": "Tomcat04",
+          "score": 0.566
+        }
+      ],
+      "stop_reason": ""
+    },
+    {
+      "query_id": "Bank_task_7",
+      "system": "Bank",
+      "task_index": "task_7",
+      "correct": false,
+      "partial": true,
+      "error": null,
+      "iterations": 4,
+      "strategies_used": [
+        "VERIFY_S1",
+        "VERIFY_S2"
+      ],
+      "api_calls": 0,
+      "tokens": 0,
+      "emotion_trajectory": [],
+      "hypothesis_summary": {
+        "active": [
+          {
+            "entity": "Tomcat01",
+            "confidence": 1.0,
+            "status": "active",
+            "n_support": 1,
+            "n_refute": 0,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "Redis01",
+            "confidence": 0.949,
+            "status": "active",
+            "n_support": 1,
+            "n_refute": 1,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "IG01",
+            "confidence": 0.7991,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 1,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "Tomcat03",
+            "confidence": 0.799,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 1,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "Redis02",
+            "confidence": 0.6757,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 1,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "IG02",
+            "confidence": 0.6257,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 1,
+            "reason_family": "unknown"
+          }
+        ],
+        "reserved": [
+          {
+            "entity": "apache01",
+            "confidence": 0.0006
+          },
+          {
+            "entity": "MG01",
+            "confidence": 0.0006
+          },
+          {
+            "entity": "MG02",
+            "confidence": 0.0003
+          },
+          {
+            "entity": "apache02",
+            "confidence": 0.0
+          }
+        ],
+        "eliminated": [
+          {
+            "entity": "Tomcat04"
+          },
+          {
+            "entity": "Mysql01"
+          }
+        ]
+      },
+      "prediction": {
+        "component": [
+          "Tomcat01"
+        ],
+        "reason": [
+          "high memory usage"
+        ],
+        "time": [
+          "2021-03-06 18:52:00"
+        ],
+        "top_score": 1.0
+      },
+      "ground_truth": {
+        "component": "apache02",
+        "reason": "network packet loss",
+        "datetime": "2021-03-06 18:52:00"
+      },
+      "top_candidates": [
+        {
+          "entity": "Tomcat01",
+          "score": 1.0
+        },
+        {
+          "entity": "Redis01",
+          "score": 0.949
+        },
+        {
+          "entity": "IG01",
+          "score": 0.7991
+        },
+        {
+          "entity": "Tomcat03",
+          "score": 0.799
+        },
+        {
+          "entity": "Redis02",
+          "score": 0.6757
+        }
+      ],
+      "stop_reason": ""
+    },
+    {
+      "query_id": "Bank_task_6",
+      "system": "Bank",
+      "task_index": "task_6",
+      "correct": false,
+      "partial": false,
+      "error": null,
+      "iterations": 4,
+      "strategies_used": [
+        "VERIFY_S1",
+        "VERIFY_S2"
+      ],
+      "api_calls": 0,
+      "tokens": 0,
+      "emotion_trajectory": [],
+      "hypothesis_summary": {
+        "active": [
+          {
+            "entity": "Tomcat01",
+            "confidence": 0.4536,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 0,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "IG01",
+            "confidence": 0.4206,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 0,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "IG02",
+            "confidence": 0.2205,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 0,
+            "reason_family": "unknown"
+          }
+        ],
+        "reserved": [
+          {
+            "entity": "MG02",
+            "confidence": 0.0908
+          },
+          {
+            "entity": "MG01",
+            "confidence": 0.0002
+          },
+          {
+            "entity": "Tomcat03",
+            "confidence": 0.0001
+          },
+          {
+            "entity": "Mysql02",
+            "confidence": 0.0
+          },
+          {
+            "entity": "Tomcat02",
+            "confidence": 0.1164
+          }
+        ],
+        "eliminated": [
+          {
+            "entity": "Tomcat04"
+          },
+          {
+            "entity": "Redis02"
+          },
+          {
+            "entity": "Redis01"
+          },
+          {
+            "entity": "Mysql01"
+          }
+        ]
+      },
+      "prediction": {
+        "component": [
+          "Tomcat01"
+        ],
+        "reason": [
+          "high memory usage"
+        ],
+        "time": [
+          "2021-03-07 00:32:00"
+        ],
+        "top_score": 0.45356945737636
+      },
+      "ground_truth": {
+        "component": "MG02",
+        "reason": "network packet loss",
+        "datetime": "2021-03-07 00:32:00"
+      },
+      "top_candidates": [
+        {
+          "entity": "Tomcat01",
+          "score": 0.4536
+        },
+        {
+          "entity": "IG01",
+          "score": 0.4206
+        },
+        {
+          "entity": "IG02",
+          "score": 0.2205
+        }
+      ],
+      "stop_reason": ""
+    },
+    {
+      "query_id": "Bank_task_4",
+      "system": "Bank",
+      "task_index": "task_4",
+      "correct": false,
+      "partial": true,
+      "error": null,
+      "iterations": 4,
+      "strategies_used": [
+        "VERIFY_S1",
+        "VERIFY_S2"
+      ],
+      "api_calls": 0,
+      "tokens": 0,
+      "emotion_trajectory": [],
+      "hypothesis_summary": {
+        "active": [
+          {
+            "entity": "Tomcat01",
+            "confidence": 0.7854,
+            "status": "active",
+            "n_support": 1,
+            "n_refute": 0,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "IG01",
+            "confidence": 0.4527,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 1,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "Mysql01",
+            "confidence": 0.433,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 1,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "MG02",
+            "confidence": 0.2473,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 0,
+            "reason_family": "unknown"
+          }
+        ],
+        "reserved": [
+          {
+            "entity": "IG02",
+            "confidence": 0.0001
+          },
+          {
+            "entity": "MG01",
+            "confidence": 0.0001
+          },
+          {
+            "entity": "Mysql02",
+            "confidence": 0.0
+          },
+          {
+            "entity": "Redis02",
+            "confidence": 0.0
+          }
+        ],
+        "eliminated": [
+          {
+            "entity": "Tomcat03"
+          },
+          {
+            "entity": "Tomcat02"
+          },
+          {
+            "entity": "Tomcat04"
+          },
+          {
+            "entity": "Redis01"
+          }
+        ]
+      },
+      "prediction": {
+        "component": [
+          "Tomcat01"
+        ],
+        "reason": [
+          "high memory usage"
+        ],
+        "time": [
+          "2021-03-07 18:59:00"
+        ],
+        "top_score": 0.7854332772423899
+      },
+      "ground_truth": {
+        "component": "apache02",
+        "reason": "network latency",
+        "datetime": "2021-03-07 18:59:00"
+      },
+      "top_candidates": [
+        {
+          "entity": "Tomcat01",
+          "score": 0.7854
+        },
+        {
+          "entity": "IG01",
+          "score": 0.4527
+        },
+        {
+          "entity": "Mysql01",
+          "score": 0.433
+        },
+        {
+          "entity": "MG02",
+          "score": 0.2473
+        }
+      ],
+      "stop_reason": ""
+    },
+    {
+      "query_id": "Bank_task_2",
+      "system": "Bank",
+      "task_index": "task_2",
+      "correct": false,
+      "partial": false,
+      "error": null,
+      "iterations": 4,
+      "strategies_used": [
+        "VERIFY_S1",
+        "VERIFY_S2"
+      ],
+      "api_calls": 0,
+      "tokens": 0,
+      "emotion_trajectory": [],
+      "hypothesis_summary": {
+        "active": [
+          {
+            "entity": "Tomcat04",
+            "confidence": 0.8184,
+            "status": "active",
+            "n_support": 1,
+            "n_refute": 0,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "Mysql01",
+            "confidence": 0.4616,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 1,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "Mysql02",
+            "confidence": 0.4616,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 1,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "Tomcat02",
+            "confidence": 0.2383,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 0,
+            "reason_family": "unknown"
+          }
+        ],
+        "reserved": [
+          {
+            "entity": "apache01",
+            "confidence": 0.0
+          },
+          {
+            "entity": "IG01",
+            "confidence": 0.0
+          },
+          {
+            "entity": "IG02",
+            "confidence": 0.0
+          },
+          {
+            "entity": "Redis02",
+            "confidence": 0.0
+          }
+        ],
+        "eliminated": [
+          {
+            "entity": "Tomcat01"
+          },
+          {
+            "entity": "apache02"
+          },
+          {
+            "entity": "MG01"
+          },
+          {
+            "entity": "Redis01"
+          }
+        ]
+      },
+      "prediction": {
+        "component": [
+          "Tomcat04"
+        ],
+        "reason": [
+          "high memory usage"
+        ],
+        "time": [
+          "2021-03-07 21:36:00"
+        ],
+        "top_score": 0.8183636048662404
+      },
+      "ground_truth": {
+        "component": "Tomcat01",
+        "reason": "network packet loss",
+        "datetime": "2021-03-07 21:36:00"
+      },
+      "top_candidates": [
+        {
+          "entity": "Tomcat04",
+          "score": 0.8184
+        },
+        {
+          "entity": "Mysql01",
+          "score": 0.4616
+        },
+        {
+          "entity": "Mysql02",
+          "score": 0.4616
+        },
+        {
+          "entity": "Tomcat02",
+          "score": 0.2383
+        }
+      ],
+      "stop_reason": ""
+    },
+    {
+      "query_id": "Bank_task_3",
+      "system": "Bank",
+      "task_index": "task_3",
+      "correct": false,
+      "partial": false,
+      "error": null,
+      "iterations": 4,
+      "strategies_used": [
+        "VERIFY_S1",
+        "VERIFY_S2"
+      ],
+      "api_calls": 0,
+      "tokens": 0,
+      "emotion_trajectory": [],
+      "hypothesis_summary": {
+        "active": [
+          {
+            "entity": "Tomcat01",
+            "confidence": 1.0,
+            "status": "active",
+            "n_support": 1,
+            "n_refute": 0,
+            "reason_family": "unknown"
+          }
+        ],
+        "reserved": [
+          {
+            "entity": "IG02",
+            "confidence": 0.0022
+          },
+          {
+            "entity": "Redis02",
+            "confidence": 0.0007
+          },
+          {
+            "entity": "IG01",
+            "confidence": 0.0002
+          },
+          {
+            "entity": "Mysql01",
+            "confidence": 0.0001
+          }
+        ],
+        "eliminated": [
+          {
+            "entity": "Redis01"
+          },
+          {
+            "entity": "Tomcat03"
+          },
+          {
+            "entity": "Tomcat04"
+          },
+          {
+            "entity": "Tomcat02"
+          },
+          {
+            "entity": "apache02"
+          },
+          {
+            "entity": "apache01"
+          },
+          {
+            "entity": "MG01"
+          }
+        ]
+      },
+      "prediction": {
+        "component": [
+          "Tomcat01"
+        ],
+        "reason": [
+          "high memory usage"
+        ],
+        "time": [
+          "2021-03-07 07:32:00"
+        ],
+        "top_score": 1.0
+      },
+      "ground_truth": {
+        "component": "Tomcat02",
+        "reason": "network latency",
+        "datetime": "2021-03-07 07:32:00"
+      },
+      "top_candidates": [
+        {
+          "entity": "Tomcat01",
+          "score": 1.0
+        }
+      ],
+      "stop_reason": ""
+    },
+    {
+      "query_id": "Bank_task_1",
+      "system": "Bank",
+      "task_index": "task_1",
+      "correct": false,
+      "partial": false,
+      "error": null,
+      "iterations": 4,
+      "strategies_used": [
+        "VERIFY_S1",
+        "VERIFY_S2"
+      ],
+      "api_calls": 0,
+      "tokens": 0,
+      "emotion_trajectory": [],
+      "hypothesis_summary": {
+        "active": [
+          {
+            "entity": "Tomcat01",
+            "confidence": 0.548,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 0,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "Tomcat02",
+            "confidence": 0.1517,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 1,
+            "reason_family": "unknown"
+          }
+        ],
+        "reserved": [
+          {
+            "entity": "MG01",
+            "confidence": 0.0002
+          },
+          {
+            "entity": "MG02",
+            "confidence": 0.0002
+          },
+          {
+            "entity": "Redis02",
+            "confidence": 0.0
+          },
+          {
+            "entity": "IG01",
+            "confidence": 0.0
+          },
+          {
+            "entity": "Tomcat03",
+            "confidence": 0.1403
+          },
+          {
+            "entity": "Mysql02",
+            "confidence": 0.0517
+          },
+          {
+            "entity": "Redis01",
+            "confidence": 0.0517
+          }
+        ],
+        "eliminated": [
+          {
+            "entity": "Tomcat04"
+          },
+          {
+            "entity": "apache01"
+          },
+          {
+            "entity": "apache02"
+          }
+        ]
+      },
+      "prediction": {
+        "component": [
+          "Tomcat01"
+        ],
+        "reason": [
+          "high memory usage"
+        ],
+        "time": [
+          "2021-03-07 16:08:00"
+        ],
+        "top_score": 0.5479679590093751
+      },
+      "ground_truth": {
+        "component": "MG01",
+        "reason": "network latency",
+        "datetime": "2021-03-07 16:08:00"
+      },
+      "top_candidates": [
+        {
+          "entity": "Tomcat01",
+          "score": 0.548
+        },
+        {
+          "entity": "Tomcat02",
+          "score": 0.1517
+        }
+      ],
+      "stop_reason": ""
+    },
+    {
+      "query_id": "Bank_task_3",
+      "system": "Bank",
+      "task_index": "task_3",
+      "correct": false,
+      "partial": false,
+      "error": null,
+      "iterations": 4,
+      "strategies_used": [
+        "VERIFY_S1",
+        "VERIFY_S2"
+      ],
+      "api_calls": 0,
+      "tokens": 0,
+      "emotion_trajectory": [],
+      "hypothesis_summary": {
+        "active": [
+          {
+            "entity": "Tomcat01",
+            "confidence": 0.548,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 0,
+            "reason_family": "unknown"
+          },
+          {
+            "entity": "Tomcat02",
+            "confidence": 0.1517,
+            "status": "active",
+            "n_support": 0,
+            "n_refute": 1,
+            "reason_family": "unknown"
+          }
+        ],
+        "reserved": [
+          {
+            "entity": "MG01",
+            "confidence": 0.0002
+          },
+          {
+            "entity": "MG02",
+            "confidence": 0.0002
+          },
+          {
+            "entity": "Redis02",
+            "confidence": 0.0
+          },
+          {
+            "entity": "IG01",
+            "confidence": 0.0
+          },
+          {
+            "entity": "Tomcat03",
+            "confidence": 0.1403
+          },
+          {
+            "entity": "Mysql02",
+            "confidence": 0.0517
+          },
+          {
+            "entity": "Redis01",
+            "confidence": 0.0517
+          }
+        ],
+        "eliminated": [
+          {
+            "entity": "Tomcat04"
+          },
+          {
+            "entity": "apache01"
+          },
+          {
+            "entity": "apache02"
+          }
+        ]
+      },
+      "prediction": {
+        "component": [
+          "Tomcat01"
+        ],
+        "reason": [
+          "high memory usage"
+        ],
+        "time": [
+          "2021-03-07 16:08:00"
+        ],
+        "top_score": 0.5479679590093751
+      },
+      "ground_truth": {
+        "component": "MG01",
+        "reason": "network latency",
+        "datetime": "2021-03-07 16:08:00"
+      },
+      "top_candidates": [
+        {
+          "entity": "Tomcat01",
+          "score": 0.548
+        },
+        {
+          "entity": "Tomcat02",
+          "score": 0.1517
+        }
+      ],
+      "stop_reason": ""
+    }
+  ]
+}
