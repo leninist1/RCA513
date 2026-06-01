@@ -59,14 +59,13 @@ python -m prism_v3.certify_artifact artifacts/bank_oof_ltr_scores.csv \
   --artifact-type no_leak_ltr_scores \
   --feature-pipeline-version noise_lab_no_gt_v1 \
   --anchor-sources public_query_window \
-  --fit-query-ids-file artifacts/train_query_ids.txt \
+  --fit-query-ids "Bank::task_1:0,Bank::task_2:1" \
   --fit-systems Bank \
   --git-commit "$(git rev-parse HEAD)"
 ```
 
-Note: `certify_artifact.py` currently accepts comma-separated `--fit-query-ids`.
-For long lists, generate the manifest programmatically or pass a comma-separated
-string.
+`certify_artifact.py` accepts comma-separated `--fit-query-ids`. For long
+lists, generate the manifest programmatically or pass a comma-separated string.
 
 Then use the artifact in strict inference:
 
@@ -104,8 +103,8 @@ The tests verify that:
 - legacy score CSV files without manifests are rejected;
 - current-query in-fold artifacts are rejected;
 - checksum tampering is detected;
-- the label-free feature runner does not call `match_query_to_records`,
-  `load_records`, or `record.csv`.
+- the label-free feature runner does not call `match_query_to_records` or
+  `load_records`.
 
 ## Legacy NoiseLab runner
 
