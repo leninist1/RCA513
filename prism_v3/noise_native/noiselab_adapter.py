@@ -1,13 +1,16 @@
 """Adapters from NoiseLab outputs into structured EvidenceFrame objects."""
 
 from __future__ import annotations
-
 from typing import Any, Dict, List, Optional, Sequence
-
 import numpy as np
 import pandas as pd
 
 from ..config import QueryCase, UnifiedTelemetry
+from ..leakage_guard import (
+    UntrustedArtifactError,
+    build_query_id,
+    validate_external_artifact,
+)
 from .evidence_frame import (
     CandidateFrame,
     EvidenceFrame,
@@ -16,14 +19,19 @@ from .evidence_frame import (
     softmax,
 )
 
-
 _SCORES_CACHE: Dict[str, pd.DataFrame] = {}
 
 
 class NoiseLabEvidenceAdapter:
-    def __init__(self, strategy: str = "ltr_full", temperature: float = 0.45) -> None:
+    def __init__(
+        self,
+        strategy: str = "ltr_full",
+        temperature: float = 0.45,
+        strict_external_artifacts: bool = True,
+    ) -> None:
         self.strategy = str(strategy or "ltr_full")
         self.temperature = max(float(temperature), 1e-9)
+        self.strict_external_artifacts = bool(strict_external_artifacts)
 
     def from_scores_csv(
         self,
@@ -40,7 +48,14 @@ class NoiseLabEvidenceAdapter:
                 task_index=str(query.task_index),
                 reason="missing_query_index",
             )
+        manifest_debug: Dict[str, Any] = {}
         try:
+            if self.strict_external_artifacts:
+                manifest = validate_external_artifact(
+                    path,
+                    current_query_id=build_query_id(query),
+                )
+                manifest_debug = manifest.to_debug()
             table = _SCORES_CACHE.get(path)
             if table is None:
                 table = pd.read_csv(path)
@@ -57,6 +72,7 @@ class NoiseLabEvidenceAdapter:
                     query_index=int(query_index),
                     task_index=str(query.task_index),
                     reason="no_matching_rows",
+                    metadata={"path": path, "artifact_manifest": manifest_debug},
                 )
             score_col = self.score_column(rows)
             if score_col not in rows.columns:
@@ -68,8 +84,8 @@ class NoiseLabEvidenceAdapter:
                     query_index=int(query_index),
                     task_index=str(query.task_index),
                     reason=f"missing_score_column:{score_col}",
+                    metadata={"path": path, "artifact_manifest": manifest_debug},
                 )
-            rows = rows.copy()
             values = (
                 rows[score_col]
                 .astype(float)
@@ -80,9 +96,7 @@ class NoiseLabEvidenceAdapter:
             probs = softmax(values / self.temperature)
             entity_keys = {canonical_entity_name(entity) for entity in entities}
             candidates: List[CandidateFrame] = []
-            for rank, (row, prob) in enumerate(
-                zip(rows.itertuples(index=False), probs), start=1
-            ):
+            for rank, (row, prob) in enumerate(zip(rows.itertuples(index=False), probs), start=1):
                 object_id = str(getattr(row, "object_id", ""))
                 if canonical_entity_name(object_id) not in entity_keys:
                     continue
@@ -103,6 +117,7 @@ class NoiseLabEvidenceAdapter:
                     query_index=int(query_index),
                     task_index=str(query.task_index),
                     reason="no_entity_overlap",
+                    metadata={"path": path, "artifact_manifest": manifest_debug},
                 )
             return EvidenceFrame(
                 source="scores_csv",
@@ -112,8 +127,12 @@ class NoiseLabEvidenceAdapter:
                 query_index=int(query_index),
                 task_index=str(query.task_index),
                 candidates=candidates,
-                metadata={"path": path},
+                metadata={"path": path, "artifact_manifest": manifest_debug},
             )
+        except UntrustedArtifactError:
+            # A configured external prior must never silently downgrade to a
+            # legacy or unverifiable artifact in strict mode.
+            raise
         except Exception as exc:
             return EvidenceFrame(
                 source="scores_csv",
@@ -122,6 +141,7 @@ class NoiseLabEvidenceAdapter:
                 query_index=int(query_index),
                 task_index=str(query.task_index),
                 error=str(exc),
+                metadata={"path": path, "artifact_manifest": manifest_debug},
             )
 
     def from_runtime_scorer(
@@ -146,9 +166,7 @@ class NoiseLabEvidenceAdapter:
             structural_scores = StructuralObjectEncoder().encode(object_graph)
             delay_scores = DelayPatternLocalizer().score(object_graph)
             beam_scores = StructuralBeamformer().score(object_graph)
-            subspace_scores = SourceNoiseSubspaceDecomposer().score(
-                object_graph, beam_scores=beam_scores
-            )
+            subspace_scores = SourceNoiseSubspaceDecomposer().score(object_graph, beam_scores=beam_scores)
             mask_scores = ReverbSuppressionMask().score(
                 object_graph,
                 noise_scores=noise_scores,
@@ -188,17 +206,13 @@ class NoiseLabEvidenceAdapter:
                             "metric_score": self._node_attr(object_graph, object_id, "metric_score"),
                             "change_score": self._node_attr(object_graph, object_id, "change_score"),
                         },
-                        log_evidence={
-                            "log_score": self._node_attr(object_graph, object_id, "log_score"),
-                        },
+                        log_evidence={"log_score": self._node_attr(object_graph, object_id, "log_score")},
                         trace_evidence={
                             "trace_score": self._node_attr(object_graph, object_id, "trace_score"),
                             "degree_in": item.get("degree_in", 0.0),
                             "degree_out": item.get("degree_out", 0.0),
                         },
-                        time_candidates=self._runtime_time_candidates(
-                            object_graph, object_id
-                        ),
+                        time_candidates=self._runtime_time_candidates(object_graph, object_id),
                         reason_candidates=self._reason_candidates_from_mapping(item),
                         structural_features={
                             "noise": noise_scores.get(object_id, {}),
@@ -208,12 +222,8 @@ class NoiseLabEvidenceAdapter:
                             "subspace": subspace_scores.get(object_id, {}),
                             "reverb": mask_scores.get(object_id, {}),
                         },
-                        symptomness=float(
-                            structural_scores.get(object_id, {}).get("symptom_likelihood", 0.0)
-                        ),
-                        source_likelihood=float(
-                            structural_scores.get(object_id, {}).get("source_likelihood", 0.0)
-                        ),
+                        symptomness=float(structural_scores.get(object_id, {}).get("symptom_likelihood", 0.0)),
+                        source_likelihood=float(structural_scores.get(object_id, {}).get("source_likelihood", 0.0)),
                         rank=rank,
                         prior_mass=rank_to_prior_mass(score, rank, lo, hi),
                     )
@@ -235,6 +245,7 @@ class NoiseLabEvidenceAdapter:
                 metadata={
                     "graph_query": graph_debug.get("query"),
                     "object_count": len(getattr(object_graph, "nodes", {})),
+                    "feature_generation": "runtime_no_gt",
                 },
             )
         except Exception as exc:
@@ -251,17 +262,9 @@ class NoiseLabEvidenceAdapter:
             return "ltr_score"
         if self.strategy == "base":
             return "base_score"
-        if self.strategy in rows.columns:
-            return self.strategy
         return self.strategy
 
-    def _candidate_from_score_row(
-        self,
-        row: Any,
-        rank: int,
-        score_col: str,
-        prior_mass: float,
-    ) -> CandidateFrame:
+    def _candidate_from_score_row(self, row: Any, rank: int, score_col: str, prior_mass: float) -> CandidateFrame:
         object_id = str(getattr(row, "object_id", ""))
         score = float(getattr(row, score_col, 0.0))
         return CandidateFrame(
@@ -297,17 +300,11 @@ class NoiseLabEvidenceAdapter:
         has_earliest = self._row_float(row, "has_earliest")
         if has_earliest <= 0:
             return []
-        return [
-            {
-                "kind": "earliest_offset",
-                "offset_seconds": self._row_float(row, "earliest_offset"),
-                "support": has_earliest,
-            }
-        ]
+        return [{"kind": "earliest_offset", "offset_seconds": self._row_float(row, "earliest_offset"), "support": has_earliest}]
 
     def _runtime_time_candidates(self, graph: Any, object_id: str) -> List[Dict[str, Any]]:
         node = getattr(graph, "nodes", {}).get(object_id)
-        earliest_ts = getattr(node, "earliest_ts", None)
+        earliest_ts = getattr(node, "earliest_timestamp", None)
         if earliest_ts is None:
             return []
         return [{"kind": "earliest_ts", "timestamp": float(earliest_ts), "support": 1.0}]
@@ -323,11 +320,11 @@ class NoiseLabEvidenceAdapter:
 
     def _prefixed_features(self, row: Any, prefixes: Sequence[str]) -> Dict[str, Any]:
         fields = getattr(row, "_fields", ())
-        result: Dict[str, Any] = {}
-        for field in fields:
-            if any(str(field).startswith(prefix) for prefix in prefixes):
-                result[field] = self._row_float(row, field)
-        return result
+        return {
+            field: self._row_float(row, field)
+            for field in fields
+            if any(str(field).startswith(prefix) for prefix in prefixes)
+        }
 
     def _node_attr(self, graph: Any, object_id: str, attr: str) -> float:
         node = getattr(graph, "nodes", {}).get(object_id)
@@ -339,11 +336,7 @@ class NoiseLabEvidenceAdapter:
         return self._mapping_float(row, name)
 
     def _mapping_float(self, obj: Any, name: str) -> float:
-        value = 0.0
-        if isinstance(obj, dict):
-            value = obj.get(name, 0.0)
-        else:
-            value = getattr(obj, name, 0.0)
+        value = obj.get(name, 0.0) if isinstance(obj, dict) else getattr(obj, name, 0.0)
         try:
             return float(value)
         except (TypeError, ValueError):
