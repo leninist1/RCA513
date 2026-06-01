@@ -21,6 +21,7 @@ from typing import Any, Dict, List, Optional, Tuple
 
 import pandas as pd
 
+from .cache.feature_store import FeatureCacheStore
 from .config import EvalResult, QueryCase, SYSTEM_PATHS
 from .data.loader import OpenRCALoader
 from .evaluation.aggregator import EvalAggregator
@@ -356,6 +357,11 @@ def make_prism_config(args: argparse.Namespace) -> PRISMConfig:
         noise_lab_enabled=bool(args.prism_noise_lab),
         noise_lab_scores_csv=str(args.prism_noise_lab_scores or ""),
         noise_lab_strategy=str(args.prism_noise_lab_strategy or "ltr_full"),
+        noise_lab_feature_cache_dir=str(args.feature_cache_dir or ""),
+        noise_lab_strict_feature_cache=not bool(
+            getattr(args, "feature_cache_non_strict", False)
+            or getattr(args, "feature_cache_dev_recompute", False)
+        ),
         noise_lab_prior_weight=float(args.prism_noise_prior_weight),
         noise_lab_final_weight=float(args.prism_noise_final_weight),
         noise_native_agent_enabled=not bool(
@@ -401,6 +407,11 @@ def make_prism_config(args: argparse.Namespace) -> PRISMConfig:
         object_induction_cache_enabled=not bool(args.prism_disable_object_induction_cache),
         object_induction_cache_max_entries=int(args.prism_object_cache_max_entries),
         memory_debug_enabled=not bool(args.prism_disable_memory_debug),
+        feature_cache_dir=str(getattr(args, "feature_cache_dir", "") or ""),
+        feature_cache_strict=not bool(
+            getattr(args, "feature_cache_non_strict", False)
+            or getattr(args, "feature_cache_dev_recompute", False)
+        ),
         use_learned_embeddings=bool(args.v2_all or args.v2_learned or args.v2_learned_embeddings),
         use_learned_likelihood=bool(args.v2_all or args.v2_learned or args.v2_learned_likelihood),
         use_learned_classifier=bool(args.v2_all or args.v2_learned or args.v2_learned_classifier),
@@ -524,6 +535,8 @@ def process_query_worker(payload: Dict[str, Any]) -> Dict[str, Any]:
             }
         )
         result["runtime_debug"]["load_telemetry_sec"] = round(float(payload.get("load_telemetry_sec", 0.0)), 6)
+        if payload.get("telemetry_cache_debug"):
+            result["runtime_debug"]["telemetry_cache"] = dict(payload.get("telemetry_cache_debug") or {})
         result["runtime_debug"]["inference_anchor"] = anchor_debug
         result["runtime_debug"]["leakage_guard"] = {
             "inference_query_has_ground_truth": bool(query.ground_truth),
@@ -557,6 +570,9 @@ def config_dict(args: argparse.Namespace) -> Dict[str, Any]:
         "prism_noise_lab",
         "prism_noise_lab_scores",
         "prism_noise_lab_strategy",
+        "feature_cache_dir",
+        "feature_cache_non_strict",
+        "feature_cache_dev_recompute",
         "prism_noise_prior_weight",
         "prism_noise_final_weight",
         "prism_disable_noise_native_agent",
@@ -610,10 +626,13 @@ def add_args(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("--prism-noise-lab", action="store_true")
     parser.add_argument("--prism-noise-lab-scores", default="")
     parser.add_argument("--prism-noise-lab-strategy", default="ltr_full")
+    parser.add_argument("--feature-cache-dir", default="")
+    parser.add_argument("--feature-cache-non-strict", action="store_true")
+    parser.add_argument("--feature-cache-dev-recompute", action="store_true")
     parser.add_argument("--prism-noise-prior-weight", type=float, default=0.30)
     parser.add_argument("--prism-noise-final-weight", type=float, default=0.35)
     parser.add_argument("--prism-disable-noise-native-agent", action="store_true")
-    parser.add_argument("--prism-noise-native-max-events", type=int, default=10)
+    parser.add_argument("--prism-noise-native-max-events", type=int, default=20)
     parser.add_argument("--prism-noise-native-max-rounds", type=int, default=2)
     parser.add_argument("--prism-noise-native-w-noise", type=float, default=1.00)
     parser.add_argument("--prism-noise-native-w-metric", type=float, default=0.85)
@@ -733,7 +752,20 @@ def main() -> None:
                     continue
                 print(f"    Date {date_str}: loading telemetry...", end=" ", flush=True)
                 t0 = time.time()
-                telemetry = loader.load_telemetry(date_str, sub)
+                telemetry_cache_debug: Dict[str, Any] = {}
+                if str(args.feature_cache_dir or "").strip():
+                    cache_store = FeatureCacheStore(
+                        args.feature_cache_dir,
+                        strict=not bool(
+                            getattr(args, "feature_cache_non_strict", False)
+                            or getattr(args, "feature_cache_dev_recompute", False)
+                        ),
+                    )
+                    telemetry, telemetry_cache_debug = cache_store.load_or_build_telemetry(
+                        loader, date_str, sub
+                    )
+                else:
+                    telemetry = loader.load_telemetry(date_str, sub)
                 load_telemetry_sec = time.time() - t0
                 print(f"({load_telemetry_sec:.1f}s, {len(date_queries)} queries)", flush=True)
                 global _SHARED_TELEMETRY
@@ -754,6 +786,7 @@ def main() -> None:
                             "query_index": getattr(query, "query_index", -1),
                             "config_args": config_args,
                             "load_telemetry_sec": load_telemetry_sec if idx == 0 else 0.0,
+                            "telemetry_cache_debug": telemetry_cache_debug if idx == 0 else {},
                         }
                     )
                 n_workers = max(1, min(args.workers, len(worker_payloads)))

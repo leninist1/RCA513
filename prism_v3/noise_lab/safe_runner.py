@@ -15,6 +15,7 @@ from hashlib import sha256
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple
 
+from ..cache.feature_store import FeatureCacheStore, FeaturePipelineResult
 from ..config import QueryCase, SYSTEM_PATHS
 from ..data.loader import OpenRCALoader
 from ..leakage_guard import (
@@ -24,11 +25,12 @@ from ..leakage_guard import (
     build_query_id,
 )
 from ..mace.graph import build_object_graph
+from ..time_anchor import anchor_stability, build_anchor_set, public_query_anchor
 from .beamformer import StructuralBeamformer
 from .delay_localizer import DelayPatternLocalizer
 from .noise_field import NoiseFieldScorer
+from .ranking import rank_objects
 from .reverb_mask import ReverbSuppressionMask
-from .runner import _rank_objects
 from .structural_encoder import StructuralObjectEncoder
 from .subspace import SourceNoiseSubspaceDecomposer
 
@@ -45,15 +47,10 @@ def _sha256(path: Path) -> str:
 
 
 def _public_anchor(loader: OpenRCALoader, query: QueryCase) -> Optional[InferenceAnchor]:
-    timestamp = loader.infer_query_anchor_time(query)
-    if timestamp is None:
+    hypothesis = public_query_anchor(query)
+    if hypothesis is None:
         return None
-    return InferenceAnchor(
-        timestamp=float(timestamp),
-        source=AnchorSource.PUBLIC_QUERY_WINDOW,
-        confidence=1.0,
-        evidence_ids=("query.time_window.start",),
-    )
+    return hypothesis.to_inference_anchor()
 
 
 def _clean_query(query: QueryCase, query_index: int) -> QueryCase:
@@ -76,16 +73,76 @@ def _feature_rows_for_query(
     loader: OpenRCALoader,
     query: QueryCase,
     query_index: int,
+    *,
+    feature_cache_dir: Optional[str] = None,
+    multi_anchor: bool = False,
+    anchor_top_k: int = 5,
+    strict_cache: bool = True,
 ) -> List[Dict[str, Any]]:
     query = _clean_query(query, query_index)
-    anchor = _public_anchor(loader, query)
-    if anchor is None:
-        return []
-    query.inject_time = anchor.timestamp
     query.telemetry_date = loader.resolve_telemetry_date(query)
     if not query.telemetry_date:
         return []
     telemetry = loader.load_telemetry(query.telemetry_date, query.sub_system)
+    if multi_anchor:
+        anchor_set = build_anchor_set(telemetry, query, top_k=anchor_top_k)
+        anchors = anchor_set.to_inference_anchors()
+    else:
+        anchor = _public_anchor(loader, query)
+        anchors = [anchor] if anchor is not None else []
+        anchor_set = None
+    if not anchors:
+        return []
+    store = (
+        FeatureCacheStore(
+            feature_cache_dir,
+            feature_pipeline_version=FEATURE_PIPELINE_VERSION,
+            strict=bool(strict_cache),
+        )
+        if feature_cache_dir
+        else None
+    )
+    all_rows: List[Dict[str, Any]] = []
+    rankings = []
+    for anchor in anchors:
+        query.inject_time = anchor.timestamp
+        config_hash = store.config_hash({"multi_anchor": bool(multi_anchor)}) if store else ""
+
+        def compute() -> FeaturePipelineResult:
+            return _compute_feature_pipeline(telemetry, query, anchor, query_index)
+
+        if store is not None:
+            hit = store.get_or_compute(
+                query,
+                anchor,
+                telemetry,
+                compute,
+                config_hash=config_hash,
+                allow_recompute_on_error=not bool(strict_cache),
+            )
+            rows = list(hit.rows)
+            for row in rows:
+                row["feature_cache_hit"] = bool(hit.metadata.get("cache_hit", False))
+                row["feature_cache_dir"] = str(hit.cache_dir)
+        else:
+            result = compute()
+            rows = list(result.rows)
+        all_rows.extend(rows)
+        rankings.append((anchor.confidence, [str(row.get("object_id", "")) for row in rows]))
+    if multi_anchor:
+        stability = anchor_stability(rankings, top_k=10)
+        for row in all_rows:
+            row["anchor_stability"] = float(stability.get(str(row.get("object_id", "")), 0.0))
+            row["anchor_set_size"] = len(anchors)
+    return all_rows
+
+
+def _compute_feature_pipeline(
+    telemetry: Any,
+    query: QueryCase,
+    anchor: InferenceAnchor,
+    query_index: int,
+) -> FeaturePipelineResult:
     object_graph, graph_debug = build_object_graph(telemetry, query, anchor.timestamp)
     noise_scores = NoiseFieldScorer().score(object_graph)
     structural_scores = StructuralObjectEncoder().encode(object_graph)
@@ -102,7 +159,7 @@ def _feature_rows_for_query(
         beam_scores=beam_scores,
         subspace_scores=subspace_scores,
     )
-    ranking = _rank_objects(
+    ranking = rank_objects(
         object_graph,
         noise_scores,
         structural_scores,
@@ -126,6 +183,8 @@ def _feature_rows_for_query(
             "anchor_timestamp": float(anchor.timestamp),
             "anchor_source": anchor.source.value,
             "anchor_confidence": float(anchor.confidence),
+            "anchor_stability": 1.0,
+            "anchor_evidence_ids": "|".join(anchor.evidence_ids),
             "object_id": object_id,
             "rank": int(rank),
             "base_score": float(candidate.get("score", 0.0)),
@@ -148,12 +207,25 @@ def _feature_rows_for_query(
         _flatten("subspace", dict(candidate.get("subspace", {}) or {}), row)
         _flatten("mask", dict(candidate.get("reverb_mask", {}) or {}), row)
         rows.append(row)
-    return rows
+    graph_debug = dict(graph_debug or {})
+    graph_debug["anchor_timestamp"] = float(anchor.timestamp)
+    graph_debug["anchor_source"] = anchor.source.value
+    return FeaturePipelineResult(
+        object_graph=object_graph,
+        graph_debug=graph_debug,
+        rows=rows,
+        metadata={"query_index": int(query_index), "anchor_source": anchor.source.value},
+    )
 
 
 def generate_no_gt_feature_rows(
     system_name: str,
     max_queries: Optional[int] = None,
+    *,
+    feature_cache_dir: Optional[str] = None,
+    multi_anchor: bool = False,
+    anchor_top_k: int = 5,
+    strict_cache: bool = True,
 ) -> List[Dict[str, Any]]:
     """Generate label-free candidate rows for one system.
 
@@ -169,7 +241,17 @@ def generate_no_gt_feature_rows(
         for query in queries:
             if max_queries is not None and query_counter >= max_queries:
                 return rows
-            rows.extend(_feature_rows_for_query(loader, query, query_counter))
+            rows.extend(
+                _feature_rows_for_query(
+                    loader,
+                    query,
+                    query_counter,
+                    feature_cache_dir=feature_cache_dir,
+                    multi_anchor=multi_anchor,
+                    anchor_top_k=anchor_top_k,
+                    strict_cache=strict_cache,
+                )
+            )
             query_counter += 1
     return rows
 
@@ -177,7 +259,7 @@ def generate_no_gt_feature_rows(
 def write_feature_csv(rows: Sequence[Dict[str, Any]], output: str) -> Path:
     path = Path(output)
     path.parent.mkdir(parents=True, exist_ok=True)
-    fieldnames = sorted({key for row in rows for key in row})
+    fieldnames = sorted({key for row in rows for key in row}) or ["query_id"]
     with path.open("w", encoding="utf-8", newline="") as handle:
         writer = csv.DictWriter(handle, fieldnames=fieldnames)
         writer.writeheader()
@@ -186,13 +268,20 @@ def write_feature_csv(rows: Sequence[Dict[str, Any]], output: str) -> Path:
     return path
 
 
-def write_manifest(path: Path, *, system_name: str, row_count: int) -> Path:
+def write_manifest(
+    path: Path,
+    *,
+    system_name: str,
+    row_count: int,
+    anchor_sources: Optional[Sequence[str]] = None,
+) -> Path:
     manifest_path = Path(f"{path}.manifest.json")
+    sources = list(anchor_sources or [AnchorSource.PUBLIC_QUERY_WINDOW.value])
     payload = {
         "artifact_type": "no_leak_noiselab_scores",
         "feature_pipeline_version": FEATURE_PIPELINE_VERSION,
         "generated_without_gt": True,
-        "allowed_anchor_sources": [AnchorSource.PUBLIC_QUERY_WINDOW.value],
+        "allowed_anchor_sources": sources,
         "fit_query_ids": [],
         "fit_dates": [],
         "fit_systems": [],
@@ -215,10 +304,29 @@ def main() -> None:
     parser.add_argument("--system", required=True, choices=list(SYSTEM_PATHS))
     parser.add_argument("--output", required=True)
     parser.add_argument("--max-queries", type=int, default=None)
+    parser.add_argument("--feature-cache-dir", default="")
+    parser.add_argument("--multi-anchor", action="store_true")
+    parser.add_argument("--anchor-top-k", type=int, default=5)
+    parser.add_argument("--cache-dev-recompute", action="store_true")
     args = parser.parse_args()
-    rows = generate_no_gt_feature_rows(args.system, max_queries=args.max_queries)
+    rows = generate_no_gt_feature_rows(
+        args.system,
+        max_queries=args.max_queries,
+        feature_cache_dir=args.feature_cache_dir or None,
+        multi_anchor=bool(args.multi_anchor),
+        anchor_top_k=int(args.anchor_top_k),
+        strict_cache=not bool(args.cache_dev_recompute),
+    )
     output = write_feature_csv(rows, args.output)
-    manifest = write_manifest(output, system_name=args.system, row_count=len(rows))
+    anchor_sources = sorted({str(row.get("anchor_source", "")) for row in rows if row.get("anchor_source")})
+    if not anchor_sources:
+        anchor_sources = [AnchorSource.PUBLIC_QUERY_WINDOW.value]
+    manifest = write_manifest(
+        output,
+        system_name=args.system,
+        row_count=len(rows),
+        anchor_sources=anchor_sources,
+    )
     print(json.dumps({"rows": len(rows), "output": str(output), "manifest": str(manifest)}, indent=2))
 
 

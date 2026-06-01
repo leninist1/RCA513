@@ -5,6 +5,7 @@ from typing import Any, Dict, List, Optional, Sequence
 import numpy as np
 import pandas as pd
 
+from ..cache.store import CacheValidationError
 from ..config import QueryCase, UnifiedTelemetry
 from ..leakage_guard import (
     UntrustedArtifactError,
@@ -28,10 +29,14 @@ class NoiseLabEvidenceAdapter:
         strategy: str = "ltr_full",
         temperature: float = 0.45,
         strict_external_artifacts: bool = True,
+        feature_cache_dir: str = "",
+        strict_feature_cache: bool = True,
     ) -> None:
         self.strategy = str(strategy or "ltr_full")
         self.temperature = max(float(temperature), 1e-9)
         self.strict_external_artifacts = bool(strict_external_artifacts)
+        self.feature_cache_dir = str(feature_cache_dir or "")
+        self.strict_feature_cache = bool(strict_feature_cache)
 
     def from_scores_csv(
         self,
@@ -133,6 +138,8 @@ class NoiseLabEvidenceAdapter:
             # A configured external prior must never silently downgrade to a
             # legacy or unverifiable artifact in strict mode.
             raise
+        except CacheValidationError:
+            raise
         except Exception as exc:
             return EvidenceFrame(
                 source="scores_csv",
@@ -152,12 +159,36 @@ class NoiseLabEvidenceAdapter:
         entities: Sequence[str],
     ) -> EvidenceFrame:
         try:
+            if self.feature_cache_dir:
+                from ..cache.feature_store import FeatureCacheStore
+                from ..leakage_guard import AnchorSource
+
+                anchor_source = str(
+                    getattr(query, "anchor_source", "")
+                    or AnchorSource.TELEMETRY_UNSUPERVISED_ONSET.value
+                )
+                query.inject_time = float(inject_time)
+                store = FeatureCacheStore(
+                    self.feature_cache_dir,
+                    strict=self.strict_feature_cache,
+                )
+                frame, cache_debug = store.load_or_build_noiselab_features(
+                    telemetry=telemetry,
+                    query=query,
+                    anchor_timestamp=float(inject_time),
+                    anchor_source=anchor_source,
+                    entities=entities,
+                    strategy=self.strategy,
+                    temperature=self.temperature,
+                )
+                frame.metadata.update({"feature_generation": "runtime_no_gt_cache", **cache_debug})
+                return frame
             from ..mace.graph import build_object_graph
             from ..noise_lab.beamformer import StructuralBeamformer
             from ..noise_lab.delay_localizer import DelayPatternLocalizer
             from ..noise_lab.noise_field import NoiseFieldScorer
+            from ..noise_lab.ranking import rank_objects
             from ..noise_lab.reverb_mask import ReverbSuppressionMask
-            from ..noise_lab.runner import _rank_objects
             from ..noise_lab.structural_encoder import StructuralObjectEncoder
             from ..noise_lab.subspace import SourceNoiseSubspaceDecomposer
 
@@ -175,7 +206,7 @@ class NoiseLabEvidenceAdapter:
                 beam_scores=beam_scores,
                 subspace_scores=subspace_scores,
             )
-            ranking = _rank_objects(
+            ranking = rank_objects(
                 object_graph,
                 noise_scores,
                 structural_scores,
@@ -248,6 +279,8 @@ class NoiseLabEvidenceAdapter:
                     "feature_generation": "runtime_no_gt",
                 },
             )
+        except CacheValidationError:
+            raise
         except Exception as exc:
             return EvidenceFrame(
                 source="runtime_scorer",
@@ -256,6 +289,86 @@ class NoiseLabEvidenceAdapter:
                 task_index=str(query.task_index),
                 error=str(exc),
             )
+
+    def _frame_from_feature_rows(
+        self,
+        *,
+        rows: Sequence[Dict[str, Any]],
+        graph: Any,
+        query: QueryCase,
+        entities: Sequence[str],
+        metadata: Dict[str, Any],
+    ) -> EvidenceFrame:
+        if not rows:
+            return EvidenceFrame(
+                source="runtime_scorer",
+                applied=False,
+                strategy=self.strategy,
+                task_index=str(query.task_index),
+                reason="empty_feature_cache_rows",
+                metadata=metadata,
+            )
+        score_col = "base_score"
+        values = np.array([self._mapping_float(row, score_col) for row in rows], dtype=float)
+        lo = float(np.min(values)) if values.size else 0.0
+        hi = float(np.max(values)) if values.size else 0.0
+        entity_keys = {canonical_entity_name(entity) for entity in entities}
+        candidates: List[CandidateFrame] = []
+        for rank, row in enumerate(rows, start=1):
+            object_id = str(row.get("object_id", ""))
+            if canonical_entity_name(object_id) not in entity_keys:
+                continue
+            score = self._mapping_float(row, score_col)
+            candidates.append(
+                CandidateFrame(
+                    candidate_id=f"cache:{getattr(query, 'query_index', '')}:{rank}:{object_id}",
+                    component_id=object_id,
+                    object_id=object_id,
+                    noise_score=score,
+                    calibrated_logit=score,
+                    metric_evidence={
+                        "anomaly_score": self._mapping_float(row, "anomaly_score"),
+                        "metric_score": self._mapping_float(row, "metric_score"),
+                        "change_score": self._mapping_float(row, "change_score"),
+                    },
+                    log_evidence={"log_score": self._mapping_float(row, "log_score")},
+                    trace_evidence={
+                        "trace_score": self._mapping_float(row, "trace_score"),
+                        "degree_in": self._mapping_float(row, "degree_in"),
+                        "degree_out": self._mapping_float(row, "degree_out"),
+                    },
+                    time_candidates=self._time_candidates_from_mapping(row),
+                    reason_candidates=self._reason_candidates_from_mapping(row),
+                    structural_features=self._prefixed_mapping_features(
+                        row,
+                        prefixes=("noise_", "structure_", "delay_", "beam_", "subspace_", "mask_"),
+                    ),
+                    symptomness=self._mapping_float(row, "structure_symptom_likelihood"),
+                    source_likelihood=self._mapping_float(row, "structure_source_likelihood"),
+                    rank=rank,
+                    prior_mass=rank_to_prior_mass(score, rank, lo, hi),
+                )
+            )
+        if not candidates:
+            return EvidenceFrame(
+                source="runtime_scorer",
+                applied=False,
+                strategy=self.strategy,
+                task_index=str(query.task_index),
+                reason="no_entity_overlap",
+                metadata=metadata,
+            )
+        return EvidenceFrame(
+            source="runtime_scorer",
+            applied=True,
+            strategy=self.strategy,
+            task_index=str(query.task_index),
+            candidates=candidates,
+            metadata={
+                **metadata,
+                "object_count": len(getattr(graph, "nodes", {}) or {}),
+            },
+        )
 
     def score_column(self, rows: pd.DataFrame) -> str:
         if self.strategy in {"ltr_full", "ltr", "xgbrank"}:
@@ -302,6 +415,15 @@ class NoiseLabEvidenceAdapter:
             return []
         return [{"kind": "earliest_offset", "offset_seconds": self._row_float(row, "earliest_offset"), "support": has_earliest}]
 
+    def _time_candidates_from_mapping(self, row: Dict[str, Any]) -> List[Dict[str, Any]]:
+        earliest = row.get("earliest_timestamp")
+        try:
+            if earliest is not None and not pd.isna(earliest):
+                return [{"kind": "earliest_ts", "timestamp": float(earliest), "support": 1.0}]
+        except (TypeError, ValueError):
+            pass
+        return []
+
     def _runtime_time_candidates(self, graph: Any, object_id: str) -> List[Dict[str, Any]]:
         node = getattr(graph, "nodes", {}).get(object_id)
         earliest_ts = getattr(node, "earliest_timestamp", None)
@@ -323,6 +445,13 @@ class NoiseLabEvidenceAdapter:
         return {
             field: self._row_float(row, field)
             for field in fields
+            if any(str(field).startswith(prefix) for prefix in prefixes)
+        }
+
+    def _prefixed_mapping_features(self, row: Dict[str, Any], prefixes: Sequence[str]) -> Dict[str, Any]:
+        return {
+            field: self._mapping_float(row, field)
+            for field in row
             if any(str(field).startswith(prefix) for prefix in prefixes)
         }
 

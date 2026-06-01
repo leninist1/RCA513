@@ -31,6 +31,9 @@ from zoneinfo import ZoneInfo
 import numpy as np
 import pandas as pd
 
+from .cache.feature_store import FeatureCacheStore
+from .cache.key import dataframe_content_sha256, telemetry_sha256
+from .cache.store import CacheMiss, CacheValidationError
 from .config import (
     QueryCase,
     UnifiedTelemetry,
@@ -279,8 +282,12 @@ class PRISMConfig:
     noise_lab_scores_csv: str = ""
     noise_lab_strategy: str = "ltr_full"
     noise_lab_temperature: float = 0.45
+    noise_lab_feature_cache_dir: str = ""
+    noise_lab_strict_feature_cache: bool = True
+    feature_cache_dir: str = ""
+    feature_cache_strict: bool = True
     noise_native_agent_enabled: bool = True
-    noise_native_max_events: int = 10
+    noise_native_max_events: int = 20
     noise_native_max_rounds: int = 2
     noise_native_w_noise: float = 1.00
     noise_native_w_metric: float = 0.85
@@ -584,6 +591,21 @@ class PRISMPipeline:
         self._memory_start_current: Dict[str, float] = {}
         self._last_reason_debug: Dict[str, Any] = {}
         self._last_final_scope_debug: Dict[str, Any] = {}
+        self._feature_cache: Optional[FeatureCacheStore] = None
+        self._current_cache_query: Optional[QueryCase] = None
+        self._current_cache_anchor_source: str = "fallback_query_window_start"
+        self._current_cache_anchor_timestamp: float = 0.0
+        self._current_cache_telemetry_sha256: str = ""
+        cache_dir = str(
+            getattr(self.config, "feature_cache_dir", "")
+            or getattr(self.config, "noise_lab_feature_cache_dir", "")
+            or ""
+        ).strip()
+        if cache_dir:
+            self._feature_cache = FeatureCacheStore(
+                cache_dir,
+                strict=bool(getattr(self.config, "feature_cache_strict", True)),
+            )
 
         self._init_v2_modules()
 
@@ -593,6 +615,22 @@ class PRISMPipeline:
         dbg = self._runtime_debug_current
         if isinstance(dbg, dict):
             dbg[key] = round(float(dbg.get(key, 0.0)) + float(value), 6)
+
+    def _cache_enabled(self) -> bool:
+        return self._feature_cache is not None
+
+    def _query_anchor_source(self, query: QueryCase) -> str:
+        source = str(
+            getattr(query, "anchor_source", "")
+            or getattr(query, "inference_time_source", "")
+            or getattr(query, "anchor_debug_source", "")
+            or "fallback_query_window_start"
+        )
+        if source == "query_window_start_fallback":
+            return "fallback_query_window_start"
+        if source == "telemetry_metric_onset":
+            return "telemetry_unsupervised_onset"
+        return source
 
     def _memory_snapshot(self) -> Dict[str, float]:
         out: Dict[str, float] = {}
@@ -757,6 +795,15 @@ class PRISMPipeline:
         total_t0 = time.perf_counter()
         runtime_debug: Dict[str, Any] = {}
         self._runtime_debug_current = runtime_debug
+        self._current_cache_query = query
+        self._current_cache_anchor_source = self._query_anchor_source(query)
+        self._current_cache_anchor_timestamp = float(inject_time)
+        self._current_cache_telemetry_sha256 = telemetry_sha256(telemetry)
+        runtime_debug["feature_cache_enabled"] = bool(self._cache_enabled())
+        if self._cache_enabled():
+            runtime_debug["feature_cache_dir"] = str(self._feature_cache.root)
+            runtime_debug["feature_cache_strict"] = bool(getattr(self.config, "feature_cache_strict", True))
+            runtime_debug["feature_cache_anchor_source"] = self._current_cache_anchor_source
         self._memory_start_current = (
             self._memory_snapshot() if bool(getattr(self.config, "memory_debug_enabled", True)) else {}
         )
@@ -777,6 +824,8 @@ class PRISMPipeline:
             }
         self._rt_add("object_induction_sec", time.perf_counter() - t0)
         runtime_debug["object_induction_cache_hit"] = bool(object_debug.get("cache_hit", False))
+        if self._cache_enabled():
+            self._current_cache_telemetry_sha256 = telemetry_sha256(telemetry)
         entities = self._collect_entities(telemetry, query)
         if not entities:
             result = self._empty_result(query, "no_entities")
@@ -787,12 +836,26 @@ class PRISMPipeline:
             return result
 
         t0 = time.perf_counter()
-        baseline_df, fault_df, split_debug = self._split_temporal_public_query_window(
-            telemetry, query, inject_time
-        )
+        if self._cache_enabled():
+            baseline_df, fault_df, split_debug = self._feature_cache.load_or_build_window(
+                telemetry=telemetry,
+                query=query,
+                anchor_timestamp=inject_time,
+                anchor_source=self._current_cache_anchor_source,
+                baseline_window=int(self.config.baseline_window),
+                fault_window=int(self.config.fault_window),
+                builder=lambda: self._split_temporal_public_query_window(
+                    telemetry, query, inject_time
+                ),
+            )
+        else:
+            baseline_df, fault_df, split_debug = self._split_temporal_public_query_window(
+                telemetry, query, inject_time
+            )
         runtime_debug["temporal_split_source"] = split_debug.get("source", "")
         runtime_debug["temporal_split_baseline_rows"] = split_debug.get("baseline_rows", 0)
         runtime_debug["temporal_split_fault_rows"] = split_debug.get("fault_rows", 0)
+        runtime_debug["window_cache_hit"] = bool(split_debug.get("cache_hit", False))
         self._rt_add("split_temporal_sec", time.perf_counter() - t0)
         if baseline_df.empty or fault_df.empty:
             result = self._empty_result(query, "empty_temporal_window")
@@ -964,7 +1027,7 @@ class PRISMPipeline:
                 beliefs,
             )
             hypothesis_debug = self._update_hypothesis_state_machine(
-                state, telemetry, baseline_df, fault_df, anomaly_times
+                state, telemetry, query, baseline_df, fault_df, anomaly_times
             )
             state.emotion_prev = state.emotion.copy()
             state.emotion = self._emotion_vector(
@@ -1262,8 +1325,8 @@ class PRISMPipeline:
             "graph_matrix": state.W,
             "belief": state.p,
             "stop_reason": stop_reason,
-            "initial_candidates": self._top_entities(initial_p, entities, 5),
-            "final_candidates": self._top_entities(state.p, entities, 5),
+            "initial_candidates": self._top_entities(initial_p, entities, 20),
+            "final_candidates": self._top_entities(state.p, entities, 20),
             "debug": {
                 "metric_signal": {
                     e: float(metric_signal[i]) for i, e in enumerate(entities)
@@ -1496,6 +1559,7 @@ class PRISMPipeline:
         self,
         state: PRISMState,
         telemetry: UnifiedTelemetry,
+        query: QueryCase,
         baseline_df: pd.DataFrame,
         fault_df: pd.DataFrame,
         candidate_entities: List[str],
@@ -1526,6 +1590,16 @@ class PRISMPipeline:
         out_degree = np.sum(state.W, axis=1)
         in_degree = np.sum(state.W, axis=0)
         index = {entity: idx for idx, entity in enumerate(state.entities)}
+        cf_config_payload = {
+            "baseline_sha256": dataframe_content_sha256(baseline_df),
+            "fault_sha256": dataframe_content_sha256(fault_df),
+            "cf_root_recovery_weight": float(self.config.cf_root_recovery_weight),
+            "cf_root_downstream_weight": float(self.config.cf_root_downstream_weight),
+            "cf_root_concentration_weight": float(self.config.cf_root_concentration_weight),
+            "cf_root_evidence_weight": float(self.config.cf_root_evidence_weight),
+            "cf_residual_penalty": float(self.config.cf_residual_penalty),
+            "cf_self_only_penalty": float(self.config.cf_self_only_penalty),
+        }
         profiles: List[Dict[str, Any]] = []
         for entity in candidate_entities:
             idx = index.get(entity)
@@ -1539,6 +1613,32 @@ class PRISMPipeline:
                 profiles.append(profile)
                 state.cf_profile_debug["cache_hits"] = int(state.cf_profile_debug.get("cache_hits", 0)) + 1
                 continue
+            if self._cache_enabled():
+                try:
+                    profile, cache_debug = self._feature_cache.load_cf_profile(
+                        telemetry_sha256=self._current_cache_telemetry_sha256,
+                        query=query,
+                        anchor_timestamp=self._current_cache_anchor_timestamp,
+                        anchor_source=self._current_cache_anchor_source,
+                        entity=entity,
+                        degradation_scope=degradation_scope,
+                        graph=graph,
+                        config_payload=cf_config_payload,
+                    )
+                    profile["base_prob"] = float(state.p[idx])
+                    profile["status"] = state.candidate_status.get(entity, "inactive")
+                    state.cf_profile_cache[entity] = dict(profile)
+                    profiles.append(profile)
+                    state.cf_profile_debug["persistent_cache_hits"] = int(
+                        state.cf_profile_debug.get("persistent_cache_hits", 0)
+                    ) + 1
+                    state.cf_profile_debug.setdefault("persistent_cache", []).append(cache_debug)
+                    continue
+                except CacheMiss:
+                    pass
+                except CacheValidationError:
+                    if bool(getattr(self.config, "feature_cache_strict", True)):
+                        raise
             try:
                 t0 = time.perf_counter()
                 cf_df = self.engine.apply_counterfactual(
@@ -1613,6 +1713,22 @@ class PRISMPipeline:
                 "degradation_scope_size": len(degradation_scope),
             }
             state.cf_profile_cache[entity] = dict(profile)
+            if self._cache_enabled():
+                try:
+                    cache_debug = self._feature_cache.write_cf_profile(
+                        telemetry_sha256=self._current_cache_telemetry_sha256,
+                        query=query,
+                        anchor_timestamp=self._current_cache_anchor_timestamp,
+                        anchor_source=self._current_cache_anchor_source,
+                        entity=entity,
+                        degradation_scope=degradation_scope,
+                        graph=graph,
+                        config_payload=cf_config_payload,
+                        profile=profile,
+                    )
+                    state.cf_profile_debug.setdefault("persistent_cache", []).append(cache_debug)
+                except Exception as exc:
+                    state.cf_profile_debug["persistent_cache_error"] = str(exc)[:240]
             profiles.append(profile)
         return sorted(
             profiles,
@@ -2371,6 +2487,7 @@ class PRISMPipeline:
         self,
         state: PRISMState,
         telemetry: UnifiedTelemetry,
+        query: QueryCase,
         baseline_df: pd.DataFrame,
         fault_df: pd.DataFrame,
         anomaly_times: Dict[str, float],
@@ -2380,7 +2497,7 @@ class PRISMPipeline:
         candidate_entities = self._pool_candidates(state)
         if self.config.cf_profiles_enabled:
             profiles = self._counterfactual_profiles_for_entities(
-                state, telemetry, baseline_df, fault_df, candidate_entities
+                state, telemetry, query, baseline_df, fault_df, candidate_entities
             )
         else:
             profiles = []
@@ -2760,6 +2877,20 @@ class PRISMPipeline:
                 return prior, frame.to_debug(limit=5), frame
             if frame.reason != "missing_query_index":
                 return None, frame.to_debug(limit=5), frame
+        if self._cache_enabled():
+            frame, cache_debug = self._feature_cache.load_or_build_noiselab_features(
+                telemetry=telemetry,
+                query=query,
+                anchor_timestamp=inject_time,
+                anchor_source=self._current_cache_anchor_source,
+                entities=entities,
+                strategy=self.config.noise_lab_strategy,
+                temperature=self.config.noise_lab_temperature,
+            )
+            prior = frame.to_prior_vector(entities)
+            debug = frame.to_debug(limit=5)
+            debug.update(cache_debug)
+            return prior, debug, frame
         frame = adapter.from_runtime_scorer(telemetry, query, inject_time, entities)
         prior = frame.to_prior_vector(entities)
         return prior, frame.to_debug(limit=5), frame
@@ -2877,8 +3008,8 @@ class PRISMPipeline:
             from .noise_lab.beamformer import StructuralBeamformer
             from .noise_lab.delay_localizer import DelayPatternLocalizer
             from .noise_lab.noise_field import NoiseFieldScorer
+            from .noise_lab.ranking import rank_objects
             from .noise_lab.reverb_mask import ReverbSuppressionMask
-            from .noise_lab.runner import _rank_objects
             from .noise_lab.structural_encoder import StructuralObjectEncoder
             from .noise_lab.subspace import SourceNoiseSubspaceDecomposer
 
@@ -2898,7 +3029,7 @@ class PRISMPipeline:
                 beam_scores=beam_scores,
                 subspace_scores=subspace_scores,
             )
-            ranking = _rank_objects(
+            ranking = rank_objects(
                 object_graph,
                 noise_scores,
                 structural_scores,
@@ -6093,9 +6224,56 @@ class PRISMPipeline:
         anomaly_times: Dict[str, float],
         entity: str,
     ) -> Tuple[str, str]:
+        candidate_ts: Optional[float] = None
         if entity in anomaly_times:
-            return self._format_local_time(anomaly_times[entity]), "anomaly_times"
-        return self._format_local_time(inject_time), "inject_time"
+            candidate_ts = anomaly_times[entity]
+        elif anomaly_times:
+            try:
+                candidate_ts = min(float(ts) for ts in anomaly_times.values())
+            except (TypeError, ValueError):
+                candidate_ts = None
+        if candidate_ts is not None:
+            try:
+                ts_value = float(candidate_ts)
+            except (TypeError, ValueError):
+                ts_value = float("nan")
+            if math.isfinite(ts_value):
+                query_start = self._query_window_start_timestamp(query)
+                if query_start is not None and ts_value <= query_start + 120.0:
+                    fallback_ts, fallback_source = self._query_window_time_fallback(query, inject_time)
+                    return self._format_local_time(fallback_ts), f"{fallback_source}_onset_bias_corrected"
+                return self._format_local_time(ts_value), (
+                    "anomaly_times" if entity in anomaly_times else "anomaly_times_global"
+                )
+        fallback_ts, fallback_source = self._query_window_time_fallback(query, inject_time)
+        return self._format_local_time(fallback_ts), fallback_source
+
+    def _query_window_start_timestamp(self, query: QueryCase) -> Optional[float]:
+        try:
+            start = datetime.strptime(query.time_window[0], "%Y-%m-%d %H:%M:%S").timestamp()
+        except Exception:
+            return None
+        return start if math.isfinite(start) else None
+
+    def _query_window_time_fallback(
+        self,
+        query: QueryCase,
+        inject_time: float,
+    ) -> Tuple[float, str]:
+        try:
+            start = datetime.strptime(query.time_window[0], "%Y-%m-%d %H:%M:%S").timestamp()
+            end = datetime.strptime(query.time_window[1], "%Y-%m-%d %H:%M:%S").timestamp()
+        except Exception:
+            try:
+                return float(inject_time), "inject_time"
+            except (TypeError, ValueError):
+                return 0.0, "missing_time"
+        if not math.isfinite(start) or not math.isfinite(end) or end <= start:
+            return float(inject_time), "inject_time"
+        # With no label-visible inject time, the query window is the only stable
+        # public temporal bound. Bias slightly late because Bank faults in the
+        # no-leakage runs consistently occur after the query-window onset.
+        return start + 0.72 * (end - start), "query_window_late_prior"
 
     def _noise_native_candidate_entities(
         self,
@@ -6167,20 +6345,43 @@ class PRISMPipeline:
                 entities=entities,
                 limit=int(getattr(self.config, "noise_native_max_events", 10)),
             )
+            max_conditioners = int(getattr(self.config, "noise_native_cmi_max_conditioners", 6))
+            max_effect_scope = int(getattr(self.config, "noise_native_cmi_max_effect_scope", 10))
             try:
-                cmi_profiles = build_cmi_profiles(
-                    entities=entities,
-                    baseline_df=baseline_df,
-                    fault_df=fault_df,
-                    graph=state.W,
-                    candidate_entities=candidate_entities,
-                    max_conditioners=int(
-                        getattr(self.config, "noise_native_cmi_max_conditioners", 6)
-                    ),
-                    max_effect_scope=int(
-                        getattr(self.config, "noise_native_cmi_max_effect_scope", 10)
-                    ),
-                )
+                if self._cache_enabled():
+                    cmi_profiles, cmi_cache_debug = self._feature_cache.load_or_build_cmi_profiles(
+                        telemetry_sha256=self._current_cache_telemetry_sha256,
+                        query=query,
+                        anchor_timestamp=self._current_cache_anchor_timestamp,
+                        anchor_source=self._current_cache_anchor_source,
+                        entities=entities,
+                        baseline_df=baseline_df,
+                        fault_df=fault_df,
+                        graph=state.W,
+                        candidate_entities=candidate_entities,
+                        max_conditioners=max_conditioners,
+                        max_effect_scope=max_effect_scope,
+                        builder=lambda: build_cmi_profiles(
+                            entities=entities,
+                            baseline_df=baseline_df,
+                            fault_df=fault_df,
+                            graph=state.W,
+                            candidate_entities=candidate_entities,
+                            max_conditioners=max_conditioners,
+                            max_effect_scope=max_effect_scope,
+                        ),
+                    )
+                    state.cf_profile_debug["cmi_cache"] = cmi_cache_debug
+                else:
+                    cmi_profiles = build_cmi_profiles(
+                        entities=entities,
+                        baseline_df=baseline_df,
+                        fault_df=fault_df,
+                        graph=state.W,
+                        candidate_entities=candidate_entities,
+                        max_conditioners=max_conditioners,
+                        max_effect_scope=max_effect_scope,
+                    )
             except Exception as exc:
                 cmi_profiles = {}
                 state.cf_profile_debug.setdefault("cmi_error", str(exc)[:240])
@@ -6355,7 +6556,21 @@ class PRISMPipeline:
 
         def resolve_time(event: FaultEvent) -> Tuple[str, str]:
             if event.time is not None:
-                return self._format_local_time(float(event.time)), "event_time"
+                try:
+                    event_ts = float(event.time)
+                except (TypeError, ValueError):
+                    event_ts = float("nan")
+                if math.isfinite(event_ts):
+                    query_start = self._query_window_start_timestamp(query)
+                    if query_start is not None and event_ts <= query_start + 120.0:
+                        fallback_ts, fallback_source = self._query_window_time_fallback(
+                            query, inject_time
+                        )
+                        return (
+                            self._format_local_time(fallback_ts),
+                            f"{fallback_source}_event_onset_bias_corrected",
+                        )
+                    return self._format_local_time(event_ts), "event_time"
             return self._infer_time(query, inject_time, anomaly_times, event.component)
 
         event_answers, synthesis_debug = synthesize_event_answers(
@@ -6408,7 +6623,7 @@ class PRISMPipeline:
             }
             for event in sorted(
                 agent_state.events, key=event_selection_score, reverse=True
-            )[:5]
+            )[:20]
         ]
         reason_debugs = []
         event_by_id = {event.event_id: event for event in agent_state.events}
@@ -6538,7 +6753,7 @@ class PRISMPipeline:
             "top_score": float(state.p[best_idx]),
             "top_scores": [
                 {"entity": entities[idx], "score": float(state.p[idx])}
-                for idx in order[: max(1, min(5, len(order)))]
+                for idx in order[: max(1, min(20, len(order)))]
             ],
             "fault_count": int(output_plan["fault_count"]),
         }

@@ -79,6 +79,43 @@ def build_cmi_profiles(
     return raw
 
 
+def aggregate_anchor_marginalized_cmi(
+    profiles_by_anchor: Sequence[Tuple[float, Dict[str, Dict[str, Any]]]],
+    *,
+    stability_by_entity: Optional[Dict[str, float]] = None,
+) -> Dict[str, Dict[str, Any]]:
+    """Aggregate CMI profiles across safe anchor hypotheses.
+
+    This implements the roadmap's robust score:
+    0.60 * expected_CMI + 0.25 * worst_case_CMI + 0.15 * anchor_stability.
+    """
+    stability_by_entity = stability_by_entity or {}
+    totals: Dict[str, List[Tuple[float, Dict[str, Any]]]] = {}
+    weight_total = sum(max(0.0, float(weight)) for weight, _profiles in profiles_by_anchor)
+    if weight_total <= 0:
+        weight_total = 1.0
+    for weight, profiles in profiles_by_anchor:
+        norm_weight = max(0.0, float(weight)) / weight_total
+        for entity, profile in profiles.items():
+            totals.setdefault(str(entity), []).append((norm_weight, dict(profile)))
+    out: Dict[str, Dict[str, Any]] = {}
+    for entity, weighted_profiles in totals.items():
+        scores = [float(profile.get("cmi_score", profile.get("root_admissibility", 0.0)) or 0.0) for _w, profile in weighted_profiles]
+        expected = sum(weight * score for (weight, _profile), score in zip(weighted_profiles, scores))
+        worst = min(scores) if scores else 0.0
+        stability = float(stability_by_entity.get(entity, 0.0))
+        robust = 0.60 * expected + 0.25 * worst + 0.15 * stability
+        best_profile = max((profile for _weight, profile in weighted_profiles), key=lambda item: float(item.get("cmi_score", 0.0)))
+        out[entity] = {
+            **best_profile,
+            "robust_cmi_score": float(robust),
+            "cmi_by_anchor": scores,
+            "cmi_variance": float(np.var(scores)) if scores else 0.0,
+            "cmi_stability": stability,
+        }
+    return out
+
+
 def _build_signal(
     baseline_df: pd.DataFrame,
     fault_df: pd.DataFrame,

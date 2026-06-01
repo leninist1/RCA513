@@ -1,0 +1,16 @@
+system: Bank
+strict_no_leakage: true
+time_anchor:
+  top_k: 5
+  include_public_fallback: true
+feature_cache:
+  enabled: true
+  strict: true
+  directory: artifacts/cache/features
+noise_lab:
+  feature_pipeline_version: noise_lab_no_gt_v1
+  strategy: base
+ltr:
+  split: incident_grouped
+  folds: 5
+  artifact_type: no_leak_ltr_scores
