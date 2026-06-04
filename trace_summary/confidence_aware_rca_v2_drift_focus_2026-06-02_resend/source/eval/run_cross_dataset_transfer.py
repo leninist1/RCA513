@@ -212,6 +212,8 @@ def build_source_knowledge(cfg: DatasetConfig, modalities: set[str]) -> dict[str
     mined_rules = _mine_rules_once(
         cases, config.min_rule_support, config.min_rule_confidence, config.max_rule_len
     )
+    from refute_b_v2_d32.textbook import Textbook
+    textbook = Textbook.build(cases)
 
     return {
         "version": 1,
@@ -231,6 +233,7 @@ def build_source_knowledge(cfg: DatasetConfig, modalities: set[str]) -> dict[str
         ],
         "clusters": clusters,
         "mined_rules": mined_rules,
+        "textbook": textbook.to_dict(),
         "metadata": {
             "n_cases": len(cases),
             "modalities": sorted(modalities),

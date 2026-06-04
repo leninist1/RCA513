@@ -109,6 +109,11 @@ class D32RefutationPipeline:
         out: dict[tuple[str, str], RootCandidate] = {}
         evidence_priors = self._component_evidence_priors(signature)
         services_by_bucket = self._services_by_reason_bucket(signature, evidence_priors)
+
+        # Textbook-based candidates (new)
+        for candidate in self._textbook_candidates(signature, metric_df, log_df):
+            self._put_best(out, candidate)
+
         for cluster in clusters:
             sim = float(cluster.get("similarity", 0.0) or 0.0)
             for row in cluster.get("reason_prior", [])[: self.config.max_cluster_candidates]:
@@ -220,6 +225,96 @@ class D32RefutationPipeline:
                 rows.append(RootCandidate(service, "network latency", 0.0, "empty_fallback", {}))
         return rows
 
+    def _textbook_candidates(
+        self,
+        signature: Mapping[str, Any],
+        metric_df: pd.DataFrame,
+        log_df: pd.DataFrame,
+    ) -> list[RootCandidate]:
+        """Generate candidates using the textbook approach.
+
+        1. Collect system-level symptoms from signature
+        2. Score reasons by symptom match
+        3. For each top reason, rank components by evidence + log + time + prior
+        4. Return top (component, reason) pairs
+        """
+        textbook = self.knowledge.textbook
+        if not textbook.symptom_pattern:
+            return []
+
+        buckets = textbook.metadata.get("buckets", [
+            "cpu", "memory", "disk_io", "filesystem",
+            "network_latency", "network_packet_loss",
+        ])
+
+        # --- 1. Collect system-level symptoms ---
+        symptoms: dict[str, str] = {}
+        for bucket in buckets:
+            symptoms[bucket] = "missing"
+        for svc in signature.get("services", []):
+            metric = svc.get("metric", {})
+            for bucket in buckets:
+                info = metric.get(bucket, {})
+                state = str(info.get("state", "normal"))
+                if state == "support":
+                    symptoms[bucket] = "support"
+                elif bucket not in symptoms or symptoms[bucket] == "missing":
+                    symptoms[bucket] = state
+
+        # --- 2. Score reasons ---
+        top_reasons = textbook.score_reasons(symptoms, top_k=3)
+
+        # --- 3. Compute per-component evidence/log/time for each top reason ---
+        candidates = []
+        for reason, reason_score in top_reasons:
+            primary = textbook.primary_bucket.get(reason, reason)
+            bucket = primary
+
+            # evidence_strengths per component in primary bucket
+            evidence_strengths: dict[str, float] = {}
+            for svc in signature.get("services", []):
+                comp = str(svc.get("service", ""))
+                metric_info = svc.get("metric", {}).get(bucket, {})
+                if metric_info.get("state") == "support":
+                    evidence_strengths[comp] = float(metric_info.get("strength", 0.0) or 0.0)
+
+            # log_hits: components with log matching this reason's bucket
+            log_hits: dict[str, int] = {}
+            if log_df is not None and not log_df.empty and "value" in log_df.columns:
+                from refute_b_v2_d32.schema import reason_bucket as _rb
+                target_bucket = _rb(reason)
+                from refute_b_v2_d32.signature import reason_for_log
+                for svc in signature.get("services", []):
+                    comp = str(svc.get("service", ""))
+                    log_state = svc.get("log", {}).get(bucket, {})
+                    if log_state.get("state") == "support":
+                        log_hits[comp] = 1
+
+            # time_ranks: earlier anomaly → higher rank
+            time_ranks: dict[str, float] = {}
+            if metric_df is not None and not metric_df.empty:
+                time_ranks = _compute_time_ranks(metric_df, self.baseline, primary)
+
+            # --- 4. Rank components ---
+            top_comps = textbook.top_components(
+                reason, evidence_strengths, log_hits, time_ranks, k=3,
+            )
+
+            # --- 5. Generate candidates ---
+            tb_priors = dict(textbook.component_prior.get(reason, []))
+            max_ev = max(evidence_strengths.values()) if evidence_strengths else 1.0
+            for comp in top_comps:
+                tb_p = tb_priors.get(comp, 0.01)
+                norm_ev = min(evidence_strengths.get(comp, 0.0) / max(max_ev, 1.0), 1.0)
+                prior = 0.3 + tb_p * 3.0 + norm_ev * 0.3  # prior-dominated, evidence weak tiebreaker
+                candidates.append(RootCandidate(
+                    str(comp), reason, prior,
+                    "textbook",
+                    {"textbook_prior": tb_p, "primary_bucket": primary, "norm_evidence": norm_ev},
+                ))
+
+        return candidates
+
     def _evaluate(self, candidate: RootCandidate, evidence: D32EvidenceQuery) -> RefutationDecision:
         cards = []
         for rule in self.rules:
@@ -235,8 +330,11 @@ class D32RefutationPipeline:
             card = self._card_for(rule, result)
             if card:
                 cards.append(card)
-        support = sum(card.strength for card in cards if card.polarity == "support")
-        refute = sum(card.strength for card in cards if card.polarity == "refute")
+        import math
+        def _squash(s: float) -> float:
+            return math.log(1.0 + min(abs(s), 10.0))
+        support = sum(_squash(card.strength) for card in cards if card.polarity == "support")
+        refute = sum(_squash(card.strength) for card in cards if card.polarity == "refute")
         blind = sum(1 for card in cards if card.polarity == "blind")
         rebuttal = refute + blind * self.config.blind_penalty - support * self.config.support_credit - candidate.prior * self.config.prior_credit
         confidence = "HIGH" if rebuttal <= 0 and support >= 2 else ("MEDIUM" if rebuttal <= 2 else "LOW")
@@ -294,6 +392,55 @@ class D32RefutationPipeline:
 
 def _signature_services(signature: Mapping[str, Any]) -> list[str]:
     return [str(row.get("service")) for row in signature.get("services", []) if row.get("service")]
+
+
+def _compute_time_ranks(
+    metric_df: pd.DataFrame,
+    baseline,
+    bucket: str,
+) -> dict[str, float]:
+    """Compute time-based priority for each component in a bucket.
+
+    For each component, find the earliest timestamp where any KPI in this bucket
+    exceeds the baseline threshold. Components with earlier anomalies get higher ranks.
+
+    Returns {component: 1/(rank+1)} where rank=1 means earliest anomaly.
+    """
+    from refute_b_v2_d32.evidence import kpi_in_bucket
+    if metric_df is None or metric_df.empty or "kpi_name" not in metric_df.columns:
+        return {}
+
+    rows = metric_df[metric_df["kpi_name"].map(
+        lambda k: kpi_in_bucket(str(k), bucket)
+    ).astype(bool)]
+
+    if rows.empty:
+        return {}
+
+    first_anomaly: dict[str, int] = {}
+    for (cmdb_id, kpi), grp in rows.groupby(["cmdb_id", "kpi_name"]):
+        grp_sorted = grp.sort_values("timestamp")
+        found_ts = None
+        for row in grp_sorted.itertuples(index=False):
+            result = baseline.is_anomalous(row.cmdb_id, row.kpi_name, row.value, threshold="p99")
+            if result.is_anomalous:
+                found_ts = int(row.timestamp)
+                break
+        if found_ts is not None:
+            comp = str(cmdb_id)
+            if comp not in first_anomaly or found_ts < first_anomaly[comp]:
+                first_anomaly[comp] = found_ts
+
+    if not first_anomaly:
+        return {}
+
+    # Sort by timestamp ascending (earliest first), rank starts at 1
+    sorted_comps = sorted(first_anomaly.items(), key=lambda x: x[1])
+    ranks = {}
+    for rank, (comp, _) in enumerate(sorted_comps, start=1):
+        ranks[comp] = 1.0 / (rank + 1.0)  # rank 1 → 0.5, rank 2 → 0.33, etc.
+
+    return ranks
 
 
 def _mapped_bucket(bucket: Any) -> str:

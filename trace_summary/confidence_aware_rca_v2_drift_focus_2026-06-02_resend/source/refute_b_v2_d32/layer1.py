@@ -107,6 +107,8 @@ def build_knowledge(
         })
     clusters = _cluster_cases(cases, config.cluster_threshold)
     mined_rules = _mine_rules(cases, config)
+    from refute_b_v2_d32.textbook import Textbook
+    textbook = Textbook.build(cases)
     return {
         "version": 1,
         "design": "d32_layer1_knowledge",
@@ -114,6 +116,7 @@ def build_knowledge(
         "cases": [_case_public(row) for row in cases],
         "clusters": clusters,
         "mined_rules": mined_rules,
+        "textbook": textbook.to_dict(),
         "metadata": {"n_cases": len(cases), "modalities": sorted(modalities)},
     }
 
@@ -284,6 +287,8 @@ class D32Knowledge:
         self.clusters = list(data.get("clusters", []))
         self.mined_rules = list(data.get("mined_rules", []))
         self.min_cluster_similarity = min_cluster_similarity
+        from refute_b_v2_d32.textbook import Textbook
+        self.textbook = Textbook.from_dict(data.get("textbook", {}))
 
     @classmethod
     def load_json(cls, path: str | Path, min_cluster_similarity: float = 0.12) -> "D32Knowledge":
