@@ -1,0 +1,552 @@
+{
+  "date": "2021_03_12",
+  "timestamp": 1615517640,
+  "component": "MG01",
+  "reason": "network packet loss",
+  "trace_status": "present",
+  "fault_rows": 60000,
+  "baseline_rows": 60000,
+  "service_stats": {
+    "IG01": {
+      "span_count": 3373,
+      "duration_p50": 43.0,
+      "duration_p95": 4007.0,
+      "duration_p99": 10012.0
+    },
+    "IG02": {
+      "span_count": 2807,
+      "duration_p50": 46.0,
+      "duration_p95": 4572.7,
+      "duration_p99": 8342.0
+    },
+    "MG01": {
+      "span_count": 233,
+      "duration_p50": 11.0,
+      "duration_p95": 2072.4,
+      "duration_p99": 4434.0
+    },
+    "MG02": {
+      "span_count": 8807,
+      "duration_p50": 16.0,
+      "duration_p95": 2086.0,
+      "duration_p99": 5316.9400000000005
+    },
+    "Tomcat01": {
+      "span_count": 6250,
+      "duration_p50": 0.0,
+      "duration_p95": 1076.6499999999978,
+      "duration_p99": 4478.850000000008
+    },
+    "Tomcat02": {
+      "span_count": 5932,
+      "duration_p50": 0.0,
+      "duration_p95": 1069.4499999999998,
+      "duration_p99": 4304.419999999953
+    },
+    "Tomcat03": {
+      "span_count": 5662,
+      "duration_p50": 0.0,
+      "duration_p95": 1077.9499999999998,
+      "duration_p99": 6054.950000000002
+    },
+    "Tomcat04": {
+      "span_count": 5819,
+      "duration_p50": 0.0,
+      "duration_p95": 1080.0,
+      "duration_p99": 5060.0999999999985
+    },
+    "dockerA1": {
+      "span_count": 4634,
+      "duration_p50": 0.0,
+      "duration_p95": 1008.0,
+      "duration_p99": 1151.7800000000025
+    },
+    "dockerA2": {
+      "span_count": 4975,
+      "duration_p50": 1.0,
+      "duration_p95": 1048.0,
+      "duration_p99": 2095.040000000001
+    },
+    "dockerB1": {
+      "span_count": 5757,
+      "duration_p50": 1.0,
+      "duration_p95": 1021.0,
+      "duration_p99": 4038.879999999969
+    },
+    "dockerB2": {
+      "span_count": 5751,
+      "duration_p50": 0.0,
+      "duration_p95": 1009.0,
+      "duration_p99": 2271.0
+    }
+  },
+  "edge_stats": [
+    {
+      "src": "IG01",
+      "dst": "Tomcat01",
+      "count": 457,
+      "baseline_count": 389,
+      "count_drop_ratio": 0.0,
+      "duration_p95": 3336.6,
+      "baseline_duration_p95": 4564.399999999996,
+      "slow_ratio": 0.7310051704495668
+    },
+    {
+      "src": "IG01",
+      "dst": "Tomcat02",
+      "count": 409,
+      "baseline_count": 340,
+      "count_drop_ratio": 0.0,
+      "duration_p95": 3149.9999999999995,
+      "baseline_duration_p95": 4648.450000000006,
+      "slow_ratio": 0.6776452365842368
+    },
+    {
+      "src": "IG01",
+      "dst": "Tomcat03",
+      "count": 388,
+      "baseline_count": 363,
+      "count_drop_ratio": 0.0,
+      "duration_p95": 4005.0,
+      "baseline_duration_p95": 4571.8,
+      "slow_ratio": 0.8760225731659302
+    },
+    {
+      "src": "IG01",
+      "dst": "Tomcat04",
+      "count": 425,
+      "baseline_count": 395,
+      "count_drop_ratio": 0.0,
+      "duration_p95": 4125.5999999999985,
+      "baseline_duration_p95": 4331.299999999999,
+      "slow_ratio": 0.9525084847505366
+    },
+    {
+      "src": "IG02",
+      "dst": "Tomcat01",
+      "count": 347,
+      "baseline_count": 349,
+      "count_drop_ratio": 0.0057306590257879654,
+      "duration_p95": 4424.599999999995,
+      "baseline_duration_p95": 4688.799999999988,
+      "slow_ratio": 0.9436529602456931
+    },
+    {
+      "src": "IG02",
+      "dst": "Tomcat02",
+      "count": 366,
+      "baseline_count": 399,
+      "count_drop_ratio": 0.08270676691729323,
+      "duration_p95": 4163.5,
+      "baseline_duration_p95": 4255.599999999997,
+      "slow_ratio": 0.9783579283767279
+    },
+    {
+      "src": "IG02",
+      "dst": "Tomcat03",
+      "count": 354,
+      "baseline_count": 383,
+      "count_drop_ratio": 0.07571801566579635,
+      "duration_p95": 6113.299999999995,
+      "baseline_duration_p95": 4113.699999999999,
+      "slow_ratio": 1.486083088217419
+    },
+    {
+      "src": "IG02",
+      "dst": "Tomcat04",
+      "count": 332,
+      "baseline_count": 398,
+      "count_drop_ratio": 0.1658291457286432,
+      "duration_p95": 4009.7,
+      "baseline_duration_p95": 4959.95,
+      "slow_ratio": 0.8084154074133811
+    },
+    {
+      "src": "MG01",
+      "dst": "dockerA1",
+      "count": 10,
+      "baseline_count": 295,
+      "count_drop_ratio": 0.9661016949152542,
+      "duration_p95": 33506.04999999994,
+      "baseline_duration_p95": 2043.5,
+      "slow_ratio": 16.396403229752845
+    },
+    {
+      "src": "MG01",
+      "dst": "dockerA2",
+      "count": 16,
+      "baseline_count": 268,
+      "count_drop_ratio": 0.9402985074626866,
+      "duration_p95": 2069.25,
+      "baseline_duration_p95": 3097.25,
+      "slow_ratio": 0.6680926628460732
+    },
+    {
+      "src": "MG01",
+      "dst": "dockerB1",
+      "count": 16,
+      "baseline_count": 379,
+      "count_drop_ratio": 0.9577836411609498,
+      "duration_p95": 2761.5,
+      "baseline_duration_p95": 6486.2,
+      "slow_ratio": 0.42575005396071663
+    },
+    {
+      "src": "MG01",
+      "dst": "dockerB2",
+      "count": 23,
+      "baseline_count": 347,
+      "count_drop_ratio": 0.9337175792507204,
+      "duration_p95": 918.0999999999987,
+      "baseline_duration_p95": 5112.499999999997,
+      "slow_ratio": 0.17957946210268932
+    },
+    {
+      "src": "MG02",
+      "dst": "dockerA1",
+      "count": 555,
+      "baseline_count": 279,
+      "count_drop_ratio": 0.0,
+      "duration_p95": 2031.3,
+      "baseline_duration_p95": 2044.1,
+      "slow_ratio": 0.9937380754366225
+    },
+    {
+      "src": "MG02",
+      "dst": "dockerA2",
+      "count": 586,
+      "baseline_count": 270,
+      "count_drop_ratio": 0.0,
+      "duration_p95": 2425.0,
+      "baseline_duration_p95": 2107.1,
+      "slow_ratio": 1.1508708651701391
+    },
+    {
+      "src": "MG02",
+      "dst": "dockerB1",
+      "count": 706,
+      "baseline_count": 368,
+      "count_drop_ratio": 0.0,
+      "duration_p95": 4569.25,
+      "baseline_duration_p95": 6419.0499999999965,
+      "slow_ratio": 0.7118265163848236
+    },
+    {
+      "src": "MG02",
+      "dst": "dockerB2",
+      "count": 666,
+      "baseline_count": 351,
+      "count_drop_ratio": 0.0,
+      "duration_p95": 3124.5,
+      "baseline_duration_p95": 4636.5,
+      "slow_ratio": 0.6738919443545778
+    },
+    {
+      "src": "Tomcat01",
+      "dst": "MG01",
+      "count": 12,
+      "baseline_count": 389,
+      "count_drop_ratio": 0.9691516709511568,
+      "duration_p95": 2576.649999999998,
+      "baseline_duration_p95": 3859.9999999999914,
+      "slow_ratio": 0.6675259067357522
+    },
+    {
+      "src": "Tomcat01",
+      "dst": "MG02",
+      "count": 777,
+      "baseline_count": 349,
+      "count_drop_ratio": 0.0,
+      "duration_p95": 3074.0,
+      "baseline_duration_p95": 4683.999999999992,
+      "slow_ratio": 0.656276686592657
+    },
+    {
+      "src": "Tomcat02",
+      "dst": "MG01",
+      "count": 17,
+      "baseline_count": 358,
+      "count_drop_ratio": 0.952513966480447,
+      "duration_p95": 13659.599999999959,
+      "baseline_duration_p95": 4127.699999999999,
+      "slow_ratio": 3.3092521258812324
+    },
+    {
+      "src": "Tomcat02",
+      "dst": "MG02",
+      "count": 748,
+      "baseline_count": 383,
+      "count_drop_ratio": 0.0,
+      "duration_p95": 2458.849999999994,
+      "baseline_duration_p95": 4321.099999999997,
+      "slow_ratio": 0.5690333479900942
+    },
+    {
+      "src": "Tomcat03",
+      "dst": "MG01",
+      "count": 21,
+      "baseline_count": 380,
+      "count_drop_ratio": 0.9447368421052632,
+      "duration_p95": 2075.0,
+      "baseline_duration_p95": 3205.6500000000015,
+      "slow_ratio": 0.6472946204357928
+    },
+    {
+      "src": "Tomcat03",
+      "dst": "MG02",
+      "count": 705,
+      "baseline_count": 366,
+      "count_drop_ratio": 0.0,
+      "duration_p95": 2984.599999999981,
+      "baseline_duration_p95": 4315.5,
+      "slow_ratio": 0.6916000463445674
+    },
+    {
+      "src": "Tomcat04",
+      "dst": "MG01",
+      "count": 18,
+      "baseline_count": 405,
+      "count_drop_ratio": 0.9555555555555556,
+      "duration_p95": 2072.15,
+      "baseline_duration_p95": 5224.199999999998,
+      "slow_ratio": 0.39664446231001893
+    },
+    {
+      "src": "Tomcat04",
+      "dst": "MG02",
+      "count": 723,
+      "baseline_count": 390,
+      "count_drop_ratio": 0.0,
+      "duration_p95": 2433.499999999999,
+      "baseline_duration_p95": 3408.5999999999976,
+      "slow_ratio": 0.7139294725107085
+    },
+    {
+      "src": "dockerA1",
+      "dst": "MG01",
+      "count": 1,
+      "baseline_count": 37,
+      "count_drop_ratio": 0.972972972972973,
+      "duration_p95": 1015.0,
+      "baseline_duration_p95": 1089.8,
+      "slow_ratio": 0.9313635529454947
+    },
+    {
+      "src": "dockerA1",
+      "dst": "MG02",
+      "count": 158,
+      "baseline_count": 34,
+      "count_drop_ratio": 0.0,
+      "duration_p95": 521.1500000000001,
+      "baseline_duration_p95": 1628.4499999999985,
+      "slow_ratio": 0.3200282477202251
+    },
+    {
+      "src": "dockerA2",
+      "dst": "MG01",
+      "count": 9,
+      "baseline_count": 19,
+      "count_drop_ratio": 0.5263157894736842,
+      "duration_p95": 356.3999999999998,
+      "baseline_duration_p95": 1132.1999999999991,
+      "slow_ratio": 0.3147853736089031
+    },
+    {
+      "src": "dockerA2",
+      "dst": "MG02",
+      "count": 170,
+      "baseline_count": 29,
+      "count_drop_ratio": 0.0,
+      "duration_p95": 927.9499999999964,
+      "baseline_duration_p95": 3368.199999999999,
+      "slow_ratio": 0.2755032361498714
+    },
+    {
+      "src": "dockerB1",
+      "dst": "MG01",
+      "count": 9,
+      "baseline_count": 391,
+      "count_drop_ratio": 0.9769820971867008,
+      "duration_p95": 1016.8,
+      "baseline_duration_p95": 4477.0,
+      "slow_ratio": 0.22711637257091802
+    },
+    {
+      "src": "dockerB1",
+      "dst": "MG02",
+      "count": 542,
+      "baseline_count": 342,
+      "count_drop_ratio": 0.0,
+      "duration_p95": 1016.9499999999999,
+      "baseline_duration_p95": 4234.65,
+      "slow_ratio": 0.2401497172139374
+    },
+    {
+      "src": "dockerB2",
+      "dst": "MG01",
+      "count": 21,
+      "baseline_count": 354,
+      "count_drop_ratio": 0.940677966101695,
+      "duration_p95": 172.0,
+      "baseline_duration_p95": 3932.3999999999987,
+      "slow_ratio": 0.043739192350727304
+    },
+    {
+      "src": "dockerB2",
+      "dst": "MG02",
+      "count": 557,
+      "baseline_count": 289,
+      "count_drop_ratio": 0.0,
+      "duration_p95": 1017.1999999999999,
+      "baseline_duration_p95": 3146.5999999999867,
+      "slow_ratio": 0.3232695607957809
+    }
+  ],
+  "events": {
+    "slow_edges": [
+      {
+        "src": "MG01",
+        "dst": "dockerA1",
+        "count": 10,
+        "baseline_count": 295,
+        "count_drop_ratio": 0.9661016949152542,
+        "duration_p95": 33506.04999999994,
+        "baseline_duration_p95": 2043.5,
+        "slow_ratio": 16.396403229752845
+      },
+      {
+        "src": "Tomcat02",
+        "dst": "MG01",
+        "count": 17,
+        "baseline_count": 358,
+        "count_drop_ratio": 0.952513966480447,
+        "duration_p95": 13659.599999999959,
+        "baseline_duration_p95": 4127.699999999999,
+        "slow_ratio": 3.3092521258812324
+      }
+    ],
+    "dropped_edges": [
+      {
+        "src": "MG01",
+        "dst": "dockerA1",
+        "count": 10,
+        "baseline_count": 295,
+        "count_drop_ratio": 0.9661016949152542,
+        "duration_p95": 33506.04999999994,
+        "baseline_duration_p95": 2043.5,
+        "slow_ratio": 16.396403229752845
+      },
+      {
+        "src": "MG01",
+        "dst": "dockerA2",
+        "count": 16,
+        "baseline_count": 268,
+        "count_drop_ratio": 0.9402985074626866,
+        "duration_p95": 2069.25,
+        "baseline_duration_p95": 3097.25,
+        "slow_ratio": 0.6680926628460732
+      },
+      {
+        "src": "MG01",
+        "dst": "dockerB1",
+        "count": 16,
+        "baseline_count": 379,
+        "count_drop_ratio": 0.9577836411609498,
+        "duration_p95": 2761.5,
+        "baseline_duration_p95": 6486.2,
+        "slow_ratio": 0.42575005396071663
+      },
+      {
+        "src": "MG01",
+        "dst": "dockerB2",
+        "count": 23,
+        "baseline_count": 347,
+        "count_drop_ratio": 0.9337175792507204,
+        "duration_p95": 918.0999999999987,
+        "baseline_duration_p95": 5112.499999999997,
+        "slow_ratio": 0.17957946210268932
+      },
+      {
+        "src": "Tomcat01",
+        "dst": "MG01",
+        "count": 12,
+        "baseline_count": 389,
+        "count_drop_ratio": 0.9691516709511568,
+        "duration_p95": 2576.649999999998,
+        "baseline_duration_p95": 3859.9999999999914,
+        "slow_ratio": 0.6675259067357522
+      },
+      {
+        "src": "Tomcat02",
+        "dst": "MG01",
+        "count": 17,
+        "baseline_count": 358,
+        "count_drop_ratio": 0.952513966480447,
+        "duration_p95": 13659.599999999959,
+        "baseline_duration_p95": 4127.699999999999,
+        "slow_ratio": 3.3092521258812324
+      },
+      {
+        "src": "Tomcat03",
+        "dst": "MG01",
+        "count": 21,
+        "baseline_count": 380,
+        "count_drop_ratio": 0.9447368421052632,
+        "duration_p95": 2075.0,
+        "baseline_duration_p95": 3205.6500000000015,
+        "slow_ratio": 0.6472946204357928
+      },
+      {
+        "src": "Tomcat04",
+        "dst": "MG01",
+        "count": 18,
+        "baseline_count": 405,
+        "count_drop_ratio": 0.9555555555555556,
+        "duration_p95": 2072.15,
+        "baseline_duration_p95": 5224.199999999998,
+        "slow_ratio": 0.39664446231001893
+      },
+      {
+        "src": "dockerA1",
+        "dst": "MG01",
+        "count": 1,
+        "baseline_count": 37,
+        "count_drop_ratio": 0.972972972972973,
+        "duration_p95": 1015.0,
+        "baseline_duration_p95": 1089.8,
+        "slow_ratio": 0.9313635529454947
+      },
+      {
+        "src": "dockerA2",
+        "dst": "MG01",
+        "count": 9,
+        "baseline_count": 19,
+        "count_drop_ratio": 0.5263157894736842,
+        "duration_p95": 356.3999999999998,
+        "baseline_duration_p95": 1132.1999999999991,
+        "slow_ratio": 0.3147853736089031
+      },
+      {
+        "src": "dockerB1",
+        "dst": "MG01",
+        "count": 9,
+        "baseline_count": 391,
+        "count_drop_ratio": 0.9769820971867008,
+        "duration_p95": 1016.8,
+        "baseline_duration_p95": 4477.0,
+        "slow_ratio": 0.22711637257091802
+      },
+      {
+        "src": "dockerB2",
+        "dst": "MG01",
+        "count": 21,
+        "baseline_count": 354,
+        "count_drop_ratio": 0.940677966101695,
+        "duration_p95": 172.0,
+        "baseline_duration_p95": 3932.3999999999987,
+        "slow_ratio": 0.043739192350727304
+      }
+    ],
+    "first_anomalous_service": "Tomcat02"
+  }
+}

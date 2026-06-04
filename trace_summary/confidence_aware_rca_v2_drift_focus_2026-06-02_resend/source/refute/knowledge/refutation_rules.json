@@ -1,0 +1,35 @@
+{
+  "rules": [
+    {
+      "confidence": 1.0,
+      "description": "CPU roots require local container CPU evidence.",
+      "reason_bucket": "cpu",
+      "required_evidence": "container_kpi"
+    },
+    {
+      "confidence": 1.0,
+      "description": "Memory/OOM roots require memory KPI or fatal log evidence.",
+      "reason_bucket": "memory",
+      "required_evidence": "container_kpi_or_log"
+    },
+    {
+      "confidence": 1.0,
+      "description": "Network roots can be container network or node network evidence.",
+      "reason_bucket": "network",
+      "required_evidence": "container_or_node_kpi"
+    },
+    {
+      "confidence": 1.0,
+      "description": "Disk I/O roots are often node-level OSLinux disk evidence in Bank.",
+      "reason_bucket": "disk",
+      "required_evidence": "node_kpi"
+    },
+    {
+      "confidence": 1.0,
+      "description": "Disk space roots are filesystem/node evidence.",
+      "reason_bucket": "filesystem",
+      "required_evidence": "node_kpi"
+    }
+  ],
+  "version": 1
+}

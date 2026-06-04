@@ -1,0 +1,213 @@
+{
+  "n": 8,
+  "debug": [
+    {
+      "row_id": 0,
+      "window": {
+        "start": "2021-03-04 14:30:00",
+        "end": "2021-03-04 15:00:00",
+        "failure_count": 1
+      },
+      "selected": [
+        {
+          "prediction": {
+            "root cause occurrence datetime": "2021-03-04 14:31:00",
+            "root cause component": "Mysql01",
+            "root cause reason": "high disk I/O read usage"
+          },
+          "score": 72.00000000000001,
+          "seed": {
+            "timestamp": 1614839460,
+            "component": "Mysql01",
+            "reason": "high disk I/O read usage",
+            "score": 36.00000000000001,
+            "source": "metric"
+          }
+        }
+      ],
+      "seed_count": 8
+    },
+    {
+      "row_id": 1,
+      "window": {
+        "start": "2021-03-04 18:00:00",
+        "end": "2021-03-04 18:30:00",
+        "failure_count": 1
+      },
+      "selected": [
+        {
+          "prediction": {
+            "root cause occurrence datetime": "2021-03-04 18:11:00",
+            "root cause component": "Redis02",
+            "root cause reason": "high CPU usage"
+          },
+          "score": 578.9617084007491,
+          "seed": {
+            "timestamp": 1614852660,
+            "component": "Redis02",
+            "reason": "high CPU usage",
+            "score": 293.67991208960007,
+            "source": "metric+metric+metric"
+          }
+        }
+      ],
+      "seed_count": 8
+    },
+    {
+      "row_id": 2,
+      "window": {
+        "start": "2021-03-06 06:00:00",
+        "end": "2021-03-06 06:30:00",
+        "failure_count": 1
+      },
+      "selected": [
+        {
+          "prediction": {
+            "root cause occurrence datetime": "2021-03-06 06:01:00",
+            "root cause component": "MG02",
+            "root cause reason": "network latency"
+          },
+          "score": 6.12185104052573,
+          "seed": {
+            "timestamp": 1614981660,
+            "component": "MG02",
+            "reason": "network latency",
+            "score": 3.4145673603504862,
+            "source": "trace_slow_edge"
+          }
+        }
+      ],
+      "seed_count": 3
+    },
+    {
+      "row_id": 3,
+      "window": {
+        "start": "2021-03-04 19:00:00",
+        "end": "2021-03-04 19:30:00",
+        "failure_count": 1
+      },
+      "selected": [
+        {
+          "prediction": {
+            "root cause occurrence datetime": "2021-03-04 19:06:00",
+            "root cause component": "apache01",
+            "root cause reason": "high disk I/O read usage"
+          },
+          "score": 27112.595213822286,
+          "seed": {
+            "timestamp": 1614855960,
+            "component": "apache01",
+            "reason": "high disk I/O read usage",
+            "score": 13565.097615161143,
+            "source": "metric+metric"
+          }
+        }
+      ],
+      "seed_count": 8
+    },
+    {
+      "row_id": 4,
+      "window": {
+        "start": "2021-03-06 00:30:00",
+        "end": "2021-03-06 01:00:00",
+        "failure_count": 1
+      },
+      "selected": [
+        {
+          "prediction": {
+            "root cause occurrence datetime": "2021-03-06 00:30:00",
+            "root cause component": "IG01",
+            "root cause reason": "network latency"
+          },
+          "score": 0.0,
+          "seed": {
+            "timestamp": 1614961800,
+            "component": "IG01",
+            "reason": "network latency",
+            "score": 0.0,
+            "source": "fallback"
+          }
+        }
+      ],
+      "seed_count": 1
+    },
+    {
+      "row_id": 5,
+      "window": {
+        "start": "2021-03-06 14:30:00",
+        "end": "2021-03-06 15:00:00",
+        "failure_count": 1
+      },
+      "selected": [
+        {
+          "prediction": {
+            "root cause occurrence datetime": "2021-03-06 14:30:00",
+            "root cause component": "MG02",
+            "root cause reason": "network latency"
+          },
+          "score": 192.2245989304813,
+          "seed": {
+            "timestamp": 1615012200,
+            "component": "MG02",
+            "reason": "network latency",
+            "score": 146.2245989304813,
+            "source": "trace_slow_edge+trace_slow_edge"
+          }
+        }
+      ],
+      "seed_count": 5
+    },
+    {
+      "row_id": 6,
+      "window": {
+        "start": "2021-03-06 18:30:00",
+        "end": "2021-03-06 19:00:00",
+        "failure_count": 1
+      },
+      "selected": [
+        {
+          "prediction": {
+            "root cause occurrence datetime": "2021-03-06 18:34:00",
+            "root cause component": "Tomcat02",
+            "root cause reason": "JVM Out of Memory (OOM) Heap"
+          },
+          "score": 329.0,
+          "seed": {
+            "timestamp": 1615026840,
+            "component": "Tomcat02",
+            "reason": "JVM Out of Memory (OOM) Heap",
+            "score": 328.0,
+            "source": "log+log+log+log+log+log+log+log+log+log+log+log+log+log+log+log+log+log+log+log+log+log+log+log+log+log+log+log+log+log+log+log+log+log+log+log+log+log+log+log+log"
+          }
+        }
+      ],
+      "seed_count": 8
+    },
+    {
+      "row_id": 7,
+      "window": {
+        "start": "2021-03-06 23:00:00",
+        "end": "2021-03-06 23:30:00",
+        "failure_count": 1
+      },
+      "selected": [
+        {
+          "prediction": {
+            "root cause occurrence datetime": "2021-03-06 23:00:00",
+            "root cause component": "IG01",
+            "root cause reason": "network latency"
+          },
+          "score": 0.0,
+          "seed": {
+            "timestamp": 1615042800,
+            "component": "IG01",
+            "reason": "network latency",
+            "score": 0.0,
+            "source": "fallback"
+          }
+        }
+      ],
+      "seed_count": 1
+    }
+  ]
+}

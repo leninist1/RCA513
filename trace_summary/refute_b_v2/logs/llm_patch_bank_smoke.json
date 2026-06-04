@@ -1,0 +1,104 @@
+{
+  "n": 1,
+  "top1": 0,
+  "top3": 0,
+  "cases": [
+    {
+      "date": "2021_03_04",
+      "timestamp": 1614841020,
+      "datetime": "2021-03-04 14:57:00",
+      "true_component": "Mysql02",
+      "reason": "high memory usage",
+      "top5": [
+        "MG01",
+        "IG01",
+        "IG02",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "confidence_features": {
+        "support_strength": 0.5916197425129976,
+        "top1_top2_gap": 0.5916197425129976,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      },
+      "signature": {
+        "case_id": "2021_03_04__Mysql02__1614841020",
+        "modal_coverage": {
+          "metric": "present",
+          "log": "present",
+          "trace": "unloaded"
+        },
+        "services": [
+          {
+            "service": "MG01",
+            "metric": {
+              "container_memory_anomaly": {
+                "state": "support",
+                "intensity": 1,
+                "details": {
+                  "cmdb_id": "MG01",
+                  "kpi_name": "JVM-Memory_7779_JVM_Memory_HeapMemoryUsed",
+                  "value": 1142874632.0,
+                  "deviation": 1.1832394850259953
+                }
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "IG01",
+            "metric": {},
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "IG02",
+            "metric": {},
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "MG02",
+            "metric": {},
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "Mysql01",
+            "metric": {},
+            "log": {},
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "anomaly_distribution": {
+          "active_services": 1,
+          "dominant_service": "MG01",
+          "concentration": 1.0
+        },
+        "dominant_evidence_types": [
+          "container_memory_anomaly"
+        ],
+        "blind_spots": [
+          "trace"
+        ]
+      }
+    }
+  ],
+  "top1_rate": 0.0,
+  "top3_rate": 0.0
+}

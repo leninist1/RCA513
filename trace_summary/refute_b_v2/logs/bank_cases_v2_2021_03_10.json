@@ -1,0 +1,3966 @@
+{
+  "n": 16,
+  "top1": 9,
+  "top3": 9,
+  "cases": [
+    {
+      "date": "2021_03_10",
+      "timestamp": 1615331940,
+      "datetime": "2021-03-10 07:19:00",
+      "true_component": "apache02",
+      "reason": "network latency",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 1
+      },
+      "signature": {
+        "case_id": "2021_03_10__apache02__1615331940",
+        "modal_coverage": {
+          "metric": "present",
+          "log": "present",
+          "trace": "unloaded"
+        },
+        "services": [
+          {
+            "service": "IG01",
+            "metric": {},
+            "log": {},
+            "trace": {
+              "trace_slow_edge": {
+                "state": "blind",
+                "intensity": 0
+              }
+            },
+            "topology": {}
+          },
+          {
+            "service": "IG02",
+            "metric": {},
+            "log": {},
+            "trace": {
+              "trace_slow_edge": {
+                "state": "blind",
+                "intensity": 0
+              }
+            },
+            "topology": {}
+          },
+          {
+            "service": "MG01",
+            "metric": {},
+            "log": {},
+            "trace": {
+              "trace_slow_edge": {
+                "state": "blind",
+                "intensity": 0
+              }
+            },
+            "topology": {}
+          },
+          {
+            "service": "MG02",
+            "metric": {},
+            "log": {},
+            "trace": {
+              "trace_slow_edge": {
+                "state": "blind",
+                "intensity": 0
+              }
+            },
+            "topology": {}
+          },
+          {
+            "service": "Mysql01",
+            "metric": {},
+            "log": {},
+            "trace": {
+              "trace_slow_edge": {
+                "state": "blind",
+                "intensity": 0
+              }
+            },
+            "topology": {}
+          }
+        ],
+        "anomaly_distribution": {
+          "active_services": 0,
+          "dominant_service": "IG01",
+          "concentration": 0.0
+        },
+        "dominant_evidence_types": [],
+        "blind_spots": [
+          "trace"
+        ]
+      },
+      "ranked": [
+        {
+          "candidate": {
+            "service": "IG01",
+            "reason": "network latency",
+            "reason_bucket": "network_latency"
+          },
+          "evidence_vector": {
+            "hard_support": 0,
+            "hard_refute": 0,
+            "blind_count": 1,
+            "support_strength": 0,
+            "refute_strength": 0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "network_latency.trace_slow_edge",
+              "modality": "network_latency",
+              "kind": "trace_slow_edge",
+              "polarity": "blind",
+              "strength": 0.0,
+              "text": "trace modality unloaded for case",
+              "details": {},
+              "rule_type": "soft",
+              "group": "round_2_trace_topology"
+            }
+          ]
+        },
+        {
+          "candidate": {
+            "service": "IG02",
+            "reason": "network latency",
+            "reason_bucket": "network_latency"
+          },
+          "evidence_vector": {
+            "hard_support": 0,
+            "hard_refute": 0,
+            "blind_count": 1,
+            "support_strength": 0,
+            "refute_strength": 0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "network_latency.trace_slow_edge",
+              "modality": "network_latency",
+              "kind": "trace_slow_edge",
+              "polarity": "blind",
+              "strength": 0.0,
+              "text": "trace modality unloaded for case",
+              "details": {},
+              "rule_type": "soft",
+              "group": "round_2_trace_topology"
+            }
+          ]
+        },
+        {
+          "candidate": {
+            "service": "MG01",
+            "reason": "network latency",
+            "reason_bucket": "network_latency"
+          },
+          "evidence_vector": {
+            "hard_support": 0,
+            "hard_refute": 0,
+            "blind_count": 1,
+            "support_strength": 0,
+            "refute_strength": 0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "network_latency.trace_slow_edge",
+              "modality": "network_latency",
+              "kind": "trace_slow_edge",
+              "polarity": "blind",
+              "strength": 0.0,
+              "text": "trace modality unloaded for case",
+              "details": {},
+              "rule_type": "soft",
+              "group": "round_2_trace_topology"
+            }
+          ]
+        },
+        {
+          "candidate": {
+            "service": "MG02",
+            "reason": "network latency",
+            "reason_bucket": "network_latency"
+          },
+          "evidence_vector": {
+            "hard_support": 0,
+            "hard_refute": 0,
+            "blind_count": 1,
+            "support_strength": 0,
+            "refute_strength": 0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "network_latency.trace_slow_edge",
+              "modality": "network_latency",
+              "kind": "trace_slow_edge",
+              "polarity": "blind",
+              "strength": 0.0,
+              "text": "trace modality unloaded for case",
+              "details": {},
+              "rule_type": "soft",
+              "group": "round_2_trace_topology"
+            }
+          ]
+        },
+        {
+          "candidate": {
+            "service": "Mysql01",
+            "reason": "network latency",
+            "reason_bucket": "network_latency"
+          },
+          "evidence_vector": {
+            "hard_support": 0,
+            "hard_refute": 0,
+            "blind_count": 1,
+            "support_strength": 0,
+            "refute_strength": 0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "network_latency.trace_slow_edge",
+              "modality": "network_latency",
+              "kind": "trace_slow_edge",
+              "polarity": "blind",
+              "strength": 0.0,
+              "text": "trace modality unloaded for case",
+              "details": {},
+              "rule_type": "soft",
+              "group": "round_2_trace_topology"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "date": "2021_03_10",
+      "timestamp": 1615344180,
+      "datetime": "2021-03-10 10:43:00",
+      "true_component": "Tomcat01",
+      "reason": "network packet loss",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      },
+      "signature": {
+        "case_id": "2021_03_10__Tomcat01__1615344180",
+        "modal_coverage": {
+          "metric": "present",
+          "log": "present",
+          "trace": "unloaded"
+        },
+        "services": [
+          {
+            "service": "IG01",
+            "metric": {},
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "IG02",
+            "metric": {},
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "MG01",
+            "metric": {},
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "MG02",
+            "metric": {},
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "Mysql01",
+            "metric": {},
+            "log": {},
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "anomaly_distribution": {
+          "active_services": 0,
+          "dominant_service": "IG01",
+          "concentration": 0.0
+        },
+        "dominant_evidence_types": [],
+        "blind_spots": [
+          "trace"
+        ]
+      },
+      "ranked": [
+        {
+          "candidate": {
+            "service": "IG01",
+            "reason": "network packet loss",
+            "reason_bucket": "network_packet_loss"
+          },
+          "evidence_vector": {
+            "hard_support": 0,
+            "hard_refute": 0,
+            "blind_count": 0,
+            "support_strength": 0,
+            "refute_strength": 0
+          },
+          "evidence_cards": []
+        },
+        {
+          "candidate": {
+            "service": "IG02",
+            "reason": "network packet loss",
+            "reason_bucket": "network_packet_loss"
+          },
+          "evidence_vector": {
+            "hard_support": 0,
+            "hard_refute": 0,
+            "blind_count": 0,
+            "support_strength": 0,
+            "refute_strength": 0
+          },
+          "evidence_cards": []
+        },
+        {
+          "candidate": {
+            "service": "MG01",
+            "reason": "network packet loss",
+            "reason_bucket": "network_packet_loss"
+          },
+          "evidence_vector": {
+            "hard_support": 0,
+            "hard_refute": 0,
+            "blind_count": 0,
+            "support_strength": 0,
+            "refute_strength": 0
+          },
+          "evidence_cards": []
+        },
+        {
+          "candidate": {
+            "service": "MG02",
+            "reason": "network packet loss",
+            "reason_bucket": "network_packet_loss"
+          },
+          "evidence_vector": {
+            "hard_support": 0,
+            "hard_refute": 0,
+            "blind_count": 0,
+            "support_strength": 0,
+            "refute_strength": 0
+          },
+          "evidence_cards": []
+        },
+        {
+          "candidate": {
+            "service": "Mysql01",
+            "reason": "network packet loss",
+            "reason_bucket": "network_packet_loss"
+          },
+          "evidence_vector": {
+            "hard_support": 0,
+            "hard_refute": 0,
+            "blind_count": 0,
+            "support_strength": 0,
+            "refute_strength": 0
+          },
+          "evidence_cards": []
+        }
+      ]
+    },
+    {
+      "date": "2021_03_10",
+      "timestamp": 1615359720,
+      "datetime": "2021-03-10 15:02:00",
+      "true_component": "apache02",
+      "reason": "network packet loss",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      },
+      "signature": {
+        "case_id": "2021_03_10__apache02__1615359720",
+        "modal_coverage": {
+          "metric": "present",
+          "log": "present",
+          "trace": "unloaded"
+        },
+        "services": [
+          {
+            "service": "IG01",
+            "metric": {},
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "IG02",
+            "metric": {},
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "MG01",
+            "metric": {},
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "MG02",
+            "metric": {},
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "Mysql01",
+            "metric": {},
+            "log": {},
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "anomaly_distribution": {
+          "active_services": 0,
+          "dominant_service": "IG01",
+          "concentration": 0.0
+        },
+        "dominant_evidence_types": [],
+        "blind_spots": [
+          "trace"
+        ]
+      },
+      "ranked": [
+        {
+          "candidate": {
+            "service": "IG01",
+            "reason": "network packet loss",
+            "reason_bucket": "network_packet_loss"
+          },
+          "evidence_vector": {
+            "hard_support": 0,
+            "hard_refute": 0,
+            "blind_count": 0,
+            "support_strength": 0,
+            "refute_strength": 0
+          },
+          "evidence_cards": []
+        },
+        {
+          "candidate": {
+            "service": "IG02",
+            "reason": "network packet loss",
+            "reason_bucket": "network_packet_loss"
+          },
+          "evidence_vector": {
+            "hard_support": 0,
+            "hard_refute": 0,
+            "blind_count": 0,
+            "support_strength": 0,
+            "refute_strength": 0
+          },
+          "evidence_cards": []
+        },
+        {
+          "candidate": {
+            "service": "MG01",
+            "reason": "network packet loss",
+            "reason_bucket": "network_packet_loss"
+          },
+          "evidence_vector": {
+            "hard_support": 0,
+            "hard_refute": 0,
+            "blind_count": 0,
+            "support_strength": 0,
+            "refute_strength": 0
+          },
+          "evidence_cards": []
+        },
+        {
+          "candidate": {
+            "service": "MG02",
+            "reason": "network packet loss",
+            "reason_bucket": "network_packet_loss"
+          },
+          "evidence_vector": {
+            "hard_support": 0,
+            "hard_refute": 0,
+            "blind_count": 0,
+            "support_strength": 0,
+            "refute_strength": 0
+          },
+          "evidence_cards": []
+        },
+        {
+          "candidate": {
+            "service": "Mysql01",
+            "reason": "network packet loss",
+            "reason_bucket": "network_packet_loss"
+          },
+          "evidence_vector": {
+            "hard_support": 0,
+            "hard_refute": 0,
+            "blind_count": 0,
+            "support_strength": 0,
+            "refute_strength": 0
+          },
+          "evidence_cards": []
+        }
+      ]
+    },
+    {
+      "date": "2021_03_10",
+      "timestamp": 1615360740,
+      "datetime": "2021-03-10 15:19:00",
+      "true_component": "apache02",
+      "reason": "network latency",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 1
+      },
+      "signature": {
+        "case_id": "2021_03_10__apache02__1615360740",
+        "modal_coverage": {
+          "metric": "present",
+          "log": "present",
+          "trace": "unloaded"
+        },
+        "services": [
+          {
+            "service": "IG01",
+            "metric": {},
+            "log": {},
+            "trace": {
+              "trace_slow_edge": {
+                "state": "blind",
+                "intensity": 0
+              }
+            },
+            "topology": {}
+          },
+          {
+            "service": "IG02",
+            "metric": {},
+            "log": {},
+            "trace": {
+              "trace_slow_edge": {
+                "state": "blind",
+                "intensity": 0
+              }
+            },
+            "topology": {}
+          },
+          {
+            "service": "MG01",
+            "metric": {},
+            "log": {},
+            "trace": {
+              "trace_slow_edge": {
+                "state": "blind",
+                "intensity": 0
+              }
+            },
+            "topology": {}
+          },
+          {
+            "service": "MG02",
+            "metric": {},
+            "log": {},
+            "trace": {
+              "trace_slow_edge": {
+                "state": "blind",
+                "intensity": 0
+              }
+            },
+            "topology": {}
+          },
+          {
+            "service": "Mysql01",
+            "metric": {},
+            "log": {},
+            "trace": {
+              "trace_slow_edge": {
+                "state": "blind",
+                "intensity": 0
+              }
+            },
+            "topology": {}
+          }
+        ],
+        "anomaly_distribution": {
+          "active_services": 0,
+          "dominant_service": "IG01",
+          "concentration": 0.0
+        },
+        "dominant_evidence_types": [],
+        "blind_spots": [
+          "trace"
+        ]
+      },
+      "ranked": [
+        {
+          "candidate": {
+            "service": "IG01",
+            "reason": "network latency",
+            "reason_bucket": "network_latency"
+          },
+          "evidence_vector": {
+            "hard_support": 0,
+            "hard_refute": 0,
+            "blind_count": 1,
+            "support_strength": 0,
+            "refute_strength": 0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "network_latency.trace_slow_edge",
+              "modality": "network_latency",
+              "kind": "trace_slow_edge",
+              "polarity": "blind",
+              "strength": 0.0,
+              "text": "trace modality unloaded for case",
+              "details": {},
+              "rule_type": "soft",
+              "group": "round_2_trace_topology"
+            }
+          ]
+        },
+        {
+          "candidate": {
+            "service": "IG02",
+            "reason": "network latency",
+            "reason_bucket": "network_latency"
+          },
+          "evidence_vector": {
+            "hard_support": 0,
+            "hard_refute": 0,
+            "blind_count": 1,
+            "support_strength": 0,
+            "refute_strength": 0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "network_latency.trace_slow_edge",
+              "modality": "network_latency",
+              "kind": "trace_slow_edge",
+              "polarity": "blind",
+              "strength": 0.0,
+              "text": "trace modality unloaded for case",
+              "details": {},
+              "rule_type": "soft",
+              "group": "round_2_trace_topology"
+            }
+          ]
+        },
+        {
+          "candidate": {
+            "service": "MG01",
+            "reason": "network latency",
+            "reason_bucket": "network_latency"
+          },
+          "evidence_vector": {
+            "hard_support": 0,
+            "hard_refute": 0,
+            "blind_count": 1,
+            "support_strength": 0,
+            "refute_strength": 0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "network_latency.trace_slow_edge",
+              "modality": "network_latency",
+              "kind": "trace_slow_edge",
+              "polarity": "blind",
+              "strength": 0.0,
+              "text": "trace modality unloaded for case",
+              "details": {},
+              "rule_type": "soft",
+              "group": "round_2_trace_topology"
+            }
+          ]
+        },
+        {
+          "candidate": {
+            "service": "MG02",
+            "reason": "network latency",
+            "reason_bucket": "network_latency"
+          },
+          "evidence_vector": {
+            "hard_support": 0,
+            "hard_refute": 0,
+            "blind_count": 1,
+            "support_strength": 0,
+            "refute_strength": 0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "network_latency.trace_slow_edge",
+              "modality": "network_latency",
+              "kind": "trace_slow_edge",
+              "polarity": "blind",
+              "strength": 0.0,
+              "text": "trace modality unloaded for case",
+              "details": {},
+              "rule_type": "soft",
+              "group": "round_2_trace_topology"
+            }
+          ]
+        },
+        {
+          "candidate": {
+            "service": "Mysql01",
+            "reason": "network latency",
+            "reason_bucket": "network_latency"
+          },
+          "evidence_vector": {
+            "hard_support": 0,
+            "hard_refute": 0,
+            "blind_count": 1,
+            "support_strength": 0,
+            "refute_strength": 0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "network_latency.trace_slow_edge",
+              "modality": "network_latency",
+              "kind": "trace_slow_edge",
+              "polarity": "blind",
+              "strength": 0.0,
+              "text": "trace modality unloaded for case",
+              "details": {},
+              "rule_type": "soft",
+              "group": "round_2_trace_topology"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "date": "2021_03_10",
+      "timestamp": 1615365720,
+      "datetime": "2021-03-10 16:42:00",
+      "true_component": "Tomcat01",
+      "reason": "network latency",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 1
+      },
+      "signature": {
+        "case_id": "2021_03_10__Tomcat01__1615365720",
+        "modal_coverage": {
+          "metric": "present",
+          "log": "present",
+          "trace": "unloaded"
+        },
+        "services": [
+          {
+            "service": "IG01",
+            "metric": {},
+            "log": {},
+            "trace": {
+              "trace_slow_edge": {
+                "state": "blind",
+                "intensity": 0
+              }
+            },
+            "topology": {}
+          },
+          {
+            "service": "IG02",
+            "metric": {},
+            "log": {},
+            "trace": {
+              "trace_slow_edge": {
+                "state": "blind",
+                "intensity": 0
+              }
+            },
+            "topology": {}
+          },
+          {
+            "service": "MG01",
+            "metric": {},
+            "log": {},
+            "trace": {
+              "trace_slow_edge": {
+                "state": "blind",
+                "intensity": 0
+              }
+            },
+            "topology": {}
+          },
+          {
+            "service": "MG02",
+            "metric": {},
+            "log": {},
+            "trace": {
+              "trace_slow_edge": {
+                "state": "blind",
+                "intensity": 0
+              }
+            },
+            "topology": {}
+          },
+          {
+            "service": "Mysql01",
+            "metric": {},
+            "log": {},
+            "trace": {
+              "trace_slow_edge": {
+                "state": "blind",
+                "intensity": 0
+              }
+            },
+            "topology": {}
+          }
+        ],
+        "anomaly_distribution": {
+          "active_services": 0,
+          "dominant_service": "IG01",
+          "concentration": 0.0
+        },
+        "dominant_evidence_types": [],
+        "blind_spots": [
+          "trace"
+        ]
+      },
+      "ranked": [
+        {
+          "candidate": {
+            "service": "IG01",
+            "reason": "network latency",
+            "reason_bucket": "network_latency"
+          },
+          "evidence_vector": {
+            "hard_support": 0,
+            "hard_refute": 0,
+            "blind_count": 1,
+            "support_strength": 0,
+            "refute_strength": 0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "network_latency.trace_slow_edge",
+              "modality": "network_latency",
+              "kind": "trace_slow_edge",
+              "polarity": "blind",
+              "strength": 0.0,
+              "text": "trace modality unloaded for case",
+              "details": {},
+              "rule_type": "soft",
+              "group": "round_2_trace_topology"
+            }
+          ]
+        },
+        {
+          "candidate": {
+            "service": "IG02",
+            "reason": "network latency",
+            "reason_bucket": "network_latency"
+          },
+          "evidence_vector": {
+            "hard_support": 0,
+            "hard_refute": 0,
+            "blind_count": 1,
+            "support_strength": 0,
+            "refute_strength": 0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "network_latency.trace_slow_edge",
+              "modality": "network_latency",
+              "kind": "trace_slow_edge",
+              "polarity": "blind",
+              "strength": 0.0,
+              "text": "trace modality unloaded for case",
+              "details": {},
+              "rule_type": "soft",
+              "group": "round_2_trace_topology"
+            }
+          ]
+        },
+        {
+          "candidate": {
+            "service": "MG01",
+            "reason": "network latency",
+            "reason_bucket": "network_latency"
+          },
+          "evidence_vector": {
+            "hard_support": 0,
+            "hard_refute": 0,
+            "blind_count": 1,
+            "support_strength": 0,
+            "refute_strength": 0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "network_latency.trace_slow_edge",
+              "modality": "network_latency",
+              "kind": "trace_slow_edge",
+              "polarity": "blind",
+              "strength": 0.0,
+              "text": "trace modality unloaded for case",
+              "details": {},
+              "rule_type": "soft",
+              "group": "round_2_trace_topology"
+            }
+          ]
+        },
+        {
+          "candidate": {
+            "service": "MG02",
+            "reason": "network latency",
+            "reason_bucket": "network_latency"
+          },
+          "evidence_vector": {
+            "hard_support": 0,
+            "hard_refute": 0,
+            "blind_count": 1,
+            "support_strength": 0,
+            "refute_strength": 0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "network_latency.trace_slow_edge",
+              "modality": "network_latency",
+              "kind": "trace_slow_edge",
+              "polarity": "blind",
+              "strength": 0.0,
+              "text": "trace modality unloaded for case",
+              "details": {},
+              "rule_type": "soft",
+              "group": "round_2_trace_topology"
+            }
+          ]
+        },
+        {
+          "candidate": {
+            "service": "Mysql01",
+            "reason": "network latency",
+            "reason_bucket": "network_latency"
+          },
+          "evidence_vector": {
+            "hard_support": 0,
+            "hard_refute": 0,
+            "blind_count": 1,
+            "support_strength": 0,
+            "refute_strength": 0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "network_latency.trace_slow_edge",
+              "modality": "network_latency",
+              "kind": "trace_slow_edge",
+              "polarity": "blind",
+              "strength": 0.0,
+              "text": "trace modality unloaded for case",
+              "details": {},
+              "rule_type": "soft",
+              "group": "round_2_trace_topology"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "date": "2021_03_10",
+      "timestamp": 1615373820,
+      "datetime": "2021-03-10 18:57:00",
+      "true_component": "Tomcat03",
+      "reason": "network packet loss",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      },
+      "signature": {
+        "case_id": "2021_03_10__Tomcat03__1615373820",
+        "modal_coverage": {
+          "metric": "present",
+          "log": "present",
+          "trace": "unloaded"
+        },
+        "services": [
+          {
+            "service": "IG01",
+            "metric": {},
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "IG02",
+            "metric": {},
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "MG01",
+            "metric": {},
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "MG02",
+            "metric": {},
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "Mysql01",
+            "metric": {},
+            "log": {},
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "anomaly_distribution": {
+          "active_services": 0,
+          "dominant_service": "IG01",
+          "concentration": 0.0
+        },
+        "dominant_evidence_types": [],
+        "blind_spots": [
+          "trace"
+        ]
+      },
+      "ranked": [
+        {
+          "candidate": {
+            "service": "IG01",
+            "reason": "network packet loss",
+            "reason_bucket": "network_packet_loss"
+          },
+          "evidence_vector": {
+            "hard_support": 0,
+            "hard_refute": 0,
+            "blind_count": 0,
+            "support_strength": 0,
+            "refute_strength": 0
+          },
+          "evidence_cards": []
+        },
+        {
+          "candidate": {
+            "service": "IG02",
+            "reason": "network packet loss",
+            "reason_bucket": "network_packet_loss"
+          },
+          "evidence_vector": {
+            "hard_support": 0,
+            "hard_refute": 0,
+            "blind_count": 0,
+            "support_strength": 0,
+            "refute_strength": 0
+          },
+          "evidence_cards": []
+        },
+        {
+          "candidate": {
+            "service": "MG01",
+            "reason": "network packet loss",
+            "reason_bucket": "network_packet_loss"
+          },
+          "evidence_vector": {
+            "hard_support": 0,
+            "hard_refute": 0,
+            "blind_count": 0,
+            "support_strength": 0,
+            "refute_strength": 0
+          },
+          "evidence_cards": []
+        },
+        {
+          "candidate": {
+            "service": "MG02",
+            "reason": "network packet loss",
+            "reason_bucket": "network_packet_loss"
+          },
+          "evidence_vector": {
+            "hard_support": 0,
+            "hard_refute": 0,
+            "blind_count": 0,
+            "support_strength": 0,
+            "refute_strength": 0
+          },
+          "evidence_cards": []
+        },
+        {
+          "candidate": {
+            "service": "Mysql01",
+            "reason": "network packet loss",
+            "reason_bucket": "network_packet_loss"
+          },
+          "evidence_vector": {
+            "hard_support": 0,
+            "hard_refute": 0,
+            "blind_count": 0,
+            "support_strength": 0,
+            "refute_strength": 0
+          },
+          "evidence_cards": []
+        }
+      ]
+    },
+    {
+      "date": "2021_03_10",
+      "timestamp": 1615315440,
+      "datetime": "2021-03-10 02:44:00",
+      "true_component": "Tomcat01",
+      "reason": "high disk I/O read usage",
+      "top5": [
+        "Tomcat01",
+        "Mysql02",
+        "IG01",
+        "IG02",
+        "MG01"
+      ],
+      "top1_hit": true,
+      "top3_hit": true,
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "confidence_features": {
+        "support_strength": 1676.2,
+        "top1_top2_gap": 1675.5936064983139,
+        "hard_support_count": 1,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      },
+      "signature": {
+        "case_id": "2021_03_10__Tomcat01__1615315440",
+        "modal_coverage": {
+          "metric": "present",
+          "log": "present",
+          "trace": "unloaded"
+        },
+        "services": [
+          {
+            "service": "Tomcat01",
+            "metric": {
+              "disk_io_required": {
+                "state": "support",
+                "intensity": 3,
+                "details": {
+                  "cmdb_id": "Tomcat01",
+                  "kpi_name": "OSLinux-OSLinux_LOCALDISK_LOCALDISK-sdb_DSKReadWrite",
+                  "value": 217964.0,
+                  "deviation": 1676.2
+                }
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "Mysql02",
+            "metric": {
+              "disk_io_required": {
+                "state": "support",
+                "intensity": 1,
+                "details": {
+                  "cmdb_id": "Mysql02",
+                  "kpi_name": "OSLinux-OSLinux_LOCALDISK_LOCALDISK-sdc_DSKWrite",
+                  "value": 1.0667,
+                  "deviation": -0.6063935016862442
+                }
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "IG01",
+            "metric": {
+              "disk_io_required": {
+                "state": "refute",
+                "intensity": 1,
+                "details": {
+                  "checked": 56
+                }
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "IG02",
+            "metric": {
+              "disk_io_required": {
+                "state": "refute",
+                "intensity": 1,
+                "details": {
+                  "checked": 58
+                }
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "MG01",
+            "metric": {
+              "disk_io_required": {
+                "state": "refute",
+                "intensity": 1,
+                "details": {
+                  "checked": 47
+                }
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "anomaly_distribution": {
+          "active_services": 2,
+          "dominant_service": "Tomcat01",
+          "concentration": 0.75
+        },
+        "dominant_evidence_types": [
+          "disk_io_required"
+        ],
+        "blind_spots": [
+          "trace"
+        ]
+      },
+      "ranked": [
+        {
+          "candidate": {
+            "service": "Tomcat01",
+            "reason": "high disk I/O read usage",
+            "reason_bucket": "disk_io"
+          },
+          "evidence_vector": {
+            "hard_support": 1,
+            "hard_refute": 0,
+            "blind_count": 0,
+            "support_strength": 1676.2,
+            "refute_strength": 0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "disk.disk_io_required",
+              "modality": "disk",
+              "kind": "disk_io_required",
+              "polarity": "support",
+              "strength": 1676.2,
+              "text": "Tomcat01.OSLinux-OSLinux_LOCALDISK_LOCALDISK-sdb_DSKReadWrite above_threshold value=217964 threshold=377.98",
+              "details": {
+                "cmdb_id": "Tomcat01",
+                "kpi_name": "OSLinux-OSLinux_LOCALDISK_LOCALDISK-sdb_DSKReadWrite",
+                "value": 217964.0,
+                "deviation": 1676.2
+              },
+              "rule_type": "hard",
+              "group": "round_1_cheap_metric"
+            }
+          ]
+        },
+        {
+          "candidate": {
+            "service": "Mysql02",
+            "reason": "high disk I/O read usage",
+            "reason_bucket": "disk_io"
+          },
+          "evidence_vector": {
+            "hard_support": 1,
+            "hard_refute": 0,
+            "blind_count": 0,
+            "support_strength": 0.6063935016862442,
+            "refute_strength": 0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "disk.disk_io_required",
+              "modality": "disk",
+              "kind": "disk_io_required",
+              "polarity": "support",
+              "strength": 0.6063935016862442,
+              "text": "Mysql02.OSLinux-OSLinux_LOCALDISK_LOCALDISK-sdc_DSKWrite below_threshold value=1.0667 threshold=2",
+              "details": {
+                "cmdb_id": "Mysql02",
+                "kpi_name": "OSLinux-OSLinux_LOCALDISK_LOCALDISK-sdc_DSKWrite",
+                "value": 1.0667,
+                "deviation": -0.6063935016862442
+              },
+              "rule_type": "hard",
+              "group": "round_1_cheap_metric"
+            }
+          ]
+        },
+        {
+          "candidate": {
+            "service": "IG01",
+            "reason": "high disk I/O read usage",
+            "reason_bucket": "disk_io"
+          },
+          "evidence_vector": {
+            "hard_support": 0,
+            "hard_refute": 1,
+            "blind_count": 0,
+            "support_strength": 0,
+            "refute_strength": 1.0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "disk.disk_io_required",
+              "modality": "disk",
+              "kind": "disk_io_required",
+              "polarity": "refute",
+              "strength": 1.0,
+              "text": "no percentile anomaly among 56 samples",
+              "details": {
+                "checked": 56
+              },
+              "rule_type": "hard",
+              "group": "round_1_cheap_metric"
+            }
+          ]
+        },
+        {
+          "candidate": {
+            "service": "IG02",
+            "reason": "high disk I/O read usage",
+            "reason_bucket": "disk_io"
+          },
+          "evidence_vector": {
+            "hard_support": 0,
+            "hard_refute": 1,
+            "blind_count": 0,
+            "support_strength": 0,
+            "refute_strength": 1.0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "disk.disk_io_required",
+              "modality": "disk",
+              "kind": "disk_io_required",
+              "polarity": "refute",
+              "strength": 1.0,
+              "text": "no percentile anomaly among 58 samples",
+              "details": {
+                "checked": 58
+              },
+              "rule_type": "hard",
+              "group": "round_1_cheap_metric"
+            }
+          ]
+        },
+        {
+          "candidate": {
+            "service": "MG01",
+            "reason": "high disk I/O read usage",
+            "reason_bucket": "disk_io"
+          },
+          "evidence_vector": {
+            "hard_support": 0,
+            "hard_refute": 1,
+            "blind_count": 0,
+            "support_strength": 0,
+            "refute_strength": 1.0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "disk.disk_io_required",
+              "modality": "disk",
+              "kind": "disk_io_required",
+              "polarity": "refute",
+              "strength": 1.0,
+              "text": "no percentile anomaly among 47 samples",
+              "details": {
+                "checked": 47
+              },
+              "rule_type": "hard",
+              "group": "round_1_cheap_metric"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "date": "2021_03_10",
+      "timestamp": 1615319040,
+      "datetime": "2021-03-10 03:44:00",
+      "true_component": "Tomcat04",
+      "reason": "high disk space usage",
+      "top5": [
+        "Tomcat04",
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02"
+      ],
+      "top1_hit": true,
+      "top3_hit": true,
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "confidence_features": {
+        "support_strength": 1.094235174344617,
+        "top1_top2_gap": 1.094235174344617,
+        "hard_support_count": 1,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      },
+      "signature": {
+        "case_id": "2021_03_10__Tomcat04__1615319040",
+        "modal_coverage": {
+          "metric": "present",
+          "log": "present",
+          "trace": "unloaded"
+        },
+        "services": [
+          {
+            "service": "Tomcat04",
+            "metric": {
+              "capacity_required": {
+                "state": "support",
+                "intensity": 1,
+                "details": {
+                  "cmdb_id": "Tomcat04",
+                  "kpi_name": "OSLinux-OSLinux_FILESYSTEM_-tomcat_FSAvailableSpace",
+                  "value": 4990.0,
+                  "deviation": -1.094235174344617
+                }
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "IG01",
+            "metric": {
+              "capacity_required": {
+                "state": "refute",
+                "intensity": 1,
+                "details": {
+                  "checked": 96
+                }
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "IG02",
+            "metric": {
+              "capacity_required": {
+                "state": "refute",
+                "intensity": 1,
+                "details": {
+                  "checked": 96
+                }
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "MG01",
+            "metric": {
+              "capacity_required": {
+                "state": "refute",
+                "intensity": 1,
+                "details": {
+                  "checked": 84
+                }
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "MG02",
+            "metric": {
+              "capacity_required": {
+                "state": "refute",
+                "intensity": 1,
+                "details": {
+                  "checked": 84
+                }
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "anomaly_distribution": {
+          "active_services": 1,
+          "dominant_service": "Tomcat04",
+          "concentration": 1.0
+        },
+        "dominant_evidence_types": [
+          "capacity_required"
+        ],
+        "blind_spots": [
+          "trace"
+        ]
+      },
+      "ranked": [
+        {
+          "candidate": {
+            "service": "Tomcat04",
+            "reason": "high disk space usage",
+            "reason_bucket": "filesystem"
+          },
+          "evidence_vector": {
+            "hard_support": 1,
+            "hard_refute": 0,
+            "blind_count": 0,
+            "support_strength": 1.094235174344617,
+            "refute_strength": 0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "filesystem.capacity_required",
+              "modality": "filesystem",
+              "kind": "capacity_required",
+              "polarity": "support",
+              "strength": 1.094235174344617,
+              "text": "Tomcat04.OSLinux-OSLinux_FILESYSTEM_-tomcat_FSAvailableSpace below_threshold value=4990 threshold=15447.7",
+              "details": {
+                "cmdb_id": "Tomcat04",
+                "kpi_name": "OSLinux-OSLinux_FILESYSTEM_-tomcat_FSAvailableSpace",
+                "value": 4990.0,
+                "deviation": -1.094235174344617
+              },
+              "rule_type": "hard",
+              "group": "round_1_cheap_metric"
+            }
+          ]
+        },
+        {
+          "candidate": {
+            "service": "IG01",
+            "reason": "high disk space usage",
+            "reason_bucket": "filesystem"
+          },
+          "evidence_vector": {
+            "hard_support": 0,
+            "hard_refute": 1,
+            "blind_count": 0,
+            "support_strength": 0,
+            "refute_strength": 1.0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "filesystem.capacity_required",
+              "modality": "filesystem",
+              "kind": "capacity_required",
+              "polarity": "refute",
+              "strength": 1.0,
+              "text": "no percentile anomaly among 96 samples",
+              "details": {
+                "checked": 96
+              },
+              "rule_type": "hard",
+              "group": "round_1_cheap_metric"
+            }
+          ]
+        },
+        {
+          "candidate": {
+            "service": "IG02",
+            "reason": "high disk space usage",
+            "reason_bucket": "filesystem"
+          },
+          "evidence_vector": {
+            "hard_support": 0,
+            "hard_refute": 1,
+            "blind_count": 0,
+            "support_strength": 0,
+            "refute_strength": 1.0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "filesystem.capacity_required",
+              "modality": "filesystem",
+              "kind": "capacity_required",
+              "polarity": "refute",
+              "strength": 1.0,
+              "text": "no percentile anomaly among 96 samples",
+              "details": {
+                "checked": 96
+              },
+              "rule_type": "hard",
+              "group": "round_1_cheap_metric"
+            }
+          ]
+        },
+        {
+          "candidate": {
+            "service": "MG01",
+            "reason": "high disk space usage",
+            "reason_bucket": "filesystem"
+          },
+          "evidence_vector": {
+            "hard_support": 0,
+            "hard_refute": 1,
+            "blind_count": 0,
+            "support_strength": 0,
+            "refute_strength": 1.0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "filesystem.capacity_required",
+              "modality": "filesystem",
+              "kind": "capacity_required",
+              "polarity": "refute",
+              "strength": 1.0,
+              "text": "no percentile anomaly among 84 samples",
+              "details": {
+                "checked": 84
+              },
+              "rule_type": "hard",
+              "group": "round_1_cheap_metric"
+            }
+          ]
+        },
+        {
+          "candidate": {
+            "service": "MG02",
+            "reason": "high disk space usage",
+            "reason_bucket": "filesystem"
+          },
+          "evidence_vector": {
+            "hard_support": 0,
+            "hard_refute": 1,
+            "blind_count": 0,
+            "support_strength": 0,
+            "refute_strength": 1.0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "filesystem.capacity_required",
+              "modality": "filesystem",
+              "kind": "capacity_required",
+              "polarity": "refute",
+              "strength": 1.0,
+              "text": "no percentile anomaly among 84 samples",
+              "details": {
+                "checked": 84
+              },
+              "rule_type": "hard",
+              "group": "round_1_cheap_metric"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "date": "2021_03_10",
+      "timestamp": 1615357260,
+      "datetime": "2021-03-10 14:21:00",
+      "true_component": "Tomcat02",
+      "reason": "high disk I/O read usage",
+      "top5": [
+        "Tomcat02",
+        "Tomcat04",
+        "IG02",
+        "Mysql02",
+        "Tomcat01"
+      ],
+      "top1_hit": true,
+      "top3_hit": true,
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "confidence_features": {
+        "support_strength": 1241.657587548638,
+        "top1_top2_gap": 1223.179317818015,
+        "hard_support_count": 1,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      },
+      "signature": {
+        "case_id": "2021_03_10__Tomcat02__1615357260",
+        "modal_coverage": {
+          "metric": "present",
+          "log": "present",
+          "trace": "unloaded"
+        },
+        "services": [
+          {
+            "service": "Tomcat02",
+            "metric": {
+              "disk_io_required": {
+                "state": "support",
+                "intensity": 3,
+                "details": {
+                  "cmdb_id": "Tomcat02",
+                  "kpi_name": "OSLinux-OSLinux_LOCALDISK_LOCALDISK-sdb_DSKReadWrite",
+                  "value": 159611.0,
+                  "deviation": 1241.657587548638
+                }
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "Tomcat04",
+            "metric": {
+              "disk_io_required": {
+                "state": "support",
+                "intensity": 3,
+                "details": {
+                  "cmdb_id": "Tomcat04",
+                  "kpi_name": "OSLinux-OSLinux_LOCALDISK_LOCALDISK-sda_DSKWrite",
+                  "value": 66.4,
+                  "deviation": 18.478269730622863
+                }
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "IG02",
+            "metric": {
+              "disk_io_required": {
+                "state": "support",
+                "intensity": 2,
+                "details": {
+                  "cmdb_id": "IG02",
+                  "kpi_name": "OSLinux-OSLinux_LOCALDISK_LOCALDISK-sda_DSKPercentBusy",
+                  "value": 0.5,
+                  "deviation": 5.0
+                }
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "Mysql02",
+            "metric": {
+              "disk_io_required": {
+                "state": "support",
+                "intensity": 2,
+                "details": {
+                  "cmdb_id": "Mysql02",
+                  "kpi_name": "OSLinux-OSLinux_LOCALDISK_LOCALDISK-sdb_DSKWrite",
+                  "value": 6.5333,
+                  "deviation": 3.3331537574075063
+                }
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "Tomcat01",
+            "metric": {
+              "disk_io_required": {
+                "state": "support",
+                "intensity": 1,
+                "details": {
+                  "cmdb_id": "Tomcat01",
+                  "kpi_name": "OSLinux-OSLinux_LOCALDISK_LOCALDISK-sdb_DSKWrite",
+                  "value": 309.3333,
+                  "deviation": 1.8091942681774524
+                }
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "anomaly_distribution": {
+          "active_services": 5,
+          "dominant_service": "Tomcat02",
+          "concentration": 0.2727272727272727
+        },
+        "dominant_evidence_types": [
+          "disk_io_required"
+        ],
+        "blind_spots": [
+          "trace"
+        ]
+      },
+      "ranked": [
+        {
+          "candidate": {
+            "service": "Tomcat02",
+            "reason": "high disk I/O read usage",
+            "reason_bucket": "disk_io"
+          },
+          "evidence_vector": {
+            "hard_support": 1,
+            "hard_refute": 0,
+            "blind_count": 0,
+            "support_strength": 1241.657587548638,
+            "refute_strength": 0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "disk.disk_io_required",
+              "modality": "disk",
+              "kind": "disk_io_required",
+              "polarity": "support",
+              "strength": 1241.657587548638,
+              "text": "Tomcat02.OSLinux-OSLinux_LOCALDISK_LOCALDISK-sdb_DSKReadWrite above_threshold value=159611 threshold=306.1",
+              "details": {
+                "cmdb_id": "Tomcat02",
+                "kpi_name": "OSLinux-OSLinux_LOCALDISK_LOCALDISK-sdb_DSKReadWrite",
+                "value": 159611.0,
+                "deviation": 1241.657587548638
+              },
+              "rule_type": "hard",
+              "group": "round_1_cheap_metric"
+            }
+          ]
+        },
+        {
+          "candidate": {
+            "service": "Tomcat04",
+            "reason": "high disk I/O read usage",
+            "reason_bucket": "disk_io"
+          },
+          "evidence_vector": {
+            "hard_support": 1,
+            "hard_refute": 0,
+            "blind_count": 0,
+            "support_strength": 18.478269730622863,
+            "refute_strength": 0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "disk.disk_io_required",
+              "modality": "disk",
+              "kind": "disk_io_required",
+              "polarity": "support",
+              "strength": 18.478269730622863,
+              "text": "Tomcat04.OSLinux-OSLinux_LOCALDISK_LOCALDISK-sda_DSKWrite above_threshold value=66.4 threshold=34.292",
+              "details": {
+                "cmdb_id": "Tomcat04",
+                "kpi_name": "OSLinux-OSLinux_LOCALDISK_LOCALDISK-sda_DSKWrite",
+                "value": 66.4,
+                "deviation": 18.478269730622863
+              },
+              "rule_type": "hard",
+              "group": "round_1_cheap_metric"
+            }
+          ]
+        },
+        {
+          "candidate": {
+            "service": "IG02",
+            "reason": "high disk I/O read usage",
+            "reason_bucket": "disk_io"
+          },
+          "evidence_vector": {
+            "hard_support": 1,
+            "hard_refute": 0,
+            "blind_count": 0,
+            "support_strength": 5.0,
+            "refute_strength": 0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "disk.disk_io_required",
+              "modality": "disk",
+              "kind": "disk_io_required",
+              "polarity": "support",
+              "strength": 5.0,
+              "text": "IG02.OSLinux-OSLinux_LOCALDISK_LOCALDISK-sda_DSKPercentBusy above_threshold value=0.5 threshold=0.4",
+              "details": {
+                "cmdb_id": "IG02",
+                "kpi_name": "OSLinux-OSLinux_LOCALDISK_LOCALDISK-sda_DSKPercentBusy",
+                "value": 0.5,
+                "deviation": 5.0
+              },
+              "rule_type": "hard",
+              "group": "round_1_cheap_metric"
+            }
+          ]
+        },
+        {
+          "candidate": {
+            "service": "Mysql02",
+            "reason": "high disk I/O read usage",
+            "reason_bucket": "disk_io"
+          },
+          "evidence_vector": {
+            "hard_support": 1,
+            "hard_refute": 0,
+            "blind_count": 0,
+            "support_strength": 3.3331537574075063,
+            "refute_strength": 0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "disk.disk_io_required",
+              "modality": "disk",
+              "kind": "disk_io_required",
+              "polarity": "support",
+              "strength": 3.3331537574075063,
+              "text": "Mysql02.OSLinux-OSLinux_LOCALDISK_LOCALDISK-sdb_DSKWrite above_threshold value=6.5333 threshold=6.1333",
+              "details": {
+                "cmdb_id": "Mysql02",
+                "kpi_name": "OSLinux-OSLinux_LOCALDISK_LOCALDISK-sdb_DSKWrite",
+                "value": 6.5333,
+                "deviation": 3.3331537574075063
+              },
+              "rule_type": "hard",
+              "group": "round_1_cheap_metric"
+            }
+          ]
+        },
+        {
+          "candidate": {
+            "service": "Tomcat01",
+            "reason": "high disk I/O read usage",
+            "reason_bucket": "disk_io"
+          },
+          "evidence_vector": {
+            "hard_support": 1,
+            "hard_refute": 0,
+            "blind_count": 0,
+            "support_strength": 1.8091942681774524,
+            "refute_strength": 0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "disk.disk_io_required",
+              "modality": "disk",
+              "kind": "disk_io_required",
+              "polarity": "support",
+              "strength": 1.8091942681774524,
+              "text": "Tomcat01.OSLinux-OSLinux_LOCALDISK_LOCALDISK-sdb_DSKWrite above_threshold value=309.333 threshold=294.261",
+              "details": {
+                "cmdb_id": "Tomcat01",
+                "kpi_name": "OSLinux-OSLinux_LOCALDISK_LOCALDISK-sdb_DSKWrite",
+                "value": 309.3333,
+                "deviation": 1.8091942681774524
+              },
+              "rule_type": "hard",
+              "group": "round_1_cheap_metric"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "date": "2021_03_10",
+      "timestamp": 1615362180,
+      "datetime": "2021-03-10 15:43:00",
+      "true_component": "apache02",
+      "reason": "high disk I/O read usage",
+      "top5": [
+        "apache02",
+        "Mysql01",
+        "IG01",
+        "Mysql02",
+        "IG02"
+      ],
+      "top1_hit": true,
+      "top3_hit": true,
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "confidence_features": {
+        "support_strength": 51501.4,
+        "top1_top2_gap": 51463.9,
+        "hard_support_count": 1,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      },
+      "signature": {
+        "case_id": "2021_03_10__apache02__1615362180",
+        "modal_coverage": {
+          "metric": "present",
+          "log": "present",
+          "trace": "unloaded"
+        },
+        "services": [
+          {
+            "service": "apache02",
+            "metric": {
+              "disk_io_required": {
+                "state": "support",
+                "intensity": 3,
+                "details": {
+                  "cmdb_id": "apache02",
+                  "kpi_name": "OSLinux-OSLinux_LOCALDISK_LOCALDISK-sdb_DSKReadWrite",
+                  "value": 257513.0,
+                  "deviation": 51501.4
+                }
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "Mysql01",
+            "metric": {
+              "disk_io_required": {
+                "state": "support",
+                "intensity": 3,
+                "details": {
+                  "cmdb_id": "Mysql01",
+                  "kpi_name": "OSLinux-OSLinux_LOCALDISK_LOCALDISK-sdc_DSKPercentBusy",
+                  "value": 90.8,
+                  "deviation": 37.5
+                }
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "IG01",
+            "metric": {
+              "disk_io_required": {
+                "state": "support",
+                "intensity": 1,
+                "details": {
+                  "cmdb_id": "IG01",
+                  "kpi_name": "OSLinux-OSLinux_LOCALDISK_LOCALDISK-sdb_DSKWrite",
+                  "value": 272.5333,
+                  "deviation": 2.1394163498098857
+                }
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "Mysql02",
+            "metric": {
+              "disk_io_required": {
+                "state": "support",
+                "intensity": 1,
+                "details": {
+                  "cmdb_id": "Mysql02",
+                  "kpi_name": "OSLinux-OSLinux_LOCALDISK_LOCALDISK-sda_DSKWrite",
+                  "value": 5.866667,
+                  "deviation": -1.5625000878906383
+                }
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "IG02",
+            "metric": {
+              "disk_io_required": {
+                "state": "refute",
+                "intensity": 1,
+                "details": {
+                  "checked": 62
+                }
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "anomaly_distribution": {
+          "active_services": 4,
+          "dominant_service": "apache02",
+          "concentration": 0.375
+        },
+        "dominant_evidence_types": [
+          "disk_io_required"
+        ],
+        "blind_spots": [
+          "trace"
+        ]
+      },
+      "ranked": [
+        {
+          "candidate": {
+            "service": "apache02",
+            "reason": "high disk I/O read usage",
+            "reason_bucket": "disk_io"
+          },
+          "evidence_vector": {
+            "hard_support": 1,
+            "hard_refute": 0,
+            "blind_count": 0,
+            "support_strength": 51501.4,
+            "refute_strength": 0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "disk.disk_io_required",
+              "modality": "disk",
+              "kind": "disk_io_required",
+              "polarity": "support",
+              "strength": 51501.4,
+              "text": "apache02.OSLinux-OSLinux_LOCALDISK_LOCALDISK-sdb_DSKReadWrite above_threshold value=257513 threshold=12",
+              "details": {
+                "cmdb_id": "apache02",
+                "kpi_name": "OSLinux-OSLinux_LOCALDISK_LOCALDISK-sdb_DSKReadWrite",
+                "value": 257513.0,
+                "deviation": 51501.4
+              },
+              "rule_type": "hard",
+              "group": "round_1_cheap_metric"
+            }
+          ]
+        },
+        {
+          "candidate": {
+            "service": "Mysql01",
+            "reason": "high disk I/O read usage",
+            "reason_bucket": "disk_io"
+          },
+          "evidence_vector": {
+            "hard_support": 1,
+            "hard_refute": 0,
+            "blind_count": 0,
+            "support_strength": 37.5,
+            "refute_strength": 0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "disk.disk_io_required",
+              "modality": "disk",
+              "kind": "disk_io_required",
+              "polarity": "support",
+              "strength": 37.5,
+              "text": "Mysql01.OSLinux-OSLinux_LOCALDISK_LOCALDISK-sdc_DSKPercentBusy above_threshold value=90.8 threshold=49.2",
+              "details": {
+                "cmdb_id": "Mysql01",
+                "kpi_name": "OSLinux-OSLinux_LOCALDISK_LOCALDISK-sdc_DSKPercentBusy",
+                "value": 90.8,
+                "deviation": 37.5
+              },
+              "rule_type": "hard",
+              "group": "round_1_cheap_metric"
+            }
+          ]
+        },
+        {
+          "candidate": {
+            "service": "IG01",
+            "reason": "high disk I/O read usage",
+            "reason_bucket": "disk_io"
+          },
+          "evidence_vector": {
+            "hard_support": 1,
+            "hard_refute": 0,
+            "blind_count": 0,
+            "support_strength": 2.1394163498098857,
+            "refute_strength": 0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "disk.disk_io_required",
+              "modality": "disk",
+              "kind": "disk_io_required",
+              "polarity": "support",
+              "strength": 2.1394163498098857,
+              "text": "IG01.OSLinux-OSLinux_LOCALDISK_LOCALDISK-sdb_DSKWrite above_threshold value=272.533 threshold=259.333",
+              "details": {
+                "cmdb_id": "IG01",
+                "kpi_name": "OSLinux-OSLinux_LOCALDISK_LOCALDISK-sdb_DSKWrite",
+                "value": 272.5333,
+                "deviation": 2.1394163498098857
+              },
+              "rule_type": "hard",
+              "group": "round_1_cheap_metric"
+            }
+          ]
+        },
+        {
+          "candidate": {
+            "service": "Mysql02",
+            "reason": "high disk I/O read usage",
+            "reason_bucket": "disk_io"
+          },
+          "evidence_vector": {
+            "hard_support": 1,
+            "hard_refute": 0,
+            "blind_count": 0,
+            "support_strength": 1.5625000878906383,
+            "refute_strength": 0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "disk.disk_io_required",
+              "modality": "disk",
+              "kind": "disk_io_required",
+              "polarity": "support",
+              "strength": 1.5625000878906383,
+              "text": "Mysql02.OSLinux-OSLinux_LOCALDISK_LOCALDISK-sda_DSKWrite below_threshold value=5.86667 threshold=6",
+              "details": {
+                "cmdb_id": "Mysql02",
+                "kpi_name": "OSLinux-OSLinux_LOCALDISK_LOCALDISK-sda_DSKWrite",
+                "value": 5.866667,
+                "deviation": -1.5625000878906383
+              },
+              "rule_type": "hard",
+              "group": "round_1_cheap_metric"
+            }
+          ]
+        },
+        {
+          "candidate": {
+            "service": "IG02",
+            "reason": "high disk I/O read usage",
+            "reason_bucket": "disk_io"
+          },
+          "evidence_vector": {
+            "hard_support": 0,
+            "hard_refute": 1,
+            "blind_count": 0,
+            "support_strength": 0,
+            "refute_strength": 1.0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "disk.disk_io_required",
+              "modality": "disk",
+              "kind": "disk_io_required",
+              "polarity": "refute",
+              "strength": 1.0,
+              "text": "no percentile anomaly among 62 samples",
+              "details": {
+                "checked": 62
+              },
+              "rule_type": "hard",
+              "group": "round_1_cheap_metric"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "date": "2021_03_10",
+      "timestamp": 1615384980,
+      "datetime": "2021-03-10 22:03:00",
+      "true_component": "IG02",
+      "reason": "high disk I/O read usage",
+      "top5": [
+        "IG02",
+        "Mysql01",
+        "IG01",
+        "MG01",
+        "MG02"
+      ],
+      "top1_hit": true,
+      "top3_hit": true,
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "confidence_features": {
+        "support_strength": 2445.293103448276,
+        "top1_top2_gap": 2424.793103448276,
+        "hard_support_count": 1,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      },
+      "signature": {
+        "case_id": "2021_03_10__IG02__1615384980",
+        "modal_coverage": {
+          "metric": "present",
+          "log": "present",
+          "trace": "unloaded"
+        },
+        "services": [
+          {
+            "service": "IG02",
+            "metric": {
+              "disk_io_required": {
+                "state": "support",
+                "intensity": 3,
+                "details": {
+                  "cmdb_id": "IG02",
+                  "kpi_name": "OSLinux-OSLinux_LOCALDISK_LOCALDISK-sdb_DSKReadWrite",
+                  "value": 283707.0,
+                  "deviation": 2445.293103448276
+                }
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "Mysql01",
+            "metric": {
+              "disk_io_required": {
+                "state": "support",
+                "intensity": 3,
+                "details": {
+                  "cmdb_id": "Mysql01",
+                  "kpi_name": "OSLinux-OSLinux_LOCALDISK_LOCALDISK-sdc_DSKPercentBusy",
+                  "value": 50.0,
+                  "deviation": 20.500000000000004
+                }
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "IG01",
+            "metric": {
+              "disk_io_required": {
+                "state": "refute",
+                "intensity": 1,
+                "details": {
+                  "checked": 53
+                }
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "MG01",
+            "metric": {
+              "disk_io_required": {
+                "state": "refute",
+                "intensity": 1,
+                "details": {
+                  "checked": 42
+                }
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "MG02",
+            "metric": {
+              "disk_io_required": {
+                "state": "refute",
+                "intensity": 1,
+                "details": {
+                  "checked": 33
+                }
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "anomaly_distribution": {
+          "active_services": 2,
+          "dominant_service": "IG02",
+          "concentration": 0.5
+        },
+        "dominant_evidence_types": [
+          "disk_io_required"
+        ],
+        "blind_spots": [
+          "trace"
+        ]
+      },
+      "ranked": [
+        {
+          "candidate": {
+            "service": "IG02",
+            "reason": "high disk I/O read usage",
+            "reason_bucket": "disk_io"
+          },
+          "evidence_vector": {
+            "hard_support": 1,
+            "hard_refute": 0,
+            "blind_count": 0,
+            "support_strength": 2445.293103448276,
+            "refute_strength": 0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "disk.disk_io_required",
+              "modality": "disk",
+              "kind": "disk_io_required",
+              "polarity": "support",
+              "strength": 2445.293103448276,
+              "text": "IG02.OSLinux-OSLinux_LOCALDISK_LOCALDISK-sdb_DSKReadWrite above_threshold value=283707 threshold=265.38",
+              "details": {
+                "cmdb_id": "IG02",
+                "kpi_name": "OSLinux-OSLinux_LOCALDISK_LOCALDISK-sdb_DSKReadWrite",
+                "value": 283707.0,
+                "deviation": 2445.293103448276
+              },
+              "rule_type": "hard",
+              "group": "round_1_cheap_metric"
+            }
+          ]
+        },
+        {
+          "candidate": {
+            "service": "Mysql01",
+            "reason": "high disk I/O read usage",
+            "reason_bucket": "disk_io"
+          },
+          "evidence_vector": {
+            "hard_support": 1,
+            "hard_refute": 0,
+            "blind_count": 0,
+            "support_strength": 20.500000000000004,
+            "refute_strength": 0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "disk.disk_io_required",
+              "modality": "disk",
+              "kind": "disk_io_required",
+              "polarity": "support",
+              "strength": 20.500000000000004,
+              "text": "Mysql01.OSLinux-OSLinux_LOCALDISK_LOCALDISK-sdc_DSKPercentBusy above_threshold value=50 threshold=49.2",
+              "details": {
+                "cmdb_id": "Mysql01",
+                "kpi_name": "OSLinux-OSLinux_LOCALDISK_LOCALDISK-sdc_DSKPercentBusy",
+                "value": 50.0,
+                "deviation": 20.500000000000004
+              },
+              "rule_type": "hard",
+              "group": "round_1_cheap_metric"
+            }
+          ]
+        },
+        {
+          "candidate": {
+            "service": "IG01",
+            "reason": "high disk I/O read usage",
+            "reason_bucket": "disk_io"
+          },
+          "evidence_vector": {
+            "hard_support": 0,
+            "hard_refute": 1,
+            "blind_count": 0,
+            "support_strength": 0,
+            "refute_strength": 1.0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "disk.disk_io_required",
+              "modality": "disk",
+              "kind": "disk_io_required",
+              "polarity": "refute",
+              "strength": 1.0,
+              "text": "no percentile anomaly among 53 samples",
+              "details": {
+                "checked": 53
+              },
+              "rule_type": "hard",
+              "group": "round_1_cheap_metric"
+            }
+          ]
+        },
+        {
+          "candidate": {
+            "service": "MG01",
+            "reason": "high disk I/O read usage",
+            "reason_bucket": "disk_io"
+          },
+          "evidence_vector": {
+            "hard_support": 0,
+            "hard_refute": 1,
+            "blind_count": 0,
+            "support_strength": 0,
+            "refute_strength": 1.0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "disk.disk_io_required",
+              "modality": "disk",
+              "kind": "disk_io_required",
+              "polarity": "refute",
+              "strength": 1.0,
+              "text": "no percentile anomaly among 42 samples",
+              "details": {
+                "checked": 42
+              },
+              "rule_type": "hard",
+              "group": "round_1_cheap_metric"
+            }
+          ]
+        },
+        {
+          "candidate": {
+            "service": "MG02",
+            "reason": "high disk I/O read usage",
+            "reason_bucket": "disk_io"
+          },
+          "evidence_vector": {
+            "hard_support": 0,
+            "hard_refute": 1,
+            "blind_count": 0,
+            "support_strength": 0,
+            "refute_strength": 1.0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "disk.disk_io_required",
+              "modality": "disk",
+              "kind": "disk_io_required",
+              "polarity": "refute",
+              "strength": 1.0,
+              "text": "no percentile anomaly among 33 samples",
+              "details": {
+                "checked": 33
+              },
+              "rule_type": "hard",
+              "group": "round_1_cheap_metric"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "date": "2021_03_10",
+      "timestamp": 1615385940,
+      "datetime": "2021-03-10 22:19:00",
+      "true_component": "MG02",
+      "reason": "high disk I/O read usage",
+      "top5": [
+        "MG02",
+        "Redis01",
+        "IG01",
+        "IG02",
+        "MG01"
+      ],
+      "top1_hit": true,
+      "top3_hit": true,
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "confidence_features": {
+        "support_strength": 458.0997198879552,
+        "top1_top2_gap": 440.5995323858245,
+        "hard_support_count": 1,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      },
+      "signature": {
+        "case_id": "2021_03_10__MG02__1615385940",
+        "modal_coverage": {
+          "metric": "present",
+          "log": "present",
+          "trace": "unloaded"
+        },
+        "services": [
+          {
+            "service": "MG02",
+            "metric": {
+              "disk_io_required": {
+                "state": "support",
+                "intensity": 3,
+                "details": {
+                  "cmdb_id": "MG02",
+                  "kpi_name": "OSLinux-OSLinux_LOCALDISK_LOCALDISK-sdb_DSKReadWrite",
+                  "value": 204480.0,
+                  "deviation": 458.0997198879552
+                }
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "Redis01",
+            "metric": {
+              "disk_io_required": {
+                "state": "support",
+                "intensity": 3,
+                "details": {
+                  "cmdb_id": "Redis01",
+                  "kpi_name": "OSLinux-OSLinux_LOCALDISK_LOCALDISK-sda_DSKWrite",
+                  "value": 65.3333,
+                  "deviation": 17.50018750213071
+                }
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "IG01",
+            "metric": {
+              "disk_io_required": {
+                "state": "support",
+                "intensity": 1,
+                "details": {
+                  "cmdb_id": "IG01",
+                  "kpi_name": "OSLinux-OSLinux_LOCALDISK_LOCALDISK-sda_DSKReadWrite",
+                  "value": 5.0,
+                  "deviation": -1.3333333333333333
+                }
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "IG02",
+            "metric": {
+              "disk_io_required": {
+                "state": "refute",
+                "intensity": 1,
+                "details": {
+                  "checked": 56
+                }
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "MG01",
+            "metric": {
+              "disk_io_required": {
+                "state": "refute",
+                "intensity": 1,
+                "details": {
+                  "checked": 46
+                }
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "anomaly_distribution": {
+          "active_services": 3,
+          "dominant_service": "MG02",
+          "concentration": 0.42857142857142855
+        },
+        "dominant_evidence_types": [
+          "disk_io_required"
+        ],
+        "blind_spots": [
+          "trace"
+        ]
+      },
+      "ranked": [
+        {
+          "candidate": {
+            "service": "MG02",
+            "reason": "high disk I/O read usage",
+            "reason_bucket": "disk_io"
+          },
+          "evidence_vector": {
+            "hard_support": 1,
+            "hard_refute": 0,
+            "blind_count": 0,
+            "support_strength": 458.0997198879552,
+            "refute_strength": 0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "disk.disk_io_required",
+              "modality": "disk",
+              "kind": "disk_io_required",
+              "polarity": "support",
+              "strength": 458.0997198879552,
+              "text": "MG02.OSLinux-OSLinux_LOCALDISK_LOCALDISK-sdb_DSKReadWrite above_threshold value=204480 threshold=1878.6",
+              "details": {
+                "cmdb_id": "MG02",
+                "kpi_name": "OSLinux-OSLinux_LOCALDISK_LOCALDISK-sdb_DSKReadWrite",
+                "value": 204480.0,
+                "deviation": 458.0997198879552
+              },
+              "rule_type": "hard",
+              "group": "round_1_cheap_metric"
+            }
+          ]
+        },
+        {
+          "candidate": {
+            "service": "Redis01",
+            "reason": "high disk I/O read usage",
+            "reason_bucket": "disk_io"
+          },
+          "evidence_vector": {
+            "hard_support": 1,
+            "hard_refute": 0,
+            "blind_count": 0,
+            "support_strength": 17.50018750213071,
+            "refute_strength": 0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "disk.disk_io_required",
+              "modality": "disk",
+              "kind": "disk_io_required",
+              "polarity": "support",
+              "strength": 17.50018750213071,
+              "text": "Redis01.OSLinux-OSLinux_LOCALDISK_LOCALDISK-sda_DSKWrite above_threshold value=65.3333 threshold=28.6293",
+              "details": {
+                "cmdb_id": "Redis01",
+                "kpi_name": "OSLinux-OSLinux_LOCALDISK_LOCALDISK-sda_DSKWrite",
+                "value": 65.3333,
+                "deviation": 17.50018750213071
+              },
+              "rule_type": "hard",
+              "group": "round_1_cheap_metric"
+            }
+          ]
+        },
+        {
+          "candidate": {
+            "service": "IG01",
+            "reason": "high disk I/O read usage",
+            "reason_bucket": "disk_io"
+          },
+          "evidence_vector": {
+            "hard_support": 1,
+            "hard_refute": 0,
+            "blind_count": 0,
+            "support_strength": 1.3333333333333333,
+            "refute_strength": 0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "disk.disk_io_required",
+              "modality": "disk",
+              "kind": "disk_io_required",
+              "polarity": "support",
+              "strength": 1.3333333333333333,
+              "text": "IG01.OSLinux-OSLinux_LOCALDISK_LOCALDISK-sda_DSKReadWrite below_threshold value=5 threshold=6",
+              "details": {
+                "cmdb_id": "IG01",
+                "kpi_name": "OSLinux-OSLinux_LOCALDISK_LOCALDISK-sda_DSKReadWrite",
+                "value": 5.0,
+                "deviation": -1.3333333333333333
+              },
+              "rule_type": "hard",
+              "group": "round_1_cheap_metric"
+            }
+          ]
+        },
+        {
+          "candidate": {
+            "service": "IG02",
+            "reason": "high disk I/O read usage",
+            "reason_bucket": "disk_io"
+          },
+          "evidence_vector": {
+            "hard_support": 0,
+            "hard_refute": 1,
+            "blind_count": 0,
+            "support_strength": 0,
+            "refute_strength": 1.0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "disk.disk_io_required",
+              "modality": "disk",
+              "kind": "disk_io_required",
+              "polarity": "refute",
+              "strength": 1.0,
+              "text": "no percentile anomaly among 56 samples",
+              "details": {
+                "checked": 56
+              },
+              "rule_type": "hard",
+              "group": "round_1_cheap_metric"
+            }
+          ]
+        },
+        {
+          "candidate": {
+            "service": "MG01",
+            "reason": "high disk I/O read usage",
+            "reason_bucket": "disk_io"
+          },
+          "evidence_vector": {
+            "hard_support": 0,
+            "hard_refute": 1,
+            "blind_count": 0,
+            "support_strength": 0,
+            "refute_strength": 1.0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "disk.disk_io_required",
+              "modality": "disk",
+              "kind": "disk_io_required",
+              "polarity": "refute",
+              "strength": 1.0,
+              "text": "no percentile anomaly among 46 samples",
+              "details": {
+                "checked": 46
+              },
+              "rule_type": "hard",
+              "group": "round_1_cheap_metric"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "date": "2021_03_10",
+      "timestamp": 1615306740,
+      "datetime": "2021-03-10 00:19:00",
+      "true_component": "IG01",
+      "reason": "high CPU usage",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": true,
+      "top3_hit": true,
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "confidence_features": {
+        "support_strength": 403.15544108575256,
+        "top1_top2_gap": 403.15544108575256,
+        "hard_support_count": 1,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      },
+      "signature": {
+        "case_id": "2021_03_10__IG01__1615306740",
+        "modal_coverage": {
+          "metric": "present",
+          "log": "present",
+          "trace": "unloaded"
+        },
+        "services": [
+          {
+            "service": "IG01",
+            "metric": {
+              "container_cpu_required": {
+                "state": "support",
+                "intensity": 3,
+                "details": {
+                  "cmdb_id": "IG01",
+                  "kpi_name": "OSLinux-CPU_CPU_CPUUserTime",
+                  "value": 90.5126,
+                  "deviation": 403.15544108575256
+                }
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "IG02",
+            "metric": {
+              "container_cpu_required": {
+                "state": "refute",
+                "intensity": 1,
+                "details": {
+                  "checked": 87
+                }
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "MG01",
+            "metric": {
+              "container_cpu_required": {
+                "state": "refute",
+                "intensity": 1,
+                "details": {
+                  "checked": 82
+                }
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "MG02",
+            "metric": {
+              "container_cpu_required": {
+                "state": "refute",
+                "intensity": 1,
+                "details": {
+                  "checked": 80
+                }
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "Mysql01",
+            "metric": {
+              "container_cpu_required": {
+                "state": "refute",
+                "intensity": 1,
+                "details": {
+                  "checked": 102
+                }
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "anomaly_distribution": {
+          "active_services": 1,
+          "dominant_service": "IG01",
+          "concentration": 1.0
+        },
+        "dominant_evidence_types": [
+          "container_cpu_required"
+        ],
+        "blind_spots": [
+          "trace"
+        ]
+      },
+      "ranked": [
+        {
+          "candidate": {
+            "service": "IG01",
+            "reason": "high CPU usage",
+            "reason_bucket": "cpu"
+          },
+          "evidence_vector": {
+            "hard_support": 1,
+            "hard_refute": 0,
+            "blind_count": 0,
+            "support_strength": 403.15544108575256,
+            "refute_strength": 0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "cpu.container_cpu_required",
+              "modality": "cpu",
+              "kind": "container_cpu_required",
+              "polarity": "support",
+              "strength": 403.15544108575256,
+              "text": "IG01.OSLinux-CPU_CPU_CPUUserTime above_threshold value=90.5126 threshold=25.4741",
+              "details": {
+                "cmdb_id": "IG01",
+                "kpi_name": "OSLinux-CPU_CPU_CPUUserTime",
+                "value": 90.5126,
+                "deviation": 403.15544108575256
+              },
+              "rule_type": "hard",
+              "group": "round_1_cheap_metric"
+            }
+          ]
+        },
+        {
+          "candidate": {
+            "service": "IG02",
+            "reason": "high CPU usage",
+            "reason_bucket": "cpu"
+          },
+          "evidence_vector": {
+            "hard_support": 0,
+            "hard_refute": 1,
+            "blind_count": 0,
+            "support_strength": 0,
+            "refute_strength": 1.0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "cpu.container_cpu_required",
+              "modality": "cpu",
+              "kind": "container_cpu_required",
+              "polarity": "refute",
+              "strength": 1.0,
+              "text": "no percentile anomaly among 87 samples",
+              "details": {
+                "checked": 87
+              },
+              "rule_type": "hard",
+              "group": "round_1_cheap_metric"
+            }
+          ]
+        },
+        {
+          "candidate": {
+            "service": "MG01",
+            "reason": "high CPU usage",
+            "reason_bucket": "cpu"
+          },
+          "evidence_vector": {
+            "hard_support": 0,
+            "hard_refute": 1,
+            "blind_count": 0,
+            "support_strength": 0,
+            "refute_strength": 1.0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "cpu.container_cpu_required",
+              "modality": "cpu",
+              "kind": "container_cpu_required",
+              "polarity": "refute",
+              "strength": 1.0,
+              "text": "no percentile anomaly among 82 samples",
+              "details": {
+                "checked": 82
+              },
+              "rule_type": "hard",
+              "group": "round_1_cheap_metric"
+            }
+          ]
+        },
+        {
+          "candidate": {
+            "service": "MG02",
+            "reason": "high CPU usage",
+            "reason_bucket": "cpu"
+          },
+          "evidence_vector": {
+            "hard_support": 0,
+            "hard_refute": 1,
+            "blind_count": 0,
+            "support_strength": 0,
+            "refute_strength": 1.0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "cpu.container_cpu_required",
+              "modality": "cpu",
+              "kind": "container_cpu_required",
+              "polarity": "refute",
+              "strength": 1.0,
+              "text": "no percentile anomaly among 80 samples",
+              "details": {
+                "checked": 80
+              },
+              "rule_type": "hard",
+              "group": "round_1_cheap_metric"
+            }
+          ]
+        },
+        {
+          "candidate": {
+            "service": "Mysql01",
+            "reason": "high CPU usage",
+            "reason_bucket": "cpu"
+          },
+          "evidence_vector": {
+            "hard_support": 0,
+            "hard_refute": 1,
+            "blind_count": 0,
+            "support_strength": 0,
+            "refute_strength": 1.0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "cpu.container_cpu_required",
+              "modality": "cpu",
+              "kind": "container_cpu_required",
+              "polarity": "refute",
+              "strength": 1.0,
+              "text": "no percentile anomaly among 102 samples",
+              "details": {
+                "checked": 102
+              },
+              "rule_type": "hard",
+              "group": "round_1_cheap_metric"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "date": "2021_03_10",
+      "timestamp": 1615322280,
+      "datetime": "2021-03-10 04:38:00",
+      "true_component": "Tomcat01",
+      "reason": "high CPU usage",
+      "top5": [
+        "Tomcat01",
+        "apache02",
+        "Tomcat03",
+        "IG02",
+        "Tomcat04"
+      ],
+      "top1_hit": true,
+      "top3_hit": true,
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "confidence_features": {
+        "support_strength": 104.75507515641543,
+        "top1_top2_gap": 102.93086288444196,
+        "hard_support_count": 1,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      },
+      "signature": {
+        "case_id": "2021_03_10__Tomcat01__1615322280",
+        "modal_coverage": {
+          "metric": "present",
+          "log": "present",
+          "trace": "unloaded"
+        },
+        "services": [
+          {
+            "service": "Tomcat01",
+            "metric": {
+              "container_cpu_required": {
+                "state": "support",
+                "intensity": 3,
+                "details": {
+                  "cmdb_id": "Tomcat01",
+                  "kpi_name": "OSLinux-CPU_CPU_CPUUserTime",
+                  "value": 99.0745,
+                  "deviation": 104.75507515641543
+                }
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "apache02",
+            "metric": {
+              "container_cpu_required": {
+                "state": "support",
+                "intensity": 1,
+                "details": {
+                  "cmdb_id": "apache02",
+                  "kpi_name": "OSLinux-CPU_CPU_CPUSysTime",
+                  "value": 0.5109,
+                  "deviation": 1.8242122719734661
+                }
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "Tomcat03",
+            "metric": {
+              "container_cpu_required": {
+                "state": "support",
+                "intensity": 1,
+                "details": {
+                  "cmdb_id": "Tomcat03",
+                  "kpi_name": "OSLinux-CPU_CPU-2_SingleCpuUtil",
+                  "value": 0.7151,
+                  "deviation": -1.3583078355363019
+                }
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "IG02",
+            "metric": {
+              "container_cpu_required": {
+                "state": "support",
+                "intensity": 1,
+                "details": {
+                  "cmdb_id": "IG02",
+                  "kpi_name": "OSLinux-CPU_CPU_CPUSysTime",
+                  "value": 0.1621,
+                  "deviation": -1.2579092159559835
+                }
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "Tomcat04",
+            "metric": {
+              "container_cpu_required": {
+                "state": "support",
+                "intensity": 1,
+                "details": {
+                  "cmdb_id": "Tomcat04",
+                  "kpi_name": "OSLinux-CPU_CPU_CPUSysTime",
+                  "value": 0.241,
+                  "deviation": -0.7012314370515046
+                }
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "anomaly_distribution": {
+          "active_services": 5,
+          "dominant_service": "Tomcat01",
+          "concentration": 0.42857142857142855
+        },
+        "dominant_evidence_types": [
+          "container_cpu_required"
+        ],
+        "blind_spots": [
+          "trace"
+        ]
+      },
+      "ranked": [
+        {
+          "candidate": {
+            "service": "Tomcat01",
+            "reason": "high CPU usage",
+            "reason_bucket": "cpu"
+          },
+          "evidence_vector": {
+            "hard_support": 1,
+            "hard_refute": 0,
+            "blind_count": 0,
+            "support_strength": 104.75507515641543,
+            "refute_strength": 0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "cpu.container_cpu_required",
+              "modality": "cpu",
+              "kind": "container_cpu_required",
+              "polarity": "support",
+              "strength": 104.75507515641543,
+              "text": "Tomcat01.OSLinux-CPU_CPU_CPUUserTime above_threshold value=99.0745 threshold=46.2448",
+              "details": {
+                "cmdb_id": "Tomcat01",
+                "kpi_name": "OSLinux-CPU_CPU_CPUUserTime",
+                "value": 99.0745,
+                "deviation": 104.75507515641543
+              },
+              "rule_type": "hard",
+              "group": "round_1_cheap_metric"
+            }
+          ]
+        },
+        {
+          "candidate": {
+            "service": "apache02",
+            "reason": "high CPU usage",
+            "reason_bucket": "cpu"
+          },
+          "evidence_vector": {
+            "hard_support": 1,
+            "hard_refute": 0,
+            "blind_count": 0,
+            "support_strength": 1.8242122719734661,
+            "refute_strength": 0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "cpu.container_cpu_required",
+              "modality": "cpu",
+              "kind": "container_cpu_required",
+              "polarity": "support",
+              "strength": 1.8242122719734661,
+              "text": "apache02.OSLinux-CPU_CPU_CPUSysTime above_threshold value=0.5109 threshold=0.507",
+              "details": {
+                "cmdb_id": "apache02",
+                "kpi_name": "OSLinux-CPU_CPU_CPUSysTime",
+                "value": 0.5109,
+                "deviation": 1.8242122719734661
+              },
+              "rule_type": "hard",
+              "group": "round_1_cheap_metric"
+            }
+          ]
+        },
+        {
+          "candidate": {
+            "service": "Tomcat03",
+            "reason": "high CPU usage",
+            "reason_bucket": "cpu"
+          },
+          "evidence_vector": {
+            "hard_support": 1,
+            "hard_refute": 0,
+            "blind_count": 0,
+            "support_strength": 1.3583078355363019,
+            "refute_strength": 0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "cpu.container_cpu_required",
+              "modality": "cpu",
+              "kind": "container_cpu_required",
+              "polarity": "support",
+              "strength": 1.3583078355363019,
+              "text": "Tomcat03.OSLinux-CPU_CPU-2_SingleCpuUtil below_threshold value=0.7151 threshold=0.748136",
+              "details": {
+                "cmdb_id": "Tomcat03",
+                "kpi_name": "OSLinux-CPU_CPU-2_SingleCpuUtil",
+                "value": 0.7151,
+                "deviation": -1.3583078355363019
+              },
+              "rule_type": "hard",
+              "group": "round_1_cheap_metric"
+            }
+          ]
+        },
+        {
+          "candidate": {
+            "service": "IG02",
+            "reason": "high CPU usage",
+            "reason_bucket": "cpu"
+          },
+          "evidence_vector": {
+            "hard_support": 1,
+            "hard_refute": 0,
+            "blind_count": 0,
+            "support_strength": 1.2579092159559835,
+            "refute_strength": 0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "cpu.container_cpu_required",
+              "modality": "cpu",
+              "kind": "container_cpu_required",
+              "polarity": "support",
+              "strength": 1.2579092159559835,
+              "text": "IG02.OSLinux-CPU_CPU_CPUSysTime below_threshold value=0.1621 threshold=0.1745",
+              "details": {
+                "cmdb_id": "IG02",
+                "kpi_name": "OSLinux-CPU_CPU_CPUSysTime",
+                "value": 0.1621,
+                "deviation": -1.2579092159559835
+              },
+              "rule_type": "hard",
+              "group": "round_1_cheap_metric"
+            }
+          ]
+        },
+        {
+          "candidate": {
+            "service": "Tomcat04",
+            "reason": "high CPU usage",
+            "reason_bucket": "cpu"
+          },
+          "evidence_vector": {
+            "hard_support": 1,
+            "hard_refute": 0,
+            "blind_count": 0,
+            "support_strength": 0.7012314370515046,
+            "refute_strength": 0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "cpu.container_cpu_required",
+              "modality": "cpu",
+              "kind": "container_cpu_required",
+              "polarity": "support",
+              "strength": 0.7012314370515046,
+              "text": "Tomcat04.OSLinux-CPU_CPU_CPUSysTime below_threshold value=0.241 threshold=0.2493",
+              "details": {
+                "cmdb_id": "Tomcat04",
+                "kpi_name": "OSLinux-CPU_CPU_CPUSysTime",
+                "value": 0.241,
+                "deviation": -0.7012314370515046
+              },
+              "rule_type": "hard",
+              "group": "round_1_cheap_metric"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "date": "2021_03_10",
+      "timestamp": 1615336200,
+      "datetime": "2021-03-10 08:30:00",
+      "true_component": "apache01",
+      "reason": "high CPU usage",
+      "top5": [
+        "apache01",
+        "Redis01",
+        "IG01",
+        "IG02",
+        "MG01"
+      ],
+      "top1_hit": true,
+      "top3_hit": true,
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "confidence_features": {
+        "support_strength": 9.047683776318614,
+        "top1_top2_gap": 2.9365726652075077,
+        "hard_support_count": 1,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      },
+      "signature": {
+        "case_id": "2021_03_10__apache01__1615336200",
+        "modal_coverage": {
+          "metric": "present",
+          "log": "present",
+          "trace": "unloaded"
+        },
+        "services": [
+          {
+            "service": "apache01",
+            "metric": {
+              "container_cpu_required": {
+                "state": "support",
+                "intensity": 2,
+                "details": {
+                  "cmdb_id": "apache01",
+                  "kpi_name": "OSLinux-CPU_CPU_CPUUserTime",
+                  "value": 70.6318,
+                  "deviation": 9.047683776318614
+                }
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "Redis01",
+            "metric": {
+              "container_cpu_required": {
+                "state": "support",
+                "intensity": 2,
+                "details": {
+                  "cmdb_id": "Redis01",
+                  "kpi_name": "OSLinux-CPU_CPU_CPULoad",
+                  "value": 1.59,
+                  "deviation": 6.111111111111106
+                }
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "IG01",
+            "metric": {
+              "container_cpu_required": {
+                "state": "refute",
+                "intensity": 1,
+                "details": {
+                  "checked": 87
+                }
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "IG02",
+            "metric": {
+              "container_cpu_required": {
+                "state": "refute",
+                "intensity": 1,
+                "details": {
+                  "checked": 87
+                }
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "MG01",
+            "metric": {
+              "container_cpu_required": {
+                "state": "refute",
+                "intensity": 1,
+                "details": {
+                  "checked": 71
+                }
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "anomaly_distribution": {
+          "active_services": 2,
+          "dominant_service": "apache01",
+          "concentration": 0.5
+        },
+        "dominant_evidence_types": [
+          "container_cpu_required"
+        ],
+        "blind_spots": [
+          "trace"
+        ]
+      },
+      "ranked": [
+        {
+          "candidate": {
+            "service": "apache01",
+            "reason": "high CPU usage",
+            "reason_bucket": "cpu"
+          },
+          "evidence_vector": {
+            "hard_support": 1,
+            "hard_refute": 0,
+            "blind_count": 0,
+            "support_strength": 9.047683776318614,
+            "refute_strength": 0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "cpu.container_cpu_required",
+              "modality": "cpu",
+              "kind": "container_cpu_required",
+              "polarity": "support",
+              "strength": 9.047683776318614,
+              "text": "apache01.OSLinux-CPU_CPU_CPUUserTime above_threshold value=70.6318 threshold=7.37876",
+              "details": {
+                "cmdb_id": "apache01",
+                "kpi_name": "OSLinux-CPU_CPU_CPUUserTime",
+                "value": 70.6318,
+                "deviation": 9.047683776318614
+              },
+              "rule_type": "hard",
+              "group": "round_1_cheap_metric"
+            }
+          ]
+        },
+        {
+          "candidate": {
+            "service": "Redis01",
+            "reason": "high CPU usage",
+            "reason_bucket": "cpu"
+          },
+          "evidence_vector": {
+            "hard_support": 1,
+            "hard_refute": 0,
+            "blind_count": 0,
+            "support_strength": 6.111111111111106,
+            "refute_strength": 0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "cpu.container_cpu_required",
+              "modality": "cpu",
+              "kind": "container_cpu_required",
+              "polarity": "support",
+              "strength": 6.111111111111106,
+              "text": "Redis01.OSLinux-CPU_CPU_CPULoad above_threshold value=1.59 threshold=1.41",
+              "details": {
+                "cmdb_id": "Redis01",
+                "kpi_name": "OSLinux-CPU_CPU_CPULoad",
+                "value": 1.59,
+                "deviation": 6.111111111111106
+              },
+              "rule_type": "hard",
+              "group": "round_1_cheap_metric"
+            }
+          ]
+        },
+        {
+          "candidate": {
+            "service": "IG01",
+            "reason": "high CPU usage",
+            "reason_bucket": "cpu"
+          },
+          "evidence_vector": {
+            "hard_support": 0,
+            "hard_refute": 1,
+            "blind_count": 0,
+            "support_strength": 0,
+            "refute_strength": 1.0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "cpu.container_cpu_required",
+              "modality": "cpu",
+              "kind": "container_cpu_required",
+              "polarity": "refute",
+              "strength": 1.0,
+              "text": "no percentile anomaly among 87 samples",
+              "details": {
+                "checked": 87
+              },
+              "rule_type": "hard",
+              "group": "round_1_cheap_metric"
+            }
+          ]
+        },
+        {
+          "candidate": {
+            "service": "IG02",
+            "reason": "high CPU usage",
+            "reason_bucket": "cpu"
+          },
+          "evidence_vector": {
+            "hard_support": 0,
+            "hard_refute": 1,
+            "blind_count": 0,
+            "support_strength": 0,
+            "refute_strength": 1.0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "cpu.container_cpu_required",
+              "modality": "cpu",
+              "kind": "container_cpu_required",
+              "polarity": "refute",
+              "strength": 1.0,
+              "text": "no percentile anomaly among 87 samples",
+              "details": {
+                "checked": 87
+              },
+              "rule_type": "hard",
+              "group": "round_1_cheap_metric"
+            }
+          ]
+        },
+        {
+          "candidate": {
+            "service": "MG01",
+            "reason": "high CPU usage",
+            "reason_bucket": "cpu"
+          },
+          "evidence_vector": {
+            "hard_support": 0,
+            "hard_refute": 1,
+            "blind_count": 0,
+            "support_strength": 0,
+            "refute_strength": 1.0
+          },
+          "evidence_cards": [
+            {
+              "rule_id": "cpu.container_cpu_required",
+              "modality": "cpu",
+              "kind": "container_cpu_required",
+              "polarity": "refute",
+              "strength": 1.0,
+              "text": "no percentile anomaly among 71 samples",
+              "details": {
+                "checked": 71
+              },
+              "rule_type": "hard",
+              "group": "round_1_cheap_metric"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "date": "2021_03_10",
+      "timestamp": 1615369860,
+      "datetime": "2021-03-10 17:51:00",
+      "true_component": "Tomcat02",
+      "reason": "JVM Out of Memory (OOM) Heap",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      },
+      "signature": {
+        "case_id": "2021_03_10__Tomcat02__1615369860",
+        "modal_coverage": {
+          "metric": "present",
+          "log": "present",
+          "trace": "unloaded"
+        },
+        "services": [
+          {
+            "service": "IG01",
+            "metric": {},
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "IG02",
+            "metric": {},
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "MG01",
+            "metric": {},
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "MG02",
+            "metric": {},
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "Mysql01",
+            "metric": {},
+            "log": {},
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "anomaly_distribution": {
+          "active_services": 0,
+          "dominant_service": "IG01",
+          "concentration": 0.0
+        },
+        "dominant_evidence_types": [],
+        "blind_spots": [
+          "trace"
+        ]
+      },
+      "ranked": [
+        {
+          "candidate": {
+            "service": "IG01",
+            "reason": "JVM Out of Memory (OOM) Heap",
+            "reason_bucket": "jvm_oom"
+          },
+          "evidence_vector": {
+            "hard_support": 0,
+            "hard_refute": 0,
+            "blind_count": 0,
+            "support_strength": 0,
+            "refute_strength": 0
+          },
+          "evidence_cards": []
+        },
+        {
+          "candidate": {
+            "service": "IG02",
+            "reason": "JVM Out of Memory (OOM) Heap",
+            "reason_bucket": "jvm_oom"
+          },
+          "evidence_vector": {
+            "hard_support": 0,
+            "hard_refute": 0,
+            "blind_count": 0,
+            "support_strength": 0,
+            "refute_strength": 0
+          },
+          "evidence_cards": []
+        },
+        {
+          "candidate": {
+            "service": "MG01",
+            "reason": "JVM Out of Memory (OOM) Heap",
+            "reason_bucket": "jvm_oom"
+          },
+          "evidence_vector": {
+            "hard_support": 0,
+            "hard_refute": 0,
+            "blind_count": 0,
+            "support_strength": 0,
+            "refute_strength": 0
+          },
+          "evidence_cards": []
+        },
+        {
+          "candidate": {
+            "service": "MG02",
+            "reason": "JVM Out of Memory (OOM) Heap",
+            "reason_bucket": "jvm_oom"
+          },
+          "evidence_vector": {
+            "hard_support": 0,
+            "hard_refute": 0,
+            "blind_count": 0,
+            "support_strength": 0,
+            "refute_strength": 0
+          },
+          "evidence_cards": []
+        },
+        {
+          "candidate": {
+            "service": "Mysql01",
+            "reason": "JVM Out of Memory (OOM) Heap",
+            "reason_bucket": "jvm_oom"
+          },
+          "evidence_vector": {
+            "hard_support": 0,
+            "hard_refute": 0,
+            "blind_count": 0,
+            "support_strength": 0,
+            "refute_strength": 0
+          },
+          "evidence_cards": []
+        }
+      ]
+    }
+  ],
+  "top1_rate": 0.5625,
+  "top3_rate": 0.5625
+}

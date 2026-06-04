@@ -1,0 +1,3411 @@
+{
+  "version": 1,
+  "design": "d32_layer1_knowledge",
+  "config": {
+    "cluster_threshold": 0.48,
+    "min_rule_support": 3,
+    "min_rule_confidence": 0.62,
+    "max_rule_len": 2,
+    "validate_rules_lodo": true,
+    "min_rule_validation_support": 1,
+    "min_rule_validation_confidence": 0.5,
+    "min_rule_validation_dates": 2
+  },
+  "cases": [
+    {
+      "case_id": "query_032",
+      "row_id": 32,
+      "component": "node-2",
+      "reason": "node disk read I/O consumption",
+      "task_index": "task_4",
+      "date_key": "2022_03_21",
+      "signature": {
+        "case_id": "query_032",
+        "services": [
+          {
+            "service": "adservice2.ts:8088",
+            "metric": {
+              "cpu": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 8.019692163883434,
+                "examples": [
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuLoad",
+                    "value": 0.0007867576711198,
+                    "deviation": 8.019692163883434
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "metric:cpu"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_033",
+      "row_id": 33,
+      "component": "shippingservice-0",
+      "reason": "container network packet retransmission",
+      "task_index": "task_3",
+      "date_key": "2022_03_21",
+      "signature": {
+        "case_id": "query_033",
+        "services": [
+          {
+            "service": "adservice2.ts:8088",
+            "metric": {
+              "cpu": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 8.019692163883434,
+                "examples": [
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuLoad",
+                    "value": 0.0007867576711198,
+                    "deviation": 8.019692163883434
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "metric:cpu"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_034",
+      "row_id": 34,
+      "component": "frontend-2",
+      "reason": "container read I/O load",
+      "task_index": "task_1",
+      "date_key": "2022_03_21",
+      "signature": {
+        "case_id": "query_034",
+        "services": [
+          {
+            "service": "adservice2.ts:8088",
+            "metric": {
+              "memory": {
+                "state": "support",
+                "intensity": 1,
+                "strength": 0.4948249354537495,
+                "examples": [
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Eden_Space",
+                    "value": 3502004.6666666665,
+                    "deviation": -0.4948249354537495
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "metric:memory"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_035",
+      "row_id": 35,
+      "component": "paymentservice-0",
+      "reason": "container network packet retransmission",
+      "task_index": "task_2",
+      "date_key": "2022_03_21",
+      "signature": {
+        "case_id": "query_035",
+        "services": [
+          {
+            "service": "adservice.ts:8088",
+            "metric": {
+              "memory": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 8.471340366218485,
+                "examples": [
+                  {
+                    "kpi": "java_lang_OperatingSystem_FreePhysicalMemorySize",
+                    "value": 376397824.0,
+                    "deviation": -1.1446713552408136
+                  },
+                  {
+                    "kpi": "java_lang_OperatingSystem_FreePhysicalMemorySize",
+                    "value": 376369152.0,
+                    "deviation": -1.1457643438490097
+                  },
+                  {
+                    "kpi": "java_lang_OperatingSystem_FreePhysicalMemorySize",
+                    "value": 376369152.0,
+                    "deviation": -1.1457643438490097
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "adservice2.ts:8088",
+            "metric": {
+              "cpu": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 115.99079777473335,
+                "examples": [
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuLoad",
+                    "value": 0.0012168900123654,
+                    "deviation": 14.015199771387943
+                  },
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuLoad",
+                    "value": 0.0049494760237555,
+                    "deviation": 66.04278682087299
+                  },
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuLoad",
+                    "value": 0.0027893129209713,
+                    "deviation": 35.93281118247242
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "metric:cpu",
+          "metric:memory"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_036",
+      "row_id": 36,
+      "component": "node-2",
+      "reason": "node disk space consumption",
+      "task_index": "task_5",
+      "date_key": "2022_03_21",
+      "signature": {
+        "case_id": "query_036",
+        "services": [
+          {
+            "service": "adservice.ts:8088",
+            "metric": {
+              "memory": {
+                "state": "support",
+                "intensity": 1,
+                "strength": 1.4393610161317416,
+                "examples": [
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Eden_Space",
+                    "value": 3505865.333333333,
+                    "deviation": -1.4393610161317416
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "adservice2.ts:8088",
+            "metric": {
+              "memory": {
+                "state": "support",
+                "intensity": 2,
+                "strength": 5.1387593470082695,
+                "examples": [
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Survivor_Space",
+                    "value": 636108.6666666666,
+                    "deviation": 2.569421909222372
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_CollectionUsage_used.Survivor_Space",
+                    "value": 636108.6666666666,
+                    "deviation": 2.5693374377858973
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "metric:memory"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_037",
+      "row_id": 37,
+      "component": "cartservice",
+      "reason": "container network packet corruption",
+      "task_index": "task_6",
+      "date_key": "2022_03_21",
+      "signature": {
+        "case_id": "query_037",
+        "services": [
+          {
+            "service": "adservice.ts:8088",
+            "metric": {
+              "memory": {
+                "state": "support",
+                "intensity": 1,
+                "strength": 2.2867013213451526,
+                "examples": [
+                  {
+                    "kpi": "java_lang_OperatingSystem_FreePhysicalMemorySize",
+                    "value": 376434346.6666667,
+                    "deviation": -1.1432790959422774
+                  },
+                  {
+                    "kpi": "java_lang_OperatingSystem_FreePhysicalMemorySize",
+                    "value": 376430592.0,
+                    "deviation": -1.1434222254028752
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "metric:memory"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_038",
+      "row_id": 38,
+      "component": "node-5",
+      "reason": "node disk space consumption",
+      "task_index": "task_3",
+      "date_key": "2022_03_21",
+      "signature": {
+        "case_id": "query_038",
+        "services": [
+          {
+            "service": "adservice.ts:8088",
+            "metric": {
+              "memory": {
+                "state": "support",
+                "intensity": 1,
+                "strength": 1.5098296873899308,
+                "examples": [
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Eden_Space",
+                    "value": 3453847.333333333,
+                    "deviation": -1.5098296873899308
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "metric:memory"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_039",
+      "row_id": 39,
+      "component": "emailservice",
+      "reason": "container read I/O load",
+      "task_index": "task_2",
+      "date_key": "2022_03_21",
+      "signature": {
+        "case_id": "query_039",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_040",
+      "row_id": 40,
+      "component": "cartservice",
+      "reason": "container packet loss",
+      "task_index": "task_6",
+      "date_key": "2022_03_21",
+      "signature": {
+        "case_id": "query_040",
+        "services": [
+          {
+            "service": "adservice.ts:8088",
+            "metric": {
+              "cpu": {
+                "state": "support",
+                "intensity": 1,
+                "strength": 1.7407028338268287,
+                "examples": [
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuLoad",
+                    "value": 0.0001463009958757,
+                    "deviation": -0.746728782386861
+                  },
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuLoad",
+                    "value": 0.0001358989379371,
+                    "deviation": -0.9939740514399676
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "metric:cpu"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_041",
+      "row_id": 41,
+      "component": "productcatalogservice-0",
+      "reason": "container write I/O load",
+      "task_index": "task_4",
+      "date_key": "2022_03_21",
+      "signature": {
+        "case_id": "query_041",
+        "services": [
+          {
+            "service": "adservice.ts:8088",
+            "metric": {
+              "memory": {
+                "state": "support",
+                "intensity": 1,
+                "strength": 2.8583825991774265,
+                "examples": [
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Eden_Space",
+                    "value": 3491908.0,
+                    "deviation": -1.4582689851868305
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Eden_Space",
+                    "value": 3534836.6666666665,
+                    "deviation": -1.4001136139905963
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "metric:memory"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_042",
+      "row_id": 42,
+      "component": "node-4",
+      "reason": "node memory consumption",
+      "task_index": "task_4",
+      "date_key": "2022_03_21",
+      "signature": {
+        "case_id": "query_042",
+        "services": [
+          {
+            "service": "adservice.ts:8088",
+            "metric": {
+              "cpu": {
+                "state": "support",
+                "intensity": 1,
+                "strength": 0.7462920239743884,
+                "examples": [
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuLoad",
+                    "value": 0.0001463193710961,
+                    "deviation": -0.7462920239743884
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "adservice2.ts:8088",
+            "metric": {
+              "memory": {
+                "state": "support",
+                "intensity": 2,
+                "strength": 5.050158659010895,
+                "examples": [
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Survivor_Space",
+                    "value": 628409.3333333334,
+                    "deviation": 2.5251224573556885
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_CollectionUsage_used.Survivor_Space",
+                    "value": 628409.3333333334,
+                    "deviation": 2.5250362016552073
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "metric:cpu",
+          "metric:memory"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_043",
+      "row_id": 43,
+      "component": "recommendationservice-1",
+      "reason": "container network packet corruption",
+      "task_index": "task_6",
+      "date_key": "2022_03_21",
+      "signature": {
+        "case_id": "query_043",
+        "services": [
+          {
+            "service": "adservice.ts:8088",
+            "metric": {
+              "cpu": {
+                "state": "support",
+                "intensity": 1,
+                "strength": 2.240181404897321,
+                "examples": [
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuLoad",
+                    "value": 0.0001462841630481,
+                    "deviation": -0.7471288798496373
+                  },
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuLoad",
+                    "value": 0.0001463180313847,
+                    "deviation": -0.7463238674141677
+                  },
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuLoad",
+                    "value": 0.0001463010011243,
+                    "deviation": -0.7467286576335163
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "adservice2.ts:8088",
+            "metric": {
+              "memory": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 16.97506403041215,
+                "examples": [
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Survivor_Space",
+                    "value": 744302.0,
+                    "deviation": 3.1919310479741316
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Survivor_Space",
+                    "value": 664922.6666666666,
+                    "deviation": 2.7352082638097754
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Survivor_Space",
+                    "value": 634558.6666666666,
+                    "deviation": 2.560503714955332
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "metric:cpu",
+          "metric:memory"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_044",
+      "row_id": 44,
+      "component": "node-4",
+      "reason": "node CPU load",
+      "task_index": "task_4",
+      "date_key": "2022_03_21",
+      "signature": {
+        "case_id": "query_044",
+        "services": [
+          {
+            "service": "adservice.ts:8088",
+            "metric": {
+              "cpu": {
+                "state": "support",
+                "intensity": 1,
+                "strength": 1.4925535736654285,
+                "examples": [
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuLoad",
+                    "value": 0.000146324586797,
+                    "deviation": -0.746168052604499
+                  },
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuLoad",
+                    "value": 0.0001463154375037,
+                    "deviation": -0.7463855210609294
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "adservice2.ts:8088",
+            "metric": {
+              "memory": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 11.335694302021889,
+                "examples": [
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Survivor_Space",
+                    "value": 643714.0,
+                    "deviation": 2.6131805157593124
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Survivor_Space",
+                    "value": 720458.0,
+                    "deviation": 3.0547404517784607
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_CollectionUsage_used.Survivor_Space",
+                    "value": 643714.0,
+                    "deviation": 2.6130978068030344
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "metric:cpu",
+          "metric:memory"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_045",
+      "row_id": 45,
+      "component": "productcatalogservice",
+      "reason": "container packet loss",
+      "task_index": "task_2",
+      "date_key": "2022_03_21",
+      "signature": {
+        "case_id": "query_045",
+        "services": [
+          {
+            "service": "adservice.ts:8088",
+            "metric": {
+              "cpu": {
+                "state": "support",
+                "intensity": 1,
+                "strength": 0.9953773955556635,
+                "examples": [
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuLoad",
+                    "value": 0.000135839896699,
+                    "deviation": -0.9953773955556635
+                  }
+                ]
+              },
+              "memory": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 36.775346229002366,
+                "examples": [
+                  {
+                    "kpi": "java_lang_OperatingSystem_FreePhysicalMemorySize",
+                    "value": 416009557.3333333,
+                    "deviation": 0.36534445405869476
+                  },
+                  {
+                    "kpi": "java_lang_OperatingSystem_FreePhysicalMemorySize",
+                    "value": 416108544.0,
+                    "deviation": 0.36911786711080113
+                  },
+                  {
+                    "kpi": "java_lang_OperatingSystem_FreePhysicalMemorySize",
+                    "value": 416051200.0,
+                    "deviation": 0.36693188989440895
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "adservice2.ts:8088",
+            "metric": {
+              "cpu": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 135.30342592177033,
+                "examples": [
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuTime",
+                    "value": 4890000000.0,
+                    "deviation": -0.25518577710060203
+                  },
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuTime",
+                    "value": 6400000000.0,
+                    "deviation": -0.2526850111375173
+                  },
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuLoad",
+                    "value": 0.0038907294757444,
+                    "deviation": 51.28518230167405
+                  }
+                ]
+              },
+              "memory": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 251.97052014501148,
+                "examples": [
+                  {
+                    "kpi": "java_lang_OperatingSystem_FreePhysicalMemorySize",
+                    "value": 150309205.33333334,
+                    "deviation": 0.8476295626657976
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_committed.Code_Cache",
+                    "value": 7225344.0,
+                    "deviation": -23.575
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_committed.Code_Cache",
+                    "value": 8126464.0,
+                    "deviation": -22.2
+                  }
+                ]
+              },
+              "jvm_oom": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 75.07165087027505,
+                "examples": [
+                  {
+                    "kpi": "java_lang_Memory_NonHeapMemoryUsage_used",
+                    "value": 38973636.66666666,
+                    "deviation": -18.715556398640164
+                  },
+                  {
+                    "kpi": "java_lang_Memory_NonHeapMemoryUsage_used",
+                    "value": 40496430.66666666,
+                    "deviation": -17.0163508818913
+                  },
+                  {
+                    "kpi": "java_lang_Memory_NonHeapMemoryUsage_committed",
+                    "value": 40375637.333333336,
+                    "deviation": -20.685897435897434
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "metric:cpu",
+          "metric:jvm_oom",
+          "metric:memory"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_046",
+      "row_id": 46,
+      "component": "node-6",
+      "reason": "node disk write I/O consumption",
+      "task_index": "task_3",
+      "date_key": "2022_03_21",
+      "signature": {
+        "case_id": "query_046",
+        "services": [
+          {
+            "service": "adservice2.ts:8088",
+            "metric": {
+              "cpu": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 87.9220653270474,
+                "examples": [
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuTime",
+                    "value": 7530833333.333333,
+                    "deviation": -0.25081219689253603
+                  },
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuTime",
+                    "value": 8276666666.666667,
+                    "deviation": -0.2495769951613215
+                  },
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuTime",
+                    "value": 8906666666.666666,
+                    "deviation": -0.24853362922970337
+                  }
+                ]
+              },
+              "memory": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 701.2791073012174,
+                "examples": [
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_committed.Code_Cache",
+                    "value": 8749056.0,
+                    "deviation": -21.25
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_committed.Code_Cache",
+                    "value": 9426261.333333334,
+                    "deviation": -20.216666666666665
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_committed.Code_Cache",
+                    "value": 9934165.333333334,
+                    "deviation": -19.441666666666666
+                  }
+                ]
+              },
+              "jvm_oom": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 232.01170901450092,
+                "examples": [
+                  {
+                    "kpi": "java_lang_Memory_NonHeapMemoryUsage_used",
+                    "value": 41281018.0,
+                    "deviation": -16.140871253542816
+                  },
+                  {
+                    "kpi": "java_lang_Memory_NonHeapMemoryUsage_used",
+                    "value": 42085054.0,
+                    "deviation": -15.243689883728715
+                  },
+                  {
+                    "kpi": "java_lang_Memory_NonHeapMemoryUsage_used",
+                    "value": 42703805.333333336,
+                    "deviation": -14.553257902058364
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "metric:cpu",
+          "metric:jvm_oom",
+          "metric:memory"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_047",
+      "row_id": 47,
+      "component": "shippingservice-1",
+      "reason": "container memory load",
+      "task_index": "task_2",
+      "date_key": "2022_03_21",
+      "signature": {
+        "case_id": "query_047",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_048",
+      "row_id": 48,
+      "component": "node-6",
+      "reason": "node CPU load",
+      "task_index": "task_2",
+      "date_key": "2022_03_21",
+      "signature": {
+        "case_id": "query_048",
+        "services": [
+          {
+            "service": "adservice2.ts:8088",
+            "metric": {
+              "cpu": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 14.271098227071187,
+                "examples": [
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuLoad",
+                    "value": 0.0012352487918166,
+                    "deviation": 14.271098227071187
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "metric:cpu"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_049",
+      "row_id": 49,
+      "component": "frontend",
+      "reason": "container memory load",
+      "task_index": "task_6",
+      "date_key": "2022_03_21",
+      "signature": {
+        "case_id": "query_049",
+        "services": [
+          {
+            "service": "adservice2.ts:8088",
+            "metric": {
+              "cpu": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 14.271098227071187,
+                "examples": [
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuLoad",
+                    "value": 0.0012352487918166,
+                    "deviation": 14.271098227071187
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "metric:cpu"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_050",
+      "row_id": 50,
+      "component": "adservice",
+      "reason": "container read I/O load",
+      "task_index": "task_5",
+      "date_key": "2022_03_21",
+      "signature": {
+        "case_id": "query_050",
+        "services": [
+          {
+            "service": "adservice.ts:8088",
+            "metric": {
+              "memory": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 77.93245590636718,
+                "examples": [
+                  {
+                    "kpi": "java_lang_OperatingSystem_FreePhysicalMemorySize",
+                    "value": 290314240.0,
+                    "deviation": -4.426213510119897
+                  },
+                  {
+                    "kpi": "java_lang_OperatingSystem_FreePhysicalMemorySize",
+                    "value": 517120.0,
+                    "deviation": -15.473400690924919
+                  },
+                  {
+                    "kpi": "java_lang_OperatingSystem_FreePhysicalMemorySize",
+                    "value": 655018.6666666666,
+                    "deviation": -15.468143936190259
+                  }
+                ]
+              },
+              "cpu": {
+                "state": "support",
+                "intensity": 1,
+                "strength": 2.3316598747338615,
+                "examples": [
+                  {
+                    "kpi": "java_lang_OperatingSystem_SystemCpuLoad",
+                    "value": 0.0179595321522646,
+                    "deviation": 1.166065073014828
+                  },
+                  {
+                    "kpi": "java_lang_OperatingSystem_SystemCpuLoad",
+                    "value": 0.0179588372077142,
+                    "deviation": 1.1655948017190336
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "adservice2.ts:8088",
+            "metric": {
+              "memory": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 11.534759992293672,
+                "examples": [
+                  {
+                    "kpi": "java_lang_OperatingSystem_FreePhysicalMemorySize",
+                    "value": 420864.0,
+                    "deviation": -2.40626435674378
+                  },
+                  {
+                    "kpi": "java_lang_OperatingSystem_FreePhysicalMemorySize",
+                    "value": 514389.3333333333,
+                    "deviation": -2.404234035300918
+                  },
+                  {
+                    "kpi": "java_lang_OperatingSystem_FreePhysicalMemorySize",
+                    "value": 466944.0,
+                    "deviation": -2.405264015886895
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "metric:cpu",
+          "metric:memory"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_051",
+      "row_id": 51,
+      "component": "checkoutservice",
+      "reason": "container packet loss",
+      "task_index": "task_5",
+      "date_key": "2022_03_21",
+      "signature": {
+        "case_id": "query_051",
+        "services": [
+          {
+            "service": "adservice.ts:8088",
+            "metric": {
+              "cpu": {
+                "state": "support",
+                "intensity": 1,
+                "strength": 1.1651920623298269,
+                "examples": [
+                  {
+                    "kpi": "java_lang_OperatingSystem_SystemCpuLoad",
+                    "value": 0.0179582420586029,
+                    "deviation": 1.1651920623298269
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "adservice2.ts:8088",
+            "metric": {
+              "cpu": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 117.7255700523799,
+                "examples": [
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuLoad",
+                    "value": 0.0059987558249906,
+                    "deviation": 80.6684367138528
+                  },
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuLoad",
+                    "value": 0.002869974535126,
+                    "deviation": 37.057133338527095
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "metric:cpu"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_052",
+      "row_id": 52,
+      "component": "node-6",
+      "reason": "node disk read I/O consumption",
+      "task_index": "task_3",
+      "date_key": "2022_03_21",
+      "signature": {
+        "case_id": "query_052",
+        "services": [
+          {
+            "service": "adservice.ts:8088",
+            "metric": {
+              "cpu": {
+                "state": "support",
+                "intensity": 1,
+                "strength": 1.1651920623298269,
+                "examples": [
+                  {
+                    "kpi": "java_lang_OperatingSystem_SystemCpuLoad",
+                    "value": 0.0179582420586029,
+                    "deviation": 1.1651920623298269
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "adservice2.ts:8088",
+            "metric": {
+              "cpu": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 117.7255700523799,
+                "examples": [
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuLoad",
+                    "value": 0.0059987558249906,
+                    "deviation": 80.6684367138528
+                  },
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuLoad",
+                    "value": 0.002869974535126,
+                    "deviation": 37.057133338527095
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "metric:cpu"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_053",
+      "row_id": 53,
+      "component": "node-5",
+      "reason": "node disk write I/O consumption",
+      "task_index": "task_6",
+      "date_key": "2022_03_21",
+      "signature": {
+        "case_id": "query_053",
+        "services": [
+          {
+            "service": "adservice.ts:8088",
+            "metric": {
+              "memory": {
+                "state": "support",
+                "intensity": 1,
+                "strength": 2.6306644607748813,
+                "examples": [
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Survivor_Space",
+                    "value": 112384.0,
+                    "deviation": -1.3153322303874406
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_CollectionUsage_used.Survivor_Space",
+                    "value": 112384.0,
+                    "deviation": -1.3153322303874406
+                  }
+                ]
+              },
+              "cpu": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 17.52420150903482,
+                "examples": [
+                  {
+                    "kpi": "java_lang_OperatingSystem_SystemCpuLoad",
+                    "value": 0.0179670084348152,
+                    "deviation": 1.1711242983598753
+                  },
+                  {
+                    "kpi": "java_lang_OperatingSystem_SystemCpuLoad",
+                    "value": 0.0179665240442914,
+                    "deviation": 1.1707965096763524
+                  },
+                  {
+                    "kpi": "java_lang_OperatingSystem_SystemCpuLoad",
+                    "value": 0.0179658632526945,
+                    "deviation": 1.1703493497981354
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "metric:cpu",
+          "metric:memory"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_054",
+      "row_id": 54,
+      "component": "shippingservice-0",
+      "reason": "container network packet corruption",
+      "task_index": "task_5",
+      "date_key": "2022_03_21",
+      "signature": {
+        "case_id": "query_054",
+        "services": [
+          {
+            "service": "adservice.ts:8088",
+            "metric": {
+              "memory": {
+                "state": "support",
+                "intensity": 1,
+                "strength": 2.5690431303143364,
+                "examples": [
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Survivor_Space",
+                    "value": 113718.66666666669,
+                    "deviation": -1.2845215651571682
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_CollectionUsage_used.Survivor_Space",
+                    "value": 113718.66666666669,
+                    "deviation": -1.2845215651571682
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "metric:memory"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_055",
+      "row_id": 55,
+      "component": "shippingservice-2",
+      "reason": "container read I/O load",
+      "task_index": "task_3",
+      "date_key": "2022_03_21",
+      "signature": {
+        "case_id": "query_055",
+        "services": [
+          {
+            "service": "adservice2.ts:8088",
+            "metric": {
+              "cpu": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 22.463199442746543,
+                "examples": [
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuLoad",
+                    "value": 0.0012269333505997,
+                    "deviation": 14.155191362380878
+                  },
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuLoad",
+                    "value": 0.0008074421582881,
+                    "deviation": 8.308008080365664
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "metric:cpu"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_056",
+      "row_id": 56,
+      "component": "recommendationservice-0",
+      "reason": "container network packet retransmission",
+      "task_index": "task_2",
+      "date_key": "2022_03_21",
+      "signature": {
+        "case_id": "query_056",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_057",
+      "row_id": 57,
+      "component": "frontend-2",
+      "reason": "container packet loss",
+      "task_index": "task_2",
+      "date_key": "2022_03_21",
+      "signature": {
+        "case_id": "query_057",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_058",
+      "row_id": 58,
+      "component": "productcatalogservice-1",
+      "reason": "container packet loss",
+      "task_index": "task_5",
+      "date_key": "2022_03_21",
+      "signature": {
+        "case_id": "query_058",
+        "services": [
+          {
+            "service": "adservice.ts:8088",
+            "metric": {
+              "cpu": {
+                "state": "support",
+                "intensity": 1,
+                "strength": 2.7349911544179046,
+                "examples": [
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuLoad",
+                    "value": 0.0001358660996045,
+                    "deviation": -0.994754581833748
+                  },
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuLoad",
+                    "value": 0.0001359093511797,
+                    "deviation": -0.9937265403240377
+                  },
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuLoad",
+                    "value": 0.0001463101990912,
+                    "deviation": -0.7465100322601188
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "adservice2.ts:8088",
+            "metric": {
+              "memory": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 66.4394264934906,
+                "examples": [
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Survivor_Space",
+                    "value": 759058.0,
+                    "deviation": 3.2768322573963475
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Survivor_Space",
+                    "value": 1055106.6666666667,
+                    "deviation": 4.980199690835932
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Survivor_Space",
+                    "value": 977115.3333333334,
+                    "deviation": 4.531463005795867
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "metric:cpu",
+          "metric:memory"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_059",
+      "row_id": 59,
+      "component": "productcatalogservice2-0",
+      "reason": "container memory load",
+      "task_index": "task_4",
+      "date_key": "2022_03_21",
+      "signature": {
+        "case_id": "query_059",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_060",
+      "row_id": 60,
+      "component": "frontend",
+      "reason": "container CPU load",
+      "task_index": "task_1",
+      "date_key": "2022_03_21",
+      "signature": {
+        "case_id": "query_060",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_061",
+      "row_id": 61,
+      "component": "node-1",
+      "reason": "node disk space consumption",
+      "task_index": "task_7",
+      "date_key": "2022_03_21",
+      "signature": {
+        "case_id": "query_061",
+        "services": [
+          {
+            "service": "adservice.ts:8088",
+            "metric": {
+              "cpu": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 94.3886664026689,
+                "examples": [
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuTime",
+                    "value": 357758333333.3333,
+                    "deviation": -1.6845456112556738
+                  },
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuTime",
+                    "value": 357959166666.6667,
+                    "deviation": -1.683754299270252
+                  },
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuTime",
+                    "value": 358164166666.6667,
+                    "deviation": -1.6829465700237223
+                  }
+                ]
+              },
+              "memory": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 126.56641818271036,
+                "examples": [
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Code_Cache",
+                    "value": 20247418.666666668,
+                    "deviation": -17.438358318481583
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Code_Cache",
+                    "value": 20291157.33333333,
+                    "deviation": -17.00849145612711
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Code_Cache",
+                    "value": 20310645.33333333,
+                    "deviation": -16.816961945696253
+                  }
+                ]
+              },
+              "jvm_oom": {
+                "state": "support",
+                "intensity": 2,
+                "strength": 5.0859643427212005,
+                "examples": [
+                  {
+                    "kpi": "java_lang_Memory_NonHeapMemoryUsage_used",
+                    "value": 55067022.66666666,
+                    "deviation": -5.0859643427212005
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "metric:cpu",
+          "metric:jvm_oom",
+          "metric:memory"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_062",
+      "row_id": 62,
+      "component": "checkoutservice",
+      "reason": "container network packet corruption",
+      "task_index": "task_1",
+      "date_key": "2022_03_21",
+      "signature": {
+        "case_id": "query_062",
+        "services": [
+          {
+            "service": "adservice.ts:8088",
+            "metric": {
+              "memory": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 46.78193716681034,
+                "examples": [
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Eden_Space",
+                    "value": 7765290.666666667,
+                    "deviation": 4.330873202090209
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Eden_Space",
+                    "value": 7864194.666666667,
+                    "deviation": 4.464858235388681
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Eden_Space",
+                    "value": 8698656.0,
+                    "deviation": 5.595301185450907
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "adservice2.ts:8088",
+            "metric": {
+              "memory": {
+                "state": "support",
+                "intensity": 1,
+                "strength": 1.9373359569311905,
+                "examples": [
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Eden_Space",
+                    "value": 12169554.0,
+                    "deviation": 1.9373359569311905
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "metric:memory"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_063",
+      "row_id": 63,
+      "component": "adservice",
+      "reason": "container packet loss",
+      "task_index": "task_2",
+      "date_key": "2022_03_21",
+      "signature": {
+        "case_id": "query_063",
+        "services": [
+          {
+            "service": "adservice.ts:8088",
+            "metric": {
+              "memory": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 46.78193716681034,
+                "examples": [
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Eden_Space",
+                    "value": 7765290.666666667,
+                    "deviation": 4.330873202090209
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Eden_Space",
+                    "value": 7864194.666666667,
+                    "deviation": 4.464858235388681
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Eden_Space",
+                    "value": 8698656.0,
+                    "deviation": 5.595301185450907
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "adservice2.ts:8088",
+            "metric": {
+              "memory": {
+                "state": "support",
+                "intensity": 1,
+                "strength": 1.9373359569311905,
+                "examples": [
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Eden_Space",
+                    "value": 12169554.0,
+                    "deviation": 1.9373359569311905
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "metric:memory"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_064",
+      "row_id": 64,
+      "component": "node-6",
+      "reason": "node memory consumption",
+      "task_index": "task_6",
+      "date_key": "2022_03_21",
+      "signature": {
+        "case_id": "query_064",
+        "services": [
+          {
+            "service": "adservice.ts:8088",
+            "metric": {
+              "cpu": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 150.16021718653067,
+                "examples": [
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuLoad",
+                    "value": 0.0003140889180018,
+                    "deviation": 3.241402238878405
+                  },
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuLoad",
+                    "value": 0.0008057091517595,
+                    "deviation": 14.926664682603368
+                  },
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuLoad",
+                    "value": 0.0028801669749485,
+                    "deviation": 64.23420417730422
+                  }
+                ]
+              },
+              "memory": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 160.3670938871225,
+                "examples": [
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Code_Cache",
+                    "value": 23185824.0,
+                    "deviation": 11.440507390711536
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Code_Cache",
+                    "value": 23197344.0,
+                    "deviation": 11.553726805744555
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Code_Cache",
+                    "value": 23198144.0,
+                    "deviation": 11.561589265121848
+                  }
+                ]
+              },
+              "jvm_oom": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 110.7548629710792,
+                "examples": [
+                  {
+                    "kpi": "java_lang_Memory_NonHeapMemoryUsage_used",
+                    "value": 58294008.0,
+                    "deviation": 27.65270676081487
+                  },
+                  {
+                    "kpi": "java_lang_Memory_NonHeapMemoryUsage_used",
+                    "value": 58305528.0,
+                    "deviation": 27.769580391202012
+                  },
+                  {
+                    "kpi": "java_lang_Memory_NonHeapMemoryUsage_used",
+                    "value": 58306328.0,
+                    "deviation": 27.777696615534452
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "adservice2.ts:8088",
+            "metric": {
+              "memory": {
+                "state": "support",
+                "intensity": 2,
+                "strength": 5.054270700639313,
+                "examples": [
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Survivor_Space",
+                    "value": 628766.6666666666,
+                    "deviation": 2.5271784367652077
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_CollectionUsage_used.Survivor_Space",
+                    "value": 628766.6666666666,
+                    "deviation": 2.5270922638741045
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "metric:cpu",
+          "metric:jvm_oom",
+          "metric:memory"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_065",
+      "row_id": 65,
+      "component": "shippingservice",
+      "reason": "container memory load",
+      "task_index": "task_2",
+      "date_key": "2022_03_21",
+      "signature": {
+        "case_id": "query_065",
+        "services": [
+          {
+            "service": "adservice.ts:8088",
+            "metric": {
+              "memory": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 143.4737490297235,
+                "examples": [
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Code_Cache",
+                    "value": 23164032.0,
+                    "deviation": 11.226333997274073
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Code_Cache",
+                    "value": 23164032.0,
+                    "deviation": 11.226333997274073
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Code_Cache",
+                    "value": 23164032.0,
+                    "deviation": 11.226333997274073
+                  }
+                ]
+              },
+              "jvm_oom": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 247.36523009495983,
+                "examples": [
+                  {
+                    "kpi": "java_lang_Memory_NonHeapMemoryUsage_used",
+                    "value": 58273000.0,
+                    "deviation": 27.43957470984498
+                  },
+                  {
+                    "kpi": "java_lang_Memory_NonHeapMemoryUsage_used",
+                    "value": 58273000.0,
+                    "deviation": 27.43957470984498
+                  },
+                  {
+                    "kpi": "java_lang_Memory_NonHeapMemoryUsage_used",
+                    "value": 58273000.0,
+                    "deviation": 27.43957470984498
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "adservice2.ts:8088",
+            "metric": {
+              "memory": {
+                "state": "support",
+                "intensity": 1,
+                "strength": 0.993192312138409,
+                "examples": [
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Survivor_Space",
+                    "value": 103246.66666666669,
+                    "deviation": -0.496492176921631
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_CollectionUsage_used.Survivor_Space",
+                    "value": 103246.66666666669,
+                    "deviation": -0.496700135216778
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "metric:jvm_oom",
+          "metric:memory"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_066",
+      "row_id": 66,
+      "component": "paymentservice",
+      "reason": "container CPU load",
+      "task_index": "task_7",
+      "date_key": "2022_03_21",
+      "signature": {
+        "case_id": "query_066",
+        "services": [
+          {
+            "service": "adservice.ts:8088",
+            "metric": {
+              "cpu": {
+                "state": "support",
+                "intensity": 1,
+                "strength": 2.9907513370830188,
+                "examples": [
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuLoad",
+                    "value": 0.0003035435789026,
+                    "deviation": 2.9907513370830188
+                  }
+                ]
+              },
+              "memory": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 38.48157736598388,
+                "examples": [
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Eden_Space",
+                    "value": 7724068.0,
+                    "deviation": 4.275028945376778
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Survivor_Space",
+                    "value": 101128.66666666669,
+                    "deviation": -1.575160632526642
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Survivor_Space",
+                    "value": 113103.33333333331,
+                    "deviation": -1.298726482243853
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "adservice2.ts:8088",
+            "metric": {
+              "memory": {
+                "state": "support",
+                "intensity": 2,
+                "strength": 5.112890309002628,
+                "examples": [
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Survivor_Space",
+                    "value": 633860.6666666666,
+                    "deviation": 2.556487650698304
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_CollectionUsage_used.Survivor_Space",
+                    "value": 633860.6666666666,
+                    "deviation": 2.5564026583043242
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "metric:cpu",
+          "metric:memory"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_067",
+      "row_id": 67,
+      "component": "checkoutservice-2",
+      "reason": "container network packet corruption",
+      "task_index": "task_6",
+      "date_key": "2022_03_21",
+      "signature": {
+        "case_id": "query_067",
+        "services": [
+          {
+            "service": "adservice.ts:8088",
+            "metric": {
+              "cpu": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 7.473217735106016,
+                "examples": [
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuLoad",
+                    "value": 0.0004921290889859,
+                    "deviation": 7.473217735106016
+                  }
+                ]
+              },
+              "memory": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 22.768559139788557,
+                "examples": [
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Eden_Space",
+                    "value": 7725190.666666667,
+                    "deviation": 4.276549819463938
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Eden_Space",
+                    "value": 7824010.0,
+                    "deviation": 4.410420155013556
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Eden_Space",
+                    "value": 7725000.0,
+                    "deviation": 4.276291523746047
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "metric:cpu",
+          "metric:memory"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_068",
+      "row_id": 68,
+      "component": "node-2",
+      "reason": "node memory consumption",
+      "task_index": "task_4",
+      "date_key": "2022_03_21",
+      "signature": {
+        "case_id": "query_068",
+        "services": [
+          {
+            "service": "adservice.ts:8088",
+            "metric": {
+              "cpu": {
+                "state": "support",
+                "intensity": 2,
+                "strength": 5.223415090566275,
+                "examples": [
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuLoad",
+                    "value": 0.0003974758017924,
+                    "deviation": 5.223415090566275
+                  }
+                ]
+              },
+              "memory": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 79.2663584243973,
+                "examples": [
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Code_Cache",
+                    "value": 23152736.0,
+                    "deviation": 11.115316070866696
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Code_Cache",
+                    "value": 23154176.0,
+                    "deviation": 11.129468497745822
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Code_Cache",
+                    "value": 23154176.0,
+                    "deviation": 11.129468497745822
+                  }
+                ]
+              },
+              "jvm_oom": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 136.74579985390795,
+                "examples": [
+                  {
+                    "kpi": "java_lang_Memory_NonHeapMemoryUsage_used",
+                    "value": 58262936.0,
+                    "deviation": 27.33747260774288
+                  },
+                  {
+                    "kpi": "java_lang_Memory_NonHeapMemoryUsage_used",
+                    "value": 58264376.0,
+                    "deviation": 27.35208181154127
+                  },
+                  {
+                    "kpi": "java_lang_Memory_NonHeapMemoryUsage_used",
+                    "value": 58264376.0,
+                    "deviation": 27.35208181154127
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "adservice2.ts:8088",
+            "metric": {
+              "cpu": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 17.535758725439287,
+                "examples": [
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuLoad",
+                    "value": 0.0014694634998052,
+                    "deviation": 17.535758725439287
+                  }
+                ]
+              },
+              "memory": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 10.433400361643056,
+                "examples": [
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Survivor_Space",
+                    "value": 631951.3333333334,
+                    "deviation": 2.5455019696743038
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Survivor_Space",
+                    "value": 653812.0,
+                    "deviation": 2.6712811129906444
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_CollectionUsage_used.Survivor_Space",
+                    "value": 631951.3333333334,
+                    "deviation": 2.545416534806334
+                  }
+                ]
+              },
+              "jvm_oom": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 8.809926577250106,
+                "examples": [
+                  {
+                    "kpi": "java_lang_Memory_NonHeapMemoryUsage_used",
+                    "value": 57062856.0,
+                    "deviation": 1.4692494811310228
+                  },
+                  {
+                    "kpi": "java_lang_Memory_NonHeapMemoryUsage_used",
+                    "value": 57062856.0,
+                    "deviation": 1.4692494811310228
+                  },
+                  {
+                    "kpi": "java_lang_Memory_NonHeapMemoryUsage_used",
+                    "value": 57061608.0,
+                    "deviation": 1.467856903747015
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "metric:cpu",
+          "metric:jvm_oom",
+          "metric:memory"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_069",
+      "row_id": 69,
+      "component": "node-6",
+      "reason": "node disk space consumption",
+      "task_index": "task_5",
+      "date_key": "2022_03_21",
+      "signature": {
+        "case_id": "query_069",
+        "services": [
+          {
+            "service": "adservice.ts:8088",
+            "metric": {
+              "memory": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 158.25189310319024,
+                "examples": [
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Code_Cache",
+                    "value": 23154176.0,
+                    "deviation": 11.129468497745822
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Code_Cache",
+                    "value": 23154176.0,
+                    "deviation": 11.129468497745822
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Code_Cache",
+                    "value": 23154176.0,
+                    "deviation": 11.129468497745822
+                  }
+                ]
+              },
+              "jvm_oom": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 300.872899926954,
+                "examples": [
+                  {
+                    "kpi": "java_lang_Memory_NonHeapMemoryUsage_used",
+                    "value": 58264376.0,
+                    "deviation": 27.35208181154127
+                  },
+                  {
+                    "kpi": "java_lang_Memory_NonHeapMemoryUsage_used",
+                    "value": 58264376.0,
+                    "deviation": 27.35208181154127
+                  },
+                  {
+                    "kpi": "java_lang_Memory_NonHeapMemoryUsage_used",
+                    "value": 58264376.0,
+                    "deviation": 27.35208181154127
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "adservice2.ts:8088",
+            "metric": {
+              "memory": {
+                "state": "support",
+                "intensity": 2,
+                "strength": 5.93316568522227,
+                "examples": [
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Eden_Space",
+                    "value": 11279644.0,
+                    "deviation": 1.6876224316307347
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Eden_Space",
+                    "value": 11080199.333333334,
+                    "deviation": 1.63165718703779
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Eden_Space",
+                    "value": 11046596.666666666,
+                    "deviation": 1.6222280983065365
+                  }
+                ]
+              },
+              "jvm_oom": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 23.48409471311567,
+                "examples": [
+                  {
+                    "kpi": "java_lang_Memory_NonHeapMemoryUsage_used",
+                    "value": 57061608.0,
+                    "deviation": 1.467856903747015
+                  },
+                  {
+                    "kpi": "java_lang_Memory_NonHeapMemoryUsage_used",
+                    "value": 57061608.0,
+                    "deviation": 1.467856903747015
+                  },
+                  {
+                    "kpi": "java_lang_Memory_NonHeapMemoryUsage_used",
+                    "value": 57061608.0,
+                    "deviation": 1.467856903747015
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "metric:jvm_oom",
+          "metric:memory"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_070",
+      "row_id": 70,
+      "component": "frontend-2",
+      "reason": "container read I/O load",
+      "task_index": "task_1",
+      "date_key": "2022_03_21",
+      "signature": {
+        "case_id": "query_070",
+        "services": [
+          {
+            "service": "adservice.ts:8088",
+            "metric": {
+              "jvm_oom": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 12.738298602132096,
+                "examples": [
+                  {
+                    "kpi": "java_lang_Memory_HeapMemoryUsage_used",
+                    "value": 32250847.33333333,
+                    "deviation": 12.738298602132096
+                  }
+                ]
+              },
+              "memory": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 10.548605286445298,
+                "examples": [
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Survivor_Space",
+                    "value": 397836.0,
+                    "deviation": 5.274302643222649
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_CollectionUsage_used.Survivor_Space",
+                    "value": 397836.0,
+                    "deviation": 5.274302643222649
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "adservice2.ts:8088",
+            "metric": {
+              "jvm_oom": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 7.3705961224009044,
+                "examples": [
+                  {
+                    "kpi": "java_lang_Memory_HeapMemoryUsage_used",
+                    "value": 55590665.333333336,
+                    "deviation": 1.8366105044599683
+                  },
+                  {
+                    "kpi": "java_lang_Memory_HeapMemoryUsage_used",
+                    "value": 55458268.66666666,
+                    "deviation": 1.8285186761125851
+                  },
+                  {
+                    "kpi": "java_lang_Memory_HeapMemoryUsage_used",
+                    "value": 55757226.66666666,
+                    "deviation": 1.8467904111946123
+                  }
+                ]
+              },
+              "memory": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 7.069175232327915,
+                "examples": [
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Eden_Space",
+                    "value": 11248800.0,
+                    "deviation": 1.6789674395816878
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Eden_Space",
+                    "value": 11063199.333333334,
+                    "deviation": 1.6268868957385487
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Eden_Space",
+                    "value": 11409480.0,
+                    "deviation": 1.7240551105206336
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "metric:jvm_oom",
+          "metric:memory"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_071",
+      "row_id": 71,
+      "component": "node-5",
+      "reason": "node memory consumption",
+      "task_index": "task_4",
+      "date_key": "2022_03_21",
+      "signature": {
+        "case_id": "query_071",
+        "services": [
+          {
+            "service": "adservice.ts:8088",
+            "metric": {
+              "jvm_oom": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 12.738298602132096,
+                "examples": [
+                  {
+                    "kpi": "java_lang_Memory_HeapMemoryUsage_used",
+                    "value": 32250847.33333333,
+                    "deviation": 12.738298602132096
+                  }
+                ]
+              },
+              "memory": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 10.548605286445298,
+                "examples": [
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Survivor_Space",
+                    "value": 397836.0,
+                    "deviation": 5.274302643222649
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_CollectionUsage_used.Survivor_Space",
+                    "value": 397836.0,
+                    "deviation": 5.274302643222649
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "adservice2.ts:8088",
+            "metric": {
+              "jvm_oom": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 7.3705961224009044,
+                "examples": [
+                  {
+                    "kpi": "java_lang_Memory_HeapMemoryUsage_used",
+                    "value": 55590665.333333336,
+                    "deviation": 1.8366105044599683
+                  },
+                  {
+                    "kpi": "java_lang_Memory_HeapMemoryUsage_used",
+                    "value": 55458268.66666666,
+                    "deviation": 1.8285186761125851
+                  },
+                  {
+                    "kpi": "java_lang_Memory_HeapMemoryUsage_used",
+                    "value": 55757226.66666666,
+                    "deviation": 1.8467904111946123
+                  }
+                ]
+              },
+              "memory": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 7.069175232327915,
+                "examples": [
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Eden_Space",
+                    "value": 11248800.0,
+                    "deviation": 1.6789674395816878
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Eden_Space",
+                    "value": 11063199.333333334,
+                    "deviation": 1.6268868957385487
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Eden_Space",
+                    "value": 11409480.0,
+                    "deviation": 1.7240551105206336
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "metric:jvm_oom",
+          "metric:memory"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_072",
+      "row_id": 72,
+      "component": "frontend",
+      "reason": "container network packet corruption",
+      "task_index": "task_4",
+      "date_key": "2022_03_21",
+      "signature": {
+        "case_id": "query_072",
+        "services": [
+          {
+            "service": "adservice.ts:8088",
+            "metric": {
+              "cpu": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 7.462976280065345,
+                "examples": [
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuLoad",
+                    "value": 0.0001462813575718,
+                    "deviation": -0.7471955628797368
+                  },
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuLoad",
+                    "value": 0.0001253918840197,
+                    "deviation": -1.243714957335431
+                  },
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuLoad",
+                    "value": 0.0001358176158719,
+                    "deviation": -0.9959069858659256
+                  }
+                ]
+              },
+              "memory": {
+                "state": "support",
+                "intensity": 2,
+                "strength": 4.2750415892231075,
+                "examples": [
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Eden_Space",
+                    "value": 7724077.333333333,
+                    "deviation": 4.2750415892231075
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "adservice2.ts:8088",
+            "metric": {
+              "jvm_oom": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 11.230608775470593,
+                "examples": [
+                  {
+                    "kpi": "java_lang_Memory_HeapMemoryUsage_used",
+                    "value": 56535736.66666666,
+                    "deviation": 1.8943714375552012
+                  },
+                  {
+                    "kpi": "java_lang_Memory_HeapMemoryUsage_used",
+                    "value": 55315344.66666666,
+                    "deviation": 1.8197834375009283
+                  },
+                  {
+                    "kpi": "java_lang_Memory_HeapMemoryUsage_used",
+                    "value": 56706087.333333336,
+                    "deviation": 1.904782941018498
+                  }
+                ]
+              },
+              "cpu": {
+                "state": "support",
+                "intensity": 2,
+                "strength": 5.715311173841863,
+                "examples": [
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuLoad",
+                    "value": 0.0001573238194899,
+                    "deviation": -0.7538295734954225
+                  },
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuLoad",
+                    "value": 0.0001573001165118,
+                    "deviation": -0.7541599634054383
+                  },
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuLoad",
+                    "value": 0.0001573132726577,
+                    "deviation": -0.7539765831634399
+                  }
+                ]
+              },
+              "memory": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 7.034687610243015,
+                "examples": [
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Eden_Space",
+                    "value": 11264236.0,
+                    "deviation": 1.6832988640813988
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Survivor_Space",
+                    "value": 109008.66666666669,
+                    "deviation": -0.46333950894312675
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Survivor_Space",
+                    "value": 93548.0,
+                    "deviation": -0.5522951404471755
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "metric:cpu",
+          "metric:jvm_oom",
+          "metric:memory"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_073",
+      "row_id": 73,
+      "component": "checkoutservice2-0",
+      "reason": "container CPU load",
+      "task_index": "task_5",
+      "date_key": "2022_03_21",
+      "signature": {
+        "case_id": "query_073",
+        "services": [
+          {
+            "service": "adservice.ts:8088",
+            "metric": {
+              "jvm_oom": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 77.73659663643059,
+                "examples": [
+                  {
+                    "kpi": "java_lang_Memory_HeapMemoryUsage_used",
+                    "value": 32579260.0,
+                    "deviation": 13.116306105207226
+                  },
+                  {
+                    "kpi": "java_lang_Memory_HeapMemoryUsage_used",
+                    "value": 32263002.666666668,
+                    "deviation": 12.752289558233205
+                  },
+                  {
+                    "kpi": "java_lang_Memory_HeapMemoryUsage_used",
+                    "value": 32322140.0,
+                    "deviation": 12.820357443490941
+                  }
+                ]
+              },
+              "cpu": {
+                "state": "support",
+                "intensity": 2,
+                "strength": 4.195659379789515,
+                "examples": [
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuLoad",
+                    "value": 0.0003542362506731,
+                    "deviation": 4.195659379789515
+                  }
+                ]
+              },
+              "memory": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 9589.572489262022,
+                "examples": [
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Eden_Space",
+                    "value": 8054049.333333333,
+                    "deviation": 4.722053938648445
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Metaspace",
+                    "value": 31475640.0,
+                    "deviation": 165.14085820895522
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Metaspace",
+                    "value": 31475993.33333333,
+                    "deviation": 165.18205845771087
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "adservice2.ts:8088",
+            "metric": {
+              "jvm_oom": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 7.436917455690723,
+                "examples": [
+                  {
+                    "kpi": "java_lang_Memory_HeapMemoryUsage_used",
+                    "value": 55978742.66666666,
+                    "deviation": 1.8603290409299942
+                  },
+                  {
+                    "kpi": "java_lang_Memory_HeapMemoryUsage_used",
+                    "value": 56476161.333333336,
+                    "deviation": 1.8907303083394253
+                  },
+                  {
+                    "kpi": "java_lang_Memory_HeapMemoryUsage_used",
+                    "value": 55497268.66666666,
+                    "deviation": 1.830902280726608
+                  }
+                ]
+              },
+              "cpu": {
+                "state": "support",
+                "intensity": 1,
+                "strength": 2.259335837635103,
+                "examples": [
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuLoad",
+                    "value": 0.000157310565241,
+                    "deviation": -0.7540143211707113
+                  },
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuLoad",
+                    "value": 0.0001574004025921,
+                    "deviation": -0.7527621007020103
+                  },
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuLoad",
+                    "value": 0.0001574149437041,
+                    "deviation": -0.7525594157623816
+                  }
+                ]
+              },
+              "memory": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 241.58063449436946,
+                "examples": [
+                  {
+                    "kpi": "java_lang_MemoryPool_CollectionUsage_committed.Eden_Space",
+                    "value": 22478848.0,
+                    "deviation": 1.1543624161073827
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_CollectionUsage_committed.Eden_Space",
+                    "value": 22872064.0,
+                    "deviation": 1.1946308724832215
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_CollectionUsage_committed.Eden_Space",
+                    "value": 22872064.0,
+                    "deviation": 1.1946308724832215
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "metric:cpu",
+          "metric:jvm_oom",
+          "metric:memory"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_074",
+      "row_id": 74,
+      "component": "frontend",
+      "reason": "container network latency",
+      "task_index": "task_4",
+      "date_key": "2022_03_21",
+      "signature": {
+        "case_id": "query_074",
+        "services": [
+          {
+            "service": "adservice.ts:8088",
+            "metric": {
+              "cpu": {
+                "state": "support",
+                "intensity": 1,
+                "strength": 0.7462292603803438,
+                "examples": [
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuLoad",
+                    "value": 0.0001463220116746,
+                    "deviation": -0.7462292603803438
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "adservice2.ts:8088",
+            "metric": {
+              "memory": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 11.194243138692112,
+                "examples": [
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Survivor_Space",
+                    "value": 700148.6666666666,
+                    "deviation": 2.93788717429412
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Survivor_Space",
+                    "value": 651731.3333333334,
+                    "deviation": 2.6593096358691692
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_CollectionUsage_used.Survivor_Space",
+                    "value": 700148.6666666666,
+                    "deviation": 2.937817543657758
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "metric:cpu",
+          "metric:memory"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_075",
+      "row_id": 75,
+      "component": "adservice-0",
+      "reason": "container process termination",
+      "task_index": "task_5",
+      "date_key": "2022_03_21",
+      "signature": {
+        "case_id": "query_075",
+        "services": [
+          {
+            "service": "adservice.ts:8088",
+            "metric": {
+              "memory": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 8.471340366218485,
+                "examples": [
+                  {
+                    "kpi": "java_lang_OperatingSystem_FreePhysicalMemorySize",
+                    "value": 376397824.0,
+                    "deviation": -1.1446713552408136
+                  },
+                  {
+                    "kpi": "java_lang_OperatingSystem_FreePhysicalMemorySize",
+                    "value": 376369152.0,
+                    "deviation": -1.1457643438490097
+                  },
+                  {
+                    "kpi": "java_lang_OperatingSystem_FreePhysicalMemorySize",
+                    "value": 376369152.0,
+                    "deviation": -1.1457643438490097
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "adservice2.ts:8088",
+            "metric": {
+              "cpu": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 115.99079777473335,
+                "examples": [
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuLoad",
+                    "value": 0.0012168900123654,
+                    "deviation": 14.015199771387943
+                  },
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuLoad",
+                    "value": 0.0049494760237555,
+                    "deviation": 66.04278682087299
+                  },
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuLoad",
+                    "value": 0.0027893129209713,
+                    "deviation": 35.93281118247242
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "metric:cpu",
+          "metric:memory"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_076",
+      "row_id": 76,
+      "component": "paymentservice",
+      "reason": "container process termination",
+      "task_index": "task_5",
+      "date_key": "2022_03_21",
+      "signature": {
+        "case_id": "query_076",
+        "services": [
+          {
+            "service": "adservice2.ts:8088",
+            "metric": {
+              "memory": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 13.199833908841903,
+                "examples": [
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Survivor_Space",
+                    "value": 816074.0,
+                    "deviation": 3.604883718254105
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Survivor_Space",
+                    "value": 628126.6666666666,
+                    "deviation": 2.5234960855839783
+                  },
+                  {
+                    "kpi": "java_lang_MemoryPool_Usage_used.Survivor_Space",
+                    "value": 107590.66666666669,
+                    "deviation": -0.4714982182790377
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "metric:memory"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_077",
+      "row_id": 77,
+      "component": "recommendationservice-1",
+      "reason": "container process termination",
+      "task_index": "task_7",
+      "date_key": "2022_03_21",
+      "signature": {
+        "case_id": "query_077",
+        "services": [
+          {
+            "service": "adservice2.ts:8088",
+            "metric": {
+              "cpu": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 13.849327839314515,
+                "examples": [
+                  {
+                    "kpi": "java_lang_OperatingSystem_ProcessCpuLoad",
+                    "value": 0.0012049899553293,
+                    "deviation": 13.849327839314515
+                  }
+                ]
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "metric:cpu"
+        ],
+        "blind_spots": []
+      }
+    }
+  ],
+  "clusters": [
+    {
+      "cluster_id": "cluster_000",
+      "size": 20,
+      "members": [
+        "query_032",
+        "query_033",
+        "query_035",
+        "query_040",
+        "query_042",
+        "query_045",
+        "query_046",
+        "query_048",
+        "query_049",
+        "query_051",
+        "query_052",
+        "query_053",
+        "query_055",
+        "query_061",
+        "query_064",
+        "query_067",
+        "query_068",
+        "query_072",
+        "query_075",
+        "query_077"
+      ],
+      "centroid": {
+        "dominant:metric:cpu": 1.0,
+        "dominant:metric:jvm_oom": 0.3,
+        "dominant:metric:memory": 0.55,
+        "metric:cpu:support": 3.650599602344741,
+        "metric:jvm_oom:support": 1.2,
+        "metric:memory:support": 2.35,
+        "role:service:active": 1.45,
+        "role:service:metric:cpu:support": 3.650599602344741,
+        "role:service:metric:jvm_oom:support": 1.2,
+        "role:service:metric:memory:support": 2.35,
+        "shape:metric:cpu:medium": 0.1,
+        "shape:metric:cpu:strong": 0.9,
+        "shape:metric:cpu:weak": 0.25,
+        "shape:metric:jvm_oom:medium": 0.05,
+        "shape:metric:jvm_oom:strong": 0.3,
+        "shape:metric:memory:medium": 0.15,
+        "shape:metric:memory:strong": 0.55,
+        "shape:metric:memory:weak": 0.05,
+        "type:unknown:active": 1.45,
+        "type:unknown:metric:cpu:support": 3.650599602344741,
+        "type:unknown:metric:jvm_oom:support": 1.2,
+        "type:unknown:metric:memory:support": 2.35
+      },
+      "reason_prior": [
+        {
+          "reason": "container packet loss",
+          "count": 3,
+          "weight": 0.15
+        },
+        {
+          "reason": "node memory consumption",
+          "count": 3,
+          "weight": 0.15
+        },
+        {
+          "reason": "node disk read I/O consumption",
+          "count": 2,
+          "weight": 0.1
+        },
+        {
+          "reason": "container network packet retransmission",
+          "count": 2,
+          "weight": 0.1
+        },
+        {
+          "reason": "node disk write I/O consumption",
+          "count": 2,
+          "weight": 0.1
+        },
+        {
+          "reason": "container network packet corruption",
+          "count": 2,
+          "weight": 0.1
+        },
+        {
+          "reason": "container process termination",
+          "count": 2,
+          "weight": 0.1
+        },
+        {
+          "reason": "node CPU load",
+          "count": 1,
+          "weight": 0.05
+        },
+        {
+          "reason": "container memory load",
+          "count": 1,
+          "weight": 0.05
+        },
+        {
+          "reason": "container read I/O load",
+          "count": 1,
+          "weight": 0.05
+        },
+        {
+          "reason": "node disk space consumption",
+          "count": 1,
+          "weight": 0.05
+        }
+      ],
+      "reason_distribution": {
+        "container packet loss": 3,
+        "node memory consumption": 3,
+        "node disk read I/O consumption": 2,
+        "container network packet retransmission": 2,
+        "node disk write I/O consumption": 2,
+        "container network packet corruption": 2,
+        "container process termination": 2,
+        "node CPU load": 1,
+        "container memory load": 1,
+        "container read I/O load": 1,
+        "node disk space consumption": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_001",
+      "size": 20,
+      "members": [
+        "query_034",
+        "query_036",
+        "query_037",
+        "query_038",
+        "query_041",
+        "query_043",
+        "query_044",
+        "query_050",
+        "query_054",
+        "query_058",
+        "query_062",
+        "query_063",
+        "query_065",
+        "query_066",
+        "query_069",
+        "query_070",
+        "query_071",
+        "query_073",
+        "query_074",
+        "query_076"
+      ],
+      "centroid": {
+        "dominant:metric:cpu": 0.35,
+        "dominant:metric:jvm_oom": 0.25,
+        "dominant:metric:memory": 1.0,
+        "metric:cpu:support": 0.45,
+        "metric:jvm_oom:support": 1.55,
+        "metric:memory:support": 3.919750640304122,
+        "role:service:active": 1.7,
+        "role:service:metric:cpu:support": 0.45,
+        "role:service:metric:jvm_oom:support": 1.55,
+        "role:service:metric:memory:support": 3.919750640304122,
+        "shape:metric:cpu:medium": 0.05,
+        "shape:metric:cpu:weak": 0.35,
+        "shape:metric:jvm_oom:strong": 0.45,
+        "shape:metric:memory:medium": 0.15,
+        "shape:metric:memory:strong": 0.9,
+        "shape:metric:memory:weak": 0.45,
+        "type:unknown:active": 1.7,
+        "type:unknown:metric:cpu:support": 0.45,
+        "type:unknown:metric:jvm_oom:support": 1.55,
+        "type:unknown:metric:memory:support": 3.919750640304122
+      },
+      "reason_prior": [
+        {
+          "reason": "container network packet corruption",
+          "count": 4,
+          "weight": 0.2
+        },
+        {
+          "reason": "container read I/O load",
+          "count": 3,
+          "weight": 0.15
+        },
+        {
+          "reason": "node disk space consumption",
+          "count": 3,
+          "weight": 0.15
+        },
+        {
+          "reason": "container packet loss",
+          "count": 2,
+          "weight": 0.1
+        },
+        {
+          "reason": "container CPU load",
+          "count": 2,
+          "weight": 0.1
+        },
+        {
+          "reason": "container write I/O load",
+          "count": 1,
+          "weight": 0.05
+        },
+        {
+          "reason": "node CPU load",
+          "count": 1,
+          "weight": 0.05
+        },
+        {
+          "reason": "container memory load",
+          "count": 1,
+          "weight": 0.05
+        },
+        {
+          "reason": "node memory consumption",
+          "count": 1,
+          "weight": 0.05
+        },
+        {
+          "reason": "container network latency",
+          "count": 1,
+          "weight": 0.05
+        },
+        {
+          "reason": "container process termination",
+          "count": 1,
+          "weight": 0.05
+        }
+      ],
+      "reason_distribution": {
+        "container network packet corruption": 4,
+        "container read I/O load": 3,
+        "node disk space consumption": 3,
+        "container packet loss": 2,
+        "container CPU load": 2,
+        "container write I/O load": 1,
+        "node CPU load": 1,
+        "container memory load": 1,
+        "node memory consumption": 1,
+        "container network latency": 1,
+        "container process termination": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_002",
+      "size": 1,
+      "members": [
+        "query_039"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "container read I/O load",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "container read I/O load": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_003",
+      "size": 1,
+      "members": [
+        "query_047"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "container memory load",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "container memory load": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_004",
+      "size": 1,
+      "members": [
+        "query_056"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "container network packet retransmission",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "container network packet retransmission": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_005",
+      "size": 1,
+      "members": [
+        "query_057"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "container packet loss",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "container packet loss": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_006",
+      "size": 1,
+      "members": [
+        "query_059"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "container memory load",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "container memory load": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_007",
+      "size": 1,
+      "members": [
+        "query_060"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "container CPU load",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "container CPU load": 1
+      }
+    }
+  ],
+  "mined_rules": [],
+  "metadata": {
+    "n_cases": 46,
+    "modalities": [
+      "metric"
+    ]
+  }
+}

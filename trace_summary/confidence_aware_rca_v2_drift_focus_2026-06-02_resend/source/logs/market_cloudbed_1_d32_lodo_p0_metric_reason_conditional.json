@@ -1,0 +1,3517 @@
+{
+  "n": 70,
+  "tolerance_by_reason_minutes": {
+    "high CPU usage": 1,
+    "high JVM CPU load": 1,
+    "network latency": 2,
+    "network packet loss": 2,
+    "high disk I/O read usage": 5,
+    "high disk space usage": 30,
+    "high memory usage": 15,
+    "JVM Out of Memory (OOM) Heap": 15
+  },
+  "reason_groups": {
+    "event_like": [
+      "high CPU usage",
+      "high JVM CPU load",
+      "network latency",
+      "network packet loss"
+    ],
+    "progressive_like": [
+      "JVM Out of Memory (OOM) Heap",
+      "high disk space usage",
+      "high memory usage"
+    ],
+    "io_like": [
+      "high disk I/O read usage"
+    ]
+  },
+  "overall": {
+    "n": 70,
+    "official_strict": 5,
+    "reason_conditional_strict": 10,
+    "official_partial_sum": 16.833333333333336,
+    "reason_conditional_partial_sum": 24.58333333333333,
+    "field_totals": {
+      "time": 55,
+      "component": 54,
+      "reason": 55
+    },
+    "official_field_hits": {
+      "time": 10,
+      "component": 25,
+      "reason": 8
+    },
+    "reason_conditional_field_hits": {
+      "time": 25,
+      "component": 25,
+      "reason": 8
+    },
+    "official_strict_rate": 0.07142857142857142,
+    "reason_conditional_strict_rate": 0.14285714285714285,
+    "official_partial_rate": 0.2404761904761905,
+    "reason_conditional_partial_rate": 0.3511904761904761,
+    "official_field_rates": {
+      "time": 0.18181818181818182,
+      "component": 0.46296296296296297,
+      "reason": 0.14545454545454545
+    },
+    "reason_conditional_field_rates": {
+      "time": 0.45454545454545453,
+      "component": 0.46296296296296297,
+      "reason": 0.14545454545454545
+    }
+  },
+  "by_reason": {
+    "container CPU load": {
+      "n": 3,
+      "official_strict": 2,
+      "reason_conditional_strict": 2,
+      "official_partial_sum": 2.6666666666666665,
+      "reason_conditional_partial_sum": 2.6666666666666665,
+      "field_totals": {
+        "time": 1,
+        "component": 3,
+        "reason": 3
+      },
+      "official_field_hits": {
+        "time": 0,
+        "component": 3,
+        "reason": 3
+      },
+      "reason_conditional_field_hits": {
+        "time": 0,
+        "component": 3,
+        "reason": 3
+      },
+      "official_strict_rate": 0.6666666666666666,
+      "reason_conditional_strict_rate": 0.6666666666666666,
+      "official_partial_rate": 0.8888888888888888,
+      "reason_conditional_partial_rate": 0.8888888888888888,
+      "official_field_rates": {
+        "time": 0.0,
+        "component": 1.0,
+        "reason": 1.0
+      },
+      "reason_conditional_field_rates": {
+        "time": 0.0,
+        "component": 1.0,
+        "reason": 1.0
+      }
+    },
+    "container CPU load+container memory load": {
+      "n": 1,
+      "official_strict": 0,
+      "reason_conditional_strict": 0,
+      "official_partial_sum": 0.5,
+      "reason_conditional_partial_sum": 0.5,
+      "field_totals": {
+        "time": 2,
+        "component": 2,
+        "reason": 2
+      },
+      "official_field_hits": {
+        "time": 1,
+        "component": 1,
+        "reason": 1
+      },
+      "reason_conditional_field_hits": {
+        "time": 1,
+        "component": 1,
+        "reason": 1
+      },
+      "official_strict_rate": 0.0,
+      "reason_conditional_strict_rate": 0.0,
+      "official_partial_rate": 0.5,
+      "reason_conditional_partial_rate": 0.5,
+      "official_field_rates": {
+        "time": 0.5,
+        "component": 0.5,
+        "reason": 0.5
+      },
+      "reason_conditional_field_rates": {
+        "time": 0.5,
+        "component": 0.5,
+        "reason": 0.5
+      }
+    },
+    "container CPU load+container process termination": {
+      "n": 2,
+      "official_strict": 0,
+      "reason_conditional_strict": 0,
+      "official_partial_sum": 0.5,
+      "reason_conditional_partial_sum": 1.0,
+      "field_totals": {
+        "time": 2,
+        "component": 0,
+        "reason": 2
+      },
+      "official_field_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "reason_conditional_field_hits": {
+        "time": 1,
+        "component": 0,
+        "reason": 1
+      },
+      "official_strict_rate": 0.0,
+      "reason_conditional_strict_rate": 0.0,
+      "official_partial_rate": 0.25,
+      "reason_conditional_partial_rate": 0.5,
+      "official_field_rates": {
+        "time": 0.0,
+        "component": null,
+        "reason": 0.5
+      },
+      "reason_conditional_field_rates": {
+        "time": 0.5,
+        "component": null,
+        "reason": 0.5
+      }
+    },
+    "container CPU load+node disk read I/O consumption": {
+      "n": 4,
+      "official_strict": 0,
+      "reason_conditional_strict": 0,
+      "official_partial_sum": 2.0,
+      "reason_conditional_partial_sum": 2.0,
+      "field_totals": {
+        "time": 4,
+        "component": 6,
+        "reason": 6
+      },
+      "official_field_hits": {
+        "time": 2,
+        "component": 3,
+        "reason": 3
+      },
+      "reason_conditional_field_hits": {
+        "time": 2,
+        "component": 3,
+        "reason": 3
+      },
+      "official_strict_rate": 0.0,
+      "reason_conditional_strict_rate": 0.0,
+      "official_partial_rate": 0.5,
+      "reason_conditional_partial_rate": 0.5,
+      "official_field_rates": {
+        "time": 0.5,
+        "component": 0.5,
+        "reason": 0.5
+      },
+      "reason_conditional_field_rates": {
+        "time": 0.5,
+        "component": 0.5,
+        "reason": 0.5
+      }
+    },
+    "container memory load": {
+      "n": 5,
+      "official_strict": 2,
+      "reason_conditional_strict": 2,
+      "official_partial_sum": 2.833333333333333,
+      "reason_conditional_partial_sum": 3.1666666666666665,
+      "field_totals": {
+        "time": 2,
+        "component": 5,
+        "reason": 2
+      },
+      "official_field_hits": {
+        "time": 1,
+        "component": 3,
+        "reason": 0
+      },
+      "reason_conditional_field_hits": {
+        "time": 2,
+        "component": 3,
+        "reason": 0
+      },
+      "official_strict_rate": 0.4,
+      "reason_conditional_strict_rate": 0.4,
+      "official_partial_rate": 0.5666666666666667,
+      "reason_conditional_partial_rate": 0.6333333333333333,
+      "official_field_rates": {
+        "time": 0.5,
+        "component": 0.6,
+        "reason": 0.0
+      },
+      "reason_conditional_field_rates": {
+        "time": 1.0,
+        "component": 0.6,
+        "reason": 0.0
+      }
+    },
+    "container memory load+container network packet corruption": {
+      "n": 2,
+      "official_strict": 0,
+      "reason_conditional_strict": 0,
+      "official_partial_sum": 0.5,
+      "reason_conditional_partial_sum": 0.5,
+      "field_totals": {
+        "time": 2,
+        "component": 2,
+        "reason": 2
+      },
+      "official_field_hits": {
+        "time": 1,
+        "component": 1,
+        "reason": 0
+      },
+      "reason_conditional_field_hits": {
+        "time": 1,
+        "component": 1,
+        "reason": 0
+      },
+      "official_strict_rate": 0.0,
+      "reason_conditional_strict_rate": 0.0,
+      "official_partial_rate": 0.25,
+      "reason_conditional_partial_rate": 0.25,
+      "official_field_rates": {
+        "time": 0.5,
+        "component": 0.5,
+        "reason": 0.0
+      },
+      "reason_conditional_field_rates": {
+        "time": 0.5,
+        "component": 0.5,
+        "reason": 0.0
+      }
+    },
+    "container memory load+node disk space consumption": {
+      "n": 2,
+      "official_strict": 0,
+      "reason_conditional_strict": 0,
+      "official_partial_sum": 0.5,
+      "reason_conditional_partial_sum": 0.5,
+      "field_totals": {
+        "time": 4,
+        "component": 2,
+        "reason": 2
+      },
+      "official_field_hits": {
+        "time": 2,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_field_hits": {
+        "time": 2,
+        "component": 0,
+        "reason": 0
+      },
+      "official_strict_rate": 0.0,
+      "reason_conditional_strict_rate": 0.0,
+      "official_partial_rate": 0.25,
+      "reason_conditional_partial_rate": 0.25,
+      "official_field_rates": {
+        "time": 0.5,
+        "component": 0.0,
+        "reason": 0.0
+      },
+      "reason_conditional_field_rates": {
+        "time": 0.5,
+        "component": 0.0,
+        "reason": 0.0
+      }
+    },
+    "container network latency": {
+      "n": 4,
+      "official_strict": 0,
+      "reason_conditional_strict": 0,
+      "official_partial_sum": 0.0,
+      "reason_conditional_partial_sum": 0.0,
+      "field_totals": {
+        "time": 2,
+        "component": 4,
+        "reason": 5
+      },
+      "official_field_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_field_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_strict_rate": 0.0,
+      "reason_conditional_strict_rate": 0.0,
+      "official_partial_rate": 0.0,
+      "reason_conditional_partial_rate": 0.0,
+      "official_field_rates": {
+        "time": 0.0,
+        "component": 0.0,
+        "reason": 0.0
+      },
+      "reason_conditional_field_rates": {
+        "time": 0.0,
+        "component": 0.0,
+        "reason": 0.0
+      }
+    },
+    "container network packet corruption": {
+      "n": 5,
+      "official_strict": 0,
+      "reason_conditional_strict": 0,
+      "official_partial_sum": 0.0,
+      "reason_conditional_partial_sum": 0.8333333333333333,
+      "field_totals": {
+        "time": 4,
+        "component": 2,
+        "reason": 2
+      },
+      "official_field_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_field_hits": {
+        "time": 2,
+        "component": 0,
+        "reason": 0
+      },
+      "official_strict_rate": 0.0,
+      "reason_conditional_strict_rate": 0.0,
+      "official_partial_rate": 0.0,
+      "reason_conditional_partial_rate": 0.16666666666666666,
+      "official_field_rates": {
+        "time": 0.0,
+        "component": 0.0,
+        "reason": 0.0
+      },
+      "reason_conditional_field_rates": {
+        "time": 0.5,
+        "component": 0.0,
+        "reason": 0.0
+      }
+    },
+    "container network packet retransmission": {
+      "n": 4,
+      "official_strict": 0,
+      "reason_conditional_strict": 0,
+      "official_partial_sum": 0.0,
+      "reason_conditional_partial_sum": 0.8333333333333333,
+      "field_totals": {
+        "time": 2,
+        "component": 2,
+        "reason": 4
+      },
+      "official_field_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_field_hits": {
+        "time": 2,
+        "component": 0,
+        "reason": 0
+      },
+      "official_strict_rate": 0.0,
+      "reason_conditional_strict_rate": 0.0,
+      "official_partial_rate": 0.0,
+      "reason_conditional_partial_rate": 0.20833333333333331,
+      "official_field_rates": {
+        "time": 0.0,
+        "component": 0.0,
+        "reason": 0.0
+      },
+      "reason_conditional_field_rates": {
+        "time": 1.0,
+        "component": 0.0,
+        "reason": 0.0
+      }
+    },
+    "container network packet retransmission+container read I/O load": {
+      "n": 2,
+      "official_strict": 0,
+      "reason_conditional_strict": 0,
+      "official_partial_sum": 0.0,
+      "reason_conditional_partial_sum": 0.0,
+      "field_totals": {
+        "time": 4,
+        "component": 0,
+        "reason": 2
+      },
+      "official_field_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_field_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_strict_rate": 0.0,
+      "reason_conditional_strict_rate": 0.0,
+      "official_partial_rate": 0.0,
+      "reason_conditional_partial_rate": 0.0,
+      "official_field_rates": {
+        "time": 0.0,
+        "component": null,
+        "reason": 0.0
+      },
+      "reason_conditional_field_rates": {
+        "time": 0.0,
+        "component": null,
+        "reason": 0.0
+      }
+    },
+    "container packet loss": {
+      "n": 2,
+      "official_strict": 0,
+      "reason_conditional_strict": 1,
+      "official_partial_sum": 0.5,
+      "reason_conditional_partial_sum": 1.0,
+      "field_totals": {
+        "time": 2,
+        "component": 2,
+        "reason": 1
+      },
+      "official_field_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "reason_conditional_field_hits": {
+        "time": 1,
+        "component": 1,
+        "reason": 0
+      },
+      "official_strict_rate": 0.0,
+      "reason_conditional_strict_rate": 0.5,
+      "official_partial_rate": 0.25,
+      "reason_conditional_partial_rate": 0.5,
+      "official_field_rates": {
+        "time": 0.0,
+        "component": 0.5,
+        "reason": 0.0
+      },
+      "reason_conditional_field_rates": {
+        "time": 0.5,
+        "component": 0.5,
+        "reason": 0.0
+      }
+    },
+    "container process termination": {
+      "n": 2,
+      "official_strict": 0,
+      "reason_conditional_strict": 0,
+      "official_partial_sum": 0.5,
+      "reason_conditional_partial_sum": 0.5,
+      "field_totals": {
+        "time": 0,
+        "component": 2,
+        "reason": 1
+      },
+      "official_field_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "reason_conditional_field_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "official_strict_rate": 0.0,
+      "reason_conditional_strict_rate": 0.0,
+      "official_partial_rate": 0.25,
+      "reason_conditional_partial_rate": 0.25,
+      "official_field_rates": {
+        "time": null,
+        "component": 0.5,
+        "reason": 0.0
+      },
+      "reason_conditional_field_rates": {
+        "time": null,
+        "component": 0.5,
+        "reason": 0.0
+      }
+    },
+    "container process termination+node CPU spike": {
+      "n": 1,
+      "official_strict": 0,
+      "reason_conditional_strict": 0,
+      "official_partial_sum": 0.5,
+      "reason_conditional_partial_sum": 0.5,
+      "field_totals": {
+        "time": 2,
+        "component": 2,
+        "reason": 0
+      },
+      "official_field_hits": {
+        "time": 1,
+        "component": 1,
+        "reason": 0
+      },
+      "reason_conditional_field_hits": {
+        "time": 1,
+        "component": 1,
+        "reason": 0
+      },
+      "official_strict_rate": 0.0,
+      "reason_conditional_strict_rate": 0.0,
+      "official_partial_rate": 0.5,
+      "reason_conditional_partial_rate": 0.5,
+      "official_field_rates": {
+        "time": 0.5,
+        "component": 0.5,
+        "reason": null
+      },
+      "reason_conditional_field_rates": {
+        "time": 0.5,
+        "component": 0.5,
+        "reason": null
+      }
+    },
+    "container process termination+node disk write I/O consumption": {
+      "n": 1,
+      "official_strict": 0,
+      "reason_conditional_strict": 0,
+      "official_partial_sum": 0.0,
+      "reason_conditional_partial_sum": 0.0,
+      "field_totals": {
+        "time": 0,
+        "component": 0,
+        "reason": 2
+      },
+      "official_field_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_field_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_strict_rate": 0.0,
+      "reason_conditional_strict_rate": 0.0,
+      "official_partial_rate": 0.0,
+      "reason_conditional_partial_rate": 0.0,
+      "official_field_rates": {
+        "time": null,
+        "component": null,
+        "reason": 0.0
+      },
+      "reason_conditional_field_rates": {
+        "time": null,
+        "component": null,
+        "reason": 0.0
+      }
+    },
+    "container read I/O load": {
+      "n": 6,
+      "official_strict": 0,
+      "reason_conditional_strict": 2,
+      "official_partial_sum": 1.5,
+      "reason_conditional_partial_sum": 3.0,
+      "field_totals": {
+        "time": 3,
+        "component": 3,
+        "reason": 3
+      },
+      "official_field_hits": {
+        "time": 1,
+        "component": 2,
+        "reason": 0
+      },
+      "reason_conditional_field_hits": {
+        "time": 3,
+        "component": 2,
+        "reason": 0
+      },
+      "official_strict_rate": 0.0,
+      "reason_conditional_strict_rate": 0.3333333333333333,
+      "official_partial_rate": 0.25,
+      "reason_conditional_partial_rate": 0.5,
+      "official_field_rates": {
+        "time": 0.3333333333333333,
+        "component": 0.6666666666666666,
+        "reason": 0.0
+      },
+      "reason_conditional_field_rates": {
+        "time": 1.0,
+        "component": 0.6666666666666666,
+        "reason": 0.0
+      }
+    },
+    "container read I/O load+container write I/O load": {
+      "n": 2,
+      "official_strict": 0,
+      "reason_conditional_strict": 0,
+      "official_partial_sum": 0.5,
+      "reason_conditional_partial_sum": 0.5,
+      "field_totals": {
+        "time": 2,
+        "component": 2,
+        "reason": 4
+      },
+      "official_field_hits": {
+        "time": 1,
+        "component": 2,
+        "reason": 0
+      },
+      "reason_conditional_field_hits": {
+        "time": 1,
+        "component": 2,
+        "reason": 0
+      },
+      "official_strict_rate": 0.0,
+      "reason_conditional_strict_rate": 0.0,
+      "official_partial_rate": 0.25,
+      "reason_conditional_partial_rate": 0.25,
+      "official_field_rates": {
+        "time": 0.5,
+        "component": 1.0,
+        "reason": 0.0
+      },
+      "reason_conditional_field_rates": {
+        "time": 0.5,
+        "component": 1.0,
+        "reason": 0.0
+      }
+    },
+    "node CPU load": {
+      "n": 4,
+      "official_strict": 0,
+      "reason_conditional_strict": 0,
+      "official_partial_sum": 0.5,
+      "reason_conditional_partial_sum": 1.25,
+      "field_totals": {
+        "time": 5,
+        "component": 2,
+        "reason": 3
+      },
+      "official_field_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "reason_conditional_field_hits": {
+        "time": 2,
+        "component": 1,
+        "reason": 0
+      },
+      "official_strict_rate": 0.0,
+      "reason_conditional_strict_rate": 0.0,
+      "official_partial_rate": 0.125,
+      "reason_conditional_partial_rate": 0.3125,
+      "official_field_rates": {
+        "time": 0.0,
+        "component": 0.5,
+        "reason": 0.0
+      },
+      "reason_conditional_field_rates": {
+        "time": 0.4,
+        "component": 0.5,
+        "reason": 0.0
+      }
+    },
+    "node CPU spike": {
+      "n": 1,
+      "official_strict": 0,
+      "reason_conditional_strict": 0,
+      "official_partial_sum": 0.0,
+      "reason_conditional_partial_sum": 0.0,
+      "field_totals": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "official_field_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_field_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_strict_rate": 0.0,
+      "reason_conditional_strict_rate": 0.0,
+      "official_partial_rate": 0.0,
+      "reason_conditional_partial_rate": 0.0,
+      "official_field_rates": {
+        "time": null,
+        "component": null,
+        "reason": 0.0
+      },
+      "reason_conditional_field_rates": {
+        "time": null,
+        "component": null,
+        "reason": 0.0
+      }
+    },
+    "node disk read I/O consumption": {
+      "n": 3,
+      "official_strict": 0,
+      "reason_conditional_strict": 0,
+      "official_partial_sum": 0.5,
+      "reason_conditional_partial_sum": 0.5,
+      "field_totals": {
+        "time": 1,
+        "component": 3,
+        "reason": 1
+      },
+      "official_field_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "reason_conditional_field_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "official_strict_rate": 0.0,
+      "reason_conditional_strict_rate": 0.0,
+      "official_partial_rate": 0.16666666666666666,
+      "reason_conditional_partial_rate": 0.16666666666666666,
+      "official_field_rates": {
+        "time": 0.0,
+        "component": 0.3333333333333333,
+        "reason": 0.0
+      },
+      "reason_conditional_field_rates": {
+        "time": 0.0,
+        "component": 0.3333333333333333,
+        "reason": 0.0
+      }
+    },
+    "node disk space consumption": {
+      "n": 3,
+      "official_strict": 0,
+      "reason_conditional_strict": 1,
+      "official_partial_sum": 0.3333333333333333,
+      "reason_conditional_partial_sum": 1.3333333333333333,
+      "field_totals": {
+        "time": 3,
+        "component": 1,
+        "reason": 2
+      },
+      "official_field_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "reason_conditional_field_hits": {
+        "time": 1,
+        "component": 1,
+        "reason": 0
+      },
+      "official_strict_rate": 0.0,
+      "reason_conditional_strict_rate": 0.3333333333333333,
+      "official_partial_rate": 0.1111111111111111,
+      "reason_conditional_partial_rate": 0.4444444444444444,
+      "official_field_rates": {
+        "time": 0.0,
+        "component": 1.0,
+        "reason": 0.0
+      },
+      "reason_conditional_field_rates": {
+        "time": 0.3333333333333333,
+        "component": 1.0,
+        "reason": 0.0
+      }
+    },
+    "node disk space consumption+node memory consumption": {
+      "n": 2,
+      "official_strict": 0,
+      "reason_conditional_strict": 0,
+      "official_partial_sum": 0.0,
+      "reason_conditional_partial_sum": 0.5,
+      "field_totals": {
+        "time": 2,
+        "component": 2,
+        "reason": 2
+      },
+      "official_field_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_field_hits": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_strict_rate": 0.0,
+      "reason_conditional_strict_rate": 0.0,
+      "official_partial_rate": 0.0,
+      "reason_conditional_partial_rate": 0.25,
+      "official_field_rates": {
+        "time": 0.0,
+        "component": 0.0,
+        "reason": 0.0
+      },
+      "reason_conditional_field_rates": {
+        "time": 0.5,
+        "component": 0.0,
+        "reason": 0.0
+      }
+    },
+    "node disk write I/O consumption": {
+      "n": 5,
+      "official_strict": 1,
+      "reason_conditional_strict": 2,
+      "official_partial_sum": 2.0,
+      "reason_conditional_partial_sum": 2.5,
+      "field_totals": {
+        "time": 3,
+        "component": 5,
+        "reason": 1
+      },
+      "official_field_hits": {
+        "time": 0,
+        "component": 3,
+        "reason": 0
+      },
+      "reason_conditional_field_hits": {
+        "time": 1,
+        "component": 3,
+        "reason": 0
+      },
+      "official_strict_rate": 0.2,
+      "reason_conditional_strict_rate": 0.4,
+      "official_partial_rate": 0.4,
+      "reason_conditional_partial_rate": 0.5,
+      "official_field_rates": {
+        "time": 0.0,
+        "component": 0.6,
+        "reason": 0.0
+      },
+      "reason_conditional_field_rates": {
+        "time": 0.3333333333333333,
+        "component": 0.6,
+        "reason": 0.0
+      }
+    },
+    "node memory consumption": {
+      "n": 4,
+      "official_strict": 0,
+      "reason_conditional_strict": 0,
+      "official_partial_sum": 0.5,
+      "reason_conditional_partial_sum": 1.0,
+      "field_totals": {
+        "time": 3,
+        "component": 2,
+        "reason": 2
+      },
+      "official_field_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "reason_conditional_field_hits": {
+        "time": 1,
+        "component": 1,
+        "reason": 0
+      },
+      "official_strict_rate": 0.0,
+      "reason_conditional_strict_rate": 0.0,
+      "official_partial_rate": 0.125,
+      "reason_conditional_partial_rate": 0.25,
+      "official_field_rates": {
+        "time": 0.0,
+        "component": 0.5,
+        "reason": 0.0
+      },
+      "reason_conditional_field_rates": {
+        "time": 0.3333333333333333,
+        "component": 0.5,
+        "reason": 0.0
+      }
+    }
+  },
+  "by_reason_group": {
+    "other": {
+      "n": 70,
+      "official_strict": 5,
+      "reason_conditional_strict": 10,
+      "official_partial_sum": 16.833333333333336,
+      "reason_conditional_partial_sum": 24.58333333333333,
+      "field_totals": {
+        "time": 55,
+        "component": 54,
+        "reason": 55
+      },
+      "official_field_hits": {
+        "time": 10,
+        "component": 25,
+        "reason": 8
+      },
+      "reason_conditional_field_hits": {
+        "time": 25,
+        "component": 25,
+        "reason": 8
+      },
+      "official_strict_rate": 0.07142857142857142,
+      "reason_conditional_strict_rate": 0.14285714285714285,
+      "official_partial_rate": 0.2404761904761905,
+      "reason_conditional_partial_rate": 0.3511904761904761,
+      "official_field_rates": {
+        "time": 0.18181818181818182,
+        "component": 0.46296296296296297,
+        "reason": 0.14545454545454545
+      },
+      "reason_conditional_field_rates": {
+        "time": 0.45454545454545453,
+        "component": 0.46296296296296297,
+        "reason": 0.14545454545454545
+      }
+    }
+  },
+  "by_task_index": {
+    "task_1": {
+      "n": 12,
+      "official_strict": 1,
+      "reason_conditional_strict": 3,
+      "official_partial_sum": 1.5,
+      "reason_conditional_partial_sum": 5.0,
+      "field_totals": {
+        "time": 17,
+        "component": 0,
+        "reason": 0
+      },
+      "official_field_hits": {
+        "time": 2,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_field_hits": {
+        "time": 7,
+        "component": 0,
+        "reason": 0
+      },
+      "official_strict_rate": 0.08333333333333333,
+      "reason_conditional_strict_rate": 0.25,
+      "official_partial_rate": 0.125,
+      "reason_conditional_partial_rate": 0.4166666666666667,
+      "official_field_rates": {
+        "time": 0.11764705882352941,
+        "component": null,
+        "reason": null
+      },
+      "reason_conditional_field_rates": {
+        "time": 0.4117647058823529,
+        "component": null,
+        "reason": null
+      }
+    },
+    "task_2": {
+      "n": 10,
+      "official_strict": 0,
+      "reason_conditional_strict": 0,
+      "official_partial_sum": 0.5,
+      "reason_conditional_partial_sum": 0.5,
+      "field_totals": {
+        "time": 0,
+        "component": 0,
+        "reason": 15
+      },
+      "official_field_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "reason_conditional_field_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "official_strict_rate": 0.0,
+      "reason_conditional_strict_rate": 0.0,
+      "official_partial_rate": 0.05,
+      "reason_conditional_partial_rate": 0.05,
+      "official_field_rates": {
+        "time": null,
+        "component": null,
+        "reason": 0.06666666666666667
+      },
+      "reason_conditional_field_rates": {
+        "time": null,
+        "component": null,
+        "reason": 0.06666666666666667
+      }
+    },
+    "task_3": {
+      "n": 8,
+      "official_strict": 2,
+      "reason_conditional_strict": 2,
+      "official_partial_sum": 3.5,
+      "reason_conditional_partial_sum": 3.5,
+      "field_totals": {
+        "time": 0,
+        "component": 11,
+        "reason": 0
+      },
+      "official_field_hits": {
+        "time": 0,
+        "component": 5,
+        "reason": 0
+      },
+      "reason_conditional_field_hits": {
+        "time": 0,
+        "component": 5,
+        "reason": 0
+      },
+      "official_strict_rate": 0.25,
+      "reason_conditional_strict_rate": 0.25,
+      "official_partial_rate": 0.4375,
+      "reason_conditional_partial_rate": 0.4375,
+      "official_field_rates": {
+        "time": null,
+        "component": 0.45454545454545453,
+        "reason": null
+      },
+      "reason_conditional_field_rates": {
+        "time": null,
+        "component": 0.45454545454545453,
+        "reason": null
+      }
+    },
+    "task_4": {
+      "n": 7,
+      "official_strict": 0,
+      "reason_conditional_strict": 0,
+      "official_partial_sum": 0.75,
+      "reason_conditional_partial_sum": 1.5,
+      "field_totals": {
+        "time": 10,
+        "component": 0,
+        "reason": 10
+      },
+      "official_field_hits": {
+        "time": 2,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_field_hits": {
+        "time": 4,
+        "component": 0,
+        "reason": 0
+      },
+      "official_strict_rate": 0.0,
+      "reason_conditional_strict_rate": 0.0,
+      "official_partial_rate": 0.10714285714285714,
+      "reason_conditional_partial_rate": 0.21428571428571427,
+      "official_field_rates": {
+        "time": 0.2,
+        "component": null,
+        "reason": 0.0
+      },
+      "reason_conditional_field_rates": {
+        "time": 0.4,
+        "component": null,
+        "reason": 0.0
+      }
+    },
+    "task_5": {
+      "n": 10,
+      "official_strict": 0,
+      "reason_conditional_strict": 3,
+      "official_partial_sum": 3.75,
+      "reason_conditional_partial_sum": 6.25,
+      "field_totals": {
+        "time": 13,
+        "component": 13,
+        "reason": 0
+      },
+      "official_field_hits": {
+        "time": 3,
+        "component": 7,
+        "reason": 0
+      },
+      "reason_conditional_field_hits": {
+        "time": 8,
+        "component": 7,
+        "reason": 0
+      },
+      "official_strict_rate": 0.0,
+      "reason_conditional_strict_rate": 0.3,
+      "official_partial_rate": 0.375,
+      "reason_conditional_partial_rate": 0.625,
+      "official_field_rates": {
+        "time": 0.23076923076923078,
+        "component": 0.5384615384615384,
+        "reason": null
+      },
+      "reason_conditional_field_rates": {
+        "time": 0.6153846153846154,
+        "component": 0.5384615384615384,
+        "reason": null
+      }
+    },
+    "task_6": {
+      "n": 12,
+      "official_strict": 2,
+      "reason_conditional_strict": 2,
+      "official_partial_sum": 4.0,
+      "reason_conditional_partial_sum": 4.0,
+      "field_totals": {
+        "time": 0,
+        "component": 15,
+        "reason": 15
+      },
+      "official_field_hits": {
+        "time": 0,
+        "component": 6,
+        "reason": 4
+      },
+      "reason_conditional_field_hits": {
+        "time": 0,
+        "component": 6,
+        "reason": 4
+      },
+      "official_strict_rate": 0.16666666666666666,
+      "reason_conditional_strict_rate": 0.16666666666666666,
+      "official_partial_rate": 0.3333333333333333,
+      "reason_conditional_partial_rate": 0.3333333333333333,
+      "official_field_rates": {
+        "time": null,
+        "component": 0.4,
+        "reason": 0.26666666666666666
+      },
+      "reason_conditional_field_rates": {
+        "time": null,
+        "component": 0.4,
+        "reason": 0.26666666666666666
+      }
+    },
+    "task_7": {
+      "n": 11,
+      "official_strict": 0,
+      "reason_conditional_strict": 0,
+      "official_partial_sum": 2.8333333333333335,
+      "reason_conditional_partial_sum": 3.8333333333333335,
+      "field_totals": {
+        "time": 15,
+        "component": 15,
+        "reason": 15
+      },
+      "official_field_hits": {
+        "time": 3,
+        "component": 7,
+        "reason": 3
+      },
+      "reason_conditional_field_hits": {
+        "time": 6,
+        "component": 7,
+        "reason": 3
+      },
+      "official_strict_rate": 0.0,
+      "reason_conditional_strict_rate": 0.0,
+      "official_partial_rate": 0.25757575757575757,
+      "reason_conditional_partial_rate": 0.3484848484848485,
+      "official_field_rates": {
+        "time": 0.2,
+        "component": 0.4666666666666667,
+        "reason": 0.2
+      },
+      "reason_conditional_field_rates": {
+        "time": 0.4,
+        "component": 0.4666666666666667,
+        "reason": 0.2
+      }
+    }
+  },
+  "rows": [
+    {
+      "row_id": 0,
+      "task_index": "task_6",
+      "gt_component": "shippingservice-1",
+      "gt_reason": "container read I/O load",
+      "truth_reasons": [
+        "container read I/O load"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "official_score": 0.5,
+      "reason_conditional_score": 0.5,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 1,
+      "task_index": "task_1",
+      "gt_component": "emailservice-0",
+      "gt_reason": "container read I/O load",
+      "truth_reasons": [
+        "container read I/O load"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 1.0,
+      "official_strict": false,
+      "reason_conditional_strict": true
+    },
+    {
+      "row_id": 2,
+      "task_index": "task_1",
+      "gt_component": "node-1",
+      "gt_reason": "node memory consumption",
+      "truth_reasons": [
+        "node memory consumption"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 3,
+      "task_index": "task_6",
+      "gt_component": "node-1",
+      "gt_reason": "node memory consumption",
+      "truth_reasons": [
+        "node memory consumption"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "official_score": 0.5,
+      "reason_conditional_score": 0.5,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 4,
+      "task_index": "task_3",
+      "gt_component": "shippingservice-1",
+      "gt_reason": "container memory load",
+      "truth_reasons": [
+        "container memory load"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "official_score": 1.0,
+      "reason_conditional_score": 1.0,
+      "official_strict": true,
+      "reason_conditional_strict": true
+    },
+    {
+      "row_id": 5,
+      "task_index": "task_2",
+      "gt_component": "recommendationservice",
+      "gt_reason": "container network packet corruption",
+      "truth_reasons": [
+        "container network packet corruption"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 6,
+      "task_index": "task_6",
+      "gt_component": "node-1",
+      "gt_reason": "container CPU load+node disk read I/O consumption",
+      "truth_reasons": [
+        "node disk read I/O consumption",
+        "container CPU load"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5,
+        5
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 2,
+        "reason": 2
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 1
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 1
+      },
+      "official_score": 0.5,
+      "reason_conditional_score": 0.5,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 7,
+      "task_index": "task_6",
+      "gt_component": "recommendationservice",
+      "gt_reason": "container CPU load+node disk read I/O consumption",
+      "truth_reasons": [
+        "node disk read I/O consumption",
+        "container CPU load"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5,
+        5
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 2,
+        "reason": 2
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 1
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 1
+      },
+      "official_score": 0.5,
+      "reason_conditional_score": 0.5,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 8,
+      "task_index": "task_5",
+      "gt_component": "node-2",
+      "gt_reason": "node disk write I/O consumption",
+      "truth_reasons": [
+        "node disk write I/O consumption"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 1,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 1,
+        "component": 1,
+        "reason": 0
+      },
+      "official_score": 0.5,
+      "reason_conditional_score": 1.0,
+      "official_strict": false,
+      "reason_conditional_strict": true
+    },
+    {
+      "row_id": 9,
+      "task_index": "task_4",
+      "gt_component": "node-4",
+      "gt_reason": "node CPU load",
+      "truth_reasons": [
+        "node CPU load",
+        "node CPU load"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5,
+        5
+      ],
+      "field_totals": {
+        "time": 2,
+        "component": 0,
+        "reason": 2
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.25,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 10,
+      "task_index": "task_1",
+      "gt_component": "node-6",
+      "gt_reason": "node CPU load",
+      "truth_reasons": [
+        "node CPU load",
+        "node CPU load"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5,
+        5
+      ],
+      "field_totals": {
+        "time": 2,
+        "component": 0,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.5,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 11,
+      "task_index": "task_1",
+      "gt_component": "shippingservice",
+      "gt_reason": "container CPU load+container process termination",
+      "truth_reasons": [
+        "container CPU load",
+        "container process termination"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5,
+        5
+      ],
+      "field_totals": {
+        "time": 2,
+        "component": 0,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.5,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 12,
+      "task_index": "task_2",
+      "gt_component": "shippingservice-1",
+      "gt_reason": "container network packet retransmission",
+      "truth_reasons": [
+        "container network packet retransmission"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 13,
+      "task_index": "task_5",
+      "gt_component": "currencyservice-0",
+      "gt_reason": "container network packet corruption",
+      "truth_reasons": [
+        "container network packet corruption"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 1,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.5,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 14,
+      "task_index": "task_5",
+      "gt_component": "node-4",
+      "gt_reason": "container process termination+node CPU spike",
+      "truth_reasons": [
+        "node CPU spike",
+        "container process termination"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5,
+        5
+      ],
+      "field_totals": {
+        "time": 2,
+        "component": 2,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 1,
+        "component": 1,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 1,
+        "component": 1,
+        "reason": 0
+      },
+      "official_score": 0.5,
+      "reason_conditional_score": 0.5,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 15,
+      "task_index": "task_1",
+      "gt_component": "node-5",
+      "gt_reason": "node disk write I/O consumption",
+      "truth_reasons": [
+        "node disk write I/O consumption"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 16,
+      "task_index": "task_5",
+      "gt_component": "paymentservice",
+      "gt_reason": "container memory load+container network packet corruption",
+      "truth_reasons": [
+        "container memory load",
+        "container network packet corruption"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5,
+        5
+      ],
+      "field_totals": {
+        "time": 2,
+        "component": 2,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 1,
+        "component": 1,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 1,
+        "component": 1,
+        "reason": 0
+      },
+      "official_score": 0.5,
+      "reason_conditional_score": 0.5,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 17,
+      "task_index": "task_2",
+      "gt_component": "emailservice",
+      "gt_reason": "container memory load+container network packet corruption",
+      "truth_reasons": [
+        "container memory load",
+        "container network packet corruption"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5,
+        5
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 0,
+        "reason": 2
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 18,
+      "task_index": "task_6",
+      "gt_component": "frontend-2",
+      "gt_reason": "container network packet retransmission",
+      "truth_reasons": [
+        "container network packet retransmission"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 19,
+      "task_index": "task_6",
+      "gt_component": "node-4",
+      "gt_reason": "node disk read I/O consumption",
+      "truth_reasons": [
+        "node disk read I/O consumption"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 20,
+      "task_index": "task_6",
+      "gt_component": "shippingservice2-0",
+      "gt_reason": "container CPU load",
+      "truth_reasons": [
+        "container CPU load"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 1
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 1
+      },
+      "official_score": 1.0,
+      "reason_conditional_score": 1.0,
+      "official_strict": true,
+      "reason_conditional_strict": true
+    },
+    {
+      "row_id": 21,
+      "task_index": "task_5",
+      "gt_component": "emailservice",
+      "gt_reason": "container packet loss",
+      "truth_reasons": [
+        "container packet loss"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 1,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 1,
+        "component": 1,
+        "reason": 0
+      },
+      "official_score": 0.5,
+      "reason_conditional_score": 1.0,
+      "official_strict": false,
+      "reason_conditional_strict": true
+    },
+    {
+      "row_id": 22,
+      "task_index": "task_4",
+      "gt_component": "cartservice-0",
+      "gt_reason": "container memory load+node disk space consumption",
+      "truth_reasons": [
+        "container memory load",
+        "node disk space consumption"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5,
+        5
+      ],
+      "field_totals": {
+        "time": 2,
+        "component": 0,
+        "reason": 2
+      },
+      "official_hits": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.25,
+      "reason_conditional_score": 0.25,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 23,
+      "task_index": "task_5",
+      "gt_component": "node-1",
+      "gt_reason": "container memory load+node disk space consumption",
+      "truth_reasons": [
+        "container memory load",
+        "node disk space consumption"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5,
+        5
+      ],
+      "field_totals": {
+        "time": 2,
+        "component": 2,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.25,
+      "reason_conditional_score": 0.25,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 24,
+      "task_index": "task_3",
+      "gt_component": "node-3",
+      "gt_reason": "node disk read I/O consumption",
+      "truth_reasons": [
+        "node disk read I/O consumption"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 25,
+      "task_index": "task_7",
+      "gt_component": "checkoutservice-2",
+      "gt_reason": "container memory load",
+      "truth_reasons": [
+        "container memory load"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 1,
+        "component": 1,
+        "reason": 0
+      },
+      "official_score": 0.3333333333333333,
+      "reason_conditional_score": 0.6666666666666666,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 26,
+      "task_index": "task_7",
+      "gt_component": "productcatalogservice",
+      "gt_reason": "container CPU load",
+      "truth_reasons": [
+        "container CPU load"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 1
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 1
+      },
+      "official_score": 0.6666666666666666,
+      "reason_conditional_score": 0.6666666666666666,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 27,
+      "task_index": "task_7",
+      "gt_component": "adservice",
+      "gt_reason": "container network latency",
+      "truth_reasons": [
+        "container network latency",
+        "container network latency"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5,
+        5
+      ],
+      "field_totals": {
+        "time": 2,
+        "component": 2,
+        "reason": 2
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 28,
+      "task_index": "task_2",
+      "gt_component": "cartservice",
+      "gt_reason": "container network latency",
+      "truth_reasons": [
+        "container network latency",
+        "container network latency"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5,
+        5
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 0,
+        "reason": 2
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 29,
+      "task_index": "task_6",
+      "gt_component": "frontend-1",
+      "gt_reason": "container network latency",
+      "truth_reasons": [
+        "container network latency"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 30,
+      "task_index": "task_3",
+      "gt_component": "paymentservice",
+      "gt_reason": "container process termination",
+      "truth_reasons": [
+        "container process termination",
+        "container process termination"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5,
+        5
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 2,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "official_score": 0.5,
+      "reason_conditional_score": 0.5,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 31,
+      "task_index": "task_2",
+      "gt_component": "recommendationservice2-0",
+      "gt_reason": "container CPU load+container process termination",
+      "truth_reasons": [
+        "container CPU load",
+        "container process termination"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5,
+        5
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 0,
+        "reason": 2
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "official_score": 0.5,
+      "reason_conditional_score": 0.5,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 32,
+      "task_index": "task_2",
+      "gt_component": "shippingservice",
+      "gt_reason": "container process termination",
+      "truth_reasons": [
+        "container process termination"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 33,
+      "task_index": "task_7",
+      "gt_component": "cartservice",
+      "gt_reason": "container network packet retransmission",
+      "truth_reasons": [
+        "container network packet retransmission"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.3333333333333333,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 34,
+      "task_index": "task_1",
+      "gt_component": "cartservice-0",
+      "gt_reason": "container network packet retransmission+container read I/O load",
+      "truth_reasons": [
+        "container network packet retransmission",
+        "container read I/O load"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5,
+        5
+      ],
+      "field_totals": {
+        "time": 2,
+        "component": 0,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 35,
+      "task_index": "task_4",
+      "gt_component": "productcatalogservice-2",
+      "gt_reason": "container network packet retransmission+container read I/O load",
+      "truth_reasons": [
+        "container network packet retransmission",
+        "container read I/O load"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5,
+        5
+      ],
+      "field_totals": {
+        "time": 2,
+        "component": 0,
+        "reason": 2
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 36,
+      "task_index": "task_5",
+      "gt_component": "node-5",
+      "gt_reason": "node disk read I/O consumption",
+      "truth_reasons": [
+        "node disk read I/O consumption"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 1,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "official_score": 0.5,
+      "reason_conditional_score": 0.5,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 37,
+      "task_index": "task_3",
+      "gt_component": "node-5",
+      "gt_reason": "node disk write I/O consumption",
+      "truth_reasons": [
+        "node disk write I/O consumption",
+        "node disk write I/O consumption"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5,
+        5
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 2,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "official_score": 0.5,
+      "reason_conditional_score": 0.5,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 38,
+      "task_index": "task_7",
+      "gt_component": "node-6",
+      "gt_reason": "node disk write I/O consumption",
+      "truth_reasons": [
+        "node disk write I/O consumption"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 39,
+      "task_index": "task_4",
+      "gt_component": "cartservice",
+      "gt_reason": "container network packet retransmission",
+      "truth_reasons": [
+        "container network packet retransmission"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 0,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.5,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 40,
+      "task_index": "task_5",
+      "gt_component": "node-4",
+      "gt_reason": "node memory consumption",
+      "truth_reasons": [
+        "node memory consumption"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 1,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.5,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 41,
+      "task_index": "task_1",
+      "gt_component": "shippingservice2-0",
+      "gt_reason": "container network packet corruption",
+      "truth_reasons": [
+        "container network packet corruption"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 42,
+      "task_index": "task_4",
+      "gt_component": "adservice2-0",
+      "gt_reason": "container read I/O load",
+      "truth_reasons": [
+        "container read I/O load"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 0,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.5,
+      "reason_conditional_score": 0.5,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 43,
+      "task_index": "task_1",
+      "gt_component": "node-6",
+      "gt_reason": "container CPU load+node disk read I/O consumption",
+      "truth_reasons": [
+        "node disk read I/O consumption",
+        "container CPU load"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5,
+        5
+      ],
+      "field_totals": {
+        "time": 2,
+        "component": 0,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.5,
+      "reason_conditional_score": 0.5,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 44,
+      "task_index": "task_7",
+      "gt_component": "productcatalogservice-0",
+      "gt_reason": "container CPU load+node disk read I/O consumption",
+      "truth_reasons": [
+        "node disk read I/O consumption",
+        "container CPU load"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5,
+        5
+      ],
+      "field_totals": {
+        "time": 2,
+        "component": 2,
+        "reason": 2
+      },
+      "official_hits": {
+        "time": 1,
+        "component": 1,
+        "reason": 1
+      },
+      "reason_conditional_hits": {
+        "time": 1,
+        "component": 1,
+        "reason": 1
+      },
+      "official_score": 0.5,
+      "reason_conditional_score": 0.5,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 45,
+      "task_index": "task_6",
+      "gt_component": "shippingservice-1",
+      "gt_reason": "container CPU load",
+      "truth_reasons": [
+        "container CPU load"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 1
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 1
+      },
+      "official_score": 1.0,
+      "reason_conditional_score": 1.0,
+      "official_strict": true,
+      "reason_conditional_strict": true
+    },
+    {
+      "row_id": 46,
+      "task_index": "task_5",
+      "gt_component": "node-1",
+      "gt_reason": "node CPU load",
+      "truth_reasons": [
+        "node CPU load"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 1,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "official_score": 0.5,
+      "reason_conditional_score": 0.5,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 47,
+      "task_index": "task_7",
+      "gt_component": "productcatalogservice",
+      "gt_reason": "container CPU load+container memory load",
+      "truth_reasons": [
+        "container CPU load",
+        "container memory load"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5,
+        5
+      ],
+      "field_totals": {
+        "time": 2,
+        "component": 2,
+        "reason": 2
+      },
+      "official_hits": {
+        "time": 1,
+        "component": 1,
+        "reason": 1
+      },
+      "reason_conditional_hits": {
+        "time": 1,
+        "component": 1,
+        "reason": 1
+      },
+      "official_score": 0.5,
+      "reason_conditional_score": 0.5,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 48,
+      "task_index": "task_3",
+      "gt_component": "checkoutservice",
+      "gt_reason": "container memory load",
+      "truth_reasons": [
+        "container memory load",
+        "container memory load"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5,
+        5
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 2,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "official_score": 0.5,
+      "reason_conditional_score": 0.5,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 49,
+      "task_index": "task_5",
+      "gt_component": "shippingservice",
+      "gt_reason": "container read I/O load",
+      "truth_reasons": [
+        "container read I/O load"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 1,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 1,
+        "component": 1,
+        "reason": 0
+      },
+      "official_score": 0.5,
+      "reason_conditional_score": 1.0,
+      "official_strict": false,
+      "reason_conditional_strict": true
+    },
+    {
+      "row_id": 50,
+      "task_index": "task_2",
+      "gt_component": "node-6",
+      "gt_reason": "node CPU spike",
+      "truth_reasons": [
+        "node CPU spike"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 51,
+      "task_index": "task_6",
+      "gt_component": "node-4",
+      "gt_reason": "node disk space consumption+node memory consumption",
+      "truth_reasons": [
+        "node disk space consumption",
+        "node memory consumption"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5,
+        5
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 2,
+        "reason": 2
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 52,
+      "task_index": "task_1",
+      "gt_component": "node-6",
+      "gt_reason": "node disk space consumption+node memory consumption",
+      "truth_reasons": [
+        "node disk space consumption",
+        "node memory consumption"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5,
+        5
+      ],
+      "field_totals": {
+        "time": 2,
+        "component": 0,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.5,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 53,
+      "task_index": "task_1",
+      "gt_component": "frontend",
+      "gt_reason": "container memory load",
+      "truth_reasons": [
+        "container memory load"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 1.0,
+      "reason_conditional_score": 1.0,
+      "official_strict": true,
+      "reason_conditional_strict": true
+    },
+    {
+      "row_id": 54,
+      "task_index": "task_6",
+      "gt_component": "currencyservice",
+      "gt_reason": "container memory load",
+      "truth_reasons": [
+        "container memory load"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 55,
+      "task_index": "task_2",
+      "gt_component": "emailservice",
+      "gt_reason": "container read I/O load+container write I/O load",
+      "truth_reasons": [
+        "container read I/O load",
+        "container write I/O load"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5,
+        5
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 0,
+        "reason": 2
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 56,
+      "task_index": "task_7",
+      "gt_component": "emailservice",
+      "gt_reason": "container read I/O load+container write I/O load",
+      "truth_reasons": [
+        "container read I/O load",
+        "container write I/O load"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5,
+        5
+      ],
+      "field_totals": {
+        "time": 2,
+        "component": 2,
+        "reason": 2
+      },
+      "official_hits": {
+        "time": 1,
+        "component": 2,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 1,
+        "component": 2,
+        "reason": 0
+      },
+      "official_score": 0.5,
+      "reason_conditional_score": 0.5,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 57,
+      "task_index": "task_3",
+      "gt_component": "adservice",
+      "gt_reason": "container read I/O load",
+      "truth_reasons": [
+        "container read I/O load"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 58,
+      "task_index": "task_1",
+      "gt_component": "frontend2-0",
+      "gt_reason": "container network packet corruption",
+      "truth_reasons": [
+        "container network packet corruption"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 59,
+      "task_index": "task_7",
+      "gt_component": "cartservice",
+      "gt_reason": "container packet loss",
+      "truth_reasons": [
+        "container packet loss"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 60,
+      "task_index": "task_2",
+      "gt_component": "frontend-2",
+      "gt_reason": "container read I/O load",
+      "truth_reasons": [
+        "container read I/O load"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 61,
+      "task_index": "task_7",
+      "gt_component": "node-5",
+      "gt_reason": "node disk space consumption",
+      "truth_reasons": [
+        "node disk space consumption"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "official_score": 0.3333333333333333,
+      "reason_conditional_score": 0.3333333333333333,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 62,
+      "task_index": "task_1",
+      "gt_component": "node-3",
+      "gt_reason": "node disk space consumption",
+      "truth_reasons": [
+        "node disk space consumption"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 1.0,
+      "official_strict": false,
+      "reason_conditional_strict": true
+    },
+    {
+      "row_id": 63,
+      "task_index": "task_4",
+      "gt_component": "node-2",
+      "gt_reason": "node memory consumption",
+      "truth_reasons": [
+        "node memory consumption"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 0,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 64,
+      "task_index": "task_3",
+      "gt_component": "node-5",
+      "gt_reason": "node disk write I/O consumption",
+      "truth_reasons": [
+        "node disk write I/O consumption"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "official_score": 1.0,
+      "reason_conditional_score": 1.0,
+      "official_strict": true,
+      "reason_conditional_strict": true
+    },
+    {
+      "row_id": 65,
+      "task_index": "task_4",
+      "gt_component": "node-4",
+      "gt_reason": "node disk space consumption",
+      "truth_reasons": [
+        "node disk space consumption"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 0,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 66,
+      "task_index": "task_6",
+      "gt_component": "node-4",
+      "gt_reason": "node CPU load",
+      "truth_reasons": [
+        "node CPU load"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 67,
+      "task_index": "task_7",
+      "gt_component": "checkoutservice",
+      "gt_reason": "container network packet corruption",
+      "truth_reasons": [
+        "container network packet corruption"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.3333333333333333,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 68,
+      "task_index": "task_3",
+      "gt_component": "productcatalogservice",
+      "gt_reason": "container network latency",
+      "truth_reasons": [
+        "container network latency"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 69,
+      "task_index": "task_2",
+      "gt_component": "recommendationservice",
+      "gt_reason": "container process termination+node disk write I/O consumption",
+      "truth_reasons": [
+        "node disk write I/O consumption",
+        "container process termination"
+      ],
+      "reason_group": "other",
+      "tolerance_minutes": [
+        5,
+        5
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 0,
+        "reason": 2
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    }
+  ]
+}

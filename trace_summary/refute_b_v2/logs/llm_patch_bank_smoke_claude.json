@@ -1,0 +1,287 @@
+{
+  "n": 1,
+  "top1": 0,
+  "top3": 0,
+  "cases": [
+    {
+      "date": "2021_03_04",
+      "timestamp": 1614841020,
+      "datetime": "2021-03-04 14:57:00",
+      "true_component": "Mysql02",
+      "reason": "high memory usage",
+      "top5": [
+        "MG01",
+        "IG01",
+        "IG02",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "confidence_features": {
+        "support_strength": 0.5916197425129976,
+        "top1_top2_gap": 0.5916197425129976,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      },
+      "signature": {
+        "case_id": "2021_03_04__Mysql02__1614841020",
+        "modal_coverage": {
+          "metric": "present",
+          "log": "present",
+          "trace": "unloaded"
+        },
+        "services": [
+          {
+            "service": "MG01",
+            "metric": {
+              "container_memory_anomaly": {
+                "state": "support",
+                "intensity": 1,
+                "details": {
+                  "cmdb_id": "MG01",
+                  "kpi_name": "JVM-Memory_7779_JVM_Memory_HeapMemoryUsed",
+                  "value": 1142874632.0,
+                  "deviation": 1.1832394850259953
+                }
+              }
+            },
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "IG01",
+            "metric": {},
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "IG02",
+            "metric": {},
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "MG02",
+            "metric": {},
+            "log": {},
+            "trace": {},
+            "topology": {}
+          },
+          {
+            "service": "Mysql01",
+            "metric": {},
+            "log": {},
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "anomaly_distribution": {
+          "active_services": 1,
+          "dominant_service": "MG01",
+          "concentration": 1.0
+        },
+        "dominant_evidence_types": [
+          "container_memory_anomaly"
+        ],
+        "blind_spots": [
+          "trace"
+        ]
+      },
+      "llm_arbitration": {
+        "called": true,
+        "status": "final",
+        "recommendation": "Based on the evidence matrix, MG01 is the primary suspect for the root cause. It shows a memory anomaly with JVM heap memory usage (1.14GB) exceeding its threshold (1.14GB) by 18.3%. This is the only service with supporting evidence.\n\nThe other candidates (IG01, IG02, MG02, Mysql01) have no evidence either supporting or refuting their involvement, making them ambiguous but less likely to be the root cause given the clear signal from MG01.\n\nTrace data is unloaded and shows no additional information. No data blind spots were identified that would prevent diagnosis.\n\nConclusion: MG01 is the likely root cause due to high JVM heap memory usage.",
+        "observations": [
+          {
+            "tool": "query_trace_summary",
+            "args": {},
+            "result": {
+              "trace_summary": {}
+            }
+          },
+          {
+            "tool": "query_blind_spots",
+            "args": {},
+            "result": {
+              "data_blind_spots": [],
+              "modal_status": {
+                "metric": "present",
+                "log": "present",
+                "trace": "unloaded"
+              }
+            }
+          }
+        ],
+        "matrix": {
+          "high_suspicion": [
+            {
+              "candidate": {
+                "service": "MG01",
+                "reason": "high memory usage",
+                "reason_bucket": "memory"
+              },
+              "evidence_vector": {
+                "hard_support": 0,
+                "hard_refute": 0,
+                "blind_count": 0,
+                "support_strength": 0.5916197425129976,
+                "refute_strength": 0
+              },
+              "evidence_cards": [
+                {
+                  "rule_id": "memory.container_memory_anomaly",
+                  "modality": "memory",
+                  "kind": "container_memory_anomaly",
+                  "polarity": "support",
+                  "strength": 0.5916197425129976,
+                  "text": "MG01.JVM-Memory_7779_JVM_Memory_HeapMemoryUsed above_threshold value=1.14287e+09 threshold=1.1416e+09",
+                  "details": {
+                    "cmdb_id": "MG01",
+                    "kpi_name": "JVM-Memory_7779_JVM_Memory_HeapMemoryUsed",
+                    "value": 1142874632.0,
+                    "deviation": 1.1832394850259953
+                  },
+                  "rule_type": "soft",
+                  "group": "round_1_cheap_metric"
+                }
+              ],
+              "evidence_vector_v2": {
+                "support_hard": 0,
+                "support_soft": 1,
+                "refute_hard": 0,
+                "refute_soft": 0,
+                "blind": 0,
+                "support_strength": 0.5916197425129976,
+                "refute_strength": 0,
+                "modalities": [
+                  "memory"
+                ],
+                "coverage": 1
+              }
+            }
+          ],
+          "low_suspicion": [],
+          "data_blind_spots": [],
+          "ambiguous": [
+            {
+              "candidate": {
+                "service": "IG01",
+                "reason": "high memory usage",
+                "reason_bucket": "memory"
+              },
+              "evidence_vector": {
+                "hard_support": 0,
+                "hard_refute": 0,
+                "blind_count": 0,
+                "support_strength": 0,
+                "refute_strength": 0
+              },
+              "evidence_cards": [],
+              "evidence_vector_v2": {
+                "support_hard": 0,
+                "support_soft": 0,
+                "refute_hard": 0,
+                "refute_soft": 0,
+                "blind": 0,
+                "support_strength": 0,
+                "refute_strength": 0,
+                "modalities": [],
+                "coverage": 0
+              }
+            },
+            {
+              "candidate": {
+                "service": "IG02",
+                "reason": "high memory usage",
+                "reason_bucket": "memory"
+              },
+              "evidence_vector": {
+                "hard_support": 0,
+                "hard_refute": 0,
+                "blind_count": 0,
+                "support_strength": 0,
+                "refute_strength": 0
+              },
+              "evidence_cards": [],
+              "evidence_vector_v2": {
+                "support_hard": 0,
+                "support_soft": 0,
+                "refute_hard": 0,
+                "refute_soft": 0,
+                "blind": 0,
+                "support_strength": 0,
+                "refute_strength": 0,
+                "modalities": [],
+                "coverage": 0
+              }
+            },
+            {
+              "candidate": {
+                "service": "MG02",
+                "reason": "high memory usage",
+                "reason_bucket": "memory"
+              },
+              "evidence_vector": {
+                "hard_support": 0,
+                "hard_refute": 0,
+                "blind_count": 0,
+                "support_strength": 0,
+                "refute_strength": 0
+              },
+              "evidence_cards": [],
+              "evidence_vector_v2": {
+                "support_hard": 0,
+                "support_soft": 0,
+                "refute_hard": 0,
+                "refute_soft": 0,
+                "blind": 0,
+                "support_strength": 0,
+                "refute_strength": 0,
+                "modalities": [],
+                "coverage": 0
+              }
+            },
+            {
+              "candidate": {
+                "service": "Mysql01",
+                "reason": "high memory usage",
+                "reason_bucket": "memory"
+              },
+              "evidence_vector": {
+                "hard_support": 0,
+                "hard_refute": 0,
+                "blind_count": 0,
+                "support_strength": 0,
+                "refute_strength": 0
+              },
+              "evidence_cards": [],
+              "evidence_vector_v2": {
+                "support_hard": 0,
+                "support_soft": 0,
+                "refute_hard": 0,
+                "refute_soft": 0,
+                "blind": 0,
+                "support_strength": 0,
+                "refute_strength": 0,
+                "modalities": [],
+                "coverage": 0
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "top1_rate": 0.0,
+  "top3_rate": 0.0
+}

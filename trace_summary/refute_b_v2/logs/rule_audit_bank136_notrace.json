@@ -1,0 +1,2917 @@
+{
+  "n": 136,
+  "top1": 38,
+  "top3": 62,
+  "rule_audit": {
+    "cpu.container_cpu_required": {
+      "support_count": 119,
+      "refute_count": 277,
+      "blind_count": 252,
+      "support_true_root_count": 22,
+      "support_false_root_count": 97,
+      "refute_true_root_count": 0
+    },
+    "disk.disk_io_required": {
+      "support_count": 41,
+      "refute_count": 211,
+      "blind_count": 90,
+      "support_true_root_count": 14,
+      "support_false_root_count": 27,
+      "refute_true_root_count": 0
+    },
+    "filesystem.capacity_required": {
+      "support_count": 2,
+      "refute_count": 34,
+      "blind_count": 54,
+      "support_true_root_count": 2,
+      "support_false_root_count": 0,
+      "refute_true_root_count": 0
+    },
+    "memory.container_memory_anomaly": {
+      "support_count": 15,
+      "refute_count": 0,
+      "blind_count": 54,
+      "support_true_root_count": 1,
+      "support_false_root_count": 14,
+      "refute_true_root_count": 0
+    },
+    "memory.jvm_heap_plus_gc_log": {
+      "support_count": 0,
+      "refute_count": 0,
+      "blind_count": 90,
+      "support_true_root_count": 0,
+      "support_false_root_count": 0,
+      "refute_true_root_count": 0
+    },
+    "memory.jvm_oom_log_required": {
+      "support_count": 0,
+      "refute_count": 36,
+      "blind_count": 90,
+      "support_true_root_count": 0,
+      "support_false_root_count": 0,
+      "refute_true_root_count": 2
+    },
+    "network_latency.timeout_log": {
+      "support_count": 0,
+      "refute_count": 0,
+      "blind_count": 162,
+      "support_true_root_count": 0,
+      "support_false_root_count": 0,
+      "refute_true_root_count": 0
+    },
+    "network_latency.trace_slow_edge": {
+      "support_count": 0,
+      "refute_count": 0,
+      "blind_count": 486,
+      "support_true_root_count": 0,
+      "support_false_root_count": 0,
+      "refute_true_root_count": 0
+    },
+    "network_packet_loss.network_error_kpi": {
+      "support_count": 2,
+      "refute_count": 0,
+      "blind_count": 162,
+      "support_true_root_count": 0,
+      "support_false_root_count": 2,
+      "refute_true_root_count": 0
+    },
+    "network_packet_loss.retry_reset_log": {
+      "support_count": 0,
+      "refute_count": 0,
+      "blind_count": 144,
+      "support_true_root_count": 0,
+      "support_false_root_count": 0,
+      "refute_true_root_count": 0
+    }
+  },
+  "by_reason": {
+    "JVM Out of Memory (OOM) Heap": {
+      "memory.jvm_heap_plus_gc_log": {
+        "support_count": 0,
+        "refute_count": 0,
+        "blind_count": 90,
+        "support_true_root_count": 0,
+        "support_false_root_count": 0,
+        "refute_true_root_count": 0
+      },
+      "memory.jvm_oom_log_required": {
+        "support_count": 0,
+        "refute_count": 36,
+        "blind_count": 90,
+        "support_true_root_count": 0,
+        "support_false_root_count": 0,
+        "refute_true_root_count": 2
+      }
+    },
+    "high CPU usage": {
+      "cpu.container_cpu_required": {
+        "support_count": 105,
+        "refute_count": 237,
+        "blind_count": 252,
+        "support_true_root_count": 19,
+        "support_false_root_count": 86,
+        "refute_true_root_count": 0
+      }
+    },
+    "high JVM CPU load": {
+      "cpu.container_cpu_required": {
+        "support_count": 14,
+        "refute_count": 40,
+        "blind_count": 0,
+        "support_true_root_count": 3,
+        "support_false_root_count": 11,
+        "refute_true_root_count": 0
+      }
+    },
+    "high disk I/O read usage": {
+      "disk.disk_io_required": {
+        "support_count": 41,
+        "refute_count": 211,
+        "blind_count": 90,
+        "support_true_root_count": 14,
+        "support_false_root_count": 27,
+        "refute_true_root_count": 0
+      }
+    },
+    "high disk space usage": {
+      "filesystem.capacity_required": {
+        "support_count": 2,
+        "refute_count": 34,
+        "blind_count": 54,
+        "support_true_root_count": 2,
+        "support_false_root_count": 0,
+        "refute_true_root_count": 0
+      }
+    },
+    "high memory usage": {
+      "memory.container_memory_anomaly": {
+        "support_count": 15,
+        "refute_count": 0,
+        "blind_count": 54,
+        "support_true_root_count": 1,
+        "support_false_root_count": 14,
+        "refute_true_root_count": 0
+      }
+    },
+    "network latency": {
+      "network_latency.timeout_log": {
+        "support_count": 0,
+        "refute_count": 0,
+        "blind_count": 162,
+        "support_true_root_count": 0,
+        "support_false_root_count": 0,
+        "refute_true_root_count": 0
+      },
+      "network_latency.trace_slow_edge": {
+        "support_count": 0,
+        "refute_count": 0,
+        "blind_count": 486,
+        "support_true_root_count": 0,
+        "support_false_root_count": 0,
+        "refute_true_root_count": 0
+      }
+    },
+    "network packet loss": {
+      "network_packet_loss.network_error_kpi": {
+        "support_count": 2,
+        "refute_count": 0,
+        "blind_count": 162,
+        "support_true_root_count": 0,
+        "support_false_root_count": 2,
+        "refute_true_root_count": 0
+      },
+      "network_packet_loss.retry_reset_log": {
+        "support_count": 0,
+        "refute_count": 0,
+        "blind_count": 144,
+        "support_true_root_count": 0,
+        "support_false_root_count": 0,
+        "refute_true_root_count": 0
+      }
+    }
+  },
+  "cases": [
+    {
+      "date": "2021_03_04",
+      "datetime": "2021-03-04 14:57:00",
+      "true_component": "Mysql02",
+      "reason": "high memory usage",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "MG01",
+        "IG01",
+        "IG02",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_04",
+      "datetime": "2021-03-04 18:09:00",
+      "true_component": "Redis02",
+      "reason": "high memory usage",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG02",
+        "IG01",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_04",
+      "datetime": "2021-03-04 19:22:00",
+      "true_component": "Tomcat02",
+      "reason": "network latency",
+      "modal_status": {
+        "metric": "present",
+        "log": "empty_window",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_04",
+      "datetime": "2021-03-04 01:26:00",
+      "true_component": "MG02",
+      "reason": "high JVM CPU load",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "MG02",
+        "Tomcat01",
+        "Tomcat02",
+        "IG01",
+        "apache02"
+      ],
+      "top1_hit": true,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_04",
+      "datetime": "2021-03-04 13:46:00",
+      "true_component": "MG02",
+      "reason": "high JVM CPU load",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "MG02",
+        "Redis01",
+        "IG01",
+        "IG02",
+        "MG01"
+      ],
+      "top1_hit": true,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_04",
+      "datetime": "2021-03-04 21:06:00",
+      "true_component": "IG01",
+      "reason": "high JVM CPU load",
+      "modal_status": {
+        "metric": "present",
+        "log": "empty_window",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "dockerA2",
+        "apache02",
+        "Mysql01",
+        "IG02"
+      ],
+      "top1_hit": true,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_04",
+      "datetime": "2021-03-04 06:20:00",
+      "true_component": "MG02",
+      "reason": "JVM Out of Memory (OOM) Heap",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_04",
+      "datetime": "2021-03-04 19:36:00",
+      "true_component": "MG02",
+      "reason": "JVM Out of Memory (OOM) Heap",
+      "modal_status": {
+        "metric": "present",
+        "log": "empty_window",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_04",
+      "datetime": "2021-03-04 22:00:00",
+      "true_component": "MG01",
+      "reason": "JVM Out of Memory (OOM) Heap",
+      "modal_status": {
+        "metric": "present",
+        "log": "empty_window",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_04",
+      "datetime": "2021-03-04 22:25:00",
+      "true_component": "IG01",
+      "reason": "JVM Out of Memory (OOM) Heap",
+      "modal_status": {
+        "metric": "present",
+        "log": "empty_window",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": true,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_04",
+      "datetime": "2021-03-04 19:49:00",
+      "true_component": "Tomcat03",
+      "reason": "high disk I/O read usage",
+      "modal_status": {
+        "metric": "present",
+        "log": "empty_window",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "Tomcat03",
+        "IG02",
+        "IG01",
+        "MG01",
+        "MG02"
+      ],
+      "top1_hit": true,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_04",
+      "datetime": "2021-03-04 07:01:00",
+      "true_component": "Redis02",
+      "reason": "high CPU usage",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "Redis02",
+        "Tomcat01",
+        "Tomcat02",
+        "IG01",
+        "apache02"
+      ],
+      "top1_hit": true,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_04",
+      "datetime": "2021-03-04 20:14:00",
+      "true_component": "Redis02",
+      "reason": "high CPU usage",
+      "modal_status": {
+        "metric": "present",
+        "log": "empty_window",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "Redis02",
+        "Tomcat01",
+        "apache02",
+        "IG02",
+        "MG02"
+      ],
+      "top1_hit": true,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_04",
+      "datetime": "2021-03-04 00:34:00",
+      "true_component": "MG01",
+      "reason": "high memory usage",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "MG02",
+        "IG02",
+        "MG01",
+        "dockerB1",
+        "IG01"
+      ],
+      "top1_hit": false,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_04",
+      "datetime": "2021-03-04 02:45:00",
+      "true_component": "Mysql02",
+      "reason": "high memory usage",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "Redis02",
+        "MG02",
+        "IG01",
+        "IG02",
+        "MG01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_04",
+      "datetime": "2021-03-04 05:31:00",
+      "true_component": "Redis02",
+      "reason": "high memory usage",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG02",
+        "MG01",
+        "IG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_06",
+      "datetime": "2021-03-06 06:20:00",
+      "true_component": "Tomcat01",
+      "reason": "high memory usage",
+      "modal_status": {
+        "metric": "missing",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_06",
+      "datetime": "2021-03-06 00:53:00",
+      "true_component": "Tomcat04",
+      "reason": "network latency",
+      "modal_status": {
+        "metric": "missing",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_06",
+      "datetime": "2021-03-06 14:46:00",
+      "true_component": "Tomcat03",
+      "reason": "network latency",
+      "modal_status": {
+        "metric": "missing",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_06",
+      "datetime": "2021-03-06 18:52:00",
+      "true_component": "apache02",
+      "reason": "network packet loss",
+      "modal_status": {
+        "metric": "missing",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_06",
+      "datetime": "2021-03-06 23:18:00",
+      "true_component": "Tomcat01",
+      "reason": "network latency",
+      "modal_status": {
+        "metric": "missing",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_06",
+      "datetime": "2021-03-06 23:36:00",
+      "true_component": "MG01",
+      "reason": "network latency",
+      "modal_status": {
+        "metric": "missing",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_06",
+      "datetime": "2021-03-06 04:56:00",
+      "true_component": "MG01",
+      "reason": "high disk I/O read usage",
+      "modal_status": {
+        "metric": "missing",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_06",
+      "datetime": "2021-03-06 15:19:00",
+      "true_component": "IG02",
+      "reason": "high disk space usage",
+      "modal_status": {
+        "metric": "missing",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_06",
+      "datetime": "2021-03-06 02:00:00",
+      "true_component": "Mysql01",
+      "reason": "high CPU usage",
+      "modal_status": {
+        "metric": "missing",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_06",
+      "datetime": "2021-03-06 03:36:00",
+      "true_component": "IG01",
+      "reason": "high CPU usage",
+      "modal_status": {
+        "metric": "missing",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": true,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_06",
+      "datetime": "2021-03-06 20:44:00",
+      "true_component": "Tomcat04",
+      "reason": "high CPU usage",
+      "modal_status": {
+        "metric": "missing",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_07",
+      "datetime": "2021-03-07 00:32:00",
+      "true_component": "MG02",
+      "reason": "network packet loss",
+      "modal_status": {
+        "metric": "missing",
+        "log": "missing",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_07",
+      "datetime": "2021-03-07 07:32:00",
+      "true_component": "Tomcat02",
+      "reason": "network latency",
+      "modal_status": {
+        "metric": "missing",
+        "log": "missing",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_07",
+      "datetime": "2021-03-07 16:08:00",
+      "true_component": "MG01",
+      "reason": "network latency",
+      "modal_status": {
+        "metric": "missing",
+        "log": "missing",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_07",
+      "datetime": "2021-03-07 16:29:00",
+      "true_component": "Tomcat04",
+      "reason": "network packet loss",
+      "modal_status": {
+        "metric": "missing",
+        "log": "missing",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_07",
+      "datetime": "2021-03-07 18:59:00",
+      "true_component": "apache02",
+      "reason": "network latency",
+      "modal_status": {
+        "metric": "missing",
+        "log": "missing",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_07",
+      "datetime": "2021-03-07 21:36:00",
+      "true_component": "Tomcat01",
+      "reason": "network packet loss",
+      "modal_status": {
+        "metric": "missing",
+        "log": "missing",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_07",
+      "datetime": "2021-03-07 03:21:00",
+      "true_component": "Tomcat01",
+      "reason": "high disk I/O read usage",
+      "modal_status": {
+        "metric": "missing",
+        "log": "missing",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_07",
+      "datetime": "2021-03-07 15:41:00",
+      "true_component": "Tomcat01",
+      "reason": "high disk I/O read usage",
+      "modal_status": {
+        "metric": "missing",
+        "log": "missing",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_07",
+      "datetime": "2021-03-07 01:52:00",
+      "true_component": "Redis02",
+      "reason": "high CPU usage",
+      "modal_status": {
+        "metric": "missing",
+        "log": "missing",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_07",
+      "datetime": "2021-03-07 06:35:00",
+      "true_component": "IG02",
+      "reason": "high CPU usage",
+      "modal_status": {
+        "metric": "missing",
+        "log": "missing",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_07",
+      "datetime": "2021-03-07 08:11:00",
+      "true_component": "Tomcat03",
+      "reason": "high CPU usage",
+      "modal_status": {
+        "metric": "missing",
+        "log": "missing",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_07",
+      "datetime": "2021-03-07 11:09:00",
+      "true_component": "IG02",
+      "reason": "high CPU usage",
+      "modal_status": {
+        "metric": "missing",
+        "log": "missing",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_07",
+      "datetime": "2021-03-07 13:24:00",
+      "true_component": "IG01",
+      "reason": "high CPU usage",
+      "modal_status": {
+        "metric": "missing",
+        "log": "missing",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": true,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_07",
+      "datetime": "2021-03-07 17:52:00",
+      "true_component": "Tomcat01",
+      "reason": "high CPU usage",
+      "modal_status": {
+        "metric": "missing",
+        "log": "missing",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_07",
+      "datetime": "2021-03-07 12:36:00",
+      "true_component": "Tomcat04",
+      "reason": "high memory usage",
+      "modal_status": {
+        "metric": "missing",
+        "log": "missing",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_07",
+      "datetime": "2021-03-07 03:59:00",
+      "true_component": "Tomcat02",
+      "reason": "JVM Out of Memory (OOM) Heap",
+      "modal_status": {
+        "metric": "missing",
+        "log": "missing",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_09",
+      "datetime": "2021-03-09 08:13:00",
+      "true_component": "apache02",
+      "reason": "network packet loss",
+      "modal_status": {
+        "metric": "missing",
+        "log": "missing",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_09",
+      "datetime": "2021-03-09 09:18:00",
+      "true_component": "IG02",
+      "reason": "network packet loss",
+      "modal_status": {
+        "metric": "missing",
+        "log": "missing",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_09",
+      "datetime": "2021-03-09 11:20:00",
+      "true_component": "Tomcat01",
+      "reason": "network latency",
+      "modal_status": {
+        "metric": "missing",
+        "log": "missing",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_09",
+      "datetime": "2021-03-09 13:10:00",
+      "true_component": "MG02",
+      "reason": "network packet loss",
+      "modal_status": {
+        "metric": "missing",
+        "log": "missing",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_09",
+      "datetime": "2021-03-09 14:14:00",
+      "true_component": "MG02",
+      "reason": "network latency",
+      "modal_status": {
+        "metric": "missing",
+        "log": "missing",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_09",
+      "datetime": "2021-03-09 15:25:00",
+      "true_component": "Tomcat01",
+      "reason": "network packet loss",
+      "modal_status": {
+        "metric": "missing",
+        "log": "missing",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_09",
+      "datetime": "2021-03-09 16:56:00",
+      "true_component": "MG02",
+      "reason": "network latency",
+      "modal_status": {
+        "metric": "missing",
+        "log": "missing",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_09",
+      "datetime": "2021-03-09 19:14:00",
+      "true_component": "Tomcat02",
+      "reason": "network latency",
+      "modal_status": {
+        "metric": "missing",
+        "log": "missing",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_09",
+      "datetime": "2021-03-09 20:25:00",
+      "true_component": "apache01",
+      "reason": "network packet loss",
+      "modal_status": {
+        "metric": "missing",
+        "log": "missing",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_09",
+      "datetime": "2021-03-09 21:07:00",
+      "true_component": "apache01",
+      "reason": "network latency",
+      "modal_status": {
+        "metric": "missing",
+        "log": "missing",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_09",
+      "datetime": "2021-03-09 01:20:00",
+      "true_component": "apache01",
+      "reason": "high disk I/O read usage",
+      "modal_status": {
+        "metric": "missing",
+        "log": "missing",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_09",
+      "datetime": "2021-03-09 05:11:00",
+      "true_component": "IG02",
+      "reason": "high disk space usage",
+      "modal_status": {
+        "metric": "missing",
+        "log": "missing",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_09",
+      "datetime": "2021-03-09 15:45:00",
+      "true_component": "Tomcat01",
+      "reason": "high disk I/O read usage",
+      "modal_status": {
+        "metric": "missing",
+        "log": "missing",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_09",
+      "datetime": "2021-03-09 17:39:00",
+      "true_component": "apache01",
+      "reason": "high disk space usage",
+      "modal_status": {
+        "metric": "missing",
+        "log": "missing",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_09",
+      "datetime": "2021-03-09 09:57:00",
+      "true_component": "Tomcat04",
+      "reason": "high CPU usage",
+      "modal_status": {
+        "metric": "missing",
+        "log": "missing",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_09",
+      "datetime": "2021-03-09 14:42:00",
+      "true_component": "Redis02",
+      "reason": "high CPU usage",
+      "modal_status": {
+        "metric": "missing",
+        "log": "missing",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_09",
+      "datetime": "2021-03-09 18:08:00",
+      "true_component": "IG02",
+      "reason": "high CPU usage",
+      "modal_status": {
+        "metric": "missing",
+        "log": "missing",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_09",
+      "datetime": "2021-03-09 19:42:00",
+      "true_component": "Tomcat03",
+      "reason": "high CPU usage",
+      "modal_status": {
+        "metric": "missing",
+        "log": "missing",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_09",
+      "datetime": "2021-03-09 22:32:00",
+      "true_component": "IG02",
+      "reason": "high CPU usage",
+      "modal_status": {
+        "metric": "missing",
+        "log": "missing",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_09",
+      "datetime": "2021-03-09 23:53:00",
+      "true_component": "Tomcat04",
+      "reason": "high memory usage",
+      "modal_status": {
+        "metric": "missing",
+        "log": "missing",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_09",
+      "datetime": "2021-03-09 16:23:00",
+      "true_component": "Tomcat02",
+      "reason": "JVM Out of Memory (OOM) Heap",
+      "modal_status": {
+        "metric": "missing",
+        "log": "missing",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_10",
+      "datetime": "2021-03-10 07:19:00",
+      "true_component": "apache02",
+      "reason": "network latency",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_10",
+      "datetime": "2021-03-10 10:43:00",
+      "true_component": "Tomcat01",
+      "reason": "network packet loss",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_10",
+      "datetime": "2021-03-10 15:02:00",
+      "true_component": "apache02",
+      "reason": "network packet loss",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_10",
+      "datetime": "2021-03-10 15:19:00",
+      "true_component": "apache02",
+      "reason": "network latency",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_10",
+      "datetime": "2021-03-10 16:42:00",
+      "true_component": "Tomcat01",
+      "reason": "network latency",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_10",
+      "datetime": "2021-03-10 18:57:00",
+      "true_component": "Tomcat03",
+      "reason": "network packet loss",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_10",
+      "datetime": "2021-03-10 02:44:00",
+      "true_component": "Tomcat01",
+      "reason": "high disk I/O read usage",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "Tomcat01",
+        "Mysql02",
+        "IG01",
+        "IG02",
+        "MG01"
+      ],
+      "top1_hit": true,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_10",
+      "datetime": "2021-03-10 03:44:00",
+      "true_component": "Tomcat04",
+      "reason": "high disk space usage",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "Tomcat04",
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02"
+      ],
+      "top1_hit": true,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_10",
+      "datetime": "2021-03-10 14:21:00",
+      "true_component": "Tomcat02",
+      "reason": "high disk I/O read usage",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "Tomcat02",
+        "Tomcat04",
+        "IG02",
+        "Mysql02",
+        "Tomcat01"
+      ],
+      "top1_hit": true,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_10",
+      "datetime": "2021-03-10 15:43:00",
+      "true_component": "apache02",
+      "reason": "high disk I/O read usage",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "apache02",
+        "Mysql01",
+        "IG01",
+        "Mysql02",
+        "IG02"
+      ],
+      "top1_hit": true,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_10",
+      "datetime": "2021-03-10 22:03:00",
+      "true_component": "IG02",
+      "reason": "high disk I/O read usage",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG02",
+        "Mysql01",
+        "IG01",
+        "MG01",
+        "MG02"
+      ],
+      "top1_hit": true,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_10",
+      "datetime": "2021-03-10 22:19:00",
+      "true_component": "MG02",
+      "reason": "high disk I/O read usage",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "MG02",
+        "Redis01",
+        "IG01",
+        "IG02",
+        "MG01"
+      ],
+      "top1_hit": true,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_10",
+      "datetime": "2021-03-10 00:19:00",
+      "true_component": "IG01",
+      "reason": "high CPU usage",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": true,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_10",
+      "datetime": "2021-03-10 04:38:00",
+      "true_component": "Tomcat01",
+      "reason": "high CPU usage",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "Tomcat01",
+        "apache02",
+        "Tomcat03",
+        "IG02",
+        "Tomcat04"
+      ],
+      "top1_hit": true,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_10",
+      "datetime": "2021-03-10 08:30:00",
+      "true_component": "apache01",
+      "reason": "high CPU usage",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "apache01",
+        "Redis01",
+        "IG01",
+        "IG02",
+        "MG01"
+      ],
+      "top1_hit": true,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_10",
+      "datetime": "2021-03-10 17:51:00",
+      "true_component": "Tomcat02",
+      "reason": "JVM Out of Memory (OOM) Heap",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_12",
+      "datetime": "2021-03-12 10:54:00",
+      "true_component": "MG01",
+      "reason": "network packet loss",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_12",
+      "datetime": "2021-03-12 12:13:00",
+      "true_component": "Tomcat01",
+      "reason": "network packet loss",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_12",
+      "datetime": "2021-03-12 14:03:00",
+      "true_component": "MG02",
+      "reason": "network packet loss",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_12",
+      "datetime": "2021-03-12 15:38:00",
+      "true_component": "MG01",
+      "reason": "network packet loss",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_12",
+      "datetime": "2021-03-12 16:26:00",
+      "true_component": "apache02",
+      "reason": "network packet loss",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "dockerA2",
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_12",
+      "datetime": "2021-03-12 22:35:00",
+      "true_component": "Tomcat03",
+      "reason": "network packet loss",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_12",
+      "datetime": "2021-03-12 23:33:00",
+      "true_component": "apache02",
+      "reason": "network packet loss",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_12",
+      "datetime": "2021-03-12 16:15:00",
+      "true_component": "IG02",
+      "reason": "high disk I/O read usage",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG02",
+        "Tomcat03",
+        "Tomcat04",
+        "IG01",
+        "MG01"
+      ],
+      "top1_hit": true,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_12",
+      "datetime": "2021-03-12 10:24:00",
+      "true_component": "IG02",
+      "reason": "high CPU usage",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG02",
+        "Mysql01",
+        "Redis01",
+        "IG01",
+        "Tomcat02"
+      ],
+      "top1_hit": true,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_12",
+      "datetime": "2021-03-12 15:10:00",
+      "true_component": "MG01",
+      "reason": "high CPU usage",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "MG01",
+        "Mysql01",
+        "apache01",
+        "IG01",
+        "IG02"
+      ],
+      "top1_hit": true,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_12",
+      "datetime": "2021-03-12 17:14:00",
+      "true_component": "Redis02",
+      "reason": "high CPU usage",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "Redis02",
+        "apache02",
+        "Tomcat04",
+        "MG02",
+        "IG01"
+      ],
+      "top1_hit": true,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_12",
+      "datetime": "2021-03-12 20:46:00",
+      "true_component": "Redis01",
+      "reason": "high CPU usage",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "Redis01",
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02"
+      ],
+      "top1_hit": true,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_12",
+      "datetime": "2021-03-12 10:12:00",
+      "true_component": "Mysql01",
+      "reason": "high memory usage",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "Tomcat02",
+        "Redis02",
+        "dockerB2",
+        "IG01",
+        "IG02"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_23",
+      "datetime": "2021-03-23 06:42:00",
+      "true_component": "MG01",
+      "reason": "network packet loss",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_23",
+      "datetime": "2021-03-23 14:24:00",
+      "true_component": "Tomcat04",
+      "reason": "network packet loss",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_23",
+      "datetime": "2021-03-23 14:50:00",
+      "true_component": "MG01",
+      "reason": "network packet loss",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_23",
+      "datetime": "2021-03-23 16:54:00",
+      "true_component": "Tomcat04",
+      "reason": "network latency",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_23",
+      "datetime": "2021-03-23 17:42:00",
+      "true_component": "MG02",
+      "reason": "network latency",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_23",
+      "datetime": "2021-03-23 18:03:00",
+      "true_component": "MG01",
+      "reason": "network latency",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_23",
+      "datetime": "2021-03-23 21:07:00",
+      "true_component": "Tomcat04",
+      "reason": "network packet loss",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_23",
+      "datetime": "2021-03-23 02:36:00",
+      "true_component": "Tomcat01",
+      "reason": "high memory usage",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "Redis01",
+        "MG02",
+        "IG01",
+        "IG02",
+        "MG01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_23",
+      "datetime": "2021-03-23 23:04:00",
+      "true_component": "MG02",
+      "reason": "network packet loss",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_23",
+      "datetime": "2021-03-23 01:01:00",
+      "true_component": "MG01",
+      "reason": "high disk I/O read usage",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "Tomcat02",
+        "MG01",
+        "Tomcat04",
+        "Tomcat01",
+        "Tomcat03"
+      ],
+      "top1_hit": false,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_23",
+      "datetime": "2021-03-23 01:47:00",
+      "true_component": "MG01",
+      "reason": "high disk I/O read usage",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "MG01",
+        "Tomcat01",
+        "IG01",
+        "IG02",
+        "MG02"
+      ],
+      "top1_hit": true,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_23",
+      "datetime": "2021-03-23 15:03:00",
+      "true_component": "Tomcat02",
+      "reason": "high disk I/O read usage",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "Tomcat02",
+        "MG02",
+        "Tomcat04",
+        "IG01",
+        "IG02"
+      ],
+      "top1_hit": true,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_23",
+      "datetime": "2021-03-23 00:03:00",
+      "true_component": "Tomcat03",
+      "reason": "high CPU usage",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "Tomcat03",
+        "apache02",
+        "Tomcat01",
+        "IG01",
+        "IG02"
+      ],
+      "top1_hit": true,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_23",
+      "datetime": "2021-03-23 18:43:00",
+      "true_component": "Tomcat03",
+      "reason": "high CPU usage",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "Tomcat03",
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02"
+      ],
+      "top1_hit": true,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_24",
+      "datetime": "2021-03-24 11:08:00",
+      "true_component": "Tomcat03",
+      "reason": "network packet loss",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "dockerA2",
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_24",
+      "datetime": "2021-03-24 11:31:00",
+      "true_component": "Tomcat01",
+      "reason": "network packet loss",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_24",
+      "datetime": "2021-03-24 14:30:00",
+      "true_component": "Tomcat02",
+      "reason": "network latency",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_24",
+      "datetime": "2021-03-24 15:06:00",
+      "true_component": "MG01",
+      "reason": "network latency",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_24",
+      "datetime": "2021-03-24 19:24:00",
+      "true_component": "MG01",
+      "reason": "network latency",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_24",
+      "datetime": "2021-03-24 19:50:00",
+      "true_component": "MG02",
+      "reason": "network latency",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_24",
+      "datetime": "2021-03-24 20:34:00",
+      "true_component": "Tomcat03",
+      "reason": "network packet loss",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_24",
+      "datetime": "2021-03-24 12:36:00",
+      "true_component": "MG02",
+      "reason": "high disk I/O read usage",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "Tomcat03",
+        "MG02",
+        "Mysql01",
+        "IG01",
+        "IG02"
+      ],
+      "top1_hit": false,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_24",
+      "datetime": "2021-03-24 14:05:00",
+      "true_component": "apache01",
+      "reason": "high disk space usage",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "apache01",
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02"
+      ],
+      "top1_hit": true,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_24",
+      "datetime": "2021-03-24 16:47:00",
+      "true_component": "Tomcat01",
+      "reason": "high CPU usage",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "Tomcat01",
+        "Tomcat03",
+        "Tomcat02",
+        "MG01",
+        "Tomcat04"
+      ],
+      "top1_hit": true,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 00:07:00",
+      "true_component": "MG02",
+      "reason": "network latency",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 07:40:00",
+      "true_component": "Tomcat03",
+      "reason": "network packet loss",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 14:54:00",
+      "true_component": "Tomcat03",
+      "reason": "network latency",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 17:22:00",
+      "true_component": "Tomcat01",
+      "reason": "network packet loss",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 18:13:00",
+      "true_component": "IG02",
+      "reason": "network latency",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 19:15:00",
+      "true_component": "Tomcat04",
+      "reason": "network packet loss",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 20:25:00",
+      "true_component": "MG01",
+      "reason": "network latency",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 20:50:00",
+      "true_component": "apache01",
+      "reason": "network packet loss",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 22:01:00",
+      "true_component": "MG02",
+      "reason": "network packet loss",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 00:19:00",
+      "true_component": "apache01",
+      "reason": "high disk I/O read usage",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "apache01",
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02"
+      ],
+      "top1_hit": true,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 02:43:00",
+      "true_component": "MG02",
+      "reason": "high disk I/O read usage",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "MG02",
+        "IG02",
+        "IG01",
+        "MG01",
+        "Mysql01"
+      ],
+      "top1_hit": true,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 09:04:00",
+      "true_component": "Tomcat01",
+      "reason": "high disk I/O read usage",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "Tomcat01",
+        "IG01",
+        "apache01",
+        "IG02",
+        "MG01"
+      ],
+      "top1_hit": true,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 06:40:00",
+      "true_component": "apache02",
+      "reason": "high CPU usage",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "apache02",
+        "Redis02",
+        "dockerA2",
+        "IG01",
+        "IG02"
+      ],
+      "top1_hit": true,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 09:38:00",
+      "true_component": "MG01",
+      "reason": "high CPU usage",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "MG01",
+        "IG02",
+        "MG02",
+        "Redis02",
+        "IG01"
+      ],
+      "top1_hit": true,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 11:53:00",
+      "true_component": "Mysql02",
+      "reason": "high CPU usage",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "Redis01",
+        "Redis02",
+        "Mysql02",
+        "IG01",
+        "apache02"
+      ],
+      "top1_hit": false,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 15:42:00",
+      "true_component": "Mysql02",
+      "reason": "high CPU usage",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "Mysql02",
+        "Tomcat04",
+        "IG02",
+        "IG01",
+        "MG01"
+      ],
+      "top1_hit": true,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 19:00:00",
+      "true_component": "IG02",
+      "reason": "high CPU usage",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG02",
+        "Tomcat01",
+        "Tomcat02",
+        "Tomcat04",
+        "Tomcat03"
+      ],
+      "top1_hit": true,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 19:40:00",
+      "true_component": "Tomcat04",
+      "reason": "high CPU usage",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "Tomcat04",
+        "Mysql01",
+        "IG02",
+        "Mysql02",
+        "IG01"
+      ],
+      "top1_hit": true,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 23:16:00",
+      "true_component": "Redis02",
+      "reason": "high CPU usage",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "Redis02",
+        "IG01",
+        "apache01",
+        "IG02",
+        "MG01"
+      ],
+      "top1_hit": true,
+      "top3_hit": true
+    }
+  ],
+  "top1_rate": 0.27941176470588236,
+  "top3_rate": 0.45588235294117646
+}

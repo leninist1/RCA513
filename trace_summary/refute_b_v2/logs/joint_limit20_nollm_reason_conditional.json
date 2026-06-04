@@ -1,0 +1,1185 @@
+{
+  "n": 20,
+  "tolerance_by_reason_minutes": {
+    "high CPU usage": 1,
+    "high JVM CPU load": 1,
+    "network latency": 2,
+    "network packet loss": 2,
+    "high disk I/O read usage": 5,
+    "high disk space usage": 30,
+    "high memory usage": 15,
+    "JVM Out of Memory (OOM) Heap": 15
+  },
+  "reason_groups": {
+    "event_like": [
+      "high CPU usage",
+      "high JVM CPU load",
+      "network latency",
+      "network packet loss"
+    ],
+    "progressive_like": [
+      "JVM Out of Memory (OOM) Heap",
+      "high disk space usage",
+      "high memory usage"
+    ],
+    "io_like": [
+      "high disk I/O read usage"
+    ]
+  },
+  "overall": {
+    "n": 20,
+    "official_strict": 0,
+    "reason_conditional_strict": 0,
+    "official_partial_sum": 2.333333333333333,
+    "reason_conditional_partial_sum": 2.333333333333333,
+    "field_totals": {
+      "time": 10,
+      "component": 14,
+      "reason": 11
+    },
+    "official_field_hits": {
+      "time": 0,
+      "component": 2,
+      "reason": 3
+    },
+    "reason_conditional_field_hits": {
+      "time": 0,
+      "component": 2,
+      "reason": 3
+    },
+    "official_strict_rate": 0.0,
+    "reason_conditional_strict_rate": 0.0,
+    "official_partial_rate": 0.11666666666666665,
+    "reason_conditional_partial_rate": 0.11666666666666665,
+    "official_field_rates": {
+      "time": 0.0,
+      "component": 0.14285714285714285,
+      "reason": 0.2727272727272727
+    },
+    "reason_conditional_field_rates": {
+      "time": 0.0,
+      "component": 0.14285714285714285,
+      "reason": 0.2727272727272727
+    }
+  },
+  "by_reason": {
+    "high memory usage": {
+      "n": 3,
+      "official_strict": 0,
+      "reason_conditional_strict": 0,
+      "official_partial_sum": 0.5,
+      "reason_conditional_partial_sum": 0.5,
+      "field_totals": {
+        "time": 1,
+        "component": 2,
+        "reason": 2
+      },
+      "official_field_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "reason_conditional_field_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "official_strict_rate": 0.0,
+      "reason_conditional_strict_rate": 0.0,
+      "official_partial_rate": 0.16666666666666666,
+      "reason_conditional_partial_rate": 0.16666666666666666,
+      "official_field_rates": {
+        "time": 0.0,
+        "component": 0.5,
+        "reason": 0.0
+      },
+      "reason_conditional_field_rates": {
+        "time": 0.0,
+        "component": 0.5,
+        "reason": 0.0
+      }
+    },
+    "network latency": {
+      "n": 9,
+      "official_strict": 0,
+      "reason_conditional_strict": 0,
+      "official_partial_sum": 1.8333333333333333,
+      "reason_conditional_partial_sum": 1.8333333333333333,
+      "field_totals": {
+        "time": 4,
+        "component": 7,
+        "reason": 4
+      },
+      "official_field_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 3
+      },
+      "reason_conditional_field_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 3
+      },
+      "official_strict_rate": 0.0,
+      "reason_conditional_strict_rate": 0.0,
+      "official_partial_rate": 0.2037037037037037,
+      "reason_conditional_partial_rate": 0.2037037037037037,
+      "official_field_rates": {
+        "time": 0.0,
+        "component": 0.14285714285714285,
+        "reason": 0.75
+      },
+      "reason_conditional_field_rates": {
+        "time": 0.0,
+        "component": 0.14285714285714285,
+        "reason": 0.75
+      }
+    },
+    "network latency+network packet loss": {
+      "n": 1,
+      "official_strict": 0,
+      "reason_conditional_strict": 0,
+      "official_partial_sum": 0.0,
+      "reason_conditional_partial_sum": 0.0,
+      "field_totals": {
+        "time": 2,
+        "component": 0,
+        "reason": 0
+      },
+      "official_field_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_field_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_strict_rate": 0.0,
+      "reason_conditional_strict_rate": 0.0,
+      "official_partial_rate": 0.0,
+      "reason_conditional_partial_rate": 0.0,
+      "official_field_rates": {
+        "time": 0.0,
+        "component": null,
+        "reason": null
+      },
+      "reason_conditional_field_rates": {
+        "time": 0.0,
+        "component": null,
+        "reason": null
+      }
+    },
+    "network packet loss": {
+      "n": 7,
+      "official_strict": 0,
+      "reason_conditional_strict": 0,
+      "official_partial_sum": 0.0,
+      "reason_conditional_partial_sum": 0.0,
+      "field_totals": {
+        "time": 3,
+        "component": 5,
+        "reason": 5
+      },
+      "official_field_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_field_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_strict_rate": 0.0,
+      "reason_conditional_strict_rate": 0.0,
+      "official_partial_rate": 0.0,
+      "reason_conditional_partial_rate": 0.0,
+      "official_field_rates": {
+        "time": 0.0,
+        "component": 0.0,
+        "reason": 0.0
+      },
+      "reason_conditional_field_rates": {
+        "time": 0.0,
+        "component": 0.0,
+        "reason": 0.0
+      }
+    }
+  },
+  "by_reason_group": {
+    "event_like": {
+      "n": 17,
+      "official_strict": 0,
+      "reason_conditional_strict": 0,
+      "official_partial_sum": 1.8333333333333333,
+      "reason_conditional_partial_sum": 1.8333333333333333,
+      "field_totals": {
+        "time": 9,
+        "component": 12,
+        "reason": 9
+      },
+      "official_field_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 3
+      },
+      "reason_conditional_field_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 3
+      },
+      "official_strict_rate": 0.0,
+      "reason_conditional_strict_rate": 0.0,
+      "official_partial_rate": 0.10784313725490195,
+      "reason_conditional_partial_rate": 0.10784313725490195,
+      "official_field_rates": {
+        "time": 0.0,
+        "component": 0.08333333333333333,
+        "reason": 0.3333333333333333
+      },
+      "reason_conditional_field_rates": {
+        "time": 0.0,
+        "component": 0.08333333333333333,
+        "reason": 0.3333333333333333
+      }
+    },
+    "progressive_like": {
+      "n": 3,
+      "official_strict": 0,
+      "reason_conditional_strict": 0,
+      "official_partial_sum": 0.5,
+      "reason_conditional_partial_sum": 0.5,
+      "field_totals": {
+        "time": 1,
+        "component": 2,
+        "reason": 2
+      },
+      "official_field_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "reason_conditional_field_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "official_strict_rate": 0.0,
+      "reason_conditional_strict_rate": 0.0,
+      "official_partial_rate": 0.16666666666666666,
+      "reason_conditional_partial_rate": 0.16666666666666666,
+      "official_field_rates": {
+        "time": 0.0,
+        "component": 0.5,
+        "reason": 0.0
+      },
+      "reason_conditional_field_rates": {
+        "time": 0.0,
+        "component": 0.5,
+        "reason": 0.0
+      }
+    }
+  },
+  "by_task_index": {
+    "task_1": {
+      "n": 4,
+      "official_strict": 0,
+      "reason_conditional_strict": 0,
+      "official_partial_sum": 0.0,
+      "reason_conditional_partial_sum": 0.0,
+      "field_totals": {
+        "time": 5,
+        "component": 0,
+        "reason": 0
+      },
+      "official_field_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_field_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_strict_rate": 0.0,
+      "reason_conditional_strict_rate": 0.0,
+      "official_partial_rate": 0.0,
+      "reason_conditional_partial_rate": 0.0,
+      "official_field_rates": {
+        "time": 0.0,
+        "component": null,
+        "reason": null
+      },
+      "reason_conditional_field_rates": {
+        "time": 0.0,
+        "component": null,
+        "reason": null
+      }
+    },
+    "task_2": {
+      "n": 1,
+      "official_strict": 0,
+      "reason_conditional_strict": 0,
+      "official_partial_sum": 0.0,
+      "reason_conditional_partial_sum": 0.0,
+      "field_totals": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "official_field_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_field_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_strict_rate": 0.0,
+      "reason_conditional_strict_rate": 0.0,
+      "official_partial_rate": 0.0,
+      "reason_conditional_partial_rate": 0.0,
+      "official_field_rates": {
+        "time": null,
+        "component": null,
+        "reason": 0.0
+      },
+      "reason_conditional_field_rates": {
+        "time": null,
+        "component": null,
+        "reason": 0.0
+      }
+    },
+    "task_3": {
+      "n": 4,
+      "official_strict": 0,
+      "reason_conditional_strict": 0,
+      "official_partial_sum": 0.0,
+      "reason_conditional_partial_sum": 0.0,
+      "field_totals": {
+        "time": 0,
+        "component": 5,
+        "reason": 0
+      },
+      "official_field_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_field_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_strict_rate": 0.0,
+      "reason_conditional_strict_rate": 0.0,
+      "official_partial_rate": 0.0,
+      "reason_conditional_partial_rate": 0.0,
+      "official_field_rates": {
+        "time": null,
+        "component": 0.0,
+        "reason": null
+      },
+      "reason_conditional_field_rates": {
+        "time": null,
+        "component": 0.0,
+        "reason": null
+      }
+    },
+    "task_4": {
+      "n": 2,
+      "official_strict": 0,
+      "reason_conditional_strict": 0,
+      "official_partial_sum": 0.5,
+      "reason_conditional_partial_sum": 0.5,
+      "field_totals": {
+        "time": 2,
+        "component": 0,
+        "reason": 2
+      },
+      "official_field_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "reason_conditional_field_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "official_strict_rate": 0.0,
+      "reason_conditional_strict_rate": 0.0,
+      "official_partial_rate": 0.25,
+      "reason_conditional_partial_rate": 0.25,
+      "official_field_rates": {
+        "time": 0.0,
+        "component": null,
+        "reason": 0.5
+      },
+      "reason_conditional_field_rates": {
+        "time": 0.0,
+        "component": null,
+        "reason": 0.5
+      }
+    },
+    "task_5": {
+      "n": 1,
+      "official_strict": 0,
+      "reason_conditional_strict": 0,
+      "official_partial_sum": 0.0,
+      "reason_conditional_partial_sum": 0.0,
+      "field_totals": {
+        "time": 1,
+        "component": 1,
+        "reason": 0
+      },
+      "official_field_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_field_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_strict_rate": 0.0,
+      "reason_conditional_strict_rate": 0.0,
+      "official_partial_rate": 0.0,
+      "reason_conditional_partial_rate": 0.0,
+      "official_field_rates": {
+        "time": 0.0,
+        "component": 0.0,
+        "reason": null
+      },
+      "reason_conditional_field_rates": {
+        "time": 0.0,
+        "component": 0.0,
+        "reason": null
+      }
+    },
+    "task_6": {
+      "n": 6,
+      "official_strict": 0,
+      "reason_conditional_strict": 0,
+      "official_partial_sum": 1.5,
+      "reason_conditional_partial_sum": 1.5,
+      "field_totals": {
+        "time": 0,
+        "component": 6,
+        "reason": 6
+      },
+      "official_field_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 2
+      },
+      "reason_conditional_field_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 2
+      },
+      "official_strict_rate": 0.0,
+      "reason_conditional_strict_rate": 0.0,
+      "official_partial_rate": 0.25,
+      "reason_conditional_partial_rate": 0.25,
+      "official_field_rates": {
+        "time": null,
+        "component": 0.16666666666666666,
+        "reason": 0.3333333333333333
+      },
+      "reason_conditional_field_rates": {
+        "time": null,
+        "component": 0.16666666666666666,
+        "reason": 0.3333333333333333
+      }
+    },
+    "task_7": {
+      "n": 2,
+      "official_strict": 0,
+      "reason_conditional_strict": 0,
+      "official_partial_sum": 0.3333333333333333,
+      "reason_conditional_partial_sum": 0.3333333333333333,
+      "field_totals": {
+        "time": 2,
+        "component": 2,
+        "reason": 2
+      },
+      "official_field_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "reason_conditional_field_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "official_strict_rate": 0.0,
+      "reason_conditional_strict_rate": 0.0,
+      "official_partial_rate": 0.16666666666666666,
+      "reason_conditional_partial_rate": 0.16666666666666666,
+      "official_field_rates": {
+        "time": 0.0,
+        "component": 0.5,
+        "reason": 0.0
+      },
+      "reason_conditional_field_rates": {
+        "time": 0.0,
+        "component": 0.5,
+        "reason": 0.0
+      }
+    }
+  },
+  "rows": [
+    {
+      "row_id": 0,
+      "task_index": "task_1",
+      "gt_component": "Mysql02",
+      "gt_reason": "high memory usage",
+      "truth_reasons": [
+        "high memory usage"
+      ],
+      "reason_group": "progressive_like",
+      "tolerance_minutes": [
+        15
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 1,
+      "task_index": "task_6",
+      "gt_component": "Redis02",
+      "gt_reason": "high memory usage",
+      "truth_reasons": [
+        "high memory usage"
+      ],
+      "reason_group": "progressive_like",
+      "tolerance_minutes": [
+        15
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "official_score": 0.5,
+      "reason_conditional_score": 0.5,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 2,
+      "task_index": "task_6",
+      "gt_component": "Tomcat01",
+      "gt_reason": "high memory usage",
+      "truth_reasons": [
+        "high memory usage"
+      ],
+      "reason_group": "progressive_like",
+      "tolerance_minutes": [
+        15
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 3,
+      "task_index": "task_1",
+      "gt_component": "Tomcat02",
+      "gt_reason": "network latency",
+      "truth_reasons": [
+        "network latency"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 4,
+      "task_index": "task_6",
+      "gt_component": "Tomcat04",
+      "gt_reason": "network latency",
+      "truth_reasons": [
+        "network latency"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "official_score": 0.5,
+      "reason_conditional_score": 0.5,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 5,
+      "task_index": "task_5",
+      "gt_component": "Tomcat03",
+      "gt_reason": "network latency",
+      "truth_reasons": [
+        "network latency"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 1,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 6,
+      "task_index": "task_7",
+      "gt_component": "apache02",
+      "gt_reason": "network packet loss",
+      "truth_reasons": [
+        "network packet loss"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 7,
+      "task_index": "task_3",
+      "gt_component": "Tomcat01",
+      "gt_reason": "network latency",
+      "truth_reasons": [
+        "network latency"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 8,
+      "task_index": "task_7",
+      "gt_component": "MG01",
+      "gt_reason": "network latency",
+      "truth_reasons": [
+        "network latency"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "official_score": 0.3333333333333333,
+      "reason_conditional_score": 0.3333333333333333,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 9,
+      "task_index": "task_6",
+      "gt_component": "MG02",
+      "gt_reason": "network packet loss",
+      "truth_reasons": [
+        "network packet loss"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 10,
+      "task_index": "task_3",
+      "gt_component": "Tomcat02",
+      "gt_reason": "network latency",
+      "truth_reasons": [
+        "network latency"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 11,
+      "task_index": "task_1",
+      "gt_component": "MG01",
+      "gt_reason": "network latency+network packet loss",
+      "truth_reasons": [
+        "network latency",
+        "network packet loss"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2,
+        2
+      ],
+      "field_totals": {
+        "time": 2,
+        "component": 0,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 12,
+      "task_index": "task_3",
+      "gt_component": "Tomcat04",
+      "gt_reason": "network packet loss",
+      "truth_reasons": [
+        "network packet loss",
+        "network packet loss"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2,
+        2
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 2,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 13,
+      "task_index": "task_4",
+      "gt_component": "apache02",
+      "gt_reason": "network latency",
+      "truth_reasons": [
+        "network latency"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 0,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "official_score": 0.5,
+      "reason_conditional_score": 0.5,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 14,
+      "task_index": "task_2",
+      "gt_component": "Tomcat01",
+      "gt_reason": "network packet loss",
+      "truth_reasons": [
+        "network packet loss"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 15,
+      "task_index": "task_4",
+      "gt_component": "apache02",
+      "gt_reason": "network packet loss",
+      "truth_reasons": [
+        "network packet loss"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 0,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 16,
+      "task_index": "task_1",
+      "gt_component": "IG02",
+      "gt_reason": "network packet loss",
+      "truth_reasons": [
+        "network packet loss"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 17,
+      "task_index": "task_6",
+      "gt_component": "Tomcat01",
+      "gt_reason": "network latency",
+      "truth_reasons": [
+        "network latency"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "official_score": 0.5,
+      "reason_conditional_score": 0.5,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 18,
+      "task_index": "task_6",
+      "gt_component": "MG02",
+      "gt_reason": "network packet loss",
+      "truth_reasons": [
+        "network packet loss"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    },
+    {
+      "row_id": 19,
+      "task_index": "task_3",
+      "gt_component": "MG02",
+      "gt_reason": "network latency",
+      "truth_reasons": [
+        "network latency"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false
+    }
+  ]
+}

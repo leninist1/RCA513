@@ -1,0 +1,3541 @@
+{
+  "n": 136,
+  "min_n": 5,
+  "buckets": {
+    "cpu|evidence|gap_high": {
+      "n": 20,
+      "top1": 19,
+      "top3": 20,
+      "top1_rate": 0.95,
+      "top3_rate": 1.0,
+      "confidence_label": "high"
+    },
+    "cpu|evidence|gap_low": {
+      "n": 1,
+      "top1": 1,
+      "top3": 1,
+      "top1_rate": 1.0,
+      "top3_rate": 1.0,
+      "confidence_label": "medium_sample_low"
+    },
+    "cpu|evidence|gap_mid": {
+      "n": 1,
+      "top1": 1,
+      "top3": 1,
+      "top1_rate": 1.0,
+      "top3_rate": 1.0,
+      "confidence_label": "medium_sample_low"
+    },
+    "cpu|no_evidence|gap_none": {
+      "n": 14,
+      "top1": 2,
+      "top3": 6,
+      "top1_rate": 0.14285714285714285,
+      "top3_rate": 0.42857142857142855,
+      "confidence_label": "low"
+    },
+    "disk_io|evidence|gap_high": {
+      "n": 14,
+      "top1": 12,
+      "top3": 14,
+      "top1_rate": 0.8571428571428571,
+      "top3_rate": 1.0,
+      "confidence_label": "high"
+    },
+    "disk_io|no_evidence|gap_none": {
+      "n": 5,
+      "top1": 0,
+      "top3": 1,
+      "top1_rate": 0.0,
+      "top3_rate": 0.2,
+      "confidence_label": "low"
+    },
+    "filesystem|evidence|gap_high": {
+      "n": 1,
+      "top1": 1,
+      "top3": 1,
+      "top1_rate": 1.0,
+      "top3_rate": 1.0,
+      "confidence_label": "medium_sample_low"
+    },
+    "filesystem|evidence|gap_low": {
+      "n": 1,
+      "top1": 1,
+      "top3": 1,
+      "top1_rate": 1.0,
+      "top3_rate": 1.0,
+      "confidence_label": "medium_sample_low"
+    },
+    "filesystem|no_evidence|gap_none": {
+      "n": 3,
+      "top1": 0,
+      "top3": 2,
+      "top1_rate": 0.0,
+      "top3_rate": 0.6666666666666666,
+      "confidence_label": "medium_sample_low"
+    },
+    "jvm_oom|evidence|gap_low": {
+      "n": 1,
+      "top1": 0,
+      "top3": 1,
+      "top1_rate": 0.0,
+      "top3_rate": 1.0,
+      "confidence_label": "medium_sample_low"
+    },
+    "jvm_oom|no_evidence|gap_none": {
+      "n": 3,
+      "top1": 0,
+      "top3": 0,
+      "top1_rate": 0.0,
+      "top3_rate": 0.0,
+      "confidence_label": "medium_sample_low"
+    },
+    "jvm_oom|partial_evidence|gap_low": {
+      "n": 3,
+      "top1": 1,
+      "top3": 2,
+      "top1_rate": 0.3333333333333333,
+      "top3_rate": 0.6666666666666666,
+      "confidence_label": "medium_sample_low"
+    },
+    "memory|evidence|gap_low": {
+      "n": 4,
+      "top1": 0,
+      "top3": 0,
+      "top1_rate": 0.0,
+      "top3_rate": 0.0,
+      "confidence_label": "medium_sample_low"
+    },
+    "memory|evidence|gap_mid": {
+      "n": 3,
+      "top1": 1,
+      "top3": 1,
+      "top1_rate": 0.3333333333333333,
+      "top3_rate": 0.3333333333333333,
+      "confidence_label": "medium_sample_low"
+    },
+    "memory|no_evidence|gap_none": {
+      "n": 3,
+      "top1": 0,
+      "top3": 0,
+      "top1_rate": 0.0,
+      "top3_rate": 0.0,
+      "confidence_label": "medium_sample_low"
+    },
+    "network_latency|evidence|gap_low": {
+      "n": 1,
+      "top1": 0,
+      "top3": 0,
+      "top1_rate": 0.0,
+      "top3_rate": 0.0,
+      "confidence_label": "medium_sample_low"
+    },
+    "network_latency|evidence|gap_none": {
+      "n": 1,
+      "top1": 0,
+      "top3": 0,
+      "top1_rate": 0.0,
+      "top3_rate": 0.0,
+      "confidence_label": "medium_sample_low"
+    },
+    "network_latency|no_evidence|gap_none": {
+      "n": 24,
+      "top1": 0,
+      "top3": 7,
+      "top1_rate": 0.0,
+      "top3_rate": 0.2916666666666667,
+      "confidence_label": "low"
+    },
+    "network_latency|partial_evidence|gap_low": {
+      "n": 1,
+      "top1": 0,
+      "top3": 0,
+      "top1_rate": 0.0,
+      "top3_rate": 0.0,
+      "confidence_label": "medium_sample_low"
+    },
+    "network_packet_loss|evidence|gap_mid": {
+      "n": 1,
+      "top1": 0,
+      "top3": 0,
+      "top1_rate": 0.0,
+      "top3_rate": 0.0,
+      "confidence_label": "medium_sample_low"
+    },
+    "network_packet_loss|evidence|gap_none": {
+      "n": 5,
+      "top1": 3,
+      "top3": 4,
+      "top1_rate": 0.6,
+      "top3_rate": 0.8,
+      "confidence_label": "medium"
+    },
+    "network_packet_loss|no_evidence|gap_none": {
+      "n": 25,
+      "top1": 0,
+      "top3": 3,
+      "top1_rate": 0.0,
+      "top3_rate": 0.12,
+      "confidence_label": "low"
+    },
+    "network_packet_loss|partial_evidence|gap_low": {
+      "n": 1,
+      "top1": 0,
+      "top3": 0,
+      "top1_rate": 0.0,
+      "top3_rate": 0.0,
+      "confidence_label": "medium_sample_low"
+    }
+  },
+  "by_reason_bucket": {
+    "cpu": {
+      "n": 36,
+      "top1": 23,
+      "top3": 28,
+      "top1_rate": 0.6388888888888888,
+      "top3_rate": 0.7777777777777778,
+      "confidence_label": "medium"
+    },
+    "disk_io": {
+      "n": 19,
+      "top1": 12,
+      "top3": 15,
+      "top1_rate": 0.631578947368421,
+      "top3_rate": 0.7894736842105263,
+      "confidence_label": "medium"
+    },
+    "filesystem": {
+      "n": 5,
+      "top1": 2,
+      "top3": 4,
+      "top1_rate": 0.4,
+      "top3_rate": 0.8,
+      "confidence_label": "medium"
+    },
+    "jvm_oom": {
+      "n": 7,
+      "top1": 1,
+      "top3": 3,
+      "top1_rate": 0.14285714285714285,
+      "top3_rate": 0.42857142857142855,
+      "confidence_label": "low"
+    },
+    "memory": {
+      "n": 10,
+      "top1": 1,
+      "top3": 1,
+      "top1_rate": 0.1,
+      "top3_rate": 0.1,
+      "confidence_label": "low"
+    },
+    "network_latency": {
+      "n": 27,
+      "top1": 0,
+      "top3": 7,
+      "top1_rate": 0.0,
+      "top3_rate": 0.25925925925925924,
+      "confidence_label": "low"
+    },
+    "network_packet_loss": {
+      "n": 32,
+      "top1": 3,
+      "top3": 7,
+      "top1_rate": 0.09375,
+      "top3_rate": 0.21875,
+      "confidence_label": "low"
+    }
+  },
+  "by_evidence_state": {
+    "evidence": {
+      "n": 54,
+      "top1": 39,
+      "top3": 44,
+      "top1_rate": 0.7222222222222222,
+      "top3_rate": 0.8148148148148148,
+      "confidence_label": "medium"
+    },
+    "no_evidence": {
+      "n": 77,
+      "top1": 2,
+      "top3": 19,
+      "top1_rate": 0.025974025974025976,
+      "top3_rate": 0.24675324675324675,
+      "confidence_label": "low"
+    },
+    "partial_evidence": {
+      "n": 5,
+      "top1": 1,
+      "top3": 2,
+      "top1_rate": 0.2,
+      "top3_rate": 0.4,
+      "confidence_label": "low"
+    }
+  },
+  "cases": [
+    {
+      "date": "2021_03_04",
+      "datetime": "2021-03-04 14:57:00",
+      "reason": "high memory usage",
+      "true_component": "Mysql02",
+      "top5": [
+        "MG01",
+        "IG01",
+        "IG02",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "memory|evidence|gap_low",
+      "confidence_label": "medium_sample_low",
+      "confidence_features": {
+        "support_strength": 0.5916197425129976,
+        "top1_top2_gap": 0.5916197425129976,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_04",
+      "datetime": "2021-03-04 18:09:00",
+      "reason": "high memory usage",
+      "true_component": "Redis02",
+      "top5": [
+        "IG02",
+        "IG01",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "memory|evidence|gap_low",
+      "confidence_label": "medium_sample_low",
+      "confidence_features": {
+        "support_strength": 0.6627553684357719,
+        "top1_top2_gap": 0.6627553684357719,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_04",
+      "datetime": "2021-03-04 19:22:00",
+      "reason": "network latency",
+      "true_component": "Tomcat02",
+      "top5": [
+        "dockerA2",
+        "MG02",
+        "dockerA1",
+        "IG01",
+        "IG02"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "network_latency|partial_evidence|gap_low",
+      "confidence_label": "medium_sample_low",
+      "confidence_features": {
+        "support_strength": 11.056262230919767,
+        "top1_top2_gap": 1.0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 1
+      }
+    },
+    {
+      "date": "2021_03_04",
+      "datetime": "2021-03-04 01:26:00",
+      "reason": "high JVM CPU load",
+      "true_component": "MG02",
+      "top5": [
+        "MG02",
+        "Tomcat01",
+        "Tomcat02",
+        "IG01",
+        "apache02"
+      ],
+      "top1_hit": true,
+      "top3_hit": true,
+      "bucket_key": "cpu|evidence|gap_mid",
+      "confidence_label": "medium_sample_low",
+      "confidence_features": {
+        "support_strength": 54.50669456527708,
+        "top1_top2_gap": 5.1430582016407556,
+        "hard_support_count": 1,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_04",
+      "datetime": "2021-03-04 13:46:00",
+      "reason": "high JVM CPU load",
+      "true_component": "MG02",
+      "top5": [
+        "MG02",
+        "Redis01",
+        "IG01",
+        "IG02",
+        "MG01"
+      ],
+      "top1_hit": true,
+      "top3_hit": true,
+      "bucket_key": "cpu|evidence|gap_high",
+      "confidence_label": "high",
+      "confidence_features": {
+        "support_strength": 54.81229447717619,
+        "top1_top2_gap": 31.172875712600455,
+        "hard_support_count": 1,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_04",
+      "datetime": "2021-03-04 21:06:00",
+      "reason": "high JVM CPU load",
+      "true_component": "IG01",
+      "top5": [
+        "IG01",
+        "dockerA2",
+        "apache02",
+        "Mysql01",
+        "IG02"
+      ],
+      "top1_hit": true,
+      "top3_hit": true,
+      "bucket_key": "cpu|evidence|gap_high",
+      "confidence_label": "high",
+      "confidence_features": {
+        "support_strength": 307.5730845157333,
+        "top1_top2_gap": 302.6696754248242,
+        "hard_support_count": 1,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_04",
+      "datetime": "2021-03-04 06:20:00",
+      "reason": "JVM Out of Memory (OOM) Heap",
+      "true_component": "MG02",
+      "top5": [
+        "Tomcat02",
+        "MG02",
+        "MG01",
+        "IG01",
+        "IG02"
+      ],
+      "top1_hit": false,
+      "top3_hit": true,
+      "bucket_key": "jvm_oom|evidence|gap_low",
+      "confidence_label": "medium_sample_low",
+      "confidence_features": {
+        "support_strength": 1.8846153846153846,
+        "top1_top2_gap": 1.2033509458786753,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_04",
+      "datetime": "2021-03-04 19:36:00",
+      "reason": "JVM Out of Memory (OOM) Heap",
+      "true_component": "MG02",
+      "top5": [
+        "IG02",
+        "MG01",
+        "IG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "jvm_oom|partial_evidence|gap_low",
+      "confidence_label": "medium_sample_low",
+      "confidence_features": {
+        "support_strength": 0.6642530497935186,
+        "top1_top2_gap": 0.023467611508652397,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 2
+      }
+    },
+    {
+      "date": "2021_03_04",
+      "datetime": "2021-03-04 22:00:00",
+      "reason": "JVM Out of Memory (OOM) Heap",
+      "true_component": "MG01",
+      "top5": [
+        "MG01",
+        "IG01",
+        "IG02",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": true,
+      "top3_hit": true,
+      "bucket_key": "jvm_oom|partial_evidence|gap_low",
+      "confidence_label": "medium_sample_low",
+      "confidence_features": {
+        "support_strength": 1.1435157367944728,
+        "top1_top2_gap": 1.1435157367944728,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 2
+      }
+    },
+    {
+      "date": "2021_03_04",
+      "datetime": "2021-03-04 22:25:00",
+      "reason": "JVM Out of Memory (OOM) Heap",
+      "true_component": "IG01",
+      "top5": [
+        "Tomcat01",
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02"
+      ],
+      "top1_hit": false,
+      "top3_hit": true,
+      "bucket_key": "jvm_oom|partial_evidence|gap_low",
+      "confidence_label": "medium_sample_low",
+      "confidence_features": {
+        "support_strength": 0.7345784700002967,
+        "top1_top2_gap": 0.05799582880968279,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 2
+      }
+    },
+    {
+      "date": "2021_03_04",
+      "datetime": "2021-03-04 19:49:00",
+      "reason": "high disk I/O read usage",
+      "true_component": "Tomcat03",
+      "top5": [
+        "Tomcat03",
+        "IG02",
+        "IG01",
+        "MG01",
+        "MG02"
+      ],
+      "top1_hit": true,
+      "top3_hit": true,
+      "bucket_key": "disk_io|evidence|gap_high",
+      "confidence_label": "high",
+      "confidence_features": {
+        "support_strength": 538.8237590502682,
+        "top1_top2_gap": 521.8237590502682,
+        "hard_support_count": 1,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_04",
+      "datetime": "2021-03-04 07:01:00",
+      "reason": "high CPU usage",
+      "true_component": "Redis02",
+      "top5": [
+        "Redis02",
+        "Tomcat01",
+        "Tomcat02",
+        "IG01",
+        "apache02"
+      ],
+      "top1_hit": true,
+      "top3_hit": true,
+      "bucket_key": "cpu|evidence|gap_high",
+      "confidence_label": "high",
+      "confidence_features": {
+        "support_strength": 590.3751617076326,
+        "top1_top2_gap": 560.7322592445281,
+        "hard_support_count": 1,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_04",
+      "datetime": "2021-03-04 20:14:00",
+      "reason": "high CPU usage",
+      "true_component": "Redis02",
+      "top5": [
+        "Redis02",
+        "Tomcat01",
+        "apache02",
+        "IG02",
+        "MG02"
+      ],
+      "top1_hit": true,
+      "top3_hit": true,
+      "bucket_key": "cpu|evidence|gap_high",
+      "confidence_label": "high",
+      "confidence_features": {
+        "support_strength": 673.1104250200533,
+        "top1_top2_gap": 604.2138719138409,
+        "hard_support_count": 1,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_04",
+      "datetime": "2021-03-04 00:34:00",
+      "reason": "high memory usage",
+      "true_component": "MG01",
+      "top5": [
+        "Mysql01",
+        "MG02",
+        "IG02",
+        "MG01",
+        "dockerB1"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "memory|evidence|gap_low",
+      "confidence_label": "medium_sample_low",
+      "confidence_features": {
+        "support_strength": 3.5128937007874015,
+        "top1_top2_gap": 2.7732255972382474,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_04",
+      "datetime": "2021-03-04 02:45:00",
+      "reason": "high memory usage",
+      "true_component": "Mysql02",
+      "top5": [
+        "Redis02",
+        "MG02",
+        "IG01",
+        "IG02",
+        "MG01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "memory|evidence|gap_mid",
+      "confidence_label": "medium_sample_low",
+      "confidence_features": {
+        "support_strength": 5.032590269695802,
+        "top1_top2_gap": 4.3852970243639895,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_04",
+      "datetime": "2021-03-04 05:31:00",
+      "reason": "high memory usage",
+      "true_component": "Redis02",
+      "top5": [
+        "IG02",
+        "MG01",
+        "IG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "memory|evidence|gap_low",
+      "confidence_label": "medium_sample_low",
+      "confidence_features": {
+        "support_strength": 0.6868877443020344,
+        "top1_top2_gap": 0.04343519218805347,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_06",
+      "datetime": "2021-03-06 06:20:00",
+      "reason": "high memory usage",
+      "true_component": "Tomcat01",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "memory|no_evidence|gap_none",
+      "confidence_label": "medium_sample_low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 3
+      }
+    },
+    {
+      "date": "2021_03_06",
+      "datetime": "2021-03-06 00:53:00",
+      "reason": "network latency",
+      "true_component": "Tomcat04",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "network_latency|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_06",
+      "datetime": "2021-03-06 14:46:00",
+      "reason": "network latency",
+      "true_component": "Tomcat03",
+      "top5": [
+        "dockerA1",
+        "MG01",
+        "IG01",
+        "IG02",
+        "MG02"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "network_latency|evidence|gap_low",
+      "confidence_label": "medium_sample_low",
+      "confidence_features": {
+        "support_strength": 6.3063457330415815,
+        "top1_top2_gap": 1.0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_06",
+      "datetime": "2021-03-06 18:52:00",
+      "reason": "network packet loss",
+      "true_component": "apache02",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "network_packet_loss|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 1
+      }
+    },
+    {
+      "date": "2021_03_06",
+      "datetime": "2021-03-06 23:18:00",
+      "reason": "network latency",
+      "true_component": "Tomcat01",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "network_latency|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_06",
+      "datetime": "2021-03-06 23:36:00",
+      "reason": "network latency",
+      "true_component": "MG01",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": true,
+      "bucket_key": "network_latency|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_06",
+      "datetime": "2021-03-06 04:56:00",
+      "reason": "high disk I/O read usage",
+      "true_component": "MG01",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": true,
+      "bucket_key": "disk_io|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 1
+      }
+    },
+    {
+      "date": "2021_03_06",
+      "datetime": "2021-03-06 15:19:00",
+      "reason": "high disk space usage",
+      "true_component": "IG02",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": true,
+      "bucket_key": "filesystem|no_evidence|gap_none",
+      "confidence_label": "medium_sample_low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 1
+      }
+    },
+    {
+      "date": "2021_03_06",
+      "datetime": "2021-03-06 02:00:00",
+      "reason": "high CPU usage",
+      "true_component": "Mysql01",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "cpu|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 1
+      }
+    },
+    {
+      "date": "2021_03_06",
+      "datetime": "2021-03-06 03:36:00",
+      "reason": "high CPU usage",
+      "true_component": "IG01",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": true,
+      "top3_hit": true,
+      "bucket_key": "cpu|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 1
+      }
+    },
+    {
+      "date": "2021_03_06",
+      "datetime": "2021-03-06 20:44:00",
+      "reason": "high CPU usage",
+      "true_component": "Tomcat04",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "cpu|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 1
+      }
+    },
+    {
+      "date": "2021_03_07",
+      "datetime": "2021-03-07 00:32:00",
+      "reason": "network packet loss",
+      "true_component": "MG02",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "network_packet_loss|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 3
+      }
+    },
+    {
+      "date": "2021_03_07",
+      "datetime": "2021-03-07 07:32:00",
+      "reason": "network latency",
+      "true_component": "Tomcat02",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "network_latency|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 3
+      }
+    },
+    {
+      "date": "2021_03_07",
+      "datetime": "2021-03-07 16:08:00",
+      "reason": "network latency",
+      "true_component": "MG01",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": true,
+      "bucket_key": "network_latency|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 3
+      }
+    },
+    {
+      "date": "2021_03_07",
+      "datetime": "2021-03-07 16:29:00",
+      "reason": "network packet loss",
+      "true_component": "Tomcat04",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "network_packet_loss|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 3
+      }
+    },
+    {
+      "date": "2021_03_07",
+      "datetime": "2021-03-07 18:59:00",
+      "reason": "network latency",
+      "true_component": "apache02",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "network_latency|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 3
+      }
+    },
+    {
+      "date": "2021_03_07",
+      "datetime": "2021-03-07 21:36:00",
+      "reason": "network packet loss",
+      "true_component": "Tomcat01",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "network_packet_loss|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 3
+      }
+    },
+    {
+      "date": "2021_03_07",
+      "datetime": "2021-03-07 03:21:00",
+      "reason": "high disk I/O read usage",
+      "true_component": "Tomcat01",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "disk_io|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 1
+      }
+    },
+    {
+      "date": "2021_03_07",
+      "datetime": "2021-03-07 15:41:00",
+      "reason": "high disk I/O read usage",
+      "true_component": "Tomcat01",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "disk_io|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 1
+      }
+    },
+    {
+      "date": "2021_03_07",
+      "datetime": "2021-03-07 01:52:00",
+      "reason": "high CPU usage",
+      "true_component": "Redis02",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "cpu|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 1
+      }
+    },
+    {
+      "date": "2021_03_07",
+      "datetime": "2021-03-07 06:35:00",
+      "reason": "high CPU usage",
+      "true_component": "IG02",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": true,
+      "bucket_key": "cpu|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 1
+      }
+    },
+    {
+      "date": "2021_03_07",
+      "datetime": "2021-03-07 08:11:00",
+      "reason": "high CPU usage",
+      "true_component": "Tomcat03",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "cpu|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 1
+      }
+    },
+    {
+      "date": "2021_03_07",
+      "datetime": "2021-03-07 11:09:00",
+      "reason": "high CPU usage",
+      "true_component": "IG02",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": true,
+      "bucket_key": "cpu|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 1
+      }
+    },
+    {
+      "date": "2021_03_07",
+      "datetime": "2021-03-07 13:24:00",
+      "reason": "high CPU usage",
+      "true_component": "IG01",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": true,
+      "top3_hit": true,
+      "bucket_key": "cpu|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 1
+      }
+    },
+    {
+      "date": "2021_03_07",
+      "datetime": "2021-03-07 17:52:00",
+      "reason": "high CPU usage",
+      "true_component": "Tomcat01",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "cpu|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 1
+      }
+    },
+    {
+      "date": "2021_03_07",
+      "datetime": "2021-03-07 12:36:00",
+      "reason": "high memory usage",
+      "true_component": "Tomcat04",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "memory|no_evidence|gap_none",
+      "confidence_label": "medium_sample_low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 3
+      }
+    },
+    {
+      "date": "2021_03_07",
+      "datetime": "2021-03-07 03:59:00",
+      "reason": "JVM Out of Memory (OOM) Heap",
+      "true_component": "Tomcat02",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "jvm_oom|no_evidence|gap_none",
+      "confidence_label": "medium_sample_low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 3
+      }
+    },
+    {
+      "date": "2021_03_09",
+      "datetime": "2021-03-09 08:13:00",
+      "reason": "network packet loss",
+      "true_component": "apache02",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "network_packet_loss|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 3
+      }
+    },
+    {
+      "date": "2021_03_09",
+      "datetime": "2021-03-09 09:18:00",
+      "reason": "network packet loss",
+      "true_component": "IG02",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": true,
+      "bucket_key": "network_packet_loss|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 3
+      }
+    },
+    {
+      "date": "2021_03_09",
+      "datetime": "2021-03-09 11:20:00",
+      "reason": "network latency",
+      "true_component": "Tomcat01",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "network_latency|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 3
+      }
+    },
+    {
+      "date": "2021_03_09",
+      "datetime": "2021-03-09 13:10:00",
+      "reason": "network packet loss",
+      "true_component": "MG02",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "network_packet_loss|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 3
+      }
+    },
+    {
+      "date": "2021_03_09",
+      "datetime": "2021-03-09 14:14:00",
+      "reason": "network latency",
+      "true_component": "MG02",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "network_latency|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 3
+      }
+    },
+    {
+      "date": "2021_03_09",
+      "datetime": "2021-03-09 15:25:00",
+      "reason": "network packet loss",
+      "true_component": "Tomcat01",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "network_packet_loss|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 3
+      }
+    },
+    {
+      "date": "2021_03_09",
+      "datetime": "2021-03-09 16:56:00",
+      "reason": "network latency",
+      "true_component": "MG02",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "network_latency|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 3
+      }
+    },
+    {
+      "date": "2021_03_09",
+      "datetime": "2021-03-09 19:14:00",
+      "reason": "network latency",
+      "true_component": "Tomcat02",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "network_latency|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 3
+      }
+    },
+    {
+      "date": "2021_03_09",
+      "datetime": "2021-03-09 20:25:00",
+      "reason": "network packet loss",
+      "true_component": "apache01",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "network_packet_loss|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 3
+      }
+    },
+    {
+      "date": "2021_03_09",
+      "datetime": "2021-03-09 21:07:00",
+      "reason": "network latency",
+      "true_component": "apache01",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "network_latency|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 3
+      }
+    },
+    {
+      "date": "2021_03_09",
+      "datetime": "2021-03-09 01:20:00",
+      "reason": "high disk I/O read usage",
+      "true_component": "apache01",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "disk_io|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 1
+      }
+    },
+    {
+      "date": "2021_03_09",
+      "datetime": "2021-03-09 05:11:00",
+      "reason": "high disk space usage",
+      "true_component": "IG02",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": true,
+      "bucket_key": "filesystem|no_evidence|gap_none",
+      "confidence_label": "medium_sample_low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 1
+      }
+    },
+    {
+      "date": "2021_03_09",
+      "datetime": "2021-03-09 15:45:00",
+      "reason": "high disk I/O read usage",
+      "true_component": "Tomcat01",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "disk_io|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 1
+      }
+    },
+    {
+      "date": "2021_03_09",
+      "datetime": "2021-03-09 17:39:00",
+      "reason": "high disk space usage",
+      "true_component": "apache01",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "filesystem|no_evidence|gap_none",
+      "confidence_label": "medium_sample_low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 1
+      }
+    },
+    {
+      "date": "2021_03_09",
+      "datetime": "2021-03-09 09:57:00",
+      "reason": "high CPU usage",
+      "true_component": "Tomcat04",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "cpu|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 1
+      }
+    },
+    {
+      "date": "2021_03_09",
+      "datetime": "2021-03-09 14:42:00",
+      "reason": "high CPU usage",
+      "true_component": "Redis02",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "cpu|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 1
+      }
+    },
+    {
+      "date": "2021_03_09",
+      "datetime": "2021-03-09 18:08:00",
+      "reason": "high CPU usage",
+      "true_component": "IG02",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": true,
+      "bucket_key": "cpu|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 1
+      }
+    },
+    {
+      "date": "2021_03_09",
+      "datetime": "2021-03-09 19:42:00",
+      "reason": "high CPU usage",
+      "true_component": "Tomcat03",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "cpu|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 1
+      }
+    },
+    {
+      "date": "2021_03_09",
+      "datetime": "2021-03-09 22:32:00",
+      "reason": "high CPU usage",
+      "true_component": "IG02",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": true,
+      "bucket_key": "cpu|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 1
+      }
+    },
+    {
+      "date": "2021_03_09",
+      "datetime": "2021-03-09 23:53:00",
+      "reason": "high memory usage",
+      "true_component": "Tomcat04",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "memory|no_evidence|gap_none",
+      "confidence_label": "medium_sample_low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 3
+      }
+    },
+    {
+      "date": "2021_03_09",
+      "datetime": "2021-03-09 16:23:00",
+      "reason": "JVM Out of Memory (OOM) Heap",
+      "true_component": "Tomcat02",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "jvm_oom|no_evidence|gap_none",
+      "confidence_label": "medium_sample_low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 3
+      }
+    },
+    {
+      "date": "2021_03_10",
+      "datetime": "2021-03-10 07:19:00",
+      "reason": "network latency",
+      "true_component": "apache02",
+      "top5": [
+        "MG02",
+        "dockerA1",
+        "Tomcat02",
+        "Tomcat03",
+        "dockerB2"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "network_latency|evidence|gap_none",
+      "confidence_label": "medium_sample_low",
+      "confidence_features": {
+        "support_strength": 4.157688540646424,
+        "top1_top2_gap": 0.0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_10",
+      "datetime": "2021-03-10 10:43:00",
+      "reason": "network packet loss",
+      "true_component": "Tomcat01",
+      "top5": [
+        "IG01",
+        "Tomcat01",
+        "IG02",
+        "MG02",
+        "MG01"
+      ],
+      "top1_hit": false,
+      "top3_hit": true,
+      "bucket_key": "network_packet_loss|evidence|gap_none",
+      "confidence_label": "medium",
+      "confidence_features": {
+        "support_strength": 3.317307692307692,
+        "top1_top2_gap": 0.0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_10",
+      "datetime": "2021-03-10 15:02:00",
+      "reason": "network packet loss",
+      "true_component": "apache02",
+      "top5": [
+        "MG01",
+        "dockerA1",
+        "MG02",
+        "IG01",
+        "IG02"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "network_packet_loss|evidence|gap_none",
+      "confidence_label": "medium",
+      "confidence_features": {
+        "support_strength": 2.978723404255319,
+        "top1_top2_gap": 0.0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_10",
+      "datetime": "2021-03-10 15:19:00",
+      "reason": "network latency",
+      "true_component": "apache02",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "network_latency|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_10",
+      "datetime": "2021-03-10 16:42:00",
+      "reason": "network latency",
+      "true_component": "Tomcat01",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "network_latency|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_10",
+      "datetime": "2021-03-10 18:57:00",
+      "reason": "network packet loss",
+      "true_component": "Tomcat03",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "network_packet_loss|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_10",
+      "datetime": "2021-03-10 02:44:00",
+      "reason": "high disk I/O read usage",
+      "true_component": "Tomcat01",
+      "top5": [
+        "Tomcat01",
+        "Mysql02",
+        "IG01",
+        "IG02",
+        "MG01"
+      ],
+      "top1_hit": true,
+      "top3_hit": true,
+      "bucket_key": "disk_io|evidence|gap_high",
+      "confidence_label": "high",
+      "confidence_features": {
+        "support_strength": 1676.2,
+        "top1_top2_gap": 1675.5936064983139,
+        "hard_support_count": 1,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_10",
+      "datetime": "2021-03-10 03:44:00",
+      "reason": "high disk space usage",
+      "true_component": "Tomcat04",
+      "top5": [
+        "Tomcat04",
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02"
+      ],
+      "top1_hit": true,
+      "top3_hit": true,
+      "bucket_key": "filesystem|evidence|gap_low",
+      "confidence_label": "medium_sample_low",
+      "confidence_features": {
+        "support_strength": 1.094235174344617,
+        "top1_top2_gap": 1.094235174344617,
+        "hard_support_count": 1,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_10",
+      "datetime": "2021-03-10 14:21:00",
+      "reason": "high disk I/O read usage",
+      "true_component": "Tomcat02",
+      "top5": [
+        "Tomcat02",
+        "Tomcat04",
+        "IG02",
+        "Mysql02",
+        "Tomcat01"
+      ],
+      "top1_hit": true,
+      "top3_hit": true,
+      "bucket_key": "disk_io|evidence|gap_high",
+      "confidence_label": "high",
+      "confidence_features": {
+        "support_strength": 1241.657587548638,
+        "top1_top2_gap": 1223.179317818015,
+        "hard_support_count": 1,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_10",
+      "datetime": "2021-03-10 15:43:00",
+      "reason": "high disk I/O read usage",
+      "true_component": "apache02",
+      "top5": [
+        "apache02",
+        "Mysql01",
+        "IG01",
+        "Mysql02",
+        "IG02"
+      ],
+      "top1_hit": true,
+      "top3_hit": true,
+      "bucket_key": "disk_io|evidence|gap_high",
+      "confidence_label": "high",
+      "confidence_features": {
+        "support_strength": 51501.4,
+        "top1_top2_gap": 51463.9,
+        "hard_support_count": 1,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_10",
+      "datetime": "2021-03-10 22:03:00",
+      "reason": "high disk I/O read usage",
+      "true_component": "IG02",
+      "top5": [
+        "IG02",
+        "Mysql01",
+        "IG01",
+        "MG01",
+        "MG02"
+      ],
+      "top1_hit": true,
+      "top3_hit": true,
+      "bucket_key": "disk_io|evidence|gap_high",
+      "confidence_label": "high",
+      "confidence_features": {
+        "support_strength": 2445.293103448276,
+        "top1_top2_gap": 2424.793103448276,
+        "hard_support_count": 1,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_10",
+      "datetime": "2021-03-10 22:19:00",
+      "reason": "high disk I/O read usage",
+      "true_component": "MG02",
+      "top5": [
+        "MG02",
+        "Redis01",
+        "IG01",
+        "IG02",
+        "MG01"
+      ],
+      "top1_hit": true,
+      "top3_hit": true,
+      "bucket_key": "disk_io|evidence|gap_high",
+      "confidence_label": "high",
+      "confidence_features": {
+        "support_strength": 458.0997198879552,
+        "top1_top2_gap": 440.5995323858245,
+        "hard_support_count": 1,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_10",
+      "datetime": "2021-03-10 00:19:00",
+      "reason": "high CPU usage",
+      "true_component": "IG01",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": true,
+      "top3_hit": true,
+      "bucket_key": "cpu|evidence|gap_high",
+      "confidence_label": "high",
+      "confidence_features": {
+        "support_strength": 403.15544108575256,
+        "top1_top2_gap": 403.15544108575256,
+        "hard_support_count": 1,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_10",
+      "datetime": "2021-03-10 04:38:00",
+      "reason": "high CPU usage",
+      "true_component": "Tomcat01",
+      "top5": [
+        "Tomcat01",
+        "apache02",
+        "Tomcat03",
+        "IG02",
+        "Tomcat04"
+      ],
+      "top1_hit": true,
+      "top3_hit": true,
+      "bucket_key": "cpu|evidence|gap_high",
+      "confidence_label": "high",
+      "confidence_features": {
+        "support_strength": 104.75507515641543,
+        "top1_top2_gap": 102.93086288444196,
+        "hard_support_count": 1,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_10",
+      "datetime": "2021-03-10 08:30:00",
+      "reason": "high CPU usage",
+      "true_component": "apache01",
+      "top5": [
+        "apache01",
+        "Redis01",
+        "IG01",
+        "IG02",
+        "MG01"
+      ],
+      "top1_hit": true,
+      "top3_hit": true,
+      "bucket_key": "cpu|evidence|gap_low",
+      "confidence_label": "medium_sample_low",
+      "confidence_features": {
+        "support_strength": 9.047683776318614,
+        "top1_top2_gap": 2.9365726652075077,
+        "hard_support_count": 1,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_10",
+      "datetime": "2021-03-10 17:51:00",
+      "reason": "JVM Out of Memory (OOM) Heap",
+      "true_component": "Tomcat02",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "jvm_oom|no_evidence|gap_none",
+      "confidence_label": "medium_sample_low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_12",
+      "datetime": "2021-03-12 10:54:00",
+      "reason": "network packet loss",
+      "true_component": "MG01",
+      "top5": [
+        "MG01",
+        "dockerB1",
+        "dockerA1",
+        "Tomcat01",
+        "Tomcat04"
+      ],
+      "top1_hit": true,
+      "top3_hit": true,
+      "bucket_key": "network_packet_loss|evidence|gap_none",
+      "confidence_label": "medium",
+      "confidence_features": {
+        "support_strength": 4.884910485933504,
+        "top1_top2_gap": 0.0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_12",
+      "datetime": "2021-03-12 12:13:00",
+      "reason": "network packet loss",
+      "true_component": "Tomcat01",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "network_packet_loss|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_12",
+      "datetime": "2021-03-12 14:03:00",
+      "reason": "network packet loss",
+      "true_component": "MG02",
+      "top5": [
+        "MG02",
+        "dockerB1",
+        "Tomcat03",
+        "dockerB2",
+        "dockerA2"
+      ],
+      "top1_hit": true,
+      "top3_hit": true,
+      "bucket_key": "network_packet_loss|evidence|gap_none",
+      "confidence_label": "medium",
+      "confidence_features": {
+        "support_strength": 4.9408983451536646,
+        "top1_top2_gap": 0.0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_12",
+      "datetime": "2021-03-12 15:38:00",
+      "reason": "network packet loss",
+      "true_component": "MG01",
+      "top5": [
+        "MG01",
+        "dockerB1",
+        "dockerB2",
+        "dockerA2",
+        "Tomcat03"
+      ],
+      "top1_hit": true,
+      "top3_hit": true,
+      "bucket_key": "network_packet_loss|evidence|gap_none",
+      "confidence_label": "medium",
+      "confidence_features": {
+        "support_strength": 4.0184049079754605,
+        "top1_top2_gap": 0.0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_12",
+      "datetime": "2021-03-12 16:26:00",
+      "reason": "network packet loss",
+      "true_component": "apache02",
+      "top5": [
+        "dockerA2",
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "network_packet_loss|evidence|gap_mid",
+      "confidence_label": "medium_sample_low",
+      "confidence_features": {
+        "support_strength": 3.3050424898801705,
+        "top1_top2_gap": 3.3050424898801705,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_12",
+      "datetime": "2021-03-12 22:35:00",
+      "reason": "network packet loss",
+      "true_component": "Tomcat03",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "network_packet_loss|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_12",
+      "datetime": "2021-03-12 23:33:00",
+      "reason": "network packet loss",
+      "true_component": "apache02",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "network_packet_loss|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_12",
+      "datetime": "2021-03-12 16:15:00",
+      "reason": "high disk I/O read usage",
+      "true_component": "IG02",
+      "top5": [
+        "IG02",
+        "Tomcat03",
+        "Tomcat04",
+        "IG01",
+        "MG01"
+      ],
+      "top1_hit": true,
+      "top3_hit": true,
+      "bucket_key": "disk_io|evidence|gap_high",
+      "confidence_label": "high",
+      "confidence_features": {
+        "support_strength": 1237.7043431558964,
+        "top1_top2_gap": 1070.7043431558964,
+        "hard_support_count": 1,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_12",
+      "datetime": "2021-03-12 10:24:00",
+      "reason": "high CPU usage",
+      "true_component": "IG02",
+      "top5": [
+        "IG02",
+        "Mysql01",
+        "Redis01",
+        "IG01",
+        "Tomcat02"
+      ],
+      "top1_hit": true,
+      "top3_hit": true,
+      "bucket_key": "cpu|evidence|gap_high",
+      "confidence_label": "high",
+      "confidence_features": {
+        "support_strength": 299.36361968965065,
+        "top1_top2_gap": 256.3390231510832,
+        "hard_support_count": 1,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_12",
+      "datetime": "2021-03-12 15:10:00",
+      "reason": "high CPU usage",
+      "true_component": "MG01",
+      "top5": [
+        "MG01",
+        "Mysql01",
+        "apache01",
+        "IG01",
+        "IG02"
+      ],
+      "top1_hit": true,
+      "top3_hit": true,
+      "bucket_key": "cpu|evidence|gap_high",
+      "confidence_label": "high",
+      "confidence_features": {
+        "support_strength": 79.66095196801159,
+        "top1_top2_gap": 76.70914398562238,
+        "hard_support_count": 1,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_12",
+      "datetime": "2021-03-12 17:14:00",
+      "reason": "high CPU usage",
+      "true_component": "Redis02",
+      "top5": [
+        "Redis02",
+        "apache02",
+        "Tomcat04",
+        "MG02",
+        "IG01"
+      ],
+      "top1_hit": true,
+      "top3_hit": true,
+      "bucket_key": "cpu|evidence|gap_high",
+      "confidence_label": "high",
+      "confidence_features": {
+        "support_strength": 638.0142302716689,
+        "top1_top2_gap": 617.6777684789815,
+        "hard_support_count": 1,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_12",
+      "datetime": "2021-03-12 20:46:00",
+      "reason": "high CPU usage",
+      "true_component": "Redis01",
+      "top5": [
+        "Redis01",
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02"
+      ],
+      "top1_hit": true,
+      "top3_hit": true,
+      "bucket_key": "cpu|evidence|gap_high",
+      "confidence_label": "high",
+      "confidence_features": {
+        "support_strength": 944.9147321764314,
+        "top1_top2_gap": 944.9147321764314,
+        "hard_support_count": 1,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_12",
+      "datetime": "2021-03-12 10:12:00",
+      "reason": "high memory usage",
+      "true_component": "Mysql01",
+      "top5": [
+        "Mysql01",
+        "Redis01",
+        "Tomcat02",
+        "Redis02",
+        "dockerB2"
+      ],
+      "top1_hit": true,
+      "top3_hit": true,
+      "bucket_key": "memory|evidence|gap_mid",
+      "confidence_label": "medium_sample_low",
+      "confidence_features": {
+        "support_strength": 6.857142857142857,
+        "top1_top2_gap": 5.083648881239243,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_23",
+      "datetime": "2021-03-23 06:42:00",
+      "reason": "network packet loss",
+      "true_component": "MG01",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": true,
+      "bucket_key": "network_packet_loss|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 1
+      }
+    },
+    {
+      "date": "2021_03_23",
+      "datetime": "2021-03-23 14:24:00",
+      "reason": "network packet loss",
+      "true_component": "Tomcat04",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "network_packet_loss|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 1
+      }
+    },
+    {
+      "date": "2021_03_23",
+      "datetime": "2021-03-23 14:50:00",
+      "reason": "network packet loss",
+      "true_component": "MG01",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": true,
+      "bucket_key": "network_packet_loss|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 1
+      }
+    },
+    {
+      "date": "2021_03_23",
+      "datetime": "2021-03-23 16:54:00",
+      "reason": "network latency",
+      "true_component": "Tomcat04",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "network_latency|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 2
+      }
+    },
+    {
+      "date": "2021_03_23",
+      "datetime": "2021-03-23 17:42:00",
+      "reason": "network latency",
+      "true_component": "MG02",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "network_latency|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 2
+      }
+    },
+    {
+      "date": "2021_03_23",
+      "datetime": "2021-03-23 18:03:00",
+      "reason": "network latency",
+      "true_component": "MG01",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": true,
+      "bucket_key": "network_latency|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 2
+      }
+    },
+    {
+      "date": "2021_03_23",
+      "datetime": "2021-03-23 21:07:00",
+      "reason": "network packet loss",
+      "true_component": "Tomcat04",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "network_packet_loss|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 1
+      }
+    },
+    {
+      "date": "2021_03_23",
+      "datetime": "2021-03-23 02:36:00",
+      "reason": "high memory usage",
+      "true_component": "Tomcat01",
+      "top5": [
+        "Redis01",
+        "MG02",
+        "IG01",
+        "IG02",
+        "MG01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "memory|evidence|gap_mid",
+      "confidence_label": "medium_sample_low",
+      "confidence_features": {
+        "support_strength": 7.331933605888262,
+        "top1_top2_gap": 6.694548577692368,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_23",
+      "datetime": "2021-03-23 23:04:00",
+      "reason": "network packet loss",
+      "true_component": "MG02",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "network_packet_loss|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 1
+      }
+    },
+    {
+      "date": "2021_03_23",
+      "datetime": "2021-03-23 01:01:00",
+      "reason": "high disk I/O read usage",
+      "true_component": "MG01",
+      "top5": [
+        "Tomcat02",
+        "MG01",
+        "Tomcat04",
+        "Tomcat01",
+        "Tomcat03"
+      ],
+      "top1_hit": false,
+      "top3_hit": true,
+      "bucket_key": "disk_io|evidence|gap_high",
+      "confidence_label": "high",
+      "confidence_features": {
+        "support_strength": 618.8015564202335,
+        "top1_top2_gap": 114.2727953582866,
+        "hard_support_count": 1,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_23",
+      "datetime": "2021-03-23 01:47:00",
+      "reason": "high disk I/O read usage",
+      "true_component": "MG01",
+      "top5": [
+        "MG01",
+        "Tomcat01",
+        "IG01",
+        "IG02",
+        "MG02"
+      ],
+      "top1_hit": true,
+      "top3_hit": true,
+      "bucket_key": "disk_io|evidence|gap_high",
+      "confidence_label": "high",
+      "confidence_features": {
+        "support_strength": 422.6666666666667,
+        "top1_top2_gap": 421.53623189823566,
+        "hard_support_count": 1,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_23",
+      "datetime": "2021-03-23 15:03:00",
+      "reason": "high disk I/O read usage",
+      "true_component": "Tomcat02",
+      "top5": [
+        "Tomcat02",
+        "MG02",
+        "Tomcat04",
+        "IG01",
+        "IG02"
+      ],
+      "top1_hit": true,
+      "top3_hit": true,
+      "bucket_key": "disk_io|evidence|gap_high",
+      "confidence_label": "high",
+      "confidence_features": {
+        "support_strength": 979.6731517509728,
+        "top1_top2_gap": 761.1731517509728,
+        "hard_support_count": 1,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_23",
+      "datetime": "2021-03-23 00:03:00",
+      "reason": "high CPU usage",
+      "true_component": "Tomcat03",
+      "top5": [
+        "Tomcat03",
+        "apache02",
+        "Tomcat01",
+        "IG01",
+        "IG02"
+      ],
+      "top1_hit": true,
+      "top3_hit": true,
+      "bucket_key": "cpu|evidence|gap_high",
+      "confidence_label": "high",
+      "confidence_features": {
+        "support_strength": 121.33475477287729,
+        "top1_top2_gap": 93.91645204963474,
+        "hard_support_count": 1,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_23",
+      "datetime": "2021-03-23 18:43:00",
+      "reason": "high CPU usage",
+      "true_component": "Tomcat03",
+      "top5": [
+        "Tomcat03",
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02"
+      ],
+      "top1_hit": true,
+      "top3_hit": true,
+      "bucket_key": "cpu|evidence|gap_high",
+      "confidence_label": "high",
+      "confidence_features": {
+        "support_strength": 113.1638973008562,
+        "top1_top2_gap": 113.1638973008562,
+        "hard_support_count": 1,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_24",
+      "datetime": "2021-03-24 11:08:00",
+      "reason": "network packet loss",
+      "true_component": "Tomcat03",
+      "top5": [
+        "dockerA2",
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "network_packet_loss|partial_evidence|gap_low",
+      "confidence_label": "medium_sample_low",
+      "confidence_features": {
+        "support_strength": 1.255296850119511,
+        "top1_top2_gap": 1.255296850119511,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 1
+      }
+    },
+    {
+      "date": "2021_03_24",
+      "datetime": "2021-03-24 11:31:00",
+      "reason": "network packet loss",
+      "true_component": "Tomcat01",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "network_packet_loss|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 1
+      }
+    },
+    {
+      "date": "2021_03_24",
+      "datetime": "2021-03-24 14:30:00",
+      "reason": "network latency",
+      "true_component": "Tomcat02",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "network_latency|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 2
+      }
+    },
+    {
+      "date": "2021_03_24",
+      "datetime": "2021-03-24 15:06:00",
+      "reason": "network latency",
+      "true_component": "MG01",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": true,
+      "bucket_key": "network_latency|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 2
+      }
+    },
+    {
+      "date": "2021_03_24",
+      "datetime": "2021-03-24 19:24:00",
+      "reason": "network latency",
+      "true_component": "MG01",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": true,
+      "bucket_key": "network_latency|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 2
+      }
+    },
+    {
+      "date": "2021_03_24",
+      "datetime": "2021-03-24 19:50:00",
+      "reason": "network latency",
+      "true_component": "MG02",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "network_latency|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 2
+      }
+    },
+    {
+      "date": "2021_03_24",
+      "datetime": "2021-03-24 20:34:00",
+      "reason": "network packet loss",
+      "true_component": "Tomcat03",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "network_packet_loss|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 1
+      }
+    },
+    {
+      "date": "2021_03_24",
+      "datetime": "2021-03-24 12:36:00",
+      "reason": "high disk I/O read usage",
+      "true_component": "MG02",
+      "top5": [
+        "Tomcat03",
+        "MG02",
+        "Mysql01",
+        "IG01",
+        "IG02"
+      ],
+      "top1_hit": false,
+      "top3_hit": true,
+      "bucket_key": "disk_io|evidence|gap_high",
+      "confidence_label": "high",
+      "confidence_features": {
+        "support_strength": 268.3333333333333,
+        "top1_top2_gap": 245.53639829578785,
+        "hard_support_count": 1,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_24",
+      "datetime": "2021-03-24 14:05:00",
+      "reason": "high disk space usage",
+      "true_component": "apache01",
+      "top5": [
+        "apache01",
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02"
+      ],
+      "top1_hit": true,
+      "top3_hit": true,
+      "bucket_key": "filesystem|evidence|gap_high",
+      "confidence_label": "medium_sample_low",
+      "confidence_features": {
+        "support_strength": 42.18519160356196,
+        "top1_top2_gap": 42.18519160356196,
+        "hard_support_count": 1,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_24",
+      "datetime": "2021-03-24 16:47:00",
+      "reason": "high CPU usage",
+      "true_component": "Tomcat01",
+      "top5": [
+        "Tomcat01",
+        "Tomcat03",
+        "Tomcat02",
+        "MG01",
+        "Tomcat04"
+      ],
+      "top1_hit": true,
+      "top3_hit": true,
+      "bucket_key": "cpu|evidence|gap_high",
+      "confidence_label": "high",
+      "confidence_features": {
+        "support_strength": 137.09090909090895,
+        "top1_top2_gap": 60.06695589672806,
+        "hard_support_count": 1,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 00:07:00",
+      "reason": "network latency",
+      "true_component": "MG02",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "network_latency|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 2
+      }
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 07:40:00",
+      "reason": "network packet loss",
+      "true_component": "Tomcat03",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "network_packet_loss|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 1
+      }
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 14:54:00",
+      "reason": "network latency",
+      "true_component": "Tomcat03",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "network_latency|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 2
+      }
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 17:22:00",
+      "reason": "network packet loss",
+      "true_component": "Tomcat01",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "network_packet_loss|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 1
+      }
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 18:13:00",
+      "reason": "network latency",
+      "true_component": "IG02",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": true,
+      "bucket_key": "network_latency|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 2
+      }
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 19:15:00",
+      "reason": "network packet loss",
+      "true_component": "Tomcat04",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "network_packet_loss|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 1
+      }
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 20:25:00",
+      "reason": "network latency",
+      "true_component": "MG01",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": true,
+      "bucket_key": "network_latency|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 2
+      }
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 20:50:00",
+      "reason": "network packet loss",
+      "true_component": "apache01",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "network_packet_loss|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 1
+      }
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 22:01:00",
+      "reason": "network packet loss",
+      "true_component": "MG02",
+      "top5": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "network_packet_loss|no_evidence|gap_none",
+      "confidence_label": "low",
+      "confidence_features": {
+        "support_strength": 0,
+        "top1_top2_gap": 0,
+        "hard_support_count": 0,
+        "hard_refute_count": 0,
+        "blind_count": 1
+      }
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 00:19:00",
+      "reason": "high disk I/O read usage",
+      "true_component": "apache01",
+      "top5": [
+        "apache01",
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02"
+      ],
+      "top1_hit": true,
+      "top3_hit": true,
+      "bucket_key": "disk_io|evidence|gap_high",
+      "confidence_label": "high",
+      "confidence_features": {
+        "support_strength": 40550.2,
+        "top1_top2_gap": 40550.2,
+        "hard_support_count": 1,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 02:43:00",
+      "reason": "high disk I/O read usage",
+      "true_component": "MG02",
+      "top5": [
+        "MG02",
+        "IG02",
+        "IG01",
+        "MG01",
+        "Mysql01"
+      ],
+      "top1_hit": true,
+      "top3_hit": true,
+      "bucket_key": "disk_io|evidence|gap_high",
+      "confidence_label": "high",
+      "confidence_features": {
+        "support_strength": 305.0621848739496,
+        "top1_top2_gap": 303.7288515406163,
+        "hard_support_count": 1,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 09:04:00",
+      "reason": "high disk I/O read usage",
+      "true_component": "Tomcat01",
+      "top5": [
+        "Tomcat01",
+        "IG01",
+        "apache01",
+        "IG02",
+        "MG01"
+      ],
+      "top1_hit": true,
+      "top3_hit": true,
+      "bucket_key": "disk_io|evidence|gap_high",
+      "confidence_label": "high",
+      "confidence_features": {
+        "support_strength": 809.8,
+        "top1_top2_gap": 613.8,
+        "hard_support_count": 1,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 06:40:00",
+      "reason": "high CPU usage",
+      "true_component": "apache02",
+      "top5": [
+        "apache02",
+        "Redis02",
+        "dockerA2",
+        "IG01",
+        "IG02"
+      ],
+      "top1_hit": true,
+      "top3_hit": true,
+      "bucket_key": "cpu|evidence|gap_high",
+      "confidence_label": "high",
+      "confidence_features": {
+        "support_strength": 1500.894578313253,
+        "top1_top2_gap": 1499.970654032908,
+        "hard_support_count": 1,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 09:38:00",
+      "reason": "high CPU usage",
+      "true_component": "MG01",
+      "top5": [
+        "MG01",
+        "IG02",
+        "MG02",
+        "Redis02",
+        "IG01"
+      ],
+      "top1_hit": true,
+      "top3_hit": true,
+      "bucket_key": "cpu|evidence|gap_high",
+      "confidence_label": "high",
+      "confidence_features": {
+        "support_strength": 79.89800646134132,
+        "top1_top2_gap": 53.05398248789044,
+        "hard_support_count": 1,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 11:53:00",
+      "reason": "high CPU usage",
+      "true_component": "Mysql02",
+      "top5": [
+        "Redis01",
+        "Redis02",
+        "Mysql02",
+        "IG01",
+        "apache02"
+      ],
+      "top1_hit": false,
+      "top3_hit": true,
+      "bucket_key": "cpu|evidence|gap_high",
+      "confidence_label": "high",
+      "confidence_features": {
+        "support_strength": 267.77085451175026,
+        "top1_top2_gap": 58.573661247915396,
+        "hard_support_count": 1,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 15:42:00",
+      "reason": "high CPU usage",
+      "true_component": "Mysql02",
+      "top5": [
+        "Mysql02",
+        "Tomcat04",
+        "IG02",
+        "IG01",
+        "MG01"
+      ],
+      "top1_hit": true,
+      "top3_hit": true,
+      "bucket_key": "cpu|evidence|gap_high",
+      "confidence_label": "high",
+      "confidence_features": {
+        "support_strength": 39.30560514895248,
+        "top1_top2_gap": 19.59429801182337,
+        "hard_support_count": 1,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 19:00:00",
+      "reason": "high CPU usage",
+      "true_component": "IG02",
+      "top5": [
+        "IG02",
+        "Tomcat01",
+        "Tomcat02",
+        "Tomcat04",
+        "Tomcat03"
+      ],
+      "top1_hit": true,
+      "top3_hit": true,
+      "bucket_key": "cpu|evidence|gap_high",
+      "confidence_label": "high",
+      "confidence_features": {
+        "support_strength": 331.61167289180025,
+        "top1_top2_gap": 305.73315585773213,
+        "hard_support_count": 1,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 19:40:00",
+      "reason": "high CPU usage",
+      "true_component": "Tomcat04",
+      "top5": [
+        "Tomcat04",
+        "Mysql01",
+        "IG02",
+        "Mysql02",
+        "IG01"
+      ],
+      "top1_hit": true,
+      "top3_hit": true,
+      "bucket_key": "cpu|evidence|gap_high",
+      "confidence_label": "high",
+      "confidence_features": {
+        "support_strength": 78.81865023716668,
+        "top1_top2_gap": 59.99282397908879,
+        "hard_support_count": 1,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 23:16:00",
+      "reason": "high CPU usage",
+      "true_component": "Redis02",
+      "top5": [
+        "Redis02",
+        "IG01",
+        "apache01",
+        "IG02",
+        "MG01"
+      ],
+      "top1_hit": true,
+      "top3_hit": true,
+      "bucket_key": "cpu|evidence|gap_high",
+      "confidence_label": "high",
+      "confidence_features": {
+        "support_strength": 641.6688227684347,
+        "top1_top2_gap": 624.6317486201381,
+        "hard_support_count": 1,
+        "hard_refute_count": 0,
+        "blind_count": 0
+      }
+    }
+  ],
+  "note": "This is in-sample calibration. Use leave-one-date-out before reporting as final."
+}

@@ -1,0 +1,389 @@
+{
+  "rules": [
+    {
+      "candidate_scope": "service",
+      "confidence": 1.0,
+      "description": "CPU roots should show service-local CPU/JVM CPU anomaly.",
+      "enabled": true,
+      "evidence_query": "container_kpi_anomalous",
+      "group": "round_1_cheap_metric",
+      "id": "cpu.container_cpu_required",
+      "missing_policy": "blind",
+      "query_args": {
+        "kpi_bucket": "cpu"
+      },
+      "reason_buckets": [
+        "cpu"
+      ],
+      "reason_names": [],
+      "refute_if": "not_matched",
+      "rule_type": "hard",
+      "support_if": "matched"
+    },
+    {
+      "candidate_scope": "service",
+      "confidence": 1.0,
+      "description": "Disk I/O roots should show node/container disk evidence.",
+      "enabled": true,
+      "evidence_query": "node_kpi_anomalous",
+      "group": "round_1_cheap_metric",
+      "id": "disk.disk_io_required",
+      "missing_policy": "blind",
+      "query_args": {
+        "kpi_bucket": "disk"
+      },
+      "reason_buckets": [
+        "disk_io"
+      ],
+      "reason_names": [],
+      "refute_if": "not_matched",
+      "rule_type": "hard",
+      "support_if": "matched"
+    },
+    {
+      "candidate_scope": "service",
+      "confidence": 1.0,
+      "description": "Disk space roots should show filesystem capacity/inode evidence.",
+      "enabled": true,
+      "evidence_query": "node_kpi_anomalous",
+      "group": "round_1_cheap_metric",
+      "id": "filesystem.capacity_required",
+      "missing_policy": "blind",
+      "query_args": {
+        "kpi_bucket": "filesystem"
+      },
+      "reason_buckets": [
+        "filesystem"
+      ],
+      "reason_names": [],
+      "refute_if": "not_matched",
+      "rule_type": "hard",
+      "support_if": "matched"
+    },
+    {
+      "candidate_scope": "service",
+      "confidence": 0.5,
+      "description": "High memory usage can be supported by service-local memory KPI evidence; absence is not enough to refute in v0.",
+      "enabled": true,
+      "evidence_query": "container_kpi_anomalous",
+      "group": "round_1_cheap_metric",
+      "id": "memory.container_memory_anomaly",
+      "missing_policy": "blind",
+      "query_args": {
+        "kpi_bucket": "memory"
+      },
+      "reason_buckets": [
+        "memory"
+      ],
+      "reason_names": [
+        "high memory usage"
+      ],
+      "refute_if": "",
+      "rule_type": "soft",
+      "support_if": "matched"
+    },
+    {
+      "candidate_scope": "service",
+      "confidence": 1.0,
+      "description": "Fatal OOM/GC logs are strong OOM support; absence is not enough to refute in Bank v0.",
+      "enabled": true,
+      "evidence_query": "log_keyword_match",
+      "group": "round_3_log_blind",
+      "id": "memory.jvm_oom_log_required",
+      "missing_policy": "blind",
+      "query_args": {
+        "keywords": [
+          "OutOfMemoryError",
+          "Java heap space",
+          "GC overhead",
+          "Full GC"
+        ]
+      },
+      "reason_buckets": [
+        "jvm_oom"
+      ],
+      "reason_names": [
+        "JVM Out of Memory (OOM) Heap"
+      ],
+      "refute_if": "",
+      "rule_type": "hard",
+      "support_if": "matched"
+    },
+    {
+      "candidate_scope": "service",
+      "confidence": 1.0,
+      "description": "JVM heap and fatal GC/OOM logs together are strong OOM support.",
+      "enabled": true,
+      "evidence_query": "all_of",
+      "group": "round_3_log_blind",
+      "id": "memory.jvm_heap_plus_gc_log",
+      "missing_policy": "blind",
+      "query_args": {
+        "queries": [
+          {
+            "args": {
+              "kpi_bucket": "memory"
+            },
+            "name": "container_kpi_anomalous"
+          },
+          {
+            "args": {
+              "keywords": [
+                "Full GC",
+                "OutOfMemoryError",
+                "GC overhead"
+              ]
+            },
+            "name": "log_keyword_match"
+          }
+        ]
+      },
+      "reason_buckets": [
+        "jvm_oom"
+      ],
+      "reason_names": [
+        "JVM Out of Memory (OOM) Heap"
+      ],
+      "refute_if": "",
+      "rule_type": "hard",
+      "support_if": "matched"
+    },
+    {
+      "candidate_scope": "service",
+      "confidence": 0.5,
+      "description": "JVM heap KPI supports OOM but absence is not refutation.",
+      "enabled": true,
+      "evidence_query": "specialty_kpi_anomalous",
+      "group": "round_1_cheap_metric",
+      "id": "memory.jvm_heap_kpi",
+      "missing_policy": "blind",
+      "query_args": {
+        "kpi_bucket": "jvm_heap"
+      },
+      "reason_buckets": [
+        "jvm_oom"
+      ],
+      "reason_names": [
+        "JVM Out of Memory (OOM) Heap"
+      ],
+      "refute_if": "",
+      "rule_type": "soft",
+      "support_if": "matched"
+    },
+    {
+      "candidate_scope": "service",
+      "confidence": 0.5,
+      "description": "Redis memory KPIs support high memory usage for Redis candidates.",
+      "enabled": true,
+      "evidence_query": "specialty_kpi_anomalous",
+      "group": "round_1_cheap_metric",
+      "id": "memory.redis_memory_kpi",
+      "missing_policy": "blind",
+      "query_args": {
+        "kpi_bucket": "redis_memory"
+      },
+      "reason_buckets": [
+        "memory"
+      ],
+      "reason_names": [
+        "high memory usage"
+      ],
+      "refute_if": "",
+      "rule_type": "soft",
+      "support_if": "matched"
+    },
+    {
+      "candidate_scope": "service",
+      "confidence": 0.5,
+      "description": "Mysql memory KPIs support high memory usage for Mysql candidates.",
+      "enabled": true,
+      "evidence_query": "specialty_kpi_anomalous",
+      "group": "round_1_cheap_metric",
+      "id": "memory.mysql_memory_kpi",
+      "missing_policy": "blind",
+      "query_args": {
+        "kpi_bucket": "mysql_memory"
+      },
+      "reason_buckets": [
+        "memory"
+      ],
+      "reason_names": [
+        "high memory usage"
+      ],
+      "refute_if": "",
+      "rule_type": "soft",
+      "support_if": "matched"
+    },
+    {
+      "candidate_scope": "service",
+      "confidence": 0.5,
+      "description": "Slow trace edges support latency involvement but do not prove root cause.",
+      "enabled": true,
+      "evidence_query": "trace_slow_edge",
+      "group": "round_2_trace_topology",
+      "id": "network_latency.trace_slow_edge",
+      "missing_policy": "blind",
+      "query_args": {},
+      "reason_buckets": [
+        "network_latency"
+      ],
+      "reason_names": [],
+      "refute_if": "",
+      "rule_type": "soft",
+      "support_if": "matched"
+    },
+    {
+      "candidate_scope": "service",
+      "confidence": 0.5,
+      "description": "Being the first anomalous trace service supports latency root-cause suspicion.",
+      "enabled": true,
+      "evidence_query": "trace_first_anomalous_service",
+      "group": "round_2_trace_topology",
+      "id": "network_latency.trace_first_anomalous",
+      "missing_policy": "blind",
+      "query_args": {},
+      "reason_buckets": [
+        "network_latency"
+      ],
+      "reason_names": [],
+      "refute_if": "",
+      "rule_type": "soft",
+      "support_if": "matched"
+    },
+    {
+      "candidate_scope": "service",
+      "confidence": 0.5,
+      "description": "An upstream source role on anomalous trace edges supports latency root-cause suspicion.",
+      "enabled": true,
+      "evidence_query": "trace_propagation_role",
+      "group": "round_2_trace_topology",
+      "id": "network_latency.trace_upstream_source",
+      "missing_policy": "blind",
+      "query_args": {
+        "roles": [
+          "upstream_source"
+        ]
+      },
+      "reason_buckets": [
+        "network_latency"
+      ],
+      "reason_names": [],
+      "refute_if": "",
+      "rule_type": "soft",
+      "support_if": "matched"
+    },
+    {
+      "candidate_scope": "service",
+      "confidence": 0.5,
+      "description": "Timeout logs support latency involvement.",
+      "enabled": true,
+      "evidence_query": "log_keyword_match",
+      "group": "round_3_log_blind",
+      "id": "network_latency.timeout_log",
+      "missing_policy": "blind",
+      "query_args": {
+        "keywords": [
+          "timeout",
+          "timed out",
+          "read timeout",
+          "connect timeout",
+          "upstream timed out"
+        ]
+      },
+      "reason_buckets": [
+        "network_latency"
+      ],
+      "reason_names": [],
+      "refute_if": "",
+      "rule_type": "soft",
+      "support_if": "matched"
+    },
+    {
+      "candidate_scope": "service",
+      "confidence": 0.5,
+      "description": "Retry/reset/broken-pipe logs support packet-loss-like failure.",
+      "enabled": true,
+      "evidence_query": "log_keyword_match",
+      "group": "round_3_log_blind",
+      "id": "network_packet_loss.retry_reset_log",
+      "missing_policy": "blind",
+      "query_args": {
+        "keywords": [
+          "retry",
+          "connection reset",
+          "reset by peer",
+          "broken pipe",
+          "connection aborted"
+        ]
+      },
+      "reason_buckets": [
+        "network_packet_loss"
+      ],
+      "reason_names": [],
+      "refute_if": "",
+      "rule_type": "soft",
+      "support_if": "matched"
+    },
+    {
+      "candidate_scope": "service",
+      "confidence": 0.5,
+      "description": "Trace edge count drop supports packet-loss-like failure.",
+      "enabled": true,
+      "evidence_query": "trace_edge_count_drop",
+      "group": "round_2_trace_topology",
+      "id": "network_packet_loss.edge_count_drop",
+      "missing_policy": "blind",
+      "query_args": {},
+      "reason_buckets": [
+        "network_packet_loss"
+      ],
+      "reason_names": [],
+      "refute_if": "",
+      "rule_type": "soft",
+      "support_if": "matched"
+    },
+    {
+      "candidate_scope": "service",
+      "confidence": 0.5,
+      "description": "An upstream source role on dropped/slow trace edges supports packet-loss root-cause suspicion.",
+      "enabled": true,
+      "evidence_query": "trace_propagation_role",
+      "group": "round_2_trace_topology",
+      "id": "network_packet_loss.trace_upstream_source",
+      "missing_policy": "blind",
+      "query_args": {
+        "roles": [
+          "upstream_source"
+        ]
+      },
+      "reason_buckets": [
+        "network_packet_loss"
+      ],
+      "reason_names": [],
+      "refute_if": "",
+      "rule_type": "soft",
+      "support_if": "matched"
+    },
+    {
+      "candidate_scope": "service",
+      "confidence": 0.5,
+      "description": "Network/TCP error KPI supports packet-loss-like failure after audit.",
+      "enabled": true,
+      "evidence_query": "container_kpi_anomalous",
+      "group": "round_1_cheap_metric",
+      "id": "network_packet_loss.network_error_kpi",
+      "missing_policy": "blind",
+      "query_args": {
+        "kpi_bucket": "network"
+      },
+      "reason_buckets": [
+        "network_packet_loss"
+      ],
+      "reason_names": [],
+      "refute_if": "",
+      "rule_type": "soft",
+      "support_if": "matched"
+    }
+  ],
+  "version": 2
+}

@@ -1,0 +1,299 @@
+{
+  "n": 10,
+  "top1": 0,
+  "top3": 1,
+  "rule_audit": {
+    "memory.container_memory_anomaly": {
+      "support_count": 2,
+      "refute_count": 0,
+      "blind_count": 18,
+      "support_true_root_count": 0,
+      "support_false_root_count": 2,
+      "refute_true_root_count": 0
+    },
+    "network_latency.timeout_log": {
+      "support_count": 0,
+      "refute_count": 0,
+      "blind_count": 18,
+      "support_true_root_count": 0,
+      "support_false_root_count": 0,
+      "refute_true_root_count": 0
+    },
+    "network_latency.trace_slow_edge": {
+      "support_count": 0,
+      "refute_count": 0,
+      "blind_count": 90,
+      "support_true_root_count": 0,
+      "support_false_root_count": 0,
+      "refute_true_root_count": 0
+    },
+    "network_packet_loss.network_error_kpi": {
+      "support_count": 0,
+      "refute_count": 0,
+      "blind_count": 36,
+      "support_true_root_count": 0,
+      "support_false_root_count": 0,
+      "refute_true_root_count": 0
+    },
+    "network_packet_loss.retry_reset_log": {
+      "support_count": 0,
+      "refute_count": 0,
+      "blind_count": 18,
+      "support_true_root_count": 0,
+      "support_false_root_count": 0,
+      "refute_true_root_count": 0
+    }
+  },
+  "by_reason": {
+    "high memory usage": {
+      "memory.container_memory_anomaly": {
+        "support_count": 2,
+        "refute_count": 0,
+        "blind_count": 18,
+        "support_true_root_count": 0,
+        "support_false_root_count": 2,
+        "refute_true_root_count": 0
+      }
+    },
+    "network latency": {
+      "network_latency.timeout_log": {
+        "support_count": 0,
+        "refute_count": 0,
+        "blind_count": 18,
+        "support_true_root_count": 0,
+        "support_false_root_count": 0,
+        "refute_true_root_count": 0
+      },
+      "network_latency.trace_slow_edge": {
+        "support_count": 0,
+        "refute_count": 0,
+        "blind_count": 90,
+        "support_true_root_count": 0,
+        "support_false_root_count": 0,
+        "refute_true_root_count": 0
+      }
+    },
+    "network packet loss": {
+      "network_packet_loss.network_error_kpi": {
+        "support_count": 0,
+        "refute_count": 0,
+        "blind_count": 36,
+        "support_true_root_count": 0,
+        "support_false_root_count": 0,
+        "refute_true_root_count": 0
+      },
+      "network_packet_loss.retry_reset_log": {
+        "support_count": 0,
+        "refute_count": 0,
+        "blind_count": 18,
+        "support_true_root_count": 0,
+        "support_false_root_count": 0,
+        "refute_true_root_count": 0
+      }
+    }
+  },
+  "cases": [
+    {
+      "date": "2021_03_04",
+      "datetime": "2021-03-04 14:57:00",
+      "true_component": "Mysql02",
+      "reason": "high memory usage",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "MG01",
+        "IG01",
+        "IG02",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_04",
+      "datetime": "2021-03-04 18:09:00",
+      "true_component": "Redis02",
+      "reason": "high memory usage",
+      "modal_status": {
+        "metric": "present",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG02",
+        "IG01",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_04",
+      "datetime": "2021-03-04 19:22:00",
+      "true_component": "Tomcat02",
+      "reason": "network latency",
+      "modal_status": {
+        "metric": "present",
+        "log": "empty_window",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_06",
+      "datetime": "2021-03-06 06:20:00",
+      "true_component": "Tomcat01",
+      "reason": "high memory usage",
+      "modal_status": {
+        "metric": "missing",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_06",
+      "datetime": "2021-03-06 00:53:00",
+      "true_component": "Tomcat04",
+      "reason": "network latency",
+      "modal_status": {
+        "metric": "missing",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_06",
+      "datetime": "2021-03-06 14:46:00",
+      "true_component": "Tomcat03",
+      "reason": "network latency",
+      "modal_status": {
+        "metric": "missing",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_06",
+      "datetime": "2021-03-06 18:52:00",
+      "true_component": "apache02",
+      "reason": "network packet loss",
+      "modal_status": {
+        "metric": "missing",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_06",
+      "datetime": "2021-03-06 23:18:00",
+      "true_component": "Tomcat01",
+      "reason": "network latency",
+      "modal_status": {
+        "metric": "missing",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    },
+    {
+      "date": "2021_03_06",
+      "datetime": "2021-03-06 23:36:00",
+      "true_component": "MG01",
+      "reason": "network latency",
+      "modal_status": {
+        "metric": "missing",
+        "log": "present",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": true
+    },
+    {
+      "date": "2021_03_07",
+      "datetime": "2021-03-07 00:32:00",
+      "true_component": "MG02",
+      "reason": "network packet loss",
+      "modal_status": {
+        "metric": "missing",
+        "log": "missing",
+        "trace": "unloaded"
+      },
+      "top5_by_rule_support": [
+        "IG01",
+        "IG02",
+        "MG01",
+        "MG02",
+        "Mysql01"
+      ],
+      "top1_hit": false,
+      "top3_hit": false
+    }
+  ],
+  "top1_rate": 0.0,
+  "top3_rate": 0.1
+}

@@ -1,0 +1,6226 @@
+{
+  "n": 136,
+  "delta_counts_vs_rule": {
+    "same": 132,
+    "improved": 4
+  },
+  "tables": {
+    "By GT Reason": [
+      [
+        "high CPU usage",
+        {
+          "n": 31,
+          "strict_rate": 0.25806451612903225,
+          "partial_rate": 0.3118279569892473,
+          "time_rate": 0.125,
+          "component_rate": 0.5,
+          "reason_rate": 0.2222222222222222
+        }
+      ],
+      [
+        "network packet loss",
+        {
+          "n": 29,
+          "strict_rate": 0.034482758620689655,
+          "partial_rate": 0.08045977011494253,
+          "time_rate": 0.23529411764705882,
+          "component_rate": 0.0,
+          "reason_rate": 0.0
+        }
+      ],
+      [
+        "network latency",
+        {
+          "n": 24,
+          "strict_rate": 0.0,
+          "partial_rate": 0.13194444444444445,
+          "time_rate": 0.0,
+          "component_rate": 0.2,
+          "reason_rate": 0.3333333333333333
+        }
+      ],
+      [
+        "high disk I/O read usage",
+        {
+          "n": 16,
+          "strict_rate": 0.3125,
+          "partial_rate": 0.5052083333333334,
+          "time_rate": 0.3333333333333333,
+          "component_rate": 0.6923076923076923,
+          "reason_rate": 0.6666666666666666
+        }
+      ],
+      [
+        "high memory usage",
+        {
+          "n": 9,
+          "strict_rate": 0.0,
+          "partial_rate": 0.05555555555555555,
+          "time_rate": 0.0,
+          "component_rate": 0.5,
+          "reason_rate": 0.0
+        }
+      ],
+      [
+        "JVM Out of Memory (OOM) Heap",
+        {
+          "n": 6,
+          "strict_rate": 0.0,
+          "partial_rate": 0.0,
+          "time_rate": 0.0,
+          "component_rate": null,
+          "reason_rate": 0.0
+        }
+      ],
+      [
+        "high disk space usage",
+        {
+          "n": 5,
+          "strict_rate": 0.0,
+          "partial_rate": 0.0,
+          "time_rate": 0.0,
+          "component_rate": 0.0,
+          "reason_rate": 0.0
+        }
+      ],
+      [
+        "high JVM CPU load",
+        {
+          "n": 3,
+          "strict_rate": 0.0,
+          "partial_rate": 0.0,
+          "time_rate": 0.0,
+          "component_rate": 0.0,
+          "reason_rate": 0.0
+        }
+      ],
+      [
+        "network latency+network packet loss",
+        {
+          "n": 3,
+          "strict_rate": 0.0,
+          "partial_rate": 0.0,
+          "time_rate": 0.0,
+          "component_rate": 0.0,
+          "reason_rate": 0.0
+        }
+      ],
+      [
+        "JVM Out of Memory (OOM) Heap+high disk I/O read usage",
+        {
+          "n": 2,
+          "strict_rate": 0.0,
+          "partial_rate": 0.625,
+          "time_rate": 0.0,
+          "component_rate": 1.0,
+          "reason_rate": 0.5
+        }
+      ],
+      [
+        "high CPU usage+high memory usage",
+        {
+          "n": 2,
+          "strict_rate": 0.0,
+          "partial_rate": 0.125,
+          "time_rate": 0.0,
+          "component_rate": 0.5,
+          "reason_rate": null
+        }
+      ],
+      [
+        "high CPU usage+network packet loss",
+        {
+          "n": 2,
+          "strict_rate": 0.0,
+          "partial_rate": 0.3333333333333333,
+          "time_rate": 0.0,
+          "component_rate": 0.5,
+          "reason_rate": 0.5
+        }
+      ],
+      [
+        "high disk I/O read usage+network latency",
+        {
+          "n": 2,
+          "strict_rate": 0.0,
+          "partial_rate": 0.75,
+          "time_rate": 1.0,
+          "component_rate": 0.5,
+          "reason_rate": 0.5
+        }
+      ],
+      [
+        "high disk I/O read usage+network packet loss",
+        {
+          "n": 2,
+          "strict_rate": 0.0,
+          "partial_rate": 0.29166666666666663,
+          "time_rate": 0.0,
+          "component_rate": 0.5,
+          "reason_rate": 0.5
+        }
+      ]
+    ],
+    "By Reason Group": [
+      [
+        "event_like",
+        {
+          "n": 92,
+          "strict_rate": 0.09782608695652174,
+          "partial_rate": 0.17210144927536233,
+          "time_rate": 0.1111111111111111,
+          "component_rate": 0.22807017543859648,
+          "reason_rate": 0.17857142857142858
+        }
+      ],
+      [
+        "progressive_like",
+        {
+          "n": 20,
+          "strict_rate": 0.0,
+          "partial_rate": 0.025,
+          "time_rate": 0.0,
+          "component_rate": 0.3333333333333333,
+          "reason_rate": 0.0
+        }
+      ],
+      [
+        "io_like",
+        {
+          "n": 16,
+          "strict_rate": 0.3125,
+          "partial_rate": 0.5052083333333334,
+          "time_rate": 0.3333333333333333,
+          "component_rate": 0.6923076923076923,
+          "reason_rate": 0.6666666666666666
+        }
+      ],
+      [
+        "mixed",
+        {
+          "n": 8,
+          "strict_rate": 0.0,
+          "partial_rate": 0.44791666666666663,
+          "time_rate": 0.2857142857142857,
+          "component_rate": 0.7,
+          "reason_rate": 0.5
+        }
+      ]
+    ],
+    "By Task Index": [
+      [
+        "task_1",
+        {
+          "n": 25,
+          "strict_rate": 0.08,
+          "partial_rate": 0.08,
+          "time_rate": 0.06896551724137931,
+          "component_rate": null,
+          "reason_rate": null
+        }
+      ],
+      [
+        "task_2",
+        {
+          "n": 22,
+          "strict_rate": 0.09090909090909091,
+          "partial_rate": 0.09090909090909091,
+          "time_rate": null,
+          "component_rate": null,
+          "reason_rate": 0.09090909090909091
+        }
+      ],
+      [
+        "task_6",
+        {
+          "n": 21,
+          "strict_rate": 0.14285714285714285,
+          "partial_rate": 0.32142857142857145,
+          "time_rate": null,
+          "component_rate": 0.30434782608695654,
+          "reason_rate": 0.34782608695652173
+        }
+      ],
+      [
+        "task_4",
+        {
+          "n": 18,
+          "strict_rate": 0.1111111111111111,
+          "partial_rate": 0.19444444444444445,
+          "time_rate": 0.2,
+          "component_rate": null,
+          "reason_rate": 0.25
+        }
+      ],
+      [
+        "task_5",
+        {
+          "n": 18,
+          "strict_rate": 0.0,
+          "partial_rate": 0.2916666666666667,
+          "time_rate": 0.21739130434782608,
+          "component_rate": 0.43478260869565216,
+          "reason_rate": null
+        }
+      ],
+      [
+        "task_7",
+        {
+          "n": 17,
+          "strict_rate": 0.0,
+          "partial_rate": 0.20588235294117652,
+          "time_rate": 0.14285714285714285,
+          "component_rate": 0.38095238095238093,
+          "reason_rate": 0.23809523809523808
+        }
+      ],
+      [
+        "task_3",
+        {
+          "n": 15,
+          "strict_rate": 0.3333333333333333,
+          "partial_rate": 0.3333333333333333,
+          "time_rate": null,
+          "component_rate": 0.3125,
+          "reason_rate": null
+        }
+      ]
+    ],
+    "By Time Anchor Kind": [
+      [
+        "candidate_seed_nearest",
+        {
+          "n": 71,
+          "strict_rate": 0.16901408450704225,
+          "partial_rate": 0.31338028169014087,
+          "time_rate": 0.21052631578947367,
+          "component_rate": 0.5909090909090909,
+          "reason_rate": 0.32558139534883723
+        }
+      ],
+      [
+        "candidate_seed_only",
+        {
+          "n": 49,
+          "strict_rate": 0.02040816326530612,
+          "partial_rate": 0.07482993197278912,
+          "time_rate": 0.04,
+          "component_rate": 0.07142857142857142,
+          "reason_rate": 0.125
+        }
+      ],
+      [
+        "cross_metric_vote",
+        {
+          "n": 16,
+          "strict_rate": 0.0625,
+          "partial_rate": 0.13020833333333334,
+          "time_rate": 0.09090909090909091,
+          "component_rate": 0.18181818181818182,
+          "reason_rate": 0.18181818181818182
+        }
+      ]
+    ],
+    "By Confidence": [
+      [
+        "MEDIUM",
+        {
+          "n": 91,
+          "strict_rate": 0.14285714285714285,
+          "partial_rate": 0.2673992673992674,
+          "time_rate": 0.18571428571428572,
+          "component_rate": 0.4827586206896552,
+          "reason_rate": 0.2807017543859649
+        }
+      ],
+      [
+        "LOW",
+        {
+          "n": 45,
+          "strict_rate": 0.022222222222222223,
+          "partial_rate": 0.08148148148148147,
+          "time_rate": 0.043478260869565216,
+          "component_rate": 0.08,
+          "reason_rate": 0.13793103448275862
+        }
+      ]
+    ],
+    "Final Changed From Rule": [
+      [
+        "same_as_rule",
+        {
+          "n": 132,
+          "strict_rate": 0.10606060606060606,
+          "partial_rate": 0.19128787878787873,
+          "time_rate": 0.11494252873563218,
+          "component_rate": 0.3246753246753247,
+          "reason_rate": 0.21951219512195122
+        }
+      ],
+      [
+        "changed",
+        {
+          "n": 4,
+          "strict_rate": 0.0,
+          "partial_rate": 0.6875,
+          "time_rate": 0.6666666666666666,
+          "component_rate": 0.8333333333333334,
+          "reason_rate": 0.5
+        }
+      ]
+    ],
+    "Final Score Delta Vs Rule": [
+      [
+        "same",
+        {
+          "n": 132,
+          "strict_rate": 0.10606060606060606,
+          "partial_rate": 0.19128787878787873,
+          "time_rate": 0.11494252873563218,
+          "component_rate": 0.3246753246753247,
+          "reason_rate": 0.21951219512195122
+        }
+      ],
+      [
+        "improved",
+        {
+          "n": 4,
+          "strict_rate": 0.0,
+          "partial_rate": 0.6875,
+          "time_rate": 0.6666666666666666,
+          "component_rate": 0.8333333333333334,
+          "reason_rate": 0.5
+        }
+      ]
+    ],
+    "Focus By GT Reason": [
+      [
+        "network packet loss",
+        {
+          "n": 29,
+          "strict_rate": 0.034482758620689655,
+          "partial_rate": 0.08045977011494253,
+          "time_rate": 0.23529411764705882,
+          "component_rate": 0.0,
+          "reason_rate": 0.0
+        }
+      ],
+      [
+        "network latency",
+        {
+          "n": 24,
+          "strict_rate": 0.0,
+          "partial_rate": 0.13194444444444445,
+          "time_rate": 0.0,
+          "component_rate": 0.2,
+          "reason_rate": 0.3333333333333333
+        }
+      ],
+      [
+        "high CPU usage",
+        {
+          "n": 14,
+          "strict_rate": 0.07142857142857142,
+          "partial_rate": 0.09523809523809523,
+          "time_rate": 0.16666666666666666,
+          "component_rate": 0.14285714285714285,
+          "reason_rate": 0.0
+        }
+      ],
+      [
+        "high memory usage",
+        {
+          "n": 9,
+          "strict_rate": 0.0,
+          "partial_rate": 0.05555555555555555,
+          "time_rate": 0.0,
+          "component_rate": 0.5,
+          "reason_rate": 0.0
+        }
+      ],
+      [
+        "JVM Out of Memory (OOM) Heap",
+        {
+          "n": 6,
+          "strict_rate": 0.0,
+          "partial_rate": 0.0,
+          "time_rate": 0.0,
+          "component_rate": null,
+          "reason_rate": 0.0
+        }
+      ],
+      [
+        "high disk I/O read usage",
+        {
+          "n": 5,
+          "strict_rate": 0.0,
+          "partial_rate": 0.0,
+          "time_rate": 0.0,
+          "component_rate": 0.0,
+          "reason_rate": 0.0
+        }
+      ],
+      [
+        "high disk space usage",
+        {
+          "n": 3,
+          "strict_rate": 0.0,
+          "partial_rate": 0.0,
+          "time_rate": 0.0,
+          "component_rate": 0.0,
+          "reason_rate": 0.0
+        }
+      ],
+      [
+        "network latency+network packet loss",
+        {
+          "n": 3,
+          "strict_rate": 0.0,
+          "partial_rate": 0.0,
+          "time_rate": 0.0,
+          "component_rate": 0.0,
+          "reason_rate": 0.0
+        }
+      ],
+      [
+        "JVM Out of Memory (OOM) Heap+high disk I/O read usage",
+        {
+          "n": 2,
+          "strict_rate": 0.0,
+          "partial_rate": 0.625,
+          "time_rate": 0.0,
+          "component_rate": 1.0,
+          "reason_rate": 0.5
+        }
+      ],
+      [
+        "high CPU usage+high memory usage",
+        {
+          "n": 2,
+          "strict_rate": 0.0,
+          "partial_rate": 0.125,
+          "time_rate": 0.0,
+          "component_rate": 0.5,
+          "reason_rate": null
+        }
+      ],
+      [
+        "high CPU usage+network packet loss",
+        {
+          "n": 2,
+          "strict_rate": 0.0,
+          "partial_rate": 0.3333333333333333,
+          "time_rate": 0.0,
+          "component_rate": 0.5,
+          "reason_rate": 0.5
+        }
+      ],
+      [
+        "high disk I/O read usage+network latency",
+        {
+          "n": 2,
+          "strict_rate": 0.0,
+          "partial_rate": 0.75,
+          "time_rate": 1.0,
+          "component_rate": 0.5,
+          "reason_rate": 0.5
+        }
+      ],
+      [
+        "high disk I/O read usage+network packet loss",
+        {
+          "n": 2,
+          "strict_rate": 0.0,
+          "partial_rate": 0.29166666666666663,
+          "time_rate": 0.0,
+          "component_rate": 0.5,
+          "reason_rate": 0.5
+        }
+      ],
+      [
+        "high JVM CPU load",
+        {
+          "n": 1,
+          "strict_rate": 0.0,
+          "partial_rate": 0.0,
+          "time_rate": null,
+          "component_rate": null,
+          "reason_rate": 0.0
+        }
+      ]
+    ],
+    "Focus By Time Anchor Kind": [
+      [
+        "candidate_seed_only",
+        {
+          "n": 49,
+          "strict_rate": 0.02040816326530612,
+          "partial_rate": 0.07482993197278912,
+          "time_rate": 0.04,
+          "component_rate": 0.07142857142857142,
+          "reason_rate": 0.125
+        }
+      ],
+      [
+        "candidate_seed_nearest",
+        {
+          "n": 44,
+          "strict_rate": 0.022727272727272728,
+          "partial_rate": 0.1742424242424242,
+          "time_rate": 0.2,
+          "component_rate": 0.4230769230769231,
+          "reason_rate": 0.1875
+        }
+      ],
+      [
+        "cross_metric_vote",
+        {
+          "n": 11,
+          "strict_rate": 0.0,
+          "partial_rate": 0.022727272727272728,
+          "time_rate": 0.0,
+          "component_rate": 0.1111111111111111,
+          "reason_rate": 0.0
+        }
+      ]
+    ],
+    "Focus Delta Vs Rule": [
+      [
+        "same",
+        {
+          "n": 100,
+          "strict_rate": 0.02,
+          "partial_rate": 0.08833333333333333,
+          "time_rate": 0.07575757575757576,
+          "component_rate": 0.15789473684210525,
+          "reason_rate": 0.11940298507462686
+        }
+      ],
+      [
+        "improved",
+        {
+          "n": 4,
+          "strict_rate": 0.0,
+          "partial_rate": 0.6875,
+          "time_rate": 0.6666666666666666,
+          "component_rate": 0.8333333333333334,
+          "reason_rate": 0.5
+        }
+      ]
+    ]
+  },
+  "rows": [
+    {
+      "row_id": 0,
+      "task_index": "task_1",
+      "gt_component": "Mysql02",
+      "gt_reason": "high memory usage",
+      "truth_reasons": [
+        "high memory usage"
+      ],
+      "reason_group": "progressive_like",
+      "tolerance_minutes": [
+        15
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "Mysql01"
+    },
+    {
+      "row_id": 1,
+      "task_index": "task_6",
+      "gt_component": "Redis02",
+      "gt_reason": "high memory usage",
+      "truth_reasons": [
+        "high memory usage"
+      ],
+      "reason_group": "progressive_like",
+      "tolerance_minutes": [
+        15
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "official_score": 0.5,
+      "reason_conditional_score": 0.5,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high CPU usage",
+      "pred_component": "Redis02"
+    },
+    {
+      "row_id": 2,
+      "task_index": "task_6",
+      "gt_component": "Tomcat01",
+      "gt_reason": "high memory usage",
+      "truth_reasons": [
+        "high memory usage"
+      ],
+      "reason_group": "progressive_like",
+      "tolerance_minutes": [
+        15
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_only",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "network latency",
+      "pred_component": "MG02"
+    },
+    {
+      "row_id": 3,
+      "task_index": "task_1",
+      "gt_component": "Tomcat02",
+      "gt_reason": "network latency",
+      "truth_reasons": [
+        "network latency"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "apache01"
+    },
+    {
+      "row_id": 4,
+      "task_index": "task_6",
+      "gt_component": "Tomcat04",
+      "gt_reason": "network latency",
+      "truth_reasons": [
+        "network latency"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "official_score": 0.5,
+      "reason_conditional_score": 0.5,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_only",
+      "confidence": "LOW",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "network latency",
+      "pred_component": "IG01"
+    },
+    {
+      "row_id": 5,
+      "task_index": "task_5",
+      "gt_component": "Tomcat03",
+      "gt_reason": "network latency",
+      "truth_reasons": [
+        "network latency"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 1,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_only",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "network latency",
+      "pred_component": "dockerA2"
+    },
+    {
+      "row_id": 6,
+      "task_index": "task_7",
+      "gt_component": "apache02",
+      "gt_reason": "network packet loss",
+      "truth_reasons": [
+        "network packet loss"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_only",
+      "confidence": "LOW",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "network latency",
+      "pred_component": "Tomcat02"
+    },
+    {
+      "row_id": 7,
+      "task_index": "task_3",
+      "gt_component": "Tomcat01",
+      "gt_reason": "network latency",
+      "truth_reasons": [
+        "network latency"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_only",
+      "confidence": "LOW",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "network latency",
+      "pred_component": "IG01"
+    },
+    {
+      "row_id": 8,
+      "task_index": "task_7",
+      "gt_component": "MG01",
+      "gt_reason": "network latency",
+      "truth_reasons": [
+        "network latency"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "official_score": 0.3333333333333333,
+      "reason_conditional_score": 0.3333333333333333,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_only",
+      "confidence": "LOW",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "network packet loss",
+      "pred_component": "MG01"
+    },
+    {
+      "row_id": 9,
+      "task_index": "task_6",
+      "gt_component": "MG02",
+      "gt_reason": "network packet loss",
+      "truth_reasons": [
+        "network packet loss"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_only",
+      "confidence": "LOW",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "network latency",
+      "pred_component": "IG01"
+    },
+    {
+      "row_id": 10,
+      "task_index": "task_3",
+      "gt_component": "Tomcat02",
+      "gt_reason": "network latency",
+      "truth_reasons": [
+        "network latency"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_only",
+      "confidence": "LOW",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "network latency",
+      "pred_component": "IG01"
+    },
+    {
+      "row_id": 11,
+      "task_index": "task_1",
+      "gt_component": "MG01",
+      "gt_reason": "network latency+network packet loss",
+      "truth_reasons": [
+        "network latency",
+        "network packet loss"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2,
+        2
+      ],
+      "field_totals": {
+        "time": 2,
+        "component": 0,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_only",
+      "confidence": "LOW",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "network latency",
+      "pred_component": "IG01"
+    },
+    {
+      "row_id": 12,
+      "task_index": "task_3",
+      "gt_component": "Tomcat04",
+      "gt_reason": "network packet loss",
+      "truth_reasons": [
+        "network packet loss",
+        "network packet loss"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2,
+        2
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 2,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_only",
+      "confidence": "LOW",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "network latency",
+      "pred_component": "IG01"
+    },
+    {
+      "row_id": 13,
+      "task_index": "task_4",
+      "gt_component": "apache02",
+      "gt_reason": "network latency",
+      "truth_reasons": [
+        "network latency"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 0,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "official_score": 0.5,
+      "reason_conditional_score": 0.5,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_only",
+      "confidence": "LOW",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "network latency",
+      "pred_component": "IG01"
+    },
+    {
+      "row_id": 14,
+      "task_index": "task_2",
+      "gt_component": "Tomcat01",
+      "gt_reason": "network packet loss",
+      "truth_reasons": [
+        "network packet loss"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_only",
+      "confidence": "LOW",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "network latency",
+      "pred_component": "IG01"
+    },
+    {
+      "row_id": 15,
+      "task_index": "task_4",
+      "gt_component": "apache02",
+      "gt_reason": "network packet loss",
+      "truth_reasons": [
+        "network packet loss"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 0,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_only",
+      "confidence": "LOW",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "network latency",
+      "pred_component": "IG01"
+    },
+    {
+      "row_id": 16,
+      "task_index": "task_1",
+      "gt_component": "IG02",
+      "gt_reason": "network packet loss",
+      "truth_reasons": [
+        "network packet loss"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_only",
+      "confidence": "LOW",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "network latency",
+      "pred_component": "IG01"
+    },
+    {
+      "row_id": 17,
+      "task_index": "task_6",
+      "gt_component": "Tomcat01",
+      "gt_reason": "network latency",
+      "truth_reasons": [
+        "network latency"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "official_score": 0.5,
+      "reason_conditional_score": 0.5,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_only",
+      "confidence": "LOW",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "network latency",
+      "pred_component": "IG01"
+    },
+    {
+      "row_id": 18,
+      "task_index": "task_6",
+      "gt_component": "MG02",
+      "gt_reason": "network packet loss",
+      "truth_reasons": [
+        "network packet loss"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_only",
+      "confidence": "LOW",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "network latency",
+      "pred_component": "IG01"
+    },
+    {
+      "row_id": 19,
+      "task_index": "task_3",
+      "gt_component": "MG02",
+      "gt_reason": "network latency",
+      "truth_reasons": [
+        "network latency"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_only",
+      "confidence": "LOW",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "network latency",
+      "pred_component": "IG01"
+    },
+    {
+      "row_id": 20,
+      "task_index": "task_5",
+      "gt_component": "Tomcat01",
+      "gt_reason": "network packet loss",
+      "truth_reasons": [
+        "network packet loss"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 1,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_only",
+      "confidence": "LOW",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "network latency",
+      "pred_component": "IG01"
+    },
+    {
+      "row_id": 21,
+      "task_index": "task_5",
+      "gt_component": "MG02",
+      "gt_reason": "network latency",
+      "truth_reasons": [
+        "network latency"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 1,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_only",
+      "confidence": "LOW",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "network latency",
+      "pred_component": "IG01"
+    },
+    {
+      "row_id": 22,
+      "task_index": "task_1",
+      "gt_component": "Tomcat02",
+      "gt_reason": "network latency",
+      "truth_reasons": [
+        "network latency"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_only",
+      "confidence": "LOW",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "network latency",
+      "pred_component": "IG01"
+    },
+    {
+      "row_id": 23,
+      "task_index": "task_7",
+      "gt_component": "apache01",
+      "gt_reason": "network packet loss",
+      "truth_reasons": [
+        "network packet loss"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_only",
+      "confidence": "LOW",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "network latency",
+      "pred_component": "IG01"
+    },
+    {
+      "row_id": 24,
+      "task_index": "task_6",
+      "gt_component": "apache01",
+      "gt_reason": "network latency",
+      "truth_reasons": [
+        "network latency"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "official_score": 0.5,
+      "reason_conditional_score": 0.5,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_only",
+      "confidence": "LOW",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "network latency",
+      "pred_component": "IG01"
+    },
+    {
+      "row_id": 25,
+      "task_index": "task_3",
+      "gt_component": "apache02",
+      "gt_reason": "network latency",
+      "truth_reasons": [
+        "network latency"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "Mysql01"
+    },
+    {
+      "row_id": 26,
+      "task_index": "task_7",
+      "gt_component": "Tomcat01",
+      "gt_reason": "network packet loss",
+      "truth_reasons": [
+        "network packet loss"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "MG02"
+    },
+    {
+      "row_id": 27,
+      "task_index": "task_6",
+      "gt_component": "apache02",
+      "gt_reason": "network latency+network packet loss",
+      "truth_reasons": [
+        "network packet loss",
+        "network latency"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2,
+        2
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 2,
+        "reason": 2
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "cross_metric_vote",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "Mysql01"
+    },
+    {
+      "row_id": 28,
+      "task_index": "task_5",
+      "gt_component": "apache02",
+      "gt_reason": "network latency+network packet loss",
+      "truth_reasons": [
+        "network packet loss",
+        "network latency"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2,
+        2
+      ],
+      "field_totals": {
+        "time": 2,
+        "component": 2,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "cross_metric_vote",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "Mysql01"
+    },
+    {
+      "row_id": 29,
+      "task_index": "task_5",
+      "gt_component": "Tomcat01",
+      "gt_reason": "network latency",
+      "truth_reasons": [
+        "network latency"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 1,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.5,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "Mysql02"
+    },
+    {
+      "row_id": 30,
+      "task_index": "task_2",
+      "gt_component": "Tomcat03",
+      "gt_reason": "network packet loss",
+      "truth_reasons": [
+        "network packet loss"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "Tomcat03"
+    },
+    {
+      "row_id": 31,
+      "task_index": "task_2",
+      "gt_component": "MG01",
+      "gt_reason": "network packet loss",
+      "truth_reasons": [
+        "network packet loss"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "cross_metric_vote",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "IG02"
+    },
+    {
+      "row_id": 32,
+      "task_index": "task_3",
+      "gt_component": "Tomcat01",
+      "gt_reason": "network packet loss",
+      "truth_reasons": [
+        "network packet loss"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "Tomcat04"
+    },
+    {
+      "row_id": 33,
+      "task_index": "task_7",
+      "gt_component": "MG02",
+      "gt_reason": "network packet loss",
+      "truth_reasons": [
+        "network packet loss"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "Tomcat01"
+    },
+    {
+      "row_id": 34,
+      "task_index": "task_2",
+      "gt_component": "MG01",
+      "gt_reason": "network packet loss",
+      "truth_reasons": [
+        "network packet loss"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "Redis02"
+    },
+    {
+      "row_id": 35,
+      "task_index": "task_7",
+      "gt_component": "apache02",
+      "gt_reason": "high disk I/O read usage+network packet loss",
+      "truth_reasons": [
+        "network packet loss",
+        "high disk I/O read usage"
+      ],
+      "reason_group": "mixed",
+      "tolerance_minutes": [
+        2,
+        5
+      ],
+      "field_totals": {
+        "time": 2,
+        "component": 2,
+        "reason": 2
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 1
+      },
+      "reason_conditional_hits": {
+        "time": 1,
+        "component": 1,
+        "reason": 1
+      },
+      "official_score": 0.3333333333333333,
+      "reason_conditional_score": 0.5,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "IG02"
+    },
+    {
+      "row_id": 36,
+      "task_index": "task_5",
+      "gt_component": "Tomcat03",
+      "gt_reason": "network packet loss",
+      "truth_reasons": [
+        "network packet loss"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 1,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.5,
+      "reason_conditional_score": 0.5,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "Redis01"
+    },
+    {
+      "row_id": 37,
+      "task_index": "task_1",
+      "gt_component": "apache02",
+      "gt_reason": "network packet loss",
+      "truth_reasons": [
+        "network packet loss"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "Mysql01"
+    },
+    {
+      "row_id": 38,
+      "task_index": "task_5",
+      "gt_component": "MG01",
+      "gt_reason": "network packet loss",
+      "truth_reasons": [
+        "network packet loss"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 1,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.5,
+      "reason_conditional_score": 0.5,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "IG01"
+    },
+    {
+      "row_id": 39,
+      "task_index": "task_3",
+      "gt_component": "Tomcat04",
+      "gt_reason": "network packet loss",
+      "truth_reasons": [
+        "network packet loss"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "MG02"
+    },
+    {
+      "row_id": 40,
+      "task_index": "task_4",
+      "gt_component": "MG01",
+      "gt_reason": "network packet loss",
+      "truth_reasons": [
+        "network packet loss"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 0,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "Tomcat03"
+    },
+    {
+      "row_id": 41,
+      "task_index": "task_1",
+      "gt_component": "Tomcat04",
+      "gt_reason": "network latency",
+      "truth_reasons": [
+        "network latency"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "Tomcat02"
+    },
+    {
+      "row_id": 42,
+      "task_index": "task_1",
+      "gt_component": "MG02",
+      "gt_reason": "network latency",
+      "truth_reasons": [
+        "network latency"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "Tomcat01"
+    },
+    {
+      "row_id": 43,
+      "task_index": "task_7",
+      "gt_component": "MG01",
+      "gt_reason": "network latency",
+      "truth_reasons": [
+        "network latency"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "official_score": 0.3333333333333333,
+      "reason_conditional_score": 0.3333333333333333,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "MG01"
+    },
+    {
+      "row_id": 44,
+      "task_index": "task_7",
+      "gt_component": "Tomcat04",
+      "gt_reason": "network packet loss",
+      "truth_reasons": [
+        "network packet loss"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high CPU usage",
+      "pred_component": "MG01"
+    },
+    {
+      "row_id": 45,
+      "task_index": "task_3",
+      "gt_component": "MG02",
+      "gt_reason": "high JVM CPU load",
+      "truth_reasons": [
+        "high JVM CPU load"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        1
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "Tomcat02"
+    },
+    {
+      "row_id": 46,
+      "task_index": "task_2",
+      "gt_component": "MG02",
+      "gt_reason": "high JVM CPU load",
+      "truth_reasons": [
+        "high JVM CPU load"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        1
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_only",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "network latency",
+      "pred_component": "dockerB1"
+    },
+    {
+      "row_id": 47,
+      "task_index": "task_1",
+      "gt_component": "IG01",
+      "gt_reason": "high JVM CPU load",
+      "truth_reasons": [
+        "high JVM CPU load"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        1
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high CPU usage",
+      "pred_component": "IG01"
+    },
+    {
+      "row_id": 48,
+      "task_index": "task_2",
+      "gt_component": "MG02",
+      "gt_reason": "JVM Out of Memory (OOM) Heap",
+      "truth_reasons": [
+        "JVM Out of Memory (OOM) Heap"
+      ],
+      "reason_group": "progressive_like",
+      "tolerance_minutes": [
+        15
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "cross_metric_vote",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high CPU usage",
+      "pred_component": "Tomcat01"
+    },
+    {
+      "row_id": 49,
+      "task_index": "task_5",
+      "gt_component": "MG02",
+      "gt_reason": "JVM Out of Memory (OOM) Heap+high disk I/O read usage",
+      "truth_reasons": [
+        "JVM Out of Memory (OOM) Heap",
+        "high disk I/O read usage"
+      ],
+      "reason_group": "mixed",
+      "tolerance_minutes": [
+        15,
+        5
+      ],
+      "field_totals": {
+        "time": 2,
+        "component": 2,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 2,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 1,
+        "component": 2,
+        "reason": 0
+      },
+      "official_score": 0.5,
+      "reason_conditional_score": 0.75,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": true,
+      "score_delta_vs_rule": 0.25,
+      "change_kind": "improved",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "Tomcat03"
+    },
+    {
+      "row_id": 50,
+      "task_index": "task_1",
+      "gt_component": "MG01",
+      "gt_reason": "JVM Out of Memory (OOM) Heap",
+      "truth_reasons": [
+        "JVM Out of Memory (OOM) Heap",
+        "JVM Out of Memory (OOM) Heap"
+      ],
+      "reason_group": "progressive_like",
+      "tolerance_minutes": [
+        15,
+        15
+      ],
+      "field_totals": {
+        "time": 2,
+        "component": 0,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 2,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 1.0,
+      "official_strict": false,
+      "reason_conditional_strict": true,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "IG02"
+    },
+    {
+      "row_id": 51,
+      "task_index": "task_1",
+      "gt_component": "IG01",
+      "gt_reason": "JVM Out of Memory (OOM) Heap",
+      "truth_reasons": [
+        "JVM Out of Memory (OOM) Heap",
+        "JVM Out of Memory (OOM) Heap"
+      ],
+      "reason_group": "progressive_like",
+      "tolerance_minutes": [
+        15,
+        15
+      ],
+      "field_totals": {
+        "time": 2,
+        "component": 0,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 2,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 1.0,
+      "official_strict": false,
+      "reason_conditional_strict": true,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "IG02"
+    },
+    {
+      "row_id": 52,
+      "task_index": "task_6",
+      "gt_component": "Tomcat03",
+      "gt_reason": "JVM Out of Memory (OOM) Heap+high disk I/O read usage",
+      "truth_reasons": [
+        "JVM Out of Memory (OOM) Heap",
+        "high disk I/O read usage"
+      ],
+      "reason_group": "mixed",
+      "tolerance_minutes": [
+        15,
+        5
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 2,
+        "reason": 2
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 2,
+        "reason": 1
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 2,
+        "reason": 1
+      },
+      "official_score": 0.75,
+      "reason_conditional_score": 0.75,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": true,
+      "score_delta_vs_rule": 0.25,
+      "change_kind": "improved",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "Tomcat03"
+    },
+    {
+      "row_id": 53,
+      "task_index": "task_1",
+      "gt_component": "MG01",
+      "gt_reason": "high disk I/O read usage",
+      "truth_reasons": [
+        "high disk I/O read usage"
+      ],
+      "reason_group": "io_like",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_only",
+      "confidence": "LOW",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "network latency",
+      "pred_component": "dockerB2"
+    },
+    {
+      "row_id": 54,
+      "task_index": "task_7",
+      "gt_component": "IG02",
+      "gt_reason": "high disk space usage",
+      "truth_reasons": [
+        "high disk space usage"
+      ],
+      "reason_group": "progressive_like",
+      "tolerance_minutes": [
+        30
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.3333333333333333,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_only",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "network latency",
+      "pred_component": "dockerA2"
+    },
+    {
+      "row_id": 55,
+      "task_index": "task_5",
+      "gt_component": "Tomcat01",
+      "gt_reason": "high disk I/O read usage",
+      "truth_reasons": [
+        "high disk I/O read usage"
+      ],
+      "reason_group": "io_like",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 1,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_only",
+      "confidence": "LOW",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "network latency",
+      "pred_component": "IG01"
+    },
+    {
+      "row_id": 56,
+      "task_index": "task_7",
+      "gt_component": "Tomcat01",
+      "gt_reason": "high disk I/O read usage",
+      "truth_reasons": [
+        "high disk I/O read usage"
+      ],
+      "reason_group": "io_like",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_only",
+      "confidence": "LOW",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "network latency",
+      "pred_component": "IG01"
+    },
+    {
+      "row_id": 57,
+      "task_index": "task_2",
+      "gt_component": "apache01",
+      "gt_reason": "high disk I/O read usage",
+      "truth_reasons": [
+        "high disk I/O read usage"
+      ],
+      "reason_group": "io_like",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_only",
+      "confidence": "LOW",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "network latency",
+      "pred_component": "IG01"
+    },
+    {
+      "row_id": 58,
+      "task_index": "task_2",
+      "gt_component": "IG02",
+      "gt_reason": "high disk space usage",
+      "truth_reasons": [
+        "high disk space usage"
+      ],
+      "reason_group": "progressive_like",
+      "tolerance_minutes": [
+        30
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_only",
+      "confidence": "LOW",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "network latency",
+      "pred_component": "IG01"
+    },
+    {
+      "row_id": 59,
+      "task_index": "task_6",
+      "gt_component": "Tomcat01",
+      "gt_reason": "high disk I/O read usage",
+      "truth_reasons": [
+        "high disk I/O read usage"
+      ],
+      "reason_group": "io_like",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_only",
+      "confidence": "LOW",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "network latency",
+      "pred_component": "IG01"
+    },
+    {
+      "row_id": 60,
+      "task_index": "task_4",
+      "gt_component": "apache01",
+      "gt_reason": "high disk space usage",
+      "truth_reasons": [
+        "high disk space usage"
+      ],
+      "reason_group": "progressive_like",
+      "tolerance_minutes": [
+        30
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 0,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.5,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_only",
+      "confidence": "LOW",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "network latency",
+      "pred_component": "IG01"
+    },
+    {
+      "row_id": 61,
+      "task_index": "task_5",
+      "gt_component": "Tomcat01",
+      "gt_reason": "high disk I/O read usage",
+      "truth_reasons": [
+        "high disk I/O read usage"
+      ],
+      "reason_group": "io_like",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 1,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 1,
+        "component": 1,
+        "reason": 0
+      },
+      "official_score": 0.5,
+      "reason_conditional_score": 1.0,
+      "official_strict": false,
+      "reason_conditional_strict": true,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "Tomcat01"
+    },
+    {
+      "row_id": 62,
+      "task_index": "task_2",
+      "gt_component": "Tomcat04",
+      "gt_reason": "high disk space usage",
+      "truth_reasons": [
+        "high disk space usage"
+      ],
+      "reason_group": "progressive_like",
+      "tolerance_minutes": [
+        30
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high CPU usage",
+      "pred_component": "Redis01"
+    },
+    {
+      "row_id": 63,
+      "task_index": "task_3",
+      "gt_component": "Tomcat02",
+      "gt_reason": "high disk I/O read usage",
+      "truth_reasons": [
+        "high disk I/O read usage"
+      ],
+      "reason_group": "io_like",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "official_score": 1.0,
+      "reason_conditional_score": 1.0,
+      "official_strict": true,
+      "reason_conditional_strict": true,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "Tomcat02"
+    },
+    {
+      "row_id": 64,
+      "task_index": "task_5",
+      "gt_component": "apache02",
+      "gt_reason": "high disk I/O read usage",
+      "truth_reasons": [
+        "high disk I/O read usage"
+      ],
+      "reason_group": "io_like",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 1,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 1,
+        "component": 1,
+        "reason": 0
+      },
+      "official_score": 0.5,
+      "reason_conditional_score": 1.0,
+      "official_strict": false,
+      "reason_conditional_strict": true,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "apache02"
+    },
+    {
+      "row_id": 65,
+      "task_index": "task_7",
+      "gt_component": "IG02",
+      "gt_reason": "high disk I/O read usage",
+      "truth_reasons": [
+        "high disk I/O read usage",
+        "high disk I/O read usage"
+      ],
+      "reason_group": "io_like",
+      "tolerance_minutes": [
+        5,
+        5
+      ],
+      "field_totals": {
+        "time": 2,
+        "component": 2,
+        "reason": 2
+      },
+      "official_hits": {
+        "time": 1,
+        "component": 2,
+        "reason": 2
+      },
+      "reason_conditional_hits": {
+        "time": 2,
+        "component": 2,
+        "reason": 2
+      },
+      "official_score": 0.8333333333333334,
+      "reason_conditional_score": 1.0,
+      "official_strict": false,
+      "reason_conditional_strict": true,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "IG02"
+    },
+    {
+      "row_id": 66,
+      "task_index": "task_5",
+      "gt_component": "MG02",
+      "gt_reason": "high disk I/O read usage",
+      "truth_reasons": [
+        "high disk I/O read usage",
+        "high disk I/O read usage"
+      ],
+      "reason_group": "io_like",
+      "tolerance_minutes": [
+        5,
+        5
+      ],
+      "field_totals": {
+        "time": 2,
+        "component": 2,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 1,
+        "component": 2,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 2,
+        "component": 2,
+        "reason": 0
+      },
+      "official_score": 0.75,
+      "reason_conditional_score": 1.0,
+      "official_strict": false,
+      "reason_conditional_strict": true,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "IG02"
+    },
+    {
+      "row_id": 67,
+      "task_index": "task_4",
+      "gt_component": "IG02",
+      "gt_reason": "high disk I/O read usage+network packet loss",
+      "truth_reasons": [
+        "network packet loss",
+        "high disk I/O read usage"
+      ],
+      "reason_group": "mixed",
+      "tolerance_minutes": [
+        2,
+        5
+      ],
+      "field_totals": {
+        "time": 2,
+        "component": 0,
+        "reason": 2
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "reason_conditional_hits": {
+        "time": 1,
+        "component": 0,
+        "reason": 1
+      },
+      "official_score": 0.25,
+      "reason_conditional_score": 0.5,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "IG02"
+    },
+    {
+      "row_id": 68,
+      "task_index": "task_2",
+      "gt_component": "Redis02",
+      "gt_reason": "high CPU usage",
+      "truth_reasons": [
+        "high CPU usage"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        1
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "official_score": 1.0,
+      "reason_conditional_score": 1.0,
+      "official_strict": true,
+      "reason_conditional_strict": true,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high CPU usage",
+      "pred_component": "Redis02"
+    },
+    {
+      "row_id": 69,
+      "task_index": "task_5",
+      "gt_component": "Redis02",
+      "gt_reason": "high CPU usage",
+      "truth_reasons": [
+        "high CPU usage"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        1
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 1,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "official_score": 0.5,
+      "reason_conditional_score": 0.5,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high CPU usage",
+      "pred_component": "Redis02"
+    },
+    {
+      "row_id": 70,
+      "task_index": "task_7",
+      "gt_component": "Mysql01",
+      "gt_reason": "high CPU usage",
+      "truth_reasons": [
+        "high CPU usage"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        1
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.3333333333333333,
+      "reason_conditional_score": 0.3333333333333333,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_only",
+      "confidence": "LOW",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "network packet loss",
+      "pred_component": "MG01"
+    },
+    {
+      "row_id": 71,
+      "task_index": "task_6",
+      "gt_component": "IG01",
+      "gt_reason": "high CPU usage",
+      "truth_reasons": [
+        "high CPU usage"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        1
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_only",
+      "confidence": "LOW",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "network packet loss",
+      "pred_component": "MG01"
+    },
+    {
+      "row_id": 72,
+      "task_index": "task_6",
+      "gt_component": "Tomcat04",
+      "gt_reason": "high CPU usage",
+      "truth_reasons": [
+        "high CPU usage"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        1
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_only",
+      "confidence": "LOW",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "network latency",
+      "pred_component": "dockerA1"
+    },
+    {
+      "row_id": 73,
+      "task_index": "task_2",
+      "gt_component": "Redis02",
+      "gt_reason": "high CPU usage",
+      "truth_reasons": [
+        "high CPU usage"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        1
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_only",
+      "confidence": "LOW",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "network latency",
+      "pred_component": "IG01"
+    },
+    {
+      "row_id": 74,
+      "task_index": "task_4",
+      "gt_component": "IG02",
+      "gt_reason": "high CPU usage",
+      "truth_reasons": [
+        "high CPU usage"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        1
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 0,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_only",
+      "confidence": "LOW",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "network latency",
+      "pred_component": "IG01"
+    },
+    {
+      "row_id": 75,
+      "task_index": "task_6",
+      "gt_component": "Tomcat03",
+      "gt_reason": "high CPU usage",
+      "truth_reasons": [
+        "high CPU usage"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        1
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_only",
+      "confidence": "LOW",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "network latency",
+      "pred_component": "IG01"
+    },
+    {
+      "row_id": 76,
+      "task_index": "task_6",
+      "gt_component": "IG02",
+      "gt_reason": "high CPU usage",
+      "truth_reasons": [
+        "high CPU usage"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        1
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_only",
+      "confidence": "LOW",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "network latency",
+      "pred_component": "IG01"
+    },
+    {
+      "row_id": 77,
+      "task_index": "task_3",
+      "gt_component": "IG01",
+      "gt_reason": "high CPU usage",
+      "truth_reasons": [
+        "high CPU usage"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        1
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "official_score": 1.0,
+      "reason_conditional_score": 1.0,
+      "official_strict": true,
+      "reason_conditional_strict": true,
+      "anchor_kind": "candidate_seed_only",
+      "confidence": "LOW",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "network latency",
+      "pred_component": "IG01"
+    },
+    {
+      "row_id": 78,
+      "task_index": "task_4",
+      "gt_component": "Tomcat01",
+      "gt_reason": "high CPU usage",
+      "truth_reasons": [
+        "high CPU usage"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        1
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 0,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_only",
+      "confidence": "LOW",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "network latency",
+      "pred_component": "IG01"
+    },
+    {
+      "row_id": 79,
+      "task_index": "task_5",
+      "gt_component": "Tomcat04",
+      "gt_reason": "high CPU usage",
+      "truth_reasons": [
+        "high CPU usage"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        1
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 1,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_only",
+      "confidence": "LOW",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "network latency",
+      "pred_component": "IG01"
+    },
+    {
+      "row_id": 80,
+      "task_index": "task_4",
+      "gt_component": "Redis02",
+      "gt_reason": "high CPU usage",
+      "truth_reasons": [
+        "high CPU usage"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        1
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 0,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_only",
+      "confidence": "LOW",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "network latency",
+      "pred_component": "IG01"
+    },
+    {
+      "row_id": 81,
+      "task_index": "task_1",
+      "gt_component": "IG02",
+      "gt_reason": "high CPU usage",
+      "truth_reasons": [
+        "high CPU usage"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        1
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_only",
+      "confidence": "LOW",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "network latency",
+      "pred_component": "IG01"
+    },
+    {
+      "row_id": 82,
+      "task_index": "task_2",
+      "gt_component": "Tomcat03",
+      "gt_reason": "high CPU usage",
+      "truth_reasons": [
+        "high CPU usage"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        1
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_only",
+      "confidence": "LOW",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "network latency",
+      "pred_component": "IG01"
+    },
+    {
+      "row_id": 83,
+      "task_index": "task_2",
+      "gt_component": "IG02",
+      "gt_reason": "high CPU usage",
+      "truth_reasons": [
+        "high CPU usage"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        1
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_only",
+      "confidence": "LOW",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "network latency",
+      "pred_component": "IG01"
+    },
+    {
+      "row_id": 84,
+      "task_index": "task_1",
+      "gt_component": "IG01",
+      "gt_reason": "high CPU usage",
+      "truth_reasons": [
+        "high CPU usage"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        1
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "Tomcat04"
+    },
+    {
+      "row_id": 85,
+      "task_index": "task_3",
+      "gt_component": "Tomcat01",
+      "gt_reason": "high CPU usage",
+      "truth_reasons": [
+        "high CPU usage"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        1
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "official_score": 1.0,
+      "reason_conditional_score": 1.0,
+      "official_strict": true,
+      "reason_conditional_strict": true,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high CPU usage",
+      "pred_component": "Tomcat01"
+    },
+    {
+      "row_id": 86,
+      "task_index": "task_1",
+      "gt_component": "apache01",
+      "gt_reason": "high CPU usage",
+      "truth_reasons": [
+        "high CPU usage"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        1
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 1.0,
+      "reason_conditional_score": 1.0,
+      "official_strict": true,
+      "reason_conditional_strict": true,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "network latency",
+      "pred_component": "IG01"
+    },
+    {
+      "row_id": 87,
+      "task_index": "task_5",
+      "gt_component": "IG02",
+      "gt_reason": "high CPU usage+high memory usage",
+      "truth_reasons": [
+        "high CPU usage",
+        "high memory usage"
+      ],
+      "reason_group": "mixed",
+      "tolerance_minutes": [
+        1,
+        15
+      ],
+      "field_totals": {
+        "time": 2,
+        "component": 2,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 1,
+        "component": 1,
+        "reason": 0
+      },
+      "official_score": 0.25,
+      "reason_conditional_score": 0.5,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "cross_metric_vote",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "MG01"
+    },
+    {
+      "row_id": 88,
+      "task_index": "task_5",
+      "gt_component": "MG01",
+      "gt_reason": "high CPU usage",
+      "truth_reasons": [
+        "high CPU usage"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        1
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 1,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "Tomcat01"
+    },
+    {
+      "row_id": 89,
+      "task_index": "task_2",
+      "gt_component": "Redis02",
+      "gt_reason": "high CPU usage",
+      "truth_reasons": [
+        "high CPU usage"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        1
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "official_score": 1.0,
+      "reason_conditional_score": 1.0,
+      "official_strict": true,
+      "reason_conditional_strict": true,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high CPU usage",
+      "pred_component": "Redis02"
+    },
+    {
+      "row_id": 90,
+      "task_index": "task_5",
+      "gt_component": "Redis01",
+      "gt_reason": "high CPU usage",
+      "truth_reasons": [
+        "high CPU usage"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        1
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 1,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "official_score": 0.5,
+      "reason_conditional_score": 0.5,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high CPU usage",
+      "pred_component": "Redis01"
+    },
+    {
+      "row_id": 91,
+      "task_index": "task_2",
+      "gt_component": "Tomcat04",
+      "gt_reason": "high memory usage",
+      "truth_reasons": [
+        "high memory usage"
+      ],
+      "reason_group": "progressive_like",
+      "tolerance_minutes": [
+        15
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_only",
+      "confidence": "LOW",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "network latency",
+      "pred_component": "IG01"
+    },
+    {
+      "row_id": 92,
+      "task_index": "task_1",
+      "gt_component": "Tomcat04",
+      "gt_reason": "high memory usage",
+      "truth_reasons": [
+        "high memory usage"
+      ],
+      "reason_group": "progressive_like",
+      "tolerance_minutes": [
+        15
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_only",
+      "confidence": "LOW",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "network latency",
+      "pred_component": "IG02"
+    },
+    {
+      "row_id": 93,
+      "task_index": "task_1",
+      "gt_component": "Mysql01",
+      "gt_reason": "high CPU usage+high memory usage",
+      "truth_reasons": [
+        "high CPU usage",
+        "high memory usage"
+      ],
+      "reason_group": "mixed",
+      "tolerance_minutes": [
+        1,
+        15
+      ],
+      "field_totals": {
+        "time": 2,
+        "component": 0,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.5,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "cross_metric_vote",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "MG01"
+    },
+    {
+      "row_id": 94,
+      "task_index": "task_1",
+      "gt_component": "Tomcat01",
+      "gt_reason": "high memory usage",
+      "truth_reasons": [
+        "high memory usage"
+      ],
+      "reason_group": "progressive_like",
+      "tolerance_minutes": [
+        15
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 1.0,
+      "official_strict": false,
+      "reason_conditional_strict": true,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high memory usage",
+      "pred_component": "Redis01"
+    },
+    {
+      "row_id": 95,
+      "task_index": "task_1",
+      "gt_component": "MG02",
+      "gt_reason": "network packet loss",
+      "truth_reasons": [
+        "network packet loss"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 1.0,
+      "reason_conditional_score": 1.0,
+      "official_strict": true,
+      "reason_conditional_strict": true,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "Tomcat03"
+    },
+    {
+      "row_id": 96,
+      "task_index": "task_7",
+      "gt_component": "Tomcat03",
+      "gt_reason": "network packet loss",
+      "truth_reasons": [
+        "network packet loss"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "cross_metric_vote",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "IG02"
+    },
+    {
+      "row_id": 97,
+      "task_index": "task_3",
+      "gt_component": "Tomcat01",
+      "gt_reason": "network packet loss",
+      "truth_reasons": [
+        "network packet loss"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "cross_metric_vote",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high CPU usage",
+      "pred_component": "Redis02"
+    },
+    {
+      "row_id": 98,
+      "task_index": "task_2",
+      "gt_component": "Tomcat02",
+      "gt_reason": "network latency",
+      "truth_reasons": [
+        "network latency"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "cross_metric_vote",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "Tomcat01"
+    },
+    {
+      "row_id": 99,
+      "task_index": "task_3",
+      "gt_component": "MG01",
+      "gt_reason": "network latency",
+      "truth_reasons": [
+        "network latency"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "cross_metric_vote",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "Mysql02"
+    },
+    {
+      "row_id": 100,
+      "task_index": "task_6",
+      "gt_component": "MG01",
+      "gt_reason": "network latency",
+      "truth_reasons": [
+        "network latency"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "IG01"
+    },
+    {
+      "row_id": 101,
+      "task_index": "task_4",
+      "gt_component": "MG02",
+      "gt_reason": "network latency",
+      "truth_reasons": [
+        "network latency"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 0,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high CPU usage",
+      "pred_component": "Redis02"
+    },
+    {
+      "row_id": 102,
+      "task_index": "task_2",
+      "gt_component": "Tomcat03",
+      "gt_reason": "network packet loss",
+      "truth_reasons": [
+        "network packet loss"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high CPU usage",
+      "pred_component": "IG02"
+    },
+    {
+      "row_id": 103,
+      "task_index": "task_5",
+      "gt_component": "MG02",
+      "gt_reason": "high disk I/O read usage+network latency",
+      "truth_reasons": [
+        "network latency",
+        "high disk I/O read usage"
+      ],
+      "reason_group": "mixed",
+      "tolerance_minutes": [
+        2,
+        5
+      ],
+      "field_totals": {
+        "time": 2,
+        "component": 2,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 2,
+        "component": 1,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 2,
+        "component": 1,
+        "reason": 0
+      },
+      "official_score": 0.75,
+      "reason_conditional_score": 0.75,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": true,
+      "score_delta_vs_rule": 0.25,
+      "change_kind": "improved",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "apache01"
+    },
+    {
+      "row_id": 104,
+      "task_index": "task_2",
+      "gt_component": "Tomcat03",
+      "gt_reason": "network packet loss",
+      "truth_reasons": [
+        "network packet loss"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "Mysql02"
+    },
+    {
+      "row_id": 105,
+      "task_index": "task_6",
+      "gt_component": "Tomcat03",
+      "gt_reason": "network latency",
+      "truth_reasons": [
+        "network latency"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "official_score": 0.5,
+      "reason_conditional_score": 0.5,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "Tomcat03"
+    },
+    {
+      "row_id": 106,
+      "task_index": "task_4",
+      "gt_component": "Tomcat01",
+      "gt_reason": "network packet loss",
+      "truth_reasons": [
+        "network packet loss"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 0,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "Mysql02"
+    },
+    {
+      "row_id": 107,
+      "task_index": "task_2",
+      "gt_component": "IG02",
+      "gt_reason": "network latency",
+      "truth_reasons": [
+        "network latency"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "Mysql01"
+    },
+    {
+      "row_id": 108,
+      "task_index": "task_7",
+      "gt_component": "Tomcat04",
+      "gt_reason": "high CPU usage+network packet loss",
+      "truth_reasons": [
+        "network packet loss",
+        "high CPU usage"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2,
+        1
+      ],
+      "field_totals": {
+        "time": 2,
+        "component": 2,
+        "reason": 2
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 1
+      },
+      "reason_conditional_hits": {
+        "time": 1,
+        "component": 1,
+        "reason": 1
+      },
+      "official_score": 0.3333333333333333,
+      "reason_conditional_score": 0.5,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high CPU usage",
+      "pred_component": "IG02"
+    },
+    {
+      "row_id": 109,
+      "task_index": "task_4",
+      "gt_component": "MG01",
+      "gt_reason": "network latency",
+      "truth_reasons": [
+        "network latency"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 0,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "IG01"
+    },
+    {
+      "row_id": 110,
+      "task_index": "task_7",
+      "gt_component": "apache01",
+      "gt_reason": "network packet loss",
+      "truth_reasons": [
+        "network packet loss"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.3333333333333333,
+      "reason_conditional_score": 0.3333333333333333,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "MG02"
+    },
+    {
+      "row_id": 111,
+      "task_index": "task_4",
+      "gt_component": "MG02",
+      "gt_reason": "network packet loss",
+      "truth_reasons": [
+        "network packet loss"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 0,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "Tomcat01"
+    },
+    {
+      "row_id": 112,
+      "task_index": "task_2",
+      "gt_component": "Tomcat02",
+      "gt_reason": "JVM Out of Memory (OOM) Heap",
+      "truth_reasons": [
+        "JVM Out of Memory (OOM) Heap"
+      ],
+      "reason_group": "progressive_like",
+      "tolerance_minutes": [
+        15
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_only",
+      "confidence": "LOW",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "network latency",
+      "pred_component": "IG01"
+    },
+    {
+      "row_id": 113,
+      "task_index": "task_1",
+      "gt_component": "Tomcat02",
+      "gt_reason": "JVM Out of Memory (OOM) Heap",
+      "truth_reasons": [
+        "JVM Out of Memory (OOM) Heap"
+      ],
+      "reason_group": "progressive_like",
+      "tolerance_minutes": [
+        15
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_only",
+      "confidence": "LOW",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "network latency",
+      "pred_component": "IG01"
+    },
+    {
+      "row_id": 114,
+      "task_index": "task_1",
+      "gt_component": "Tomcat02",
+      "gt_reason": "JVM Out of Memory (OOM) Heap",
+      "truth_reasons": [
+        "JVM Out of Memory (OOM) Heap"
+      ],
+      "reason_group": "progressive_like",
+      "tolerance_minutes": [
+        15
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "Mysql01"
+    },
+    {
+      "row_id": 115,
+      "task_index": "task_6",
+      "gt_component": "MG01",
+      "gt_reason": "high disk I/O read usage",
+      "truth_reasons": [
+        "high disk I/O read usage"
+      ],
+      "reason_group": "io_like",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "official_score": 0.5,
+      "reason_conditional_score": 0.5,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "cross_metric_vote",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "Tomcat02"
+    },
+    {
+      "row_id": 116,
+      "task_index": "task_4",
+      "gt_component": "MG01",
+      "gt_reason": "high disk I/O read usage",
+      "truth_reasons": [
+        "high disk I/O read usage"
+      ],
+      "reason_group": "io_like",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 0,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 1,
+        "component": 0,
+        "reason": 1
+      },
+      "reason_conditional_hits": {
+        "time": 1,
+        "component": 0,
+        "reason": 1
+      },
+      "official_score": 1.0,
+      "reason_conditional_score": 1.0,
+      "official_strict": true,
+      "reason_conditional_strict": true,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "MG01"
+    },
+    {
+      "row_id": 117,
+      "task_index": "task_3",
+      "gt_component": "Tomcat02",
+      "gt_reason": "high disk I/O read usage",
+      "truth_reasons": [
+        "high disk I/O read usage"
+      ],
+      "reason_group": "io_like",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "official_score": 1.0,
+      "reason_conditional_score": 1.0,
+      "official_strict": true,
+      "reason_conditional_strict": true,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "Tomcat02"
+    },
+    {
+      "row_id": 118,
+      "task_index": "task_4",
+      "gt_component": "MG02",
+      "gt_reason": "high disk I/O read usage",
+      "truth_reasons": [
+        "high disk I/O read usage"
+      ],
+      "reason_group": "io_like",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 0,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 1,
+        "component": 0,
+        "reason": 1
+      },
+      "reason_conditional_hits": {
+        "time": 1,
+        "component": 0,
+        "reason": 1
+      },
+      "official_score": 1.0,
+      "reason_conditional_score": 1.0,
+      "official_strict": true,
+      "reason_conditional_strict": true,
+      "anchor_kind": "cross_metric_vote",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "Tomcat03"
+    },
+    {
+      "row_id": 119,
+      "task_index": "task_4",
+      "gt_component": "apache01",
+      "gt_reason": "high disk space usage",
+      "truth_reasons": [
+        "high disk space usage"
+      ],
+      "reason_group": "progressive_like",
+      "tolerance_minutes": [
+        30
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 0,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.5,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "Tomcat03"
+    },
+    {
+      "row_id": 120,
+      "task_index": "task_4",
+      "gt_component": "apache01",
+      "gt_reason": "high disk I/O read usage+network latency",
+      "truth_reasons": [
+        "network latency",
+        "high disk I/O read usage"
+      ],
+      "reason_group": "mixed",
+      "tolerance_minutes": [
+        2,
+        5
+      ],
+      "field_totals": {
+        "time": 2,
+        "component": 0,
+        "reason": 2
+      },
+      "official_hits": {
+        "time": 2,
+        "component": 0,
+        "reason": 1
+      },
+      "reason_conditional_hits": {
+        "time": 2,
+        "component": 0,
+        "reason": 1
+      },
+      "official_score": 0.75,
+      "reason_conditional_score": 0.75,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": true,
+      "score_delta_vs_rule": 0.25,
+      "change_kind": "improved",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "apache01"
+    },
+    {
+      "row_id": 121,
+      "task_index": "task_1",
+      "gt_component": "MG02",
+      "gt_reason": "high disk I/O read usage",
+      "truth_reasons": [
+        "high disk I/O read usage"
+      ],
+      "reason_group": "io_like",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 1.0,
+      "official_strict": false,
+      "reason_conditional_strict": true,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "MG02"
+    },
+    {
+      "row_id": 122,
+      "task_index": "task_6",
+      "gt_component": "Tomcat01",
+      "gt_reason": "high disk I/O read usage",
+      "truth_reasons": [
+        "high disk I/O read usage"
+      ],
+      "reason_group": "io_like",
+      "tolerance_minutes": [
+        5
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 1
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 1
+      },
+      "official_score": 1.0,
+      "reason_conditional_score": 1.0,
+      "official_strict": true,
+      "reason_conditional_strict": true,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "Tomcat01"
+    },
+    {
+      "row_id": 123,
+      "task_index": "task_6",
+      "gt_component": "Tomcat03",
+      "gt_reason": "high CPU usage",
+      "truth_reasons": [
+        "high CPU usage"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        1
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 1
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 1
+      },
+      "official_score": 1.0,
+      "reason_conditional_score": 1.0,
+      "official_strict": true,
+      "reason_conditional_strict": true,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high CPU usage",
+      "pred_component": "Tomcat03"
+    },
+    {
+      "row_id": 124,
+      "task_index": "task_6",
+      "gt_component": "Tomcat03",
+      "gt_reason": "high CPU usage",
+      "truth_reasons": [
+        "high CPU usage"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        1
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 1
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 1
+      },
+      "official_score": 1.0,
+      "reason_conditional_score": 1.0,
+      "official_strict": true,
+      "reason_conditional_strict": true,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high CPU usage",
+      "pred_component": "Tomcat03"
+    },
+    {
+      "row_id": 125,
+      "task_index": "task_1",
+      "gt_component": "Tomcat01",
+      "gt_reason": "high CPU usage",
+      "truth_reasons": [
+        "high CPU usage"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        1
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "cross_metric_vote",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "Tomcat04"
+    },
+    {
+      "row_id": 126,
+      "task_index": "task_1",
+      "gt_component": "apache02",
+      "gt_reason": "high CPU usage",
+      "truth_reasons": [
+        "high CPU usage"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        1
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high CPU usage",
+      "pred_component": "apache02"
+    },
+    {
+      "row_id": 127,
+      "task_index": "task_4",
+      "gt_component": "MG01",
+      "gt_reason": "high CPU usage",
+      "truth_reasons": [
+        "high CPU usage"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        1
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 0,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "cross_metric_vote",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "IG02"
+    },
+    {
+      "row_id": 128,
+      "task_index": "task_6",
+      "gt_component": "Mysql02",
+      "gt_reason": "high CPU usage",
+      "truth_reasons": [
+        "high CPU usage"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        1
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "Tomcat03"
+    },
+    {
+      "row_id": 129,
+      "task_index": "task_3",
+      "gt_component": "Mysql02",
+      "gt_reason": "high CPU usage",
+      "truth_reasons": [
+        "high CPU usage"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        1
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "official_score": 1.0,
+      "reason_conditional_score": 1.0,
+      "official_strict": true,
+      "reason_conditional_strict": true,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high CPU usage",
+      "pred_component": "Mysql02"
+    },
+    {
+      "row_id": 130,
+      "task_index": "task_7",
+      "gt_component": "IG02",
+      "gt_reason": "high CPU usage+network packet loss",
+      "truth_reasons": [
+        "network packet loss",
+        "high CPU usage"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        2,
+        1
+      ],
+      "field_totals": {
+        "time": 2,
+        "component": 2,
+        "reason": 2
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 1
+      },
+      "reason_conditional_hits": {
+        "time": 1,
+        "component": 1,
+        "reason": 1
+      },
+      "official_score": 0.3333333333333333,
+      "reason_conditional_score": 0.5,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high CPU usage",
+      "pred_component": "IG02"
+    },
+    {
+      "row_id": 131,
+      "task_index": "task_7",
+      "gt_component": "Tomcat04",
+      "gt_reason": "high CPU usage",
+      "truth_reasons": [
+        "high CPU usage"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        1
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 1,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 1,
+        "reason": 0
+      },
+      "official_score": 0.3333333333333333,
+      "reason_conditional_score": 0.3333333333333333,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "cross_metric_vote",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "Tomcat04"
+    },
+    {
+      "row_id": 132,
+      "task_index": "task_1",
+      "gt_component": "Redis02",
+      "gt_reason": "high CPU usage",
+      "truth_reasons": [
+        "high CPU usage"
+      ],
+      "reason_group": "event_like",
+      "tolerance_minutes": [
+        1
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 0,
+        "reason": 0
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high CPU usage",
+      "pred_component": "Redis02"
+    },
+    {
+      "row_id": 133,
+      "task_index": "task_2",
+      "gt_component": "MG01",
+      "gt_reason": "high memory usage",
+      "truth_reasons": [
+        "high memory usage"
+      ],
+      "reason_group": "progressive_like",
+      "tolerance_minutes": [
+        15
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "cross_metric_vote",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high CPU usage",
+      "pred_component": "Tomcat01"
+    },
+    {
+      "row_id": 134,
+      "task_index": "task_2",
+      "gt_component": "Mysql02",
+      "gt_reason": "high memory usage",
+      "truth_reasons": [
+        "high memory usage"
+      ],
+      "reason_group": "progressive_like",
+      "tolerance_minutes": [
+        15
+      ],
+      "field_totals": {
+        "time": 0,
+        "component": 0,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "Mysql02"
+    },
+    {
+      "row_id": 135,
+      "task_index": "task_4",
+      "gt_component": "Redis02",
+      "gt_reason": "high memory usage",
+      "truth_reasons": [
+        "high memory usage"
+      ],
+      "reason_group": "progressive_like",
+      "tolerance_minutes": [
+        15
+      ],
+      "field_totals": {
+        "time": 1,
+        "component": 0,
+        "reason": 1
+      },
+      "official_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "reason_conditional_hits": {
+        "time": 0,
+        "component": 0,
+        "reason": 0
+      },
+      "official_score": 0.0,
+      "reason_conditional_score": 0.0,
+      "official_strict": false,
+      "reason_conditional_strict": false,
+      "anchor_kind": "candidate_seed_nearest",
+      "confidence": "MEDIUM",
+      "llm_status": "final",
+      "llm_changed_from_rule": false,
+      "final_changed_from_rule": false,
+      "score_delta_vs_rule": 0.0,
+      "change_kind": "same",
+      "pred_reason": "high disk I/O read usage",
+      "pred_component": "apache02"
+    }
+  ]
+}

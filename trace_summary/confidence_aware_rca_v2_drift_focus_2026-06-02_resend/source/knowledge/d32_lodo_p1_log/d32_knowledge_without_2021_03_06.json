@@ -1,0 +1,4127 @@
+{
+  "version": 1,
+  "design": "d32_layer1_knowledge",
+  "config": {
+    "cluster_threshold": 0.48,
+    "min_rule_support": 3,
+    "min_rule_confidence": 0.62,
+    "max_rule_len": 2,
+    "validate_rules_lodo": true,
+    "min_rule_validation_support": 1,
+    "min_rule_validation_confidence": 0.5,
+    "min_rule_validation_dates": 2
+  },
+  "cases": [
+    {
+      "case_id": "query_000",
+      "row_id": 0,
+      "component": "Mysql02",
+      "reason": "high memory usage",
+      "task_index": "task_1",
+      "date_key": "2021_03_04",
+      "signature": {
+        "case_id": "query_000",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_001",
+      "row_id": 1,
+      "component": "Redis02",
+      "reason": "high memory usage",
+      "task_index": "task_6",
+      "date_key": "2021_03_04",
+      "signature": {
+        "case_id": "query_001",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_003",
+      "row_id": 3,
+      "component": "Tomcat02",
+      "reason": "network latency",
+      "task_index": "task_1",
+      "date_key": "2021_03_04",
+      "signature": {
+        "case_id": "query_003",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_009",
+      "row_id": 9,
+      "component": "MG02",
+      "reason": "network packet loss",
+      "task_index": "task_6",
+      "date_key": "2021_03_07",
+      "signature": {
+        "case_id": "query_009",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_010",
+      "row_id": 10,
+      "component": "Tomcat02",
+      "reason": "network latency",
+      "task_index": "task_3",
+      "date_key": "2021_03_07",
+      "signature": {
+        "case_id": "query_010",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_011",
+      "row_id": 11,
+      "component": "MG01",
+      "reason": "network latency",
+      "task_index": "task_1",
+      "date_key": "2021_03_07",
+      "signature": {
+        "case_id": "query_011",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_012",
+      "row_id": 12,
+      "component": "Tomcat04",
+      "reason": "network packet loss",
+      "task_index": "task_3",
+      "date_key": "2021_03_07",
+      "signature": {
+        "case_id": "query_012",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_013",
+      "row_id": 13,
+      "component": "apache02",
+      "reason": "network latency",
+      "task_index": "task_4",
+      "date_key": "2021_03_07",
+      "signature": {
+        "case_id": "query_013",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_014",
+      "row_id": 14,
+      "component": "Tomcat01",
+      "reason": "network packet loss",
+      "task_index": "task_2",
+      "date_key": "2021_03_07",
+      "signature": {
+        "case_id": "query_014",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_015",
+      "row_id": 15,
+      "component": "apache02",
+      "reason": "network packet loss",
+      "task_index": "task_4",
+      "date_key": "2021_03_09",
+      "signature": {
+        "case_id": "query_015",
+        "services": [
+          {
+            "service": "Tomcat02",
+            "metric": {},
+            "log": {
+              "jvm_oom": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 4685.0,
+                "examples": [
+                  "423665.077: [Full GC (Metadata GC Threshold) 2021-03-09T08:00:00.153+0800: 423665.077: [CMS: 934525K->934526K(3145728K), 1.8793948 secs] 934532K->934526K(408947",
+                  "423666.958: [Full GC (Last ditch collection) 2021-03-09T08:00:02.034+0800: 423666.958: [CMS: 934526K->934526K(3145728K), 1.9824885 secs] 934526K->934526K(408947",
+                  "423668.947: [Full GC (Metadata GC Threshold) 2021-03-09T08:00:04.023+0800: 423668.947: [CMS: 934526K->934526K(3145728K), 1.8510345 secs] 934528K->934526K(408947"
+                ]
+              }
+            },
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "log:jvm_oom"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_016",
+      "row_id": 16,
+      "component": "IG02",
+      "reason": "network packet loss",
+      "task_index": "task_1",
+      "date_key": "2021_03_09",
+      "signature": {
+        "case_id": "query_016",
+        "services": [
+          {
+            "service": "Tomcat02",
+            "metric": {},
+            "log": {
+              "jvm_oom": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 4725.0,
+                "examples": [
+                  "427266.805: [Full GC (Metadata GC Threshold) 2021-03-09T09:00:01.881+0800: 427266.805: [CMS: 937628K->937628K(3145728K), 1.8514517 secs] 937628K->937628K(408947",
+                  "427268.659: [Full GC (Last ditch collection) 2021-03-09T09:00:03.735+0800: 427268.659: [CMS: 937628K->937628K(3145728K), 1.8575593 secs] 937628K->937628K(408947",
+                  "427270.524: [Full GC (Metadata GC Threshold) 2021-03-09T09:00:05.600+0800: 427270.524: [CMS: 937628K->937626K(3145728K), 1.8582639 secs] 940246K->937626K(408947"
+                ]
+              }
+            },
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "log:jvm_oom"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_017",
+      "row_id": 17,
+      "component": "Tomcat01",
+      "reason": "network latency",
+      "task_index": "task_6",
+      "date_key": "2021_03_09",
+      "signature": {
+        "case_id": "query_017",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_018",
+      "row_id": 18,
+      "component": "MG02",
+      "reason": "network packet loss",
+      "task_index": "task_6",
+      "date_key": "2021_03_09",
+      "signature": {
+        "case_id": "query_018",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_019",
+      "row_id": 19,
+      "component": "MG02",
+      "reason": "network latency",
+      "task_index": "task_3",
+      "date_key": "2021_03_09",
+      "signature": {
+        "case_id": "query_019",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_020",
+      "row_id": 20,
+      "component": "Tomcat01",
+      "reason": "network packet loss",
+      "task_index": "task_5",
+      "date_key": "2021_03_09",
+      "signature": {
+        "case_id": "query_020",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_021",
+      "row_id": 21,
+      "component": "MG02",
+      "reason": "network latency",
+      "task_index": "task_5",
+      "date_key": "2021_03_09",
+      "signature": {
+        "case_id": "query_021",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_022",
+      "row_id": 22,
+      "component": "Tomcat02",
+      "reason": "network latency",
+      "task_index": "task_1",
+      "date_key": "2021_03_09",
+      "signature": {
+        "case_id": "query_022",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_023",
+      "row_id": 23,
+      "component": "apache01",
+      "reason": "network packet loss",
+      "task_index": "task_7",
+      "date_key": "2021_03_09",
+      "signature": {
+        "case_id": "query_023",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_024",
+      "row_id": 24,
+      "component": "apache01",
+      "reason": "network latency",
+      "task_index": "task_6",
+      "date_key": "2021_03_09",
+      "signature": {
+        "case_id": "query_024",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_025",
+      "row_id": 25,
+      "component": "apache02",
+      "reason": "network latency",
+      "task_index": "task_3",
+      "date_key": "2021_03_10",
+      "signature": {
+        "case_id": "query_025",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_026",
+      "row_id": 26,
+      "component": "Tomcat01",
+      "reason": "network packet loss",
+      "task_index": "task_7",
+      "date_key": "2021_03_10",
+      "signature": {
+        "case_id": "query_026",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_027",
+      "row_id": 27,
+      "component": "apache02",
+      "reason": "network packet loss",
+      "task_index": "task_6",
+      "date_key": "2021_03_10",
+      "signature": {
+        "case_id": "query_027",
+        "services": [
+          {
+            "service": "Mysql01",
+            "metric": {},
+            "log": {
+              "network_packet_loss": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 20.0,
+                "examples": [
+                  "# User@Host: OperName[OperName] @  [IPAddress]  Id: 1349363 # Query_time: 0.636499  Lock_time: 0.000124 Rows_sent: 1  Rows_examined: 1 SET timestamp=1615359650;",
+                  "# User@Host: OperName[OperName] @  [IPAddress]  Id: 1348476 # Query_time: 0.176325  Lock_time: 0.000099 Rows_sent: 1  Rows_examined: 1 SET timestamp=1615360263;",
+                  "# User@Host: OperName[OperName] @  [IPAddress]  Id: 1349363 # Query_time: 0.214596  Lock_time: 0.000130 Rows_sent: 1  Rows_examined: 1 SET timestamp=1615360263;"
+                ]
+              }
+            },
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "log:network_packet_loss"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_028",
+      "row_id": 28,
+      "component": "apache02",
+      "reason": "network latency",
+      "task_index": "task_5",
+      "date_key": "2021_03_10",
+      "signature": {
+        "case_id": "query_028",
+        "services": [
+          {
+            "service": "Mysql01",
+            "metric": {},
+            "log": {
+              "network_packet_loss": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 20.0,
+                "examples": [
+                  "# User@Host: OperName[OperName] @  [IPAddress]  Id: 1349363 # Query_time: 0.636499  Lock_time: 0.000124 Rows_sent: 1  Rows_examined: 1 SET timestamp=1615359650;",
+                  "# User@Host: OperName[OperName] @  [IPAddress]  Id: 1348476 # Query_time: 0.176325  Lock_time: 0.000099 Rows_sent: 1  Rows_examined: 1 SET timestamp=1615360263;",
+                  "# User@Host: OperName[OperName] @  [IPAddress]  Id: 1349363 # Query_time: 0.214596  Lock_time: 0.000130 Rows_sent: 1  Rows_examined: 1 SET timestamp=1615360263;"
+                ]
+              }
+            },
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "log:network_packet_loss"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_029",
+      "row_id": 29,
+      "component": "Tomcat01",
+      "reason": "network latency",
+      "task_index": "task_5",
+      "date_key": "2021_03_10",
+      "signature": {
+        "case_id": "query_029",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_030",
+      "row_id": 30,
+      "component": "Tomcat03",
+      "reason": "network packet loss",
+      "task_index": "task_2",
+      "date_key": "2021_03_10",
+      "signature": {
+        "case_id": "query_030",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_031",
+      "row_id": 31,
+      "component": "MG01",
+      "reason": "network packet loss",
+      "task_index": "task_2",
+      "date_key": "2021_03_12",
+      "signature": {
+        "case_id": "query_031",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_032",
+      "row_id": 32,
+      "component": "Tomcat01",
+      "reason": "network packet loss",
+      "task_index": "task_3",
+      "date_key": "2021_03_12",
+      "signature": {
+        "case_id": "query_032",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_033",
+      "row_id": 33,
+      "component": "MG02",
+      "reason": "network packet loss",
+      "task_index": "task_7",
+      "date_key": "2021_03_12",
+      "signature": {
+        "case_id": "query_033",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_034",
+      "row_id": 34,
+      "component": "MG01",
+      "reason": "network packet loss",
+      "task_index": "task_2",
+      "date_key": "2021_03_12",
+      "signature": {
+        "case_id": "query_034",
+        "services": [
+          {
+            "service": "Mysql01",
+            "metric": {},
+            "log": {
+              "network_packet_loss": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 15.0,
+                "examples": [
+                  "# User@Host: OperName[OperName] @  [IPAddress]  Id: 1352360 # Query_time: 0.308113  Lock_time: 0.000096 Rows_sent: 1  Rows_examined: 1 SET timestamp=1615534248;",
+                  "# User@Host: OperName[OperName] @  [IPAddress]  Id: 1359223 # Query_time: 0.282006  Lock_time: 0.000093 Rows_sent: 1  Rows_examined: 1 SET timestamp=1615534248;"
+                ]
+              }
+            },
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "log:network_packet_loss"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_035",
+      "row_id": 35,
+      "component": "apache02",
+      "reason": "network packet loss",
+      "task_index": "task_7",
+      "date_key": "2021_03_12",
+      "signature": {
+        "case_id": "query_035",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_036",
+      "row_id": 36,
+      "component": "Tomcat03",
+      "reason": "network packet loss",
+      "task_index": "task_5",
+      "date_key": "2021_03_12",
+      "signature": {
+        "case_id": "query_036",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_037",
+      "row_id": 37,
+      "component": "apache02",
+      "reason": "network packet loss",
+      "task_index": "task_1",
+      "date_key": "2021_03_12",
+      "signature": {
+        "case_id": "query_037",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_038",
+      "row_id": 38,
+      "component": "MG01",
+      "reason": "network packet loss",
+      "task_index": "task_5",
+      "date_key": "2021_03_23",
+      "signature": {
+        "case_id": "query_038",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_039",
+      "row_id": 39,
+      "component": "Tomcat04",
+      "reason": "network packet loss",
+      "task_index": "task_3",
+      "date_key": "2021_03_23",
+      "signature": {
+        "case_id": "query_039",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_040",
+      "row_id": 40,
+      "component": "MG01",
+      "reason": "network packet loss",
+      "task_index": "task_4",
+      "date_key": "2021_03_23",
+      "signature": {
+        "case_id": "query_040",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_041",
+      "row_id": 41,
+      "component": "Tomcat04",
+      "reason": "network latency",
+      "task_index": "task_1",
+      "date_key": "2021_03_23",
+      "signature": {
+        "case_id": "query_041",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_042",
+      "row_id": 42,
+      "component": "MG02",
+      "reason": "network latency",
+      "task_index": "task_1",
+      "date_key": "2021_03_23",
+      "signature": {
+        "case_id": "query_042",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_043",
+      "row_id": 43,
+      "component": "MG01",
+      "reason": "network latency",
+      "task_index": "task_7",
+      "date_key": "2021_03_23",
+      "signature": {
+        "case_id": "query_043",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_044",
+      "row_id": 44,
+      "component": "Tomcat04",
+      "reason": "network packet loss",
+      "task_index": "task_7",
+      "date_key": "2021_03_23",
+      "signature": {
+        "case_id": "query_044",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_045",
+      "row_id": 45,
+      "component": "MG02",
+      "reason": "high JVM CPU load",
+      "task_index": "task_3",
+      "date_key": "2021_03_04",
+      "signature": {
+        "case_id": "query_045",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_046",
+      "row_id": 46,
+      "component": "MG02",
+      "reason": "high JVM CPU load",
+      "task_index": "task_2",
+      "date_key": "2021_03_04",
+      "signature": {
+        "case_id": "query_046",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_047",
+      "row_id": 47,
+      "component": "IG01",
+      "reason": "high JVM CPU load",
+      "task_index": "task_1",
+      "date_key": "2021_03_04",
+      "signature": {
+        "case_id": "query_047",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": [
+          "log:empty_window"
+        ]
+      }
+    },
+    {
+      "case_id": "query_048",
+      "row_id": 48,
+      "component": "MG02",
+      "reason": "JVM Out of Memory (OOM) Heap",
+      "task_index": "task_2",
+      "date_key": "2021_03_04",
+      "signature": {
+        "case_id": "query_048",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_049",
+      "row_id": 49,
+      "component": "MG02",
+      "reason": "JVM Out of Memory (OOM) Heap",
+      "task_index": "task_5",
+      "date_key": "2021_03_04",
+      "signature": {
+        "case_id": "query_049",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": [
+          "log:empty_window"
+        ]
+      }
+    },
+    {
+      "case_id": "query_050",
+      "row_id": 50,
+      "component": "MG01",
+      "reason": "JVM Out of Memory (OOM) Heap",
+      "task_index": "task_1",
+      "date_key": "2021_03_04",
+      "signature": {
+        "case_id": "query_050",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": [
+          "log:empty_window"
+        ]
+      }
+    },
+    {
+      "case_id": "query_051",
+      "row_id": 51,
+      "component": "IG01",
+      "reason": "JVM Out of Memory (OOM) Heap",
+      "task_index": "task_1",
+      "date_key": "2021_03_04",
+      "signature": {
+        "case_id": "query_051",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": [
+          "log:empty_window"
+        ]
+      }
+    },
+    {
+      "case_id": "query_052",
+      "row_id": 52,
+      "component": "Tomcat03",
+      "reason": "high disk I/O read usage",
+      "task_index": "task_6",
+      "date_key": "2021_03_04",
+      "signature": {
+        "case_id": "query_052",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": [
+          "log:empty_window"
+        ]
+      }
+    },
+    {
+      "case_id": "query_055",
+      "row_id": 55,
+      "component": "Tomcat01",
+      "reason": "high disk I/O read usage",
+      "task_index": "task_5",
+      "date_key": "2021_03_07",
+      "signature": {
+        "case_id": "query_055",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_056",
+      "row_id": 56,
+      "component": "Tomcat01",
+      "reason": "high disk I/O read usage",
+      "task_index": "task_7",
+      "date_key": "2021_03_07",
+      "signature": {
+        "case_id": "query_056",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_057",
+      "row_id": 57,
+      "component": "apache01",
+      "reason": "high disk I/O read usage",
+      "task_index": "task_2",
+      "date_key": "2021_03_09",
+      "signature": {
+        "case_id": "query_057",
+        "services": [
+          {
+            "service": "Tomcat02",
+            "metric": {},
+            "log": {
+              "jvm_oom": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 4680.0,
+                "examples": [
+                  "398466.156: [Full GC (Metadata GC Threshold) 2021-03-09T01:00:01.232+0800: 398466.156: [CMS2021-03-09T01:00:01.713+0800: 398466.637: [CMS-concurrent-mark: 0.470",
+                  "398468.575: [Full GC (Last ditch collection) 2021-03-09T01:00:03.651+0800: 398468.575: [CMS: 937691K->937662K(3145728K), 1.8893805 secs] 937691K->937662K(408947",
+                  "398470.474: [Full GC (Metadata GC Threshold) 2021-03-09T01:00:05.550+0800: 398470.474: [CMS: 937662K->937662K(3145728K), 1.8701776 secs] 937698K->937662K(408947"
+                ]
+              }
+            },
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "log:jvm_oom"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_058",
+      "row_id": 58,
+      "component": "IG02",
+      "reason": "high disk space usage",
+      "task_index": "task_2",
+      "date_key": "2021_03_09",
+      "signature": {
+        "case_id": "query_058",
+        "services": [
+          {
+            "service": "Tomcat02",
+            "metric": {},
+            "log": {
+              "jvm_oom": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 4715.0,
+                "examples": [
+                  "412866.396: [Full GC (Metadata GC Threshold) 2021-03-09T05:00:01.472+0800: 412866.396: [CMS2021-03-09T05:00:01.923+0800: 412866.847: [CMS-concurrent-mark: 0.453",
+                  "412868.723: [Full GC (Last ditch collection) 2021-03-09T05:00:03.799+0800: 412868.724: [CMS: 938199K->938101K(3145728K), 1.8685657 secs] 938199K->938101K(408947",
+                  "412870.601: [Full GC (Metadata GC Threshold) 2021-03-09T05:00:05.677+0800: 412870.601: [CMS: 938101K->938101K(3145728K), 1.8339710 secs] 938128K->938101K(408947"
+                ]
+              }
+            },
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "log:jvm_oom"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_059",
+      "row_id": 59,
+      "component": "Tomcat01",
+      "reason": "high disk I/O read usage",
+      "task_index": "task_6",
+      "date_key": "2021_03_09",
+      "signature": {
+        "case_id": "query_059",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_060",
+      "row_id": 60,
+      "component": "apache01",
+      "reason": "high disk space usage",
+      "task_index": "task_4",
+      "date_key": "2021_03_09",
+      "signature": {
+        "case_id": "query_060",
+        "services": [
+          {
+            "service": "Mysql01",
+            "metric": {},
+            "log": {
+              "network_packet_loss": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 10.0,
+                "examples": [
+                  "# User@Host: OperName[OperName] @  [IPAddress]  Id: 1340750 # Query_time: 0.231168  Lock_time: 0.000107 Rows_sent: 1  Rows_examined: 1 SET timestamp=1615282361;"
+                ]
+              }
+            },
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "log:network_packet_loss"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_061",
+      "row_id": 61,
+      "component": "Tomcat01",
+      "reason": "high disk I/O read usage",
+      "task_index": "task_5",
+      "date_key": "2021_03_10",
+      "signature": {
+        "case_id": "query_061",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_062",
+      "row_id": 62,
+      "component": "Tomcat04",
+      "reason": "high disk space usage",
+      "task_index": "task_2",
+      "date_key": "2021_03_10",
+      "signature": {
+        "case_id": "query_062",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_063",
+      "row_id": 63,
+      "component": "Tomcat02",
+      "reason": "high disk I/O read usage",
+      "task_index": "task_3",
+      "date_key": "2021_03_10",
+      "signature": {
+        "case_id": "query_063",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_064",
+      "row_id": 64,
+      "component": "apache02",
+      "reason": "high disk I/O read usage",
+      "task_index": "task_5",
+      "date_key": "2021_03_10",
+      "signature": {
+        "case_id": "query_064",
+        "services": [
+          {
+            "service": "Mysql01",
+            "metric": {},
+            "log": {
+              "network_packet_loss": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 15.0,
+                "examples": [
+                  "# User@Host: OperName[OperName] @  [IPAddress]  Id: 1348476 # Query_time: 0.272614  Lock_time: 0.000116 Rows_sent: 1  Rows_examined: 1 SET timestamp=1615361452;",
+                  "# User@Host: OperName[OperName] @  [IPAddress]  Id: 1349340 # Query_time: 0.158541  Lock_time: 0.000096 Rows_sent: 1  Rows_examined: 1 SET timestamp=1615361452;"
+                ]
+              }
+            },
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "log:network_packet_loss"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_065",
+      "row_id": 65,
+      "component": "IG02",
+      "reason": "high disk I/O read usage",
+      "task_index": "task_7",
+      "date_key": "2021_03_10",
+      "signature": {
+        "case_id": "query_065",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_066",
+      "row_id": 66,
+      "component": "MG02",
+      "reason": "high disk I/O read usage",
+      "task_index": "task_5",
+      "date_key": "2021_03_10",
+      "signature": {
+        "case_id": "query_066",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_067",
+      "row_id": 67,
+      "component": "IG02",
+      "reason": "high disk I/O read usage",
+      "task_index": "task_4",
+      "date_key": "2021_03_12",
+      "signature": {
+        "case_id": "query_067",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_068",
+      "row_id": 68,
+      "component": "Redis02",
+      "reason": "high CPU usage",
+      "task_index": "task_2",
+      "date_key": "2021_03_04",
+      "signature": {
+        "case_id": "query_068",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_069",
+      "row_id": 69,
+      "component": "Redis02",
+      "reason": "high CPU usage",
+      "task_index": "task_5",
+      "date_key": "2021_03_04",
+      "signature": {
+        "case_id": "query_069",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": [
+          "log:empty_window"
+        ]
+      }
+    },
+    {
+      "case_id": "query_073",
+      "row_id": 73,
+      "component": "Redis02",
+      "reason": "high CPU usage",
+      "task_index": "task_2",
+      "date_key": "2021_03_07",
+      "signature": {
+        "case_id": "query_073",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_074",
+      "row_id": 74,
+      "component": "IG02",
+      "reason": "high CPU usage",
+      "task_index": "task_4",
+      "date_key": "2021_03_07",
+      "signature": {
+        "case_id": "query_074",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_075",
+      "row_id": 75,
+      "component": "Tomcat03",
+      "reason": "high CPU usage",
+      "task_index": "task_6",
+      "date_key": "2021_03_07",
+      "signature": {
+        "case_id": "query_075",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_076",
+      "row_id": 76,
+      "component": "IG02",
+      "reason": "high CPU usage",
+      "task_index": "task_6",
+      "date_key": "2021_03_07",
+      "signature": {
+        "case_id": "query_076",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_077",
+      "row_id": 77,
+      "component": "IG01",
+      "reason": "high CPU usage",
+      "task_index": "task_3",
+      "date_key": "2021_03_07",
+      "signature": {
+        "case_id": "query_077",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_078",
+      "row_id": 78,
+      "component": "Tomcat01",
+      "reason": "high CPU usage",
+      "task_index": "task_4",
+      "date_key": "2021_03_07",
+      "signature": {
+        "case_id": "query_078",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_079",
+      "row_id": 79,
+      "component": "Tomcat04",
+      "reason": "high CPU usage",
+      "task_index": "task_5",
+      "date_key": "2021_03_09",
+      "signature": {
+        "case_id": "query_079",
+        "services": [
+          {
+            "service": "Tomcat02",
+            "metric": {},
+            "log": {
+              "jvm_oom": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 4835.0,
+                "examples": [
+                  "429066.014: [Full GC (Metadata GC Threshold) 2021-03-09T09:30:01.090+0800: 429066.014: [CMS: 932379K->932384K(3145728K), 1.8466780 secs] 932636K->932384K(408947",
+                  "429067.862: [Full GC (Last ditch collection) 2021-03-09T09:30:02.938+0800: 429067.862: [CMS: 932384K->932375K(3145728K), 1.8593162 secs] 932384K->932375K(408947",
+                  "429069.769: [Full GC (Metadata GC Threshold) 2021-03-09T09:30:04.845+0800: 429069.769: [CMS2021-03-09T09:30:05.338+0800: 429070.262: [CMS-concurrent-mark: 0.477"
+                ]
+              }
+            },
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "log:jvm_oom"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_080",
+      "row_id": 80,
+      "component": "Redis02",
+      "reason": "high CPU usage",
+      "task_index": "task_4",
+      "date_key": "2021_03_09",
+      "signature": {
+        "case_id": "query_080",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_081",
+      "row_id": 81,
+      "component": "IG02",
+      "reason": "high CPU usage",
+      "task_index": "task_1",
+      "date_key": "2021_03_09",
+      "signature": {
+        "case_id": "query_081",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_082",
+      "row_id": 82,
+      "component": "Tomcat03",
+      "reason": "high CPU usage",
+      "task_index": "task_2",
+      "date_key": "2021_03_09",
+      "signature": {
+        "case_id": "query_082",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_083",
+      "row_id": 83,
+      "component": "IG02",
+      "reason": "high CPU usage",
+      "task_index": "task_2",
+      "date_key": "2021_03_09",
+      "signature": {
+        "case_id": "query_083",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_084",
+      "row_id": 84,
+      "component": "IG01",
+      "reason": "high CPU usage",
+      "task_index": "task_1",
+      "date_key": "2021_03_10",
+      "signature": {
+        "case_id": "query_084",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_085",
+      "row_id": 85,
+      "component": "Tomcat01",
+      "reason": "high CPU usage",
+      "task_index": "task_3",
+      "date_key": "2021_03_10",
+      "signature": {
+        "case_id": "query_085",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_086",
+      "row_id": 86,
+      "component": "apache01",
+      "reason": "high CPU usage",
+      "task_index": "task_1",
+      "date_key": "2021_03_10",
+      "signature": {
+        "case_id": "query_086",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_087",
+      "row_id": 87,
+      "component": "IG02",
+      "reason": "high CPU usage",
+      "task_index": "task_5",
+      "date_key": "2021_03_12",
+      "signature": {
+        "case_id": "query_087",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_088",
+      "row_id": 88,
+      "component": "MG01",
+      "reason": "high CPU usage",
+      "task_index": "task_5",
+      "date_key": "2021_03_12",
+      "signature": {
+        "case_id": "query_088",
+        "services": [
+          {
+            "service": "Mysql01",
+            "metric": {},
+            "log": {
+              "network_packet_loss": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 10.0,
+                "examples": [
+                  "# User@Host: OperName[OperName] @  [IPAddress]  Id: 1352300 # Query_time: 0.179139  Lock_time: 0.000086 Rows_sent: 1  Rows_examined: 1 SET timestamp=1615532636;"
+                ]
+              }
+            },
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "log:network_packet_loss"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_089",
+      "row_id": 89,
+      "component": "Redis02",
+      "reason": "high CPU usage",
+      "task_index": "task_2",
+      "date_key": "2021_03_12",
+      "signature": {
+        "case_id": "query_089",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_090",
+      "row_id": 90,
+      "component": "Redis01",
+      "reason": "high CPU usage",
+      "task_index": "task_5",
+      "date_key": "2021_03_12",
+      "signature": {
+        "case_id": "query_090",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_091",
+      "row_id": 91,
+      "component": "Tomcat04",
+      "reason": "high memory usage",
+      "task_index": "task_2",
+      "date_key": "2021_03_07",
+      "signature": {
+        "case_id": "query_091",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_092",
+      "row_id": 92,
+      "component": "Tomcat04",
+      "reason": "high memory usage",
+      "task_index": "task_1",
+      "date_key": "2021_03_09",
+      "signature": {
+        "case_id": "query_092",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_093",
+      "row_id": 93,
+      "component": "Mysql01",
+      "reason": "high memory usage",
+      "task_index": "task_1",
+      "date_key": "2021_03_12",
+      "signature": {
+        "case_id": "query_093",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_094",
+      "row_id": 94,
+      "component": "Tomcat01",
+      "reason": "high memory usage",
+      "task_index": "task_1",
+      "date_key": "2021_03_23",
+      "signature": {
+        "case_id": "query_094",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_095",
+      "row_id": 95,
+      "component": "MG02",
+      "reason": "network packet loss",
+      "task_index": "task_1",
+      "date_key": "2021_03_23",
+      "signature": {
+        "case_id": "query_095",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_096",
+      "row_id": 96,
+      "component": "Tomcat03",
+      "reason": "network packet loss",
+      "task_index": "task_7",
+      "date_key": "2021_03_24",
+      "signature": {
+        "case_id": "query_096",
+        "services": [
+          {
+            "service": "Mysql01",
+            "metric": {},
+            "log": {
+              "network_packet_loss": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 20.0,
+                "examples": [
+                  "# User@Host: OperName[OperName] @  [IPAddress]  Id: 1430504 # Query_time: 0.120794  Lock_time: 0.000091 Rows_sent: 1  Rows_examined: 1 SET timestamp=1616555596;",
+                  "# User@Host: OperName[OperName] @  [IPAddress]  Id: 1418007 # Query_time: 1.331103  Lock_time: 0.000100 Rows_sent: 1  Rows_examined: 1 SET timestamp=1616555624;",
+                  "# User@Host: OperName[OperName] @  [IPAddress]  Id: 1430504 # Query_time: 1.340035  Lock_time: 0.000126 Rows_sent: 1  Rows_examined: 1 SET timestamp=1616555624;"
+                ]
+              }
+            },
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "log:network_packet_loss"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_097",
+      "row_id": 97,
+      "component": "Tomcat01",
+      "reason": "network packet loss",
+      "task_index": "task_3",
+      "date_key": "2021_03_24",
+      "signature": {
+        "case_id": "query_097",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_098",
+      "row_id": 98,
+      "component": "Tomcat02",
+      "reason": "network latency",
+      "task_index": "task_2",
+      "date_key": "2021_03_24",
+      "signature": {
+        "case_id": "query_098",
+        "services": [
+          {
+            "service": "Mysql01",
+            "metric": {},
+            "log": {
+              "network_packet_loss": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 10.0,
+                "examples": [
+                  "# User@Host: OperName[OperName] @  [IPAddress]  Id: 1432463 # Query_time: 0.575940  Lock_time: 0.000127 Rows_sent: 1  Rows_examined: 1 SET timestamp=1616569175;"
+                ]
+              }
+            },
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "log:network_packet_loss"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_099",
+      "row_id": 99,
+      "component": "MG01",
+      "reason": "network latency",
+      "task_index": "task_3",
+      "date_key": "2021_03_24",
+      "signature": {
+        "case_id": "query_099",
+        "services": [
+          {
+            "service": "Mysql01",
+            "metric": {},
+            "log": {
+              "network_packet_loss": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 25.0,
+                "examples": [
+                  "# User@Host: OperName[OperName] @  [IPAddress]  Id: 1432430 # Query_time: 0.192011  Lock_time: 0.000086 Rows_sent: 1  Rows_examined: 1 SET timestamp=1616569722;",
+                  "# User@Host: OperName[OperName] @  [IPAddress]  Id: 1430504 # Query_time: 0.222452  Lock_time: 0.000090 Rows_sent: 1  Rows_examined: 1 SET timestamp=1616569722;",
+                  "# User@Host: OperName[OperName] @  [IPAddress]  Id: 1432430 # Query_time: 3.300554  Lock_time: 0.000115 Rows_sent: 1  Rows_examined: 1 SET timestamp=1616569743;"
+                ]
+              }
+            },
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "log:network_packet_loss"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_100",
+      "row_id": 100,
+      "component": "MG01",
+      "reason": "network latency",
+      "task_index": "task_6",
+      "date_key": "2021_03_24",
+      "signature": {
+        "case_id": "query_100",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_101",
+      "row_id": 101,
+      "component": "MG02",
+      "reason": "network latency",
+      "task_index": "task_4",
+      "date_key": "2021_03_24",
+      "signature": {
+        "case_id": "query_101",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_102",
+      "row_id": 102,
+      "component": "Tomcat03",
+      "reason": "network packet loss",
+      "task_index": "task_2",
+      "date_key": "2021_03_24",
+      "signature": {
+        "case_id": "query_102",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_103",
+      "row_id": 103,
+      "component": "MG02",
+      "reason": "network latency",
+      "task_index": "task_5",
+      "date_key": "2021_03_25",
+      "signature": {
+        "case_id": "query_103",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_104",
+      "row_id": 104,
+      "component": "Tomcat03",
+      "reason": "network packet loss",
+      "task_index": "task_2",
+      "date_key": "2021_03_25",
+      "signature": {
+        "case_id": "query_104",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_105",
+      "row_id": 105,
+      "component": "Tomcat03",
+      "reason": "network latency",
+      "task_index": "task_6",
+      "date_key": "2021_03_25",
+      "signature": {
+        "case_id": "query_105",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_106",
+      "row_id": 106,
+      "component": "Tomcat01",
+      "reason": "network packet loss",
+      "task_index": "task_4",
+      "date_key": "2021_03_25",
+      "signature": {
+        "case_id": "query_106",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_107",
+      "row_id": 107,
+      "component": "IG02",
+      "reason": "network latency",
+      "task_index": "task_2",
+      "date_key": "2021_03_25",
+      "signature": {
+        "case_id": "query_107",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_108",
+      "row_id": 108,
+      "component": "Tomcat04",
+      "reason": "network packet loss",
+      "task_index": "task_7",
+      "date_key": "2021_03_25",
+      "signature": {
+        "case_id": "query_108",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_109",
+      "row_id": 109,
+      "component": "MG01",
+      "reason": "network latency",
+      "task_index": "task_4",
+      "date_key": "2021_03_25",
+      "signature": {
+        "case_id": "query_109",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_110",
+      "row_id": 110,
+      "component": "apache01",
+      "reason": "network packet loss",
+      "task_index": "task_7",
+      "date_key": "2021_03_25",
+      "signature": {
+        "case_id": "query_110",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_111",
+      "row_id": 111,
+      "component": "MG02",
+      "reason": "network packet loss",
+      "task_index": "task_4",
+      "date_key": "2021_03_25",
+      "signature": {
+        "case_id": "query_111",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_112",
+      "row_id": 112,
+      "component": "Tomcat02",
+      "reason": "JVM Out of Memory (OOM) Heap",
+      "task_index": "task_2",
+      "date_key": "2021_03_07",
+      "signature": {
+        "case_id": "query_112",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_113",
+      "row_id": 113,
+      "component": "Tomcat02",
+      "reason": "JVM Out of Memory (OOM) Heap",
+      "task_index": "task_1",
+      "date_key": "2021_03_09",
+      "signature": {
+        "case_id": "query_113",
+        "services": [
+          {
+            "service": "Mysql01",
+            "metric": {},
+            "log": {
+              "network_packet_loss": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 35.0,
+                "examples": [
+                  "# User@Host: OperName[OperName] @  [IPAddress]  Id: 1344033 # Query_time: 0.110295  Lock_time: 0.000147 Rows_sent: 1  Rows_examined: 1 SET timestamp=1615278247;",
+                  "# User@Host: OperName[OperName] @  [IPAddress]  Id: 1339977 # Query_time: 0.170092  Lock_time: 0.000165 Rows_sent: 1  Rows_examined: 1 SET timestamp=1615278338;",
+                  "# User@Host: OperName[OperName] @  [IPAddress]  Id: 1340750 # Query_time: 0.272254  Lock_time: 0.000087 Rows_sent: 1  Rows_examined: 1 SET timestamp=1615278338;"
+                ]
+              }
+            },
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "log:network_packet_loss"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_114",
+      "row_id": 114,
+      "component": "Tomcat02",
+      "reason": "JVM Out of Memory (OOM) Heap",
+      "task_index": "task_1",
+      "date_key": "2021_03_10",
+      "signature": {
+        "case_id": "query_114",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_115",
+      "row_id": 115,
+      "component": "MG01",
+      "reason": "high disk I/O read usage",
+      "task_index": "task_6",
+      "date_key": "2021_03_23",
+      "signature": {
+        "case_id": "query_115",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_116",
+      "row_id": 116,
+      "component": "MG01",
+      "reason": "high disk I/O read usage",
+      "task_index": "task_4",
+      "date_key": "2021_03_23",
+      "signature": {
+        "case_id": "query_116",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_117",
+      "row_id": 117,
+      "component": "Tomcat02",
+      "reason": "high disk I/O read usage",
+      "task_index": "task_3",
+      "date_key": "2021_03_23",
+      "signature": {
+        "case_id": "query_117",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_118",
+      "row_id": 118,
+      "component": "MG02",
+      "reason": "high disk I/O read usage",
+      "task_index": "task_4",
+      "date_key": "2021_03_24",
+      "signature": {
+        "case_id": "query_118",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_119",
+      "row_id": 119,
+      "component": "apache01",
+      "reason": "high disk space usage",
+      "task_index": "task_4",
+      "date_key": "2021_03_24",
+      "signature": {
+        "case_id": "query_119",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_120",
+      "row_id": 120,
+      "component": "apache01",
+      "reason": "high disk I/O read usage",
+      "task_index": "task_4",
+      "date_key": "2021_03_25",
+      "signature": {
+        "case_id": "query_120",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_121",
+      "row_id": 121,
+      "component": "MG02",
+      "reason": "high disk I/O read usage",
+      "task_index": "task_1",
+      "date_key": "2021_03_25",
+      "signature": {
+        "case_id": "query_121",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_122",
+      "row_id": 122,
+      "component": "Tomcat01",
+      "reason": "high disk I/O read usage",
+      "task_index": "task_6",
+      "date_key": "2021_03_25",
+      "signature": {
+        "case_id": "query_122",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_123",
+      "row_id": 123,
+      "component": "Tomcat03",
+      "reason": "high CPU usage",
+      "task_index": "task_6",
+      "date_key": "2021_03_23",
+      "signature": {
+        "case_id": "query_123",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_124",
+      "row_id": 124,
+      "component": "Tomcat03",
+      "reason": "high CPU usage",
+      "task_index": "task_6",
+      "date_key": "2021_03_23",
+      "signature": {
+        "case_id": "query_124",
+        "services": [
+          {
+            "service": "Mysql01",
+            "metric": {},
+            "log": {
+              "network_packet_loss": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 10.0,
+                "examples": [
+                  "# User@Host: OperName[OperName] @  [IPAddress]  Id: 1418007 # Query_time: 0.233735  Lock_time: 0.000126 Rows_sent: 1  Rows_examined: 1 SET timestamp=1616496802;"
+                ]
+              }
+            },
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "log:network_packet_loss"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_125",
+      "row_id": 125,
+      "component": "Tomcat01",
+      "reason": "high CPU usage",
+      "task_index": "task_1",
+      "date_key": "2021_03_24",
+      "signature": {
+        "case_id": "query_125",
+        "services": [
+          {
+            "service": "Mysql01",
+            "metric": {},
+            "log": {
+              "network_packet_loss": {
+                "state": "support",
+                "intensity": 3,
+                "strength": 15.0,
+                "examples": [
+                  "# User@Host: OperName[OperName] @  [IPAddress]  Id: 1431147 # Query_time: 0.166270  Lock_time: 0.000134 Rows_sent: 1  Rows_examined: 1 SET timestamp=1616575622;",
+                  "# User@Host: OperName[OperName] @  [IPAddress]  Id: 1432704 # Query_time: 0.537235  Lock_time: 0.000149 Rows_sent: 1  Rows_examined: 1 SET timestamp=1616575622;"
+                ]
+              }
+            },
+            "trace": {},
+            "topology": {}
+          }
+        ],
+        "dominant_evidence_types": [
+          "log:network_packet_loss"
+        ],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_126",
+      "row_id": 126,
+      "component": "apache02",
+      "reason": "high CPU usage",
+      "task_index": "task_1",
+      "date_key": "2021_03_25",
+      "signature": {
+        "case_id": "query_126",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_127",
+      "row_id": 127,
+      "component": "MG01",
+      "reason": "high CPU usage",
+      "task_index": "task_4",
+      "date_key": "2021_03_25",
+      "signature": {
+        "case_id": "query_127",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_128",
+      "row_id": 128,
+      "component": "Mysql02",
+      "reason": "high CPU usage",
+      "task_index": "task_6",
+      "date_key": "2021_03_25",
+      "signature": {
+        "case_id": "query_128",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_129",
+      "row_id": 129,
+      "component": "Mysql02",
+      "reason": "high CPU usage",
+      "task_index": "task_3",
+      "date_key": "2021_03_25",
+      "signature": {
+        "case_id": "query_129",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_130",
+      "row_id": 130,
+      "component": "IG02",
+      "reason": "high CPU usage",
+      "task_index": "task_7",
+      "date_key": "2021_03_25",
+      "signature": {
+        "case_id": "query_130",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_131",
+      "row_id": 131,
+      "component": "Tomcat04",
+      "reason": "high CPU usage",
+      "task_index": "task_7",
+      "date_key": "2021_03_25",
+      "signature": {
+        "case_id": "query_131",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_132",
+      "row_id": 132,
+      "component": "Redis02",
+      "reason": "high CPU usage",
+      "task_index": "task_1",
+      "date_key": "2021_03_25",
+      "signature": {
+        "case_id": "query_132",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_133",
+      "row_id": 133,
+      "component": "MG01",
+      "reason": "high memory usage",
+      "task_index": "task_2",
+      "date_key": "2021_03_04",
+      "signature": {
+        "case_id": "query_133",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_134",
+      "row_id": 134,
+      "component": "Mysql02",
+      "reason": "high memory usage",
+      "task_index": "task_2",
+      "date_key": "2021_03_04",
+      "signature": {
+        "case_id": "query_134",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    },
+    {
+      "case_id": "query_135",
+      "row_id": 135,
+      "component": "Redis02",
+      "reason": "high memory usage",
+      "task_index": "task_4",
+      "date_key": "2021_03_04",
+      "signature": {
+        "case_id": "query_135",
+        "services": [],
+        "dominant_evidence_types": [],
+        "blind_spots": []
+      }
+    }
+  ],
+  "clusters": [
+    {
+      "cluster_id": "cluster_000",
+      "size": 1,
+      "members": [
+        "query_000"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "high memory usage",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "high memory usage": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_001",
+      "size": 1,
+      "members": [
+        "query_001"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "high memory usage",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "high memory usage": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_002",
+      "size": 1,
+      "members": [
+        "query_003"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "network latency",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "network latency": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_003",
+      "size": 1,
+      "members": [
+        "query_009"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "network packet loss",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "network packet loss": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_004",
+      "size": 1,
+      "members": [
+        "query_010"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "network latency",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "network latency": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_005",
+      "size": 1,
+      "members": [
+        "query_011"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "network latency",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "network latency": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_006",
+      "size": 1,
+      "members": [
+        "query_012"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "network packet loss",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "network packet loss": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_007",
+      "size": 1,
+      "members": [
+        "query_013"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "network latency",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "network latency": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_008",
+      "size": 1,
+      "members": [
+        "query_014"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "network packet loss",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "network packet loss": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_009",
+      "size": 5,
+      "members": [
+        "query_015",
+        "query_016",
+        "query_057",
+        "query_058",
+        "query_079"
+      ],
+      "centroid": {
+        "dominant:log:jvm_oom": 1.0,
+        "log:jvm_oom:support": 4.0,
+        "role:application:active": 1.0,
+        "role:application:log:jvm_oom:support": 4.0,
+        "shape:log:jvm_oom:strong": 1.0,
+        "type:app:active": 1.0,
+        "type:app:log:jvm_oom:support": 4.0
+      },
+      "reason_prior": [
+        {
+          "reason": "network packet loss",
+          "count": 2,
+          "weight": 0.4
+        },
+        {
+          "reason": "high disk I/O read usage",
+          "count": 1,
+          "weight": 0.2
+        },
+        {
+          "reason": "high disk space usage",
+          "count": 1,
+          "weight": 0.2
+        },
+        {
+          "reason": "high CPU usage",
+          "count": 1,
+          "weight": 0.2
+        }
+      ],
+      "reason_distribution": {
+        "network packet loss": 2,
+        "high disk I/O read usage": 1,
+        "high disk space usage": 1,
+        "high CPU usage": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_010",
+      "size": 1,
+      "members": [
+        "query_017"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "network latency",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "network latency": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_011",
+      "size": 1,
+      "members": [
+        "query_018"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "network packet loss",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "network packet loss": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_012",
+      "size": 1,
+      "members": [
+        "query_019"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "network latency",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "network latency": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_013",
+      "size": 1,
+      "members": [
+        "query_020"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "network packet loss",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "network packet loss": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_014",
+      "size": 1,
+      "members": [
+        "query_021"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "network latency",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "network latency": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_015",
+      "size": 1,
+      "members": [
+        "query_022"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "network latency",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "network latency": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_016",
+      "size": 1,
+      "members": [
+        "query_023"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "network packet loss",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "network packet loss": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_017",
+      "size": 1,
+      "members": [
+        "query_024"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "network latency",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "network latency": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_018",
+      "size": 1,
+      "members": [
+        "query_025"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "network latency",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "network latency": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_019",
+      "size": 1,
+      "members": [
+        "query_026"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "network packet loss",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "network packet loss": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_020",
+      "size": 12,
+      "members": [
+        "query_027",
+        "query_028",
+        "query_034",
+        "query_060",
+        "query_064",
+        "query_088",
+        "query_096",
+        "query_098",
+        "query_099",
+        "query_113",
+        "query_124",
+        "query_125"
+      ],
+      "centroid": {
+        "dominant:log:network_packet_loss": 1.0,
+        "log:network_packet_loss:support": 3.4166666666666665,
+        "role:stateful_backend:active": 1.0,
+        "role:stateful_backend:log:network_packet_loss:support": 3.4166666666666665,
+        "shape:log:network_packet_loss:strong": 1.0,
+        "type:database:active": 1.0,
+        "type:database:log:network_packet_loss:support": 3.4166666666666665
+      },
+      "reason_prior": [
+        {
+          "reason": "network packet loss",
+          "count": 3,
+          "weight": 0.25
+        },
+        {
+          "reason": "network latency",
+          "count": 3,
+          "weight": 0.25
+        },
+        {
+          "reason": "high CPU usage",
+          "count": 3,
+          "weight": 0.25
+        },
+        {
+          "reason": "high disk space usage",
+          "count": 1,
+          "weight": 0.08333333333333333
+        },
+        {
+          "reason": "high disk I/O read usage",
+          "count": 1,
+          "weight": 0.08333333333333333
+        },
+        {
+          "reason": "JVM Out of Memory (OOM) Heap",
+          "count": 1,
+          "weight": 0.08333333333333333
+        }
+      ],
+      "reason_distribution": {
+        "network packet loss": 3,
+        "network latency": 3,
+        "high CPU usage": 3,
+        "high disk space usage": 1,
+        "high disk I/O read usage": 1,
+        "JVM Out of Memory (OOM) Heap": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_021",
+      "size": 1,
+      "members": [
+        "query_029"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "network latency",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "network latency": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_022",
+      "size": 1,
+      "members": [
+        "query_030"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "network packet loss",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "network packet loss": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_023",
+      "size": 1,
+      "members": [
+        "query_031"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "network packet loss",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "network packet loss": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_024",
+      "size": 1,
+      "members": [
+        "query_032"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "network packet loss",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "network packet loss": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_025",
+      "size": 1,
+      "members": [
+        "query_033"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "network packet loss",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "network packet loss": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_026",
+      "size": 1,
+      "members": [
+        "query_035"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "network packet loss",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "network packet loss": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_027",
+      "size": 1,
+      "members": [
+        "query_036"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "network packet loss",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "network packet loss": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_028",
+      "size": 1,
+      "members": [
+        "query_037"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "network packet loss",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "network packet loss": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_029",
+      "size": 1,
+      "members": [
+        "query_038"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "network packet loss",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "network packet loss": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_030",
+      "size": 1,
+      "members": [
+        "query_039"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "network packet loss",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "network packet loss": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_031",
+      "size": 1,
+      "members": [
+        "query_040"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "network packet loss",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "network packet loss": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_032",
+      "size": 1,
+      "members": [
+        "query_041"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "network latency",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "network latency": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_033",
+      "size": 1,
+      "members": [
+        "query_042"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "network latency",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "network latency": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_034",
+      "size": 1,
+      "members": [
+        "query_043"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "network latency",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "network latency": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_035",
+      "size": 1,
+      "members": [
+        "query_044"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "network packet loss",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "network packet loss": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_036",
+      "size": 1,
+      "members": [
+        "query_045"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "high JVM CPU load",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "high JVM CPU load": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_037",
+      "size": 1,
+      "members": [
+        "query_046"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "high JVM CPU load",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "high JVM CPU load": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_038",
+      "size": 6,
+      "members": [
+        "query_047",
+        "query_049",
+        "query_050",
+        "query_051",
+        "query_052",
+        "query_069"
+      ],
+      "centroid": {
+        "blind:log:empty_window": 1.0
+      },
+      "reason_prior": [
+        {
+          "reason": "JVM Out of Memory (OOM) Heap",
+          "count": 3,
+          "weight": 0.5
+        },
+        {
+          "reason": "high JVM CPU load",
+          "count": 1,
+          "weight": 0.16666666666666666
+        },
+        {
+          "reason": "high disk I/O read usage",
+          "count": 1,
+          "weight": 0.16666666666666666
+        },
+        {
+          "reason": "high CPU usage",
+          "count": 1,
+          "weight": 0.16666666666666666
+        }
+      ],
+      "reason_distribution": {
+        "JVM Out of Memory (OOM) Heap": 3,
+        "high JVM CPU load": 1,
+        "high disk I/O read usage": 1,
+        "high CPU usage": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_039",
+      "size": 1,
+      "members": [
+        "query_048"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "JVM Out of Memory (OOM) Heap",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "JVM Out of Memory (OOM) Heap": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_040",
+      "size": 1,
+      "members": [
+        "query_055"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "high disk I/O read usage",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "high disk I/O read usage": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_041",
+      "size": 1,
+      "members": [
+        "query_056"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "high disk I/O read usage",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "high disk I/O read usage": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_042",
+      "size": 1,
+      "members": [
+        "query_059"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "high disk I/O read usage",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "high disk I/O read usage": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_043",
+      "size": 1,
+      "members": [
+        "query_061"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "high disk I/O read usage",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "high disk I/O read usage": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_044",
+      "size": 1,
+      "members": [
+        "query_062"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "high disk space usage",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "high disk space usage": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_045",
+      "size": 1,
+      "members": [
+        "query_063"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "high disk I/O read usage",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "high disk I/O read usage": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_046",
+      "size": 1,
+      "members": [
+        "query_065"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "high disk I/O read usage",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "high disk I/O read usage": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_047",
+      "size": 1,
+      "members": [
+        "query_066"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "high disk I/O read usage",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "high disk I/O read usage": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_048",
+      "size": 1,
+      "members": [
+        "query_067"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "high disk I/O read usage",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "high disk I/O read usage": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_049",
+      "size": 1,
+      "members": [
+        "query_068"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "high CPU usage",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "high CPU usage": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_050",
+      "size": 1,
+      "members": [
+        "query_073"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "high CPU usage",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "high CPU usage": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_051",
+      "size": 1,
+      "members": [
+        "query_074"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "high CPU usage",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "high CPU usage": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_052",
+      "size": 1,
+      "members": [
+        "query_075"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "high CPU usage",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "high CPU usage": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_053",
+      "size": 1,
+      "members": [
+        "query_076"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "high CPU usage",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "high CPU usage": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_054",
+      "size": 1,
+      "members": [
+        "query_077"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "high CPU usage",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "high CPU usage": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_055",
+      "size": 1,
+      "members": [
+        "query_078"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "high CPU usage",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "high CPU usage": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_056",
+      "size": 1,
+      "members": [
+        "query_080"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "high CPU usage",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "high CPU usage": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_057",
+      "size": 1,
+      "members": [
+        "query_081"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "high CPU usage",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "high CPU usage": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_058",
+      "size": 1,
+      "members": [
+        "query_082"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "high CPU usage",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "high CPU usage": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_059",
+      "size": 1,
+      "members": [
+        "query_083"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "high CPU usage",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "high CPU usage": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_060",
+      "size": 1,
+      "members": [
+        "query_084"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "high CPU usage",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "high CPU usage": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_061",
+      "size": 1,
+      "members": [
+        "query_085"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "high CPU usage",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "high CPU usage": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_062",
+      "size": 1,
+      "members": [
+        "query_086"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "high CPU usage",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "high CPU usage": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_063",
+      "size": 1,
+      "members": [
+        "query_087"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "high CPU usage",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "high CPU usage": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_064",
+      "size": 1,
+      "members": [
+        "query_089"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "high CPU usage",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "high CPU usage": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_065",
+      "size": 1,
+      "members": [
+        "query_090"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "high CPU usage",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "high CPU usage": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_066",
+      "size": 1,
+      "members": [
+        "query_091"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "high memory usage",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "high memory usage": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_067",
+      "size": 1,
+      "members": [
+        "query_092"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "high memory usage",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "high memory usage": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_068",
+      "size": 1,
+      "members": [
+        "query_093"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "high memory usage",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "high memory usage": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_069",
+      "size": 1,
+      "members": [
+        "query_094"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "high memory usage",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "high memory usage": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_070",
+      "size": 1,
+      "members": [
+        "query_095"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "network packet loss",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "network packet loss": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_071",
+      "size": 1,
+      "members": [
+        "query_097"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "network packet loss",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "network packet loss": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_072",
+      "size": 1,
+      "members": [
+        "query_100"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "network latency",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "network latency": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_073",
+      "size": 1,
+      "members": [
+        "query_101"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "network latency",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "network latency": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_074",
+      "size": 1,
+      "members": [
+        "query_102"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "network packet loss",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "network packet loss": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_075",
+      "size": 1,
+      "members": [
+        "query_103"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "network latency",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "network latency": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_076",
+      "size": 1,
+      "members": [
+        "query_104"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "network packet loss",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "network packet loss": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_077",
+      "size": 1,
+      "members": [
+        "query_105"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "network latency",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "network latency": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_078",
+      "size": 1,
+      "members": [
+        "query_106"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "network packet loss",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "network packet loss": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_079",
+      "size": 1,
+      "members": [
+        "query_107"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "network latency",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "network latency": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_080",
+      "size": 1,
+      "members": [
+        "query_108"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "network packet loss",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "network packet loss": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_081",
+      "size": 1,
+      "members": [
+        "query_109"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "network latency",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "network latency": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_082",
+      "size": 1,
+      "members": [
+        "query_110"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "network packet loss",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "network packet loss": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_083",
+      "size": 1,
+      "members": [
+        "query_111"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "network packet loss",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "network packet loss": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_084",
+      "size": 1,
+      "members": [
+        "query_112"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "JVM Out of Memory (OOM) Heap",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "JVM Out of Memory (OOM) Heap": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_085",
+      "size": 1,
+      "members": [
+        "query_114"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "JVM Out of Memory (OOM) Heap",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "JVM Out of Memory (OOM) Heap": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_086",
+      "size": 1,
+      "members": [
+        "query_115"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "high disk I/O read usage",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "high disk I/O read usage": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_087",
+      "size": 1,
+      "members": [
+        "query_116"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "high disk I/O read usage",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "high disk I/O read usage": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_088",
+      "size": 1,
+      "members": [
+        "query_117"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "high disk I/O read usage",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "high disk I/O read usage": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_089",
+      "size": 1,
+      "members": [
+        "query_118"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "high disk I/O read usage",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "high disk I/O read usage": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_090",
+      "size": 1,
+      "members": [
+        "query_119"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "high disk space usage",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "high disk space usage": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_091",
+      "size": 1,
+      "members": [
+        "query_120"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "high disk I/O read usage",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "high disk I/O read usage": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_092",
+      "size": 1,
+      "members": [
+        "query_121"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "high disk I/O read usage",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "high disk I/O read usage": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_093",
+      "size": 1,
+      "members": [
+        "query_122"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "high disk I/O read usage",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "high disk I/O read usage": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_094",
+      "size": 1,
+      "members": [
+        "query_123"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "high CPU usage",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "high CPU usage": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_095",
+      "size": 1,
+      "members": [
+        "query_126"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "high CPU usage",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "high CPU usage": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_096",
+      "size": 1,
+      "members": [
+        "query_127"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "high CPU usage",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "high CPU usage": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_097",
+      "size": 1,
+      "members": [
+        "query_128"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "high CPU usage",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "high CPU usage": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_098",
+      "size": 1,
+      "members": [
+        "query_129"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "high CPU usage",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "high CPU usage": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_099",
+      "size": 1,
+      "members": [
+        "query_130"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "high CPU usage",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "high CPU usage": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_100",
+      "size": 1,
+      "members": [
+        "query_131"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "high CPU usage",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "high CPU usage": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_101",
+      "size": 1,
+      "members": [
+        "query_132"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "high CPU usage",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "high CPU usage": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_102",
+      "size": 1,
+      "members": [
+        "query_133"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "high memory usage",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "high memory usage": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_103",
+      "size": 1,
+      "members": [
+        "query_134"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "high memory usage",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "high memory usage": 1
+      }
+    },
+    {
+      "cluster_id": "cluster_104",
+      "size": 1,
+      "members": [
+        "query_135"
+      ],
+      "centroid": {},
+      "reason_prior": [
+        {
+          "reason": "high memory usage",
+          "count": 1,
+          "weight": 1.0
+        }
+      ],
+      "reason_distribution": {
+        "high memory usage": 1
+      }
+    }
+  ],
+  "mined_rules": [],
+  "metadata": {
+    "n_cases": 125,
+    "modalities": [
+      "log"
+    ]
+  }
+}

@@ -1,0 +1,373 @@
+{
+  "n_train": 117,
+  "n_test": 19,
+  "dates": [
+    "2021_03_04",
+    "2021_03_06",
+    "2021_03_07",
+    "2021_03_09",
+    "2021_03_10",
+    "2021_03_12",
+    "2021_03_23",
+    "2021_03_24",
+    "2021_03_25"
+  ],
+  "train_dates": [
+    "2021_03_04",
+    "2021_03_06",
+    "2021_03_07",
+    "2021_03_09",
+    "2021_03_10",
+    "2021_03_12",
+    "2021_03_23",
+    "2021_03_24"
+  ],
+  "test_dates": [
+    "2021_03_25"
+  ],
+  "min_n": 5,
+  "labels": {
+    "high": {
+      "n": 10,
+      "top1": 9,
+      "top3": 10,
+      "top1_rate": 0.9,
+      "top3_rate": 1.0,
+      "coverage": 0.5263157894736842
+    },
+    "low": {
+      "n": 9,
+      "top1": 0,
+      "top3": 2,
+      "top1_rate": 0.0,
+      "top3_rate": 0.2222222222222222,
+      "coverage": 0.47368421052631576
+    }
+  },
+  "cases": [
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 00:07:00",
+      "reason": "network latency",
+      "true_component": "MG02",
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "network_latency|no_evidence|gap_none",
+      "predicted_confidence": "low",
+      "training_bucket": {
+        "n": 20,
+        "top1": 0,
+        "top3": 5,
+        "top1_rate": 0.0,
+        "top3_rate": 0.25
+      }
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 07:40:00",
+      "reason": "network packet loss",
+      "true_component": "Tomcat03",
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "network_packet_loss|no_evidence|gap_none",
+      "predicted_confidence": "low",
+      "training_bucket": {
+        "n": 20,
+        "top1": 0,
+        "top3": 3,
+        "top1_rate": 0.0,
+        "top3_rate": 0.15
+      }
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 14:54:00",
+      "reason": "network latency",
+      "true_component": "Tomcat03",
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "network_latency|no_evidence|gap_none",
+      "predicted_confidence": "low",
+      "training_bucket": {
+        "n": 20,
+        "top1": 0,
+        "top3": 5,
+        "top1_rate": 0.0,
+        "top3_rate": 0.25
+      }
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 17:22:00",
+      "reason": "network packet loss",
+      "true_component": "Tomcat01",
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "network_packet_loss|no_evidence|gap_none",
+      "predicted_confidence": "low",
+      "training_bucket": {
+        "n": 20,
+        "top1": 0,
+        "top3": 3,
+        "top1_rate": 0.0,
+        "top3_rate": 0.15
+      }
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 18:13:00",
+      "reason": "network latency",
+      "true_component": "IG02",
+      "top1_hit": false,
+      "top3_hit": true,
+      "bucket_key": "network_latency|no_evidence|gap_none",
+      "predicted_confidence": "low",
+      "training_bucket": {
+        "n": 20,
+        "top1": 0,
+        "top3": 5,
+        "top1_rate": 0.0,
+        "top3_rate": 0.25
+      }
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 19:15:00",
+      "reason": "network packet loss",
+      "true_component": "Tomcat04",
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "network_packet_loss|no_evidence|gap_none",
+      "predicted_confidence": "low",
+      "training_bucket": {
+        "n": 20,
+        "top1": 0,
+        "top3": 3,
+        "top1_rate": 0.0,
+        "top3_rate": 0.15
+      }
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 20:25:00",
+      "reason": "network latency",
+      "true_component": "MG01",
+      "top1_hit": false,
+      "top3_hit": true,
+      "bucket_key": "network_latency|no_evidence|gap_none",
+      "predicted_confidence": "low",
+      "training_bucket": {
+        "n": 20,
+        "top1": 0,
+        "top3": 5,
+        "top1_rate": 0.0,
+        "top3_rate": 0.25
+      }
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 20:50:00",
+      "reason": "network packet loss",
+      "true_component": "apache01",
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "network_packet_loss|no_evidence|gap_none",
+      "predicted_confidence": "low",
+      "training_bucket": {
+        "n": 20,
+        "top1": 0,
+        "top3": 3,
+        "top1_rate": 0.0,
+        "top3_rate": 0.15
+      }
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 22:01:00",
+      "reason": "network packet loss",
+      "true_component": "MG02",
+      "top1_hit": false,
+      "top3_hit": false,
+      "bucket_key": "network_packet_loss|no_evidence|gap_none",
+      "predicted_confidence": "low",
+      "training_bucket": {
+        "n": 20,
+        "top1": 0,
+        "top3": 3,
+        "top1_rate": 0.0,
+        "top3_rate": 0.15
+      }
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 00:19:00",
+      "reason": "high disk I/O read usage",
+      "true_component": "apache01",
+      "top1_hit": true,
+      "top3_hit": true,
+      "bucket_key": "disk_io|evidence|gap_high",
+      "predicted_confidence": "high",
+      "training_bucket": {
+        "n": 11,
+        "top1": 9,
+        "top3": 11,
+        "top1_rate": 0.8181818181818182,
+        "top3_rate": 1.0
+      }
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 02:43:00",
+      "reason": "high disk I/O read usage",
+      "true_component": "MG02",
+      "top1_hit": true,
+      "top3_hit": true,
+      "bucket_key": "disk_io|evidence|gap_high",
+      "predicted_confidence": "high",
+      "training_bucket": {
+        "n": 11,
+        "top1": 9,
+        "top3": 11,
+        "top1_rate": 0.8181818181818182,
+        "top3_rate": 1.0
+      }
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 09:04:00",
+      "reason": "high disk I/O read usage",
+      "true_component": "Tomcat01",
+      "top1_hit": true,
+      "top3_hit": true,
+      "bucket_key": "disk_io|evidence|gap_high",
+      "predicted_confidence": "high",
+      "training_bucket": {
+        "n": 11,
+        "top1": 9,
+        "top3": 11,
+        "top1_rate": 0.8181818181818182,
+        "top3_rate": 1.0
+      }
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 06:40:00",
+      "reason": "high CPU usage",
+      "true_component": "apache02",
+      "top1_hit": true,
+      "top3_hit": true,
+      "bucket_key": "cpu|evidence|gap_high",
+      "predicted_confidence": "high",
+      "training_bucket": {
+        "n": 13,
+        "top1": 13,
+        "top3": 13,
+        "top1_rate": 1.0,
+        "top3_rate": 1.0
+      }
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 09:38:00",
+      "reason": "high CPU usage",
+      "true_component": "MG01",
+      "top1_hit": true,
+      "top3_hit": true,
+      "bucket_key": "cpu|evidence|gap_high",
+      "predicted_confidence": "high",
+      "training_bucket": {
+        "n": 13,
+        "top1": 13,
+        "top3": 13,
+        "top1_rate": 1.0,
+        "top3_rate": 1.0
+      }
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 11:53:00",
+      "reason": "high CPU usage",
+      "true_component": "Mysql02",
+      "top1_hit": false,
+      "top3_hit": true,
+      "bucket_key": "cpu|evidence|gap_high",
+      "predicted_confidence": "high",
+      "training_bucket": {
+        "n": 13,
+        "top1": 13,
+        "top3": 13,
+        "top1_rate": 1.0,
+        "top3_rate": 1.0
+      }
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 15:42:00",
+      "reason": "high CPU usage",
+      "true_component": "Mysql02",
+      "top1_hit": true,
+      "top3_hit": true,
+      "bucket_key": "cpu|evidence|gap_high",
+      "predicted_confidence": "high",
+      "training_bucket": {
+        "n": 13,
+        "top1": 13,
+        "top3": 13,
+        "top1_rate": 1.0,
+        "top3_rate": 1.0
+      }
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 19:00:00",
+      "reason": "high CPU usage",
+      "true_component": "IG02",
+      "top1_hit": true,
+      "top3_hit": true,
+      "bucket_key": "cpu|evidence|gap_high",
+      "predicted_confidence": "high",
+      "training_bucket": {
+        "n": 13,
+        "top1": 13,
+        "top3": 13,
+        "top1_rate": 1.0,
+        "top3_rate": 1.0
+      }
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 19:40:00",
+      "reason": "high CPU usage",
+      "true_component": "Tomcat04",
+      "top1_hit": true,
+      "top3_hit": true,
+      "bucket_key": "cpu|evidence|gap_high",
+      "predicted_confidence": "high",
+      "training_bucket": {
+        "n": 13,
+        "top1": 13,
+        "top3": 13,
+        "top1_rate": 1.0,
+        "top3_rate": 1.0
+      }
+    },
+    {
+      "date": "2021_03_25",
+      "datetime": "2021-03-25 23:16:00",
+      "reason": "high CPU usage",
+      "true_component": "Redis02",
+      "top1_hit": true,
+      "top3_hit": true,
+      "bucket_key": "cpu|evidence|gap_high",
+      "predicted_confidence": "high",
+      "training_bucket": {
+        "n": 13,
+        "top1": 13,
+        "top3": 13,
+        "top1_rate": 1.0,
+        "top3_rate": 1.0
+      }
+    }
+  ],
+  "note": "Confidence labels are calibrated on dates strictly earlier than the held-out test date(s)."
+}

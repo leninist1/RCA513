@@ -1,0 +1,163 @@
+{
+  "clusters": {
+    "JVM Out of Memory (OOM) Heap": {
+      "candidate_services": [
+        "Tomcat02",
+        "MG02",
+        "MG01",
+        "IG01"
+      ],
+      "component_counts": {
+        "IG01": 1,
+        "MG01": 1,
+        "MG02": 2,
+        "Tomcat02": 3
+      },
+      "n_cases": 7,
+      "reason": "JVM Out of Memory (OOM) Heap",
+      "reason_bucket": "memory"
+    },
+    "high CPU usage": {
+      "candidate_services": [
+        "Redis02",
+        "IG02",
+        "Tomcat03",
+        "IG01",
+        "Tomcat04"
+      ],
+      "component_counts": {
+        "IG01": 3,
+        "IG02": 6,
+        "MG01": 2,
+        "Mysql01": 1,
+        "Mysql02": 2,
+        "Redis01": 1,
+        "Redis02": 6,
+        "Tomcat01": 3,
+        "Tomcat03": 4,
+        "Tomcat04": 3,
+        "apache01": 1,
+        "apache02": 1
+      },
+      "n_cases": 33,
+      "reason": "high CPU usage",
+      "reason_bucket": "cpu"
+    },
+    "high JVM CPU load": {
+      "candidate_services": [
+        "MG02",
+        "IG01"
+      ],
+      "component_counts": {
+        "IG01": 1,
+        "MG02": 2
+      },
+      "n_cases": 3,
+      "reason": "high JVM CPU load",
+      "reason_bucket": "cpu"
+    },
+    "high disk I/O read usage": {
+      "candidate_services": [
+        "Tomcat01",
+        "MG01",
+        "MG02",
+        "apache01",
+        "Tomcat02"
+      ],
+      "component_counts": {
+        "IG02": 2,
+        "MG01": 3,
+        "MG02": 3,
+        "Tomcat01": 5,
+        "Tomcat02": 2,
+        "Tomcat03": 1,
+        "apache01": 2,
+        "apache02": 1
+      },
+      "n_cases": 19,
+      "reason": "high disk I/O read usage",
+      "reason_bucket": "disk"
+    },
+    "high disk space usage": {
+      "candidate_services": [
+        "IG02",
+        "apache01",
+        "Tomcat04"
+      ],
+      "component_counts": {
+        "IG02": 2,
+        "Tomcat04": 1,
+        "apache01": 2
+      },
+      "n_cases": 5,
+      "reason": "high disk space usage",
+      "reason_bucket": "filesystem"
+    },
+    "high memory usage": {
+      "candidate_services": [
+        "Mysql02",
+        "Redis02",
+        "Tomcat01",
+        "Tomcat04",
+        "Mysql01"
+      ],
+      "component_counts": {
+        "MG01": 1,
+        "Mysql01": 1,
+        "Mysql02": 2,
+        "Redis02": 2,
+        "Tomcat01": 2,
+        "Tomcat04": 2
+      },
+      "n_cases": 10,
+      "reason": "high memory usage",
+      "reason_bucket": "memory"
+    },
+    "network latency": {
+      "candidate_services": [
+        "MG01",
+        "MG02",
+        "Tomcat02",
+        "Tomcat01",
+        "apache02"
+      ],
+      "component_counts": {
+        "IG02": 1,
+        "MG01": 6,
+        "MG02": 5,
+        "Tomcat01": 3,
+        "Tomcat02": 4,
+        "Tomcat03": 2,
+        "Tomcat04": 2,
+        "apache01": 1,
+        "apache02": 3
+      },
+      "n_cases": 27,
+      "reason": "network latency",
+      "reason_bucket": "network"
+    },
+    "network packet loss": {
+      "candidate_services": [
+        "Tomcat01",
+        "apache02",
+        "MG02",
+        "Tomcat03",
+        "Tomcat04"
+      ],
+      "component_counts": {
+        "IG02": 1,
+        "MG01": 4,
+        "MG02": 5,
+        "Tomcat01": 6,
+        "Tomcat03": 5,
+        "Tomcat04": 4,
+        "apache01": 2,
+        "apache02": 5
+      },
+      "n_cases": 32,
+      "reason": "network packet loss",
+      "reason_bucket": "network"
+    }
+  },
+  "version": 1
+}

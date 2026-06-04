@@ -1,0 +1,2464 @@
+{
+  "n": 136,
+  "dates": [
+    "2021_03_04",
+    "2021_03_06",
+    "2021_03_07",
+    "2021_03_09",
+    "2021_03_10",
+    "2021_03_12",
+    "2021_03_23",
+    "2021_03_24",
+    "2021_03_25"
+  ],
+  "min_n": 5,
+  "overall_lodo": {
+    "high": {
+      "n": 29,
+      "top1": 26,
+      "top3": 29,
+      "top1_rate": 0.896551724137931,
+      "top3_rate": 1.0
+    },
+    "low": {
+      "n": 75,
+      "top1": 2,
+      "top3": 18,
+      "top1_rate": 0.02666666666666667,
+      "top3_rate": 0.24
+    },
+    "medium": {
+      "n": 5,
+      "top1": 5,
+      "top3": 5,
+      "top1_rate": 1.0,
+      "top3_rate": 1.0
+    },
+    "unknown": {
+      "n": 27,
+      "top1": 5,
+      "top3": 10,
+      "top1_rate": 0.18518518518518517,
+      "top3_rate": 0.37037037037037035
+    }
+  },
+  "folds": [
+    {
+      "heldout_date": "2021_03_04",
+      "n": 16,
+      "labels": {
+        "high": {
+          "n": 5,
+          "top1": 5,
+          "top3": 5,
+          "top1_rate": 1.0,
+          "top3_rate": 1.0
+        },
+        "low": {
+          "n": 1,
+          "top1": 0,
+          "top3": 0,
+          "top1_rate": 0.0,
+          "top3_rate": 0.0
+        },
+        "unknown": {
+          "n": 10,
+          "top1": 2,
+          "top3": 4,
+          "top1_rate": 0.2,
+          "top3_rate": 0.4
+        }
+      },
+      "cases": [
+        {
+          "datetime": "2021-03-04 14:57:00",
+          "reason": "high memory usage",
+          "true_component": "Mysql02",
+          "top5": [
+            "MG01",
+            "IG01",
+            "IG02",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "memory|evidence|gap_low",
+          "predicted_confidence": "unknown"
+        },
+        {
+          "datetime": "2021-03-04 18:09:00",
+          "reason": "high memory usage",
+          "true_component": "Redis02",
+          "top5": [
+            "IG02",
+            "IG01",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "memory|evidence|gap_low",
+          "predicted_confidence": "unknown"
+        },
+        {
+          "datetime": "2021-03-04 19:22:00",
+          "reason": "network latency",
+          "true_component": "Tomcat02",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "network_latency|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-04 01:26:00",
+          "reason": "high JVM CPU load",
+          "true_component": "MG02",
+          "top5": [
+            "MG02",
+            "Tomcat01",
+            "Tomcat02",
+            "IG01",
+            "apache02"
+          ],
+          "top1_hit": true,
+          "top3_hit": true,
+          "bucket_key": "cpu|evidence|gap_mid",
+          "predicted_confidence": "unknown"
+        },
+        {
+          "datetime": "2021-03-04 13:46:00",
+          "reason": "high JVM CPU load",
+          "true_component": "MG02",
+          "top5": [
+            "MG02",
+            "Redis01",
+            "IG01",
+            "IG02",
+            "MG01"
+          ],
+          "top1_hit": true,
+          "top3_hit": true,
+          "bucket_key": "cpu|evidence|gap_high",
+          "predicted_confidence": "high"
+        },
+        {
+          "datetime": "2021-03-04 21:06:00",
+          "reason": "high JVM CPU load",
+          "true_component": "IG01",
+          "top5": [
+            "IG01",
+            "dockerA2",
+            "apache02",
+            "Mysql01",
+            "IG02"
+          ],
+          "top1_hit": true,
+          "top3_hit": true,
+          "bucket_key": "cpu|evidence|gap_high",
+          "predicted_confidence": "high"
+        },
+        {
+          "datetime": "2021-03-04 06:20:00",
+          "reason": "JVM Out of Memory (OOM) Heap",
+          "true_component": "MG02",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "jvm_oom|no_evidence|gap_none",
+          "predicted_confidence": "unknown"
+        },
+        {
+          "datetime": "2021-03-04 19:36:00",
+          "reason": "JVM Out of Memory (OOM) Heap",
+          "true_component": "MG02",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "jvm_oom|no_evidence|gap_none",
+          "predicted_confidence": "unknown"
+        },
+        {
+          "datetime": "2021-03-04 22:00:00",
+          "reason": "JVM Out of Memory (OOM) Heap",
+          "true_component": "MG01",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": true,
+          "bucket_key": "jvm_oom|no_evidence|gap_none",
+          "predicted_confidence": "unknown"
+        },
+        {
+          "datetime": "2021-03-04 22:25:00",
+          "reason": "JVM Out of Memory (OOM) Heap",
+          "true_component": "IG01",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": true,
+          "top3_hit": true,
+          "bucket_key": "jvm_oom|no_evidence|gap_none",
+          "predicted_confidence": "unknown"
+        },
+        {
+          "datetime": "2021-03-04 19:49:00",
+          "reason": "high disk I/O read usage",
+          "true_component": "Tomcat03",
+          "top5": [
+            "Tomcat03",
+            "IG02",
+            "IG01",
+            "MG01",
+            "MG02"
+          ],
+          "top1_hit": true,
+          "top3_hit": true,
+          "bucket_key": "disk_io|evidence|gap_high",
+          "predicted_confidence": "high"
+        },
+        {
+          "datetime": "2021-03-04 07:01:00",
+          "reason": "high CPU usage",
+          "true_component": "Redis02",
+          "top5": [
+            "Redis02",
+            "Tomcat01",
+            "Tomcat02",
+            "IG01",
+            "apache02"
+          ],
+          "top1_hit": true,
+          "top3_hit": true,
+          "bucket_key": "cpu|evidence|gap_high",
+          "predicted_confidence": "high"
+        },
+        {
+          "datetime": "2021-03-04 20:14:00",
+          "reason": "high CPU usage",
+          "true_component": "Redis02",
+          "top5": [
+            "Redis02",
+            "Tomcat01",
+            "apache02",
+            "IG02",
+            "MG02"
+          ],
+          "top1_hit": true,
+          "top3_hit": true,
+          "bucket_key": "cpu|evidence|gap_high",
+          "predicted_confidence": "high"
+        },
+        {
+          "datetime": "2021-03-04 00:34:00",
+          "reason": "high memory usage",
+          "true_component": "MG01",
+          "top5": [
+            "MG02",
+            "IG02",
+            "MG01",
+            "dockerB1",
+            "IG01"
+          ],
+          "top1_hit": false,
+          "top3_hit": true,
+          "bucket_key": "memory|evidence|gap_low",
+          "predicted_confidence": "unknown"
+        },
+        {
+          "datetime": "2021-03-04 02:45:00",
+          "reason": "high memory usage",
+          "true_component": "Mysql02",
+          "top5": [
+            "Redis02",
+            "MG02",
+            "IG01",
+            "IG02",
+            "MG01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "memory|evidence|gap_low",
+          "predicted_confidence": "unknown"
+        },
+        {
+          "datetime": "2021-03-04 05:31:00",
+          "reason": "high memory usage",
+          "true_component": "Redis02",
+          "top5": [
+            "IG02",
+            "MG01",
+            "IG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "memory|evidence|gap_low",
+          "predicted_confidence": "unknown"
+        }
+      ]
+    },
+    {
+      "heldout_date": "2021_03_06",
+      "n": 11,
+      "labels": {
+        "low": {
+          "n": 8,
+          "top1": 1,
+          "top3": 2,
+          "top1_rate": 0.125,
+          "top3_rate": 0.25
+        },
+        "unknown": {
+          "n": 3,
+          "top1": 0,
+          "top3": 2,
+          "top1_rate": 0.0,
+          "top3_rate": 0.6666666666666666
+        }
+      },
+      "cases": [
+        {
+          "datetime": "2021-03-06 06:20:00",
+          "reason": "high memory usage",
+          "true_component": "Tomcat01",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "memory|no_evidence|gap_none",
+          "predicted_confidence": "unknown"
+        },
+        {
+          "datetime": "2021-03-06 00:53:00",
+          "reason": "network latency",
+          "true_component": "Tomcat04",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "network_latency|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-06 14:46:00",
+          "reason": "network latency",
+          "true_component": "Tomcat03",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "network_latency|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-06 18:52:00",
+          "reason": "network packet loss",
+          "true_component": "apache02",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "network_packet_loss|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-06 23:18:00",
+          "reason": "network latency",
+          "true_component": "Tomcat01",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "network_latency|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-06 23:36:00",
+          "reason": "network latency",
+          "true_component": "MG01",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": true,
+          "bucket_key": "network_latency|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-06 04:56:00",
+          "reason": "high disk I/O read usage",
+          "true_component": "MG01",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": true,
+          "bucket_key": "disk_io|no_evidence|gap_none",
+          "predicted_confidence": "unknown"
+        },
+        {
+          "datetime": "2021-03-06 15:19:00",
+          "reason": "high disk space usage",
+          "true_component": "IG02",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": true,
+          "bucket_key": "filesystem|no_evidence|gap_none",
+          "predicted_confidence": "unknown"
+        },
+        {
+          "datetime": "2021-03-06 02:00:00",
+          "reason": "high CPU usage",
+          "true_component": "Mysql01",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "cpu|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-06 03:36:00",
+          "reason": "high CPU usage",
+          "true_component": "IG01",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": true,
+          "top3_hit": true,
+          "bucket_key": "cpu|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-06 20:44:00",
+          "reason": "high CPU usage",
+          "true_component": "Tomcat04",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "cpu|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        }
+      ]
+    },
+    {
+      "heldout_date": "2021_03_07",
+      "n": 16,
+      "labels": {
+        "low": {
+          "n": 13,
+          "top1": 1,
+          "top3": 4,
+          "top1_rate": 0.07692307692307693,
+          "top3_rate": 0.3076923076923077
+        },
+        "unknown": {
+          "n": 3,
+          "top1": 0,
+          "top3": 0,
+          "top1_rate": 0.0,
+          "top3_rate": 0.0
+        }
+      },
+      "cases": [
+        {
+          "datetime": "2021-03-07 00:32:00",
+          "reason": "network packet loss",
+          "true_component": "MG02",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "network_packet_loss|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-07 07:32:00",
+          "reason": "network latency",
+          "true_component": "Tomcat02",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "network_latency|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-07 16:08:00",
+          "reason": "network latency",
+          "true_component": "MG01",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": true,
+          "bucket_key": "network_latency|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-07 16:29:00",
+          "reason": "network packet loss",
+          "true_component": "Tomcat04",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "network_packet_loss|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-07 18:59:00",
+          "reason": "network latency",
+          "true_component": "apache02",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "network_latency|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-07 21:36:00",
+          "reason": "network packet loss",
+          "true_component": "Tomcat01",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "network_packet_loss|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-07 03:21:00",
+          "reason": "high disk I/O read usage",
+          "true_component": "Tomcat01",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "disk_io|no_evidence|gap_none",
+          "predicted_confidence": "unknown"
+        },
+        {
+          "datetime": "2021-03-07 15:41:00",
+          "reason": "high disk I/O read usage",
+          "true_component": "Tomcat01",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "disk_io|no_evidence|gap_none",
+          "predicted_confidence": "unknown"
+        },
+        {
+          "datetime": "2021-03-07 01:52:00",
+          "reason": "high CPU usage",
+          "true_component": "Redis02",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "cpu|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-07 06:35:00",
+          "reason": "high CPU usage",
+          "true_component": "IG02",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": true,
+          "bucket_key": "cpu|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-07 08:11:00",
+          "reason": "high CPU usage",
+          "true_component": "Tomcat03",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "cpu|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-07 11:09:00",
+          "reason": "high CPU usage",
+          "true_component": "IG02",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": true,
+          "bucket_key": "cpu|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-07 13:24:00",
+          "reason": "high CPU usage",
+          "true_component": "IG01",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": true,
+          "top3_hit": true,
+          "bucket_key": "cpu|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-07 17:52:00",
+          "reason": "high CPU usage",
+          "true_component": "Tomcat01",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "cpu|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-07 12:36:00",
+          "reason": "high memory usage",
+          "true_component": "Tomcat04",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "memory|no_evidence|gap_none",
+          "predicted_confidence": "unknown"
+        },
+        {
+          "datetime": "2021-03-07 03:59:00",
+          "reason": "JVM Out of Memory (OOM) Heap",
+          "true_component": "Tomcat02",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "jvm_oom|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        }
+      ]
+    },
+    {
+      "heldout_date": "2021_03_09",
+      "n": 21,
+      "labels": {
+        "low": {
+          "n": 16,
+          "top1": 0,
+          "top3": 3,
+          "top1_rate": 0.0,
+          "top3_rate": 0.1875
+        },
+        "unknown": {
+          "n": 5,
+          "top1": 0,
+          "top3": 1,
+          "top1_rate": 0.0,
+          "top3_rate": 0.2
+        }
+      },
+      "cases": [
+        {
+          "datetime": "2021-03-09 08:13:00",
+          "reason": "network packet loss",
+          "true_component": "apache02",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "network_packet_loss|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-09 09:18:00",
+          "reason": "network packet loss",
+          "true_component": "IG02",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": true,
+          "bucket_key": "network_packet_loss|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-09 11:20:00",
+          "reason": "network latency",
+          "true_component": "Tomcat01",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "network_latency|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-09 13:10:00",
+          "reason": "network packet loss",
+          "true_component": "MG02",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "network_packet_loss|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-09 14:14:00",
+          "reason": "network latency",
+          "true_component": "MG02",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "network_latency|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-09 15:25:00",
+          "reason": "network packet loss",
+          "true_component": "Tomcat01",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "network_packet_loss|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-09 16:56:00",
+          "reason": "network latency",
+          "true_component": "MG02",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "network_latency|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-09 19:14:00",
+          "reason": "network latency",
+          "true_component": "Tomcat02",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "network_latency|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-09 20:25:00",
+          "reason": "network packet loss",
+          "true_component": "apache01",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "network_packet_loss|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-09 21:07:00",
+          "reason": "network latency",
+          "true_component": "apache01",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "network_latency|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-09 01:20:00",
+          "reason": "high disk I/O read usage",
+          "true_component": "apache01",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "disk_io|no_evidence|gap_none",
+          "predicted_confidence": "unknown"
+        },
+        {
+          "datetime": "2021-03-09 05:11:00",
+          "reason": "high disk space usage",
+          "true_component": "IG02",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": true,
+          "bucket_key": "filesystem|no_evidence|gap_none",
+          "predicted_confidence": "unknown"
+        },
+        {
+          "datetime": "2021-03-09 15:45:00",
+          "reason": "high disk I/O read usage",
+          "true_component": "Tomcat01",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "disk_io|no_evidence|gap_none",
+          "predicted_confidence": "unknown"
+        },
+        {
+          "datetime": "2021-03-09 17:39:00",
+          "reason": "high disk space usage",
+          "true_component": "apache01",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "filesystem|no_evidence|gap_none",
+          "predicted_confidence": "unknown"
+        },
+        {
+          "datetime": "2021-03-09 09:57:00",
+          "reason": "high CPU usage",
+          "true_component": "Tomcat04",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "cpu|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-09 14:42:00",
+          "reason": "high CPU usage",
+          "true_component": "Redis02",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "cpu|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-09 18:08:00",
+          "reason": "high CPU usage",
+          "true_component": "IG02",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": true,
+          "bucket_key": "cpu|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-09 19:42:00",
+          "reason": "high CPU usage",
+          "true_component": "Tomcat03",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "cpu|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-09 22:32:00",
+          "reason": "high CPU usage",
+          "true_component": "IG02",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": true,
+          "bucket_key": "cpu|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-09 23:53:00",
+          "reason": "high memory usage",
+          "true_component": "Tomcat04",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "memory|no_evidence|gap_none",
+          "predicted_confidence": "unknown"
+        },
+        {
+          "datetime": "2021-03-09 16:23:00",
+          "reason": "JVM Out of Memory (OOM) Heap",
+          "true_component": "Tomcat02",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "jvm_oom|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        }
+      ]
+    },
+    {
+      "heldout_date": "2021_03_10",
+      "n": 16,
+      "labels": {
+        "high": {
+          "n": 2,
+          "top1": 2,
+          "top3": 2,
+          "top1_rate": 1.0,
+          "top3_rate": 1.0
+        },
+        "low": {
+          "n": 7,
+          "top1": 0,
+          "top3": 0,
+          "top1_rate": 0.0,
+          "top3_rate": 0.0
+        },
+        "medium": {
+          "n": 5,
+          "top1": 5,
+          "top3": 5,
+          "top1_rate": 1.0,
+          "top3_rate": 1.0
+        },
+        "unknown": {
+          "n": 2,
+          "top1": 2,
+          "top3": 2,
+          "top1_rate": 1.0,
+          "top3_rate": 1.0
+        }
+      },
+      "cases": [
+        {
+          "datetime": "2021-03-10 07:19:00",
+          "reason": "network latency",
+          "true_component": "apache02",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "network_latency|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-10 10:43:00",
+          "reason": "network packet loss",
+          "true_component": "Tomcat01",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "network_packet_loss|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-10 15:02:00",
+          "reason": "network packet loss",
+          "true_component": "apache02",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "network_packet_loss|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-10 15:19:00",
+          "reason": "network latency",
+          "true_component": "apache02",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "network_latency|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-10 16:42:00",
+          "reason": "network latency",
+          "true_component": "Tomcat01",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "network_latency|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-10 18:57:00",
+          "reason": "network packet loss",
+          "true_component": "Tomcat03",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "network_packet_loss|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-10 02:44:00",
+          "reason": "high disk I/O read usage",
+          "true_component": "Tomcat01",
+          "top5": [
+            "Tomcat01",
+            "Mysql02",
+            "IG01",
+            "IG02",
+            "MG01"
+          ],
+          "top1_hit": true,
+          "top3_hit": true,
+          "bucket_key": "disk_io|evidence|gap_high",
+          "predicted_confidence": "medium"
+        },
+        {
+          "datetime": "2021-03-10 03:44:00",
+          "reason": "high disk space usage",
+          "true_component": "Tomcat04",
+          "top5": [
+            "Tomcat04",
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02"
+          ],
+          "top1_hit": true,
+          "top3_hit": true,
+          "bucket_key": "filesystem|evidence|gap_low",
+          "predicted_confidence": "unknown"
+        },
+        {
+          "datetime": "2021-03-10 14:21:00",
+          "reason": "high disk I/O read usage",
+          "true_component": "Tomcat02",
+          "top5": [
+            "Tomcat02",
+            "Tomcat04",
+            "IG02",
+            "Mysql02",
+            "Tomcat01"
+          ],
+          "top1_hit": true,
+          "top3_hit": true,
+          "bucket_key": "disk_io|evidence|gap_high",
+          "predicted_confidence": "medium"
+        },
+        {
+          "datetime": "2021-03-10 15:43:00",
+          "reason": "high disk I/O read usage",
+          "true_component": "apache02",
+          "top5": [
+            "apache02",
+            "Mysql01",
+            "IG01",
+            "Mysql02",
+            "IG02"
+          ],
+          "top1_hit": true,
+          "top3_hit": true,
+          "bucket_key": "disk_io|evidence|gap_high",
+          "predicted_confidence": "medium"
+        },
+        {
+          "datetime": "2021-03-10 22:03:00",
+          "reason": "high disk I/O read usage",
+          "true_component": "IG02",
+          "top5": [
+            "IG02",
+            "Mysql01",
+            "IG01",
+            "MG01",
+            "MG02"
+          ],
+          "top1_hit": true,
+          "top3_hit": true,
+          "bucket_key": "disk_io|evidence|gap_high",
+          "predicted_confidence": "medium"
+        },
+        {
+          "datetime": "2021-03-10 22:19:00",
+          "reason": "high disk I/O read usage",
+          "true_component": "MG02",
+          "top5": [
+            "MG02",
+            "Redis01",
+            "IG01",
+            "IG02",
+            "MG01"
+          ],
+          "top1_hit": true,
+          "top3_hit": true,
+          "bucket_key": "disk_io|evidence|gap_high",
+          "predicted_confidence": "medium"
+        },
+        {
+          "datetime": "2021-03-10 00:19:00",
+          "reason": "high CPU usage",
+          "true_component": "IG01",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": true,
+          "top3_hit": true,
+          "bucket_key": "cpu|evidence|gap_high",
+          "predicted_confidence": "high"
+        },
+        {
+          "datetime": "2021-03-10 04:38:00",
+          "reason": "high CPU usage",
+          "true_component": "Tomcat01",
+          "top5": [
+            "Tomcat01",
+            "apache02",
+            "Tomcat03",
+            "IG02",
+            "Tomcat04"
+          ],
+          "top1_hit": true,
+          "top3_hit": true,
+          "bucket_key": "cpu|evidence|gap_high",
+          "predicted_confidence": "high"
+        },
+        {
+          "datetime": "2021-03-10 08:30:00",
+          "reason": "high CPU usage",
+          "true_component": "apache01",
+          "top5": [
+            "apache01",
+            "Redis01",
+            "IG01",
+            "IG02",
+            "MG01"
+          ],
+          "top1_hit": true,
+          "top3_hit": true,
+          "bucket_key": "cpu|evidence|gap_low",
+          "predicted_confidence": "unknown"
+        },
+        {
+          "datetime": "2021-03-10 17:51:00",
+          "reason": "JVM Out of Memory (OOM) Heap",
+          "true_component": "Tomcat02",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "jvm_oom|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        }
+      ]
+    },
+    {
+      "heldout_date": "2021_03_12",
+      "n": 13,
+      "labels": {
+        "high": {
+          "n": 5,
+          "top1": 5,
+          "top3": 5,
+          "top1_rate": 1.0,
+          "top3_rate": 1.0
+        },
+        "low": {
+          "n": 7,
+          "top1": 0,
+          "top3": 2,
+          "top1_rate": 0.0,
+          "top3_rate": 0.2857142857142857
+        },
+        "unknown": {
+          "n": 1,
+          "top1": 0,
+          "top3": 0,
+          "top1_rate": 0.0,
+          "top3_rate": 0.0
+        }
+      },
+      "cases": [
+        {
+          "datetime": "2021-03-12 10:54:00",
+          "reason": "network packet loss",
+          "true_component": "MG01",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": true,
+          "bucket_key": "network_packet_loss|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-12 12:13:00",
+          "reason": "network packet loss",
+          "true_component": "Tomcat01",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "network_packet_loss|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-12 14:03:00",
+          "reason": "network packet loss",
+          "true_component": "MG02",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "network_packet_loss|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-12 15:38:00",
+          "reason": "network packet loss",
+          "true_component": "MG01",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": true,
+          "bucket_key": "network_packet_loss|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-12 16:26:00",
+          "reason": "network packet loss",
+          "true_component": "apache02",
+          "top5": [
+            "dockerA2",
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "network_packet_loss|evidence|gap_mid",
+          "predicted_confidence": "unknown"
+        },
+        {
+          "datetime": "2021-03-12 22:35:00",
+          "reason": "network packet loss",
+          "true_component": "Tomcat03",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "network_packet_loss|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-12 23:33:00",
+          "reason": "network packet loss",
+          "true_component": "apache02",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "network_packet_loss|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-12 16:15:00",
+          "reason": "high disk I/O read usage",
+          "true_component": "IG02",
+          "top5": [
+            "IG02",
+            "Tomcat03",
+            "Tomcat04",
+            "IG01",
+            "MG01"
+          ],
+          "top1_hit": true,
+          "top3_hit": true,
+          "bucket_key": "disk_io|evidence|gap_high",
+          "predicted_confidence": "high"
+        },
+        {
+          "datetime": "2021-03-12 10:24:00",
+          "reason": "high CPU usage",
+          "true_component": "IG02",
+          "top5": [
+            "IG02",
+            "Mysql01",
+            "Redis01",
+            "IG01",
+            "Tomcat02"
+          ],
+          "top1_hit": true,
+          "top3_hit": true,
+          "bucket_key": "cpu|evidence|gap_high",
+          "predicted_confidence": "high"
+        },
+        {
+          "datetime": "2021-03-12 15:10:00",
+          "reason": "high CPU usage",
+          "true_component": "MG01",
+          "top5": [
+            "MG01",
+            "Mysql01",
+            "apache01",
+            "IG01",
+            "IG02"
+          ],
+          "top1_hit": true,
+          "top3_hit": true,
+          "bucket_key": "cpu|evidence|gap_high",
+          "predicted_confidence": "high"
+        },
+        {
+          "datetime": "2021-03-12 17:14:00",
+          "reason": "high CPU usage",
+          "true_component": "Redis02",
+          "top5": [
+            "Redis02",
+            "apache02",
+            "Tomcat04",
+            "MG02",
+            "IG01"
+          ],
+          "top1_hit": true,
+          "top3_hit": true,
+          "bucket_key": "cpu|evidence|gap_high",
+          "predicted_confidence": "high"
+        },
+        {
+          "datetime": "2021-03-12 20:46:00",
+          "reason": "high CPU usage",
+          "true_component": "Redis01",
+          "top5": [
+            "Redis01",
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02"
+          ],
+          "top1_hit": true,
+          "top3_hit": true,
+          "bucket_key": "cpu|evidence|gap_high",
+          "predicted_confidence": "high"
+        },
+        {
+          "datetime": "2021-03-12 10:12:00",
+          "reason": "high memory usage",
+          "true_component": "Mysql01",
+          "top5": [
+            "Tomcat02",
+            "Redis02",
+            "dockerB2",
+            "IG01",
+            "IG02"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "memory|evidence|gap_low",
+          "predicted_confidence": "low"
+        }
+      ]
+    },
+    {
+      "heldout_date": "2021_03_23",
+      "n": 14,
+      "labels": {
+        "high": {
+          "n": 5,
+          "top1": 4,
+          "top3": 5,
+          "top1_rate": 0.8,
+          "top3_rate": 1.0
+        },
+        "low": {
+          "n": 8,
+          "top1": 0,
+          "top3": 3,
+          "top1_rate": 0.0,
+          "top3_rate": 0.375
+        },
+        "unknown": {
+          "n": 1,
+          "top1": 0,
+          "top3": 0,
+          "top1_rate": 0.0,
+          "top3_rate": 0.0
+        }
+      },
+      "cases": [
+        {
+          "datetime": "2021-03-23 06:42:00",
+          "reason": "network packet loss",
+          "true_component": "MG01",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": true,
+          "bucket_key": "network_packet_loss|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-23 14:24:00",
+          "reason": "network packet loss",
+          "true_component": "Tomcat04",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "network_packet_loss|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-23 14:50:00",
+          "reason": "network packet loss",
+          "true_component": "MG01",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": true,
+          "bucket_key": "network_packet_loss|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-23 16:54:00",
+          "reason": "network latency",
+          "true_component": "Tomcat04",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "network_latency|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-23 17:42:00",
+          "reason": "network latency",
+          "true_component": "MG02",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "network_latency|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-23 18:03:00",
+          "reason": "network latency",
+          "true_component": "MG01",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": true,
+          "bucket_key": "network_latency|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-23 21:07:00",
+          "reason": "network packet loss",
+          "true_component": "Tomcat04",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "network_packet_loss|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-23 02:36:00",
+          "reason": "high memory usage",
+          "true_component": "Tomcat01",
+          "top5": [
+            "Redis01",
+            "MG02",
+            "IG01",
+            "IG02",
+            "MG01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "memory|evidence|gap_mid",
+          "predicted_confidence": "unknown"
+        },
+        {
+          "datetime": "2021-03-23 23:04:00",
+          "reason": "network packet loss",
+          "true_component": "MG02",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "network_packet_loss|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-23 01:01:00",
+          "reason": "high disk I/O read usage",
+          "true_component": "MG01",
+          "top5": [
+            "Tomcat02",
+            "MG01",
+            "Tomcat04",
+            "Tomcat01",
+            "Tomcat03"
+          ],
+          "top1_hit": false,
+          "top3_hit": true,
+          "bucket_key": "disk_io|evidence|gap_high",
+          "predicted_confidence": "high"
+        },
+        {
+          "datetime": "2021-03-23 01:47:00",
+          "reason": "high disk I/O read usage",
+          "true_component": "MG01",
+          "top5": [
+            "MG01",
+            "Tomcat01",
+            "IG01",
+            "IG02",
+            "MG02"
+          ],
+          "top1_hit": true,
+          "top3_hit": true,
+          "bucket_key": "disk_io|evidence|gap_high",
+          "predicted_confidence": "high"
+        },
+        {
+          "datetime": "2021-03-23 15:03:00",
+          "reason": "high disk I/O read usage",
+          "true_component": "Tomcat02",
+          "top5": [
+            "Tomcat02",
+            "MG02",
+            "Tomcat04",
+            "IG01",
+            "IG02"
+          ],
+          "top1_hit": true,
+          "top3_hit": true,
+          "bucket_key": "disk_io|evidence|gap_high",
+          "predicted_confidence": "high"
+        },
+        {
+          "datetime": "2021-03-23 00:03:00",
+          "reason": "high CPU usage",
+          "true_component": "Tomcat03",
+          "top5": [
+            "Tomcat03",
+            "apache02",
+            "Tomcat01",
+            "IG01",
+            "IG02"
+          ],
+          "top1_hit": true,
+          "top3_hit": true,
+          "bucket_key": "cpu|evidence|gap_high",
+          "predicted_confidence": "high"
+        },
+        {
+          "datetime": "2021-03-23 18:43:00",
+          "reason": "high CPU usage",
+          "true_component": "Tomcat03",
+          "top5": [
+            "Tomcat03",
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02"
+          ],
+          "top1_hit": true,
+          "top3_hit": true,
+          "bucket_key": "cpu|evidence|gap_high",
+          "predicted_confidence": "high"
+        }
+      ]
+    },
+    {
+      "heldout_date": "2021_03_24",
+      "n": 10,
+      "labels": {
+        "high": {
+          "n": 2,
+          "top1": 1,
+          "top3": 2,
+          "top1_rate": 0.5,
+          "top3_rate": 1.0
+        },
+        "low": {
+          "n": 6,
+          "top1": 0,
+          "top3": 2,
+          "top1_rate": 0.0,
+          "top3_rate": 0.3333333333333333
+        },
+        "unknown": {
+          "n": 2,
+          "top1": 1,
+          "top3": 1,
+          "top1_rate": 0.5,
+          "top3_rate": 0.5
+        }
+      },
+      "cases": [
+        {
+          "datetime": "2021-03-24 11:08:00",
+          "reason": "network packet loss",
+          "true_component": "Tomcat03",
+          "top5": [
+            "dockerA2",
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "network_packet_loss|evidence|gap_low",
+          "predicted_confidence": "unknown"
+        },
+        {
+          "datetime": "2021-03-24 11:31:00",
+          "reason": "network packet loss",
+          "true_component": "Tomcat01",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "network_packet_loss|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-24 14:30:00",
+          "reason": "network latency",
+          "true_component": "Tomcat02",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "network_latency|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-24 15:06:00",
+          "reason": "network latency",
+          "true_component": "MG01",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": true,
+          "bucket_key": "network_latency|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-24 19:24:00",
+          "reason": "network latency",
+          "true_component": "MG01",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": true,
+          "bucket_key": "network_latency|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-24 19:50:00",
+          "reason": "network latency",
+          "true_component": "MG02",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "network_latency|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-24 20:34:00",
+          "reason": "network packet loss",
+          "true_component": "Tomcat03",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "network_packet_loss|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-24 12:36:00",
+          "reason": "high disk I/O read usage",
+          "true_component": "MG02",
+          "top5": [
+            "Tomcat03",
+            "MG02",
+            "Mysql01",
+            "IG01",
+            "IG02"
+          ],
+          "top1_hit": false,
+          "top3_hit": true,
+          "bucket_key": "disk_io|evidence|gap_high",
+          "predicted_confidence": "high"
+        },
+        {
+          "datetime": "2021-03-24 14:05:00",
+          "reason": "high disk space usage",
+          "true_component": "apache01",
+          "top5": [
+            "apache01",
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02"
+          ],
+          "top1_hit": true,
+          "top3_hit": true,
+          "bucket_key": "filesystem|evidence|gap_high",
+          "predicted_confidence": "unknown"
+        },
+        {
+          "datetime": "2021-03-24 16:47:00",
+          "reason": "high CPU usage",
+          "true_component": "Tomcat01",
+          "top5": [
+            "Tomcat01",
+            "Tomcat03",
+            "Tomcat02",
+            "MG01",
+            "Tomcat04"
+          ],
+          "top1_hit": true,
+          "top3_hit": true,
+          "bucket_key": "cpu|evidence|gap_high",
+          "predicted_confidence": "high"
+        }
+      ]
+    },
+    {
+      "heldout_date": "2021_03_25",
+      "n": 19,
+      "labels": {
+        "high": {
+          "n": 10,
+          "top1": 9,
+          "top3": 10,
+          "top1_rate": 0.9,
+          "top3_rate": 1.0
+        },
+        "low": {
+          "n": 9,
+          "top1": 0,
+          "top3": 2,
+          "top1_rate": 0.0,
+          "top3_rate": 0.2222222222222222
+        }
+      },
+      "cases": [
+        {
+          "datetime": "2021-03-25 00:07:00",
+          "reason": "network latency",
+          "true_component": "MG02",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "network_latency|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-25 07:40:00",
+          "reason": "network packet loss",
+          "true_component": "Tomcat03",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "network_packet_loss|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-25 14:54:00",
+          "reason": "network latency",
+          "true_component": "Tomcat03",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "network_latency|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-25 17:22:00",
+          "reason": "network packet loss",
+          "true_component": "Tomcat01",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "network_packet_loss|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-25 18:13:00",
+          "reason": "network latency",
+          "true_component": "IG02",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": true,
+          "bucket_key": "network_latency|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-25 19:15:00",
+          "reason": "network packet loss",
+          "true_component": "Tomcat04",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "network_packet_loss|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-25 20:25:00",
+          "reason": "network latency",
+          "true_component": "MG01",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": true,
+          "bucket_key": "network_latency|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-25 20:50:00",
+          "reason": "network packet loss",
+          "true_component": "apache01",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "network_packet_loss|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-25 22:01:00",
+          "reason": "network packet loss",
+          "true_component": "MG02",
+          "top5": [
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02",
+            "Mysql01"
+          ],
+          "top1_hit": false,
+          "top3_hit": false,
+          "bucket_key": "network_packet_loss|no_evidence|gap_none",
+          "predicted_confidence": "low"
+        },
+        {
+          "datetime": "2021-03-25 00:19:00",
+          "reason": "high disk I/O read usage",
+          "true_component": "apache01",
+          "top5": [
+            "apache01",
+            "IG01",
+            "IG02",
+            "MG01",
+            "MG02"
+          ],
+          "top1_hit": true,
+          "top3_hit": true,
+          "bucket_key": "disk_io|evidence|gap_high",
+          "predicted_confidence": "high"
+        },
+        {
+          "datetime": "2021-03-25 02:43:00",
+          "reason": "high disk I/O read usage",
+          "true_component": "MG02",
+          "top5": [
+            "MG02",
+            "IG02",
+            "IG01",
+            "MG01",
+            "Mysql01"
+          ],
+          "top1_hit": true,
+          "top3_hit": true,
+          "bucket_key": "disk_io|evidence|gap_high",
+          "predicted_confidence": "high"
+        },
+        {
+          "datetime": "2021-03-25 09:04:00",
+          "reason": "high disk I/O read usage",
+          "true_component": "Tomcat01",
+          "top5": [
+            "Tomcat01",
+            "IG01",
+            "apache01",
+            "IG02",
+            "MG01"
+          ],
+          "top1_hit": true,
+          "top3_hit": true,
+          "bucket_key": "disk_io|evidence|gap_high",
+          "predicted_confidence": "high"
+        },
+        {
+          "datetime": "2021-03-25 06:40:00",
+          "reason": "high CPU usage",
+          "true_component": "apache02",
+          "top5": [
+            "apache02",
+            "Redis02",
+            "dockerA2",
+            "IG01",
+            "IG02"
+          ],
+          "top1_hit": true,
+          "top3_hit": true,
+          "bucket_key": "cpu|evidence|gap_high",
+          "predicted_confidence": "high"
+        },
+        {
+          "datetime": "2021-03-25 09:38:00",
+          "reason": "high CPU usage",
+          "true_component": "MG01",
+          "top5": [
+            "MG01",
+            "IG02",
+            "MG02",
+            "Redis02",
+            "IG01"
+          ],
+          "top1_hit": true,
+          "top3_hit": true,
+          "bucket_key": "cpu|evidence|gap_high",
+          "predicted_confidence": "high"
+        },
+        {
+          "datetime": "2021-03-25 11:53:00",
+          "reason": "high CPU usage",
+          "true_component": "Mysql02",
+          "top5": [
+            "Redis01",
+            "Redis02",
+            "Mysql02",
+            "IG01",
+            "apache02"
+          ],
+          "top1_hit": false,
+          "top3_hit": true,
+          "bucket_key": "cpu|evidence|gap_high",
+          "predicted_confidence": "high"
+        },
+        {
+          "datetime": "2021-03-25 15:42:00",
+          "reason": "high CPU usage",
+          "true_component": "Mysql02",
+          "top5": [
+            "Mysql02",
+            "Tomcat04",
+            "IG02",
+            "IG01",
+            "MG01"
+          ],
+          "top1_hit": true,
+          "top3_hit": true,
+          "bucket_key": "cpu|evidence|gap_high",
+          "predicted_confidence": "high"
+        },
+        {
+          "datetime": "2021-03-25 19:00:00",
+          "reason": "high CPU usage",
+          "true_component": "IG02",
+          "top5": [
+            "IG02",
+            "Tomcat01",
+            "Tomcat02",
+            "Tomcat04",
+            "Tomcat03"
+          ],
+          "top1_hit": true,
+          "top3_hit": true,
+          "bucket_key": "cpu|evidence|gap_high",
+          "predicted_confidence": "high"
+        },
+        {
+          "datetime": "2021-03-25 19:40:00",
+          "reason": "high CPU usage",
+          "true_component": "Tomcat04",
+          "top5": [
+            "Tomcat04",
+            "Mysql01",
+            "IG02",
+            "Mysql02",
+            "IG01"
+          ],
+          "top1_hit": true,
+          "top3_hit": true,
+          "bucket_key": "cpu|evidence|gap_high",
+          "predicted_confidence": "high"
+        },
+        {
+          "datetime": "2021-03-25 23:16:00",
+          "reason": "high CPU usage",
+          "true_component": "Redis02",
+          "top5": [
+            "Redis02",
+            "IG01",
+            "apache01",
+            "IG02",
+            "MG01"
+          ],
+          "top1_hit": true,
+          "top3_hit": true,
+          "bucket_key": "cpu|evidence|gap_high",
+          "predicted_confidence": "high"
+        }
+      ]
+    }
+  ],
+  "note": "Confidence labels are learned from all dates except the held-out date."
+}
