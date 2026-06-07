@@ -1,7 +1,7 @@
 """Layer 2: cluster-first refutation pipeline."""
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import datetime
 import json
 from pathlib import Path
@@ -10,10 +10,12 @@ from typing import Any, Mapping
 import pandas as pd
 
 from refute_b_v2_d32.evidence import D32EvidenceQuery, EvidenceResult
+from refute_b_v2_d32.joint_candidates import component_family, generate_joint_root_candidates, primary_bucket_for_reason
 from refute_b_v2_d32.layer1 import D32Knowledge
+from refute_b_v2_d32.reason_classifier import ReasonClassifier, extract_features
 from refute_b_v2_d32.schema import D32Result, EvidenceCard, RefutationDecision, RootCandidate, reason_bucket
 from refute_b_v2_d32.signature import build_case_signature, reason_for_kpi, reason_for_log
-from refute_b_v2_d32.time_anchor import CandidateTimeAnchorer
+from refute_b_v2_d32.time_anchor import CandidateTimeAnchorer, CandidateTimeAnchorPolicy
 
 
 @dataclass(frozen=True)
@@ -27,6 +29,78 @@ class D32PipelineConfig:
     prior_credit: float = 0.9
     component_evidence_prior_scale: float = 0.08
     max_component_evidence_prior: float = 2.5
+    enable_two_stage_selector: bool = True
+    two_stage_top_reasons: int = 5
+    two_stage_reason_confidence_bonus: float = 0.15
+    # Evidence scoring parameters (used by 2-stage selector)
+    two_stage_support_credit: float = 0.70
+    two_stage_refute_penalty: float = 0.90
+    two_stage_joint_signal_credit: float = 0.70
+    two_stage_type_bonus: float = 0.45
+    two_stage_type_penalty: float = 0.55
+    two_stage_background_os_cpu_penalty: float = 0.85
+    two_stage_weak_joint_penalty: float = 0.45
+    two_stage_direct_support_bonus: float = 0.90
+    two_stage_prior_tiebreak_credit: float = 0.05
+    # Window reason scoring
+    enable_window_reason_scores: bool = True
+    window_reason_score_credit: float = 0.65
+    window_reason_top_k: int = 3
+    window_reason_weak_penalty: float = 0.8
+    window_reason_type_bonus: float = 0.6
+    window_reason_type_penalty: float = 0.4
+    symptom_reason_score_credit: float = 1.0
+    symptom_reason_top_k: int = 8
+    # Dataset/fold identify the same-dataset cross-fit classifier.
+    dataset_name: str = ""
+    reason_classifier_fold: int | None = None
+    casefold_classifier_dir: str = "knowledge/casefold_classifiers"
+    strict_reason_classifier: bool = True
+    reason_classifier_path: str = "knowledge/reason_classifier.json"
+    # Reason → expected component family (system knowledge, NOT GT-derived)
+    # Based on the type-compatibility rules already in joint_candidates.py:
+    #   docker → CPU fault, os → network delay/loss, db → db connection/close
+    reason_family_map: dict[str, str] = field(default_factory=lambda: {
+        "cpu": "docker",
+        "network_latency": "os",
+        "network_packet_loss": "os",
+        "db_connection": "db",
+    })
+    # Per-dataset overrides: if dataset_name matches, use this map instead
+    # Bank: cpu/os/db/proxy faults all map to cpu bucket, no single family works
+    # Market: cpu faults are node-level (os), not container-level (docker)
+    DATASET_FAMILY_MAPS: dict[str, dict[str, str]] = field(default_factory=lambda: {
+        "bank": {},
+        "market_cb1": {},
+        "market_cb2": {},
+    })
+    # Per-dataset reason name mappings: pipeline reason string → scoring_points canonical name
+    REASON_NAME_MAPS: dict[str, dict[str, str]] = field(default_factory=lambda: {
+        "bank": {
+            "CPU fault": "high CPU usage",
+            "network delay": "network latency",
+            "network loss": "network packet loss",
+        },
+        "market_cb1": {
+            "CPU fault": "container CPU load",
+            "network delay": "container network latency",
+            "network loss": "container network packet retransmission",
+        },
+        "market_cb2": {
+            "CPU fault": "container CPU load",
+            "network delay": "container network latency",
+            "network loss": "container network packet retransmission",
+        },
+    })
+    enable_joint_candidates: bool = True
+    joint_beam_per_reason: int = 8
+    joint_prior_scale: float = 0.15
+    joint_prior_offset: float = 0.05
+    max_joint_prior: float = 1.8
+    legacy_component_evidence_scale_with_joint: float = 1.0
+    time_anchor_early_bonus: float = 0.25
+    time_anchor_sustained_bonus: float = 2.0
+    disable_family_filter: bool = False
 
 
 class D32RefutationPipeline:
@@ -38,6 +112,9 @@ class D32RefutationPipeline:
         self.node_graph = dict(node_graph)
         self.services = [str(s) for s in services]
         self.config = config or D32PipelineConfig()
+        self._reason_classifier: ReasonClassifier | None = None
+        if self.config.enable_two_stage_selector:
+            self._load_reason_classifier()
 
     def select(
         self,
@@ -53,14 +130,30 @@ class D32RefutationPipeline:
         signature = build_case_signature(case_id, metric_df, log_df, trace_summary, self.baseline, modal_status)
         clusters = self.knowledge.match_clusters(signature, case_id=case_id, k=3)
         mined_rules = self.knowledge.mined_reason_priors(signature)
-        candidates = self._candidate_space(clusters, mined_rules, signature, metric_df, log_df)
+        candidates = self._candidate_space(clusters, mined_rules, signature, metric_df, log_df, trace_summary, window_start_ts)
+        window_reason_scores = self._window_reason_scores(candidates, signature)
         evidence = D32EvidenceQuery(metric_df, log_df, trace_summary, self.baseline, self.node_graph, modal_status)
-        decisions = [self._evaluate(candidate, evidence) for candidate in candidates]
-        decisions = sorted(decisions, key=lambda row: (row.rebuttal_score, -row.support_strength, row.candidate.component, row.candidate.reason))
+        reason_posterior: dict[str, float] | None = None
+        # Only 2-stage selector is supported (evidence-first and legacy removed)
+        reason_posterior = dict(self._compute_reason_posterior(candidates, evidence, signature))
+        decisions = self._evaluate_two_stage(candidates, evidence, reason_posterior)
+        decisions = sorted(decisions, key=lambda row: (
+            -reason_posterior.get(row.candidate.reason_bucket, 0.0),
+            row.rebuttal_score,
+            -row.support_strength,
+            row.candidate.component,
+            row.candidate.reason,
+        ))
         if not decisions:
             decisions = [self._empty_decision(RootCandidate(self.services[0] if self.services else "", "network latency"), "no_candidates")]
         selected = decisions[: max(1, int(failure_count))]
-        anchorer = CandidateTimeAnchorer(self.baseline, self.node_graph)
+        anchorer = CandidateTimeAnchorer(
+            self.baseline, self.node_graph,
+            policy=CandidateTimeAnchorPolicy(
+                early_vote_bonus=self.config.time_anchor_early_bonus,
+                metric_sustained_bonus=self.config.time_anchor_sustained_bonus,
+            ),
+        )
         time_anchors = {
             row.candidate.key(): anchorer.anchor(row.candidate, metric_df, log_df, trace_summary, window_start_ts)
             for row in selected
@@ -69,7 +162,7 @@ class D32RefutationPipeline:
             str(i + 1): {
                 "root cause occurrence datetime": self._time_anchor(time_anchors[row.candidate.key()]),
                 "root cause component": row.candidate.component,
-                "root cause reason": row.candidate.reason,
+                "root cause reason": self._map_reason_name(row.candidate.reason),
             }
             for i, row in enumerate(selected)
         }
@@ -87,6 +180,8 @@ class D32RefutationPipeline:
                 "matched_clusters": clusters,
                 "mined_rules_matched": mined_rules,
                 "candidate_space": [candidate.to_dict() for candidate in candidates],
+                "window_reason_scores": window_reason_scores,
+                "reason_posterior": reason_posterior,
                 "selected_time_anchors": [
                     {
                         "candidate": row.candidate.to_dict(),
@@ -105,14 +200,27 @@ class D32RefutationPipeline:
         signature: Mapping[str, Any],
         metric_df: pd.DataFrame,
         log_df: pd.DataFrame,
+        trace_summary: Mapping[str, Any] | None,
+        window_start_ts: int,
     ) -> list[RootCandidate]:
         out: dict[tuple[str, str], RootCandidate] = {}
         evidence_priors = self._component_evidence_priors(signature)
         services_by_bucket = self._services_by_reason_bucket(signature, evidence_priors)
 
-        # Textbook-based candidates (new)
-        for candidate in self._textbook_candidates(signature, metric_df, log_df):
-            self._put_best(out, candidate)
+        if self.config.enable_joint_candidates:
+            for candidate in generate_joint_root_candidates(
+                metric_df=metric_df,
+                log_df=log_df,
+                trace_summary=trace_summary,
+                baseline=self.baseline,
+                joint_prior=self.knowledge.joint_prior,
+                window_start_ts=window_start_ts,
+                beam_per_reason=self.config.joint_beam_per_reason,
+                prior_scale=self.config.joint_prior_scale,
+                prior_offset=self.config.joint_prior_offset,
+                max_prior=self.config.max_joint_prior,
+            ):
+                self._put_best(out, candidate)
 
         for cluster in clusters:
             sim = float(cluster.get("similarity", 0.0) or 0.0)
@@ -120,7 +228,8 @@ class D32RefutationPipeline:
                 reason = str(row["reason"])
                 bucket = reason_bucket(reason)
                 for component in services_by_bucket.get(bucket, services_by_bucket.get("*", []))[:8]:
-                    evidence_prior = evidence_priors.get((component, bucket), 0.0)
+                    raw_evidence_prior = evidence_priors.get((component, bucket), 0.0)
+                    evidence_prior = self._legacy_component_evidence_prior(raw_evidence_prior)
                     candidate = RootCandidate(
                         component,
                         reason,
@@ -129,7 +238,8 @@ class D32RefutationPipeline:
                         details={
                             "cluster_id": cluster.get("cluster_id"),
                             "similarity": sim,
-                            "component_evidence_prior": evidence_prior,
+                            "component_evidence_prior": raw_evidence_prior,
+                            "effective_component_evidence_prior": evidence_prior,
                             "reason_prior_only": True,
                             **dict(row),
                         },
@@ -141,13 +251,18 @@ class D32RefutationPipeline:
             if not reason:
                 continue
             for service in services[:8]:
-                evidence_prior = evidence_priors.get((str(service), reason_bucket(reason)), 0.0)
+                raw_evidence_prior = evidence_priors.get((str(service), reason_bucket(reason)), 0.0)
+                evidence_prior = self._legacy_component_evidence_prior(raw_evidence_prior)
                 candidate = RootCandidate(
                     str(service),
                     reason,
                     prior=float(rule.get("confidence", 0.0) or 0.0) + evidence_prior,
                     source="layer1_mined_rule",
-                    details={**dict(rule), "component_evidence_prior": evidence_prior},
+                    details={
+                        **dict(rule),
+                        "component_evidence_prior": raw_evidence_prior,
+                        "effective_component_evidence_prior": evidence_prior,
+                    },
                 )
                 self._put_best(out, candidate)
         for candidate in self._fallback_event_candidates(metric_df, log_df):
@@ -191,6 +306,11 @@ class D32RefutationPipeline:
                     priors[key] = max(priors.get(key, 0.0), prior)
         return priors
 
+    def _legacy_component_evidence_prior(self, raw_prior: float) -> float:
+        if not self.config.enable_joint_candidates:
+            return float(raw_prior)
+        return float(raw_prior) * float(self.config.legacy_component_evidence_scale_with_joint)
+
     @staticmethod
     def _put_best(out: dict[tuple[str, str], RootCandidate], candidate: RootCandidate) -> None:
         old = out.get(candidate.key())
@@ -225,120 +345,373 @@ class D32RefutationPipeline:
                 rows.append(RootCandidate(service, "network latency", 0.0, "empty_fallback", {}))
         return rows
 
-    def _textbook_candidates(
+    def _load_reason_classifier(self) -> None:
+        from pathlib import Path
+
+        if self.config.dataset_name and self.config.reason_classifier_fold is not None:
+            clf_name = f"reason_classifier_{self.config.dataset_name}_fold{int(self.config.reason_classifier_fold)}.json"
+            fold_path = Path(self.config.casefold_classifier_dir) / clf_name
+            if not fold_path.exists():
+                fold_path = Path(__file__).parent.parent / self.config.casefold_classifier_dir / clf_name
+            if fold_path.exists():
+                self._reason_classifier = ReasonClassifier.load(str(fold_path))
+                return
+            if self.config.strict_reason_classifier:
+                raise FileNotFoundError(f"missing strict case-fold reason classifier: {fold_path}")
+
+        if self.config.strict_reason_classifier and self.config.dataset_name:
+            raise ValueError("strict same-dataset case-fold mode requires reason_classifier_fold")
+
+        path = Path(self.config.reason_classifier_path)
+        if not path.exists():
+            path = Path(__file__).parent.parent / self.config.reason_classifier_path
+        if path.exists():
+            self._reason_classifier = ReasonClassifier.load(str(path))
+
+    def _compute_reason_posterior(
         self,
+        candidates: list[RootCandidate],
+        evidence: D32EvidenceQuery,
         signature: Mapping[str, Any],
-        metric_df: pd.DataFrame,
-        log_df: pd.DataFrame,
-    ) -> list[RootCandidate]:
-        """Generate candidates using the textbook approach.
+    ) -> dict[str, float]:
+        if self._reason_classifier is not None:
+            return self._learned_reason_posterior(candidates, evidence)
 
-        1. Collect system-level symptoms from signature
-        2. Score reasons by symptom match
-        3. For each top reason, rank components by evidence + log + time + prior
-        4. Return top (component, reason) pairs
+        import math
+        from collections import defaultdict
+        # ... (保留了原来的 hand-tuned 实现作为 fallback)
+        config = self.config
+        raw: dict[str, list[float]] = defaultdict(list)
+        for candidate in candidates:
+            if candidate.source != "joint_generator":
+                continue
+            details = dict(candidate.details)
+            signal_strength = max(0.0, float(details.get("signal_strength", 0.0) or 0.0))
+            signal_count = max(0.0, float(details.get("signal_count", 0.0) or 0.0))
+            if bool(details.get("weak_family_presence")):
+                s = -config.window_reason_weak_penalty
+            else:
+                s = math.log1p(min(signal_strength, 100.0)) + min(signal_count, 20.0) / 5.0
+            family = component_family(candidate.component)
+            bucket = primary_bucket_for_reason(candidate.reason)
+            if _type_compatible(family, candidate.reason, bucket):
+                s += config.window_reason_type_bonus
+            else:
+                s -= config.window_reason_type_penalty
+            sources = {str(item) for item in details.get("joint_sources", [])}
+            if any("trace" in item for item in sources):
+                s += 0.8
+            if any("log" in item for item in sources):
+                s += 1.0
+            raw[candidate.reason].append(float(s))
+
+        posterior: dict[str, float] = {}
+        top_k = max(1, int(config.window_reason_top_k))
+        for reason, scores in raw.items():
+            top = sorted(scores, reverse=True)[:top_k]
+            posterior[reason] = float(sum(top) / max(1, len(top)))
+
+        symptom_scores = self.knowledge.symptom_reason_scores(
+            signature,
+            top_k=config.symptom_reason_top_k,
+            extra_features=_joint_reason_features_from_candidates(candidates),
+        )
+        for reason, val in symptom_scores.items():
+            posterior[reason] = posterior.get(reason, 0.0) + config.symptom_reason_score_credit * float(val)
+
+        evidence_weight = float(getattr(config, 'two_stage_reason_evidence_weight', 0.5))
+        if evidence.trace_summary and evidence.trace_summary.get("trace_status") == "present":
+            events = evidence.trace_summary.get("events", {}) or {}
+            slow_edges = events.get("slow_edges", []) or []
+            dropped_edges = events.get("dropped_edges", []) or []
+            if slow_edges:
+                posterior["network delay"] = posterior.get("network delay", 0.0) + evidence_weight * 1.5
+            if dropped_edges:
+                posterior["network loss"] = posterior.get("network loss", 0.0) + evidence_weight * 1.5
+            if events.get("first_anomalous_service"):
+                posterior["network delay"] = posterior.get("network delay", 0.0) + evidence_weight * 0.5
+
+        if evidence.log_df is not None and not evidence.log_df.empty and "value" in evidence.log_df.columns:
+            log_texts = " ".join(evidence.log_df["value"].dropna().astype(str))
+            log_low = log_texts.lower()
+            if any(kw in log_low for kw in ("outofmemory", "oom", "heap space", "java heap")):
+                posterior["JVM Out of Memory (OOM) Heap"] = posterior.get("JVM Out of Memory (OOM) Heap", 0.0) + evidence_weight * 2.0
+            if any(kw in log_low for kw in ("connection", "timeout", "session", "too many")):
+                posterior["db connection limit"] = posterior.get("db connection limit", 0.0) + evidence_weight * 1.5
+
+        if evidence.metric_df is not None and not evidence.metric_df.empty:
+            reason_bucket_map = {
+                "CPU fault": "cpu",
+                "network delay": "network_latency",
+                "network loss": "network_packet_loss",
+                "db connection limit": "db_connection",
+                "db close": "db_connection",
+            }
+            bucket_aggregate: dict[str, float] = defaultdict(float)
+            for row in evidence.metric_df.itertuples(index=False):
+                value = getattr(row, "value", None)
+                if value is None:
+                    continue
+                result = evidence.baseline.is_anomalous(
+                    str(row.cmdb_id), str(row.kpi_name), value, threshold="p99",
+                )
+                if not result.is_anomalous:
+                    continue
+                strength = abs(float(result.deviation or 0.0))
+                kpi_low = str(row.kpi_name).lower()
+                if any(t in kpi_low for t in ("cpu", "load")):
+                    bucket_aggregate["cpu"] += strength
+                if any(t in kpi_low for t in ("mem", "memory", "heap", "swap", "cache")):
+                    bucket_aggregate["memory"] += strength
+                if any(t in kpi_low for t in ("drop", "loss", "retrans", "error", "err", "reject", "abort", "reset")):
+                    bucket_aggregate["network_packet_loss"] += strength
+                elif any(t in kpi_low for t in ("net", "traffic", "tcp", "ping", "packet", "recv", "send", "queue")):
+                    bucket_aggregate["network_latency"] += strength
+            for reason, bucket in reason_bucket_map.items():
+                agg = bucket_aggregate.get(bucket, 0.0)
+                if agg > 0.0:
+                    posterior[reason] = posterior.get(reason, 0.0) + evidence_weight * math.log1p(agg)
+
+            mem_agg = bucket_aggregate.get("memory", 0.0)
+            if mem_agg > 0.0:
+                posterior["high memory usage"] = posterior.get("high memory usage", 0.0) + evidence_weight * math.log1p(mem_agg)
+
+        return posterior
+
+    def _learned_reason_posterior(
+        self,
+        candidates: list[RootCandidate],
+        evidence: D32EvidenceQuery,
+    ) -> dict[str, float]:
+        feats = extract_features(
+            metric_df=evidence.metric_df,
+            log_df=evidence.log_df,
+            trace_summary=evidence.trace_summary,
+            baseline=evidence.baseline,
+            joint_candidates=candidates,
+        )
+        if self._reason_classifier is None:
+            return {}
+        proba = self._reason_classifier.predict_proba(feats)
+        # Ensure every reason bucket present in candidates gets a minimal probability
+        # (handles LODO case where some classes were never in training data)
+        seen_buckets = {c.reason_bucket for c in candidates}
+        min_prob = 0.005
+        for bucket in sorted(seen_buckets):
+            if bucket not in proba:
+                proba[bucket] = min_prob
+        return proba
+
+    def _component_earliness_strength(
+        self,
+        component: str,
+        reason_bucket: str,
+        evidence: D32EvidenceQuery,
+    ) -> tuple[float, float, float]:
+        """Compute (earliness, max_deviation, anomaly_count) for a component + reason bucket.
+
+        Earliness is 1.0 if first anomaly is at window start, decaying to 0.
         """
-        textbook = self.knowledge.textbook
-        if not textbook.symptom_pattern:
-            return []
+        import math
+        from refute_b_v2_d32.evidence import kpi_in_bucket
 
-        buckets = textbook.metadata.get("buckets", [
-            "cpu", "memory", "disk_io", "filesystem",
-            "network_latency", "network_packet_loss",
-        ])
+        df = evidence.metric_df
+        if df is None or df.empty or "kpi_name" not in df.columns:
+            return (0.0, 0.0, 0.0)
 
-        # --- 1. Collect system-level symptoms ---
-        symptoms: dict[str, str] = {}
-        for bucket in buckets:
-            symptoms[bucket] = "missing"
-        for svc in signature.get("services", []):
-            metric = svc.get("metric", {})
-            for bucket in buckets:
-                info = metric.get(bucket, {})
-                state = str(info.get("state", "normal"))
-                if state == "support":
-                    symptoms[bucket] = "support"
-                elif bucket not in symptoms or symptoms[bucket] == "missing":
-                    symptoms[bucket] = state
+        comp_rows = df[df["cmdb_id"].astype(str) == str(component)]
+        if comp_rows.empty:
+            return (0.0, 0.0, 0.0)
 
-        # --- 2. Score reasons ---
-        top_reasons = textbook.score_reasons(symptoms, top_k=3)
+        first_ts = None
+        max_dev = 0.0
+        anom_count = 0
 
-        # --- 3. Compute per-component evidence/log/time for each top reason ---
-        candidates = []
-        for reason, reason_score in top_reasons:
-            primary = textbook.primary_bucket.get(reason, reason)
-            bucket = primary
+        window_start = float(comp_rows["timestamp"].min())
+        window_end = float(comp_rows["timestamp"].max())
+        window_duration = max(window_end - window_start, 1.0)
 
-            # evidence_strengths per component in primary bucket
-            evidence_strengths: dict[str, float] = {}
-            for svc in signature.get("services", []):
-                comp = str(svc.get("service", ""))
-                metric_info = svc.get("metric", {}).get(bucket, {})
-                if metric_info.get("state") == "support":
-                    evidence_strengths[comp] = float(metric_info.get("strength", 0.0) or 0.0)
+        for row in comp_rows.itertuples(index=False):
+            kpi = str(row.kpi_name)
+            if not kpi_in_bucket(kpi, reason_bucket):
+                continue
+            value = getattr(row, "value", None)
+            if value is None or not isinstance(value, (int, float)) or not (isinstance(value, float) or isinstance(value, int)):
+                try:
+                    value = float(value)
+                except (ValueError, TypeError):
+                    continue
+            if not math.isfinite(float(value)):
+                continue
+            try:
+                result = evidence.baseline.is_anomalous(
+                    str(row.cmdb_id), kpi, float(value), threshold="p99",
+                )
+            except Exception:
+                continue
+            if not result.is_anomalous:
+                continue
 
-            # log_hits: components with log matching this reason's bucket
-            log_hits: dict[str, int] = {}
-            if log_df is not None and not log_df.empty and "value" in log_df.columns:
-                from refute_b_v2_d32.schema import reason_bucket as _rb
-                target_bucket = _rb(reason)
-                from refute_b_v2_d32.signature import reason_for_log
-                for svc in signature.get("services", []):
-                    comp = str(svc.get("service", ""))
-                    log_state = svc.get("log", {}).get(bucket, {})
-                    if log_state.get("state") == "support":
-                        log_hits[comp] = 1
+            dev = abs(float(result.deviation or 0.0))
+            anom_count += 1
+            if dev > max_dev:
+                max_dev = dev
+            ts = float(row.timestamp)
+            if first_ts is None or ts < first_ts:
+                first_ts = ts
 
-            # time_ranks: earlier anomaly → higher rank
-            time_ranks: dict[str, float] = {}
-            if metric_df is not None and not metric_df.empty:
-                time_ranks = _compute_time_ranks(metric_df, self.baseline, primary)
+        if first_ts is None:
+            return (0.0, 0.0, 0.0)
 
-            # --- 4. Rank components ---
-            top_comps = textbook.top_components(
-                reason, evidence_strengths, log_hits, time_ranks, k=3,
-            )
+        earliness = 1.0 - min(1.0, (first_ts - window_start) / window_duration)
+        return (earliness, math.log1p(max_dev), math.log1p(anom_count))
 
-            # --- 5. Generate candidates ---
-            tb_priors = dict(textbook.component_prior.get(reason, []))
-            max_ev = max(evidence_strengths.values()) if evidence_strengths else 1.0
-            for comp in top_comps:
-                tb_p = tb_priors.get(comp, 0.01)
-                norm_ev = min(evidence_strengths.get(comp, 0.0) / max(max_ev, 1.0), 1.0)
-                prior = 0.3 + tb_p * 3.0 + norm_ev * 0.3  # prior-dominated, evidence weak tiebreaker
-                candidates.append(RootCandidate(
-                    str(comp), reason, prior,
-                    "textbook",
-                    {"textbook_prior": tb_p, "primary_bucket": primary, "norm_evidence": norm_ev},
+    def _evaluate_two_stage(
+        self,
+        candidates: list[RootCandidate],
+        evidence: D32EvidenceQuery,
+        reason_posterior: Mapping[str, float],
+    ) -> list[RefutationDecision]:
+        """Stage 2 v2: reason→family filter + component-level earliness/strength ranking."""
+        import math
+
+        top_k = max(1, int(self.config.two_stage_top_reasons))
+        sorted_reasons = sorted(reason_posterior.items(), key=lambda x: -x[1])
+        selected_reasons = {reason for reason, _ in sorted_reasons[:top_k]}
+
+        # Phase 1: Family filter — for each selected reason, keep only matching family
+        family_map = self.config.reason_family_map if self.config.disable_family_filter else \
+            self.config.DATASET_FAMILY_MAPS.get(self.config.dataset_name, self.config.reason_family_map)
+        family_candidates: dict[str, list[RootCandidate]] = {}
+        for c in candidates:
+            c_bucket = c.reason_bucket
+            c_family = component_family(c.component)
+            expected_family = family_map.get(c_bucket)
+            if c_bucket in selected_reasons or c.reason in selected_reasons:
+                if expected_family is None or c_family == expected_family:
+                    family_candidates.setdefault(c_bucket, []).append(c)
+
+        if not family_candidates:
+            return [self._empty_decision(
+                candidates[0] if candidates else RootCandidate(self.services[0] if self.services else "", "network latency"),
+                "no_family_matching_candidates",
+            )]
+
+        decisions: list[RefutationDecision] = []
+        for reason in [r for r, _ in sorted_reasons[:top_k]]:
+            reason_cands = family_candidates.get(reason, [])
+            if not reason_cands:
+                continue
+
+            # Phase 2: Compute component-level (earliness, strength, density) for each candidate
+            scored_cands: list[tuple[float, RootCandidate, tuple[float, float, float]]] = []
+            for candidate in reason_cands:
+                e, s, d = self._component_earliness_strength(
+                    candidate.component, reason, evidence,
+                )
+                joint_sig = 0.0
+                if candidate.source == "joint_generator":
+                    details = dict(candidate.details)
+                    js = float(details.get("signal_strength", 0.0) or 0.0)
+                    jc = float(details.get("signal_count", 0.0) or 0.0)
+                    joint_sig = math.log1p(js) + min(jc, 12.0) / 8.0
+
+                # Combined score: earliness (0.6) + strength (0.25) + density (0.15) + joint signal bonus
+                component_score = 0.60 * e + 0.25 * s + 0.15 * d + 0.10 * joint_sig
+                scored_cands.append((component_score, candidate, (e, s, d)))
+
+            scored_cands.sort(key=lambda x: -x[0])
+
+            rc = float(max(0.0, reason_posterior.get(reason, 0.0) or 0.0))
+            for rank, (comp_score, candidate, (e, s, d)) in enumerate(scored_cands):
+                # Lightweight evidence evaluation (rules are still run for debug)
+                cards = []
+                for rule in self.rules:
+                    if not rule.get("enabled", True):
+                        continue
+                    buckets = {str(item) for item in rule.get("reason_buckets", [])}
+                    names = {str(item) for item in rule.get("reason_names", [])}
+                    if names and candidate.reason not in names:
+                        continue
+                    if buckets and candidate.reason_bucket not in buckets:
+                        continue
+                    card = self._card_for(rule, self._call_rule(rule, candidate, evidence))
+                    if card is not None:
+                        cards.append(card)
+
+                support = sum(_squash(card.strength) for card in cards if card.polarity == "support")
+                refute = sum(_squash(card.strength) for card in cards if card.polarity == "refute")
+                blind = sum(1 for card in cards if card.polarity == "blind")
+
+                # Score: reason_confidence * component_score dominates
+                base = rc * comp_score
+                score = (
+                    1.00 * base
+                    + 0.05 * self.config.two_stage_support_credit * support
+                    - 0.03 * self.config.two_stage_refute_penalty * refute
+                    - 0.02 * float(blind)
+                )
+                cards.append(EvidenceCard(
+                    "selector.two_stage_v2",
+                    "selector",
+                    score,
+                    f"component-level score reason={candidate.reason} comp={candidate.component} e={e:.3f} s={s:.3f} d={d:.3f} rank={rank}",
+                    {"component_score": float(comp_score), "earliness": float(e), "strength": float(s), "density": float(d),
+                     "rank": rank, "reason_confidence": float(rc)},
+                ))
+                confidence = "HIGH" if rank == 0 and score >= 1.0 else ("MEDIUM" if rank <= 2 else "LOW")
+                decisions.append(RefutationDecision(
+                    candidate, float(-score), float(support), float(refute), int(blind), tuple(cards), confidence,
                 ))
 
-        return candidates
+        return decisions
 
-    def _evaluate(self, candidate: RootCandidate, evidence: D32EvidenceQuery) -> RefutationDecision:
-        cards = []
-        for rule in self.rules:
-            if not rule.get("enabled", True):
+    def _window_reason_scores(self, candidates: list[RootCandidate], signature: Mapping[str, Any]) -> dict[str, float]:
+        if not self.config.enable_window_reason_scores:
+            return {}
+        raw: dict[str, list[float]] = {}
+        for candidate in candidates:
+            if candidate.source != "joint_generator":
                 continue
-            buckets = {str(item) for item in rule.get("reason_buckets", [])}
-            names = {str(item) for item in rule.get("reason_names", [])}
-            if names and candidate.reason not in names:
-                continue
-            if buckets and candidate.reason_bucket not in buckets:
-                continue
-            result = self._call_rule(rule, candidate, evidence)
-            card = self._card_for(rule, result)
-            if card:
-                cards.append(card)
-        import math
-        def _squash(s: float) -> float:
-            return math.log(1.0 + min(abs(s), 10.0))
-        support = sum(_squash(card.strength) for card in cards if card.polarity == "support")
-        refute = sum(_squash(card.strength) for card in cards if card.polarity == "refute")
-        blind = sum(1 for card in cards if card.polarity == "blind")
-        rebuttal = refute + blind * self.config.blind_penalty - support * self.config.support_credit - candidate.prior * self.config.prior_credit
-        confidence = "HIGH" if rebuttal <= 0 and support >= 2 else ("MEDIUM" if rebuttal <= 2 else "LOW")
-        return RefutationDecision(candidate, float(rebuttal), float(support), float(refute), int(blind), tuple(cards), confidence)
+            details = dict(candidate.details)
+            signal_strength = max(0.0, float(details.get("signal_strength", 0.0) or 0.0))
+            signal_count = max(0.0, float(details.get("signal_count", 0.0) or 0.0))
+            if bool(details.get("weak_family_presence")):
+                score = -self.config.window_reason_weak_penalty
+            else:
+                import math
+                score = math.log1p(min(signal_strength, 100.0)) + min(signal_count, 20.0) / 5.0
+            family = component_family(candidate.component)
+            bucket = primary_bucket_for_reason(candidate.reason)
+            if _type_compatible(family, candidate.reason, bucket):
+                score += self.config.window_reason_type_bonus
+            else:
+                score -= self.config.window_reason_type_penalty
+            sources = {str(item) for item in details.get("joint_sources", [])}
+            if any("trace" in item for item in sources):
+                score += 0.8
+            if any("log" in item for item in sources):
+                score += 1.0
+            raw.setdefault(candidate.reason, []).append(float(score))
+        joint_margins: dict[str, float] = {}
+        top_k = max(1, int(self.config.window_reason_top_k))
+        if raw:
+            absolute = {
+                reason: sum(sorted(scores, reverse=True)[:top_k]) / min(top_k, len(scores))
+                for reason, scores in raw.items()
+            }
+            joint_margins = _margin_scores(absolute)
+        symptom_scores = self.knowledge.symptom_reason_scores(
+            signature,
+            top_k=self.config.symptom_reason_top_k,
+            extra_features=_joint_reason_features_from_candidates(candidates),
+        )
+        symptom_margins = _margin_scores(symptom_scores)
+        reasons = set(joint_margins) | set(symptom_margins)
+        return {
+            reason: float(joint_margins.get(reason, 0.0) + self.config.symptom_reason_score_credit * symptom_margins.get(reason, 0.0))
+            for reason in sorted(reasons)
+        }
 
     def _call_rule(self, rule: Mapping[str, Any], candidate: RootCandidate, evidence: D32EvidenceQuery) -> EvidenceResult:
         name = str(rule.get("evidence_query", ""))
@@ -389,9 +762,62 @@ class D32RefutationPipeline:
     def _empty_decision(candidate: RootCandidate, reason: str) -> RefutationDecision:
         return RefutationDecision(candidate, 999.0, 0.0, 0.0, 1, (EvidenceCard("pipeline.empty", "blind", 0.0, reason),), "LOW")
 
+    def _map_reason_name(self, reason: str) -> str:
+        name_map = self.config.REASON_NAME_MAPS.get(self.config.dataset_name, {})
+        return name_map.get(reason, reason)
+
 
 def _signature_services(signature: Mapping[str, Any]) -> list[str]:
     return [str(row.get("service")) for row in signature.get("services", []) if row.get("service")]
+
+
+def _squash(strength: float) -> float:
+    import math
+
+    return math.log(1.0 + min(abs(float(strength)), 10.0))
+
+
+def _type_compatible(family: str, reason: str, bucket: str) -> bool:
+    if reason == "CPU fault" and family == "docker":
+        return True
+    if bucket in {"network_latency", "network_packet_loss"} and family == "os":
+        return True
+    if bucket == "db_connection" and family == "db":
+        return True
+    return False
+
+
+def _margin_scores(scores: Mapping[str, float]) -> dict[str, float]:
+    out: dict[str, float] = {}
+    for key, value in scores.items():
+        others = [float(other) for other_key, other in scores.items() if other_key != key]
+        other_best = max(others) if others else 0.0
+        out[str(key)] = float(value) - other_best
+    return out
+
+
+def _joint_reason_features_from_candidates(candidates: list[RootCandidate]) -> list[str]:
+    features: set[str] = set()
+    for candidate in candidates:
+        if candidate.source != "joint_generator":
+            continue
+        details = dict(candidate.details)
+        if bool(details.get("weak_family_presence")):
+            continue
+        signal_count = float(details.get("signal_count", 0.0) or 0.0)
+        if signal_count <= 0.0:
+            continue
+        signal_strength = float(details.get("signal_strength", 0.0) or 0.0)
+        family = component_family(candidate.component)
+        bucket = str(details.get("primary_bucket") or primary_bucket_for_reason(candidate.reason))
+        features.add(f"joint:family:{family}:bucket:{bucket}")
+        if signal_count >= 5:
+            features.add(f"joint:family:{family}:bucket:{bucket}:multi")
+        if signal_strength >= 20.0:
+            features.add(f"joint:family:{family}:bucket:{bucket}:strong")
+        elif signal_strength >= 5.0:
+            features.add(f"joint:family:{family}:bucket:{bucket}:medium")
+    return sorted(features)
 
 
 def _compute_time_ranks(

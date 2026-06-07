@@ -20,6 +20,7 @@ from refute.src.data_loader import load_log_day, load_metric_day  # noqa: E402
 from refute_b_v2.query_windows import parse_query_window  # noqa: E402
 from refute_b_v2_d32.layer1 import D32Knowledge, KnowledgeBuildConfig, build_knowledge, case_rows_from_openrca, load_trace_summary  # noqa: E402
 from refute_b_v2_d32.layer2 import D32PipelineConfig, D32RefutationPipeline  # noqa: E402
+from refute_b_v2_d32.reason_classifier import contiguous_case_folds  # noqa: E402
 
 
 class DayCache:
@@ -70,6 +71,28 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--debug-json", default="logs/d32_lodo_trace_debug.json")
     parser.add_argument("--checkpoint-jsonl", default="logs/d32_lodo_trace_checkpoint.jsonl")
     parser.add_argument("--resume-checkpoint", action="store_true")
+    parser.add_argument("--dataset-name", default="bank")
+    parser.add_argument("--casefold-classifier-dir", default="knowledge/casefold_classifiers")
+    parser.add_argument("--disable-family-filter", action="store_true",
+                        help="Disable reason→component family filter (keeps all families per reason)")
+    parser.add_argument("--disable-joint-candidates", action="store_true")
+    parser.add_argument("--joint-beam-per-reason", type=int, default=8)
+    parser.add_argument("--joint-prior-scale", type=float, default=0.15)
+    parser.add_argument("--joint-prior-offset", type=float, default=0.05)
+    parser.add_argument("--max-joint-prior", type=float, default=1.8)
+    parser.add_argument("--legacy-component-evidence-scale-with-joint", type=float, default=1.0)
+    parser.add_argument("--disable-window-reason-scores", action="store_true")
+    parser.add_argument("--window-reason-score-credit", type=float, default=0.65)
+    parser.add_argument("--window-reason-top-k", type=int, default=3)
+    parser.add_argument("--window-reason-weak-penalty", type=float, default=0.8)
+    parser.add_argument("--window-reason-type-bonus", type=float, default=0.6)
+    parser.add_argument("--window-reason-type-penalty", type=float, default=0.4)
+    parser.add_argument("--symptom-reason-score-credit", type=float, default=1.0)
+    parser.add_argument("--symptom-reason-top-k", type=int, default=8)
+    parser.add_argument("--time-anchor-early-bonus", type=float, default=0.25,
+                        help="Early vote bonus for time anchor (higher = earlier onset)")
+    parser.add_argument("--time-anchor-sustained-bonus", type=float, default=2.0,
+                        help="Sustained onset bonus for time anchor (higher = earlier onset)")
     return parser.parse_args()
 
 
@@ -123,6 +146,10 @@ def main() -> int:
     rules = load_rules(args.rules)
     services = known_services(node_graph)
     case_rows = case_rows_from_openrca(args.query_csv, args.record_csv)
+    row_fold: dict[int, int] = {}
+    for fold_idx, fold_indices in enumerate(contiguous_case_folds(len(case_rows), 2)):
+        for case_pos in fold_indices:
+            row_fold[int(case_pos)] = int(fold_idx)
     record_df = pd.read_csv(args.record_csv)
     dates = sorted(pd.to_datetime(record_df["datetime"]).dt.strftime("%Y_%m_%d").unique())
     row_date = {idx: pd.to_datetime(record_df.iloc[idx]["datetime"]).strftime("%Y_%m_%d") for idx in range(len(record_df))}
@@ -151,7 +178,34 @@ def main() -> int:
             )
             knowledge_path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
             knowledge = D32Knowledge(data)
-        pipeline = D32RefutationPipeline(knowledge, rules, baseline, node_graph, services, config=D32PipelineConfig())
+        family_kwargs = {}
+        if args.disable_family_filter:
+            family_kwargs = {"disable_family_filter": True}
+        pipelines: dict[int, D32RefutationPipeline] = {}
+        for fold_idx in sorted(set(row_fold.values())):
+            pipeline_config = D32PipelineConfig(
+                dataset_name=args.dataset_name,
+                reason_classifier_fold=fold_idx,
+                casefold_classifier_dir=args.casefold_classifier_dir,
+                enable_joint_candidates=not args.disable_joint_candidates,
+                joint_beam_per_reason=args.joint_beam_per_reason,
+                joint_prior_scale=args.joint_prior_scale,
+                joint_prior_offset=args.joint_prior_offset,
+                max_joint_prior=args.max_joint_prior,
+                legacy_component_evidence_scale_with_joint=args.legacy_component_evidence_scale_with_joint,
+                enable_window_reason_scores=not args.disable_window_reason_scores,
+                window_reason_score_credit=args.window_reason_score_credit,
+                window_reason_top_k=args.window_reason_top_k,
+                window_reason_weak_penalty=args.window_reason_weak_penalty,
+                window_reason_type_bonus=args.window_reason_type_bonus,
+                window_reason_type_penalty=args.window_reason_type_penalty,
+                symptom_reason_score_credit=args.symptom_reason_score_credit,
+                symptom_reason_top_k=args.symptom_reason_top_k,
+                time_anchor_early_bonus=args.time_anchor_early_bonus,
+                time_anchor_sustained_bonus=args.time_anchor_sustained_bonus,
+                **family_kwargs,
+            )
+            pipelines[fold_idx] = D32RefutationPipeline(knowledge, rules, baseline, node_graph, services, config=pipeline_config)
         print(f"heldout {heldout}: train={len(train_rows)} test={len(test_ids)} clusters={len(knowledge.clusters)} rules={len(knowledge.mined_rules)}", flush=True)
         for row_id in test_ids:
             if row_id in completed:
@@ -165,7 +219,8 @@ def main() -> int:
                 "log": "present" if "log" in modalities and not log_df.empty else ("empty_window" if "log" in modalities else "disabled"),
                 "trace": (trace_summary or {}).get("trace_status", "unloaded") if "trace" in modalities else "disabled",
             }
-            result = pipeline.select(
+            fold_idx = row_fold[int(row_id)]
+            result = pipelines[fold_idx].select(
                 case_id=f"query_{row_id:03d}",
                 metric_df=metric_df,
                 log_df=log_df,
@@ -177,6 +232,7 @@ def main() -> int:
             checkpoint_row = {
                 "row_id": row_id,
                 "heldout_date": heldout,
+                "reason_classifier_fold": fold_idx,
                 "prediction": result.prediction,
                 "debug": {
                     "row_id": row_id,
@@ -188,7 +244,7 @@ def main() -> int:
             }
             append_checkpoint(checkpoint_path, checkpoint_row)
             completed[row_id] = checkpoint_row
-            print(f"processed {row_id + 1}/136 heldout={heldout}", flush=True)
+            print(f"processed {row_id + 1}/{len(case_rows)} heldout={heldout} fold={fold_idx}", flush=True)
     write_outputs(completed, Path(args.out), Path(args.debug_json))
     print(f"wrote {args.out}")
     print(f"wrote {args.debug_json}")
