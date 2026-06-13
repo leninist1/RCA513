@@ -57,6 +57,33 @@ from .lead_controller import (
 # Phase CHT-2: demo scenario
 from .demo_scenario import build_demo_lead_tournament
 
+# Phase CHT-3: challenge types
+from .challenge_types import (
+    ChallengeVerdict,
+    ChallengeProposal,
+    ChallengeResolution,
+    ChallengeAuditStep,
+    ChallengeReviewResult,
+    ChallengeSnapshot,
+    build_challenge_snapshot,
+)
+
+# Phase CHT-3: challenge gate
+from .challenge_gate import ChallengeRejectedError, ChallengeReviewGate
+
+# Phase CHT-3: challenger policy
+from .challenger_policy import ChallengerPolicy, ScriptedChallengerPolicy
+
+# Phase CHT-3: challenger controller
+from .challenger_controller import ChallengeControllerReuseError, ChallengerController
+
+# Phase CHT-3: challenge demos
+from .challenge_demo import (
+    build_demo_survival_challenge,
+    build_demo_refutation_challenge,
+    build_demo_inconclusive_challenge,
+)
+
 
 __all__ = [
     # CHT-0 / CHT-1
@@ -110,4 +137,25 @@ __all__ = [
     "LeadTournamentController",
     # CHT-2: demo
     "build_demo_lead_tournament",
+    # CHT-3: challenge types
+    "ChallengeVerdict",
+    "ChallengeProposal",
+    "ChallengeResolution",
+    "ChallengeAuditStep",
+    "ChallengeReviewResult",
+    "ChallengeSnapshot",
+    "build_challenge_snapshot",
+    # CHT-3: challenge gate
+    "ChallengeRejectedError",
+    "ChallengeReviewGate",
+    # CHT-3: challenger policy
+    "ChallengerPolicy",
+    "ScriptedChallengerPolicy",
+    # CHT-3: challenger controller
+    "ChallengeControllerReuseError",
+    "ChallengerController",
+    # CHT-3: challenge demos
+    "build_demo_survival_challenge",
+    "build_demo_refutation_challenge",
+    "build_demo_inconclusive_challenge",
 ]

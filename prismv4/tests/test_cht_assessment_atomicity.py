@@ -569,3 +569,112 @@ class TestDemoRegression:
         h2 = ctrl._graph.hypotheses_by_id.get("H-db_002-pool")
         assert h2 is not None
         assert h2.status != HypothesisStatus.FINAL
+
+
+# ===========================================================================
+# F. Rollback evidence ID list order preservation
+# ===========================================================================
+
+
+class TestRollbackEvidenceIdOrder:
+    def test_rollback_preserves_supporting_evidence_ids_order(self):
+        graph, h1, h2, ev = _make_graph_with_h2()
+        ev2 = _make_evidence("e2", query_signature="sig-2")
+        ev3 = _make_evidence("e3", query_signature="sig-3")
+        ev4 = _make_evidence("e4", query_signature="sig-4")
+        graph.add_evidence(ev2)
+        graph.add_evidence(ev3)
+        graph.add_evidence(ev4)
+
+        # Build initial order [E3, E1, E2] using graph's own methods
+        with graph.relation_transaction():
+            graph.link_support("H1", "e3")
+            graph.link_support("H1", "e1")
+            graph.link_support("H1", "e2")
+        original_order = tuple(h1.supporting_evidence_ids)
+        assert original_order == ("e3", "e1", "e2")
+
+        with pytest.raises(RuntimeError, match="injected failure"):
+            with graph.relation_transaction():
+                graph.link_support("H1", "e4")
+                raise RuntimeError("injected failure")
+
+        restored_order = tuple(h1.supporting_evidence_ids)
+        assert restored_order == original_order
+        assert restored_order == ("e3", "e1", "e2")
+        graph.validate_consistency()
+
+    def test_rollback_preserves_contradicting_evidence_ids_order(self):
+        graph, h1, h2, ev = _make_graph_with_h2()
+        ev2 = _make_evidence("e2", query_signature="sig-2")
+        ev3 = _make_evidence("e3", query_signature="sig-3")
+        ev4 = _make_evidence("e4", query_signature="sig-4")
+        graph.add_evidence(ev2)
+        graph.add_evidence(ev3)
+        graph.add_evidence(ev4)
+
+        # Build initial order [E2, E3, E1] using graph's own methods
+        with graph.relation_transaction():
+            graph.link_contradiction("H1", "e2")
+            graph.link_contradiction("H1", "e3")
+            graph.link_contradiction("H1", "e1")
+        original_order = tuple(h1.contradicting_evidence_ids)
+        assert original_order == ("e2", "e3", "e1")
+
+        with pytest.raises(RuntimeError, match="injected failure"):
+            with graph.relation_transaction():
+                graph.link_contradiction("H1", "e4")
+                raise RuntimeError("injected failure")
+
+        restored_order = tuple(h1.contradicting_evidence_ids)
+        assert restored_order == original_order
+        assert restored_order == ("e2", "e3", "e1")
+        graph.validate_consistency()
+
+    def test_rollback_supporting_not_just_set_equivalent_but_list_identical(self):
+        graph, h1, h2, ev = _make_graph_with_h2()
+        ev2 = _make_evidence("e2", query_signature="sig-2")
+        ev3 = _make_evidence("e3", query_signature="sig-3")
+        ev4 = _make_evidence("e4", query_signature="sig-4")
+        graph.add_evidence(ev2)
+        graph.add_evidence(ev3)
+        graph.add_evidence(ev4)
+
+        with graph.relation_transaction():
+            graph.link_support("H1", "e3")
+            graph.link_support("H1", "e1")
+            graph.link_support("H1", "e2")
+        assert h1.supporting_evidence_ids == ["e3", "e1", "e2"]
+
+        with pytest.raises(RuntimeError, match="injected failure"):
+            with graph.relation_transaction():
+                graph.link_support("H1", "e4")
+                raise RuntimeError("injected failure")
+
+        assert h1.supporting_evidence_ids == ["e3", "e1", "e2"]
+        assert set(h1.supporting_evidence_ids) == {"e3", "e1", "e2"}
+        graph.validate_consistency()
+
+    def test_rollback_contradicting_not_just_set_equivalent_but_list_identical(self):
+        graph, h1, h2, ev = _make_graph_with_h2()
+        ev2 = _make_evidence("e2", query_signature="sig-2")
+        ev3 = _make_evidence("e3", query_signature="sig-3")
+        ev4 = _make_evidence("e4", query_signature="sig-4")
+        graph.add_evidence(ev2)
+        graph.add_evidence(ev3)
+        graph.add_evidence(ev4)
+
+        with graph.relation_transaction():
+            graph.link_contradiction("H1", "e2")
+            graph.link_contradiction("H1", "e3")
+            graph.link_contradiction("H1", "e1")
+        assert h1.contradicting_evidence_ids == ["e2", "e3", "e1"]
+
+        with pytest.raises(RuntimeError, match="injected failure"):
+            with graph.relation_transaction():
+                graph.link_contradiction("H1", "e4")
+                raise RuntimeError("injected failure")
+
+        assert h1.contradicting_evidence_ids == ["e2", "e3", "e1"]
+        assert set(h1.contradicting_evidence_ids) == {"e2", "e3", "e1"}
+        graph.validate_consistency()
