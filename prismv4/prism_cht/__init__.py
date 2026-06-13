@@ -96,6 +96,27 @@ from .final_types import FinalRCAResult
 # Phase CHT-4: final verifier
 from .final_verifier import FinalizationRejectedError, FinalVerifier
 
+# Phase CHT-5.1: provider adapter
+from .provider_types import (
+    ProviderCallAudit,
+    ProviderConfigurationError,
+    ProviderHTTPError,
+    ProviderResponseError,
+    ProviderTransportError,
+    ProviderUsage,
+)
+from .http_transport import (
+    HttpRequest,
+    HttpResponse,
+    HttpTransport,
+    UrllibHttpTransport,
+)
+from .provider_config import (
+    OpenAICompatibleChatConfig,
+    load_openai_compatible_config_from_mapping,
+)
+from .openai_compatible_client import OpenAICompatibleChatModelClient
+
 
 __all__ = [
     # CHT-0 / CHT-1
@@ -176,4 +197,18 @@ __all__ = [
     # CHT-4: final verifier
     "FinalizationRejectedError",
     "FinalVerifier",
+    # CHT-5.1: provider adapter
+    "ProviderCallAudit",
+    "ProviderConfigurationError",
+    "ProviderHTTPError",
+    "ProviderResponseError",
+    "ProviderTransportError",
+    "ProviderUsage",
+    "HttpRequest",
+    "HttpResponse",
+    "HttpTransport",
+    "UrllibHttpTransport",
+    "OpenAICompatibleChatConfig",
+    "load_openai_compatible_config_from_mapping",
+    "OpenAICompatibleChatModelClient",
 ]
