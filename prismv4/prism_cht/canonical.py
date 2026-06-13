@@ -19,6 +19,7 @@ def deep_freeze(value: Any) -> Any:
     - Mapping -> MappingProxyType (recursively frozen)
     - list / tuple -> tuple (recursively frozen)
     - set / frozenset -> deterministic tuple (sorted, recursively frozen)
+    - Frozen dataclass instances pass through unchanged.
     - Scalars (str, int, float, bool, None) pass through unchanged.
 
     The result is independent of object addresses; structurally equal
@@ -30,6 +31,12 @@ def deep_freeze(value: Any) -> Any:
         return value
     if isinstance(value, (int, float, bool, type(None))):
         return value
+    if isinstance(value, MappingProxyType):
+        return value
+    if hasattr(value, "__dataclass_fields__") and getattr(value, "__dataclass_params__", None):
+        # Frozen dataclass instances are already immutable
+        if getattr(value.__dataclass_params__, "frozen", False):
+            return value
     if isinstance(value, Mapping):
         return MappingProxyType({
             key: deep_freeze(val)
@@ -39,8 +46,6 @@ def deep_freeze(value: Any) -> Any:
         return tuple(deep_freeze(item) for item in value)
     if isinstance(value, (set, frozenset)):
         return tuple(sorted(deep_freeze(item) for item in value))
-    if isinstance(value, MappingProxyType):
-        return value
     raise TypeError(
         f"deep_freeze does not support type {type(value).__name__}"
     )
@@ -85,6 +90,28 @@ def canonicalize_json_value(value: Any) -> Any:
         f"Cannot canonicalize type {type(value).__name__}; "
         f"expected JSON-compatible type"
     )
+
+
+def to_dispatch_args(value: Mapping[str, Any]) -> dict[str, Any]:
+    """Recursively convert a frozen/mixed args Mapping into a plain mutable dict.
+
+    *MappingProxyType* is unwrapped to plain ``dict``, *tuple* becomes
+    ``list``, and every nested container is fully converted so that
+    the return value is safe to pass to tool ``execute()`` functions.
+    The original ``action.args`` is never modified by writing to the
+    result.
+    """
+    if not isinstance(value, Mapping):
+        raise TypeError(
+            f"to_dispatch_args requires a Mapping, got {type(value).__name__}"
+        )
+    result = canonicalize_json_value(value)
+    if not isinstance(result, dict):
+        raise TypeError(
+            f"canonicalize_json_value returned {type(result).__name__} "
+            f"instead of dict"
+        )
+    return result
 
 
 def build_tool_call_signature(

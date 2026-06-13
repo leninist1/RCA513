@@ -57,6 +57,7 @@ class ActionGate:
 
     def __init__(self) -> None:
         self._executed_signatures: Set[str] = set()
+        self._reserved_signatures: Set[str] = set()
 
     def _check_common(
         self,
@@ -162,14 +163,28 @@ class ActionGate:
         action: DiscriminativeAction,
         hypotheses: Mapping[str, CausalHypothesis],
     ) -> GateDecision:
-        """Check action validity without modifying internal state."""
-        reasons = self._check_common(action, hypotheses)
+        """Check action validity without modifying internal state.
+
+        The query_signature is rejected if it has already been
+        reserved or committed.
+        """
+        reasons = list(self._check_common(action, hypotheses))
         sig = action.query_signature()
+
+        if not reasons and sig in self._executed_signatures:
+            reasons.append(
+                f"query_signature '{sig[:16]}...' has already been executed"
+            )
+        if not reasons and sig in self._reserved_signatures:
+            reasons.append(
+                f"query_signature '{sig[:16]}...' is currently reserved"
+            )
+
         accepted = len(reasons) == 0
         return GateDecision(
             accepted=accepted,
             query_signature=sig,
-            reasons=reasons,
+            reasons=tuple(reasons),
         )
 
     def admit(
@@ -179,24 +194,53 @@ class ActionGate:
     ) -> GateDecision:
         """Check action validity AND record signature as executed.
 
+        Equivalent to ``reserve()`` followed by ``commit()``.
         The same query_signature admitted twice will be rejected.
         """
-        reasons_list = list(self._check_common(action, hypotheses))
-        sig = action.query_signature()
+        decision = self.reserve(action, hypotheses)
+        if decision.accepted:
+            self.commit(decision.query_signature)
+        return decision
 
-        # 13. signature already executed
-        if not reasons_list and sig in self._executed_signatures:
-            reasons_list.append(
-                f"query_signature '{sig[:16]}...' has already been executed"
+    def reserve(
+        self,
+        action: DiscriminativeAction,
+        hypotheses: Mapping[str, CausalHypothesis],
+    ) -> GateDecision:
+        """Check validity and tentatively reserve the query_signature.
+
+        The signature is NOT written to ``_executed_signatures`` yet.
+        A reserved signature blocks subsequent ``evaluate()`` and
+        ``reserve()`` calls for the same query.
+        """
+        decision = self.evaluate(action, hypotheses)
+        if decision.accepted:
+            self._reserved_signatures.add(decision.query_signature)
+        return decision
+
+    def commit(self, query_signature: str) -> None:
+        """Move a reserved signature to the executed set.
+
+        Raises ValueError if the signature was not previously
+        reserved.
+        """
+        if query_signature not in self._reserved_signatures:
+            raise ValueError(
+                f"query_signature '{query_signature[:16]}...' "
+                f"was not reserved; cannot commit"
             )
+        self._reserved_signatures.discard(query_signature)
+        self._executed_signatures.add(query_signature)
 
-        reasons = tuple(reasons_list)
-        accepted = len(reasons) == 0
-        if accepted:
-            self._executed_signatures.add(sig)
+    def release(self, query_signature: str) -> None:
+        """Release a reserved signature without marking it executed.
 
-        return GateDecision(
-            accepted=accepted,
-            query_signature=sig,
-            reasons=reasons,
-        )
+        Raises ValueError if the signature was not previously
+        reserved.
+        """
+        if query_signature not in self._reserved_signatures:
+            raise ValueError(
+                f"query_signature '{query_signature[:16]}...' "
+                f"was not reserved; cannot release"
+            )
+        self._reserved_signatures.discard(query_signature)
