@@ -1,0 +1,158 @@
+{
+  "total": 3,
+  "correct": 1,
+  "correct_pct": 33.33,
+  "official_score_sum": 1.0,
+  "official_score_pct": 33.33,
+  "partial": 0,
+  "partial_pct": 0.0,
+  "correct_or_partial_pct": 33.33,
+  "neither": 2,
+  "by_system": {
+    "Bank": {
+      "total": 3,
+      "correct": 1,
+      "correct_pct": 33.33,
+      "official_score_pct": 33.33,
+      "partial": 0,
+      "partial_pct": 0.0
+    }
+  },
+  "by_task": {
+    "task_1": {
+      "total": 1,
+      "correct": 1,
+      "correct_pct": 100.0,
+      "official_score_pct": 100.0,
+      "partial": 0,
+      "partial_pct": 0.0,
+      "correct_or_partial_pct": 100.0
+    },
+    "task_6": {
+      "total": 2,
+      "correct": 0,
+      "correct_pct": 0.0,
+      "official_score_pct": 0.0,
+      "partial": 0,
+      "partial_pct": 0.0,
+      "correct_or_partial_pct": 0.0
+    }
+  },
+  "by_field": {
+    "component": {
+      "correct": 0,
+      "total": 2,
+      "rate": 0.0
+    },
+    "reason": {
+      "correct": 0,
+      "total": 2,
+      "rate": 0.0
+    },
+    "time": {
+      "correct": 1,
+      "total": 1,
+      "rate": 100.0
+    }
+  },
+  "experiment": {
+    "framework": "PRISM-LA v3",
+    "model": "deepseek-chat",
+    "max_steps": 4,
+    "max_events": 5,
+    "temperature": 0.15,
+    "total_queries": 3,
+    "total_seconds": 203.6
+  },
+  "results": [
+    {
+      "query_id": "Bank::task_1:",
+      "task_index": "task_1",
+      "date": "2021_03_04",
+      "correct": true,
+      "partial": true,
+      "official_score": 1.0,
+      "field_scores": {
+        "time": true
+      },
+      "prediction": {
+        "component": [
+          "Mysql02"
+        ],
+        "reason": [
+          "network latency"
+        ],
+        "time": [
+          "2021-03-04 14:57:00"
+        ],
+        "top_score": 1.0
+      },
+      "ground_truth": {
+        "component": "",
+        "reason": "",
+        "datetime": ""
+      },
+      "elapsed_seconds": 32.3
+    },
+    {
+      "query_id": "Bank::task_6:",
+      "task_index": "task_6",
+      "date": "2021_03_04",
+      "correct": false,
+      "partial": false,
+      "official_score": 0.0,
+      "field_scores": {
+        "component": false,
+        "reason": false
+      },
+      "prediction": {
+        "component": [
+          "Tomcat04"
+        ],
+        "reason": [
+          "high disk I/O read usage"
+        ],
+        "time": [
+          "2021-03-04 18:04:49"
+        ],
+        "top_score": 1.0
+      },
+      "ground_truth": {
+        "component": "",
+        "reason": "",
+        "datetime": ""
+      },
+      "elapsed_seconds": 32.5
+    },
+    {
+      "query_id": "Bank::task_6:",
+      "task_index": "task_6",
+      "date": "2021_03_06",
+      "correct": false,
+      "partial": false,
+      "official_score": 0.0,
+      "field_scores": {
+        "component": false,
+        "reason": false
+      },
+      "prediction": {
+        "component": [
+          "IG02"
+        ],
+        "reason": [
+          "high disk I/O read usage"
+        ],
+        "time": [
+          "2021-03-06 06:20:00"
+        ],
+        "top_score": 1.0
+      },
+      "ground_truth": {
+        "component": "",
+        "reason": "",
+        "datetime": ""
+      },
+      "elapsed_seconds": 46.3
+    }
+  ]
+}
