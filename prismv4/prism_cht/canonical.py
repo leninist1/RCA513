@@ -7,10 +7,37 @@ used by EvidenceGraph, ActionGate, and DiscriminativeAction.
 
 from __future__ import annotations
 
+import dataclasses
 import hashlib
 import json
 from types import MappingProxyType
 from typing import Any, Dict, Mapping, Set
+
+_MUTABLE_CONTAINER_TYPES: tuple = (dict, list, set)
+
+
+def _has_mutable_internals(obj: Any) -> bool:
+    """Return True if *obj* is or contains a mutable dict, list, or set.
+
+    Recursively descends into tuples, MappingProxyType, frozenset,
+    and nested frozen dataclasses.  Stops and returns True at the
+    first mutable container found.
+    """
+    if isinstance(obj, _MUTABLE_CONTAINER_TYPES):
+        return True
+    if isinstance(obj, tuple):
+        return any(_has_mutable_internals(item) for item in obj)
+    if isinstance(obj, MappingProxyType):
+        return any(_has_mutable_internals(val) for val in obj.values())
+    if isinstance(obj, frozenset):
+        return any(_has_mutable_internals(item) for item in obj)
+    if hasattr(obj, "__dataclass_fields__") and getattr(obj, "__dataclass_params__", None):
+        if getattr(obj.__dataclass_params__, "frozen", False):
+            return any(
+                _has_mutable_internals(getattr(obj, f.name))
+                for f in dataclasses.fields(obj)
+            )
+    return False
 
 
 def deep_freeze(value: Any) -> Any:
@@ -19,8 +46,9 @@ def deep_freeze(value: Any) -> Any:
     - Mapping -> MappingProxyType (recursively frozen)
     - list / tuple -> tuple (recursively frozen)
     - set / frozenset -> deterministic tuple (sorted, recursively frozen)
-    - Frozen dataclass instances pass through unchanged.
-    - Scalars (str, int, float, bool, None) pass through unchanged.
+    - Frozen dataclass instances pass through only if all their fields
+      are recursively immutable; otherwise TypeError is raised.
+    - Scalars (str, int, float, bool, None, bytes) pass through unchanged.
 
     The result is independent of object addresses; structurally equal
     inputs produce structurally equal frozen outputs.
@@ -34,8 +62,14 @@ def deep_freeze(value: Any) -> Any:
     if isinstance(value, MappingProxyType):
         return value
     if hasattr(value, "__dataclass_fields__") and getattr(value, "__dataclass_params__", None):
-        # Frozen dataclass instances are already immutable
         if getattr(value.__dataclass_params__, "frozen", False):
+            if _has_mutable_internals(value):
+                raise TypeError(
+                    f"Frozen dataclass {type(value).__name__!r} contains mutable "
+                    f"internals (dict, list, or set); cannot be trusted as "
+                    f"deeply safe.  Freeze the nested containers before passing "
+                    f"to deep_freeze."
+                )
             return value
     if isinstance(value, Mapping):
         return MappingProxyType({

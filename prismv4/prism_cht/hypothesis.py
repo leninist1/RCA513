@@ -136,7 +136,8 @@ class CausalHypothesis:
             )
         self.status = HypothesisStatus.ACTIVE
 
-    def transition_to(self, new_status: HypothesisStatus) -> None:
+    def validate_transition_to(self, new_status: HypothesisStatus) -> None:
+        """Validate that a transition to *new_status* is legal, without mutating."""
         if not isinstance(new_status, HypothesisStatus):
             raise ValueError(
                 f"new_status must be a HypothesisStatus, got {type(new_status).__name__}"
@@ -148,6 +149,9 @@ class CausalHypothesis:
                 f"from {self.status.value} to {new_status.value}; "
                 f"allowed transitions: {sorted(s.value for s in allowed)}"
             )
+
+    def transition_to(self, new_status: HypothesisStatus) -> None:
+        self.validate_transition_to(new_status)
         self.status = new_status
 
     # ------------------------------------------------------------------
