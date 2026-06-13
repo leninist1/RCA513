@@ -177,11 +177,11 @@ class EvidenceAssessmentGate:
 
         Execution order:
         1. Full validate()
-        2. Write graph links (link_support / link_contradiction)
-        3. Execute hypothesis.transition_to() for each status update
-        4. Call graph.validate_consistency()
+        2. Open graph.relation_transaction():
+           a. Write graph links (link_support / link_contradiction)
+           b. Execute hypothesis.transition_to() for each status update
+        3. If any step fails, transaction rollback restores pre-apply state.
         """
-        # 1. Validate everything first — no partial writes
         self.validate(
             assessment=assessment,
             action=action,
@@ -190,17 +190,13 @@ class EvidenceAssessmentGate:
             graph=graph,
         )
 
-        # 2. Write graph edges
-        for link in assessment.links:
-            if link.relation == EvidenceRelation.SUPPORTS:
-                graph.link_support(link.hypothesis_id, link.evidence_id)
-            elif link.relation == EvidenceRelation.CONTRADICTS:
-                graph.link_contradiction(link.hypothesis_id, link.evidence_id)
+        with graph.relation_transaction():
+            for link in assessment.links:
+                if link.relation == EvidenceRelation.SUPPORTS:
+                    graph.link_support(link.hypothesis_id, link.evidence_id)
+                elif link.relation == EvidenceRelation.CONTRADICTS:
+                    graph.link_contradiction(link.hypothesis_id, link.evidence_id)
 
-        # 3. Execute state transitions
-        for update in assessment.status_updates:
-            h = hypotheses[update.hypothesis_id]
-            h.transition_to(update.new_status)
-
-        # 4. Verify consistency
-        graph.validate_consistency()
+            for update in assessment.status_updates:
+                h = hypotheses[update.hypothesis_id]
+                h.transition_to(update.new_status)

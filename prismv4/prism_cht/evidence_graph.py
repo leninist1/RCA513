@@ -7,11 +7,12 @@ and maintains hypothesis-evidence linkage edges.
 
 from __future__ import annotations
 
+from contextlib import contextmanager
 from dataclasses import dataclass
-from typing import Any, Dict, Mapping, Sequence, Set, Tuple
+from typing import Any, Dict, Iterator, Mapping, Sequence, Set, Tuple
 
 from .canonical import build_tool_call_signature, deep_freeze
-from .hypothesis import CausalHypothesis
+from .hypothesis import CausalHypothesis, HypothesisStatus
 
 
 def build_query_signature(
@@ -36,6 +37,22 @@ def build_query_signature(
             "parameters": parameters,
         },
     )
+
+
+@dataclass(frozen=True)
+class _GraphRelationSnapshot:
+    """Immutable snapshot of graph-hypothesis relational state.
+
+    Captures edges and hypothesis evidence-ids/statuses only.
+    Does NOT copy EvidenceAtom payloads or telemetry data.
+    Not intended for use as a dict key or set member.
+    """
+    support_edges: Mapping[str, Tuple[str, ...]]
+    contradiction_edges: Mapping[str, Tuple[str, ...]]
+    hypothesis_supporting_evidence_ids: Mapping[str, Tuple[str, ...]]
+    hypothesis_contradicting_evidence_ids: Mapping[str, Tuple[str, ...]]
+    hypothesis_statuses: Mapping[str, HypothesisStatus]
+    __hash__ = None
 
 
 @dataclass(frozen=True)
@@ -254,3 +271,76 @@ class EvidenceGraph:
                         f"'{eid}' as contradicting but graph has no "
                         f"contradiction edge {hid} -> {eid}"
                     )
+
+    # -- relational snapshot / restore / transaction -----------------------
+
+    def _snapshot_relations(self) -> _GraphRelationSnapshot:
+        sup = {}
+        con = {}
+        for hid in self.hypotheses_by_id:
+            sup[hid] = tuple(sorted(self.support_edges.get(hid, set())))
+            con[hid] = tuple(sorted(self.contradiction_edges.get(hid, set())))
+
+        h_sup = {}
+        h_con = {}
+        h_st = {}
+        for hid, h in self.hypotheses_by_id.items():
+            h_sup[hid] = tuple(h.supporting_evidence_ids)
+            h_con[hid] = tuple(h.contradicting_evidence_ids)
+            h_st[hid] = h.status
+
+        return _GraphRelationSnapshot(
+            support_edges=deep_freeze(sup),
+            contradiction_edges=deep_freeze(con),
+            hypothesis_supporting_evidence_ids=deep_freeze(h_sup),
+            hypothesis_contradicting_evidence_ids=deep_freeze(h_con),
+            hypothesis_statuses=deep_freeze(h_st),
+        )
+
+    def _restore_relations(
+        self,
+        snapshot: _GraphRelationSnapshot,
+    ) -> None:
+        snap_ids = set(snapshot.hypothesis_statuses.keys())
+        cur_ids = set(self.hypotheses_by_id.keys())
+        if snap_ids != cur_ids:
+            raise ValueError(
+                f"Cannot restore: snapshot hypothesis set "
+                f"({sorted(snap_ids)}) differs from current registered set "
+                f"({sorted(cur_ids)})"
+            )
+
+        self.support_edges.clear()
+        self.contradiction_edges.clear()
+
+        for hid in snapshot.support_edges:
+            self.support_edges[hid] = set(snapshot.support_edges[hid])
+        for hid in snapshot.contradiction_edges:
+            self.contradiction_edges[hid] = set(snapshot.contradiction_edges[hid])
+
+        for hid, h in self.hypotheses_by_id.items():
+            h.supporting_evidence_ids.clear()
+            h.supporting_evidence_ids.extend(
+                snapshot.hypothesis_supporting_evidence_ids.get(hid, ())
+            )
+            h.contradicting_evidence_ids.clear()
+            h.contradicting_evidence_ids.extend(
+                snapshot.hypothesis_contradicting_evidence_ids.get(hid, ())
+            )
+            h.status = snapshot.hypothesis_statuses[hid]
+
+        self.validate_consistency()
+
+    @contextmanager
+    def relation_transaction(self) -> Iterator[None]:
+        self.validate_consistency()
+        snapshot = self._snapshot_relations()
+        commit_ok = False
+        try:
+            yield
+            self.validate_consistency()
+            commit_ok = True
+        except Exception:
+            if not commit_ok:
+                self._restore_relations(snapshot)
+            raise
