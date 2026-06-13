@@ -65,8 +65,8 @@ class HttpResponse:
     """Immutable HTTP response."""
 
     status_code: int
-    headers: Mapping[str, str]
-    body: bytes
+    headers: Mapping[str, str] = field(repr=False)
+    body: bytes = field(repr=False)
 
     def __post_init__(self) -> None:
         if self.status_code <= 0:

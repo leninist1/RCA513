@@ -58,11 +58,11 @@ class TestModelMessage:
         with pytest.raises(Exception):
             msg.role = "user"  # type: ignore
 
-    def test_content_preserved_in_repr(self):
-        """ModelMessage is a plain dataclass; repr includes content as-is.
-        This is a known limitation (deferred: no secret redaction in repr)."""
+    def test_content_excluded_from_repr(self):
+        """ModelMessage.content is excluded from repr via field(repr=False)."""
         msg = ModelMessage(role="system", content="visible text")
-        assert "visible text" in repr(msg)
+        assert "visible text" not in repr(msg)
+        assert msg.content == "visible text"
 
     def test_role_enum_restriction(self):
         """Only 'system' and 'user' are valid roles."""
@@ -164,11 +164,11 @@ class TestModelResponse:
         b = ModelResponse(content="abc")
         assert a == b
 
-    def test_content_preserved(self):
-        """ModelResponse is a plain dataclass; content is always in repr.
-        This is a known limitation (deferred: full response body in repr)."""
+    def test_content_excluded_from_repr(self):
+        """ModelResponse.content is excluded from repr via field(repr=False)."""
         resp = ModelResponse(content='{"key": "value"}')
-        assert "key" in repr(resp)
+        assert "key" not in repr(resp)
+        assert resp.content == '{"key": "value"}'
 
 
 # ===========================================================================

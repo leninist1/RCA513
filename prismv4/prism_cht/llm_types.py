@@ -7,7 +7,7 @@ protocol itself.  All types are frozen and do not import any model SDK.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Protocol
 
 
@@ -16,7 +16,7 @@ class ModelMessage:
     """A single message in a model conversation turn."""
 
     role: str
-    content: str
+    content: str = field(repr=False)
 
     def __post_init__(self):
         if self.role not in ("system", "user"):
@@ -33,7 +33,7 @@ class ModelRequest:
     """A complete request to send to a language model."""
 
     purpose: str
-    messages: tuple[ModelMessage, ...]
+    messages: tuple[ModelMessage, ...] = field(repr=False)
     attempt_index: int
 
     def __post_init__(self):
@@ -52,7 +52,7 @@ class ModelRequest:
 class ModelResponse:
     """The raw text response from a language model."""
 
-    content: str
+    content: str = field(repr=False)
 
     def __post_init__(self):
         if not self.content or not self.content.strip():
