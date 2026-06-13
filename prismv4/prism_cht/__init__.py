@@ -9,6 +9,11 @@ investigation executor.
 
 Phase CHT-2 adds the scripted Lead tournament with grounded
 evidence assessment and nomination guardrails.
+
+Phase CHT-3 adds the single-challenge adversarial review.
+
+Phase CHT-4 adds the deterministic final verifier producing
+FinalRCAResult from survived_challenge outcomes.
 """
 
 from .hypothesis import CausalHypothesis, HypothesisStatus
@@ -84,6 +89,12 @@ from .challenge_demo import (
     build_demo_inconclusive_challenge,
 )
 
+# Phase CHT-4: final types
+from .final_types import FinalRCAResult
+
+# Phase CHT-4: final verifier
+from .final_verifier import FinalizationRejectedError, FinalVerifier
+
 
 __all__ = [
     # CHT-0 / CHT-1
@@ -158,4 +169,9 @@ __all__ = [
     "build_demo_survival_challenge",
     "build_demo_refutation_challenge",
     "build_demo_inconclusive_challenge",
+    # CHT-4: final types
+    "FinalRCAResult",
+    # CHT-4: final verifier
+    "FinalizationRejectedError",
+    "FinalVerifier",
 ]
