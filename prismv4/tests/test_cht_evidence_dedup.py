@@ -128,7 +128,7 @@ class TestEvidenceDedup:
     def test_same_evidence_id_different_payload_raises(self):
         g = EvidenceGraph()
         g.add_evidence(_make_atom("e1", query_signature="sig-1", observation={"a": 1}))
-        with pytest.raises(ValueError, match="different payload"):
+        with pytest.raises(ValueError, match="evidence_id"):
             g.add_evidence(
                 _make_atom("e1", query_signature="sig-2", observation={"b": 2})
             )

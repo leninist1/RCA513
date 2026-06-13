@@ -7,11 +7,10 @@ and maintains hypothesis-evidence linkage edges.
 
 from __future__ import annotations
 
-import hashlib
-import json
 from dataclasses import dataclass
-from typing import Any, Dict, Mapping, Sequence, Tuple
+from typing import Any, Dict, Mapping, Sequence, Set, Tuple
 
+from .canonical import build_tool_call_signature, deep_freeze
 from .hypothesis import CausalHypothesis
 
 
@@ -23,23 +22,20 @@ def build_query_signature(
     time_window: Tuple[float, float],
     parameters: Mapping[str, Any],
 ) -> str:
-    """Build a canonical SHA-256 query signature.
+    """Build a canonical SHA-256 query signature (compatibility wrapper).
 
-    Signatures are deterministic, independent of input ordering,
-    and free of natural-language questions, timestamps, or random data.
+    Delegates to ``build_tool_call_signature`` with the arguments
+    packed into a canonical ``args`` dict.
     """
-    canonical: Dict[str, Any] = {
-        "tool_name": tool_name,
-        "component_scope": sorted(component_scope),
-        "signal_scope": sorted(signal_scope),
-        "time_window": list(time_window),
-        "parameters": dict(sorted(parameters.items())),
-    }
-    # canonical JSON: sorted keys, no spaces after separators, ASCII-safe
-    canonical_json = json.dumps(
-        canonical, sort_keys=True, separators=(",", ":"), ensure_ascii=True
+    return build_tool_call_signature(
+        tool_name=tool_name,
+        args={
+            "component_scope": sorted(set(component_scope)),
+            "signal_scope": sorted(set(signal_scope)),
+            "time_window": time_window,
+            "parameters": parameters,
+        },
     )
-    return hashlib.sha256(canonical_json.encode("utf-8")).hexdigest()
 
 
 @dataclass(frozen=True)
@@ -75,13 +71,36 @@ class EvidenceAtom:
         if start > end:
             raise ValueError(f"time_window start ({start}) must be <= end ({end})")
 
-        if not self.component_scope:
+        # Normalize component_scope: dedup, sort, store as tuple
+        scope = tuple(sorted(set(self.component_scope)))
+        if not scope:
             raise ValueError("component_scope must not be empty")
+        object.__setattr__(self, "component_scope", scope)
 
+        # Normalize missing_fields: dedup, sort, store as tuple
+        object.__setattr__(
+            self,
+            "missing_fields",
+            tuple(sorted(set(self.missing_fields))),
+        )
+
+        # observation and provenance must be Mapping
         if self.observation is None:
             raise ValueError("observation must not be None")
+        if not isinstance(self.observation, Mapping):
+            raise ValueError(
+                f"observation must be a Mapping, got {type(self.observation).__name__}"
+            )
         if self.provenance is None:
             raise ValueError("provenance must not be None")
+        if not isinstance(self.provenance, Mapping):
+            raise ValueError(
+                f"provenance must be a Mapping, got {type(self.provenance).__name__}"
+            )
+
+        # Deep-freeze nested containers
+        object.__setattr__(self, "observation", deep_freeze(self.observation))
+        object.__setattr__(self, "provenance", deep_freeze(self.provenance))
 
 
 class EvidenceGraph:
@@ -95,8 +114,8 @@ class EvidenceGraph:
         self.evidence_by_id: Dict[str, EvidenceAtom] = {}
         self.evidence_id_by_signature: Dict[str, str] = {}
         self.hypotheses_by_id: Dict[str, CausalHypothesis] = {}
-        self.support_edges: Dict[str, set] = {}
-        self.contradiction_edges: Dict[str, set] = {}
+        self.support_edges: Dict[str, Set[str]] = {}
+        self.contradiction_edges: Dict[str, Set[str]] = {}
 
     # -- hypothesis registration -------------------------------------------
 
@@ -112,28 +131,32 @@ class EvidenceGraph:
 
     def add_evidence(self, atom: EvidenceAtom) -> EvidenceAtom:
         sig = atom.query_signature
+        eid = atom.evidence_id
 
-        if sig in self.evidence_id_by_signature:
-            existing_id = self.evidence_id_by_signature[sig]
-            existing = self.evidence_by_id[existing_id]
-            if atom.evidence_id != existing_id:
+        # Check if this exact evidence_id already exists
+        if eid in self.evidence_by_id:
+            existing = self.evidence_by_id[eid]
+            if existing != atom:
                 raise ValueError(
-                    f"Evidence signature collision: '{atom.evidence_id}' "
-                    f"has same query_signature as existing '{existing_id}' "
-                    f"but different evidence_id"
+                    f"Conflicting evidence payload for evidence_id '{eid}': "
+                    f"existing atom differs from new atom"
                 )
             return existing
 
-        if atom.evidence_id in self.evidence_by_id:
-            if self.evidence_by_id[atom.evidence_id] != atom:
+        # Check if this query_signature already maps to existing evidence
+        if sig in self.evidence_id_by_signature:
+            existing_id = self.evidence_id_by_signature[sig]
+            existing = self.evidence_by_id[existing_id]
+            if existing != atom:
                 raise ValueError(
-                    f"evidence_id '{atom.evidence_id}' already exists "
-                    f"with different payload"
+                    f"Conflicting evidence payload for query_signature "
+                    f"'{sig[:16]}...': evidence_id '{eid}' differs from "
+                    f"existing '{existing_id}'"
                 )
-            return self.evidence_by_id[atom.evidence_id]
+            return existing
 
-        self.evidence_by_id[atom.evidence_id] = atom
-        self.evidence_id_by_signature[sig] = atom.evidence_id
+        self.evidence_by_id[eid] = atom
+        self.evidence_id_by_signature[sig] = eid
         return atom
 
     def get_evidence(self, evidence_id: str) -> EvidenceAtom:
@@ -151,11 +174,83 @@ class EvidenceGraph:
             raise ValueError(f"Hypothesis '{hypothesis_id}' not registered")
         if evidence_id not in self.evidence_by_id:
             raise ValueError(f"Evidence '{evidence_id}' not found")
+
+        h = self.hypotheses_by_id[hypothesis_id]
         self.support_edges.setdefault(hypothesis_id, set()).add(evidence_id)
+
+        # Synchronize into the hypothesis object (sole write entry)
+        if evidence_id not in h.supporting_evidence_ids:
+            h.attach_support(evidence_id)
 
     def link_contradiction(self, hypothesis_id: str, evidence_id: str) -> None:
         if hypothesis_id not in self.hypotheses_by_id:
             raise ValueError(f"Hypothesis '{hypothesis_id}' not registered")
         if evidence_id not in self.evidence_by_id:
             raise ValueError(f"Evidence '{evidence_id}' not found")
+
+        h = self.hypotheses_by_id[hypothesis_id]
         self.contradiction_edges.setdefault(hypothesis_id, set()).add(evidence_id)
+
+        # Synchronize into the hypothesis object (sole write entry)
+        if evidence_id not in h.contradicting_evidence_ids:
+            h.attach_contradiction(evidence_id)
+
+    # -- consistency -------------------------------------------------------
+
+    def validate_consistency(self) -> None:
+        """Verify bidirectional consistency between graph edges and hypotheses.
+
+        Raises ValueError if any inconsistency is found:
+        - graph edge missing from hypothesis evidence_ids
+        - hypothesis evidence_id not present in graph
+        - hypothesis edge type mismatch with graph edges
+        """
+        for hid, h in self.hypotheses_by_id.items():
+            sup_edges = self.support_edges.get(hid, set())
+            con_edges = self.contradiction_edges.get(hid, set())
+
+            # Every graph support edge must appear in hypothesis
+            for eid in sup_edges:
+                if eid not in h.supporting_evidence_ids:
+                    raise ValueError(
+                        f"Inconsistency: graph has support edge "
+                        f"{hid} -> {eid} but hypothesis '{hid}' does not "
+                        f"list it in supporting_evidence_ids"
+                    )
+
+            # Every graph contradiction edge must appear in hypothesis
+            for eid in con_edges:
+                if eid not in h.contradicting_evidence_ids:
+                    raise ValueError(
+                        f"Inconsistency: graph has contradiction edge "
+                        f"{hid} -> {eid} but hypothesis '{hid}' does not "
+                        f"list it in contradicting_evidence_ids"
+                    )
+
+            # Every hypothesis support id must be in the graph
+            for eid in h.supporting_evidence_ids:
+                if eid not in self.evidence_by_id:
+                    raise ValueError(
+                        f"Inconsistency: hypothesis '{hid}' references "
+                        f"supporting evidence '{eid}' not in graph"
+                    )
+                if eid not in sup_edges:
+                    raise ValueError(
+                        f"Inconsistency: hypothesis '{hid}' lists "
+                        f"'{eid}' as supporting but graph has no "
+                        f"support edge {hid} -> {eid}"
+                    )
+
+            # Every hypothesis contradiction id must be in the graph
+            for eid in h.contradicting_evidence_ids:
+                if eid not in self.evidence_by_id:
+                    raise ValueError(
+                        f"Inconsistency: hypothesis '{hid}' references "
+                        f"contradicting evidence '{eid}' not in graph"
+                    )
+                if eid not in con_edges:
+                    raise ValueError(
+                        f"Inconsistency: hypothesis '{hid}' lists "
+                        f"'{eid}' as contradicting but graph has no "
+                        f"contradiction edge {hid} -> {eid}"
+                    )

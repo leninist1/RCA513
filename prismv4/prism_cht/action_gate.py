@@ -10,7 +10,7 @@ The gate enforces that every action:
 from __future__ import annotations
 
 import re
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Dict, Mapping, Set, Tuple
 
 from .action_schema import DiscriminativeAction
@@ -25,7 +25,11 @@ _ALLOWED_TOOLS: Set[str] = {
     "retrieve_raw_evidence",
 }
 
-_TERMINAL_STATUSES: Set[HypothesisStatus] = {
+# Hypotheses that are NOT eligible for investigation actions.
+# DRAFT = not yet activated
+# REFUTED, FINAL = terminal
+_REJECTED_FOR_ACTION: Set[HypothesisStatus] = {
+    HypothesisStatus.DRAFT,
     HypothesisStatus.REFUTED,
     HypothesisStatus.FINAL,
 }
@@ -95,12 +99,13 @@ class ActionGate:
                 reasons.append(f"hypothesis '{hid}' does not exist")
                 return tuple(reasons)
 
-        # 6. references REFUTED or FINAL
+        # 6. references ineligible statuses (DRAFT, REFUTED, FINAL)
         for hid in action.target_hypothesis_ids:
-            if hypotheses[hid].status in _TERMINAL_STATUSES:
+            h = hypotheses[hid]
+            if h.status in _REJECTED_FOR_ACTION:
                 reasons.append(
-                    f"hypothesis '{hid}' is in terminal status "
-                    f"'{hypotheses[hid].status.value}'"
+                    f"hypothesis '{hid}' has status '{h.status.value}' "
+                    f"which is not eligible for investigation"
                 )
                 return tuple(reasons)
 

@@ -9,6 +9,7 @@ from .hypothesis import CausalHypothesis, HypothesisStatus
 from .evidence_graph import EvidenceAtom, EvidenceGraph, build_query_signature
 from .action_schema import DiscriminativeAction
 from .action_gate import ActionGate, GateDecision
+from .canonical import build_tool_call_signature, canonicalize_json_value, deep_freeze
 
 __all__ = [
     "CausalHypothesis",
@@ -19,4 +20,7 @@ __all__ = [
     "DiscriminativeAction",
     "GateDecision",
     "ActionGate",
+    "deep_freeze",
+    "canonicalize_json_value",
+    "build_tool_call_signature",
 ]

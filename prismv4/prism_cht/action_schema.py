@@ -7,10 +7,10 @@ so re-phrasing a question does not permit duplicate execution.
 
 from __future__ import annotations
 
-import hashlib
-import json
 from dataclasses import dataclass
 from typing import Any, Mapping, Tuple
+
+from .canonical import build_tool_call_signature, deep_freeze
 
 
 @dataclass(frozen=True)
@@ -61,18 +61,19 @@ class DiscriminativeAction:
         if not isinstance(self.args, Mapping):
             raise ValueError(f"args must be a Mapping, got {type(self.args).__name__}")
 
+        # Deep-freeze nested containers so external mutations cannot affect
+        # this frozen action.  Use object.__setattr__ to bypass frozen=True.
+        object.__setattr__(self, "args", deep_freeze(self.args))
+        object.__setattr__(self, "expected_outcomes", deep_freeze(self.expected_outcomes))
+
     def query_signature(self) -> str:
         """Canonical signature from tool_name + canonicalized args only.
 
+        Delegates to the single shared ``build_tool_call_signature``.
         Does NOT include action_id, question, why_discriminative, or
-        expected_outcomes wording.  Changing the description of the
-        same telemetry query must not create a new signature.
+        expected_outcomes wording.
         """
-        canonical: dict = {
-            "tool_name": self.tool_name,
-            "args": dict(sorted(self.args.items())),
-        }
-        canonical_json = json.dumps(
-            canonical, sort_keys=True, separators=(",", ":"), ensure_ascii=True
+        return build_tool_call_signature(
+            tool_name=self.tool_name,
+            args=self.args,
         )
-        return hashlib.sha256(canonical_json.encode("utf-8")).hexdigest()
