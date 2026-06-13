@@ -25,6 +25,7 @@ from prismv4.prism_cht.tournament_types import (
     HypothesisStatusUpdate,
     LeadNomination,
     LeadTournamentResult,
+    TripletEvidenceCoverage,
 )
 
 
@@ -111,6 +112,7 @@ def _make_lead_result(hid="H1", competitor_ids=("H2",)):
         hypothesis_id=hid,
         supporting_evidence_ids=evidence_ids,
         addressed_competitor_ids=competitor_ids,
+        triplet_grounding=TripletEvidenceCoverage(evidence_ids, evidence_ids, evidence_ids),
         rationale=f"nominate {hid}",
     )
     return LeadTournamentResult(

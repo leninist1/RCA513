@@ -110,10 +110,38 @@ class EvidenceAssessment:
 
 
 @dataclass(frozen=True)
+class TripletEvidenceCoverage:
+    component_evidence_ids: tuple[str, ...]
+    reason_evidence_ids: tuple[str, ...]
+    onset_evidence_ids: tuple[str, ...]
+
+    def __post_init__(self):
+        for dim_name, dim_value in [
+            ("component_evidence_ids", self.component_evidence_ids),
+            ("reason_evidence_ids", self.reason_evidence_ids),
+            ("onset_evidence_ids", self.onset_evidence_ids),
+        ]:
+            if len(dim_value) == 0:
+                raise ValueError(
+                    f"{dim_name} must contain at least one evidence ID"
+                )
+            if len(set(dim_value)) != len(dim_value):
+                raise ValueError(
+                    f"{dim_name} contains duplicate entries"
+                )
+            for eid in dim_value:
+                if not eid or not eid.strip():
+                    raise ValueError(
+                        f"{dim_name} contains empty evidence ID"
+                    )
+
+
+@dataclass(frozen=True)
 class LeadNomination:
     hypothesis_id: str
     supporting_evidence_ids: tuple[str, ...]
     addressed_competitor_ids: tuple[str, ...]
+    triplet_grounding: TripletEvidenceCoverage
     rationale: str
 
     def __post_init__(self):

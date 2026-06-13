@@ -30,6 +30,7 @@ from prismv4.prism_cht.tournament_types import (
     EvidenceRelation,
     HypothesisStatusUpdate,
     LeadNomination,
+    TripletEvidenceCoverage,
 )
 
 
@@ -352,6 +353,11 @@ def build_demo_lead_tournament() -> tuple[
         hypothesis_id=h2.hypothesis_id,
         supporting_evidence_ids=(evidence_id_r1, evidence_id_r2),
         addressed_competitor_ids=(h1.hypothesis_id,),
+        triplet_grounding=TripletEvidenceCoverage(
+            component_evidence_ids=(evidence_id_r2,),
+            reason_evidence_ids=(evidence_id_r1,),
+            onset_evidence_ids=(evidence_id_r1,),
+        ),
         rationale=(
             "db_002 connection pool exhaustion is nominated because: "
             "(1) onset order shows db_002 anomalies (1100.0s) precede "

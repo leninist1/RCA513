@@ -32,6 +32,7 @@ from prismv4.prism_cht.tournament_types import (
     HypothesisStatusUpdate,
     LeadNomination,
     LeadTournamentResult,
+    TripletEvidenceCoverage,
 )
 
 
@@ -88,7 +89,7 @@ def _setup_minimal():
     graph.link_support("H1", "e1")
     graph.link_contradiction("H2", "e1")
 
-    nomination = LeadNomination("H1", ("e1",), ("H2",), "nominate H1")
+    nomination = LeadNomination("H1", ("e1",), ("H2",), TripletEvidenceCoverage(("e1",), ("e1",), ("e1",)), "nominate H1")
     lead_result = LeadTournamentResult(
         status="challenge_required",
         nominated_hypothesis_id="H1",
@@ -207,7 +208,7 @@ class TestCallOrder:
                 rounds_completed=0,
                 evidence_ids=(),
                 audit_steps=(),
-                nomination=LeadNomination("H1", ("e1",), ("H2",), "r"),
+                nomination=LeadNomination("H1", ("e1",), ("H2",), TripletEvidenceCoverage(("e1",), ("e1",), ("e1",)), "r"),
             ),
             hypotheses={
                 "H1": _make_hypothesis("H1"),

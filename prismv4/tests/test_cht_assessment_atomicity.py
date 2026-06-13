@@ -28,6 +28,7 @@ from prismv4.prism_cht.tournament_types import (
     EvidenceRelation,
     HypothesisStatusUpdate,
     LeadNomination,
+    TripletEvidenceCoverage,
 )
 
 
@@ -458,7 +459,7 @@ class TestSessionBoundary:
             status_updates=(status_sup, status_weakened),
             rationale="onset supports H1, contradicts H2",
         )
-        nomination = LeadNomination("H1", (eid,), ("H2",), "H1 wins")
+        nomination = LeadNomination("H1", (eid,), ("H2",), TripletEvidenceCoverage((eid,), (eid,), (eid,)), "H1 wins")
         policy = ScriptedLeadPolicy(
             turns=[ScriptedInvestigationTurn(action=action, assessment=assessment)],
             nomination=nomination,
@@ -497,7 +498,7 @@ class TestSessionBoundary:
             status_updates=(status_sup, status_weakened),
             rationale="onset supports H1, contradicts H2",
         )
-        nomination = LeadNomination("H1", (eid,), ("H2",), "H1 wins")
+        nomination = LeadNomination("H1", (eid,), ("H2",), TripletEvidenceCoverage((eid,), (eid,), (eid,)), "H1 wins")
         policy = ScriptedLeadPolicy(
             turns=[ScriptedInvestigationTurn(action=action, assessment=assessment)],
             nomination=nomination,

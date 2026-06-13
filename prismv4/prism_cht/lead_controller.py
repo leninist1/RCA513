@@ -296,4 +296,31 @@ class LeadTournamentController:
 
         # 11. rationale non-empty (already enforced by LeadNomination.__post_init__)
 
+        # 15. triplet grounding: each dimension must reference existing,
+        #     Lead-support evidence linked to the nominee
+        grounding = nomination.triplet_grounding
+        for dim_name, dim_value in [
+            ("component", grounding.component_evidence_ids),
+            ("reason", grounding.reason_evidence_ids),
+            ("onset", grounding.onset_evidence_ids),
+        ]:
+            for eid in dim_value:
+                if eid not in self._graph.evidence_by_id:
+                    raise NominationRejectedError(
+                        f"Nomination triplet grounding ({dim_name}) "
+                        f"references non-existent evidence '{eid}'"
+                    )
+                if eid not in nomination.supporting_evidence_ids:
+                    raise NominationRejectedError(
+                        f"Nomination triplet grounding ({dim_name}) "
+                        f"references evidence '{eid}' which is not in "
+                        f"supporting_evidence_ids"
+                    )
+                if eid not in graph_support_edges:
+                    raise NominationRejectedError(
+                        f"Nomination triplet grounding ({dim_name}) "
+                        f"references evidence '{eid}' which is not linked "
+                        f"to hypothesis '{hid}' via a support edge"
+                    )
+
         # 14. status can only be challenge_required (enforced by LeadTournamentResult)

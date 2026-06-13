@@ -312,6 +312,35 @@ class FinalVerifier:
                 f"Cannot finalize hypothesis '{nominee_id}': {e}"
             ) from e
 
+        # ==================================================================
+        # E. Triplet grounding re-validation
+        # ==================================================================
+
+        grounding = lead_result.nomination.triplet_grounding
+        for dim_name, dim_value in [
+            ("component", grounding.component_evidence_ids),
+            ("reason", grounding.reason_evidence_ids),
+            ("onset", grounding.onset_evidence_ids),
+        ]:
+            for eid in dim_value:
+                if eid not in graph.evidence_by_id:
+                    raise FinalizationRejectedError(
+                        f"Triplet grounding ({dim_name}) references "
+                        f"non-existent evidence '{eid}'"
+                    )
+                if eid not in lead_support_ids:
+                    raise FinalizationRejectedError(
+                        f"Triplet grounding ({dim_name}) references "
+                        f"evidence '{eid}' which is not in "
+                        f"lead supporting_evidence_ids"
+                    )
+                if eid not in sup_edges_nominee:
+                    raise FinalizationRejectedError(
+                        f"Triplet grounding ({dim_name}) references "
+                        f"evidence '{eid}' which is not linked to "
+                        f"hypothesis '{nominee_id}' via a support edge"
+                    )
+
     def finalize(
         self,
         *,
@@ -333,8 +362,7 @@ class FinalVerifier:
         with graph.relation_transaction():
             nominee_hyp.transition_to(HypothesisStatus.FINAL)
 
-        graph.validate_consistency()
-
+        grounding = lead_result.nomination.triplet_grounding
         seen: set[str] = set()
         ref_ids: list[str] = []
         for eid in lead_result.nomination.supporting_evidence_ids:
@@ -344,6 +372,18 @@ class FinalVerifier:
         challenge_eid = challenge_result.evidence_id
         if challenge_eid not in seen:
             ref_ids.append(challenge_eid)
+        for eid in grounding.component_evidence_ids:
+            if eid not in seen:
+                seen.add(eid)
+                ref_ids.append(eid)
+        for eid in grounding.reason_evidence_ids:
+            if eid not in seen:
+                seen.add(eid)
+                ref_ids.append(eid)
+        for eid in grounding.onset_evidence_ids:
+            if eid not in seen:
+                seen.add(eid)
+                ref_ids.append(eid)
 
         return FinalRCAResult(
             status="final_verified",
@@ -351,6 +391,7 @@ class FinalVerifier:
             root_component=nominee_hyp.root_component,
             reason_family=nominee_hyp.reason_family,
             onset_interval=nominee_hyp.onset_interval,
+            triplet_grounding=grounding,
             lead_supporting_evidence_ids=lead_result.nomination.supporting_evidence_ids,
             challenge_evidence_id=challenge_eid,
             referenced_evidence_ids=tuple(ref_ids),

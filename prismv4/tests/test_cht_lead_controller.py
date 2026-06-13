@@ -24,6 +24,7 @@ from prismv4.prism_cht.tournament_types import (
     EvidenceRelation,
     HypothesisStatusUpdate,
     LeadNomination,
+    TripletEvidenceCoverage,
 )
 
 
@@ -124,7 +125,7 @@ class TestMinHypotheses:
         # Policy that immediately nominates
         policy = ScriptedLeadPolicy(
             turns=[],
-            nomination=LeadNomination("H1", ("evidence:x",), ("H2",), "rationale"),
+            nomination=LeadNomination("H1", ("evidence:x",), ("H2",), TripletEvidenceCoverage(("dummy",), ("dummy",), ("dummy",)), "rationale"),
         )
         with pytest.raises(ValueError, match="At least two"):
             ctrl.run(initial_hypotheses=[h1], policy=policy)
@@ -147,7 +148,7 @@ class TestDraftAutoActivate:
         policy = ScriptedLeadPolicy(
             turns=[],
             nomination=LeadNomination(
-                "H1", ("evidence:will-be-filled",), ("H2",), "rationale"
+                "H1", ("evidence:will-be-filled",), ("H2",), TripletEvidenceCoverage(("dummy",), ("dummy",), ("dummy",)), "rationale"
             ),
         )
 
@@ -187,7 +188,7 @@ class TestActiveInitial:
             status_updates=(status_support, status_weakened),
             rationale="onset supports H1, contradicts H2",
         )
-        nomination = LeadNomination("H1", (eid,), ("H2",), "H1 wins")
+        nomination = LeadNomination("H1", (eid,), ("H2",), TripletEvidenceCoverage((eid,), (eid,), (eid,)), "H1 wins")
         policy = ScriptedLeadPolicy(
             turns=[ScriptedInvestigationTurn(action=action, assessment=assessment)],
             nomination=nomination,
@@ -212,7 +213,7 @@ class TestSupportedNotInitial:
         ctrl = _make_controller()
         policy = ScriptedLeadPolicy(
             turns=[],
-            nomination=LeadNomination("H1", ("x",), ("H2",), "..."),
+            nomination=LeadNomination("H1", ("x",), ("H2",), TripletEvidenceCoverage(("dummy",), ("dummy",), ("dummy",)), "..."),
         )
         with pytest.raises(ValueError, match="only DRAFT or ACTIVE"):
             ctrl.run(initial_hypotheses=[h1, h2], policy=policy)
@@ -244,7 +245,7 @@ class TestRegistration:
             status_updates=(status_support, status_weakened),
             rationale="onset supports H1, contradicts H2",
         )
-        nomination = LeadNomination("H1", (eid,), ("H2",), "H1 wins")
+        nomination = LeadNomination("H1", (eid,), ("H2",), TripletEvidenceCoverage((eid,), (eid,), (eid,)), "H1 wins")
         policy = ScriptedLeadPolicy(
             turns=[ScriptedInvestigationTurn(action=action, assessment=assessment)],
             nomination=nomination,
@@ -281,7 +282,7 @@ class TestRunOnce:
             status_updates=(status_support, status_weakened),
             rationale="onset supports H1, contradicts H2",
         )
-        nomination = LeadNomination("H1", (eid,), ("H2",), "H1 wins")
+        nomination = LeadNomination("H1", (eid,), ("H2",), TripletEvidenceCoverage((eid,), (eid,), (eid,)), "H1 wins")
         policy = ScriptedLeadPolicy(
             turns=[ScriptedInvestigationTurn(action=action, assessment=assessment)],
             nomination=nomination,
@@ -320,7 +321,7 @@ class TestPollutedGraph:
         h2 = _make_hypothesis("H2")
         policy = ScriptedLeadPolicy(
             turns=[],
-            nomination=LeadNomination("H1", ("x",), ("H2",), "..."),
+            nomination=LeadNomination("H1", ("x",), ("H2",), TripletEvidenceCoverage(("dummy",), ("dummy",), ("dummy",)), "..."),
         )
         with pytest.raises(ValueError, match="must be empty of registered hypotheses"):
             ctrl.run(initial_hypotheses=[h1, h2], policy=policy)
@@ -353,7 +354,7 @@ class TestNominationSupported:
             rationale="onset supports H1",
         )
         # H1 is still ACTIVE, nomination should fail
-        nomination = LeadNomination("H1", (eid,), ("H2",), "H1 wins")
+        nomination = LeadNomination("H1", (eid,), ("H2",), TripletEvidenceCoverage((eid,), (eid,), (eid,)), "H1 wins")
         policy = ScriptedLeadPolicy(
             turns=[ScriptedInvestigationTurn(action=action, assessment=assessment)],
             nomination=nomination,
@@ -390,7 +391,7 @@ class TestNominationEvidence:
             rationale="onset supports H1",
         )
         # Nomination has empty supporting evidence
-        nomination = LeadNomination("H1", (), ("H2",), "H1 wins")
+        nomination = LeadNomination("H1", (), ("H2",), TripletEvidenceCoverage(("dummy",), ("dummy",), ("dummy",)), "H1 wins")
         policy = ScriptedLeadPolicy(
             turns=[ScriptedInvestigationTurn(action=action, assessment=assessment)],
             nomination=nomination,
@@ -420,7 +421,7 @@ class TestNominationEvidence:
             rationale="onset supports H1",
         )
         # Reference nonexistent evidence
-        nomination = LeadNomination("H1", ("nonexistent",), ("H2",), "H1 wins")
+        nomination = LeadNomination("H1", ("nonexistent",), ("H2",), TripletEvidenceCoverage(("dummy",), ("dummy",), ("dummy",)), "H1 wins")
         policy = ScriptedLeadPolicy(
             turns=[ScriptedInvestigationTurn(action=action, assessment=assessment)],
             nomination=nomination,
@@ -449,7 +450,7 @@ class TestNominationEvidence:
             rationale="onset contradicts H2",
         )
         # Nominate H1 with eid but eid is not linked to H1
-        nomination = LeadNomination("H1", (eid,), ("H2",), "H1 wins")
+        nomination = LeadNomination("H1", (eid,), ("H2",), TripletEvidenceCoverage((eid,), (eid,), (eid,)), "H1 wins")
         policy = ScriptedLeadPolicy(
             turns=[ScriptedInvestigationTurn(action=action, assessment=assessment)],
             nomination=nomination,
@@ -485,7 +486,7 @@ class TestCompetitorValidation:
             status_updates=(status_support, status_weakened),
             rationale="onset supports H1",
         )
-        nomination = LeadNomination("H1", (eid,), (), "H1 wins")  # no competitors
+        nomination = LeadNomination("H1", (eid,), (), TripletEvidenceCoverage(("dummy",), ("dummy",), ("dummy",)), "H1 wins")  # no competitors
         policy = ScriptedLeadPolicy(
             turns=[ScriptedInvestigationTurn(action=action, assessment=assessment)],
             nomination=nomination,
@@ -515,7 +516,7 @@ class TestCompetitorValidation:
             rationale="onset supports H1",
         )
         # H1 nominated and also listed as competitor
-        nomination = LeadNomination("H1", (eid,), ("H1",), "H1 wins")
+        nomination = LeadNomination("H1", (eid,), ("H1",), TripletEvidenceCoverage(("dummy",), ("dummy",), ("dummy",)), "H1 wins")
         policy = ScriptedLeadPolicy(
             turns=[ScriptedInvestigationTurn(action=action, assessment=assessment)],
             nomination=nomination,
@@ -543,7 +544,7 @@ class TestCompetitorValidation:
             status_updates=(status_support,),
             rationale="onset supports H1",
         )
-        nomination = LeadNomination("H1", (eid,), ("H2",), "H1 wins")
+        nomination = LeadNomination("H1", (eid,), ("H2",), TripletEvidenceCoverage((eid,), (eid,), (eid,)), "H1 wins")
         policy = ScriptedLeadPolicy(
             turns=[ScriptedInvestigationTurn(action=action, assessment=assessment)],
             nomination=nomination,
@@ -572,7 +573,7 @@ class TestCompetitorValidation:
             status_updates=(status_support, status_weakened),
             rationale="onset supports H1",
         )
-        nomination = LeadNomination("H1", (eid,), ("H2",), "H1 wins")
+        nomination = LeadNomination("H1", (eid,), ("H2",), TripletEvidenceCoverage((eid,), (eid,), (eid,)), "H1 wins")
         policy = ScriptedLeadPolicy(
             turns=[ScriptedInvestigationTurn(action=action, assessment=assessment)],
             nomination=nomination,
@@ -601,7 +602,7 @@ class TestNoSurvivedOrFinal:
         # Force H1 to SURVIVED
         h1.status = HypothesisStatus.SURVIVED
 
-        nom = LeadNomination("H1", ("x",), ("H2",), "H1 wins")
+        nom = LeadNomination("H1", ("x",), ("H2",), TripletEvidenceCoverage(("dummy",), ("dummy",), ("dummy",)), "H1 wins")
         with pytest.raises(NominationRejectedError, match="SURVIVED"):
             ctrl._validate_nomination(nom)
 
@@ -616,7 +617,7 @@ class TestNoSurvivedOrFinal:
         ctrl._hypotheses["H2"] = h2
         h1.status = HypothesisStatus.FINAL
 
-        nom = LeadNomination("H1", ("x",), ("H2",), "H1 wins")
+        nom = LeadNomination("H1", ("x",), ("H2",), TripletEvidenceCoverage(("dummy",), ("dummy",), ("dummy",)), "H1 wins")
         with pytest.raises(NominationRejectedError, match="FINAL"):
             ctrl._validate_nomination(nom)
 
@@ -659,7 +660,7 @@ class TestBudgetExhaustion:
             links=(link,), status_updates=(),
             rationale="second",
         )
-        nomination = LeadNomination("H1", (eid,), ("H2",), "H1 wins")
+        nomination = LeadNomination("H1", (eid,), ("H2",), TripletEvidenceCoverage((eid,), (eid,), (eid,)), "H1 wins")
         # Two turns but max_rounds=1
         policy = ScriptedLeadPolicy(
             turns=[
@@ -699,7 +700,7 @@ class TestNominationRoundCount:
             status_updates=(status_support, status_weakened),
             rationale="onset supports H1, contradicts H2",
         )
-        nomination = LeadNomination("H1", (eid,), ("H2",), "H1 wins")
+        nomination = LeadNomination("H1", (eid,), ("H2",), TripletEvidenceCoverage((eid,), (eid,), (eid,)), "H1 wins")
         policy = ScriptedLeadPolicy(
             turns=[ScriptedInvestigationTurn(action=action, assessment=assessment)],
             nomination=nomination,
@@ -736,7 +737,7 @@ class TestNoAutoLink:
             status_updates=(status, status_weakened),
             rationale="supports H1, contradicts H2",
         )
-        nomination = LeadNomination("H1", (eid,), ("H2",), "H1 wins")
+        nomination = LeadNomination("H1", (eid,), ("H2",), TripletEvidenceCoverage((eid,), (eid,), (eid,)), "H1 wins")
         policy = ScriptedLeadPolicy(
             turns=[ScriptedInvestigationTurn(action=action, assessment=assessment)],
             nomination=nomination,

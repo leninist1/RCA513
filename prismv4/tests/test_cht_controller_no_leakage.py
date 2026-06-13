@@ -199,8 +199,9 @@ class TestNoForbiddenStatusInCHT2:
         from prismv4.prism_cht.tournament_types import (
             LeadNomination,
             LeadTournamentResult,
+            TripletEvidenceCoverage,
         )
-        nom = LeadNomination("H1", ("e1",), ("H2",), "rationale")
+        nom = LeadNomination("H1", ("e1",), ("H2",), TripletEvidenceCoverage(("e1",), ("e1",), ("e1",)), "rationale")
         with pytest.raises(ValueError, match="must be 'challenge_required'"):
             LeadTournamentResult(
                 status=bad_status,

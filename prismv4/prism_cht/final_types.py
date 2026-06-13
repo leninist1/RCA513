@@ -9,6 +9,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+from .tournament_types import TripletEvidenceCoverage
+
 
 @dataclass(frozen=True)
 class FinalRCAResult:
@@ -25,6 +27,7 @@ class FinalRCAResult:
     root_component: str
     reason_family: str
     onset_interval: tuple[float, float]
+    triplet_grounding: TripletEvidenceCoverage
     lead_supporting_evidence_ids: tuple[str, ...]
     challenge_evidence_id: str
     referenced_evidence_ids: tuple[str, ...]
@@ -71,9 +74,16 @@ class FinalRCAResult:
         if not self.challenge_evidence_id or not self.challenge_evidence_id.strip():
             raise ValueError("challenge_evidence_id must be non-empty")
 
-        expected_set = set(self.lead_supporting_evidence_ids) | {
-            self.challenge_evidence_id
-        }
+        # Collect all grounding evidence IDs from triplet_grounding
+        grounding_ids = set(self.triplet_grounding.component_evidence_ids)
+        grounding_ids.update(self.triplet_grounding.reason_evidence_ids)
+        grounding_ids.update(self.triplet_grounding.onset_evidence_ids)
+
+        expected_set = (
+            set(self.lead_supporting_evidence_ids)
+            | {self.challenge_evidence_id}
+            | grounding_ids
+        )
         actual_set = set(self.referenced_evidence_ids)
         if not expected_set.issubset(actual_set):
             missing = sorted(expected_set - actual_set)
