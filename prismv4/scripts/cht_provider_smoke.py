@@ -84,7 +84,7 @@ class SmokeResult:
 
 
 _SMOKE_PURPOSE = "cht_provider_smoke_harness"
-_SMOKE_MESSAGE_CONTENT = "Reply with exactly: OK"
+_SMOKE_MESSAGE_CONTENT = "Reply with exactly: OK (json)"
 
 
 def _build_smoke_request() -> ModelRequest:
