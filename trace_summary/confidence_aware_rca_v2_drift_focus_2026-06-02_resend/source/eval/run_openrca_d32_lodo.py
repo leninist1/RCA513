@@ -18,8 +18,12 @@ from refute.src.baseline_distributions import BaselineStore  # noqa: E402
 from refute.src.data_loader import BankDataPaths  # noqa: E402
 from refute.src.data_loader import load_log_day, load_metric_day  # noqa: E402
 from refute_b_v2.query_windows import parse_query_window  # noqa: E402
+from refute_b_v2_d32.evidence_summarizer import EvidenceSummaryLimits, build_summary_cards  # noqa: E402
 from refute_b_v2_d32.layer1 import D32Knowledge, KnowledgeBuildConfig, build_knowledge, case_rows_from_openrca, load_trace_summary  # noqa: E402
 from refute_b_v2_d32.layer2 import D32PipelineConfig, D32RefutationPipeline  # noqa: E402
+from refute_b_v2_d32.llm_gated_rerank import GatedRerankConfig, apply_gated_rerank, apply_pairwise_gated_rerank, load_judgment_jsonl  # noqa: E402
+from refute_b_v2_d32.llm_candidate_judge import LLMJudgeConfig, write_shadow_judgments_jsonl  # noqa: E402
+from refute_b_v2_d32.llm_pairwise_judge import build_pairwise_requests, write_pairwise_judgments_jsonl  # noqa: E402
 from refute_b_v2_d32.reason_classifier import contiguous_case_folds  # noqa: E402
 
 
@@ -71,6 +75,33 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--debug-json", default="logs/d32_lodo_trace_debug.json")
     parser.add_argument("--checkpoint-jsonl", default="logs/d32_lodo_trace_checkpoint.jsonl")
     parser.add_argument("--resume-checkpoint", action="store_true")
+    parser.add_argument("--llm-mode", choices=["off", "shadow", "gated-rerank"], default="off")
+    parser.add_argument("--llm-provider", choices=["openai_compatible"], default="openai_compatible")
+    parser.add_argument("--llm-model", default=None)
+    parser.add_argument("--llm-base-url", default=None)
+    parser.add_argument("--llm-api-key-env", default="RCA_LLM_API_KEY")
+    parser.add_argument("--llm-output-jsonl", default=None)
+    parser.add_argument("--llm-rerank-output-jsonl", default=None)
+    parser.add_argument("--llm-pairwise-output-jsonl", default=None)
+    parser.add_argument("--llm-timeout-sec", type=float, default=60.0)
+    parser.add_argument("--llm-temperature", type=float, default=0.0)
+    parser.add_argument("--llm-max-retries", type=int, default=2)
+    parser.add_argument("--llm-concurrency", type=int, default=1)
+    parser.add_argument("--llm-refute-threshold", type=float, default=0.80)
+    parser.add_argument("--llm-support-threshold", type=float, default=0.75)
+    parser.add_argument("--llm-pairwise-margin-threshold", type=float, default=0.25)
+    parser.add_argument("--llm-pairwise-top1-max-support", type=float, default=0.50)
+    parser.add_argument("--llm-allow-pairwise-low-top1-support", action="store_true")
+    parser.add_argument("--llm-min-alt-rank", type=int, default=2)
+    parser.add_argument("--llm-max-alt-rank", type=int, default=None)
+    parser.add_argument("--llm-rerank-policy", choices=["conservative"], default="conservative")
+    parser.add_argument("--llm-rerank-judge", choices=["candidate", "pairwise"], default="candidate")
+    parser.add_argument("--llm-summary-jsonl", default=None)
+    parser.add_argument("--llm-top-k", type=int, default=5)
+    parser.add_argument("--summary-max-metric-patterns", type=int, default=5)
+    parser.add_argument("--summary-max-log-patterns", type=int, default=5)
+    parser.add_argument("--summary-max-trace-edges", type=int, default=5)
+    parser.add_argument("--summary-max-counter-evidence", type=int, default=5)
     parser.add_argument("--dataset-name", default="bank")
     parser.add_argument("--casefold-classifier-dir", default="knowledge/casefold_classifiers")
     parser.add_argument("--disable-family-filter", action="store_true",
@@ -139,13 +170,101 @@ def append_checkpoint(path: Path, row: dict) -> None:
         f.flush()
 
 
-def write_outputs(completed: dict[int, dict], out_path: Path, debug_path: Path) -> None:
+def write_predictions_csv(completed: dict[int, dict], out_path: Path) -> None:
+    out_path.parent.mkdir(parents=True, exist_ok=True)
     ordered = [completed[row_id] for row_id in sorted(completed)]
     pd.DataFrame([
         {"row_id": row["row_id"], "prediction": json.dumps(row["prediction"], ensure_ascii=False)}
         for row in ordered
     ]).to_csv(out_path, index=False)
+
+
+def write_outputs(completed: dict[int, dict], out_path: Path, debug_path: Path) -> None:
+    write_predictions_csv(completed, out_path)
+    debug_path.parent.mkdir(parents=True, exist_ok=True)
+    ordered = [completed[row_id] for row_id in sorted(completed)]
     debug_path.write_text(json.dumps({"n": len(ordered), "debug": [row["debug"] for row in ordered]}, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
+def collect_llm_summary_cards(
+    *,
+    completed: dict[int, dict],
+    query_df: pd.DataFrame,
+    cache: DayCache,
+    baseline,
+    trace_summary_dir: str,
+    modalities: set[str],
+    top_k: int,
+    limits: EvidenceSummaryLimits,
+) -> list[dict]:
+    cards_out: list[dict] = []
+    for row_id in sorted(completed):
+        qrow = query_df.iloc[row_id]
+        window = parse_query_window(qrow["instruction"])
+        metric_df, log_df = gather_window(cache, window, modalities)
+        trace_summary = load_trace_summary(trace_summary_dir, row_id) if "trace" in modalities else None
+        modal_status = {
+            "metric": "present" if "metric" in modalities and not metric_df.empty else ("empty_window" if "metric" in modalities else "disabled"),
+            "log": "present" if "log" in modalities and not log_df.empty else ("empty_window" if "log" in modalities else "disabled"),
+            "trace": (trace_summary or {}).get("trace_status", "unloaded") if "trace" in modalities else "disabled",
+        }
+        d32_result = (completed[row_id].get("debug", {}) or {}).get("d32_result", {}) or {}
+        d32_debug = d32_result.get("debug", {}) or {}
+        cards_out.extend(build_summary_cards(
+            case_id=f"query_{row_id:03d}",
+            metric_df=metric_df,
+            log_df=log_df,
+            trace_summary=trace_summary,
+            baseline=baseline,
+            modal_status=modal_status,
+            d32_debug=d32_debug,
+            window_start_ts=window.start_ts,
+            top_k=top_k,
+            limits=limits,
+        ))
+    return cards_out
+
+
+def write_llm_summary_jsonl(
+    *,
+    completed: dict[int, dict],
+    out_path: Path,
+    query_df: pd.DataFrame,
+    cache: DayCache,
+    baseline,
+    trace_summary_dir: str,
+    modalities: set[str],
+    top_k: int,
+    limits: EvidenceSummaryLimits,
+) -> int:
+    cards = collect_llm_summary_cards(
+        completed=completed,
+        query_df=query_df,
+        cache=cache,
+        baseline=baseline,
+        trace_summary_dir=trace_summary_dir,
+        modalities=modalities,
+        top_k=top_k,
+        limits=limits,
+    )
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    with out_path.open("w", encoding="utf-8") as f:
+        for card in cards:
+            f.write(json.dumps(card, ensure_ascii=False, sort_keys=True) + "\n")
+    return len(cards)
+
+
+def default_d32_baseline_path(out_path: Path) -> Path:
+    suffix = out_path.suffix or ".csv"
+    return out_path.with_name(f"{out_path.stem}.d32_baseline{suffix}")
+
+
+def default_rerank_summary_path(trace_path: Path) -> Path:
+    return trace_path.with_name(f"{trace_path.stem}.summary.json")
+
+
+def default_pairwise_output_path(trace_path: Path) -> Path:
+    return trace_path.with_name(f"{trace_path.stem}.pairwise_judge.jsonl")
 
 
 def main() -> int:
@@ -292,9 +411,120 @@ def main() -> int:
         print(f"all-train: n={len(case_rows)} clusters={len(knowledge.clusters)} rules={len(knowledge.mined_rules)}", flush=True)
         for row_id in range(len(case_rows)):
             _process_row(row_id, pipelines, "all-train")
-    write_outputs(completed, Path(args.out), Path(args.debug_json))
-    print(f"wrote {args.out}")
-    print(f"wrote {args.debug_json}")
+    out_path = Path(args.out)
+    debug_path = Path(args.debug_json)
+    if args.llm_mode == "gated-rerank":
+        baseline_path = default_d32_baseline_path(out_path)
+        write_predictions_csv(completed, baseline_path)
+        print(f"wrote {baseline_path} d32_baseline")
+    else:
+        write_outputs(completed, out_path, debug_path)
+        print(f"wrote {args.out}")
+        print(f"wrote {args.debug_json}")
+    if args.llm_summary_jsonl:
+        summary_limits = EvidenceSummaryLimits(
+            max_metric_patterns=args.summary_max_metric_patterns,
+            max_log_patterns=args.summary_max_log_patterns,
+            max_trace_edges=args.summary_max_trace_edges,
+            max_counter_evidence=args.summary_max_counter_evidence,
+        )
+        summary_count = write_llm_summary_jsonl(
+            completed=completed,
+            out_path=Path(args.llm_summary_jsonl),
+            query_df=query_df,
+            cache=cache,
+            baseline=baseline,
+            trace_summary_dir=args.trace_summary_dir,
+            modalities=modalities,
+            top_k=args.llm_top_k,
+            limits=summary_limits,
+        )
+        print(f"wrote {args.llm_summary_jsonl} cards={summary_count}")
+    if args.llm_mode in {"shadow", "gated-rerank"}:
+        llm_output_jsonl = Path(args.llm_output_jsonl or "logs/llm_judge.jsonl")
+        summary_limits = EvidenceSummaryLimits(
+            max_metric_patterns=args.summary_max_metric_patterns,
+            max_log_patterns=args.summary_max_log_patterns,
+            max_trace_edges=args.summary_max_trace_edges,
+            max_counter_evidence=args.summary_max_counter_evidence,
+        )
+        cards = collect_llm_summary_cards(
+            completed=completed,
+            query_df=query_df,
+            cache=cache,
+            baseline=baseline,
+            trace_summary_dir=args.trace_summary_dir,
+            modalities=modalities,
+            top_k=args.llm_top_k,
+            limits=summary_limits,
+        )
+        llm_config = LLMJudgeConfig(
+            provider=args.llm_provider,
+            model=args.llm_model,
+            base_url=args.llm_base_url,
+            api_key_env=args.llm_api_key_env,
+            timeout_sec=args.llm_timeout_sec,
+            temperature=args.llm_temperature,
+            max_retries=args.llm_max_retries,
+            concurrency=args.llm_concurrency,
+        )
+        if args.llm_mode == "shadow" or args.llm_rerank_judge == "candidate":
+            shadow_count = write_shadow_judgments_jsonl(
+                cards=cards,
+                out_path=llm_output_jsonl,
+                config=llm_config,
+            )
+            print(f"wrote {llm_output_jsonl} llm_shadow_judgments={shadow_count}")
+        if args.llm_mode == "gated-rerank":
+            rerank_trace_path = Path(args.llm_rerank_output_jsonl or "logs/llm_gated_rerank_trace.jsonl")
+            max_alt_rank = args.llm_max_alt_rank if args.llm_max_alt_rank is not None else args.llm_top_k
+            reason_name_map = D32PipelineConfig(dataset_name=args.dataset_name).REASON_NAME_MAPS.get(args.dataset_name, {})
+            rerank_config = GatedRerankConfig(
+                refute_threshold=args.llm_refute_threshold,
+                support_threshold=args.llm_support_threshold,
+                min_alt_rank=args.llm_min_alt_rank,
+                max_alt_rank=max_alt_rank,
+                policy=args.llm_rerank_policy,
+                pairwise_margin_threshold=args.llm_pairwise_margin_threshold,
+                pairwise_top1_max_support=args.llm_pairwise_top1_max_support,
+                allow_pairwise_low_top1_support=args.llm_allow_pairwise_low_top1_support,
+            )
+            if args.llm_rerank_judge == "candidate":
+                reranked_completed, rerank_summary = apply_gated_rerank(
+                    completed=completed,
+                    judgment_rows=load_judgment_jsonl(llm_output_jsonl),
+                    trace_path=rerank_trace_path,
+                    summary_path=default_rerank_summary_path(rerank_trace_path),
+                    config=rerank_config,
+                    reason_name_map=reason_name_map,
+                )
+            else:
+                pairwise_output_jsonl = Path(args.llm_pairwise_output_jsonl or default_pairwise_output_path(rerank_trace_path))
+                pairwise_requests = build_pairwise_requests(
+                    cards,
+                    min_alt_rank=args.llm_min_alt_rank,
+                    max_alt_rank=max_alt_rank,
+                )
+                pairwise_count = write_pairwise_judgments_jsonl(
+                    requests=pairwise_requests,
+                    out_path=pairwise_output_jsonl,
+                    config=llm_config,
+                )
+                print(f"wrote {pairwise_output_jsonl} llm_pairwise_judgments={pairwise_count}")
+                reranked_completed, rerank_summary = apply_pairwise_gated_rerank(
+                    completed=completed,
+                    pairwise_rows=load_judgment_jsonl(pairwise_output_jsonl),
+                    trace_path=rerank_trace_path,
+                    summary_path=default_rerank_summary_path(rerank_trace_path),
+                    config=rerank_config,
+                    reason_name_map=reason_name_map,
+                )
+            write_outputs(reranked_completed, out_path, debug_path)
+            print(f"wrote {args.out} llm_gated_predictions")
+            print(f"wrote {args.debug_json}")
+            print(f"wrote {rerank_trace_path} llm_gated_rerank_trace")
+            print(f"wrote {default_rerank_summary_path(rerank_trace_path)} llm_gated_rerank_summary")
+            print(json.dumps(rerank_summary, ensure_ascii=False, sort_keys=True))
     print(f"checkpoint {checkpoint_path}")
     return 0
 
