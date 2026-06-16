@@ -273,6 +273,46 @@ fresh LLM run):
 The active-session guard removed the two observed negative `db close` cases from
 the unguarded alias replay while preserving the positive cases.
 
+Fresh full Telecom run with direct-atom cards and DeepSeek `deepseek-v4-pro`:
+
+```json
+{
+  "output_dir": "logs/telecom_llm_exp/telecom_fresh_direct_atom_aliasguard",
+  "pairwise_rows": 204,
+  "llm_parse_failures": 0,
+  "preference_counts": {
+    "alternative": 39,
+    "tie": 56,
+    "top1": 104,
+    "uncertain": 5
+  },
+  "baseline": {
+    "n": 51,
+    "strict": 7,
+    "partial": 15,
+    "fractional_partial_sum": 11.0,
+    "fractional_partial_rate": 0.21568627450980393
+  },
+  "alias_guard": {
+    "changed_cases": 9,
+    "strict": 9,
+    "partial": 19,
+    "fractional_partial_sum": 13.833333333333336,
+    "fractional_partial_rate": 0.2712418300653595,
+    "row_delta_counts": {
+      "positive": 5,
+      "negative": 0,
+      "same": 46
+    }
+  }
+}
+```
+
+This matched the old-pairwise replay score, but now with fresh direct-atom cards
+and zero parse failures.  The changed cases were all same-component
+`db close` -> `db connection limit` alias-guard changes; no free component
+promotion was accepted under the default conservative gate.
+
 ## Verification
 
 Focused tests:
