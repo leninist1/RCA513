@@ -330,3 +330,85 @@ Result after the 2026-06-16 alias-gate update:
 ```text
 27 passed
 ```
+
+## 2026-06-16 Promotion Atom Gate Hardening
+
+Change:
+
+- Component-only metric atoms are now marked `promotion_eligible=false`.
+- Pairwise prompts explicitly require promotion evidence to cite only
+  `promotion_eligible=true` atom ids.
+- The reranker re-validates cited atom ids against the rank-blind summary card
+  before accepting cross-candidate promotion.
+- If an alternative is preferred but cites no valid promotable atom, the
+  mapped pairwise judgment no longer reports `alternative_has_direct_evidence`.
+
+Focused tests after this change:
+
+```text
+30 passed
+```
+
+Offline replay with the fresh Telecom 204-row DeepSeek pairwise JSONL:
+
+```json
+{
+  "baseline": {
+    "n": 51,
+    "strict": 7,
+    "partial": 15,
+    "fractional_partial_sum": 11.0,
+    "fractional_partial_rate": 0.21568627450980393
+  },
+  "default_aliasguard_after_hardening": {
+    "changed_cases": 9,
+    "strict": 9,
+    "partial": 19,
+    "fractional_partial_sum": 13.833333333333336,
+    "fractional_partial_rate": 0.2712418300653595,
+    "row_delta_counts": {
+      "positive": 5,
+      "negative": 0,
+      "same": 46
+    }
+  },
+  "low_top1_support_optin_after_hardening": {
+    "changed_cases": 13,
+    "strict": 9,
+    "partial": 19,
+    "fractional_partial_sum": 13.833333333333336,
+    "fractional_partial_rate": 0.2712418300653595,
+    "row_delta_counts": {
+      "positive": 5,
+      "negative": 0,
+      "same": 46
+    }
+  }
+}
+```
+
+Diagnosis from GT-only offline analysis, not used by rerank:
+
+- There are 17 top-k alternatives that would improve the row score if forced.
+- LLM preference on these beneficial alternatives is weak: 7 are `tie`, 7 are
+  `top1`, 2 are `alternative`, and 1 is `uncertain`.
+- The remaining headroom is mostly component disambiguation, not simple
+  alternative promotion:
+  - `db close -> db connection limit`: 9 cases, already handled safely for
+    same-component canonical alias changes.
+  - `container CPU load -> CPU fault`: 4 cases, usually cross-component and
+    often blocked by stronger-sibling conflict.
+  - `network loss -> network loss`: 3 cases, cross-component and currently
+    too ambiguous for conservative promotion.
+  - `CPU fault -> CPU fault`: 1 case with no usable direct atom.
+
+Current conclusion:
+
+- Keep default gated-rerank conservative; the hardened gate preserves the known
+  positive aliasguard result.
+- Do not enable low-top1-support promotion by default.  It added four more
+  changed cases in replay but produced no score gain.
+- Next meaningful improvement should be a separate rank-blind
+  component-disambiguation judge/card for same-reason cross-component cases,
+  with explicit sibling comparison and first-anomalous-component evidence,
+  rather than loosening the existing pairwise promotion gate.

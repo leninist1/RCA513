@@ -316,12 +316,12 @@ def _pairwise_rerank_one_case(
             saw_preferred_alternative = True
         if _safe_float(llm.get("alternative_support_score")) >= float(config.support_threshold):
             saw_strong_support = True
-        if _has_direct_alternative_evidence(llm):
+        if _has_direct_alternative_evidence(llm, pairwise_row):
             saw_direct_alternative_evidence = True
         if _has_alternative_sibling_conflict(llm):
             saw_sibling_conflict = True
         decision = decisions[rank - 1] if rank - 1 < len(decisions) else _decision_from_pairwise(pairwise_row)
-        reason_for_change = _pairwise_promote_reason(llm, config)
+        reason_for_change = _pairwise_promote_reason(llm, config, pairwise_row)
         alias_reason_for_change = _pairwise_alias_tiebreak_reason(
             pairwise_row,
             llm,
@@ -516,13 +516,17 @@ def _is_strong_support(judgment: Mapping[str, Any], threshold: float) -> bool:
     return str(judgment.get("verdict", "")).lower() == "support" and _safe_float(judgment.get("support_score")) >= float(threshold)
 
 
-def _pairwise_promote_reason(judgment: Mapping[str, Any], config: GatedRerankConfig) -> str | None:
+def _pairwise_promote_reason(
+    judgment: Mapping[str, Any],
+    config: GatedRerankConfig,
+    pairwise_row: Mapping[str, Any] | None = None,
+) -> str | None:
     if str(judgment.get("preferred_candidate", "")).lower() != "alternative":
         return None
     alternative_support = _safe_float(judgment.get("alternative_support_score"))
     if alternative_support < float(config.support_threshold):
         return None
-    if config.require_pairwise_direct_evidence and not _has_direct_alternative_evidence(judgment):
+    if config.require_pairwise_direct_evidence and not _has_direct_alternative_evidence(judgment, pairwise_row):
         return None
     if config.block_pairwise_sibling_conflict and _has_alternative_sibling_conflict(judgment):
         return None
@@ -593,8 +597,18 @@ def _pairwise_alias_tiebreak_reason(
     return "pairwise_same_component_canonical_reason_alias_tiebreak"
 
 
-def _has_direct_alternative_evidence(judgment: Mapping[str, Any]) -> bool:
-    return _safe_bool(judgment.get("alternative_has_direct_evidence")) and bool(judgment.get("promotion_evidence_atom_ids") or [])
+def _has_direct_alternative_evidence(
+    judgment: Mapping[str, Any],
+    pairwise_row: Mapping[str, Any] | None = None,
+) -> bool:
+    if not _safe_bool(judgment.get("alternative_has_direct_evidence")):
+        return False
+    atom_ids = [str(item) for item in judgment.get("promotion_evidence_atom_ids", []) or []]
+    if not atom_ids:
+        return False
+    if pairwise_row is None:
+        return True
+    return bool(_valid_promotion_atom_ids_from_pairwise_row(pairwise_row, atom_ids))
 
 
 def _has_alternative_sibling_conflict(judgment: Mapping[str, Any]) -> bool:
@@ -634,6 +648,25 @@ def _pairwise_label_for_role(pairwise_row: Mapping[str, Any], role: str) -> str:
         if str(pairwise_row.get(f"{label}_role", "")) == role:
             return label
     return ""
+
+
+def _valid_promotion_atom_ids_from_pairwise_row(
+    pairwise_row: Mapping[str, Any],
+    atom_ids: list[str],
+) -> list[str]:
+    alt_label = _pairwise_label_for_role(pairwise_row, "alternative")
+    if not alt_label:
+        return []
+    pairwise_input = dict(pairwise_row.get("pairwise_input", {}) or {})
+    cards = dict(pairwise_input.get("evidence_summary_cards", {}) or {})
+    alt_card = dict(cards.get(alt_label, {}) or {})
+    candidate_summary = dict(alt_card.get("candidate_summary", {}) or {})
+    valid = {
+        str(atom.get("atom_id"))
+        for atom in candidate_summary.get("candidate_direct_evidence_atoms", []) or []
+        if isinstance(atom, Mapping) and atom.get("promotion_eligible") is True
+    }
+    return [atom_id for atom_id in atom_ids if atom_id in valid]
 
 
 def _canonical_reason_for_candidate(candidate: Mapping[str, Any]) -> str:

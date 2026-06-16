@@ -70,13 +70,36 @@ def _pairwise(
     alt_refute=0.0,
     parse_ok=True,
     alt_direct=True,
+    alt_promotion_eligible=True,
     sibling_conflict=False,
 ):
+    alternative_label = "candidate_b"
+    alt_atoms = []
+    if alt_direct:
+        alt_atoms = [{"atom_id": "atom_1", "promotion_eligible": bool(alt_promotion_eligible)}]
     return {
         "case_id": "query_000",
         "alternative_rank": rank,
         "top1_candidate": {"component": "A", "reason": "CPU fault"},
         "alternative_candidate": {"component": chr(ord("A") + rank - 1), "reason": "x"},
+        "candidate_a_role": "top1",
+        "candidate_b_role": "alternative",
+        "pairwise_input": {
+            "evidence_summary_cards": {
+                "candidate_a": {
+                    "candidate_summary": {
+                        "candidate_direct_evidence_atoms": [
+                            {"atom_id": "top1_atom_1", "promotion_eligible": True}
+                        ]
+                    }
+                },
+                alternative_label: {
+                    "candidate_summary": {
+                        "candidate_direct_evidence_atoms": alt_atoms
+                    }
+                },
+            }
+        },
         "parse_ok": parse_ok,
         "llm_pairwise_judgment": {
             "preferred_candidate": preferred,
@@ -313,6 +336,30 @@ def test_pairwise_gated_rerank_keeps_without_direct_alternative_evidence(tmp_pat
         completed=_completed(),
         pairwise_rows=[
             _pairwise(2, "alternative", alt_support=0.90, margin=0.40, top1_refute=0.95, alt_direct=False),
+        ],
+        trace_path=tmp_path / "trace.jsonl",
+        summary_path=tmp_path / "summary.json",
+        config=GatedRerankConfig(),
+    )
+    assert reranked[0]["prediction"]["1"]["root cause component"] == "A"
+    trace = json.loads((tmp_path / "trace.jsonl").read_text(encoding="utf-8").strip())
+    assert trace["changed"] is False
+    assert trace["reason_for_keep"] == "no_direct_alternative_evidence"
+
+
+def test_pairwise_gated_rerank_blocks_non_promotion_eligible_atoms(tmp_path):
+    reranked, _ = apply_pairwise_gated_rerank(
+        completed=_completed(),
+        pairwise_rows=[
+            _pairwise(
+                2,
+                "alternative",
+                alt_support=0.90,
+                margin=0.40,
+                top1_refute=0.95,
+                alt_direct=True,
+                alt_promotion_eligible=False,
+            ),
         ],
         trace_path=tmp_path / "trace.jsonl",
         summary_path=tmp_path / "summary.json",

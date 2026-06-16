@@ -88,3 +88,34 @@ def test_summary_card_adds_direct_atoms_and_same_reason_sibling_context():
     assert first["candidate_direct_evidence_atoms"][0]["promotion_eligible"] is True
     assert first["same_reason_sibling_context"]["candidate_vs_best_sibling"] == "strongest"
     assert second["same_reason_sibling_context"]["has_stronger_sibling"] is True
+
+
+def test_summary_card_marks_component_only_metric_atoms_non_promotable():
+    metric_df = pd.DataFrame([
+        {"timestamp": 1000, "cmdb_id": "os_010", "kpi_name": "cpu_usage", "value": 99.0},
+    ])
+    cards = build_summary_cards(
+        case_id="query_003",
+        metric_df=metric_df,
+        log_df=pd.DataFrame(columns=["timestamp", "cmdb_id", "value"]),
+        trace_summary=None,
+        baseline=_Baseline(),
+        modal_status={"metric": "present", "log": "disabled", "trace": "disabled"},
+        d32_debug={
+            "all_decisions": [
+                {
+                    "candidate": {"component": "os_010", "reason": "network loss"},
+                    "support_strength": 0.0,
+                    "refute_strength": 0.0,
+                    "rebuttal_score": 0.0,
+                }
+            ],
+            "signature": {},
+        },
+        window_start_ts=1000,
+        top_k=1,
+    )
+    atom = cards[0]["candidate_summary"]["candidate_direct_evidence_atoms"][0]
+    assert atom["directness"] == "component_only"
+    assert atom["reason_relevance"] == "neutral"
+    assert atom["promotion_eligible"] is False

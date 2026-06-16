@@ -431,6 +431,7 @@ def _direct_evidence_atoms(
             continue
         relation = str(item.get("first_seen_relation", "unknown"))
         severity = str(item.get("severity", "unknown"))
+        reason_relevance = str(item.get("reason_relevance", "neutral"))
         add_atom(
             modality="metric",
             directness="component_only",
@@ -438,9 +439,10 @@ def _direct_evidence_atoms(
             canonical_reason=str(canonical_reason),
             reason_bucket=str(bucket),
             pattern=str(item.get("kpi_group", "")),
+            reason_relevance=reason_relevance,
             severity=severity,
             first_seen_relation=relation,
-            promotion_eligible=severity in {"high", "medium"} and relation in {"before_onset", "near_onset"},
+            promotion_eligible=False,
         )
     for item in log_support:
         add_atom(
@@ -537,7 +539,7 @@ def _same_reason_sibling_context(info: Mapping[str, Any], candidate_infos: list[
 def _direct_evidence_score(atoms: list[Mapping[str, Any]]) -> float:
     directness_weight = {
         "component_and_reason": 3.0,
-        "component_only": 1.5,
+        "component_only": 0.6,
         "topology_neighbor": 0.8,
     }
     severity_weight = {"high": 3.0, "medium": 2.0, "low": 1.0, "unknown": 0.5}

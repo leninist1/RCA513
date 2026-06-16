@@ -40,14 +40,15 @@ The input is rank-blind: candidate_a and candidate_b are arbitrary labels, not r
 Support means direct evidence is consistent with the candidate, not proof that it is globally best.
 Treat competing_evidence_summary as case context, not direct refutation by itself.
 Treat missing_evidence_summary as unavailable evidence, not direct refutation.
-Promotion must be justified by candidate_direct_evidence_atoms from the preferred candidate."""
+Promotion must be justified by promotion_eligible=true candidate_direct_evidence_atoms from the preferred candidate."""
 
 USER_PROMPT_PREFIX = (
     "Compare the two candidates using only the rank-blind Evidence Summary Cards. "
     "Prefer a candidate only when its direct evidence is clearly stronger and the other candidate is weak or refuted. "
     "Prioritize candidate_positive_evidence_summary, metric_support_summary, trace_support_summary, and topology_context_summary. "
     "Use candidate_direct_evidence_atoms to decide whether a promotion has direct evidence. "
-    "If you prefer a candidate for promotion, list the atom_id values from that candidate's candidate_direct_evidence_atoms that justify promotion. "
+    "If you prefer a candidate for promotion, list only atom_id values whose promotion_eligible field is true. "
+    "A component_only atom is context for affectedness, but it is not sufficient for promotion by itself. "
     "If the preferred candidate has same_reason_sibling_context.has_stronger_sibling=true, mark its stronger sibling conflict as true. "
     "Do not convert disabled or unavailable modalities into counter-evidence. "
     "Do not treat competing evidence from another component as direct refutation unless the card also gives direct candidate-level counter evidence. "
@@ -318,6 +319,8 @@ def _map_judgment_to_roles(judgment: Mapping[str, Any], request: Mapping[str, An
     mapped["promotion_evidence_atom_ids"] = valid_atom_ids
     if valid_atom_ids:
         mapped["alternative_has_direct_evidence"] = True
+    elif str(mapped.get("preferred_candidate", "")).lower() == "alternative":
+        mapped["alternative_has_direct_evidence"] = False
     return mapped
 
 
@@ -419,7 +422,7 @@ def _valid_promotion_atom_ids(judgment: Mapping[str, Any], request: Mapping[str,
     valid = {
         str(atom.get("atom_id"))
         for atom in candidate_summary.get("candidate_direct_evidence_atoms", []) or []
-        if isinstance(atom, Mapping)
+        if isinstance(atom, Mapping) and bool(atom.get("promotion_eligible") is True)
     }
     return [atom_id for atom_id in atom_ids if atom_id in valid]
 
