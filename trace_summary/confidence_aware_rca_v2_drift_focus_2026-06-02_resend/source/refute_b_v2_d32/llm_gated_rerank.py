@@ -11,6 +11,9 @@ import json
 from pathlib import Path
 from typing import Any, Mapping
 
+from refute_b_v2_d32.evidence_summarizer import CANONICAL_REASON_BY_BUCKET, REASON_ALIASES_BY_BUCKET
+from refute_b_v2_d32.schema import reason_bucket
+
 
 @dataclass(frozen=True)
 class GatedRerankConfig:
@@ -22,6 +25,11 @@ class GatedRerankConfig:
     pairwise_margin_threshold: float = 0.25
     pairwise_top1_max_support: float = 0.50
     allow_pairwise_low_top1_support: bool = False
+    require_pairwise_direct_evidence: bool = True
+    block_pairwise_sibling_conflict: bool = True
+    allow_pairwise_alias_tiebreak: bool = True
+    pairwise_alias_min_support: float = 0.40
+    block_db_close_active_session_alias: bool = True
 
 
 def load_judgment_jsonl(path: Path) -> list[dict[str, Any]]:
@@ -163,6 +171,11 @@ def apply_pairwise_gated_rerank(
         "pairwise_margin_threshold": float(config.pairwise_margin_threshold),
         "pairwise_top1_max_support": float(config.pairwise_top1_max_support),
         "allow_pairwise_low_top1_support": bool(config.allow_pairwise_low_top1_support),
+        "require_pairwise_direct_evidence": bool(config.require_pairwise_direct_evidence),
+        "block_pairwise_sibling_conflict": bool(config.block_pairwise_sibling_conflict),
+        "allow_pairwise_alias_tiebreak": bool(config.allow_pairwise_alias_tiebreak),
+        "pairwise_alias_min_support": float(config.pairwise_alias_min_support),
+        "block_db_close_active_session_alias": bool(config.block_db_close_active_session_alias),
         "min_alt_rank": int(config.min_alt_rank),
         "max_alt_rank": config.max_alt_rank,
     }
@@ -282,10 +295,15 @@ def _pairwise_rerank_one_case(
         return trace_base
 
     max_alt_rank = int(config.max_alt_rank) if config.max_alt_rank is not None else max(judgments.keys() or [1])
-    alternatives: list[tuple[float, float, float, int, Mapping[str, Any], Mapping[str, Any], str]] = []
+    alternatives_refuted: list[tuple[float, float, float, int, Mapping[str, Any], Mapping[str, Any], str]] = []
+    alternatives_alias: list[tuple[float, float, float, int, Mapping[str, Any], Mapping[str, Any], str]] = []
+    alternatives_low_support: list[tuple[float, float, float, int, Mapping[str, Any], Mapping[str, Any], str]] = []
     saw_parse_ok = False
     saw_preferred_alternative = False
     saw_strong_support = False
+    saw_direct_alternative_evidence = False
+    saw_sibling_conflict = False
+    saw_alias_tiebreak_candidate = False
     for rank in range(max(2, int(config.min_alt_rank)), max_alt_rank + 1):
         pairwise_row = judgments.get(rank)
         if pairwise_row is None:
@@ -298,26 +316,52 @@ def _pairwise_rerank_one_case(
             saw_preferred_alternative = True
         if _safe_float(llm.get("alternative_support_score")) >= float(config.support_threshold):
             saw_strong_support = True
+        if _has_direct_alternative_evidence(llm):
+            saw_direct_alternative_evidence = True
+        if _has_alternative_sibling_conflict(llm):
+            saw_sibling_conflict = True
+        decision = decisions[rank - 1] if rank - 1 < len(decisions) else _decision_from_pairwise(pairwise_row)
         reason_for_change = _pairwise_promote_reason(llm, config)
-        if reason_for_change:
-            decision = decisions[rank - 1] if rank - 1 < len(decisions) else _decision_from_pairwise(pairwise_row)
-            alternatives.append((
+        alias_reason_for_change = _pairwise_alias_tiebreak_reason(
+            pairwise_row,
+            llm,
+            config,
+            top1_decision=original_decision,
+            alternative_decision=decision,
+        )
+        if alias_reason_for_change:
+            saw_alias_tiebreak_candidate = True
+        if reason_for_change or alias_reason_for_change:
+            item = (
                 _safe_float(llm.get("relative_margin")),
                 _safe_float(llm.get("alternative_support_score")),
                 _safe_float(llm.get("top1_refute_score")),
                 rank,
                 decision,
                 llm,
-                reason_for_change,
-            ))
+                str(reason_for_change or alias_reason_for_change),
+            )
+            if reason_for_change == "pairwise_alternative_preferred_top1_refuted":
+                alternatives_refuted.append(item)
+            elif alias_reason_for_change:
+                alternatives_alias.append(item)
+            else:
+                alternatives_low_support.append(item)
 
+    alternatives = alternatives_refuted or alternatives_alias or alternatives_low_support
     if not alternatives:
         if not saw_parse_ok:
             trace_base["reason_for_keep"] = "llm_parse_failed"
+        elif config.allow_pairwise_alias_tiebreak and saw_alias_tiebreak_candidate:
+            trace_base["reason_for_keep"] = "pairwise_alias_tiebreak_gate_failed"
         elif not saw_preferred_alternative:
             trace_base["reason_for_keep"] = "no_pairwise_alternative_preferred"
         elif not saw_strong_support:
             trace_base["reason_for_keep"] = "no_supported_alternative"
+        elif config.require_pairwise_direct_evidence and not saw_direct_alternative_evidence:
+            trace_base["reason_for_keep"] = "no_direct_alternative_evidence"
+        elif config.block_pairwise_sibling_conflict and saw_sibling_conflict:
+            trace_base["reason_for_keep"] = "stronger_sibling_conflict"
         else:
             trace_base["reason_for_keep"] = "pairwise_margin_or_top1_support_gate_failed"
         _attach_trace(row, trace_base)
@@ -458,6 +502,9 @@ def _compact_pairwise_llm(judgment: Mapping[str, Any] | None) -> dict[str, Any] 
         "alternative_support_score": _safe_float(judgment.get("alternative_support_score")),
         "alternative_refute_score": _safe_float(judgment.get("alternative_refute_score")),
         "relative_margin": _safe_float(judgment.get("relative_margin")),
+        "alternative_has_direct_evidence": _safe_bool(judgment.get("alternative_has_direct_evidence")),
+        "alternative_has_stronger_sibling_conflict": _safe_bool(judgment.get("alternative_has_stronger_sibling_conflict")),
+        "promotion_evidence_atom_ids": [str(item) for item in judgment.get("promotion_evidence_atom_ids", []) or []],
     }
 
 
@@ -475,6 +522,10 @@ def _pairwise_promote_reason(judgment: Mapping[str, Any], config: GatedRerankCon
     alternative_support = _safe_float(judgment.get("alternative_support_score"))
     if alternative_support < float(config.support_threshold):
         return None
+    if config.require_pairwise_direct_evidence and not _has_direct_alternative_evidence(judgment):
+        return None
+    if config.block_pairwise_sibling_conflict and _has_alternative_sibling_conflict(judgment):
+        return None
     margin = _safe_float(judgment.get("relative_margin"))
     if margin < float(config.pairwise_margin_threshold):
         return None
@@ -491,6 +542,155 @@ def _pairwise_promote_reason(judgment: Mapping[str, Any], config: GatedRerankCon
     ):
         return "pairwise_alternative_preferred_with_low_top1_support"
     return None
+
+
+def _pairwise_alias_tiebreak_reason(
+    pairwise_row: Mapping[str, Any],
+    judgment: Mapping[str, Any],
+    config: GatedRerankConfig,
+    *,
+    top1_decision: Mapping[str, Any],
+    alternative_decision: Mapping[str, Any],
+) -> str | None:
+    if not config.allow_pairwise_alias_tiebreak:
+        return None
+    preferred = str(judgment.get("preferred_candidate", "")).strip().lower()
+    if preferred == "top1":
+        return None
+    top1 = dict(pairwise_row.get("top1_candidate", {}) or {})
+    alternative = dict(pairwise_row.get("alternative_candidate", {}) or {})
+    top1_component = str(top1.get("component", ""))
+    alternative_component = str(alternative.get("component", ""))
+    if not top1_component or top1_component != alternative_component:
+        return None
+    top1_canonical = _canonical_reason_for_candidate(top1)
+    alternative_canonical = _canonical_reason_for_candidate(alternative)
+    top1_reason = str(top1.get("reason", "")).strip()
+    alternative_reason = str(alternative.get("reason", "")).strip()
+    if not top1_canonical or top1_canonical != alternative_canonical:
+        return None
+    if top1_reason == top1_canonical or alternative_reason != alternative_canonical:
+        return None
+    top1_bucket = _reason_bucket_for_candidate(top1)
+    alternative_bucket = _reason_bucket_for_candidate(alternative)
+    if top1_bucket and alternative_bucket and top1_bucket != alternative_bucket:
+        return None
+    alternative_support = _safe_float(judgment.get("alternative_support_score"))
+    top1_support = _safe_float(judgment.get("top1_support_score"))
+    if alternative_support < float(config.pairwise_alias_min_support):
+        return None
+    if alternative_support + 1e-9 < top1_support:
+        return None
+    if not _pairwise_role_has_direct_evidence(pairwise_row, judgment, "top1"):
+        return None
+    if not _pairwise_role_has_direct_evidence(pairwise_row, judgment, "alternative"):
+        return None
+    if (
+        config.block_db_close_active_session_alias
+        and _db_close_active_session_alias_blocked(top1, alternative, top1_decision, alternative_decision)
+    ):
+        return None
+    return "pairwise_same_component_canonical_reason_alias_tiebreak"
+
+
+def _has_direct_alternative_evidence(judgment: Mapping[str, Any]) -> bool:
+    return _safe_bool(judgment.get("alternative_has_direct_evidence")) and bool(judgment.get("promotion_evidence_atom_ids") or [])
+
+
+def _has_alternative_sibling_conflict(judgment: Mapping[str, Any]) -> bool:
+    return _safe_bool(judgment.get("alternative_has_stronger_sibling_conflict"))
+
+
+def _pairwise_role_has_direct_evidence(
+    pairwise_row: Mapping[str, Any],
+    judgment: Mapping[str, Any],
+    role: str,
+) -> bool:
+    if _safe_bool(judgment.get(f"{role}_has_direct_evidence")):
+        return True
+    label = _pairwise_label_for_role(pairwise_row, role)
+    if not label:
+        return False
+    pairwise_input = dict(pairwise_row.get("pairwise_input", {}) or {})
+    cards = dict(pairwise_input.get("evidence_summary_cards", {}) or {})
+    card = dict(cards.get(label, {}) or {})
+    candidate_summary = dict(card.get("candidate_summary", {}) or {})
+    atoms = candidate_summary.get("candidate_direct_evidence_atoms", []) or []
+    if any(isinstance(atom, Mapping) for atom in atoms):
+        return True
+    for field in (
+        "candidate_positive_evidence_summary",
+        "metric_support_summary",
+        "log_support_summary",
+        "trace_support_summary",
+    ):
+        if candidate_summary.get(field):
+            return True
+    return False
+
+
+def _pairwise_label_for_role(pairwise_row: Mapping[str, Any], role: str) -> str:
+    for label in ("candidate_a", "candidate_b"):
+        if str(pairwise_row.get(f"{label}_role", "")) == role:
+            return label
+    return ""
+
+
+def _canonical_reason_for_candidate(candidate: Mapping[str, Any]) -> str:
+    explicit = str(candidate.get("canonical_reason", "")).strip()
+    if explicit:
+        return explicit
+    reason = str(candidate.get("reason", "")).strip()
+    reason_lower = reason.lower()
+    for bucket, aliases in REASON_ALIASES_BY_BUCKET.items():
+        if reason_lower in {str(alias).lower() for alias in aliases}:
+            return str(CANONICAL_REASON_BY_BUCKET.get(bucket, reason))
+    bucket = _reason_bucket_for_candidate(candidate)
+    return str(CANONICAL_REASON_BY_BUCKET.get(bucket, reason)).strip()
+
+
+def _reason_bucket_for_candidate(candidate: Mapping[str, Any]) -> str:
+    explicit = str(candidate.get("reason_bucket", "")).strip()
+    if explicit:
+        return explicit
+    reason = str(candidate.get("reason", "")).strip()
+    if not reason:
+        return ""
+    return str(reason_bucket(reason))
+
+
+def _db_close_active_session_alias_blocked(
+    top1_candidate: Mapping[str, Any],
+    alternative_candidate: Mapping[str, Any],
+    top1_decision: Mapping[str, Any],
+    alternative_decision: Mapping[str, Any],
+) -> bool:
+    top1_reason = str(top1_candidate.get("reason", "")).strip().lower()
+    alternative_reason = str(alternative_candidate.get("reason", "")).strip().lower()
+    if top1_reason != "db close" or alternative_reason != "db connection limit":
+        return False
+    names = {
+        name
+        for decision in (top1_decision, alternative_decision)
+        for name in _candidate_metric_example_names(decision)
+    }
+    if "Sess_Active" not in names:
+        return False
+    connection_limit_names = {"Login_Per_Sec", "TPS_Per_Sec", "Exec_Per_Sec"}
+    return not bool(names & connection_limit_names)
+
+
+def _candidate_metric_example_names(decision: Mapping[str, Any]) -> list[str]:
+    candidate = dict(decision.get("candidate", {}) or {})
+    details = dict(candidate.get("details", {}) or {})
+    names: list[str] = []
+    for example in details.get("examples", []) or []:
+        if not isinstance(example, Mapping):
+            continue
+        name = str(example.get("name", "")).strip()
+        if name:
+            names.append(name)
+    return names
 
 
 def _write_trace(path: Path, traces: list[Mapping[str, Any]]) -> None:
@@ -512,3 +712,13 @@ def _safe_float(value: Any) -> float:
         return float(value)
     except (TypeError, ValueError):
         return 0.0
+
+
+def _safe_bool(value: Any) -> bool:
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, str):
+        return value.strip().lower() in {"1", "true", "yes"}
+    if isinstance(value, (int, float)):
+        return bool(value)
+    return False

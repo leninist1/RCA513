@@ -28,6 +28,28 @@ class EvidenceSummaryLimits:
 
 
 LOG_EXAMPLE_LIMIT = 200
+CANONICAL_REASON_BY_BUCKET = {
+    "cpu": "CPU fault",
+    "memory": "memory fault",
+    "jvm_oom": "JVM OOM",
+    "disk_io": "disk IO fault",
+    "filesystem": "disk space fault",
+    "network_latency": "network delay",
+    "network_packet_loss": "network loss",
+    "db_connection": "db connection limit",
+    "process_termination": "process termination",
+}
+REASON_ALIASES_BY_BUCKET = {
+    "cpu": ["CPU fault", "container CPU load", "node CPU load", "node CPU spike", "high CPU usage", "high JVM CPU load"],
+    "memory": ["memory fault", "container memory load", "node memory consumption", "high memory usage"],
+    "jvm_oom": ["JVM OOM", "JVM out of memory (OOM) heap"],
+    "disk_io": ["disk IO fault", "container read I/O load", "container write I/O load", "node disk read I/O consumption", "node disk write I/O consumption"],
+    "filesystem": ["disk space fault", "node disk space consumption", "high disk space usage"],
+    "network_latency": ["network delay", "network latency", "container network latency"],
+    "network_packet_loss": ["network loss", "network packet loss", "container packet loss", "container network packet corruption", "container network packet retransmission"],
+    "db_connection": ["db connection limit", "db close"],
+    "process_termination": ["process termination", "container process termination"],
+}
 
 
 def build_summary_cards(
@@ -55,17 +77,29 @@ def build_summary_cards(
     global_log = _log_patterns(log_df, None, onset_ts, limits.max_log_patterns)
     global_trace = _trace_edges(trace_summary, None, limits.max_trace_edges)
 
-    cards: list[dict[str, Any]] = []
+    candidate_infos: list[dict[str, Any]] = []
     for idx, decision in enumerate(decisions, start=1):
         candidate = dict(decision.get("candidate", {}) or {})
         component = str(candidate.get("component", ""))
         reason = str(candidate.get("reason", ""))
         bucket = str(candidate.get("reason_bucket") or reason_bucket(reason))
+        reason_identity = _reason_identity(reason, bucket)
         metric_support = _metric_patterns(metric_df, baseline, component, bucket, onset_ts, limits.max_metric_patterns)
         component_metric_signal = _metric_patterns(metric_df, baseline, component, None, onset_ts, limits.max_metric_patterns)
         log_support = _log_patterns(log_df, component, onset_ts, limits.max_log_patterns)
         trace_support = _trace_edges(trace_summary, component, limits.max_trace_edges)
         topology_context = _topology_context(trace_summary, component, limits.max_trace_edges)
+        direct_atoms = _direct_evidence_atoms(
+            component=component,
+            canonical_reason=reason_identity["canonical_reason"],
+            bucket=bucket,
+            metric_support=metric_support,
+            component_metric_signal=component_metric_signal,
+            log_support=log_support,
+            trace_support=trace_support,
+            topology_context=topology_context,
+            max_items=max(limits.max_metric_patterns, limits.max_log_patterns, limits.max_trace_edges),
+        )
         counter = _counter_evidence(
             decision=decision,
             candidate_rank=idx,
@@ -87,31 +121,57 @@ def build_summary_cards(
             component=component,
             max_items=limits.max_counter_evidence,
         )
+        candidate_infos.append({
+            "candidate_rank": idx,
+            "decision": decision,
+            "component": component,
+            "reason": reason,
+            "bucket": bucket,
+            "reason_identity": reason_identity,
+            "metric_support": metric_support,
+            "component_metric_signal": component_metric_signal,
+            "log_support": log_support,
+            "trace_support": trace_support,
+            "topology_context": topology_context,
+            "direct_atoms": direct_atoms,
+            "direct_evidence_score": _direct_evidence_score(direct_atoms),
+            "counter": counter,
+            "competing": competing,
+        })
+
+    cards: list[dict[str, Any]] = []
+    for info in candidate_infos:
+        reason_identity = info["reason_identity"]
         cards.append({
             "case_id": str(case_id),
             "case_summary": case_summary,
             "candidate_summary": {
-                "candidate_rank": idx,
-                "component": component,
-                "reason": reason,
-                "reason_bucket": bucket,
-                "d32_score_summary": _score_summary(decision),
-                "metric_support_summary": metric_support,
-                "component_metric_signal_summary": component_metric_signal,
-                "log_support_summary": log_support,
-                "trace_support_summary": trace_support,
-                "topology_context_summary": topology_context,
+                "candidate_rank": info["candidate_rank"],
+                "component": info["component"],
+                "reason": info["reason"],
+                "raw_reason": reason_identity["raw_reason"],
+                "canonical_reason": reason_identity["canonical_reason"],
+                "known_reason_aliases": reason_identity["known_reason_aliases"],
+                "reason_bucket": info["bucket"],
+                "d32_score_summary": _score_summary(info["decision"]),
+                "metric_support_summary": info["metric_support"],
+                "component_metric_signal_summary": info["component_metric_signal"],
+                "log_support_summary": info["log_support"],
+                "trace_support_summary": info["trace_support"],
+                "topology_context_summary": info["topology_context"],
+                "candidate_direct_evidence_atoms": info["direct_atoms"],
                 "candidate_positive_evidence_summary": _positive_evidence(
-                    metric_support=metric_support,
-                    component_metric_signal=component_metric_signal,
-                    log_support=log_support,
-                    trace_support=trace_support,
-                    topology_context=topology_context,
+                    metric_support=info["metric_support"],
+                    component_metric_signal=info["component_metric_signal"],
+                    log_support=info["log_support"],
+                    trace_support=info["trace_support"],
+                    topology_context=info["topology_context"],
                     max_items=max(limits.max_metric_patterns, limits.max_log_patterns, limits.max_trace_edges),
                 ),
-                "counter_evidence_summary": counter,
-                "competing_evidence_summary": competing,
-                "missing_evidence_summary": _missing_evidence_summary(modality_availability, component, reason),
+                "same_reason_sibling_context": _same_reason_sibling_context(info, candidate_infos),
+                "counter_evidence_summary": info["counter"],
+                "competing_evidence_summary": info["competing"],
+                "missing_evidence_summary": _missing_evidence_summary(modality_availability, info["component"], info["reason"]),
             },
         })
     return cards
@@ -318,6 +378,180 @@ def _topology_context(trace_summary: Mapping[str, Any] | None, component: str, m
         if len(out) >= max_items:
             break
     return out[:max_items]
+
+
+def _reason_identity(reason: str, bucket: str) -> dict[str, Any]:
+    canonical = CANONICAL_REASON_BY_BUCKET.get(str(bucket), str(reason))
+    aliases = REASON_ALIASES_BY_BUCKET.get(str(bucket), [canonical])
+    if str(reason) and str(reason) not in aliases:
+        aliases = [str(reason)] + list(aliases)
+    return {
+        "raw_reason": str(reason),
+        "canonical_reason": canonical,
+        "known_reason_aliases": list(dict.fromkeys(str(item) for item in aliases)),
+    }
+
+
+def _direct_evidence_atoms(
+    *,
+    component: str,
+    canonical_reason: str,
+    bucket: str,
+    metric_support: list[Mapping[str, Any]],
+    component_metric_signal: list[Mapping[str, Any]],
+    log_support: list[Mapping[str, Any]],
+    trace_support: list[Mapping[str, Any]],
+    topology_context: list[Mapping[str, Any]],
+    max_items: int,
+) -> list[dict[str, Any]]:
+    out: list[dict[str, Any]] = []
+
+    def add_atom(**kwargs: Any) -> None:
+        if len(out) >= max(0, int(max_items)):
+            return
+        atom_id = f"atom_{len(out) + 1}"
+        out.append({"atom_id": atom_id, **kwargs})
+
+    for item in metric_support:
+        add_atom(
+            modality="metric",
+            directness="component_and_reason",
+            component=str(component),
+            canonical_reason=str(canonical_reason),
+            reason_bucket=str(bucket),
+            pattern=str(item.get("kpi_group", "")),
+            severity=str(item.get("severity", "unknown")),
+            first_seen_relation=str(item.get("first_seen_relation", "unknown")),
+            promotion_eligible=True,
+        )
+    supported_metric_keys = {(str(item.get("component", "")), str(item.get("kpi_group", ""))) for item in metric_support}
+    for item in component_metric_signal:
+        key = (str(item.get("component", "")), str(item.get("kpi_group", "")))
+        if key in supported_metric_keys:
+            continue
+        relation = str(item.get("first_seen_relation", "unknown"))
+        severity = str(item.get("severity", "unknown"))
+        add_atom(
+            modality="metric",
+            directness="component_only",
+            component=str(component),
+            canonical_reason=str(canonical_reason),
+            reason_bucket=str(bucket),
+            pattern=str(item.get("kpi_group", "")),
+            severity=severity,
+            first_seen_relation=relation,
+            promotion_eligible=severity in {"high", "medium"} and relation in {"before_onset", "near_onset"},
+        )
+    for item in log_support:
+        add_atom(
+            modality="log",
+            directness="component_only",
+            component=str(component),
+            canonical_reason=str(canonical_reason),
+            reason_bucket=str(bucket),
+            pattern=str(item.get("pattern", "")),
+            count_level=str(item.get("count_level", "unknown")),
+            first_seen_relation=str(item.get("first_seen_relation", "unknown")),
+            promotion_eligible=str(item.get("count_level", "unknown")) in {"high", "medium"},
+        )
+    for item in trace_support:
+        relation = str(item.get("relation_to_candidate", "unknown"))
+        add_atom(
+            modality="trace",
+            directness="topology_neighbor" if relation in {"incoming", "outgoing"} else "component_only",
+            component=str(component),
+            canonical_reason=str(canonical_reason),
+            reason_bucket=str(bucket),
+            edge=str(item.get("edge", "")),
+            symptom=str(item.get("symptom", "")),
+            severity=str(item.get("severity", "unknown")),
+            relation_to_candidate=relation,
+            promotion_eligible=relation in {"incoming", "outgoing", "self"},
+        )
+    for item in topology_context:
+        relation = str(item.get("relation_to_candidate", "unknown"))
+        if relation not in {"self", "incoming", "outgoing"}:
+            continue
+        add_atom(
+            modality="topology",
+            directness="component_only" if relation == "self" else "topology_neighbor",
+            component=str(component),
+            canonical_reason=str(canonical_reason),
+            reason_bucket=str(bucket),
+            context=str(item.get("context", "")),
+            edge=str(item.get("edge", "")),
+            relation_to_candidate=relation,
+            promotion_eligible=relation == "self",
+        )
+    return out
+
+
+def _same_reason_sibling_context(info: Mapping[str, Any], candidate_infos: list[Mapping[str, Any]]) -> dict[str, Any]:
+    same_bucket = [
+        item for item in candidate_infos
+        if str(item.get("bucket", "")) == str(info.get("bucket", ""))
+    ]
+    if not same_bucket:
+        return {
+            "reason_bucket": str(info.get("bucket", "")),
+            "canonical_reason": str((info.get("reason_identity", {}) or {}).get("canonical_reason", "")),
+            "sibling_count": 0,
+            "candidate_component_affected_rank": None,
+            "candidate_vs_best_sibling": "unknown",
+            "has_stronger_sibling": False,
+        }
+
+    ranked = sorted(
+        same_bucket,
+        key=lambda item: (-float(item.get("direct_evidence_score", 0.0) or 0.0), int(item.get("candidate_rank", 9999))),
+    )
+    candidate_rank = next(
+        (idx for idx, item in enumerate(ranked, start=1) if int(item.get("candidate_rank", -1)) == int(info.get("candidate_rank", -2))),
+        None,
+    )
+    best = ranked[0]
+    candidate_score = float(info.get("direct_evidence_score", 0.0) or 0.0)
+    best_score = float(best.get("direct_evidence_score", 0.0) or 0.0)
+    delta = candidate_score - best_score
+    if candidate_rank == 1:
+        relation = "strongest"
+    elif abs(delta) <= 0.5:
+        relation = "similar"
+    else:
+        relation = "weaker"
+    return {
+        "reason_bucket": str(info.get("bucket", "")),
+        "canonical_reason": str((info.get("reason_identity", {}) or {}).get("canonical_reason", "")),
+        "sibling_count": len(same_bucket),
+        "candidate_component_affected_rank": candidate_rank,
+        "candidate_direct_evidence_level": _level_from_value(candidate_score, 2.0, 5.0),
+        "candidate_direct_evidence_score_level": _level_from_value(candidate_score, 2.0, 5.0),
+        "best_sibling_component": str(best.get("component", "")),
+        "best_sibling_original_rank": int(best.get("candidate_rank", 0) or 0),
+        "best_sibling_direct_evidence_level": _level_from_value(best_score, 2.0, 5.0),
+        "candidate_vs_best_sibling": relation,
+        "has_stronger_sibling": bool(candidate_rank and candidate_rank > 1 and best_score > candidate_score + 0.5),
+    }
+
+
+def _direct_evidence_score(atoms: list[Mapping[str, Any]]) -> float:
+    directness_weight = {
+        "component_and_reason": 3.0,
+        "component_only": 1.5,
+        "topology_neighbor": 0.8,
+    }
+    severity_weight = {"high": 3.0, "medium": 2.0, "low": 1.0, "unknown": 0.5}
+    relation_bonus = {"near_onset": 0.4, "before_onset": 0.2, "after_onset": -0.2, "unknown": 0.0}
+    score = 0.0
+    for atom in atoms:
+        directness = str(atom.get("directness", "component_only"))
+        severity = str(atom.get("severity", "unknown"))
+        relation = str(atom.get("first_seen_relation", "unknown"))
+        base = directness_weight.get(directness, 0.5) * severity_weight.get(severity, 0.5)
+        if atom.get("promotion_eligible") is True:
+            base += 0.5
+        score += max(0.0, base + relation_bonus.get(relation, 0.0))
+    return float(score)
 
 
 def _counter_evidence(

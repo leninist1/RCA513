@@ -22,6 +22,7 @@ from refute_b_v2_d32.llm_candidate_judge import (
     _extract_message_content,
     _preview,
     _safe_int,
+    _to_bool,
     _truncate_error,
     _truncate_rationale,
 )
@@ -38,12 +39,16 @@ Do not infer from case id or file names.
 The input is rank-blind: candidate_a and candidate_b are arbitrary labels, not rank signals.
 Support means direct evidence is consistent with the candidate, not proof that it is globally best.
 Treat competing_evidence_summary as case context, not direct refutation by itself.
-Treat missing_evidence_summary as unavailable evidence, not direct refutation."""
+Treat missing_evidence_summary as unavailable evidence, not direct refutation.
+Promotion must be justified by candidate_direct_evidence_atoms from the preferred candidate."""
 
 USER_PROMPT_PREFIX = (
     "Compare the two candidates using only the rank-blind Evidence Summary Cards. "
     "Prefer a candidate only when its direct evidence is clearly stronger and the other candidate is weak or refuted. "
     "Prioritize candidate_positive_evidence_summary, metric_support_summary, trace_support_summary, and topology_context_summary. "
+    "Use candidate_direct_evidence_atoms to decide whether a promotion has direct evidence. "
+    "If you prefer a candidate for promotion, list the atom_id values from that candidate's candidate_direct_evidence_atoms that justify promotion. "
+    "If the preferred candidate has same_reason_sibling_context.has_stronger_sibling=true, mark its stronger sibling conflict as true. "
     "Do not convert disabled or unavailable modalities into counter-evidence. "
     "Do not treat competing evidence from another component as direct refutation unless the card also gives direct candidate-level counter evidence. "
     "Return only JSON matching this schema: "
@@ -51,6 +56,9 @@ USER_PROMPT_PREFIX = (
     '"candidate_a_support_score":0.0,"candidate_a_refute_score":0.0,'
     '"candidate_b_support_score":0.0,"candidate_b_refute_score":0.0,'
     '"relative_margin":0.0,'
+    '"candidate_a_has_direct_evidence":false,"candidate_b_has_direct_evidence":false,'
+    '"candidate_a_has_stronger_sibling_conflict":false,"candidate_b_has_stronger_sibling_conflict":false,'
+    '"promotion_evidence_atom_ids":["atom_1"],'
     '"evidence_atoms":[{"modality":"metric|log|trace|topology|case",'
     '"candidate":"candidate_a|candidate_b|both","effect":"support|refute|neutral",'
     '"summary":"short evidence atom"}],'
@@ -69,11 +77,20 @@ def default_pairwise_judgment() -> dict[str, Any]:
         "candidate_a_refute_score": 0.0,
         "candidate_b_support_score": 0.0,
         "candidate_b_refute_score": 0.0,
+        "candidate_a_has_direct_evidence": False,
+        "candidate_b_has_direct_evidence": False,
+        "candidate_a_has_stronger_sibling_conflict": False,
+        "candidate_b_has_stronger_sibling_conflict": False,
         "top1_support_score": 0.0,
         "top1_refute_score": 0.0,
         "alternative_support_score": 0.0,
         "alternative_refute_score": 0.0,
+        "top1_has_direct_evidence": False,
+        "alternative_has_direct_evidence": False,
+        "top1_has_stronger_sibling_conflict": False,
+        "alternative_has_stronger_sibling_conflict": False,
         "relative_margin": 0.0,
+        "promotion_evidence_atom_ids": [],
         "evidence_atoms": [],
         "rationale": "LLM pairwise judgment unavailable.",
     }
@@ -259,6 +276,19 @@ def parse_pairwise_judgment(
     ):
         judgment[field] = _clamp01(parsed.get(field, judgment[field]))
 
+    for field in (
+        "candidate_a_has_direct_evidence",
+        "candidate_b_has_direct_evidence",
+        "candidate_a_has_stronger_sibling_conflict",
+        "candidate_b_has_stronger_sibling_conflict",
+        "top1_has_direct_evidence",
+        "alternative_has_direct_evidence",
+        "top1_has_stronger_sibling_conflict",
+        "alternative_has_stronger_sibling_conflict",
+    ):
+        judgment[field] = _to_bool(parsed.get(field, judgment[field]))
+
+    judgment["promotion_evidence_atom_ids"] = _sanitize_atom_ids(parsed.get("promotion_evidence_atom_ids", []))
     judgment["evidence_atoms"] = _sanitize_atoms(parsed.get("evidence_atoms", []))
     judgment["rationale"] = _truncate_rationale(parsed.get("rationale", judgment["rationale"]), rationale_max_chars)
     return judgment, True, ";".join(errors) if errors else None
@@ -282,6 +312,12 @@ def _map_judgment_to_roles(judgment: Mapping[str, Any], request: Mapping[str, An
             continue
         mapped[f"{role}_support_score"] = _clamp01(mapped.get(f"{label}_support_score"))
         mapped[f"{role}_refute_score"] = _clamp01(mapped.get(f"{label}_refute_score"))
+        mapped[f"{role}_has_direct_evidence"] = _to_bool(mapped.get(f"{label}_has_direct_evidence"))
+        mapped[f"{role}_has_stronger_sibling_conflict"] = _to_bool(mapped.get(f"{label}_has_stronger_sibling_conflict"))
+    valid_atom_ids = _valid_promotion_atom_ids(mapped, request)
+    mapped["promotion_evidence_atom_ids"] = valid_atom_ids
+    if valid_atom_ids:
+        mapped["alternative_has_direct_evidence"] = True
     return mapped
 
 
@@ -360,7 +396,32 @@ def _candidate_from_card(card: Mapping[str, Any]) -> dict[str, str]:
     return {
         "component": str(candidate_summary.get("component", "")),
         "reason": str(candidate_summary.get("reason", "")),
+        "canonical_reason": str(candidate_summary.get("canonical_reason", candidate_summary.get("reason", ""))),
+        "reason_bucket": str(candidate_summary.get("reason_bucket", "")),
     }
+
+
+def _valid_promotion_atom_ids(judgment: Mapping[str, Any], request: Mapping[str, Any]) -> list[str]:
+    atom_ids = [str(item) for item in judgment.get("promotion_evidence_atom_ids", []) or []]
+    if not atom_ids:
+        return []
+    alt_label = None
+    for label in ("candidate_a", "candidate_b"):
+        if str(request.get(f"{label}_role", "")) == "alternative":
+            alt_label = label
+            break
+    if not alt_label:
+        return []
+    pairwise_input = dict(request.get("pairwise_input", {}) or {})
+    cards = dict(pairwise_input.get("evidence_summary_cards", {}) or {})
+    alt_card = dict(cards.get(alt_label, {}) or {})
+    candidate_summary = dict(alt_card.get("candidate_summary", {}) or {})
+    valid = {
+        str(atom.get("atom_id"))
+        for atom in candidate_summary.get("candidate_direct_evidence_atoms", []) or []
+        if isinstance(atom, Mapping)
+    }
+    return [atom_id for atom_id in atom_ids if atom_id in valid]
 
 
 def _sanitize_atoms(value: Any) -> list[dict[str, str]]:
@@ -386,4 +447,15 @@ def _sanitize_atoms(value: Any) -> list[dict[str, str]]:
             "effect": effect,
             "summary": summary,
         })
+    return out
+
+
+def _sanitize_atom_ids(value: Any) -> list[str]:
+    if not isinstance(value, list):
+        return []
+    out: list[str] = []
+    for item in value[:8]:
+        text = _truncate_rationale(item, 80)
+        if text and text not in out:
+            out.append(text)
     return out

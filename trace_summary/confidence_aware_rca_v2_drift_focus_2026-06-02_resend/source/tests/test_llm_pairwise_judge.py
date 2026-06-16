@@ -1,7 +1,10 @@
 import json
 
+from refute_b_v2_d32 import llm_pairwise_judge as pairwise_module
+from refute_b_v2_d32.llm_candidate_judge import LLMJudgeConfig
 from refute_b_v2_d32.llm_pairwise_judge import (
     build_pairwise_requests,
+    judge_pairwise,
     parse_pairwise_judgment,
     rank_blind_card,
 )
@@ -15,8 +18,13 @@ def _card(rank, component, reason):
             "candidate_rank": rank,
             "component": component,
             "reason": reason,
+            "canonical_reason": reason,
+            "reason_bucket": "cpu",
             "d32_score_summary": {"support_level": "high"},
             "metric_support_summary": [{"component": component, "kpi_group": "cpu", "severity": "high"}],
+            "candidate_direct_evidence_atoms": [
+                {"atom_id": "atom_1", "modality": "metric", "directness": "component_and_reason", "promotion_eligible": True}
+            ],
             "log_support_summary": [],
             "trace_support_summary": [],
             "counter_evidence_summary": [
@@ -42,8 +50,8 @@ def test_pairwise_requests_use_rank_blind_inputs():
         _card(2, "B", "network delay"),
     ])
     assert len(requests) == 1
-    assert requests[0]["top1_candidate"] == {"component": "A", "reason": "CPU fault"}
-    assert requests[0]["alternative_candidate"] == {"component": "B", "reason": "network delay"}
+    assert requests[0]["top1_candidate"] == {"component": "A", "reason": "CPU fault", "canonical_reason": "CPU fault", "reason_bucket": "cpu"}
+    assert requests[0]["alternative_candidate"] == {"component": "B", "reason": "network delay", "canonical_reason": "network delay", "reason_bucket": "cpu"}
     assert requests[0]["candidate_a_role"] in {"top1", "alternative"}
     assert requests[0]["candidate_b_role"] in {"top1", "alternative"}
     payload = requests[0]["pairwise_input"]
@@ -65,6 +73,9 @@ def test_parse_pairwise_judgment_clamps_defaults_and_sanitizes_atoms():
         "candidate_a_refute_score": 2,
         "candidate_b_support_score": 0.9,
         "candidate_b_refute_score": 0.1,
+        "candidate_b_has_direct_evidence": True,
+        "candidate_b_has_stronger_sibling_conflict": "false",
+        "promotion_evidence_atom_ids": ["atom_1", "atom_1", "x" * 120],
         "relative_margin": 3,
         "evidence_atoms": [
             {"modality": "metric", "candidate": "candidate_b", "effect": "support", "summary": "x" * 300},
@@ -78,6 +89,9 @@ def test_parse_pairwise_judgment_clamps_defaults_and_sanitizes_atoms():
     assert judgment["preferred_candidate"] == "candidate_b"
     assert judgment["candidate_a_support_score"] == 0.0
     assert judgment["candidate_a_refute_score"] == 1.0
+    assert judgment["candidate_b_has_direct_evidence"] is True
+    assert judgment["candidate_b_has_stronger_sibling_conflict"] is False
+    assert judgment["promotion_evidence_atom_ids"] == ["atom_1", "x" * 80]
     assert judgment["relative_margin"] == 1.0
     assert judgment["evidence_atoms"][0]["summary"] == "x" * 160
     assert judgment["evidence_atoms"][1]["modality"] == "case"
@@ -90,3 +104,37 @@ def test_parse_pairwise_judgment_records_invalid_json():
     assert parse_ok is False
     assert "json_parse_error" in error
     assert judgment["preferred_candidate"] == "uncertain"
+
+
+def test_judge_pairwise_maps_roles_and_validates_promotion_atom_ids(monkeypatch):
+    requests = build_pairwise_requests([
+        _card(1, "A", "CPU fault"),
+        _card(2, "B", "network delay"),
+    ])
+    request = requests[0]
+
+    def fake_call(req, config):
+        assert req is request
+        return json.dumps({
+            "preferred_candidate": "candidate_b",
+            "candidate_a_support_score": 0.2,
+            "candidate_a_refute_score": 0.8,
+            "candidate_b_support_score": 0.9,
+            "candidate_b_refute_score": 0.0,
+            "candidate_b_has_direct_evidence": True,
+            "candidate_b_has_stronger_sibling_conflict": False,
+            "promotion_evidence_atom_ids": ["atom_1", "not_an_atom"],
+            "relative_margin": 0.7,
+            "evidence_atoms": [],
+            "rationale": "candidate_b has direct evidence.",
+        })
+
+    monkeypatch.setattr(pairwise_module, "_call_openai_compatible_pairwise", fake_call)
+    result = judge_pairwise(request, LLMJudgeConfig(model="m", base_url="http://localhost"))
+    judgment = result["llm_pairwise_judgment"]
+    assert result["parse_ok"] is True
+    assert judgment["preferred_candidate"] == "alternative"
+    assert judgment["alternative_support_score"] == 0.9
+    assert judgment["alternative_has_direct_evidence"] is True
+    assert judgment["alternative_has_stronger_sibling_conflict"] is False
+    assert judgment["promotion_evidence_atom_ids"] == ["atom_1"]

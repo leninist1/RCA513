@@ -1,4 +1,5 @@
 import json
+from copy import deepcopy
 
 from refute_b_v2_d32.llm_gated_rerank import GatedRerankConfig, apply_gated_rerank, apply_pairwise_gated_rerank
 
@@ -59,7 +60,18 @@ def _judgment(rank, verdict, support, refute, parse_ok=True):
     }
 
 
-def _pairwise(rank, preferred, alt_support, margin, top1_refute=0.0, top1_support=0.0, alt_refute=0.0, parse_ok=True):
+def _pairwise(
+    rank,
+    preferred,
+    alt_support,
+    margin,
+    top1_refute=0.0,
+    top1_support=0.0,
+    alt_refute=0.0,
+    parse_ok=True,
+    alt_direct=True,
+    sibling_conflict=False,
+):
     return {
         "case_id": "query_000",
         "alternative_rank": rank,
@@ -73,8 +85,98 @@ def _pairwise(rank, preferred, alt_support, margin, top1_refute=0.0, top1_suppor
             "alternative_support_score": alt_support,
             "alternative_refute_score": alt_refute,
             "relative_margin": margin,
+            "alternative_has_direct_evidence": alt_direct,
+            "alternative_has_stronger_sibling_conflict": sibling_conflict,
+            "promotion_evidence_atom_ids": ["atom_1"] if alt_direct else [],
         },
     }
+
+
+def _completed_alias():
+    return {
+        0: {
+            "row_id": 0,
+            "prediction": {
+                "1": {
+                    "root cause occurrence datetime": "2021-03-04 10:00:00",
+                    "root cause component": "db_004",
+                    "root cause reason": "db close",
+                }
+            },
+            "debug": {
+                "d32_result": {
+                    "debug": {
+                        "case_id": "query_000",
+                        "all_decisions": [
+                            {
+                                "candidate": {"component": "db_004", "reason": "db close"},
+                                "rebuttal_score": -1.0,
+                                "support_strength": 1.0,
+                                "refute_strength": 0.0,
+                            },
+                            {
+                                "candidate": {"component": "db_004", "reason": "db connection limit"},
+                                "rebuttal_score": -0.9,
+                                "support_strength": 1.0,
+                                "refute_strength": 0.0,
+                            },
+                        ],
+                    }
+                }
+            },
+        }
+    }
+
+
+def _pairwise_alias(preferred="tie", include_canonical=True):
+    row = {
+        "case_id": "query_000",
+        "alternative_rank": 2,
+        "top1_candidate": {
+            "component": "db_004",
+            "reason": "db close",
+            "canonical_reason": "db connection limit",
+            "reason_bucket": "db_connection",
+        },
+        "alternative_candidate": {
+            "component": "db_004",
+            "reason": "db connection limit",
+            "canonical_reason": "db connection limit",
+            "reason_bucket": "db_connection",
+        },
+        "parse_ok": True,
+        "llm_pairwise_judgment": {
+            "preferred_candidate": preferred,
+            "top1_support_score": 0.50,
+            "top1_refute_score": 0.0,
+            "alternative_support_score": 0.50,
+            "alternative_refute_score": 0.0,
+            "relative_margin": 0.0,
+            "top1_has_direct_evidence": True,
+            "alternative_has_direct_evidence": True,
+            "alternative_has_stronger_sibling_conflict": False,
+            "promotion_evidence_atom_ids": [],
+        },
+    }
+    if not include_canonical:
+        row["top1_candidate"].pop("canonical_reason", None)
+        row["top1_candidate"].pop("reason_bucket", None)
+        row["alternative_candidate"].pop("canonical_reason", None)
+        row["alternative_candidate"].pop("reason_bucket", None)
+    return row
+
+
+def _completed_alias_with_active_session():
+    completed = deepcopy(_completed_alias())
+    decisions = completed[0]["debug"]["d32_result"]["debug"]["all_decisions"]
+    for decision in decisions:
+        decision["candidate"]["details"] = {
+            "examples": [
+                {"source": "metric", "name": "Session_pct"},
+                {"source": "metric", "name": "Sess_Active"},
+            ]
+        }
+    return completed
 
 
 def test_gated_rerank_changes_only_when_top1_refuted_and_alt_supported(tmp_path):
@@ -206,6 +308,38 @@ def test_pairwise_gated_rerank_keeps_when_margin_gate_fails(tmp_path):
     assert summary["changed_cases"] == 0
 
 
+def test_pairwise_gated_rerank_keeps_without_direct_alternative_evidence(tmp_path):
+    reranked, _ = apply_pairwise_gated_rerank(
+        completed=_completed(),
+        pairwise_rows=[
+            _pairwise(2, "alternative", alt_support=0.90, margin=0.40, top1_refute=0.95, alt_direct=False),
+        ],
+        trace_path=tmp_path / "trace.jsonl",
+        summary_path=tmp_path / "summary.json",
+        config=GatedRerankConfig(),
+    )
+    assert reranked[0]["prediction"]["1"]["root cause component"] == "A"
+    trace = json.loads((tmp_path / "trace.jsonl").read_text(encoding="utf-8").strip())
+    assert trace["changed"] is False
+    assert trace["reason_for_keep"] == "no_direct_alternative_evidence"
+
+
+def test_pairwise_gated_rerank_keeps_when_alternative_has_stronger_sibling_conflict(tmp_path):
+    reranked, _ = apply_pairwise_gated_rerank(
+        completed=_completed(),
+        pairwise_rows=[
+            _pairwise(2, "alternative", alt_support=0.90, margin=0.40, top1_refute=0.95, sibling_conflict=True),
+        ],
+        trace_path=tmp_path / "trace.jsonl",
+        summary_path=tmp_path / "summary.json",
+        config=GatedRerankConfig(),
+    )
+    assert reranked[0]["prediction"]["1"]["root cause component"] == "A"
+    trace = json.loads((tmp_path / "trace.jsonl").read_text(encoding="utf-8").strip())
+    assert trace["changed"] is False
+    assert trace["reason_for_keep"] == "stronger_sibling_conflict"
+
+
 def test_pairwise_gated_rerank_tie_breaks_by_margin_support_refute_then_rank(tmp_path):
     reranked, _ = apply_pairwise_gated_rerank(
         completed=_completed(),
@@ -219,3 +353,70 @@ def test_pairwise_gated_rerank_tie_breaks_by_margin_support_refute_then_rank(tmp
         reason_name_map={"network loss": "network packet loss"},
     )
     assert reranked[0]["prediction"]["1"]["root cause component"] == "C"
+
+
+def test_pairwise_alias_tiebreak_canonicalizes_same_component_reason(tmp_path):
+    reranked, summary = apply_pairwise_gated_rerank(
+        completed=_completed_alias(),
+        pairwise_rows=[_pairwise_alias()],
+        trace_path=tmp_path / "trace.jsonl",
+        summary_path=tmp_path / "summary.json",
+        config=GatedRerankConfig(),
+    )
+    top1 = reranked[0]["prediction"]["1"]
+    assert top1["root cause occurrence datetime"] == "2021-03-04 10:00:00"
+    assert top1["root cause component"] == "db_004"
+    assert top1["root cause reason"] == "db connection limit"
+    trace = json.loads((tmp_path / "trace.jsonl").read_text(encoding="utf-8").strip())
+    assert trace["changed"] is True
+    assert trace["reason_for_change"] == "pairwise_same_component_canonical_reason_alias_tiebreak"
+    assert summary["allow_pairwise_alias_tiebreak"] is True
+
+
+def test_pairwise_alias_tiebreak_can_be_disabled(tmp_path):
+    reranked, summary = apply_pairwise_gated_rerank(
+        completed=_completed_alias(),
+        pairwise_rows=[_pairwise_alias()],
+        trace_path=tmp_path / "trace.jsonl",
+        summary_path=tmp_path / "summary.json",
+        config=GatedRerankConfig(allow_pairwise_alias_tiebreak=False),
+    )
+    assert reranked[0]["prediction"]["1"]["root cause reason"] == "db close"
+    trace = json.loads((tmp_path / "trace.jsonl").read_text(encoding="utf-8").strip())
+    assert trace["changed"] is False
+    assert summary["allow_pairwise_alias_tiebreak"] is False
+
+
+def test_pairwise_alias_tiebreak_uses_reason_alias_fallback(tmp_path):
+    reranked, _ = apply_pairwise_gated_rerank(
+        completed=_completed_alias(),
+        pairwise_rows=[_pairwise_alias(include_canonical=False)],
+        trace_path=tmp_path / "trace.jsonl",
+        summary_path=tmp_path / "summary.json",
+        config=GatedRerankConfig(),
+    )
+    assert reranked[0]["prediction"]["1"]["root cause component"] == "db_004"
+    assert reranked[0]["prediction"]["1"]["root cause reason"] == "db connection limit"
+
+
+def test_pairwise_alias_tiebreak_blocks_db_close_active_session_signature(tmp_path):
+    reranked, summary = apply_pairwise_gated_rerank(
+        completed=_completed_alias_with_active_session(),
+        pairwise_rows=[_pairwise_alias(include_canonical=False)],
+        trace_path=tmp_path / "trace.jsonl",
+        summary_path=tmp_path / "summary.json",
+        config=GatedRerankConfig(),
+    )
+    assert reranked[0]["prediction"]["1"]["root cause reason"] == "db close"
+    assert summary["block_db_close_active_session_alias"] is True
+
+
+def test_pairwise_alias_tiebreak_active_session_guard_can_be_disabled(tmp_path):
+    reranked, _ = apply_pairwise_gated_rerank(
+        completed=_completed_alias_with_active_session(),
+        pairwise_rows=[_pairwise_alias(include_canonical=False)],
+        trace_path=tmp_path / "trace.jsonl",
+        summary_path=tmp_path / "summary.json",
+        config=GatedRerankConfig(block_db_close_active_session_alias=False),
+    )
+    assert reranked[0]["prediction"]["1"]["root cause reason"] == "db connection limit"

@@ -92,6 +92,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--llm-pairwise-margin-threshold", type=float, default=0.25)
     parser.add_argument("--llm-pairwise-top1-max-support", type=float, default=0.50)
     parser.add_argument("--llm-allow-pairwise-low-top1-support", action="store_true")
+    parser.add_argument("--llm-no-require-pairwise-direct-evidence", dest="llm_require_pairwise_direct_evidence", action="store_false", default=True)
+    parser.add_argument("--llm-allow-pairwise-sibling-conflict", action="store_true")
+    parser.add_argument("--llm-disable-pairwise-alias-tiebreak", dest="llm_pairwise_alias_tiebreak", action="store_false", default=True)
+    parser.add_argument("--llm-pairwise-alias-min-support", type=float, default=0.40)
+    parser.add_argument("--llm-allow-db-close-active-session-alias", dest="llm_block_db_close_active_session_alias", action="store_false", default=True)
     parser.add_argument("--llm-min-alt-rank", type=int, default=2)
     parser.add_argument("--llm-max-alt-rank", type=int, default=None)
     parser.add_argument("--llm-rerank-policy", choices=["conservative"], default="conservative")
@@ -488,6 +493,11 @@ def main() -> int:
                 pairwise_margin_threshold=args.llm_pairwise_margin_threshold,
                 pairwise_top1_max_support=args.llm_pairwise_top1_max_support,
                 allow_pairwise_low_top1_support=args.llm_allow_pairwise_low_top1_support,
+                require_pairwise_direct_evidence=args.llm_require_pairwise_direct_evidence,
+                block_pairwise_sibling_conflict=not args.llm_allow_pairwise_sibling_conflict,
+                allow_pairwise_alias_tiebreak=args.llm_pairwise_alias_tiebreak,
+                pairwise_alias_min_support=args.llm_pairwise_alias_min_support,
+                block_db_close_active_session_alias=args.llm_block_db_close_active_session_alias,
             )
             if args.llm_rerank_judge == "candidate":
                 reranked_completed, rerank_summary = apply_gated_rerank(

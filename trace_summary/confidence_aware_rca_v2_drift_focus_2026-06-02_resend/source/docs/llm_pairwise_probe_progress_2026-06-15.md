@@ -184,6 +184,95 @@ Summary:
 4. Consider a learned/calibrated post-processor over LLM pairwise scores before
    enabling any non-refute promotion path.
 
+## 2026-06-16 update: direct atoms plus canonical alias gate
+
+Implemented the remaining items above:
+
+- Evidence Summary Card now exposes canonical reason aliases, direct evidence
+  atoms, and same-reason sibling context.
+- Pairwise LLM output now includes direct-evidence booleans, stronger-sibling
+  conflict booleans, and promotion atom ids.
+- Pairwise gated rerank now requires valid direct alternative evidence and
+  blocks stronger-sibling conflicts by default.
+- Added a narrow alias tie-break gate:
+  - only pairwise mode;
+  - only same component;
+  - only same canonical reason;
+  - only when the alternative candidate already uses the canonical reason name;
+  - only when the LLM does not prefer the original top1 and both sides have
+    direct evidence;
+  - blocks `db close` -> `db connection limit` canonicalization when D32's
+    candidate examples contain active-session evidence without stronger
+    connection-limit indicators;
+  - never changes the time anchor.
+
+Telecom 10-case atom-gate LLM replay:
+
+```json
+{
+  "baseline": {
+    "strict": 0,
+    "partial": 1,
+    "fractional_partial_rate": 0.05
+  },
+  "default_pairwise_without_alias": {
+    "changed_cases": 0,
+    "strict": 0,
+    "partial": 1,
+    "fractional_partial_rate": 0.05
+  },
+  "default_pairwise_with_alias": {
+    "changed_cases": 5,
+    "strict": 2,
+    "partial": 5,
+    "fractional_partial_rate": 0.33333333333333337
+  }
+}
+```
+
+Main diagnosis:
+
+- The strongest improvement came from canonicalizing reason aliases when the
+  component evidence is identical.  The LLM correctly marked these pairs as
+  ties; the gated post-processor can safely prefer the canonical reason
+  candidate because it does not change component or time.
+- Free component promotion remains risky.  Low-top1-support promotion changed
+  extra cases but did not improve score on this probe, so it remains opt-in.
+- This is still a diagnostic 10-case set selected for known headroom.  The next
+  required check is a larger Telecom run to measure whether alias canonicalize
+  remains positive outside this enriched probe.
+
+Full Telecom replay using the existing 204-row pairwise JSONL (generated before
+direct atoms were added, so this is an offline compatibility check rather than a
+fresh LLM run):
+
+```json
+{
+  "baseline": {
+    "n": 51,
+    "strict": 7,
+    "partial": 15,
+    "fractional_partial_sum": 11.0,
+    "fractional_partial_rate": 0.21568627450980393
+  },
+  "alias_guard": {
+    "changed_cases": 9,
+    "strict": 9,
+    "partial": 19,
+    "fractional_partial_sum": 13.833333333333336,
+    "fractional_partial_rate": 0.2712418300653595,
+    "row_delta_counts": {
+      "positive": 5,
+      "negative": 0,
+      "same": 46
+    }
+  }
+}
+```
+
+The active-session guard removed the two observed negative `db close` cases from
+the unguarded alias replay while preserving the positive cases.
+
 ## Verification
 
 Focused tests:
@@ -196,8 +285,8 @@ PYTHONPATH=confidence_aware_rca_v2_drift_focus_2026-06-02_resend/source ./.venv_
   confidence_aware_rca_v2_drift_focus_2026-06-02_resend/source/tests/test_llm_gated_rerank.py
 ```
 
-Result:
+Result after the 2026-06-16 alias-gate update:
 
 ```text
-18 passed
+27 passed
 ```
