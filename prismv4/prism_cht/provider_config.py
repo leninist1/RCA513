@@ -76,7 +76,7 @@ class OpenAICompatibleChatConfig:
     api_key: str = field(repr=False)
 
     timeout_seconds: float = 60.0
-    max_tokens: int = 4096
+    max_tokens: int | None = None
     max_response_bytes: int = 2_000_000
     json_mode: bool = True
     extra_body: Mapping[str, Any] = field(default_factory=dict)
@@ -151,18 +151,19 @@ class OpenAICompatibleChatConfig:
             raise ProviderConfigurationError(
                 f"timeout_seconds must be > 0, got {self.timeout_seconds}"
             )
-        if isinstance(self.max_tokens, bool):
-            raise ProviderConfigurationError(
-                "max_tokens must be int, got bool"
-            )
-        if not isinstance(self.max_tokens, int):
-            raise ProviderConfigurationError(
-                f"max_tokens must be int, got {type(self.max_tokens).__name__}"
-            )
-        if self.max_tokens <= 0:
-            raise ProviderConfigurationError(
-                f"max_tokens must be > 0, got {self.max_tokens}"
-            )
+        if self.max_tokens is not None:
+            if isinstance(self.max_tokens, bool):
+                raise ProviderConfigurationError(
+                    "max_tokens must be int, got bool"
+                )
+            if not isinstance(self.max_tokens, int):
+                raise ProviderConfigurationError(
+                    f"max_tokens must be int, got {type(self.max_tokens).__name__}"
+                )
+            if self.max_tokens <= 0:
+                raise ProviderConfigurationError(
+                    f"max_tokens must be > 0, got {self.max_tokens}"
+                )
         if isinstance(self.max_response_bytes, bool):
             raise ProviderConfigurationError(
                 "max_response_bytes must be int, got bool"
@@ -225,9 +226,7 @@ def load_openai_compatible_config_from_mapping(
     api_key = _require(ENV_API_KEY)
 
     timeout_str = env.get(ENV_TIMEOUT_SECONDS, "60.0")
-    max_tokens_str = env.get(
-        ENV_MAX_TOKENS, "4096"
-    )
+    max_tokens_str = env.get(ENV_MAX_TOKENS)
     max_response_bytes_str = env.get(ENV_MAX_RESPONSE_BYTES, "2000000")
 
     try:
@@ -237,12 +236,14 @@ def load_openai_compatible_config_from_mapping(
             f"Invalid numeric value for {ENV_TIMEOUT_SECONDS}: {timeout_str!r}"
         )
 
-    try:
-        max_tokens = int(max_tokens_str)
-    except (ValueError, TypeError):
-        raise ProviderConfigurationError(
-            f"Invalid numeric value for {ENV_MAX_TOKENS}: {max_tokens_str!r}"
-        )
+    max_tokens = None
+    if max_tokens_str is not None and max_tokens_str.strip():
+        try:
+            max_tokens = int(max_tokens_str)
+        except (ValueError, TypeError):
+            raise ProviderConfigurationError(
+                f"Invalid numeric value for {ENV_MAX_TOKENS}: {max_tokens_str!r}"
+            )
 
     try:
         max_response_bytes = int(max_response_bytes_str)

@@ -19,6 +19,7 @@ from .lead_policy import LeadPolicy
 from .tournament_types import (
     InvestigationAuditStep,
     LeadNomination,
+    LeadTournamentSnapshot,
     LeadTournamentResult,
     build_snapshot,
 )
@@ -59,6 +60,8 @@ class LeadTournamentController:
         self._max_rounds = max_rounds
         self._has_run = False
         self._hypotheses: dict[str, CausalHypothesis] = {}
+        self._audit_steps: list[InvestigationAuditStep] = []
+        self._round_index = 0
 
     def run(
         self,
@@ -118,22 +121,23 @@ class LeadTournamentController:
 
         # --- investigation loop -----------------------------------------------------
 
-        audit_steps: list[InvestigationAuditStep] = []
-        round_index = 0
+        self._audit_steps = []
+        self._round_index = 0
 
         while True:
             snapshot = build_snapshot(
-                round_index=round_index,
+                round_index=self._round_index,
                 hypotheses=self._hypotheses,
                 graph=self._graph,
-                audit_steps=audit_steps,
+                audit_steps=self._audit_steps,
+                max_rounds=self._max_rounds,
             )
 
             decision = policy.decide_next(snapshot=snapshot)
 
             if isinstance(decision, DiscriminativeAction):
                 # Budget check: the action will consume a round
-                if round_index >= self._max_rounds:
+                if self._round_index >= self._max_rounds:
                     raise TournamentBudgetExhaustedError(
                         f"max_rounds ({self._max_rounds}) reached; "
                         f"policy returned another action but budget is exhausted"
@@ -149,10 +153,11 @@ class LeadTournamentController:
 
                 # Build a snapshot that includes the new evidence
                 snapshot_with_evidence = build_snapshot(
-                    round_index=round_index,
+                    round_index=self._round_index,
                     hypotheses=self._hypotheses,
                     graph=self._graph,
-                    audit_steps=audit_steps,
+                    audit_steps=self._audit_steps,
+                    max_rounds=self._max_rounds,
                 )
 
                 # Ask policy to assess the evidence
@@ -172,16 +177,16 @@ class LeadTournamentController:
                 )
 
                 # Record audit step
-                audit_steps.append(
+                self._audit_steps.append(
                     InvestigationAuditStep(
-                        round_index=round_index,
+                        round_index=self._round_index,
                         action=action,
                         evidence_id=evidence.evidence_id,
                         assessment=assessment,
                     )
                 )
 
-                round_index += 1
+                self._round_index += 1
 
             elif isinstance(decision, LeadNomination):
                 nomination = decision
@@ -189,9 +194,9 @@ class LeadTournamentController:
                 return LeadTournamentResult(
                     status="challenge_required",
                     nominated_hypothesis_id=nomination.hypothesis_id,
-                    rounds_completed=round_index,
+                    rounds_completed=self._round_index,
                     evidence_ids=tuple(sorted(self._graph.evidence_by_id.keys())),
-                    audit_steps=tuple(audit_steps),
+                    audit_steps=tuple(self._audit_steps),
                     nomination=nomination,
                 )
 
@@ -200,6 +205,16 @@ class LeadTournamentController:
                     f"Policy returned unexpected type "
                     f"{type(decision).__name__}"
                 )
+
+    def build_current_snapshot(self) -> LeadTournamentSnapshot:
+        """Return the latest read-only Lead state, including failed endings."""
+        return build_snapshot(
+            round_index=self._round_index,
+            hypotheses=self._hypotheses,
+            graph=self._graph,
+            audit_steps=self._audit_steps,
+            max_rounds=self._max_rounds,
+        )
 
     def _validate_nomination(self, nomination: LeadNomination) -> None:
         """Validate nomination against the evidence graph and hypothesis states.

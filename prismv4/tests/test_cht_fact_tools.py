@@ -606,12 +606,14 @@ class TestToolRegistry:
         reg.register(CompareOnsetOrderTool())
         assert reg.has("compare_onset_order")
 
-    def test_build_default_has_three_tools(self):
+    def test_build_default_has_fact_tools(self):
         reg = build_default_tool_registry()
         assert reg.has("compare_onset_order")
         assert reg.has("inspect_trace_path")
         assert reg.has("retrieve_raw_evidence")
-        assert not reg.has("check_propagation_consistency")
+        assert reg.has("inspect_reason_signature")
+        assert reg.has("check_propagation_consistency")
+        assert reg.has("find_unexplained_symptoms")
 
     def test_registry_execute_returns_fact_result(self):
         reg = ToolRegistry()

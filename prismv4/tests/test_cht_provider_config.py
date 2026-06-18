@@ -217,7 +217,7 @@ class TestLoadConfigFromMapping:
         assert cfg.base_url == "https://api.example.com"
         assert cfg.model == "test-model"
         assert cfg.timeout_seconds == 60.0
-        assert cfg.max_tokens == 4096
+        assert cfg.max_tokens is None
         assert cfg.max_response_bytes == 2_000_000
 
     def test_missing_base_url_rejected(self):

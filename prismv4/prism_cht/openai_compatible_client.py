@@ -175,8 +175,8 @@ class OpenAICompatibleChatModelClient:
     def _build_request_body(self, request: ModelRequest) -> dict:
         """Build the JSON-serializable request body.
 
-        Includes only model, messages, stream=false, max_tokens, and
-        optionally response_format.  Merges extra_body.  Never includes
+        Includes model, messages, stream=false, optional max_tokens, and
+        optional response_format.  Merges extra_body.  Never includes
         API key, purpose, or attempt_index.
         """
         messages = [
@@ -188,8 +188,9 @@ class OpenAICompatibleChatModelClient:
             "model": self._config.model,
             "messages": messages,
             "stream": False,
-            "max_tokens": self._config.max_tokens,
         }
+        if self._config.max_tokens is not None:
+            body.update({"max_tokens": self._config.max_tokens})
 
         if self._config.json_mode:
             body["response_format"] = {"type": "json_object"}

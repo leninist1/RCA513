@@ -200,12 +200,30 @@ class TestOpenAICompatibleChatModelClient:
         body = json.loads(transport.requests[0].body.decode())
         assert body["stream"] is False
 
-    def test_body_max_tokens(self):
+    def test_body_omits_max_tokens_by_default(self):
         transport = FakeTransport([_make_success_response("ok")])
+        cfg = OpenAICompatibleChatConfig(
+            base_url="https://api.example.com",
+            model="m",
+            api_key="k",
+        )
         client = OpenAICompatibleChatModelClient(
-            config=_TEST_CONFIG,
+            config=cfg,
             transport=transport,
         )
+        client.complete(request=_make_request())
+        body = json.loads(transport.requests[0].body.decode())
+        assert "max_tokens" not in body
+
+    def test_body_includes_explicit_max_tokens(self):
+        transport = FakeTransport([_make_success_response("ok")])
+        cfg = OpenAICompatibleChatConfig(
+            base_url="https://api.example.com",
+            model="m",
+            api_key="k",
+            max_tokens=4096,
+        )
+        client = OpenAICompatibleChatModelClient(config=cfg, transport=transport)
         client.complete(request=_make_request())
         body = json.loads(transport.requests[0].body.decode())
         assert body["max_tokens"] == 4096

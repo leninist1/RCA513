@@ -55,7 +55,10 @@ class ActionGate:
     It does NOT judge which hypothesis is correct.
     """
 
-    def __init__(self) -> None:
+    def __init__(self, *, allowed_tools: Set[str] | None = None) -> None:
+        self._allowed_tools: Set[str] = set(
+            _ALLOWED_TOOLS if allowed_tools is None else allowed_tools
+        )
         self._executed_signatures: Set[str] = set()
         self._reserved_signatures: Set[str] = set()
 
@@ -74,7 +77,7 @@ class ActionGate:
             return tuple(reasons)
 
         # 2. tool_name allowlist
-        if action.tool_name not in _ALLOWED_TOOLS:
+        if action.tool_name not in self._allowed_tools:
             reasons.append(
                 f"tool_name '{action.tool_name}' is not in allowlist"
             )

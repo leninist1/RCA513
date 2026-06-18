@@ -209,6 +209,9 @@ class LeadTournamentSnapshot:
     hypotheses: tuple[HypothesisSnapshot, ...]
     evidence_ids: tuple[str, ...]
     audit_steps: tuple[InvestigationAuditStep, ...]
+    max_rounds: int | None = None
+    remaining_rounds: int | None = None
+    decision_mode: str = "action_or_nomination"
 
     def __post_init__(self):
         # hypotheses: sorted by hypothesis_id
@@ -218,6 +221,20 @@ class LeadTournamentSnapshot:
         # evidence_ids: sorted, deduped
         if len(set(self.evidence_ids)) != len(self.evidence_ids):
             raise ValueError("evidence_ids contains duplicate entries")
+
+        if self.max_rounds is not None and self.max_rounds < 1:
+            raise ValueError("max_rounds must be None or >= 1")
+        if self.remaining_rounds is not None and self.remaining_rounds < 0:
+            raise ValueError("remaining_rounds must be None or >= 0")
+        if self.decision_mode not in (
+            "action_or_nomination",
+            "last_action_or_nomination",
+            "nomination_only",
+        ):
+            raise ValueError(
+                "decision_mode must be one of: action_or_nomination, "
+                "last_action_or_nomination, nomination_only"
+            )
 
 
 @dataclass(frozen=True)
@@ -273,6 +290,7 @@ def build_snapshot(
     hypotheses: Mapping[str, CausalHypothesis],
     graph: EvidenceGraph,
     audit_steps: Sequence[InvestigationAuditStep],
+    max_rounds: int | None = None,
 ) -> LeadTournamentSnapshot:
     """Build a read-only tournament snapshot.
 
@@ -288,9 +306,21 @@ def build_snapshot(
 
     evidence_ids = tuple(sorted(graph.evidence_by_id.keys()))
 
+    remaining_rounds = None
+    decision_mode = "action_or_nomination"
+    if max_rounds is not None:
+        remaining_rounds = max(0, max_rounds - round_index)
+        if remaining_rounds == 0:
+            decision_mode = "nomination_only"
+        elif remaining_rounds == 1:
+            decision_mode = "last_action_or_nomination"
+
     return LeadTournamentSnapshot(
         round_index=round_index,
         hypotheses=tuple(snapshots),
         evidence_ids=evidence_ids,
         audit_steps=tuple(audit_steps),
+        max_rounds=max_rounds,
+        remaining_rounds=remaining_rounds,
+        decision_mode=decision_mode,
     )

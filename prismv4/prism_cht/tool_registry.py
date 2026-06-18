@@ -12,7 +12,10 @@ from typing import Any, Dict, Mapping
 from .tool_types import FactTool, FactToolResult, validate_fact_only_payload
 from .telemetry_store import TelemetryStore
 from .tools.compare_onset_order import CompareOnsetOrderTool
+from .tools.check_propagation_consistency import CheckPropagationConsistencyTool
+from .tools.find_unexplained_symptoms import FindUnexplainedSymptomsTool
 from .tools.inspect_trace_path import InspectTracePathTool
+from .tools.inspect_reason_signature import InspectReasonSignatureTool
 from .tools.retrieve_raw_evidence import RetrieveRawEvidenceTool
 
 
@@ -79,9 +82,15 @@ def build_default_tool_registry() -> ToolRegistry:
     * ``compare_onset_order``
     * ``inspect_trace_path``
     * ``retrieve_raw_evidence``
+    * ``inspect_reason_signature``
+    * ``check_propagation_consistency``
+    * ``find_unexplained_symptoms``
     """
     registry = ToolRegistry()
     registry.register(CompareOnsetOrderTool())
     registry.register(InspectTracePathTool())
     registry.register(RetrieveRawEvidenceTool())
+    registry.register(InspectReasonSignatureTool())
+    registry.register(CheckPropagationConsistencyTool())
+    registry.register(FindUnexplainedSymptomsTool())
     return registry

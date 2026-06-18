@@ -240,6 +240,7 @@ class StructuredLLMChallengerPolicy:
                 "snapshot": snapshot,
                 "proposal": proposal,
                 "evidence": evidence,
+                "graph": self._graph,
             },
         )
         assert isinstance(resolution, ChallengeResolution)

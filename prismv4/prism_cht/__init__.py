@@ -117,6 +117,18 @@ from .provider_config import (
 )
 from .openai_compatible_client import OpenAICompatibleChatModelClient
 
+# Phase NoiseNative-LLM: NoiseLab fact tools and audited LLM controller
+from .llm_audit import LLMIORecord, LLMIORecorder, AuditedModelClient
+from .noiselab_registry import NOISELAB_TOOL_NAMES, build_noiselab_tool_registry
+from .noise_native_llm_agent import (
+    NoiseNativeFinalDecision,
+    NoiseNativeRunResult,
+    NoiseNativeLLMPolicy,
+    NoiseNativeLLMController,
+    parse_noise_native_action,
+    parse_noise_native_final,
+)
+
 
 __all__ = [
     # CHT-0 / CHT-1
@@ -211,4 +223,16 @@ __all__ = [
     "OpenAICompatibleChatConfig",
     "load_openai_compatible_config_from_mapping",
     "OpenAICompatibleChatModelClient",
+    # NoiseNative-LLM
+    "LLMIORecord",
+    "LLMIORecorder",
+    "AuditedModelClient",
+    "NOISELAB_TOOL_NAMES",
+    "build_noiselab_tool_registry",
+    "NoiseNativeFinalDecision",
+    "NoiseNativeRunResult",
+    "NoiseNativeLLMPolicy",
+    "NoiseNativeLLMController",
+    "parse_noise_native_action",
+    "parse_noise_native_final",
 ]
