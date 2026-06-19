@@ -1,0 +1,1567 @@
+#!/usr/bin/env python3
+"""Run a continuous NoiseNative RCA agent on RCAEval cases.
+
+This experiment intentionally avoids the Lead/Challenger stepwise tournament.
+The LLM maintains one case-level working memory, updates belief after each
+NoiseLab fact extraction, and gives a final decision when the action budget is
+exhausted.
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import time
+from dataclasses import fields, is_dataclass
+from enum import Enum
+from pathlib import Path
+from typing import Any, Mapping, Sequence
+
+from prismv4.experiments.rcaeval_adapter import (
+    discover_re3_cases,
+    load_re3_case,
+)
+from prismv4.prism_cht.canonical import build_tool_call_signature, canonicalize_json_value
+from prismv4.prism_cht.diagnostic_policy import build_hypotheses_from_case
+from prismv4.prism_cht.evidence_graph import EvidenceAtom, EvidenceGraph
+from prismv4.prism_cht.http_transport import UrllibHttpTransport
+from prismv4.prism_cht.llm_audit import AuditedModelClient, LLMIORecorder
+from prismv4.prism_cht.llm_json import parse_json_object
+from prismv4.prism_cht.llm_types import StructuredOutputError
+from prismv4.prism_cht.llm_types import (
+    ModelClient,
+    ModelMessage,
+    ModelRequest,
+    ModelResponse,
+)
+from prismv4.prism_cht.noiselab_registry import (
+    NOISELAB_TOOL_NAMES,
+    build_noiselab_tool_registry,
+)
+from prismv4.prism_cht.openai_compatible_client import OpenAICompatibleChatModelClient
+from prismv4.prism_cht.provider_config import load_openai_compatible_config_from_mapping
+
+
+DEFAULT_RE3_ROOT = "/home/dell2/RCA513/ysj/dataset/RCAEval/RE3"
+
+
+class RetryingModelClient:
+    """Retry transient provider failures while preserving audited attempts."""
+
+    def __init__(
+        self,
+        *,
+        inner: ModelClient,
+        max_attempts: int = 3,
+        initial_delay_seconds: float = 2.0,
+    ) -> None:
+        self._inner = inner
+        self._max_attempts = max(1, max_attempts)
+        self._initial_delay_seconds = initial_delay_seconds
+
+    def complete(self, *, request: ModelRequest) -> ModelResponse:
+        last_exc: Exception | None = None
+        for attempt in range(self._max_attempts):
+            try:
+                return self._inner.complete(request=request)
+            except Exception as exc:
+                last_exc = exc
+                if attempt + 1 >= self._max_attempts:
+                    break
+                time.sleep(self._initial_delay_seconds * (2**attempt))
+        assert last_exc is not None
+        raise last_exc
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Continuous NoiseNative RCAEval runner")
+    parser.add_argument("--data-root", default=DEFAULT_RE3_ROOT)
+    parser.add_argument("--system", default="RE3-OB")
+    parser.add_argument("--max-cases", type=int, default=5)
+    parser.add_argument("--max-hypotheses", type=int, default=5)
+    parser.add_argument("--max-steps", type=int, default=4)
+    parser.add_argument(
+        "--output",
+        default="prismv4/results/prism_cht/rcaeval_continuous_results.json",
+    )
+    parser.add_argument(
+        "--llm-io-output",
+        default="",
+        help="JSONL path for full-fidelity LLM request/response records.",
+    )
+    return parser.parse_args()
+
+
+def main() -> int:
+    args = parse_args()
+    case_dirs = discover_re3_cases(
+        args.data_root,
+        system=args.system,
+        limit=args.max_cases if args.max_cases > 0 else None,
+    )
+    if not case_dirs:
+        raise SystemExit("no RCAEval cases discovered")
+
+    config = load_openai_compatible_config_from_mapping(dict(os.environ))
+    provider_client = OpenAICompatibleChatModelClient(
+        config=config,
+        transport=UrllibHttpTransport(),
+    )
+    llm_io_output = (
+        Path(args.llm_io_output)
+        if args.llm_io_output
+        else Path(str(args.output) + ".llm_io.jsonl")
+    )
+    audited_client = AuditedModelClient(
+        inner=provider_client,
+        recorder=LLMIORecorder(jsonl_path=llm_io_output),
+    )
+    client = RetryingModelClient(
+        inner=audited_client,
+        max_attempts=int(os.environ.get("PRISM_CHT_MODEL_RETRIES", "3")),
+    )
+
+    results: list[dict[str, Any]] = []
+    started_all = time.time()
+    for case_dir in case_dirs:
+        started = time.time()
+        loaded = load_re3_case(case_dir, top_k=args.max_hypotheses)
+        try:
+            result = run_case(
+                loaded=loaded,
+                max_hypotheses=args.max_hypotheses,
+                max_steps=args.max_steps,
+                client=client,
+            )
+            predicted = result.get("predicted_component")
+            hit = predicted == loaded.expected_component
+            result.update(
+                {
+                    "case_id": loaded.case.case_id,
+                    "expected_component": loaded.expected_component,
+                    "hit": hit,
+                    "elapsed_sec": round(time.time() - started, 3),
+                    "error": None,
+                }
+            )
+        except Exception as exc:
+            result = {
+                "case_id": loaded.case.case_id,
+                "expected_component": loaded.expected_component,
+                "predicted_component": None,
+                "hit": False,
+                "elapsed_sec": round(time.time() - started, 3),
+                "error": f"{type(exc).__name__}: {exc}",
+            }
+        results.append(result)
+        print(
+            f"{loaded.case.case_id}: predicted={result.get('predicted_component')} "
+            f"expected={loaded.expected_component} hit={result['hit']} "
+            f"error={result.get('error')}",
+            flush=True,
+        )
+
+    total = len(results)
+    hits = sum(1 for item in results if item.get("hit"))
+    summary = {
+        "dataset": "RCAEval",
+        "system": args.system,
+        "mode": "continuous-noise-native-event-causalizer",
+        "total_cases": total,
+        "top1_accuracy": hits / total if total else 0.0,
+        "top1_hits": hits,
+        "elapsed_sec": round(time.time() - started_all, 3),
+        "results": results,
+    }
+    output = Path(args.output)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(json.dumps(summary, indent=2, ensure_ascii=False), encoding="utf-8")
+    print(json.dumps({k: v for k, v in summary.items() if k != "results"}, indent=2), flush=True)
+    print(f"wrote {output}", flush=True)
+    return 0
+
+
+def run_case(
+    *,
+    loaded,
+    max_hypotheses: int,
+    max_steps: int,
+    client: ModelClient,
+) -> dict[str, Any]:
+    bundle = build_hypotheses_from_case(loaded.case, max_hypotheses=max_hypotheses)
+    graph = EvidenceGraph()
+    for hypothesis in bundle.hypotheses:
+        if hypothesis.hypothesis_id not in graph.hypotheses_by_id:
+            graph.register_hypothesis(hypothesis)
+        if hypothesis.status.value == "draft":
+            hypothesis.activate()
+
+    registry = build_noiselab_tool_registry(include_default_tools=False)
+    event_causal_facts = _build_event_causal_facts(
+        store=loaded.store,
+        case=loaded.case,
+        hypotheses=bundle.hypotheses,
+    )
+    event_causal_profile = _request_event_causal_profile(
+        client=client,
+        case=loaded.case,
+        hypotheses=bundle.hypotheses,
+        event_causal_facts=event_causal_facts,
+    )
+    context_state: dict[str, Any] = {
+        "case_narrative": "",
+        "belief_state": _initial_belief_state(bundle.hypotheses),
+    }
+    evidence_history: list[dict[str, Any]] = []
+    used_tool_calls: list[dict[str, Any]] = []
+    transcript: list[dict[str, Any]] = []
+
+    for step_index in range(max_steps):
+        response = _request_agent_state(
+            client=client,
+            case=loaded.case,
+            hypotheses=bundle.hypotheses,
+            context_state=context_state,
+            evidence_history=evidence_history,
+            used_tool_calls=used_tool_calls,
+            event_causal_profile=event_causal_profile,
+            step_index=step_index,
+            max_steps=max_steps,
+            require_final=False,
+        )
+        context_state = _extract_working_memory(response, fallback=context_state)
+        action = _normalize_action(
+            response.get("next_action"),
+            case=loaded.case,
+            hypotheses=bundle.hypotheses,
+            context_state=context_state,
+            step_index=step_index,
+            used_tool_calls=used_tool_calls,
+        )
+        evidence = _execute_noise_action(
+            registry=registry,
+            graph=graph,
+            store=loaded.store,
+            action=action,
+        )
+        evidence_record = {
+            "step_index": step_index,
+            "action": action,
+            "evidence": _serialize_evidence(evidence),
+        }
+        evidence_history.append(evidence_record)
+        used_tool_calls.append(
+            {
+                "tool_name": action["tool_name"],
+                "args": action["args"],
+                "query_signature": evidence.query_signature,
+            }
+        )
+        transcript.append(
+            {
+                "step_index": step_index,
+                "agent_response": _truncate_jsonable(response, max_chars=8000),
+                "executed_action": action,
+                "evidence_id": evidence.evidence_id,
+            }
+        )
+
+    final_response = _request_agent_state(
+        client=client,
+        case=loaded.case,
+        hypotheses=bundle.hypotheses,
+        context_state=context_state,
+        evidence_history=evidence_history,
+        used_tool_calls=used_tool_calls,
+        event_causal_profile=event_causal_profile,
+        step_index=max_steps,
+        max_steps=max_steps,
+        require_final=True,
+    )
+    final_decision = _normalize_final_decision(
+        final_response.get("final_decision"),
+        case=loaded.case,
+        hypotheses=bundle.hypotheses,
+        graph=graph,
+        context_state=_extract_working_memory(final_response, fallback=context_state),
+    )
+    return {
+        "status": "continuous_final",
+        "hypothesis_id": final_decision["hypothesis_id"],
+        "predicted_component": final_decision["root_component"],
+        "reason_family": final_decision["reason_family"],
+        "onset_interval": final_decision["onset_interval"],
+        "steps_completed": max_steps,
+        "evidence_count": len(graph.evidence_by_id),
+        "referenced_evidence_ids": final_decision["evidence_ids"],
+        "rationale": final_decision["rationale"],
+        "uncertainties": final_decision["uncertainties"],
+        "event_causal_profile": _truncate_jsonable(event_causal_profile, max_chars=20000),
+        "event_causal_fact_count": len(
+            event_causal_facts.get("event_causal_observations", [])
+            if isinstance(event_causal_facts, Mapping)
+            else []
+        ),
+        "final_belief_state": _truncate_jsonable(
+            final_response.get("belief_state", context_state.get("belief_state", [])),
+            max_chars=12000,
+        ),
+        "transcript": transcript,
+    }
+
+
+_EVENT_CAUSALIZER_SYSTEM_PROMPT = """You are EventCausalizer, a sub-agent for RCA.
+Output exactly one valid JSON object and no markdown.
+
+Your job is to convert multimodal observations into event-level causalized
+features for the main NoiseNative RCA agent. You are not the final RCA judge.
+Do not output probabilities, rankings, or a single winner. Instead, create a
+causal event timeline, identify source-like and symptom-like cues, and explain
+which ambiguities the main agent should test with NoiseLab.
+
+Important causal rules:
+- A caller->callee trace path is request direction, not automatic fault
+  propagation direction. A callee/dependency fault can surface in caller errors.
+- Trace error status identifies a failure boundary. It does not prove the
+  boundary component is the initiating root cause.
+- A log emitted by component X that mentions dependency/storage failure is
+  evidence about X observing or experiencing that failure; the mentioned
+  dependency is not a ground-truth label.
+- Separate primary near-onset events from late dominant metric spikes.
+- Latency-only early events need corroboration before they can outrank a
+  slightly later component with memory/socket/cpu/error/log mechanism evidence.
+- Use mechanism_strength. A weak single-signal memory event in a caller with
+  callees may be queueing/blocking on a slower dependency, not an independent
+  source.
+- Never use dataset path names, fault-name labels, case IDs, or metadata.
+
+Be concise. Reuse compact event fields instead of copying raw traces or logs.
+Each list should contain at most 2 short items unless the schema explicitly
+requires more.
+"""
+
+
+def _build_event_causal_facts(
+    *,
+    store,
+    case,
+    hypotheses,
+) -> Mapping[str, Any]:
+    components = _component_list(
+        [hypothesis.root_component for hypothesis in hypotheses],
+        fallback=case.components,
+    )
+    method = getattr(store, "build_event_causal_observations", None)
+    if callable(method):
+        return method(
+            component_scope=components,
+            time_window=tuple(_window(None, case)),
+            max_events=int(os.environ.get("PRISM_CHT_EVENT_CAUSALIZER_MAX_EVENTS", "32")),
+        )
+    return {
+        "window": _window(None, case),
+        "component_scope": components,
+        "event_causal_observations": [],
+        "component_feature_rows": [],
+        "feature_semantics": [
+            "EventCausalizer deterministic store method unavailable; using case observations only."
+        ],
+    }
+
+
+def _request_event_causal_profile(
+    *,
+    client: ModelClient,
+    case,
+    hypotheses,
+    event_causal_facts: Mapping[str, Any],
+) -> Mapping[str, Any]:
+    schema = _event_causalizer_schema()
+    compact_facts = _compact_event_causal_facts(event_causal_facts)
+    context = {
+        "agent": "event_causalizer",
+        "instruction": (
+            "Organize deterministic multimodal event facts into event-level causalized "
+            "features for the main RCA agent. Do not decide the final root cause."
+        ),
+        "response_schema": schema,
+        "case_context_without_label_leakage": _case_context(case),
+        "hypotheses": [_hypothesis_context(h) for h in hypotheses],
+        "event_causal_facts": _truncate_jsonable(compact_facts, max_chars=45000),
+        "output_requirements": [
+            "Preserve event IDs from event_causal_facts when referring to events.",
+            "Cover every event_id, but keep each event entry concise.",
+            "For each event, include at most 2 source-like cues, 2 symptom-like cues, and 2 ambiguity cues.",
+            "For each text field, use one short sentence. Do not copy raw trace/log examples.",
+            "Prefer event-level causal relationships over component-level magnitude shortcuts.",
+            "Treat mechanism_strength=weak as a caution, especially for single memory signals in caller components.",
+            "Treat trace_error_boundary as symptom-surface evidence unless independent source mechanism exists.",
+            "Do not include case IDs, dataset paths, expected labels, rankings, scores, or probabilities.",
+        ],
+    }
+    request = ModelRequest(
+        purpose="event_causalizer_state_update",
+        messages=(
+            ModelMessage(role="system", content=_EVENT_CAUSALIZER_SYSTEM_PROMPT),
+            ModelMessage(
+                role="user",
+                content=json.dumps(
+                    canonicalize_json_value(context),
+                    indent=2,
+                    sort_keys=True,
+                    ensure_ascii=True,
+                ),
+            ),
+        ),
+        attempt_index=0,
+    )
+    response = client.complete(request=request)
+    parsed = _parse_or_repair_model_json_object(
+        client=client,
+        initial_text=response.content,
+        original_context=context,
+        required_response_schema=schema,
+        require_final=False,
+    )
+    return _normalize_event_causal_profile(parsed, fallback_facts=event_causal_facts)
+
+
+def _event_causalizer_schema() -> Mapping[str, Any]:
+    return {
+        "event_timeline": [
+            {
+                "event_id": "existing event id",
+                "component": "component name",
+                "event_time": 0.0,
+                "event_kind": "string",
+                "mechanism_strength": "strong | moderate | weak | symptom_like | unknown",
+                "multimodal_evidence": ["short metric/log/trace fact"],
+                "source_like_cues": ["string"],
+                "symptom_like_cues": ["string"],
+                "ambiguity_cues": ["string"],
+                "causal_links_to_check": ["string"],
+                "diagnostic_implication": "string",
+            }
+        ],
+        "component_event_features": [
+            {
+                "component": "component name",
+                "primary_event_ids": ["event ids"],
+                "near_onset_mechanism": ["string"],
+                "symptom_visibility": ["string"],
+                "topology_notes": ["string"],
+                "timing_cautions": ["string"],
+                "missing_checks": ["string"],
+            }
+        ],
+        "causal_story_options": [
+            {
+                "story_id": "string",
+                "initiating_event_ids": ["event ids"],
+                "propagation_reading": "string",
+                "what_would_support_it": ["string"],
+                "what_would_weaken_it": ["string"],
+            }
+        ],
+        "main_agent_guidance": {
+            "high_value_next_actions": ["string"],
+            "pitfalls_to_avoid": ["string"],
+            "event_features_to_reuse_in_final_reasoning": ["string"],
+        },
+    }
+
+
+def _normalize_event_causal_profile(
+    value: Mapping[str, Any],
+    *,
+    fallback_facts: Mapping[str, Any],
+) -> Mapping[str, Any]:
+    if not isinstance(value, Mapping):
+        value = {}
+    events = value.get("event_timeline")
+    if not isinstance(events, list) or not events:
+        events = [
+            {
+                "event_id": item.get("event_id", "unknown"),
+                "component": item.get("component", "unknown"),
+                "event_time": item.get("event_time"),
+                "event_kind": item.get("event_kind", "unknown"),
+                "mechanism_strength": (
+                    ((item.get("causalized_features") or {}).get("mechanism_strength") or {}).get(
+                        "level", "unknown"
+                    )
+                ),
+                "multimodal_evidence": ["fallback from deterministic EventCausalizer facts"],
+                "source_like_cues": list(
+                    ((item.get("causalized_features") or {}).get("event_causal_cues") or {}).get(
+                        "source_like", []
+                    )
+                ),
+                "symptom_like_cues": list(
+                    ((item.get("causalized_features") or {}).get("event_causal_cues") or {}).get(
+                        "symptom_like", []
+                    )
+                ),
+                "ambiguity_cues": list(
+                    ((item.get("causalized_features") or {}).get("event_causal_cues") or {}).get(
+                        "ambiguity", []
+                    )
+                ),
+                "causal_links_to_check": [],
+                "diagnostic_implication": "LLM event causalizer output missing; use deterministic event cues.",
+            }
+            for item in fallback_facts.get("event_causal_observations", [])[:8]
+            if isinstance(item, Mapping)
+        ]
+    component_features = value.get("component_event_features")
+    if not isinstance(component_features, list):
+        component_features = []
+    story_options = value.get("causal_story_options")
+    if not isinstance(story_options, list):
+        story_options = []
+    guidance = value.get("main_agent_guidance")
+    if not isinstance(guidance, Mapping):
+        guidance = {
+            "high_value_next_actions": [],
+            "pitfalls_to_avoid": [],
+            "event_features_to_reuse_in_final_reasoning": [],
+        }
+    return {
+        "event_timeline": _compact_profile_events(events),
+        "component_event_features": _compact_component_event_features(component_features),
+        "causal_story_options": _compact_story_options(story_options),
+        "main_agent_guidance": _compact_guidance(dict(guidance)),
+        "profile_semantics": [
+            "This profile is an event-level feature map generated by a sub-agent, not a final RCA decision.",
+            "Use event IDs and causal cues to plan NoiseLab actions and final reasoning.",
+        ],
+    }
+
+
+def _compact_event_causal_facts(facts: Mapping[str, Any]) -> Mapping[str, Any]:
+    events = []
+    for event in facts.get("event_causal_observations", []):
+        if not isinstance(event, Mapping):
+            continue
+        causal = event.get("causalized_features") or {}
+        bundle = event.get("multimodal_bundle") or {}
+        trace_context = bundle.get("trace_context") or {}
+        mechanism = causal.get("mechanism_strength") or {}
+        events.append(
+            {
+                "event_id": event.get("event_id"),
+                "component": event.get("component"),
+                "event_time": event.get("event_time"),
+                "event_kind": event.get("event_kind"),
+                "temporal_anchor": event.get("temporal_anchor"),
+                "mechanism_strength": mechanism,
+                "near_onset": {
+                    "signals": causal.get("near_onset_signals", []),
+                    "internal_signals": causal.get("near_onset_internal_signals", []),
+                    "magnitude": causal.get("near_onset_anomaly_magnitude"),
+                    "latency_only": causal.get("latency_only_near_onset"),
+                },
+                "timing_flags": {
+                    "late_dominant_metric": causal.get("late_dominant_metric"),
+                    "dominant_metric": _compact_metric(causal.get("dominant_metric")),
+                },
+                "metric_summary": [
+                    _compact_metric(item)
+                    for item in (bundle.get("metric_features") or [])[:6]
+                    if isinstance(item, Mapping)
+                ],
+                "log_summary": [
+                    _compact_log_feature(item)
+                    for item in (bundle.get("log_features") or [])[:3]
+                    if isinstance(item, Mapping)
+                ],
+                "trace_summary": _compact_trace_context(trace_context),
+                "causal_cues": causal.get("event_causal_cues", {}),
+            }
+        )
+    return {
+        "window": facts.get("window"),
+        "component_scope": facts.get("component_scope"),
+        "event_causal_observations": events,
+        "feature_semantics": facts.get("feature_semantics", []),
+        "load_control_note": (
+            "This is a compact projection preserving every event_id while omitting raw traces/log bodies."
+        ),
+    }
+
+
+def _compact_metric(value: Any) -> Mapping[str, Any] | None:
+    if not isinstance(value, Mapping):
+        return None
+    return {
+        "signal": value.get("signal"),
+        "raw_metric": value.get("raw_metric"),
+        "first_seen": value.get("first_seen"),
+        "magnitude": value.get("magnitude"),
+        "direction": value.get("direction"),
+        "seconds_after_earliest": value.get("seconds_after_earliest"),
+    }
+
+
+def _compact_log_feature(value: Mapping[str, Any]) -> Mapping[str, Any]:
+    return {
+        "emitter_component": value.get("emitter_component"),
+        "timestamp": value.get("timestamp"),
+        "dependency_terms": value.get("dependency_terms", [])[:5]
+        if isinstance(value.get("dependency_terms"), list)
+        else [],
+        "emitter_exception_observed": value.get("emitter_exception_observed"),
+        "diagnostic_role": value.get("diagnostic_role"),
+        "message_preview": _short_string(value.get("message_preview", ""), max_chars=120),
+    }
+
+
+def _compact_trace_context(value: Any) -> Mapping[str, Any]:
+    if not isinstance(value, Mapping):
+        return {}
+    return {
+        "component": value.get("component"),
+        "direct_callers": [
+            _compact_trace_edge(item)
+            for item in (value.get("direct_callers") or [])[:5]
+            if isinstance(item, Mapping)
+        ],
+        "direct_callees": [
+            _compact_trace_edge(item)
+            for item in (value.get("direct_callees") or [])[:5]
+            if isinstance(item, Mapping)
+        ],
+        "request_direction_semantics": value.get("request_direction_semantics"),
+    }
+
+
+def _compact_trace_edge(value: Mapping[str, Any]) -> Mapping[str, Any]:
+    return {
+        "component": value.get("component"),
+        "call_count": value.get("call_count"),
+        "error_status_count": value.get("error_status_count"),
+        "latency_examples": (value.get("latency_examples") or [])[:2]
+        if isinstance(value.get("latency_examples"), list)
+        else [],
+        "status_examples": (value.get("status_examples") or [])[:2]
+        if isinstance(value.get("status_examples"), list)
+        else [],
+    }
+
+
+def _compact_profile_events(events: Sequence[Any]) -> list[Mapping[str, Any]]:
+    compact = []
+    for event in events:
+        if not isinstance(event, Mapping):
+            continue
+        compact.append(
+            {
+                "event_id": event.get("event_id"),
+                "component": event.get("component"),
+                "event_time": event.get("event_time"),
+                "event_kind": event.get("event_kind"),
+                "mechanism_strength": _short_string(event.get("mechanism_strength", "unknown")),
+                "multimodal_evidence": _short_list(event.get("multimodal_evidence"), max_items=3),
+                "source_like_cues": _short_list(event.get("source_like_cues"), max_items=2),
+                "symptom_like_cues": _short_list(event.get("symptom_like_cues"), max_items=2),
+                "ambiguity_cues": _short_list(event.get("ambiguity_cues"), max_items=3),
+                "causal_links_to_check": _short_list(event.get("causal_links_to_check"), max_items=3),
+                "diagnostic_implication": _short_string(
+                    event.get("diagnostic_implication", ""),
+                    max_chars=220,
+                ),
+            }
+        )
+    return compact
+
+
+def _compact_component_event_features(features: Sequence[Any]) -> list[Mapping[str, Any]]:
+    compact = []
+    for item in features:
+        if not isinstance(item, Mapping):
+            continue
+        compact.append(
+            {
+                "component": item.get("component"),
+                "primary_event_ids": _short_list(item.get("primary_event_ids"), max_items=4, max_chars=80),
+                "near_onset_mechanism": _short_list(item.get("near_onset_mechanism"), max_items=3),
+                "symptom_visibility": _short_list(item.get("symptom_visibility"), max_items=2),
+                "topology_notes": _short_list(item.get("topology_notes"), max_items=2),
+                "timing_cautions": _short_list(item.get("timing_cautions"), max_items=2),
+                "missing_checks": _short_list(item.get("missing_checks"), max_items=3),
+            }
+        )
+    return compact
+
+
+def _compact_story_options(stories: Sequence[Any]) -> list[Mapping[str, Any]]:
+    compact = []
+    story_items = stories[:4] if isinstance(stories, list) else []
+    for item in story_items:
+        if not isinstance(item, Mapping):
+            continue
+        compact.append(
+            {
+                "story_id": item.get("story_id"),
+                "initiating_event_ids": _short_list(item.get("initiating_event_ids"), max_items=4, max_chars=80),
+                "propagation_reading": _short_string(item.get("propagation_reading", ""), max_chars=220),
+                "what_would_support_it": _short_list(item.get("what_would_support_it"), max_items=2),
+                "what_would_weaken_it": _short_list(item.get("what_would_weaken_it"), max_items=2),
+            }
+        )
+    return compact
+
+
+def _compact_guidance(guidance: Mapping[str, Any]) -> Mapping[str, Any]:
+    return {
+        "high_value_next_actions": _short_list(guidance.get("high_value_next_actions"), max_items=4),
+        "pitfalls_to_avoid": _short_list(guidance.get("pitfalls_to_avoid"), max_items=5),
+        "event_features_to_reuse_in_final_reasoning": _short_list(
+            guidance.get("event_features_to_reuse_in_final_reasoning"),
+            max_items=5,
+        ),
+    }
+
+
+def _short_list(value: Any, *, max_items: int, max_chars: int = 180) -> list[str]:
+    if not isinstance(value, list):
+        return []
+    return [
+        _short_string(item, max_chars=max_chars)
+        for item in value[:max_items]
+        if str(item).strip()
+    ]
+
+
+def _short_string(value: Any, *, max_chars: int = 180) -> str:
+    text = str(value).replace("\n", " ").strip()
+    if len(text) <= max_chars:
+        return text
+    return text[: max(0, max_chars - 3)].rstrip() + "..."
+
+
+_SYSTEM_PROMPT = """You are a continuous NoiseNative RCA agent.
+Output exactly one valid JSON object and no markdown. Use double-quoted JSON
+keys and strings, no comments, no duplicate keys, no trailing text, and no
+Python-style literals.
+Keep the JSON concise: case_narrative <= 120 words, no more than 5 belief
+items, no more than 3 strings per support/contradiction/missing list, and
+final rationale <= 180 words. When remaining_steps == 0, final_decision is
+mandatory.
+
+You are NOT a stepwise judge. Maintain one coherent case-level causal
+working memory across the whole episode. Each tool result updates the same
+belief state; do not reset reasoning between turns.
+
+NoiseLab is a feature-fusion layer. It returns facts about local anomaly
+features, source-vs-symptom cues, counterfactual observables, and downstream
+explanation facts. NoiseLab does not decide the root cause for you.
+
+An EventCausalizer sub-agent has already converted multimodal observations
+into event-level causalized features. Treat event_causal_profile as a compact
+timeline and feature map for reasoning, not as a final answer. Cross-check it
+with NoiseLab actions when uncertainty remains. If EventCausalizer marks an
+event as mechanism_strength=weak, symptom_like, or caller-side memory caution,
+do not promote it to root cause without independent NoiseLab corroboration.
+
+Root cause means the initiating faulty component and mechanism. It is not
+necessarily the earliest observed component, the largest local anomaly, the
+entry service, or the component with the most logs. Treat onset, local
+magnitude, and missing paths as partial evidence only. A downstream symptom
+can be early or loud.
+
+Trace paths are request/call direction, not automatic fault-propagation
+direction. If frontend calls currencyservice, a currencyservice fault can
+surface as frontend errors even though the trace edge points frontend ->
+currencyservice. Likewise, a component log mentioning a dependency proves the
+emitter observed a dependency/storage failure; it does not by itself prove the
+mentioned dependency is the root cause. A dominant metric spike that occurs
+well after onset should not outweigh near-onset mechanism evidence.
+
+Before final_decision, apply these hard causal checks:
+- Do not choose a mentioned dependency from an emitter log unless the dependency
+  has independent near-onset source-mechanism evidence and timing/topology
+  support. If the dependency is later, has no trace/topology support, or only a
+  late dominant spike, keep the emitting component as a serious root candidate.
+- Do not choose a component whose evidence is mainly latency degradation solely
+  because it is earliest. Latency-only early signals are often symptoms of a
+  slower dependency. Prefer a slightly later component with internal near-onset
+  mechanism signals such as memory, socket, cpu, disk, error, or emitter-side
+  exception evidence.
+- Do not choose a request failure boundary solely because trace status errors
+  point to it. A boundary component may be timing out because one of its callees
+  is slow or faulty.
+
+Never use dataset path names, fault-name labels, case IDs, or metadata to infer
+the answer. They are intentionally omitted from the case context.
+
+When remaining_steps > 0, return a next_action that maximizes information gain
+for unresolved source-vs-symptom ambiguity. When remaining_steps == 0, return
+final_decision and set next_action to null.
+"""
+
+
+def _request_agent_state(
+    *,
+    client: ModelClient,
+    case,
+    hypotheses,
+    context_state: Mapping[str, Any],
+    evidence_history: Sequence[Mapping[str, Any]],
+    used_tool_calls: Sequence[Mapping[str, Any]],
+    event_causal_profile: Mapping[str, Any],
+    step_index: int,
+    max_steps: int,
+    require_final: bool,
+) -> Mapping[str, Any]:
+    context = {
+        "agent": "continuous_noise_native",
+        "step_index": step_index,
+        "max_steps": max_steps,
+        "remaining_steps": max(0, max_steps - step_index),
+        "instruction": (
+            "Update the continuous belief_state, preserve a coherent case_narrative, "
+            "and either choose next_action or produce final_decision."
+        ),
+        "response_schema": _response_schema(require_final=require_final),
+        "tool_contracts": _tool_contracts(),
+        "allowed_tool_names": list(NOISELAB_TOOL_NAMES),
+        "case_context_without_label_leakage": _case_context(case),
+        "hypotheses": [_hypothesis_context(h) for h in hypotheses],
+        "event_causal_profile": _truncate_jsonable(event_causal_profile, max_chars=30000),
+        "previous_working_memory": _truncate_jsonable(context_state, max_chars=20000),
+        "evidence_history": _truncate_jsonable(evidence_history, max_chars=40000),
+        "used_tool_calls": list(used_tool_calls),
+        "reasoning_rules": [
+            "Do not drop a true-looking hypothesis solely because onset is later.",
+            "Do not pick a component solely because local_anomaly_magnitude is largest.",
+            "Use near_onset_anomaly_magnitude before trusting a late dominant metric spike.",
+            "Do not treat frontend or another entry component as root solely because it has request errors.",
+            "Trace candidate_to_symptom paths are caller-to-callee request paths; they are not direct proof that the caller caused the callee.",
+            "If symptom_to_candidate paths exist, consider whether the candidate is a dependency whose failure surfaced upstream.",
+            "A log emitted by component X that mentions dependency/storage failure is evidence about X observing the dependency; it is not sufficient alone to choose the dependency.",
+            "A dependency mentioned in an emitter log needs independent near-onset mechanism evidence before it can outrank the emitter.",
+            "A latency-only earliest component needs additional internal mechanism evidence before it can outrank a slightly later memory/socket/cpu/error component.",
+            "A weak EventCausalizer mechanism_strength or caller_side_memory_caution requires NoiseLab corroboration before final selection.",
+            "Trace status errors identify the failure boundary; test whether a callee dependency explains the boundary component before selecting it.",
+            "After each evidence item, explicitly say whether it suggests source, symptom, or ambiguity.",
+            "Every leading hypothesis must have a why_not_others comparison.",
+            "Use missing_information to drive the next action.",
+        ],
+        "output_limits": {
+            "max_belief_items": min(5, len(hypotheses)),
+            "max_factors_per_list": 3,
+            "max_case_narrative_words": 120,
+            "max_final_rationale_words": 180,
+            "require_final_decision_when_remaining_steps_is_zero": require_final,
+        },
+    }
+    request = ModelRequest(
+        purpose="continuous_noise_native_state_update",
+        messages=(
+            ModelMessage(role="system", content=_SYSTEM_PROMPT),
+            ModelMessage(
+                role="user",
+                content=json.dumps(
+                    canonicalize_json_value(context),
+                    indent=2,
+                    sort_keys=True,
+                    ensure_ascii=True,
+                ),
+            ),
+        ),
+        attempt_index=0,
+    )
+    response = client.complete(request=request)
+    return _parse_or_repair_model_json_object(
+        client=client,
+        initial_text=response.content,
+        original_context=context,
+        required_response_schema=_response_schema(require_final=require_final),
+        require_final=require_final,
+    )
+
+
+def _parse_or_repair_model_json_object(
+    *,
+    client: ModelClient,
+    initial_text: str,
+    original_context: Mapping[str, Any],
+    required_response_schema: Mapping[str, Any],
+    require_final: bool,
+) -> Mapping[str, Any]:
+    repair_attempt = 0
+    max_repairs = max(1, int(os.environ.get("PRISM_CHT_JSON_REPAIR_ATTEMPTS", "6")))
+    text = initial_text
+    last_error = ""
+    while True:
+        try:
+            return _parse_model_json_object(text)
+        except StructuredOutputError as exc:
+            last_error = str(exc)
+            if repair_attempt >= max_repairs:
+                raise
+            repair_attempt += 1
+            text = _request_json_repair(
+                client=client,
+                bad_text=text,
+                parser_error=last_error,
+                original_context=original_context,
+                required_response_schema=required_response_schema,
+                require_final=require_final,
+                repair_attempt=repair_attempt,
+            )
+
+
+def _parse_model_json_object(text: str) -> Mapping[str, Any]:
+    try:
+        return parse_json_object(text, max_chars=200000)
+    except StructuredOutputError:
+        start = text.find("{")
+        end = text.rfind("}")
+        if start < 0 or end <= start:
+            raise
+        return parse_json_object(text[start : end + 1], max_chars=200000)
+
+
+_JSON_REPAIR_SYSTEM_PROMPT = """You repair invalid structured RCA agent output.
+Return exactly one valid JSON object and nothing else. Do not add markdown,
+comments, duplicate keys, trailing text, or explanations outside JSON.
+
+Preserve the original RCA content and decisions as much as possible. Only
+change formatting or structure needed to satisfy the requested JSON schema.
+"""
+
+
+def _request_json_repair(
+    *,
+    client: ModelClient,
+    bad_text: str,
+    parser_error: str,
+    original_context: Mapping[str, Any],
+    required_response_schema: Mapping[str, Any],
+    require_final: bool,
+    repair_attempt: int,
+) -> str:
+    repair_payload = {
+        "task": "Repair the invalid model output into one valid JSON object.",
+        "parser_error": parser_error,
+        "required_response_schema": required_response_schema,
+        "format_rules": [
+            "Return only a JSON object that starts with { and ends with }.",
+            "Use double quotes for all keys and string values.",
+            "Do not use markdown fences, comments, duplicate keys, NaN, Infinity, or trailing prose.",
+            "Keep the same RCA reasoning, belief_state, next_action, and final_decision content whenever recoverable.",
+        ],
+        "original_turn_context": {
+            "step_index": original_context.get("step_index"),
+            "remaining_steps": original_context.get("remaining_steps"),
+            "require_final": require_final,
+            "allowed_tool_names": original_context.get("allowed_tool_names"),
+            "hypotheses": original_context.get("hypotheses"),
+            "previous_working_memory": original_context.get("previous_working_memory"),
+            "evidence_history_tail": list(original_context.get("evidence_history", []))[-2:],
+            "used_tool_calls": original_context.get("used_tool_calls"),
+        },
+        "invalid_model_output": bad_text,
+    }
+    request = ModelRequest(
+        purpose="continuous_noise_native_json_repair",
+        messages=(
+            ModelMessage(role="system", content=_JSON_REPAIR_SYSTEM_PROMPT),
+            ModelMessage(
+                role="user",
+                content=json.dumps(
+                    canonicalize_json_value(repair_payload),
+                    indent=2,
+                    sort_keys=True,
+                    ensure_ascii=True,
+                ),
+            ),
+        ),
+        attempt_index=repair_attempt,
+    )
+    return client.complete(request=request).content
+
+
+def _response_schema(*, require_final: bool) -> Mapping[str, Any]:
+    return {
+        "case_narrative": "continuous concise causal story",
+        "belief_state": [
+            {
+                "hypothesis_id": "string",
+                "root_component": "string",
+                "position": "leading | plausible | weakened | unlikely",
+                "source_vs_symptom_judgment": "string",
+                "supporting_factors": ["string"],
+                "contradicting_factors": ["string"],
+                "missing_information": ["string"],
+                "why_not_others": "string",
+            }
+        ],
+        "next_action": None
+        if require_final
+        else {
+            "action_id": "string",
+            "tool_name": "one allowed tool name",
+            "target_hypothesis_ids": ["hypothesis ids"],
+            "question": "string",
+            "args": {},
+            "expected_information_gain": "string",
+        },
+        "final_decision": {
+            "hypothesis_id": "string",
+            "root_component": "string",
+            "reason_family": "string",
+            "onset_interval": [0.0, 0.0],
+            "evidence_ids": ["existing evidence ids"],
+            "rationale": "string",
+            "uncertainties": ["string"],
+        }
+        if require_final
+        else None,
+    }
+
+
+def _tool_contracts() -> Mapping[str, Any]:
+    return {
+        "inspect_noise_features": {
+            "args": {
+                "component_scope": ["component", "..."],
+                "time_window": [0.0, 0.0],
+                "feature_groups": ["onset", "local_mechanism", "logs", "propagation"],
+            },
+            "use_when": "Need fused local/onset/log features for one or more candidates.",
+        },
+        "compare_source_symptom": {
+            "args": {
+                "component_scope": ["component_a", "component_b", "..."],
+                "time_window": [0.0, 0.0],
+            },
+            "use_when": "Need compare source-vs-symptom cues across candidates.",
+        },
+        "counterfactual_remove": {
+            "args": {
+                "component": "candidate component",
+                "symptom_components": ["symptom", "..."],
+                "time_window": [0.0, 0.0],
+            },
+            "use_when": "Need facts for whether removing one candidate would explain observed symptoms.",
+        },
+        "test_downstream_explanation": {
+            "args": {
+                "candidate_component": "candidate component",
+                "symptom_components": ["symptom", "..."],
+                "time_window": [0.0, 0.0],
+            },
+            "use_when": "Need whether a candidate can explain downstream affected components.",
+        },
+    }
+
+
+def _case_context(case) -> Mapping[str, Any]:
+    return {
+        "event_time": case.event_time,
+        "components": list(case.components),
+        "entry_components": list(case.entry_components),
+        "observations": [
+            {
+                "component": obs.component,
+                "reason_family": obs.reason_family,
+                "first_seen": obs.first_seen,
+                "magnitude": obs.magnitude,
+                "signals": list(obs.signals),
+                "symptoms": list(obs.symptoms),
+            }
+            for obs in case.observations
+        ],
+    }
+
+
+def _hypothesis_context(hypothesis) -> Mapping[str, Any]:
+    return {
+        "hypothesis_id": hypothesis.hypothesis_id,
+        "root_component": hypothesis.root_component,
+        "reason_family": hypothesis.reason_family,
+        "onset_interval": list(hypothesis.onset_interval),
+        "local_trigger": hypothesis.local_trigger,
+        "propagation_path": list(hypothesis.propagation_path),
+        "explained_symptoms": list(hypothesis.explained_symptoms),
+        "predicted_observations": list(hypothesis.predicted_observations),
+        "falsifiers": list(hypothesis.falsifiers),
+    }
+
+
+def _initial_belief_state(hypotheses) -> list[dict[str, Any]]:
+    return [
+        {
+            "hypothesis_id": hypothesis.hypothesis_id,
+            "root_component": hypothesis.root_component,
+            "position": "plausible",
+            "source_vs_symptom_judgment": "not yet evaluated",
+            "supporting_factors": [],
+            "contradicting_factors": [],
+            "missing_information": [
+                "local mechanism features",
+                "source-vs-symptom comparison",
+                "downstream explanation facts",
+            ],
+            "why_not_others": "not yet compared",
+        }
+        for hypothesis in hypotheses
+    ]
+
+
+def _extract_working_memory(
+    response: Mapping[str, Any],
+    *,
+    fallback: Mapping[str, Any],
+) -> dict[str, Any]:
+    belief = response.get("belief_state")
+    if not isinstance(belief, list) or not belief:
+        belief = fallback.get("belief_state", [])
+    narrative = response.get("case_narrative")
+    if not isinstance(narrative, str) or not narrative.strip():
+        narrative = str(fallback.get("case_narrative", ""))
+    return {
+        "case_narrative": narrative,
+        "belief_state": belief,
+    }
+
+
+def _normalize_action(
+    value: Any,
+    *,
+    case,
+    hypotheses,
+    context_state: Mapping[str, Any],
+    step_index: int,
+    used_tool_calls: Sequence[Mapping[str, Any]],
+) -> dict[str, Any]:
+    if not isinstance(value, Mapping):
+        return _fallback_action(
+            case=case,
+            hypotheses=hypotheses,
+            context_state=context_state,
+            step_index=step_index,
+            used_tool_calls=used_tool_calls,
+        )
+    tool_name = str(value.get("tool_name", "")).strip()
+    if tool_name not in NOISELAB_TOOL_NAMES:
+        return _fallback_action(
+            case=case,
+            hypotheses=hypotheses,
+            context_state=context_state,
+            step_index=step_index,
+            used_tool_calls=used_tool_calls,
+        )
+    components = [hypothesis.root_component for hypothesis in hypotheses]
+    args = _repair_tool_args(
+        tool_name=tool_name,
+        args=value.get("args"),
+        case=case,
+        components=components,
+        context_state=context_state,
+    )
+    target_ids = [
+        str(item)
+        for item in value.get("target_hypothesis_ids", [])
+        if str(item) in {hypothesis.hypothesis_id for hypothesis in hypotheses}
+    ]
+    if len(target_ids) < 2:
+        target_ids = [hypothesis.hypothesis_id for hypothesis in hypotheses[: min(3, len(hypotheses))]]
+    return {
+        "action_id": str(value.get("action_id") or f"continuous-step-{step_index}"),
+        "tool_name": tool_name,
+        "target_hypothesis_ids": target_ids,
+        "question": str(value.get("question") or "Extract NoiseLab facts for unresolved RCA ambiguity."),
+        "args": args,
+        "expected_information_gain": str(
+            value.get("expected_information_gain")
+            or "Clarify source-vs-symptom evidence."
+        ),
+    }
+
+
+def _repair_tool_args(
+    *,
+    tool_name: str,
+    args: Any,
+    case,
+    components: Sequence[str],
+    context_state: Mapping[str, Any],
+) -> dict[str, Any]:
+    raw = dict(args) if isinstance(args, Mapping) else {}
+    window = _window(raw.get("time_window"), case)
+    leading = _leading_component(context_state, components)
+    symptoms = _symptom_components(case=case, components=components, exclude=leading)
+
+    if tool_name == "inspect_noise_features":
+        scope = _component_list(raw.get("component_scope"), fallback=components)
+        return {
+            "component_scope": scope,
+            "time_window": window,
+            "feature_groups": _component_list(
+                raw.get("feature_groups"),
+                fallback=("onset", "local_mechanism", "logs", "propagation"),
+            ),
+        }
+    if tool_name == "compare_source_symptom":
+        return {
+            "component_scope": _component_list(raw.get("component_scope"), fallback=components),
+            "time_window": window,
+        }
+    if tool_name == "counterfactual_remove":
+        return {
+            "component": str(raw.get("component") or leading),
+            "symptom_components": _component_list(
+                raw.get("symptom_components"),
+                fallback=symptoms,
+            ),
+            "time_window": window,
+        }
+    if tool_name == "test_downstream_explanation":
+        return {
+            "candidate_component": str(raw.get("candidate_component") or leading),
+            "symptom_components": _component_list(
+                raw.get("symptom_components"),
+                fallback=symptoms,
+            ),
+            "time_window": window,
+        }
+    raise ValueError(f"unsupported NoiseLab tool: {tool_name}")
+
+
+def _fallback_action(
+    *,
+    case,
+    hypotheses,
+    context_state: Mapping[str, Any],
+    step_index: int,
+    used_tool_calls: Sequence[Mapping[str, Any]],
+) -> dict[str, Any]:
+    components = [hypothesis.root_component for hypothesis in hypotheses]
+    leading = _leading_component(context_state, components)
+    symptoms = _symptom_components(case=case, components=components, exclude=leading)
+    candidates = [
+        {
+            "action_id": f"fallback-features-{step_index}",
+            "tool_name": "inspect_noise_features",
+            "target_hypothesis_ids": [hypothesis.hypothesis_id for hypothesis in hypotheses],
+            "question": "Build fused NoiseLab feature table for all candidates.",
+            "args": {
+                "component_scope": components,
+                "time_window": _window(None, case),
+                "feature_groups": ["onset", "local_mechanism", "logs", "propagation"],
+            },
+            "expected_information_gain": "Establish shared feature memory before narrowing candidates.",
+        },
+        {
+            "action_id": f"fallback-source-symptom-{step_index}",
+            "tool_name": "compare_source_symptom",
+            "target_hypothesis_ids": [hypothesis.hypothesis_id for hypothesis in hypotheses],
+            "question": "Compare source-vs-symptom cues for all candidates.",
+            "args": {
+                "component_scope": components,
+                "time_window": _window(None, case),
+            },
+            "expected_information_gain": "Separate likely source candidates from loud symptoms.",
+        },
+        {
+            "action_id": f"fallback-downstream-{step_index}",
+            "tool_name": "test_downstream_explanation",
+            "target_hypothesis_ids": [hypothesis.hypothesis_id for hypothesis in hypotheses],
+            "question": "Test whether the leading candidate explains observed symptoms.",
+            "args": {
+                "candidate_component": leading,
+                "symptom_components": symptoms,
+                "time_window": _window(None, case),
+            },
+            "expected_information_gain": "Check if the leading candidate can explain downstream observations.",
+        },
+        {
+            "action_id": f"fallback-counterfactual-{step_index}",
+            "tool_name": "counterfactual_remove",
+            "target_hypothesis_ids": [hypothesis.hypothesis_id for hypothesis in hypotheses],
+            "question": "Expose counterfactual facts for removing the leading candidate.",
+            "args": {
+                "component": leading,
+                "symptom_components": symptoms,
+                "time_window": _window(None, case),
+            },
+            "expected_information_gain": "Clarify whether the leading component accounts for remaining symptoms.",
+        },
+    ]
+    used = {
+        json.dumps(
+            {"tool_name": item["tool_name"], "args": item["args"]},
+            sort_keys=True,
+            ensure_ascii=True,
+        )
+        for item in used_tool_calls
+    }
+    for candidate in candidates:
+        key = json.dumps(
+            {"tool_name": candidate["tool_name"], "args": candidate["args"]},
+            sort_keys=True,
+            ensure_ascii=True,
+        )
+        if key not in used:
+            return candidate
+    return candidates[step_index % len(candidates)]
+
+
+def _execute_noise_action(
+    *,
+    registry,
+    graph: EvidenceGraph,
+    store,
+    action: Mapping[str, Any],
+) -> EvidenceAtom:
+    tool_name = str(action["tool_name"])
+    args = canonicalize_json_value(dict(action["args"]))
+    signature = build_tool_call_signature(tool_name=tool_name, args=args)
+    evidence_id = "evidence:" + signature
+    if evidence_id in graph.evidence_by_id:
+        return graph.evidence_by_id[evidence_id]
+    result = registry.execute(tool_name=tool_name, args=args, store=store)
+    atom = EvidenceAtom(
+        evidence_id=evidence_id,
+        query_signature=signature,
+        modality=result.modality,
+        component_scope=result.component_scope,
+        time_window=result.time_window,
+        observation=result.observation,
+        provenance=result.provenance,
+        missing_fields=result.missing_fields,
+        reliability_note=result.reliability_note,
+    )
+    return graph.add_evidence(atom)
+
+
+def _normalize_final_decision(
+    value: Any,
+    *,
+    case,
+    hypotheses,
+    graph: EvidenceGraph,
+    context_state: Mapping[str, Any],
+) -> dict[str, Any]:
+    raw = dict(value) if isinstance(value, Mapping) else {}
+    hypothesis_by_id = {hypothesis.hypothesis_id: hypothesis for hypothesis in hypotheses}
+    hid = str(raw.get("hypothesis_id") or "").strip()
+    component = str(raw.get("root_component") or "").strip()
+    if component not in set(case.components):
+        if hid in hypothesis_by_id:
+            component = hypothesis_by_id[hid].root_component
+        else:
+            component = _leading_component(
+                context_state,
+                [hypothesis.root_component for hypothesis in hypotheses],
+            )
+    if not hid or hid not in hypothesis_by_id:
+        for hypothesis in hypotheses:
+            if hypothesis.root_component == component:
+                hid = hypothesis.hypothesis_id
+                break
+    hypothesis = hypothesis_by_id.get(hid)
+    reason = str(raw.get("reason_family") or (hypothesis.reason_family if hypothesis else "unknown"))
+    onset = _onset_pair(raw.get("onset_interval"), hypothesis)
+    evidence_ids = [
+        str(item)
+        for item in raw.get("evidence_ids", [])
+        if str(item) in graph.evidence_by_id
+    ]
+    rationale = str(raw.get("rationale") or "").strip()
+    if not rationale:
+        rationale = _fallback_final_rationale(
+            context_state=context_state,
+            component=component,
+        )
+    uncertainties = [
+        str(item)
+        for item in raw.get("uncertainties", [])
+        if str(item).strip()
+    ]
+    if not uncertainties:
+        uncertainties = _fallback_uncertainties(
+            context_state=context_state,
+            component=component,
+        )
+    return {
+        "hypothesis_id": hid or "unknown",
+        "root_component": component,
+        "reason_family": reason,
+        "onset_interval": onset,
+        "evidence_ids": evidence_ids,
+        "rationale": rationale,
+        "uncertainties": uncertainties,
+    }
+
+
+def _fallback_final_rationale(
+    *,
+    context_state: Mapping[str, Any],
+    component: str,
+) -> str:
+    belief = _belief_for_component(context_state, component)
+    if not belief:
+        return "Fallback final decision from continuous belief state."
+    parts = []
+    judgment = str(belief.get("source_vs_symptom_judgment") or "").strip()
+    if judgment:
+        parts.append(judgment)
+    support = [
+        str(item)
+        for item in belief.get("supporting_factors", [])
+        if str(item).strip()
+    ][:3]
+    contra = [
+        str(item)
+        for item in belief.get("contradicting_factors", [])
+        if str(item).strip()
+    ][:2]
+    if support:
+        parts.append("Support: " + "; ".join(support))
+    if contra:
+        parts.append("Caveats: " + "; ".join(contra))
+    return " ".join(parts) or "Fallback final decision from continuous belief state."
+
+
+def _fallback_uncertainties(
+    *,
+    context_state: Mapping[str, Any],
+    component: str,
+) -> list[str]:
+    belief = _belief_for_component(context_state, component)
+    if not belief:
+        return []
+    missing = [
+        str(item)
+        for item in belief.get("missing_information", [])
+        if str(item).strip()
+    ][:3]
+    return missing
+
+
+def _belief_for_component(
+    context_state: Mapping[str, Any],
+    component: str,
+) -> Mapping[str, Any] | None:
+    belief = context_state.get("belief_state", [])
+    if not isinstance(belief, list):
+        return None
+    for position in ("leading", "plausible", "weakened", "unlikely"):
+        for item in belief:
+            if (
+                isinstance(item, Mapping)
+                and item.get("root_component") == component
+                and item.get("position") == position
+            ):
+                return item
+    return None
+
+
+def _leading_component(context_state: Mapping[str, Any], components: Sequence[str]) -> str:
+    belief = context_state.get("belief_state", [])
+    if isinstance(belief, list):
+        for position in ("leading", "plausible", "weakened"):
+            for item in belief:
+                if (
+                    isinstance(item, Mapping)
+                    and item.get("position") == position
+                    and item.get("root_component") in components
+                ):
+                    return str(item["root_component"])
+    return str(components[0])
+
+
+def _symptom_components(*, case, components: Sequence[str], exclude: str) -> list[str]:
+    values: list[str] = []
+    for component in list(case.entry_components) + [obs.component for obs in case.observations]:
+        if component != exclude and component in components and component not in values:
+            values.append(component)
+    if not values:
+        values = [component for component in components if component != exclude]
+    return values[:4] or [component for component in components if component != exclude][:1]
+
+
+def _window(value: Any, case) -> list[float]:
+    if (
+        isinstance(value, (list, tuple))
+        and len(value) == 2
+        and all(isinstance(item, (int, float)) and not isinstance(item, bool) for item in value)
+    ):
+        start, end = float(value[0]), float(value[1])
+        if start <= end:
+            return [start, end]
+    return [max(0.0, float(case.event_time) - 300.0), float(case.event_time) + 900.0]
+
+
+def _component_list(value: Any, *, fallback: Sequence[str]) -> list[str]:
+    if isinstance(value, (list, tuple)):
+        items = [str(item).strip() for item in value if str(item).strip()]
+    else:
+        items = []
+    if not items:
+        items = [str(item) for item in fallback]
+    deduped: list[str] = []
+    for item in items:
+        if item not in deduped:
+            deduped.append(item)
+    return deduped
+
+
+def _onset_pair(value: Any, hypothesis) -> list[float] | None:
+    if (
+        isinstance(value, (list, tuple))
+        and len(value) == 2
+        and all(isinstance(item, (int, float)) and not isinstance(item, bool) for item in value)
+    ):
+        return [float(value[0]), float(value[1])]
+    if hypothesis is not None:
+        return [float(hypothesis.onset_interval[0]), float(hypothesis.onset_interval[1])]
+    return None
+
+
+def _serialize_evidence(atom: EvidenceAtom) -> Mapping[str, Any]:
+    return {
+        "evidence_id": atom.evidence_id,
+        "query_signature": atom.query_signature,
+        "modality": atom.modality,
+        "component_scope": list(atom.component_scope),
+        "time_window": list(atom.time_window),
+        "observation": _truncate_jsonable(atom.observation, max_chars=12000),
+        "missing_fields": list(atom.missing_fields),
+        "reliability_note": atom.reliability_note,
+    }
+
+
+def _truncate_jsonable(value: Any, *, max_chars: int) -> Any:
+    jsonable = _to_jsonable(value)
+    text = json.dumps(jsonable, ensure_ascii=False, sort_keys=True)
+    if len(text) <= max_chars:
+        return jsonable
+    return {"truncated_json": text[:max_chars] + "..."}
+
+
+def _to_jsonable(value: Any) -> Any:
+    if value is None or isinstance(value, (str, int, float, bool)):
+        return value
+    if isinstance(value, Enum):
+        return value.value
+    if is_dataclass(value):
+        return {
+            field.name: _to_jsonable(getattr(value, field.name))
+            for field in fields(value)
+        }
+    if isinstance(value, Mapping):
+        return {str(key): _to_jsonable(item) for key, item in value.items()}
+    if isinstance(value, (list, tuple, set, frozenset)):
+        return [_to_jsonable(item) for item in value]
+    return repr(value)
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
