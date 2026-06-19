@@ -105,6 +105,7 @@ class D32PipelineConfig:
     onset_decay_seconds: float = 300.0
     component_onset_bonus: float = 5.0
     disable_family_filter: bool = False
+    portable_ontology_enabled: bool = False
 
 
 class D32RefutationPipeline:
