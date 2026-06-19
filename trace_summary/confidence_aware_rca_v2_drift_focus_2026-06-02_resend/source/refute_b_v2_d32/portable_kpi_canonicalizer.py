@@ -55,8 +55,6 @@ def canonicalize_kpi_name(value: Any, *, dataset: str = "") -> str:
         return f"OpenRCA_FILESYSTEM_FSCapacity_{suffix}"
     if _is_disk_io(low, collapsed):
         return f"OpenRCA_DSK_ReadWrite_{suffix}"
-    if _is_tomcat_app_symptom(low, collapsed):
-        return f"OpenRCA_TomcatAppSymptom_{suffix}"
     if _is_network_loss(low, collapsed):
         return f"OpenRCA_NetworkPacketErrLoss_{suffix}"
     if _is_network_latency(low, collapsed):
@@ -129,14 +127,6 @@ def _is_disk_io(low: str, collapsed: str) -> bool:
         "readbytes",
         "writebytes",
         "disktps",
-    ))
-
-
-def _is_tomcat_app_symptom(low: str, collapsed: str) -> bool:
-    return any(token in collapsed for token in (
-        "errorcountrequestinfo",
-        "sessionrejectedsessions",
-        "rejectedrequests",
     ))
 
 

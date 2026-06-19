@@ -14,6 +14,12 @@ import pandas as pd
 
 METRIC_COLUMNS = ("timestamp", "cmdb_id", "kpi_name", "value")
 LOG_COLUMNS = ("timestamp", "cmdb_id", "value")
+# Optional precomputed per-row reason-bucket assignment (a frozenset[str] of
+# bucket names).  Populated by dataset adapters that supply a dataset-native
+# KPI->bucket mapping (e.g. AIOps2021 via portable_bucket_assignment).  When
+# absent, the algorithm-side bucketing functions fall back to OpenRCA's
+# original token matching, so the OpenRCA dataset path stays byte-identical.
+BUCKETS_COLUMN = "buckets"
 
 
 @dataclass(frozen=True)
@@ -77,11 +83,16 @@ def normalize_metric_frame(
         "value": ("value", "val"),
     })
     _require_columns(df, METRIC_COLUMNS, "metric")
-    out = df.loc[:, list(METRIC_COLUMNS)].copy()
+    keep = list(METRIC_COLUMNS)
+    if BUCKETS_COLUMN in df.columns:
+        keep.append(BUCKETS_COLUMN)
+    out = df.loc[:, keep].copy()
     out["timestamp"] = _normalize_timestamp_series(out["timestamp"])
     out["cmdb_id"] = out["cmdb_id"].astype(str)
     out["kpi_name"] = out["kpi_name"].astype(str)
     out["value"] = pd.to_numeric(out["value"], errors="coerce")
+    if BUCKETS_COLUMN in out.columns:
+        out[BUCKETS_COLUMN] = out[BUCKETS_COLUMN].map(_normalize_buckets_cell)
     out = out.dropna(subset=["timestamp", "cmdb_id", "kpi_name", "value"])
     out["timestamp"] = out["timestamp"].astype("int64")
     return out.sort_values(["timestamp", "cmdb_id", "kpi_name"], kind="mergesort").reset_index(drop=True)
@@ -208,3 +219,20 @@ def _status_from_frame(df: pd.DataFrame | None) -> str:
     if df.empty:
         return "empty_window"
     return "present"
+
+
+def _normalize_buckets_cell(value: Any) -> frozenset[str]:
+    """Coerce a buckets cell to a frozenset[str].
+
+    Accepts None/NaN (-> empty), a single bucket string, or any iterable of
+    bucket strings.  Returns an empty frozenset for non-fault / excluded KPIs.
+    """
+    if value is None:
+        return frozenset()
+    if isinstance(value, str):
+        stripped = value.strip()
+        return frozenset({stripped}) if stripped else frozenset()
+    try:
+        return frozenset(str(item) for item in value)
+    except TypeError:
+        return frozenset()

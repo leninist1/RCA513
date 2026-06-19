@@ -17,6 +17,7 @@ import pandas as pd
 from refute_b_v2_d32.evidence import kpi_in_bucket
 from refute_b_v2_d32.schema import reason_bucket
 from refute_b_v2_d32.signature import reason_for_kpi, reason_for_log
+from refute_b_v2_d32.bucket_resolver import row_in_bucket, row_reason
 
 
 @dataclass(frozen=True)
@@ -249,7 +250,7 @@ def _metric_patterns(
     for row in rows.itertuples(index=False):
         row_component = str(getattr(row, "cmdb_id", ""))
         kpi_name = str(getattr(row, "kpi_name", ""))
-        if bucket and not kpi_in_bucket(kpi_name, bucket):
+        if bucket and not row_in_bucket(row, bucket, kpi_name):
             continue
         try:
             value = float(getattr(row, "value"))
@@ -258,7 +259,7 @@ def _metric_patterns(
             continue
         if not getattr(result, "is_anomalous", False):
             continue
-        kpi_group = _kpi_group(kpi_name)
+        kpi_group = _kpi_group(kpi_name, row)
         key = (row_component, kpi_group)
         item = groups.setdefault(key, {
             "component": row_component,
@@ -266,7 +267,7 @@ def _metric_patterns(
             "_timestamps": [],
             "_values": [],
             "_max_deviation": 0.0,
-            "reason_relevance": "supports" if bucket and kpi_in_bucket(kpi_name, bucket) else "neutral",
+            "reason_relevance": "supports" if bucket and row_in_bucket(row, bucket, kpi_name) else "neutral",
         })
         item["_timestamps"].append(int(getattr(row, "timestamp", 0) or 0))
         item["_values"].append(value)
@@ -779,8 +780,8 @@ def _dominant_symptom_type(dominant: list[Any], reason_scores: Mapping[str, Any]
     return "unknown"
 
 
-def _kpi_group(kpi_name: str) -> str:
-    reason = reason_for_kpi(kpi_name)
+def _kpi_group(kpi_name: str, row: Any = None) -> str:
+    reason = row_reason(row, kpi_name) if row is not None else reason_for_kpi(kpi_name)
     if reason:
         return reason_bucket(reason)
     low = str(kpi_name).lower()

@@ -12,6 +12,7 @@ from typing import Any, Iterable, Mapping
 import pandas as pd
 
 from refute_b_v2_d32.portable_schema import (
+    BUCKETS_COLUMN,
     DatasetAdapter,
     NormalizedIncident,
     make_incident,
@@ -19,6 +20,7 @@ from refute_b_v2_d32.portable_schema import (
     normalize_metric_frame,
 )
 from refute_b_v2_d32.portable_kpi_canonicalizer import canonicalize_metric_kpis
+from refute_b_v2_d32.portable_bucket_assignment import assign_kpi_buckets
 
 
 @dataclass(frozen=True)
@@ -43,6 +45,11 @@ class TabularIncidentAdapter(DatasetAdapter):
     log_column_map: Mapping[str, str] = field(default_factory=dict)
     enabled_modalities: tuple[str, ...] = ("metric", "log", "trace")
     kpi_canonicalization: str = "none"
+    # When True, attach a precomputed dataset-native ``buckets`` column to each
+    # metric row (via portable_bucket_assignment) so the algorithm reads the
+    # dataset-native KPI->bucket mapping instead of OpenRCA token matching.
+    # OpenRCA-native datasets leave this False and stay byte-identical.
+    native_bucket_assignment: bool = False
 
     def iter_incidents(self) -> Iterable[NormalizedIncident]:
         cases = self.cases.copy()
@@ -56,6 +63,8 @@ class TabularIncidentAdapter(DatasetAdapter):
             dataset=self.dataset,
             mode=self.kpi_canonicalization,
         )
+        if self.native_bucket_assignment:
+            metrics = _attach_native_buckets(metrics)
         logs = normalize_log_frame(self.logs, column_map=self.log_column_map)
         for row in cases.itertuples(index=False):
             case = _case_row_dict(row, cases.columns)
@@ -127,6 +136,7 @@ def aiops2021_tabular_adapter(
         trace_summaries=dict(trace_summaries or {}),
         topology=dict(topology or {}),
         kpi_canonicalization=kpi_canonicalization,
+        native_bucket_assignment=True,
         case_spec=TabularCaseSpec(
             case_id_col=_first_existing(cases, ("case_id", "故障编号", "incident_id", "id")),
             start_ts_col=_first_existing(cases, ("start_ts", "start_time", "故障开始时间", "timestamp")),
@@ -141,6 +151,27 @@ def _slice_window(df: pd.DataFrame, start_ts: int, end_ts: int) -> pd.DataFrame:
     if df is None or df.empty:
         return df.copy() if df is not None else pd.DataFrame()
     return df[(df["timestamp"] >= int(start_ts)) & (df["timestamp"] < int(end_ts))].copy()
+
+
+def _attach_native_buckets(metrics: pd.DataFrame) -> pd.DataFrame:
+    """Attach a precomputed ``buckets`` column (frozenset[str]) per row.
+
+    Uses the dataset-native assignment from ``portable_bucket_assignment`` so
+    the algorithm reads dataset-native bucket membership instead of inferring
+    it from KPI name tokens.  KPIs with no fault evidence receive an empty
+    frozenset and enter no bucket.
+    """
+    if metrics is None or metrics.empty or "kpi_name" not in metrics.columns:
+        return metrics
+    out = metrics.copy()
+    cmdb = out.get("cmdb_id")
+    if cmdb is None:
+        cmdb = pd.Series([""] * len(out), index=out.index)
+    out[BUCKETS_COLUMN] = [
+        assign_kpi_buckets(kpi, comp)
+        for kpi, comp in zip(out["kpi_name"].astype(str), cmdb.astype(str))
+    ]
+    return out
 
 
 def _case_row_dict(row: Any, columns: Iterable[str]) -> dict[str, Any]:

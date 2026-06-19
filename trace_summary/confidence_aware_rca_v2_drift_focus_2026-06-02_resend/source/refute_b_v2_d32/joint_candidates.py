@@ -10,6 +10,7 @@ import pandas as pd
 
 from refute_b_v2_d32.schema import RootCandidate, reason_bucket
 from refute_b_v2_d32.signature import reason_for_log
+from refute_b_v2_d32.bucket_resolver import row_buckets
 
 
 CPU_TOKENS = ("cpu", "processor_load")
@@ -158,7 +159,7 @@ def _metric_signals(metric_df: pd.DataFrame, baseline) -> dict[str, dict[str, Bu
     for row in metric_df.itertuples(index=False):
         component = str(getattr(row, "cmdb_id", ""))
         kpi_name = str(getattr(row, "kpi_name", ""))
-        buckets = _kpi_buckets(component, kpi_name)
+        buckets = row_buckets(row, kpi_name, component)
         if not buckets:
             continue
         result = baseline.is_anomalous(component, kpi_name, getattr(row, "value"), threshold="p99")

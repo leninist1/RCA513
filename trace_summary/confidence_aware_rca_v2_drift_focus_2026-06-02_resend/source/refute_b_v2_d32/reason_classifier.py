@@ -85,7 +85,7 @@ def _metric_features(metric_df: pd.DataFrame, baseline) -> dict[str, float]:
     if metric_df is None or metric_df.empty or "kpi_name" not in metric_df.columns:
         return out
 
-    from refute_b_v2_d32.evidence import kpi_in_bucket
+    from refute_b_v2_d32.bucket_resolver import row_in_bucket
 
     # Tokens that indicate packet LOSS (not just latency/traffic)
     _LOSS_TOKENS = ("error", "err", "drop", "loss", "retrans", "reject", "rejected", "reset", "abort", "aborted")
@@ -107,7 +107,7 @@ def _metric_features(metric_df: pd.DataFrame, baseline) -> dict[str, float]:
             continue
         kpi_low = kpi.lower()
         for b in _METRIC_BUCKET_ORDER:
-            if kpi_in_bucket(kpi, b):
+            if row_in_bucket(row, b, kpi):
                 try:
                     result = baseline.is_anomalous(
                         str(getattr(row, "cmdb_id", "")), kpi, float(value), threshold="p99",

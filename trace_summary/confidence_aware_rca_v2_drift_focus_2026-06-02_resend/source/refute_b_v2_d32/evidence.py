@@ -8,6 +8,7 @@ import pandas as pd
 
 from refute.src.node_container_split import is_node_level_kpi_bank, is_node_level_kpi_market
 from refute_b_v2.trace_propagation import trace_evidence_for_service
+from refute_b_v2_d32.bucket_resolver import row_in_bucket
 from refute_b_v2_d32.signature import CPU_TOKENS, DISK_TOKENS, FS_TOKENS, MEM_TOKENS, NET_TOKENS
 
 
@@ -134,7 +135,7 @@ class D32EvidenceQuery:
         rows = self.metric_df[self.metric_df["cmdb_id"] == str(service)]
         if rows.empty:
             return rows
-        rows = rows[rows["kpi_name"].map(lambda name: kpi_in_bucket(str(name), bucket)).astype(bool)]
+        rows = rows[rows.apply(lambda r: row_in_bucket(r, bucket, str(r["kpi_name"])), axis=1)]
         if rows.empty:
             return rows
         if self._is_market():

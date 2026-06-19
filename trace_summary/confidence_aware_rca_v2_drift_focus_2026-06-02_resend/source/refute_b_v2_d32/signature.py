@@ -5,6 +5,8 @@ from typing import Any, Mapping
 
 import pandas as pd
 
+from refute_b_v2_d32.bucket_resolver import row_reason
+
 
 CPU_TOKENS = ("CPU", "Cpu", "cpu", "CPULoad", "SingleCpu")
 MEM_TOKENS = ("MEMORY", "Memory", "Mem", "Heap", "used_memory", "Qcache", "PROCPPMem")
@@ -144,7 +146,7 @@ def build_case_signature(
     metric_events = 0
     if metric_df is not None and not metric_df.empty:
         for row in metric_df.itertuples(index=False):
-            reason = reason_for_kpi(getattr(row, "kpi_name", ""))
+            reason = row_reason(row, getattr(row, "kpi_name", ""))
             if not reason:
                 continue
             result = baseline.is_anomalous(str(row.cmdb_id), str(row.kpi_name), row.value, threshold="p99")

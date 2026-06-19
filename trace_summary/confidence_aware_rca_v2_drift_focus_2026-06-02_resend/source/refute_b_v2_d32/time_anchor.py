@@ -8,6 +8,7 @@ from typing import Any, Mapping
 import pandas as pd
 
 from refute_b_v2_d32.evidence import kpi_in_bucket
+from refute_b_v2_d32.bucket_resolver import row_in_bucket
 from refute_b_v2_d32.schema import RootCandidate
 from refute_b_v2_d32.signature import reason_for_log
 
@@ -108,7 +109,7 @@ class CandidateTimeAnchorer:
         if rows.empty:
             return []
         bucket = _metric_bucket(candidate.reason_bucket)
-        rows = rows[rows["kpi_name"].map(lambda name: kpi_in_bucket(str(name), bucket)).astype(bool)]
+        rows = rows[rows.apply(lambda r: row_in_bucket(r, bucket, str(r["kpi_name"])), axis=1)]
         if rows.empty:
             return []
         rows["value"] = pd.to_numeric(rows["value"], errors="coerce")

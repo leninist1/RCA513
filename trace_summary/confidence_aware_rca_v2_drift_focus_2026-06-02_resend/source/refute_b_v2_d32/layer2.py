@@ -15,6 +15,7 @@ from refute_b_v2_d32.layer1 import D32Knowledge
 from refute_b_v2_d32.reason_classifier import ReasonClassifier, extract_features
 from refute_b_v2_d32.schema import D32Result, EvidenceCard, RefutationDecision, RootCandidate, reason_bucket
 from refute_b_v2_d32.signature import build_case_signature, reason_for_kpi, reason_for_log
+from refute_b_v2_d32.bucket_resolver import row_reason
 from refute_b_v2_d32.time_anchor import CandidateTimeAnchorer, CandidateTimeAnchorPolicy
 
 
@@ -330,7 +331,7 @@ class D32RefutationPipeline:
         rows = []
         if metric_df is not None and not metric_df.empty:
             for row in metric_df.itertuples(index=False):
-                reason = reason_for_kpi(getattr(row, "kpi_name", ""))
+                reason = row_reason(row, getattr(row, "kpi_name", ""))
                 if reason:
                     rows.append(RootCandidate(str(row.cmdb_id), reason, 0.05, "event_fallback", {"kpi": str(row.kpi_name)}))
                 if len(rows) >= self.config.fallback_top_events:
@@ -522,7 +523,8 @@ class D32RefutationPipeline:
         Earliness is 1.0 if first anomaly is at window start, decaying to 0.
         """
         import math
-        from refute_b_v2_d32.evidence import kpi_in_bucket
+        from refute_b_v2_d32.bucket_resolver import row_in_bucket
+        from refute_b_v2_d32.portable_schema import BUCKETS_COLUMN
 
         df = evidence.metric_df
         if df is None or df.empty or "kpi_name" not in df.columns:
@@ -531,6 +533,22 @@ class D32RefutationPipeline:
         comp_rows = df[df["cmdb_id"].astype(str) == str(component)]
         if comp_rows.empty:
             return (0.0, 0.0, 0.0)
+
+        # When a precomputed buckets column is present (portable datasets), use
+        # ALL anomalous KPIs on this component for earliness/strength, not just
+        # those matching the candidate reason bucket.  This lets cross-fault
+        # propagation symptoms (e.g. Tomcat error/rejected-session counters,
+        # which are excluded from reason buckets to avoid density pollution)
+        # still contribute to component-localisation evidence.  OpenRCA-native
+        # frames have no buckets column and keep the original reason-bucket
+        # filtering, staying byte-identical.
+        has_buckets_col = BUCKETS_COLUMN in comp_rows.columns
+        if has_buckets_col:
+            def _evidence_match(row, kpi):
+                return True
+        else:
+            def _evidence_match(row, kpi):
+                return row_in_bucket(row, reason_bucket, kpi)
 
         first_ts = None
         max_dev = 0.0
@@ -542,7 +560,7 @@ class D32RefutationPipeline:
 
         for row in comp_rows.itertuples(index=False):
             kpi = str(row.kpi_name)
-            if not kpi_in_bucket(kpi, reason_bucket):
+            if not _evidence_match(row, kpi):
                 continue
             value = getattr(row, "value", None)
             if value is None or not isinstance(value, (int, float)) or not (isinstance(value, float) or isinstance(value, int)):
@@ -841,13 +859,13 @@ def _compute_time_ranks(
 
     Returns {component: 1/(rank+1)} where rank=1 means earliest anomaly.
     """
-    from refute_b_v2_d32.evidence import kpi_in_bucket
+    from refute_b_v2_d32.bucket_resolver import row_in_bucket
     if metric_df is None or metric_df.empty or "kpi_name" not in metric_df.columns:
         return {}
 
-    rows = metric_df[metric_df["kpi_name"].map(
-        lambda k: kpi_in_bucket(str(k), bucket)
-    ).astype(bool)]
+    rows = metric_df[metric_df.apply(
+        lambda r: row_in_bucket(r, bucket, str(r["kpi_name"])), axis=1
+    )]
 
     if rows.empty:
         return {}
