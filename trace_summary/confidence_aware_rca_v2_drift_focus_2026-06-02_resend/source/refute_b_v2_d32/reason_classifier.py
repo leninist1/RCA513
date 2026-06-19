@@ -23,7 +23,7 @@ from refute_b_v2_d32.schema import reason_bucket
 # ---------------------------------------------------------------------------
 # Trace / log field definitions (shared across all dataset schemas)
 # ---------------------------------------------------------------------------
-TRACE_FIELDS = [
+_TRACE_FIELDS_BASE = [
     "trace_available",
     "trace_has_slow_edge",
     "trace_has_dropped_edge",
@@ -59,6 +59,7 @@ class FeatureSchema:
     metric_bucket_order: tuple[str, ...]
     joint_reasons: tuple[str, ...]
     extra_log_fields: tuple[str, ...] = ()
+    extra_trace_fields: tuple[str, ...] = ()
 
     @property
     def metric_fields(self) -> list[str]:
@@ -84,14 +85,19 @@ class FeatureSchema:
         return list(_LOG_FIELDS_BASE) + list(self.extra_log_fields)
 
     @property
+    def trace_fields(self) -> list[str]:
+        return list(_TRACE_FIELDS_BASE) + list(self.extra_trace_fields)
+
+    @property
     def feature_names(self) -> list[str]:
-        return self.metric_fields + TRACE_FIELDS + self.log_fields + self.joint_fields
+        return self.metric_fields + self.trace_fields + self.log_fields + self.joint_fields
 
     def to_dict(self) -> dict[str, list[str]]:
         return {
             "metric_bucket_order": list(self.metric_bucket_order),
             "joint_reasons": list(self.joint_reasons),
             "extra_log_fields": list(self.extra_log_fields),
+            "extra_trace_fields": list(self.extra_trace_fields),
         }
 
     @staticmethod
@@ -102,6 +108,7 @@ class FeatureSchema:
             metric_bucket_order=tuple(d.get("metric_bucket_order", OPENRCA_SCHEMA.metric_bucket_order)),
             joint_reasons=tuple(d.get("joint_reasons", OPENRCA_SCHEMA.joint_reasons)),
             extra_log_fields=tuple(d.get("extra_log_fields", OPENRCA_SCHEMA.extra_log_fields)),
+            extra_trace_fields=tuple(d.get("extra_trace_fields", OPENRCA_SCHEMA.extra_trace_fields)),
         )
 
 
@@ -135,6 +142,7 @@ METRIC_FIELDS = OPENRCA_SCHEMA.metric_fields
 JOINT_REASONS = OPENRCA_SCHEMA.joint_reasons
 JOINT_FIELDS = OPENRCA_SCHEMA.joint_fields
 LOG_FIELDS = OPENRCA_SCHEMA.log_fields
+TRACE_FIELDS = OPENRCA_SCHEMA.trace_fields
 FEATURE_NAMES = OPENRCA_SCHEMA.feature_names
 
 TARGET_BUCKETS = sorted({
@@ -217,8 +225,12 @@ def _metric_features(
     return out
 
 
-def _trace_features(trace_summary: Mapping[str, Any] | None) -> dict[str, float]:
-    out = {f: 0.0 for f in TRACE_FIELDS}
+def _trace_features(
+    trace_summary: Mapping[str, Any] | None,
+    schema: FeatureSchema | None = None,
+) -> dict[str, float]:
+    schema = schema or OPENRCA_SCHEMA
+    out = {f: 0.0 for f in schema.trace_fields}
     if not trace_summary or trace_summary.get("trace_status") != "present":
         return out
 
@@ -241,6 +253,24 @@ def _trace_features(trace_summary: Mapping[str, Any] | None) -> dict[str, float]
     )
     out["trace_drop_vs_slow_ratio"] = drop_count / (slow_count + 1.0)
     out["trace_slow_vs_drop_ratio"] = slow_count / (drop_count + 1.0)
+
+    # AIOps-specific: extract service_stats features for loss vs latency discrimination
+    service_stats = trace_summary.get("service_stats") or {}
+    if "trace_p50_max" in out and service_stats:
+        p50s = []
+        p99s = []
+        span_counts = []
+        for _svc, stats in service_stats.items():
+            p50 = float(stats.get("duration_p50", 0) or 0)
+            p99 = float(stats.get("duration_p99", 0) or 0)
+            sc = int(stats.get("span_count", 0) or 0)
+            p50s.append(p50)
+            p99s.append(p99)
+            span_counts.append(sc)
+        out["trace_p50_max"] = math.log1p(max(p50s)) if p50s else 0.0
+        out["trace_span_count_sum"] = math.log1p(sum(span_counts)) if span_counts else 0.0
+        ratios = [p99 / p50 for p50, p99 in zip(p50s, p99s) if p50 > 0]
+        out["trace_p99_p50_ratio_max"] = math.log1p(max(ratios)) if ratios else 0.0
     return out
 
 
@@ -356,7 +386,7 @@ def extract_features(
     schema = schema or OPENRCA_SCHEMA
     feats: dict[str, float] = {}
     feats.update(_metric_features(metric_df, baseline, schema))
-    feats.update(_trace_features(trace_summary))
+    feats.update(_trace_features(trace_summary, schema))
     feats.update(_log_features(log_df, schema))
     if raw_joint_features is not None:
         feats.update(raw_joint_features)
