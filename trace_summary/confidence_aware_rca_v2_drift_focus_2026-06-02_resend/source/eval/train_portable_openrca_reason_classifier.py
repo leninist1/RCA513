@@ -33,8 +33,11 @@ from refute_b_v2_d32.portable_adapters import aiops2021_tabular_adapter, eadro_t
 from refute_b_v2_d32.portable_kpi_canonicalizer import canonicalize_metric_kpis  # noqa: E402
 from refute_b_v2_d32.portable_schema import NormalizedIncident, normalize_metric_frame  # noqa: E402
 from refute_b_v2_d32.reason_classifier import (  # noqa: E402
+    AIOPS2021_SCHEMA,
     FEATURE_NAMES,
+    OPENRCA_SCHEMA,
     TARGET_BUCKETS,
+    FeatureSchema,
     _joint_features_from_raw,
     evaluate_classifier,
     extract_features,
@@ -54,6 +57,15 @@ CANONICAL_REASON_BY_BUCKET = {
     "network_packet_loss": "network loss",
     "db_connection": "db connection limit",
 }
+
+_DATASET_SCHEMAS: dict[str, FeatureSchema] = {
+    "aiops2021": AIOPS2021_SCHEMA,
+    "eadro": OPENRCA_SCHEMA,
+}
+
+
+def _schema_for_dataset(dataset: str) -> FeatureSchema:
+    return _DATASET_SCHEMAS.get(dataset, OPENRCA_SCHEMA)
 
 
 def parse_args() -> argparse.Namespace:
@@ -111,6 +123,7 @@ def main() -> int:
         train_cases = train_cases.head(max(0, int(args.max_cases))).copy()
     joint_prior = build_joint_prior(_prior_cases(train_cases, args.label_column))
     knowledge = _load_knowledge(args.knowledge_json)
+    schema = _schema_for_dataset(args.dataset)
     X_train, y_train, train_case_ids = _extract_xy(
         dataset=args.dataset,
         cases=train_cases,
@@ -123,13 +136,14 @@ def main() -> int:
         joint_prior=joint_prior,
         knowledge=knowledge,
         args=args,
+        schema=schema,
     )
     if len(X_train) == 0:
         raise RuntimeError("no training examples extracted")
     if len(set(y_train.tolist())) < 2:
         raise RuntimeError(f"need at least 2 classes to train, got {sorted(set(y_train.tolist()))}")
 
-    clf = train_reason_classifier(X_train, y_train)
+    clf = train_reason_classifier(X_train, y_train, schema=schema)
     out_path = Path(args.out)
     out_path.parent.mkdir(parents=True, exist_ok=True)
     clf.save(out_path)
@@ -144,7 +158,8 @@ def main() -> int:
         "train_label_counts": {str(k): int(v) for k, v in Counter(y_train).items()},
         "train_metrics": train_metrics,
         "train_topk": _topk_metrics(clf, X_train, y_train),
-        "feature_names": list(FEATURE_NAMES),
+        "feature_names": list(schema.feature_names),
+        "feature_schema": schema.to_dict(),
         "joint_feature_mode": args.joint_feature_mode,
         "split": {
             "column": args.train_split_column,
@@ -168,6 +183,7 @@ def main() -> int:
             joint_prior=joint_prior,
             knowledge=knowledge,
             args=args,
+            schema=schema,
         )
         summary["n_eval"] = int(len(X_eval))
         summary["eval_case_ids"] = [str(item) for item in eval_case_ids]
@@ -203,7 +219,9 @@ def _extract_xy(
     joint_prior: Any,
     knowledge: D32Knowledge | None,
     args: argparse.Namespace,
+    schema: FeatureSchema | None = None,
 ) -> tuple[np.ndarray, np.ndarray, list[str]]:
+    schema = schema or OPENRCA_SCHEMA
     adapter = _build_adapter(
         dataset=dataset,
         cases=cases,
@@ -247,19 +265,21 @@ def _extract_xy(
                 trace_summary=incident.trace_summary,
                 baseline=baseline,
                 joint_candidates=joint_candidates,
+                schema=schema,
             ))
         else:
-            raw_joint = _joint_features_from_raw(incident.metric_df, baseline)
+            raw_joint = _joint_features_from_raw(incident.metric_df, baseline, schema)
             features.append(extract_features(
                 metric_df=incident.metric_df,
                 log_df=incident.log_df,
                 trace_summary=incident.trace_summary,
                 baseline=baseline,
                 raw_joint_features=raw_joint,
+                schema=schema,
             ))
         labels.append(label)
         case_ids.append(incident.case_id)
-    X = np.stack(features, axis=0) if features else np.empty((0, len(FEATURE_NAMES)))
+    X = np.stack(features, axis=0) if features else np.empty((0, len(schema.feature_names)))
     return X, np.array(labels, dtype=str), case_ids
 
 

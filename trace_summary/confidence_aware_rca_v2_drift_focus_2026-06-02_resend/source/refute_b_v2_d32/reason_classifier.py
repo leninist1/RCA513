@@ -21,25 +21,8 @@ import pandas as pd
 from refute_b_v2_d32.schema import reason_bucket
 
 # ---------------------------------------------------------------------------
-# Feature schema – network‑loss‑aware case‑normalised features (~50 dims)
+# Trace / log field definitions (shared across all dataset schemas)
 # ---------------------------------------------------------------------------
-_METRIC_BUCKET_ORDER = (
-    "cpu", "memory", "disk_io", "filesystem",
-    "network_latency", "network_packet_loss", "db_connection",
-)
-
-# Per‑bucket: fraction of total anomalies (density) + log‑scaled max deviation
-METRIC_FIELDS = []
-for b in _METRIC_BUCKET_ORDER:
-    METRIC_FIELDS.append(f"{b}_density")
-    METRIC_FIELDS.append(f"{b}_max_dev")
-
-# Additional network‑loss discriminative features
-METRIC_FIELDS.extend([
-    "net_pkt_loss_subtype_density",   # fraction of net_pkt_loss KPIs with explicit loss tokens
-    "cpu_dev_ratio",                  # cpu total dev / sum all total devs (cpu-specific strength)
-])
-
 TRACE_FIELDS = [
     "trace_available",
     "trace_has_slow_edge",
@@ -51,7 +34,7 @@ TRACE_FIELDS = [
     "trace_slow_vs_drop_ratio",       # slow_edge_count / (dropped_edge_count + 1)
 ]
 
-LOG_FIELDS = [
+_LOG_FIELDS_BASE = [
     "log_available",
     "log_has_oom",
     "log_has_db",
@@ -59,13 +42,100 @@ LOG_FIELDS = [
     "log_component_count",
 ]
 
-JOINT_REASONS = ("cpu", "network_latency", "network_packet_loss", "db_connection", "memory", "disk_io")
-JOINT_FIELDS = []
-for r in sorted(JOINT_REASONS):
-    JOINT_FIELDS.append(f"joint_{r}_count")
-    JOINT_FIELDS.append(f"joint_{r}_max_strength")
 
-FEATURE_NAMES = METRIC_FIELDS + TRACE_FIELDS + LOG_FIELDS + JOINT_FIELDS
+# ---------------------------------------------------------------------------
+# Dataset-parameterized feature schema
+# ---------------------------------------------------------------------------
+@dataclass(frozen=True)
+class FeatureSchema:
+    """Per-dataset feature schema for the reason classifier.
+
+    OpenRCA datasets use OPENRCA_SCHEMA (byte-identical to the original
+    hardcoded constants).  Portable datasets use dataset-native schemas
+    that include buckets meaningful to that dataset (e.g. jvm_oom for
+    AIOps2021, which has JVM Heap KPIs absent from OpenRCA token shapes).
+    """
+
+    metric_bucket_order: tuple[str, ...]
+    joint_reasons: tuple[str, ...]
+    extra_log_fields: tuple[str, ...] = ()
+
+    @property
+    def metric_fields(self) -> list[str]:
+        fields: list[str] = []
+        for b in self.metric_bucket_order:
+            fields.append(f"{b}_density")
+            fields.append(f"{b}_max_dev")
+        # Additional network-loss discriminative features (not per-bucket)
+        fields.append("net_pkt_loss_subtype_density")
+        fields.append("cpu_dev_ratio")
+        return fields
+
+    @property
+    def joint_fields(self) -> list[str]:
+        fields: list[str] = []
+        for r in sorted(self.joint_reasons):
+            fields.append(f"joint_{r}_count")
+            fields.append(f"joint_{r}_max_strength")
+        return fields
+
+    @property
+    def log_fields(self) -> list[str]:
+        return list(_LOG_FIELDS_BASE) + list(self.extra_log_fields)
+
+    @property
+    def feature_names(self) -> list[str]:
+        return self.metric_fields + TRACE_FIELDS + self.log_fields + self.joint_fields
+
+    def to_dict(self) -> dict[str, list[str]]:
+        return {
+            "metric_bucket_order": list(self.metric_bucket_order),
+            "joint_reasons": list(self.joint_reasons),
+            "extra_log_fields": list(self.extra_log_fields),
+        }
+
+    @staticmethod
+    def from_dict(d: Mapping[str, Any] | None) -> "FeatureSchema":
+        if not d:
+            return OPENRCA_SCHEMA
+        return FeatureSchema(
+            metric_bucket_order=tuple(d.get("metric_bucket_order", OPENRCA_SCHEMA.metric_bucket_order)),
+            joint_reasons=tuple(d.get("joint_reasons", OPENRCA_SCHEMA.joint_reasons)),
+            extra_log_fields=tuple(d.get("extra_log_fields", OPENRCA_SCHEMA.extra_log_fields)),
+        )
+
+
+OPENRCA_SCHEMA = FeatureSchema(
+    metric_bucket_order=(
+        "cpu", "memory", "disk_io", "filesystem",
+        "network_latency", "network_packet_loss", "db_connection",
+    ),
+    joint_reasons=(
+        "cpu", "network_latency", "network_packet_loss",
+        "db_connection", "memory", "disk_io",
+    ),
+)
+
+AIOPS2021_SCHEMA = FeatureSchema(
+    metric_bucket_order=(
+        "cpu", "memory", "disk_io", "filesystem",
+        "network_latency", "network_packet_loss", "db_connection",
+        "jvm_oom",
+    ),
+    joint_reasons=(
+        "cpu", "network_latency", "network_packet_loss",
+        "db_connection", "memory", "disk_io",
+    ),
+    extra_log_fields=("log_has_gc", "log_gc_count"),
+)
+
+# Backward-compatible module-level constants (derived from OPENRCA_SCHEMA)
+_METRIC_BUCKET_ORDER = OPENRCA_SCHEMA.metric_bucket_order
+METRIC_FIELDS = OPENRCA_SCHEMA.metric_fields
+JOINT_REASONS = OPENRCA_SCHEMA.joint_reasons
+JOINT_FIELDS = OPENRCA_SCHEMA.joint_fields
+LOG_FIELDS = OPENRCA_SCHEMA.log_fields
+FEATURE_NAMES = OPENRCA_SCHEMA.feature_names
 
 TARGET_BUCKETS = sorted({
     "cpu", "memory", "jvm_oom", "disk_io", "filesystem",
@@ -78,10 +148,16 @@ TARGET_BUCKETS = sorted({
 # ---------------------------------------------------------------------------
 
 
-def _metric_features(metric_df: pd.DataFrame, baseline) -> dict[str, float]:
+def _metric_features(
+    metric_df: pd.DataFrame,
+    baseline,
+    schema: FeatureSchema | None = None,
+) -> dict[str, float]:
     """Metric features: anomaly density per bucket + log‑scaled max deviation
        + network-loss subtype discrimination + cpu deviation ratio."""
-    out: dict[str, float] = {n: 0.0 for n in METRIC_FIELDS}
+    schema = schema or OPENRCA_SCHEMA
+    bucket_order = schema.metric_bucket_order
+    out: dict[str, float] = {n: 0.0 for n in schema.metric_fields}
     if metric_df is None or metric_df.empty or "kpi_name" not in metric_df.columns:
         return out
 
@@ -95,7 +171,7 @@ def _metric_features(metric_df: pd.DataFrame, baseline) -> dict[str, float]:
     total_devs: dict[str, float] = {}
     net_loss_subtype_count = 0.0       # KPIs in net_pkt_loss bucket that have loss-specific tokens
     net_loss_total_count = 0.0
-    for b in _METRIC_BUCKET_ORDER:
+    for b in bucket_order:
         counts[b] = 0.0
         max_devs[b] = 0.0
         total_devs[b] = 0.0
@@ -106,7 +182,7 @@ def _metric_features(metric_df: pd.DataFrame, baseline) -> dict[str, float]:
         if value is None or not np.isfinite(float(value)):
             continue
         kpi_low = kpi.lower()
-        for b in _METRIC_BUCKET_ORDER:
+        for b in bucket_order:
             if row_in_bucket(row, b, kpi):
                 try:
                     result = baseline.is_anomalous(
@@ -129,7 +205,7 @@ def _metric_features(metric_df: pd.DataFrame, baseline) -> dict[str, float]:
     total_anomalies = max(sum(counts.values()), 1.0)
     total_dev = max(sum(total_devs.values()), 1.0)
 
-    for b in _METRIC_BUCKET_ORDER:
+    for b in bucket_order:
         out[f"{b}_density"] = counts[b] / total_anomalies
         out[f"{b}_max_dev"] = math.log1p(max_devs[b])
 
@@ -168,8 +244,12 @@ def _trace_features(trace_summary: Mapping[str, Any] | None) -> dict[str, float]
     return out
 
 
-def _log_features(log_df: pd.DataFrame) -> dict[str, float]:
-    out = {f: 0.0 for f in LOG_FIELDS}
+def _log_features(
+    log_df: pd.DataFrame,
+    schema: FeatureSchema | None = None,
+) -> dict[str, float]:
+    schema = schema or OPENRCA_SCHEMA
+    out = {f: 0.0 for f in schema.log_fields}
     if log_df is None or log_df.empty or "value" not in log_df.columns:
         return out
 
@@ -181,11 +261,21 @@ def _log_features(log_df: pd.DataFrame) -> dict[str, float]:
     out["log_has_crash"] = float(any(kw in text for kw in ("crash", "killed", "terminated", "segfault")))
     if "cmdb_id" in log_df.columns:
         out["log_component_count"] = math.log1p(log_df["cmdb_id"].nunique())
+
+    if "log_has_gc" in out:
+        gc_mask = values.str.lower().str.contains(r"\[gc\]", regex=True)
+        gc_count = int(gc_mask.sum())
+        out["log_has_gc"] = 1.0 if gc_count > 0 else 0.0
+        out["log_gc_count"] = math.log1p(gc_count)
     return out
 
 
-def _joint_features(candidates: list[Any]) -> dict[str, float]:
-    out = {f: 0.0 for f in JOINT_FIELDS}
+def _joint_features(
+    candidates: list[Any],
+    schema: FeatureSchema | None = None,
+) -> dict[str, float]:
+    schema = schema or OPENRCA_SCHEMA
+    out = {f: 0.0 for f in schema.joint_fields}
     if not candidates:
         return out
     from refute_b_v2_d32.joint_candidates import primary_bucket_for_reason
@@ -214,6 +304,7 @@ def _joint_features(candidates: list[Any]) -> dict[str, float]:
 def _joint_features_from_raw(
     metric_df: pd.DataFrame,
     baseline,
+    schema: FeatureSchema | None = None,
 ) -> dict[str, float]:
     """Compute joint features directly from metric anomaly signals.
 
@@ -221,6 +312,7 @@ def _joint_features_from_raw(
     so training features match inference features without needing
     JointPrior or the full candidate generation pipeline.
     """
+    schema = schema or OPENRCA_SCHEMA
     from refute_b_v2_d32.joint_candidates import _metric_signals
 
     signals = _metric_signals(metric_df, baseline)
@@ -232,7 +324,7 @@ def _joint_features_from_raw(
             if signal.strength > bucket_strengths.get(bucket, 0.0):
                 bucket_strengths[bucket] = float(signal.strength)
 
-    out = {f: 0.0 for f in JOINT_FIELDS}
+    out = {f: 0.0 for f in schema.joint_fields}
     all_buckets = sorted(set(list(bucket_counts.keys()) + list(bucket_strengths.keys())))
     for bucket in all_buckets:
         key_count = f"joint_{bucket}_count"
@@ -253,22 +345,24 @@ def extract_features(
     baseline,
     joint_candidates: list[Any] | None = None,
     raw_joint_features: dict[str, float] | None = None,
+    schema: FeatureSchema | None = None,
 ) -> np.ndarray:
-    """Return a normalised 1‑D float64 array of shape (len(FEATURE_NAMES),).
+    """Return a normalised 1‑D float64 array of shape (len(schema.feature_names),).
 
     Training callers should pass *raw_joint_features* (computed from
     _metric_signals) so that joint dimensions are non-zero during
     training.  Inference callers pass *joint_candidates*.
     """
+    schema = schema or OPENRCA_SCHEMA
     feats: dict[str, float] = {}
-    feats.update(_metric_features(metric_df, baseline))
+    feats.update(_metric_features(metric_df, baseline, schema))
     feats.update(_trace_features(trace_summary))
-    feats.update(_log_features(log_df))
+    feats.update(_log_features(log_df, schema))
     if raw_joint_features is not None:
         feats.update(raw_joint_features)
     else:
-        feats.update(_joint_features(joint_candidates or []))
-    return np.array([feats.get(n, 0.0) for n in FEATURE_NAMES], dtype=np.float64)
+        feats.update(_joint_features(joint_candidates or [], schema))
+    return np.array([feats.get(n, 0.0) for n in schema.feature_names], dtype=np.float64)
 
 
 # ---------------------------------------------------------------------------
@@ -289,6 +383,7 @@ class ReasonClassifier:
     feature_mean_: np.ndarray | None = None
     feature_std_: np.ndarray | None = None
     feature_names_: list[str] = field(default_factory=lambda: list(FEATURE_NAMES))
+    schema: FeatureSchema = field(default_factory=lambda: OPENRCA_SCHEMA)
     eps: float = 1e-8
 
     def _transform(self, X: np.ndarray) -> np.ndarray:
@@ -318,6 +413,7 @@ class ReasonClassifier:
             "feature_mean_": self.feature_mean_.tolist() if self.feature_mean_ is not None else None,
             "feature_std_": self.feature_std_.tolist() if self.feature_std_ is not None else None,
             "feature_names_": list(self.feature_names_),
+            "schema": self.schema.to_dict(),
         }
         with path.open("w", encoding="utf-8") as f:
             json.dump(meta, f, indent=2)
@@ -331,12 +427,14 @@ class ReasonClassifier:
         meta = json.loads(path.read_text(encoding="utf-8"))
         mean = np.array(meta["feature_mean_"]) if meta["feature_mean_"] is not None else None
         std = np.array(meta["feature_std_"]) if meta["feature_std_"] is not None else None
+        schema = FeatureSchema.from_dict(meta.get("schema"))
         return cls(
             model_=model,
             classes_=list(meta["classes_"]),
             feature_mean_=mean,
             feature_std_=std,
-            feature_names_=list(meta.get("feature_names_", FEATURE_NAMES)),
+            feature_names_=list(meta.get("feature_names_", schema.feature_names)),
+            schema=schema,
         )
 
 
@@ -594,15 +692,23 @@ def train_reason_classifier(
     reg_lambda: float = 1.0,
     subsample: float = 0.8,
     random_state: int = 42,
+    schema: FeatureSchema | None = None,
+    class_weight: str | None = None,
 ) -> ReasonClassifier:
     """Train a classifier and wrap as ReasonClassifier.
 
     Auto-selects model complexity based on dataset size:
       - < 60 samples: LogisticRegression (simple, regularizes well)
       - >= 60 samples: XGBoost (used as before)
+
+    *class_weight* controls per-sample weighting:
+      - "balanced": weight = n_samples / (n_classes * class_count)
+      - None: no weighting (uniform)
     """
+    schema = schema or OPENRCA_SCHEMA
     import xgboost as xgb
     from sklearn.preprocessing import LabelEncoder, StandardScaler
+    from collections import Counter
 
     le = LabelEncoder()
     y_enc = le.fit_transform(y)
@@ -613,6 +719,13 @@ def train_reason_classifier(
     scaler = StandardScaler()
     X_scaled = scaler.fit_transform(X.astype(np.float64))
 
+    # Compute per-sample weights for class balancing
+    sample_weight = None
+    if class_weight == "balanced":
+        counts = Counter(y_enc)
+        weight_map = {c: n_samples / (n_classes * cnt) for c, cnt in counts.items()}
+        sample_weight = np.array([weight_map[yi] for yi in y_enc], dtype=np.float64)
+
     if n_samples < 60 or n_classes <= 2:
         # Tiny dataset: fall back to logistic regression
         from sklearn.linear_model import LogisticRegression
@@ -621,8 +734,9 @@ def train_reason_classifier(
             max_iter=2000,
             C=0.3,
             random_state=random_state,
+            class_weight="balanced" if class_weight == "balanced" else None,
         )
-        clf.fit(X_scaled, y_enc)
+        clf.fit(X_scaled, y_enc, sample_weight=sample_weight)
     else:
         n_est = min(n_estimators, max(40, n_samples // 2))
         m_depth = min(max_depth, max(3, int(np.log2(n_samples))))
@@ -638,14 +752,15 @@ def train_reason_classifier(
             n_jobs=1,
             verbosity=0,
         )
-        clf.fit(X_scaled, y_enc)
+        clf.fit(X_scaled, y_enc, sample_weight=sample_weight)
 
     return ReasonClassifier(
         model_=clf,
         classes_=classes,
         feature_mean_=scaler.mean_.astype(np.float64),
         feature_std_=scaler.scale_.astype(np.float64),
-        feature_names_=list(FEATURE_NAMES),
+        feature_names_=list(schema.feature_names),
+        schema=schema,
     )
 
 
