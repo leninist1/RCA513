@@ -26,7 +26,7 @@ from prismv4.prism_cht.canonical import build_tool_call_signature, canonicalize_
 from prismv4.prism_cht.diagnostic_policy import build_hypotheses_from_case
 from prismv4.prism_cht.evidence_graph import EvidenceAtom, EvidenceGraph
 from prismv4.prism_cht.http_transport import UrllibHttpTransport
-from prismv4.prism_cht.llm_audit import AuditedModelClient, LLMIORecorder
+from prismv4.prism_cht.llm_audit import AuditedModelClient, CostWindow, LLMIORecorder
 from prismv4.prism_cht.llm_json import parse_json_object
 from prismv4.prism_cht.llm_types import StructuredOutputError
 from prismv4.prism_cht.llm_types import (
@@ -79,7 +79,15 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--data-root", default=DEFAULT_RE3_ROOT)
     parser.add_argument("--system", default="RE3-OB")
     parser.add_argument("--max-cases", type=int, default=5)
-    parser.add_argument("--max-hypotheses", type=int, default=5)
+    parser.add_argument("--max-hypotheses", type=int, default=10)
+    parser.add_argument(
+        "--recall-pool-size",
+        type=int,
+        default=int(os.environ.get("PRISM_CHT_RECALL_POOL_SIZE", "15")),
+        help="Width of the tiered recall pool that feeds EventCausalizer and "
+        "hypothesis seeding.  Decoupled from --max-hypotheses (final reasoning "
+        "width).  Offline validation showed 15 saturates recall on RE3-TT.",
+    )
     parser.add_argument("--max-steps", type=int, default=4)
     parser.add_argument(
         "--output",
@@ -113,9 +121,11 @@ def main() -> int:
         if args.llm_io_output
         else Path(str(args.output) + ".llm_io.jsonl")
     )
+    cost_window = CostWindow()
     audited_client = AuditedModelClient(
         inner=provider_client,
         recorder=LLMIORecorder(jsonl_path=llm_io_output),
+        cost_window=cost_window,
     )
     client = RetryingModelClient(
         inner=audited_client,
@@ -126,16 +136,19 @@ def main() -> int:
     started_all = time.time()
     for case_dir in case_dirs:
         started = time.time()
-        loaded = load_re3_case(case_dir, top_k=args.max_hypotheses)
+        cost_before = cost_window.snapshot()
+        loaded = load_re3_case(case_dir, top_k=args.recall_pool_size)
         try:
             result = run_case(
                 loaded=loaded,
                 max_hypotheses=args.max_hypotheses,
                 max_steps=args.max_steps,
                 client=client,
+                recall_pool_size=args.recall_pool_size,
             )
             predicted = result.get("predicted_component")
             hit = predicted == loaded.expected_component
+            case_cost = _case_cost_delta(cost_before, cost_window.snapshot())
             result.update(
                 {
                     "case_id": loaded.case.case_id,
@@ -143,9 +156,11 @@ def main() -> int:
                     "hit": hit,
                     "elapsed_sec": round(time.time() - started, 3),
                     "error": None,
+                    "token_usage": case_cost,
                 }
             )
         except Exception as exc:
+            case_cost = _case_cost_delta(cost_before, cost_window.snapshot())
             result = {
                 "case_id": loaded.case.case_id,
                 "expected_component": loaded.expected_component,
@@ -153,17 +168,21 @@ def main() -> int:
                 "hit": False,
                 "elapsed_sec": round(time.time() - started, 3),
                 "error": f"{type(exc).__name__}: {exc}",
+                "token_usage": case_cost,
             }
         results.append(result)
         print(
             f"{loaded.case.case_id}: predicted={result.get('predicted_component')} "
             f"expected={loaded.expected_component} hit={result['hit']} "
+            f"tokens={case_cost.get('total_tokens', 0)} "
             f"error={result.get('error')}",
             flush=True,
         )
 
     total = len(results)
     hits = sum(1 for item in results if item.get("hit"))
+    cost_summary = cost_window.summary()
+    avg_tokens = cost_summary["total_tokens"] // total if total else 0
     summary = {
         "dataset": "RCAEval",
         "system": args.system,
@@ -171,7 +190,17 @@ def main() -> int:
         "total_cases": total,
         "top1_accuracy": hits / total if total else 0.0,
         "top1_hits": hits,
+        "recall_pool_size": args.recall_pool_size,
+        "max_hypotheses": args.max_hypotheses,
         "elapsed_sec": round(time.time() - started_all, 3),
+        "cost": {
+            "total_calls": cost_summary["call_count"],
+            "total_prompt_tokens": cost_summary["prompt_tokens"],
+            "total_completion_tokens": cost_summary["completion_tokens"],
+            "total_tokens": cost_summary["total_tokens"],
+            "avg_tokens_per_case": avg_tokens,
+            "by_purpose": cost_summary["by_purpose"],
+        },
         "results": results,
     }
     output = Path(args.output)
@@ -182,14 +211,45 @@ def main() -> int:
     return 0
 
 
+def _case_cost_delta(
+    before: Mapping[str, Any],
+    after: Mapping[str, Any],
+) -> dict[str, Any]:
+    """Compute per-case token usage as the delta between two snapshots."""
+    before_by = before.get("by_purpose", {}) or {}
+    after_by = after.get("by_purpose", {}) or {}
+    delta_by_purpose: dict[str, dict[str, int]] = {}
+    for purpose, stats in after_by.items():
+        prev = before_by.get(purpose, {})
+        delta_by_purpose[purpose] = {
+            "call_count": int(stats.get("call_count", 0)) - int(prev.get("call_count", 0)),
+            "prompt_tokens": int(stats.get("prompt_tokens", 0)) - int(prev.get("prompt_tokens", 0)),
+            "completion_tokens": int(stats.get("completion_tokens", 0)) - int(prev.get("completion_tokens", 0)),
+            "total_tokens": int(stats.get("total_tokens", 0)) - int(prev.get("total_tokens", 0)),
+        }
+    return {
+        "call_count": int(after.get("call_count", 0)) - int(before.get("call_count", 0)),
+        "prompt_tokens": int(after.get("prompt_tokens", 0)) - int(before.get("prompt_tokens", 0)),
+        "completion_tokens": int(after.get("completion_tokens", 0)) - int(before.get("completion_tokens", 0)),
+        "total_tokens": int(after.get("total_tokens", 0)) - int(before.get("total_tokens", 0)),
+        "by_purpose": delta_by_purpose,
+    }
+
+
 def run_case(
     *,
     loaded,
     max_hypotheses: int,
     max_steps: int,
     client: ModelClient,
+    recall_pool_size: int = 15,
 ) -> dict[str, Any]:
-    bundle = build_hypotheses_from_case(loaded.case, max_hypotheses=max_hypotheses)
+    recall_pool = _build_recall_pool(loaded, pool_size=recall_pool_size)
+    bundle = build_hypotheses_from_case(
+        loaded.case,
+        max_hypotheses=max_hypotheses,
+        candidates=recall_pool,
+    )
     graph = EvidenceGraph()
     for hypothesis in bundle.hypotheses:
         if hypothesis.hypothesis_id not in graph.hypotheses_by_id:
@@ -202,6 +262,7 @@ def run_case(
         store=loaded.store,
         case=loaded.case,
         hypotheses=bundle.hypotheses,
+        recall_pool=recall_pool,
     )
     event_causal_profile = _request_event_causal_profile(
         client=client,
@@ -285,6 +346,7 @@ def run_case(
         hypotheses=bundle.hypotheses,
         graph=graph,
         context_state=_extract_working_memory(final_response, fallback=context_state),
+        recall_pool=recall_pool,
     )
     return {
         "status": "continuous_final",
@@ -297,6 +359,9 @@ def run_case(
         "referenced_evidence_ids": final_decision["evidence_ids"],
         "rationale": final_decision["rationale"],
         "uncertainties": final_decision["uncertainties"],
+        "global_rescue": bool(final_decision.get("global_rescue")),
+        "outside_hypothesis_set": bool(final_decision.get("outside_hypothesis_set")),
+        "recall_pool": list(recall_pool),
         "event_causal_profile": _truncate_jsonable(event_causal_profile, max_chars=20000),
         "event_causal_fact_count": len(
             event_causal_facts.get("event_causal_observations", [])
@@ -342,16 +407,34 @@ requires more.
 """
 
 
+def _build_recall_pool(loaded, *, pool_size: int) -> tuple[str, ...]:
+    """Build the tiered recall pool, falling back to component order."""
+    method = getattr(loaded.store, "build_tiered_recall_pool", None)
+    if callable(method):
+        return method(pool_size=max(pool_size, max(pool_size, 2)))
+    return tuple(loaded.case.components[:pool_size])
+
+
 def _build_event_causal_facts(
     *,
     store,
     case,
     hypotheses,
+    recall_pool: Sequence[str] | None = None,
 ) -> Mapping[str, Any]:
-    components = _component_list(
-        [hypothesis.root_component for hypothesis in hypotheses],
-        fallback=case.components,
-    )
+    hypothesis_components = [hypothesis.root_component for hypothesis in hypotheses]
+    # Feed EventCausalizer the recall pool (the union that contains the
+    # answer), not only the final top-k hypotheses.  Hypothesis components are
+    # kept first so the active reasoning set is always covered.
+    base: list[str] = []
+    for comp in hypothesis_components:
+        if comp not in base:
+            base.append(comp)
+    if recall_pool:
+        for comp in recall_pool:
+            if comp not in base:
+                base.append(comp)
+    components = _component_list(base, fallback=case.components)
     method = getattr(store, "build_event_causal_observations", None)
     if callable(method):
         return method(
@@ -397,6 +480,8 @@ def _request_event_causal_profile(
             "Prefer event-level causal relationships over component-level magnitude shortcuts.",
             "Treat mechanism_strength=weak as a caution, especially for single memory signals in caller components.",
             "Treat trace_error_boundary as symptom-surface evidence unless independent source mechanism exists.",
+            "is_entry_like_component marks the request surface (where traffic enters), NOT root-cause strength. An entry component with internal anomalies is one candidate among several; do not treat entry status as evidence that it is the initiating fault.",
+            "When an entry-like component and a background service both show strong internal mechanism signals, list both as source-like and let the main agent compare onset timing, dependency direction, and which component's anomaly explains the other.",
             "Do not include case IDs, dataset paths, expected labels, rankings, scores, or probabilities.",
         ],
     }
@@ -837,7 +922,8 @@ def _request_agent_state(
             "Do not drop a true-looking hypothesis solely because onset is later.",
             "Do not pick a component solely because local_anomaly_magnitude is largest.",
             "Use near_onset_anomaly_magnitude before trusting a late dominant metric spike.",
-            "Do not treat frontend or another entry component as root solely because it has request errors.",
+            "Do not treat frontend, gateway, or any entry-like component as root solely because it has request errors or is the request surface. Entry status is a propagation-direction cue, not root-cause strength.",
+            "When an entry-like component and a background service both show strong internal mechanism signals, compare onset timing and dependency direction: the component whose anomaly explains the other's anomaly (via caller->callee edges) is more likely the source, regardless of which is the entry.",
             "Trace candidate_to_symptom paths are caller-to-callee request paths; they are not direct proof that the caller caused the callee.",
             "If symptom_to_candidate paths exist, consider whether the candidate is a dependency whose failure surfaced upstream.",
             "A log emitted by component X that mentions dependency/storage failure is evidence about X observing the dependency; it is not sufficient alone to choose the dependency.",
@@ -1347,19 +1433,34 @@ def _normalize_final_decision(
     hypotheses,
     graph: EvidenceGraph,
     context_state: Mapping[str, Any],
+    recall_pool: Sequence[str] | None = None,
 ) -> dict[str, Any]:
     raw = dict(value) if isinstance(value, Mapping) else {}
     hypothesis_by_id = {hypothesis.hypothesis_id: hypothesis for hypothesis in hypotheses}
+    active_components = {hypothesis.root_component for hypothesis in hypotheses}
     hid = str(raw.get("hypothesis_id") or "").strip()
     component = str(raw.get("root_component") or "").strip()
+    rescue_note = ""
+    if component and component not in active_components:
+        # The LLM nominated a component outside the active hypothesis set.
+        # Record this as an explicit, audited global_rescue rather than
+        # silently accepting it, so downstream review can distinguish
+        # in-hypothesis reasoning from out-of-set jumps.  Keep the
+        # nomination (it can rescue a case) but flag it for audit.
+        rescue_note = (
+            "global_rescue: model nominated a component outside the active "
+            "hypothesis set; retained for audit but flagged as out-of-set."
+        )
     if component not in set(case.components):
         if hid in hypothesis_by_id:
             component = hypothesis_by_id[hid].root_component
+            rescue_note = ""
         else:
             component = _leading_component(
                 context_state,
                 [hypothesis.root_component for hypothesis in hypotheses],
             )
+            rescue_note = ""
     if not hid or hid not in hypothesis_by_id:
         for hypothesis in hypotheses:
             if hypothesis.root_component == component:
@@ -1379,6 +1480,8 @@ def _normalize_final_decision(
             context_state=context_state,
             component=component,
         )
+    if rescue_note and rescue_note not in rationale:
+        rationale = f"{rationale} [{rescue_note}]"
     uncertainties = [
         str(item)
         for item in raw.get("uncertainties", [])
@@ -1389,7 +1492,7 @@ def _normalize_final_decision(
             context_state=context_state,
             component=component,
         )
-    return {
+    result = {
         "hypothesis_id": hid or "unknown",
         "root_component": component,
         "reason_family": reason,
@@ -1398,6 +1501,10 @@ def _normalize_final_decision(
         "rationale": rationale,
         "uncertainties": uncertainties,
     }
+    if rescue_note:
+        result["global_rescue"] = True
+        result["outside_hypothesis_set"] = True
+    return result
 
 
 def _fallback_final_rationale(

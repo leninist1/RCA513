@@ -8,7 +8,7 @@ protocol itself.  All types are frozen and do not import any model SDK.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Protocol
+from typing import Any, Mapping, Protocol
 
 
 @dataclass(frozen=True)
@@ -50,9 +50,17 @@ class ModelRequest:
 
 @dataclass(frozen=True)
 class ModelResponse:
-    """The raw text response from a language model."""
+    """The raw text response from a language model.
+
+    ``usage`` carries optional token-usage metadata (e.g.
+    ``{"prompt_tokens": ..., "completion_tokens": ..., "total_tokens": ...}``)
+    propagated from the provider so cost monitoring can aggregate it without
+    reaching into provider internals.  It is ``None`` for fake/test clients
+    and any provider that does not report usage.
+    """
 
     content: str = field(repr=False)
+    usage: Mapping[str, Any] | None = None
 
     def __post_init__(self):
         if not self.content or not self.content.strip():

@@ -41,25 +41,70 @@ def build_hypotheses_from_case(
     case: GenericRCACase,
     *,
     max_hypotheses: int = 5,
+    candidates: tuple[str, ...] | None = None,
 ) -> HypothesisBundle:
-    """Build falsifiable causal hypotheses from perceived observations."""
+    """Build falsifiable causal hypotheses from perceived observations.
+
+    When ``candidates`` is provided, it is treated as an explicit recall
+    pool ordered by the caller's tiered-recall strategy.  The first
+    ``max_hypotheses`` distinct components from that pool are turned into
+    hypotheses, regardless of raw magnitude, so the LLM reasons over a set
+    that contains the answer instead of a magnitude top-k that may have
+    dropped it.  Observations are still used to populate onset/symptom
+    fields when available; candidates without an observation get a neutral
+    placeholder observation.
+    """
     if max_hypotheses < 2:
         raise ValueError("max_hypotheses must be at least 2")
 
-    observations = sorted(
-        case.observations,
-        key=lambda o: (-o.magnitude, o.first_seen, o.component),
-    )
+    obs_by_component: dict[str, ObservedComponent] = {
+        obs.component: obs for obs in case.observations
+    }
+
+    if candidates is not None:
+        ordered_components = list(candidates)
+    else:
+        ordered_components = [
+            obs.component
+            for obs in sorted(
+                case.observations,
+                key=lambda o: (-o.magnitude, o.first_seen, o.component),
+            )
+        ]
 
     selected: list[ObservedComponent] = []
     seen_components: set[str] = set()
-    for obs in observations:
-        if obs.component in seen_components:
+    for component in ordered_components:
+        if component in seen_components:
             continue
-        selected.append(obs)
-        seen_components.add(obs.component)
+        if component not in obs_by_component:
+            continue
+        selected.append(obs_by_component[component])
+        seen_components.add(component)
         if len(selected) >= max_hypotheses:
             break
+
+    # For explicit candidates that had no observation, synthesize a neutral
+    # placeholder so recall is not lost purely due to missing telemetry.
+    if candidates is not None:
+        for component in ordered_components:
+            if len(selected) >= max_hypotheses:
+                break
+            if component in seen_components:
+                continue
+            if component not in set(case.components):
+                continue
+            selected.append(
+                ObservedComponent(
+                    component=component,
+                    reason_family="unspecified anomaly",
+                    first_seen=case.event_time,
+                    magnitude=0.0,
+                    signals=("unknown",),
+                    symptoms=("system symptoms after event",),
+                )
+            )
+            seen_components.add(component)
 
     if len(selected) < 2:
         for component in case.components:

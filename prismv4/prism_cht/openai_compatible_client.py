@@ -168,7 +168,14 @@ class OpenAICompatibleChatModelClient:
             )
             self._audit.append(audit)
 
-        return ModelResponse(content=content)
+        return ModelResponse(
+            content=content,
+            usage={
+                "prompt_tokens": usage.prompt_tokens,
+                "completion_tokens": usage.completion_tokens,
+                "total_tokens": usage.total_tokens,
+            },
+        )
 
     # -- Internal helpers ----------------------------------------------------
 
