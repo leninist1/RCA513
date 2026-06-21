@@ -1,0 +1,70 @@
+nohup: 忽略输入
+RE3-TT/ts-auth-service_f1/1: predicted=ts-auth-service expected=ts-auth-service hit=True tokens=215405 error=None
+RE3-TT/ts-auth-service_f1/2: predicted=ts-auth-service expected=ts-auth-service hit=True tokens=181340 error=None
+RE3-TT/ts-auth-service_f1/3: predicted=ts-auth-service expected=ts-auth-service hit=True tokens=172731 error=None
+RE3-TT/ts-auth-service_f1/4: predicted=ts-auth-service expected=ts-auth-service hit=True tokens=196475 error=None
+RE3-TT/ts-auth-service_f2/1: predicted=ts-order-other-service expected=ts-auth-service hit=False tokens=171611 error=None
+RE3-TT/ts-auth-service_f2/2: predicted=ts-preserve-service expected=ts-auth-service hit=False tokens=185716 error=None
+RE3-TT/ts-auth-service_f2/3: predicted=ts-preserve-service expected=ts-auth-service hit=False tokens=180777 error=None
+RE3-TT/ts-auth-service_f2/4: predicted=ts-auth-service expected=ts-auth-service hit=True tokens=246489 error=None
+RE3-TT/ts-auth-service_f3/1: predicted=ts-admin-travel-service expected=ts-auth-service hit=False tokens=177054 error=None
+RE3-TT/ts-auth-service_f3/2: predicted=ts-auth-service expected=ts-auth-service hit=True tokens=182731 error=None
+RE3-TT/ts-auth-service_f3/3: predicted=ts-admin-travel-service expected=ts-auth-service hit=False tokens=171795 error=None
+RE3-TT/ts-auth-service_f3/4: predicted=ts-auth-service expected=ts-auth-service hit=True tokens=185735 error=None
+RE3-TT/ts-auth-service_f4/1: predicted=ts-auth-service expected=ts-auth-service hit=True tokens=189510 error=None
+RE3-TT/ts-auth-service_f4/2: predicted=ts-order-service expected=ts-auth-service hit=False tokens=232677 error=None
+RE3-TT/ts-auth-service_f4/3: predicted=ts-inside-payment-service expected=ts-auth-service hit=False tokens=191497 error=None
+RE3-TT/ts-route-service_f1/1: predicted=ts-admin-travel-service expected=ts-route-service hit=False tokens=316090 error=None
+RE3-TT/ts-route-service_f1/2: predicted=ts-route-service expected=ts-route-service hit=True tokens=196499 error=None
+RE3-TT/ts-route-service_f1/3: predicted=ts-route-service expected=ts-route-service hit=True tokens=181028 error=None
+RE3-TT/ts-route-service_f2/1: predicted=ts-admin-travel-service expected=ts-route-service hit=False tokens=186783 error=None
+RE3-TT/ts-route-service_f2/2: predicted=ts-admin-travel-service expected=ts-route-service hit=False tokens=181234 error=None
+RE3-TT/ts-route-service_f2/3: predicted=ts-admin-travel-service expected=ts-route-service hit=False tokens=152971 error=None
+RE3-TT/ts-route-service_f3/1: predicted=ts-admin-travel-service expected=ts-route-service hit=False tokens=241799 error=None
+RE3-TT/ts-route-service_f3/2: predicted=ts-admin-travel-service expected=ts-route-service hit=False tokens=200571 error=None
+RE3-TT/ts-route-service_f3/3: predicted=ts-admin-travel-service expected=ts-route-service hit=False tokens=207244 error=None
+RE3-TT/ts-route-service_f3_1/1: predicted=ts-admin-travel-service expected=ts-route-service hit=False tokens=181745 error=None
+RE3-TT/ts-route-service_f3_1/2: predicted=ts-route-service expected=ts-route-service hit=True tokens=179357 error=None
+RE3-TT/ts-route-service_f3_1/3: predicted=ts-preserve-other-service expected=ts-route-service hit=False tokens=270651 error=None
+RE3-TT/ts-route-service_f4/1: predicted=ts-food-service expected=ts-route-service hit=False tokens=217874 error=None
+RE3-TT/ts-route-service_f4/2: predicted=ts-admin-travel-service expected=ts-route-service hit=False tokens=308503 error=None
+RE3-TT/ts-route-service_f4/3: predicted=ts-admin-travel-service expected=ts-route-service hit=False tokens=192432 error=None
+{
+  "dataset": "RCAEval",
+  "system": "RE3-TT",
+  "mode": "continuous-noise-native-event-causalizer",
+  "total_cases": 30,
+  "top1_accuracy": 0.36666666666666664,
+  "top1_hits": 11,
+  "recall_pool_size": 15,
+  "max_hypotheses": 10,
+  "elapsed_sec": 15911.034,
+  "cost": {
+    "total_calls": 187,
+    "total_prompt_tokens": 4497201,
+    "total_completion_tokens": 1599123,
+    "total_tokens": 6096324,
+    "avg_tokens_per_case": 203210,
+    "by_purpose": {
+      "event_causalizer_state_update": {
+        "call_count": 30,
+        "prompt_tokens": 633134,
+        "completion_tokens": 452367,
+        "total_tokens": 1085501
+      },
+      "continuous_noise_native_state_update": {
+        "call_count": 150,
+        "prompt_tokens": 3614989,
+        "completion_tokens": 1102754,
+        "total_tokens": 4717743
+      },
+      "continuous_noise_native_json_repair": {
+        "call_count": 7,
+        "prompt_tokens": 249078,
+        "completion_tokens": 44002,
+        "total_tokens": 293080
+      }
+    }
+  }
+}
+wrote prismv4/results/prism_cht/TT_v3_ivd.json

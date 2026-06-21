@@ -1,0 +1,70 @@
+nohup: 忽略输入
+RE3-SS/carts_f1/1: predicted=carts expected=carts hit=True tokens=164557 error=None
+RE3-SS/carts_f1/2: predicted=carts expected=carts hit=True tokens=159587 error=None
+RE3-SS/carts_f1/3: predicted=carts expected=carts hit=True tokens=240601 error=None
+RE3-SS/carts_f1/4: predicted=carts expected=carts hit=True tokens=164046 error=None
+RE3-SS/carts_f3/1: predicted=front-end expected=carts hit=False tokens=187442 error=None
+RE3-SS/carts_f3/2: predicted=carts expected=carts hit=True tokens=215296 error=None
+RE3-SS/carts_f3/3: predicted=carts expected=carts hit=True tokens=155777 error=None
+RE3-SS/carts_f3/4: predicted=carts expected=carts hit=True tokens=178594 error=None
+RE3-SS/carts_f4/1: predicted=carts expected=carts hit=True tokens=157320 error=None
+RE3-SS/carts_f4/2: predicted=carts expected=carts hit=True tokens=161595 error=None
+RE3-SS/carts_f4/3: predicted=carts expected=carts hit=True tokens=166428 error=None
+RE3-SS/carts_f4/4: predicted=carts expected=carts hit=True tokens=171242 error=None
+RE3-SS/front-end_f1/1: predicted=front-end expected=front-end hit=True tokens=207531 error=None
+RE3-SS/front-end_f1/2: predicted=None expected=front-end hit=False tokens=123942 error=KeyError: 'gap_seconds'
+RE3-SS/front-end_f1/3: predicted=front-end expected=front-end hit=True tokens=176294 error=None
+RE3-SS/front-end_f2/1: predicted=front-end expected=front-end hit=True tokens=160669 error=None
+RE3-SS/front-end_f2/2: predicted=front-end expected=front-end hit=True tokens=166489 error=None
+RE3-SS/front-end_f2/3: predicted=front-end expected=front-end hit=True tokens=181201 error=None
+RE3-SS/front-end_f3/1: predicted=front-end expected=front-end hit=True tokens=165696 error=None
+RE3-SS/front-end_f3/2: predicted=front-end expected=front-end hit=True tokens=159464 error=None
+RE3-SS/front-end_f3/3: predicted=front-end expected=front-end hit=True tokens=157452 error=None
+RE3-SS/orders_f1/1: predicted=orders expected=orders hit=True tokens=151270 error=None
+RE3-SS/orders_f1/2: predicted=orders expected=orders hit=True tokens=173677 error=None
+RE3-SS/orders_f1/3: predicted=orders expected=orders hit=True tokens=162398 error=None
+RE3-SS/orders_f3/1: predicted=orders expected=orders hit=True tokens=163140 error=None
+RE3-SS/orders_f3/2: predicted=orders expected=orders hit=True tokens=181533 error=None
+RE3-SS/orders_f3/3: predicted=orders expected=orders hit=True tokens=182252 error=None
+RE3-SS/orders_f4/1: predicted=front-end expected=orders hit=False tokens=156154 error=None
+RE3-SS/orders_f4/2: predicted=front-end expected=orders hit=False tokens=234675 error=None
+RE3-SS/orders_f4/3: predicted=front-end expected=orders hit=False tokens=187264 error=None
+{
+  "dataset": "RCAEval",
+  "system": "RE3-SS",
+  "mode": "continuous-noise-native-event-causalizer",
+  "total_cases": 30,
+  "top1_accuracy": 0.8333333333333334,
+  "top1_hits": 25,
+  "recall_pool_size": 15,
+  "max_hypotheses": 10,
+  "elapsed_sec": 11411.573,
+  "cost": {
+    "total_calls": 185,
+    "total_prompt_tokens": 4085917,
+    "total_completion_tokens": 1127669,
+    "total_tokens": 5213586,
+    "avg_tokens_per_case": 173786,
+    "by_purpose": {
+      "event_causalizer_state_update": {
+        "call_count": 30,
+        "prompt_tokens": 592870,
+        "completion_tokens": 403970,
+        "total_tokens": 996840
+      },
+      "continuous_noise_native_state_update": {
+        "call_count": 149,
+        "prompt_tokens": 3406695,
+        "completion_tokens": 699541,
+        "total_tokens": 4106236
+      },
+      "continuous_noise_native_json_repair": {
+        "call_count": 6,
+        "prompt_tokens": 86352,
+        "completion_tokens": 24158,
+        "total_tokens": 110510
+      }
+    }
+  }
+}
+wrote prismv4/results/prism_cht/SS_v4_ivd.json

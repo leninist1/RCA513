@@ -169,7 +169,11 @@ class RCAEvalTelemetryStore:
             first_seen_values.extend(float(item["timestamp"]) for item in log_items)
             first_seen = min(first_seen_values) if first_seen_values else self.event_time
             magnitude = sum(float(m["magnitude"]) for m in metrics) + float(len(log_items))
-            reason = _reason_from_signals(signals)
+            reason = _reason_from_observations(
+                signals, log_items,
+                known_components=self.components,
+                component=component,
+            )
             symptoms = tuple(
                 f"{component} {item['signal']} changed near {item['first_seen']:.3f}"
                 for item in metrics[:3]
@@ -314,6 +318,49 @@ class RCAEvalTelemetryStore:
             if earliest_time is not None
             else []
         )
+        # Rank by source_likelihood_score for explicit source-vs-dependency
+        # disambiguation.  Higher score = more likely initiating root.
+        scored = sorted(
+            rows,
+            key=lambda r: (
+                -float(r.get("source_likelihood_score", 0.0)),
+                -float(r["near_onset_anomaly_magnitude"]),
+                r["component"],
+            ),
+        )
+        top_source_candidates = [
+            r["component"] for r in scored[:3]
+            if r.get("source_likelihood_score", 0.0) > 0
+        ]
+        dependency_candidates = [
+            r["component"] for r in rows
+            if r.get("causal_role") == "dependency_candidate"
+        ]
+        # Inferred dependency edges among the scoped components.
+        inferred_edges = [
+            {"caller": c, "callee": s}
+            for c, s in _infer_dependency_edges(component_scope)
+        ]
+
+        # IVD: Initiator–Victim Disambiguation among source_candidates.
+        source_candidates = [
+            r["component"] for r in rows
+            if r.get("causal_role") in ("source_candidate", "ambiguous")
+            and r.get("source_likelihood_score", 0.0) > 0
+        ]
+        all_anomalous = [
+            r["component"] for r in rows
+            if float(r.get("local_anomaly_magnitude", 0.0)) > 0
+        ]
+        ivd_result = None
+        if len(source_candidates) >= 2:
+            ivd_result = _compute_ivd(
+                self,
+                candidates=source_candidates,
+                all_anomalous_components=all_anomalous,
+                time_window=time_window,
+            )
+
         return {
             "component_features": rows,
             "relative_cues": {
@@ -333,7 +380,11 @@ class RCAEvalTelemetryStore:
                         key=lambda item: (-float(item["near_onset_anomaly_magnitude"]), item["component"]),
                     )[:3]
                 ],
+                "top_source_candidates_by_likelihood": top_source_candidates,
+                "dependency_candidates": dependency_candidates,
+                "inferred_dependency_edges": inferred_edges,
             },
+            "ivd": ivd_result,
             "interpretation_rules": [
                 "Treat earliest_components as candidates needing corroboration",
                 "Treat strongest_local_components as possible symptoms unless mechanism and propagation agree",
@@ -342,6 +393,11 @@ class RCAEvalTelemetryStore:
                 "A dependency/storage term in one component's log is not sufficient by itself to choose the dependency",
                 "A latency-only earliest component is usually a symptom unless additional internal mechanism evidence supports it",
                 "Prefer a component whose local mechanism can explain other affected components",
+                "Prefer top_source_candidates_by_likelihood over dependency_candidates: a service with emitter exceptions is more likely the root than a storage with resource anomalies",
+                "When a service and its storage dependency both show anomalies, the service is more likely the root because a service logic error causes abnormal DB queries that make the DB show reactive resource pressure",
+                "Use inferred_dependency_edges to determine call direction: if service A calls storage B, A is the caller and B is the callee/dependency; B's anomalies may be caused by A's fault",
+                "IVD (Initiator-Victim Disambiguation): when multiple source_candidates have similar scores, use the ivd verdicts to determine initiator vs victim. Do NOT select a candidate with ivd_role=victim over one with ivd_role=initiator. The initiator is the candidate whose anomaly is least explainable by other candidates and most explanatory for downstream anomalies.",
+                "Do not use raw event timeline ordering to break ties between IVD-ranked candidates. Temporal fragility: if two candidates have near-simultaneous onsets (gap < 10s), raw timestamp order is unreliable and must not be used as the sole tiebreaker.",
             ],
         }
 
@@ -523,6 +579,9 @@ class RCAEvalTelemetryStore:
                     "late_dominant_metric": row["late_dominant_metric"],
                     "dominant_metric": row["dominant_metric"],
                     "is_entry_like_component": row["is_entry_like_component"],
+                    "is_storage_component": row.get("is_storage_component", False),
+                    "causal_role": row.get("causal_role", "ambiguous"),
+                    "source_likelihood_score": row.get("source_likelihood_score", 0.0),
                     "mechanism_strength": mechanism_strength,
                     "source_symptom_cues": _source_symptom_cues(row),
                     "event_causal_cues": _event_causal_cues(
@@ -580,8 +639,38 @@ class RCAEvalTelemetryStore:
                 "Trace error status on a caller->callee edge identifies the failure boundary, not necessarily the initiating component.",
                 "late_dominant_metric events should be treated as follow-up evidence unless corroborated by onset facts.",
                 "is_entry_like_component identifies the request surface (where traffic enters the system), not root-cause strength; an entry component can be a victim of a backend dependency fault.",
+                "causal_role classifies each component: source_candidate (service with emitter exceptions or strong mechanism), dependency_candidate (storage with resource anomalies but no emitter exceptions), propagation_symptom (latency/workload only), entry_symptom (entry with errors but weak mechanism).",
+                "source_likelihood_score is a heuristic ranking: higher = more likely initiating root. Prefer source_candidate over dependency_candidate when both show anomalies.",
+                "is_storage_component marks database/cache layers (mongo, redis, mysql, etc.); their resource anomalies are often reactive to service-level faults.",
+                "Inferred dependency edges (inferred_from_naming in trace_context) show service->storage calls not captured by trace spans; use them to determine causal direction between a service and its database.",
+                "IVD (Initiator-Victim Disambiguation): among multiple source_candidates with similar scores, the initiator is the one whose anomaly is least explainable by other candidates and most explanatory for downstream anomalies. Use ivd verdicts to break ties. Do not select a victim over an initiator.",
             ],
+            "ivd": self._compute_ivd_for_events(rows, time_window),
         }
+
+    def _compute_ivd_for_events(
+        self,
+        rows: Sequence[Mapping[str, Any]],
+        time_window: tuple[float, float],
+    ) -> Mapping[str, Any] | None:
+        """Run IVD among source_candidates found in the event rows."""
+        source_candidates = [
+            r["component"] for r in rows
+            if r.get("causal_role") in ("source_candidate", "ambiguous")
+            and float(r.get("source_likelihood_score", 0.0)) > 0
+        ]
+        if len(source_candidates) < 2:
+            return None
+        all_anomalous = [
+            r["component"] for r in rows
+            if float(r.get("local_anomaly_magnitude", 0.0)) > 0
+        ]
+        return _compute_ivd(
+            self,
+            candidates=source_candidates,
+            all_anomalous_components=all_anomalous,
+            time_window=time_window,
+        )
 
     def build_tiered_recall_pool(
         self,
@@ -851,6 +940,38 @@ class RCAEvalTelemetryStore:
                         row=row,
                     )
 
+        # Augment with inferred service->storage dependency edges that are
+        # not captured by trace spans (traces typically record
+        # service-to-service calls, not service-to-database calls).
+        for caller, callee in _infer_dependency_edges(component_scope):
+            if caller in context and callee in context:
+                edge_map = context[caller]["direct_callees"]
+                if not isinstance(edge_map, dict):
+                    edge_map = {}
+                    context[caller]["direct_callees"] = edge_map
+                if callee not in edge_map:
+                    edge_map[callee] = {
+                        "component": callee,
+                        "call_count": 0,
+                        "error_status_count": 0,
+                        "latency_examples": [],
+                        "status_examples": [],
+                        "inferred_from_naming": True,
+                    }
+                edge_map = context[callee]["direct_callers"]
+                if not isinstance(edge_map, dict):
+                    edge_map = {}
+                    context[callee]["direct_callers"] = edge_map
+                if caller not in edge_map:
+                    edge_map[caller] = {
+                        "component": caller,
+                        "call_count": 0,
+                        "error_status_count": 0,
+                        "latency_examples": [],
+                        "status_examples": [],
+                        "inferred_from_naming": True,
+                    }
+
         return _finalize_trace_context(context)
 
     def retrieve_records(
@@ -965,7 +1086,7 @@ class RCAEvalTelemetryStore:
                 and float(dominant_metric_info["seconds_after_earliest"]) > NEAR_ONSET_WINDOW_SECONDS
             )
         )
-        return {
+        row = {
             "component": component,
             "earliest_observed_time": earliest,
             "local_anomaly_magnitude": sum(float(item["magnitude"]) for item in metrics) + float(len(logs)),
@@ -990,6 +1111,7 @@ class RCAEvalTelemetryStore:
             ),
             "reason_family_from_signals": _reason_from_signals(signals or ("unknown",)),
             "is_entry_like_component": _is_entry_like_component(component),
+            "is_storage_component": _is_storage_component(component),
             "signals": signals,
             "metric_features": [
                 {
@@ -1013,6 +1135,17 @@ class RCAEvalTelemetryStore:
                 for item in logs[:5]
             ],
         }
+        # Add causal_role and source_likelihood_score using trace context.
+        # Use all components as scope to leverage the shared cache (a single
+        # trace dependency context computation covers all components).
+        trace_ctx_all = self._trace_dependency_context(
+            component_scope=self.components,
+            time_window=time_window,
+        )
+        trace_ctx = trace_ctx_all.get(component, {})
+        row["causal_role"] = _causal_role(row, trace_ctx)
+        row["source_likelihood_score"] = _source_likelihood_score(row, trace_ctx)
+        return row
 
     def find_symptom_records(
         self,
@@ -1215,9 +1348,637 @@ def _reason_from_signals(signals: Sequence[str]) -> str:
     return "unspecified anomaly"
 
 
+def _reason_from_observations(
+    signals: Sequence[str],
+    log_items: Sequence[Mapping[str, Any]],
+    *,
+    known_components: Sequence[str],
+    component: str,
+) -> str:
+    """Determine reason family from signals AND log features.
+
+    Prioritizes emitter-exception evidence over raw signal type so that a
+    service with application-level errors gets a root-cause-like label
+    instead of a symptom-like 'latency degradation' label.
+    """
+    if log_items:
+        has_emitter_exception = False
+        for item in log_items[:5]:
+            feat = _log_feature(
+                emitter_component=component,
+                message=str(item["message"]),
+                timestamp=float(item["timestamp"]),
+                known_components=known_components,
+            )
+            if feat.get("emitter_exception_observed") or feat.get("diagnostic_role") == "emitter_error_or_internal_exception":
+                has_emitter_exception = True
+                break
+        if has_emitter_exception:
+            return "emitter exception"
+    return _reason_from_signals(signals)
+
+
 def _is_entry_like_component(component: str) -> bool:
     low = component.lower()
     return "frontend" in low or "gateway" in low or "ingress" in low
+
+
+_STORAGE_SUFFIXES = ("-mongo", "-redis", "-mysql", "-db", "-database", "-storage", "-es", "-elasticsearch")
+_STORAGE_KEYWORDS = ("mongo", "redis", "mysql", "elasticsearch")
+
+
+def _is_storage_component(component: str) -> bool:
+    low = component.lower()
+    if any(low.endswith(suffix) for suffix in _STORAGE_SUFFIXES):
+        return True
+    if any(kw in low for kw in _STORAGE_KEYWORDS):
+        return True
+    return False
+
+
+def _causal_role(
+    row: Mapping[str, Any],
+    trace_context: Mapping[str, Any],
+) -> str:
+    """Classify a component's causal role for root-cause disambiguation.
+
+    Returns one of:
+      - source_candidate: service with emitter exceptions or strong internal
+        mechanism; likely the initiating faulty component.
+      - dependency_candidate: storage/database with resource anomalies but
+        no emitter exceptions; usually a reactive dependency.
+      - propagation_symptom: downstream service with only latency/workload
+        signals; likely a cascading effect.
+      - entry_symptom: entry-like component with errors but no strong
+        internal mechanism; likely where the failure surfaces.
+      - ambiguous: does not fit the above cleanly.
+    """
+    is_storage = _is_storage_component(str(row.get("component", "")))
+    log_features = [
+        f for f in row.get("log_features", []) or []
+        if isinstance(f, Mapping)
+    ]
+    has_emitter_exception = any(
+        f.get("emitter_exception_observed")
+        or f.get("diagnostic_role") == "emitter_error_or_internal_exception"
+        for f in log_features
+    )
+    internal = set(row.get("near_onset_internal_signals", []) or [])
+    latency_only = bool(row.get("latency_only_near_onset"))
+    is_entry = bool(row.get("is_entry_like_component"))
+    has_error_or_log = bool({"error", "log"} & internal) or has_emitter_exception
+    has_multi_mechanism = len(internal - {"log"}) >= 2
+
+    if is_storage:
+        if has_emitter_exception:
+            return "source_candidate"
+        return "dependency_candidate"
+
+    if has_emitter_exception or (has_error_or_log and has_multi_mechanism):
+        return "source_candidate"
+
+    if latency_only:
+        return "propagation_symptom"
+
+    if is_entry and not has_multi_mechanism:
+        return "entry_symptom"
+
+    if has_multi_mechanism or has_error_or_log:
+        return "source_candidate"
+
+    if internal:
+        return "ambiguous"
+
+    return "propagation_symptom"
+
+
+def _source_likelihood_score(
+    row: Mapping[str, Any],
+    trace_context: Mapping[str, Any],
+) -> float:
+    """Heuristic source-likelihood score for ranking candidates.
+
+    Higher = more likely to be the initiating root cause.
+    """
+    score = 0.0
+    log_features = [
+        f for f in row.get("log_features", []) or []
+        if isinstance(f, Mapping)
+    ]
+    has_emitter_exception = any(
+        f.get("emitter_exception_observed")
+        or f.get("diagnostic_role") == "emitter_error_or_internal_exception"
+        for f in log_features
+    )
+    internal = set(row.get("near_onset_internal_signals", []) or [])
+    latency_only = bool(row.get("latency_only_near_onset"))
+    is_storage = _is_storage_component(str(row.get("component", "")))
+    is_entry = bool(row.get("is_entry_like_component"))
+    late_dominant = bool(row.get("late_dominant_metric"))
+
+    if has_emitter_exception:
+        score += 3.0
+    if len(internal - {"log"}) >= 2:
+        score += 2.0
+    elif internal - {"log"}:
+        score += 1.0
+    if not is_storage:
+        score += 1.0
+    if is_storage:
+        score -= 2.0
+    if is_entry:
+        score -= 1.0
+    if latency_only:
+        score -= 2.0
+    if late_dominant:
+        score -= 1.0
+    if not internal and not latency_only and not log_features:
+        score -= 1.0
+    return score
+
+
+# ---------------------------------------------------------------------------
+# IVD: Initiator–Victim Disambiguation
+#
+# When multiple source candidates have similar scores, the root cause is not
+# the earliest or the loudest but the one whose anomaly is *least explainable
+# by other candidates* and *most explanatory for other candidates' anomalies*.
+#
+# This module implements a pairwise tournament (Copeland score) among
+# source_candidates using five evidence channels:
+#   1. Exogeneity       – anomaly persists given upstream context
+#   2. DownstreamCoverage – can explain other candidates via topology/trace
+#   3. IncomingExplainedness – is itself explained by another candidate
+#   4. FaultSignature    – own-code exception vs dependency-induced
+#   5. TopologyDirection – reachable asymmetry in call graph
+# ---------------------------------------------------------------------------
+
+_OWN_CODE_TOKENS = (
+    "nullpointerexception", "overflowexception", "illegalargumentexception",
+    "illegalstateexception", "arrayindex", "classcast", "numberformat",
+    "unsupportedoperation", "concurrentmodification", "stacktrace",
+    "no bean named", "configuring", "postprocessor", "started", "stopped",
+    "removing", "channel", "consumer", "listener",
+)
+_DEPENDENCY_INDUCED_TOKENS = (
+    "can't access", "cannot access", "connection refused", "connection timed out",
+    "failed to call", "failed to connect", "timeout", "timed out",
+    "unavailable", "precondition", "i/o error", "socket closed",
+    "reset", "broken pipe",
+)
+_CLIENT_SIDE_TOKENS = (
+    "http client", "resttemplate", "feign", "ribbon", "hystrix",
+    "circuit breaker", "fallback", "retry",
+)
+
+
+def _fault_signature_score(row: Mapping[str, Any]) -> float:
+    """Classify exception semantics: own-code (root-like) vs dependency-induced (victim-like).
+
+    Returns a score in [-2, +2]:
+      +2  = strong own-code stack trace / internal configuration error
+      +1  = emitter exception with no dependency terms
+       0  = ambiguous or no exception
+      -1  = emitter exception with dependency terms (mixed)
+      -2  = pure dependency/client-side failure (timeout, connection refused)
+    """
+    log_features = [
+        f for f in row.get("log_features", []) or []
+        if isinstance(f, Mapping)
+    ]
+    if not log_features:
+        return 0.0
+
+    messages = [str(f.get("message_preview", "")).lower() for f in log_features]
+    all_text = " ".join(messages)
+
+    has_own_code = any(tok in all_text for tok in _OWN_CODE_TOKENS)
+    has_dep_induced = any(tok in all_text for tok in _DEPENDENCY_INDUCED_TOKENS)
+    has_client_side = any(tok in all_text for tok in _CLIENT_SIDE_TOKENS)
+    has_exception = any(f.get("emitter_exception_observed") for f in log_features)
+    has_dep_role = any(
+        f.get("diagnostic_role") == "dependency_failure_reported_by_emitter"
+        for f in log_features
+    )
+
+    if has_own_code and not has_dep_induced:
+        return 2.0
+    if has_own_code and has_dep_induced:
+        return 1.0
+    if has_exception and not has_dep_role and not has_dep_induced:
+        return 1.0
+    if has_dep_induced and not has_own_code:
+        return -2.0 if has_client_side else -1.0
+    if has_dep_role and not has_exception:
+        return -1.0
+    return 0.0
+
+
+def _temporal_causality_signal(
+    row: Mapping[str, Any],
+) -> Mapping[str, Any]:
+    """Extract temporal ordering between resource and workload anomalies.
+
+    Root cause: resource onset precedes workload onset (internal fault → slow → retries).
+    Victim: workload onset precedes or coincides with resource onset (external load).
+    """
+    metric_features = row.get("metric_features", []) or []
+    if not metric_features:
+        return {"resource_onset": None, "workload_onset": None, "gap": None, "verdict": "unknown"}
+
+    resource_onset = None
+    workload_onset = None
+    for m in metric_features:
+        sig = m.get("signal", "")
+        ts = m.get("first_seen")
+        if ts is None:
+            continue
+        if sig in ("memory", "cpu", "disk") and (resource_onset is None or ts < resource_onset):
+            resource_onset = ts
+        if sig == "workload" and (workload_onset is None or ts < workload_onset):
+            workload_onset = ts
+
+    if resource_onset is not None and workload_onset is not None:
+        gap = workload_onset - resource_onset
+        if gap > 10:
+            verdict = "resource_before_workload"
+        elif gap < -5:
+            verdict = "workload_before_resource"
+        else:
+            verdict = "near_simultaneous"
+    elif resource_onset is not None and workload_onset is None:
+        gap = None
+        verdict = "resource_only"
+    elif workload_onset is not None and resource_onset is None:
+        gap = None
+        verdict = "workload_only"
+    else:
+        gap = None
+        verdict = "unknown"
+
+    return {
+        "resource_onset": resource_onset,
+        "workload_onset": workload_onset,
+        "gap_seconds": gap,
+        "verdict": verdict,
+    }
+
+
+def _compute_ivd(
+    store: "RCAEvalTelemetryStore",
+    *,
+    candidates: Sequence[str],
+    all_anomalous_components: Sequence[str],
+    time_window: tuple[float, float],
+) -> Mapping[str, Any]:
+    """Run Initiator–Victim Disambiguation pairwise tournament.
+
+    Returns per-candidate IVD verdicts and a Copeland ranking.
+    Only the top candidates by source_likelihood_score participate in the
+    tournament to avoid noise from weak bystanders.
+    """
+    if len(candidates) < 2:
+        return {
+            "ivd_enabled": len(candidates) >= 2,
+            "candidates": list(candidates),
+            "verdicts": {},
+            "ranking": list(candidates),
+            "pairwise_results": [],
+        }
+
+    # Pre-filter: keep only candidates with score >= 50% of the max score,
+    # or at most the top 8 by score. This removes weak bystanders that
+    # would pollute the pairwise tournament.
+    rows_for_filter = {
+        comp: store._noise_feature_row(component=comp, time_window=time_window)
+        for comp in candidates
+    }
+    scored = sorted(
+        candidates,
+        key=lambda c: (-float(rows_for_filter[c].get("source_likelihood_score", 0.0)), c),
+    )
+    max_score = float(rows_for_filter[scored[0]].get("source_likelihood_score", 0.0))
+    if max_score > 0:
+        threshold = max_score * 0.5
+        filtered = [c for c in scored if float(rows_for_filter[c].get("source_likelihood_score", 0.0)) >= threshold]
+    else:
+        filtered = list(scored)
+    # Cap at 8 to keep pairwise tournament manageable (max 28 pairs)
+    tournament_candidates = filtered[:8]
+    # Also require minimum resource magnitude to exclude bystanders
+    tournament_candidates = [
+        c for c in tournament_candidates
+        if sum(
+            float(m.get("magnitude", 0))
+            for m in rows_for_filter[c].get("metric_features", [])
+            if m.get("signal") in ("memory", "cpu", "disk")
+        ) > 5
+        or int(rows_for_filter[c].get("log_count", 0)) > 0
+    ]
+    if len(tournament_candidates) < 2:
+        tournament_candidates = filtered[:5]
+
+    # Build feature rows for all tournament candidates
+    rows = {
+        comp: rows_for_filter[comp]
+        for comp in tournament_candidates
+    }
+    trace_ctx = store._trace_dependency_context(
+        component_scope=list(tournament_candidates) + list(all_anomalous_components),
+        time_window=time_window,
+    )
+
+    # Compute per-candidate signals
+    signals = {}
+    for comp in tournament_candidates:
+        row = rows[comp]
+        signals[comp] = {
+            "fault_signature": _fault_signature_score(row),
+            "temporal": _temporal_causality_signal(row),
+            "causal_role": row.get("causal_role", "ambiguous"),
+            "source_likelihood": row.get("source_likelihood_score", 0.0),
+            "is_storage": row.get("is_storage_component", False),
+            "resource_magnitude": sum(
+                float(m.get("magnitude", 0))
+                for m in row.get("metric_features", [])
+                if m.get("signal") in ("memory", "cpu", "disk")
+            ),
+            "workload_magnitude": sum(
+                float(m.get("magnitude", 0))
+                for m in row.get("metric_features", [])
+                if m.get("signal") == "workload"
+            ),
+            "log_count": row.get("log_count", 0),
+        }
+
+    # CallerAnomalies: for each candidate, how many of its CALLERS are anomalous?
+    # If many callers are anomalous, the candidate (callee) likely caused their
+    # failures → initiator signal.  (Reversed from old "incoming_explainedness".)
+    # Use the already-computed trace_context direct_callees for speed.
+    coverage = {}
+    inferred_edges = _infer_dependency_edges(list(tournament_candidates) + list(all_anomalous_components))
+    for comp in tournament_candidates:
+        reachable = set()
+        # Direct callees from trace context
+        node = trace_ctx.get(comp, {})
+        for callee in node.get("direct_callees", []):
+            if isinstance(callee, Mapping):
+                peer = callee.get("component", "")
+                if peer in all_anomalous_components and peer != comp:
+                    reachable.add(peer)
+        # Inferred dependency edges
+        for caller, callee in inferred_edges:
+            if caller == comp and callee in all_anomalous_components:
+                reachable.add(callee)
+        coverage[comp] = reachable
+
+    # CalleeAnomalies (was "IncomingExplainedness"): callers of comp that are
+    # anomalous.  If many callers are anomalous, comp (as callee) explains their
+    # failures → initiator signal.
+    incoming = {}
+    for comp in tournament_candidates:
+        explainers = set()
+        # Direct callers from trace context
+        node = trace_ctx.get(comp, {})
+        for caller in node.get("direct_callers", []):
+            if isinstance(caller, Mapping):
+                peer = caller.get("component", "")
+                if peer in tournament_candidates and peer != comp:
+                    explainers.add(peer)
+        # Inferred dependency: if other calls comp
+        for caller, callee in inferred_edges:
+            if callee == comp and caller in tournament_candidates:
+                explainers.add(caller)
+        incoming[comp] = explainers
+
+    # Pairwise tournament
+    pairwise_results = []
+    copeland = {comp: 0 for comp in tournament_candidates}
+
+    for i, a in enumerate(tournament_candidates):
+        for b in tournament_candidates[i + 1:]:
+            a_beats_b = _ivd_pairwise(
+                a=a, b=b,
+                signals_a=signals[a], signals_b=signals[b],
+                coverage_a=coverage[a], coverage_b=coverage[b],
+                incoming_a=incoming[a], incoming_b=incoming[b],
+                trace_ctx=trace_ctx,
+            )
+            pairwise_results.append(a_beats_b)
+            if a_beats_b["winner"] == "a":
+                copeland[a] += 1
+                copeland[b] -= 1
+            elif a_beats_b["winner"] == "b":
+                copeland[b] += 1
+                copeland[a] -= 1
+
+    # Rank by Copeland score, then by source_likelihood
+    ranking = sorted(
+        tournament_candidates,
+        key=lambda c: (-copeland[c], -signals[c]["source_likelihood"], c),
+    )
+
+    # Build verdicts
+    verdicts = {}
+    for comp in tournament_candidates:
+        sig = signals[comp]
+        is_initiator = copeland[comp] > 0 and ranking[0] == comp
+        is_victim = copeland[comp] < 0
+        if is_initiator:
+            role = "initiator"
+        elif is_victim:
+            role = "victim"
+        else:
+            role = "ambiguous"
+
+        verdicts[comp] = {
+            "ivd_role": role,
+            "copeland_score": copeland[comp],
+            "fault_signature": sig["fault_signature"],
+            "fault_signature_label": _fault_signature_label(sig["fault_signature"]),
+            "temporal_verdict": sig["temporal"]["verdict"],
+            "temporal_gap_seconds": sig["temporal"]["gap_seconds"],
+            "downstream_coverage_count": len(coverage[comp]),
+            "downstream_covered": sorted(coverage[comp])[:5],
+            "caller_anomalies": sorted(incoming[comp])[:3],
+            "caller_anomalies_count": len(incoming[comp]),
+            "resource_magnitude": sig["resource_magnitude"],
+            "workload_magnitude": sig["workload_magnitude"],
+        }
+
+    return {
+        "ivd_enabled": True,
+        "candidates": list(tournament_candidates),
+        "verdicts": verdicts,
+        "ranking": ranking,
+        "pairwise_results": pairwise_results,
+        "interpretation": (
+            "IVD uses pairwise tournament (Copeland score) to identify the "
+            "initiator vs victim among source candidates. The initiator is "
+            "the candidate whose anomaly is least explainable by others and "
+            "most explanatory for others. Do not select a candidate labeled "
+            "as 'victim' over one labeled as 'initiator'."
+        ),
+    }
+
+
+def _fault_signature_label(score: float) -> str:
+    if score >= 2.0:
+        return "own_code_stack_trace"
+    if score >= 1.0:
+        return "emitter_exception_no_dependency"
+    if score <= -2.0:
+        return "dependency_client_side_failure"
+    if score <= -1.0:
+        return "dependency_induced_exception"
+    return "ambiguous_or_no_exception"
+
+
+def _ivd_pairwise(
+    *,
+    a: str,
+    b: str,
+    signals_a: Mapping[str, Any],
+    signals_b: Mapping[str, Any],
+    coverage_a: set,
+    coverage_b: set,
+    incoming_a: set,
+    incoming_b: set,
+    trace_ctx: Mapping[str, Mapping[str, Any]],
+) -> Mapping[str, Any]:
+    """Compare two candidates pairwise and determine a winner.
+
+    Returns {a, b, winner, evidence} where winner is 'a', 'b', or 'tie'.
+    """
+    reasons_a = []
+    reasons_b = []
+
+    # 1. FaultSignature asymmetry
+    fs_a = signals_a["fault_signature"]
+    fs_b = signals_b["fault_signature"]
+    if fs_a > fs_b + 0.5:
+        reasons_a.append(f"fault_signature: {a} has stronger own-code exception ({fs_a:.1f} vs {fs_b:.1f})")
+    elif fs_b > fs_a + 0.5:
+        reasons_b.append(f"fault_signature: {b} has stronger own-code exception ({fs_b:.1f} vs {fs_a:.1f})")
+
+    # 2. Temporal causality: resource-before-workload = root-like
+    tv_a = signals_a["temporal"]["verdict"]
+    tv_b = signals_b["temporal"]["verdict"]
+    root_like = {"resource_before_workload", "resource_only"}
+    victim_like = {"workload_before_resource", "workload_only"}
+    if tv_a in root_like and tv_b in victim_like:
+        reasons_a.append(f"temporal: {a} has resource-before-workload ({tv_a}) while {b} is {tv_b}")
+    elif tv_b in root_like and tv_a in victim_like:
+        reasons_b.append(f"temporal: {b} has resource-before-workload ({tv_b}) while {a} is {tv_a}")
+
+    # 3. CalleeAnomalies asymmetry: more anomalous callees = VICTIM (your
+    #    downstream dependencies are failing, explaining your anomalies)
+    #    BUT only when resource magnitudes are comparable (within 3x).
+    #    When one candidate has >>3x resource, callee anomalies are likely
+    #    cascading effects, not causal explanations.
+    res_a = signals_a["resource_magnitude"]
+    wl_a = signals_a["workload_magnitude"]
+    res_b = signals_b["resource_magnitude"]
+    wl_b = signals_b["workload_magnitude"]
+    resource_comparable = max(res_a, res_b) < min(res_a, res_b) * 3 + 0.01
+
+    cov_a = len(coverage_a)
+    cov_b = len(coverage_b)
+    if resource_comparable:
+        if cov_a < cov_b:
+            reasons_a.append(f"callee_anomalies: {a} has {cov_a} anomalous callees vs {b} has {cov_b}")
+        elif cov_b < cov_a:
+            reasons_b.append(f"callee_anomalies: {b} has {cov_b} anomalous callees vs {a} has {cov_a}")
+
+    # 4. CallerAnomalies asymmetry: more anomalous callers = INITIATOR (your
+    #    failure explains upstream callers' failures)
+    #    Also gated on resource comparability.
+    inc_a = len(incoming_a)
+    inc_b = len(incoming_b)
+    if resource_comparable:
+        if inc_a > inc_b:
+            reasons_a.append(f"caller_anomalies: {a} has {inc_a} anomalous callers vs {b} has {inc_b}")
+        elif inc_b > inc_a:
+            reasons_b.append(f"caller_anomalies: {b} has {inc_b} anomalous callers vs {a} has {inc_a}")
+
+    # 5. Storage penalty
+    if signals_a["is_storage"] and not signals_b["is_storage"]:
+        reasons_b.append(f"topology: {a} is storage/dependency layer, {b} is a service")
+    elif signals_b["is_storage"] and not signals_a["is_storage"]:
+        reasons_a.append(f"topology: {b} is storage/dependency layer, {a} is a service")
+
+    # 6. Resource-to-workload imbalance (our earlier discovery)
+    # Root has high resource / low workload; victim has low resource / high workload
+    # When either candidate has near-zero workload (<1.0), use resource ratio
+    # alone (rw_ratio is unreliable with tiny denominator).
+    rw_ratio_a = res_a / max(wl_a, 0.01)
+    rw_ratio_b = res_b / max(wl_b, 0.01)
+    both_have_workload = wl_a > 1.0 and wl_b > 1.0
+    if both_have_workload:
+        imb_a = res_a > res_b * 3 and rw_ratio_a > rw_ratio_b * 3
+        imb_b = res_b > res_a * 3 and rw_ratio_b > rw_ratio_a * 3
+    else:
+        imb_a = res_a > res_b * 3
+        imb_b = res_b > res_a * 3
+    if imb_a:
+        reasons_a.append(f"imbalance: {a} has resource={res_a:.0f} rw_ratio={rw_ratio_a:.1f} vs {b} resource={res_b:.0f} rw_ratio={rw_ratio_b:.1f}")
+        if res_a > res_b * 10:
+            reasons_a.append(f"resource_dominance: {a} has {res_a/max(res_b,0.01):.0f}x more resource than {b}")
+    elif imb_b:
+        reasons_b.append(f"imbalance: {b} has resource={res_b:.0f} rw_ratio={rw_ratio_b:.1f} vs {a} resource={res_a:.0f} rw_ratio={rw_ratio_a:.1f}")
+        if res_b > res_a * 10:
+            reasons_b.append(f"resource_dominance: {b} has {res_b/max(res_a,0.01):.0f}x more resource than {a}")
+
+    # Determine winner
+    score_a = len(reasons_a)
+    score_b = len(reasons_b)
+    if score_a > score_b:
+        winner = "a"
+    elif score_b > score_a:
+        winner = "b"
+    else:
+        winner = "tie"
+
+    return {
+        "a": a,
+        "b": b,
+        "winner": winner,
+        "reasons_a": reasons_a,
+        "reasons_b": reasons_b,
+        "score_a": score_a,
+        "score_b": score_b,
+    }
+
+
+def _infer_dependency_edges(components: Sequence[str]) -> list[tuple[str, str]]:
+    """Infer service-to-storage dependency edges from naming patterns.
+
+    Returns a list of (caller, callee) pairs where caller is a service
+    and callee is its storage dependency.  For example:
+      ts-auth-service -> ts-auth-mongo
+      carts -> carts-db
+    """
+    edges: list[tuple[str, str]] = []
+    services = [c for c in components if not _is_storage_component(c)]
+    storages = [c for c in components if _is_storage_component(c)]
+    storage_set = set(storages)
+    for service in services:
+        low = service.lower()
+        prefix = low
+        if prefix.endswith("-service"):
+            prefix = prefix[: -len("-service")]
+        elif prefix.endswith("service"):
+            prefix = prefix[: -len("service")]
+        for storage in storages:
+            slow = storage.lower()
+            sprefix = slow
+            for suffix in _STORAGE_SUFFIXES:
+                if sprefix.endswith(suffix):
+                    sprefix = sprefix[: -len(suffix)]
+                    break
+            if sprefix and sprefix in low and storage != service and storage in storage_set:
+                edges.append((service, storage))
+    return edges
 
 
 def _infer_entry_components(
@@ -1325,6 +2086,37 @@ def _source_symptom_cues(row: Mapping[str, Any]) -> list[str]:
     if row.get("latency_only_near_onset"):
         cues.append(
             "near-onset evidence is latency/workload only; do not choose it over a slightly later internal mechanism without corroboration"
+        )
+    # Storage/dependency disambiguation cues.
+    if row.get("is_storage_component"):
+        cues.append(
+            "component is a storage/dependency layer (mongo/redis/db); "
+            "resource anomalies here are often reactive to service-level "
+            "logic errors that cause abnormal query patterns; prefer a "
+            "service with emitter exceptions as root cause"
+        )
+    # Causal role cue.
+    causal_role = row.get("causal_role")
+    if causal_role == "source_candidate":
+        cues.append(
+            "causal_role=source_candidate: has emitter exceptions or strong "
+            "internal mechanism as a service; prioritize over dependency and "
+            "symptom candidates"
+        )
+    elif causal_role == "dependency_candidate":
+        cues.append(
+            "causal_role=dependency_candidate: storage with resource anomalies "
+            "but no emitter exceptions; likely a reactive dependency, not the root"
+        )
+    elif causal_role == "propagation_symptom":
+        cues.append(
+            "causal_role=propagation_symptom: latency/workload-only evidence; "
+            "likely a downstream cascading effect"
+        )
+    elif causal_role == "entry_symptom":
+        cues.append(
+            "causal_role=entry_symptom: entry component where failures surface; "
+            "not necessarily the initiating root"
         )
     for feature in row.get("log_features", []) or []:
         if isinstance(feature, Mapping) and feature.get("diagnostic_role") == "dependency_failure_reported_by_emitter":
@@ -1527,10 +2319,42 @@ def _event_causal_cues(
             )
             if feature.get("emitter_exception_observed"):
                 source_like.append(
-                    "same log contains emitter-side exception/status evidence"
+                    "same log contains emitter-side exception/status evidence; "
+                    "the emitting service is a strong root candidate because "
+                    "a service logic error can cause its storage dependency to "
+                    "show reactive resource anomalies"
                 )
         elif feature.get("diagnostic_role") == "generic_request_error_observed_by_emitter":
             symptom_like.append("generic request error is visibility evidence, not source proof")
+
+    # Storage/dependency disambiguation cues.
+    if row.get("is_storage_component"):
+        symptom_like.append(
+            "component is a storage/dependency layer; resource anomalies here "
+            "are often reactive to service-level faults, not the initiating root"
+        )
+    # Inferred dependency direction: if this component has callees that are
+    # storage components (inferred from naming), it is a service that calls
+    # those storages, strengthening its source candidacy.
+    inferred_callees = [
+        c for c in (direct_callees or [])
+        if isinstance(c, Mapping) and c.get("inferred_from_naming")
+    ]
+    if inferred_callees and not row.get("is_storage_component"):
+        source_like.append(
+            "has inferred storage dependencies (service calls database); "
+            "if this service has a logic error, it can cause abnormal query "
+            "patterns that make the storage show resource anomalies"
+        )
+    inferred_callers = [
+        c for c in (direct_callers or [])
+        if isinstance(c, Mapping) and c.get("inferred_from_naming")
+    ]
+    if inferred_callers and row.get("is_storage_component"):
+        symptom_like.append(
+            "storage component is called by inferred service dependency; "
+            "resource anomalies may be caused by the calling service's fault"
+        )
 
     if not source_like:
         source_like.append("no strong near-onset source cue detected in deterministic features")
@@ -1635,9 +2459,21 @@ def _trace_edge_summary_list(edge_map: Mapping[str, Mapping[str, Any]]) -> list[
             -int(item.get("error_status_count", 0)),
             -int(item.get("call_count", 0)),
             str(item.get("component", "")),
-        )
+        ),
     )
-    return rows[:8]
+    result: list[Mapping[str, Any]] = []
+    for item in rows[:8]:
+        entry = {
+            "component": item.get("component", ""),
+            "call_count": int(item.get("call_count", 0)),
+            "error_status_count": int(item.get("error_status_count", 0)),
+            "latency_examples": item.get("latency_examples", [])[:3],
+            "status_examples": item.get("status_examples", [])[:3],
+        }
+        if item.get("inferred_from_naming"):
+            entry["inferred_from_naming"] = True
+        result.append(entry)
+    return result
 
 
 def _trace_path_json(path: TracePath) -> list[Mapping[str, Any]]:
@@ -1721,9 +2557,21 @@ def _log_feature(
     }
 
 
+_RE_FAULT_TYPE_SUFFIXES = (
+    "_cpu", "_delay", "_disk", "_loss", "_mem", "_socket",
+)
+
+
 def _expected_component_from_path(case_path: Path) -> str:
     fault_name = case_path.parent.name
-    return fault_name.rsplit("_f", 1)[0]
+    # RE3 convention: {component}_f{number}
+    if "_f" in fault_name:
+        return fault_name.rsplit("_f", 1)[0]
+    # RE1/RE2 convention: {component}_{fault_type}
+    for suffix in _RE_FAULT_TYPE_SUFFIXES:
+        if fault_name.endswith(suffix):
+            return fault_name[: -len(suffix)]
+    return fault_name
 
 
 def _find_paths(edges, source, target, max_hops):

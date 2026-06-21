@@ -1,0 +1,1349 @@
+{
+  "dataset": "RCAEval",
+  "system": "RE3-OB",
+  "mode": "continuous-noise-native-event-causalizer",
+  "total_cases": 2,
+  "top1_accuracy": 1.0,
+  "top1_hits": 2,
+  "recall_pool_size": 15,
+  "max_hypotheses": 10,
+  "elapsed_sec": 1041.213,
+  "cost": {
+    "total_calls": 13,
+    "total_prompt_tokens": 261571,
+    "total_completion_tokens": 72464,
+    "total_tokens": 334035,
+    "avg_tokens_per_case": 167017,
+    "by_purpose": {
+      "event_causalizer_state_update": {
+        "call_count": 2,
+        "prompt_tokens": 41780,
+        "completion_tokens": 23117,
+        "total_tokens": 64897
+      },
+      "continuous_noise_native_state_update": {
+        "call_count": 10,
+        "prompt_tokens": 209377,
+        "completion_tokens": 41298,
+        "total_tokens": 250675
+      },
+      "continuous_noise_native_json_repair": {
+        "call_count": 1,
+        "prompt_tokens": 10414,
+        "completion_tokens": 8049,
+        "total_tokens": 18463
+      }
+    }
+  },
+  "results": [
+    {
+      "status": "continuous_final",
+      "hypothesis_id": "H3-emailservice-emitter-exception",
+      "predicted_component": "emailservice",
+      "reason_family": "emitter exception",
+      "onset_interval": [
+        1731911659.1437926,
+        1731911719.1437926
+      ],
+      "steps_completed": 4,
+      "evidence_count": 4,
+      "referenced_evidence_ids": [
+        "evidence:195bfe6bd4032b72183d7ced572f5cbfd0c0e47b68b203b2efea4cb043a782d5",
+        "evidence:491faa68a2929b8c80e209fecac2431d901ff12f8628ef801a43655e91a3781d",
+        "evidence:2d41d4f8eedef34185cac3b1d234c5ac8ad311d4110fe8874a14722210bed2b5",
+        "evidence:47b26eb5ceb98429d45938d755864e4eb11292c31b6dfc87ba678d9fc0125a63"
+      ],
+      "rationale": "Emailservice logs an AttributeError at 1731911689, proving its own-code fault. It is the only candidate with IVD initiator status (Copeland 1), indicating its anomaly is least explained by others and most explanatory for downstream symptoms. Downstream test confirms emailservice's failure causes checkoutservice's 'no healthy upstream' errors and frontend's error spike, with reverse call paths showing frontend->checkoutservice->emailservice. Shippingservice, though a source candidate, has no trace paths to main affected components and fails to explain symptoms; IVD labels it ambiguous. Checkoutservice is a clear victim with dependency-induced exceptions. Redis shows only reactive resource pressure. Frontend's late error spike is a propagated symptom. Thus emailservice is the root cause.",
+      "uncertainties": [
+        "Exact trigger of AttributeError (code change, config, etc.) not identified, but not essential for RCA."
+      ],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "redis",
+        "frontend",
+        "emailservice",
+        "adservice",
+        "recommendationservice",
+        "paymentservice",
+        "shippingservice",
+        "checkoutservice",
+        "productcatalogservice",
+        "currencyservice",
+        "cartservice"
+      ],
+      "event_causal_profile": {
+        "truncated_json": "{\"causal_story_options\": [{\"initiating_event_ids\": [\"event:7:emailservice:primary\"], \"propagation_reading\": \"emailservice triggers an AttributeError exception, causing latency spikes. checkoutservice, which calls emailservice, fails with 'no healthy upstream' errors and propagates latency to frontend. Frontend accumulates er...\", \"story_id\": \"S1-emailservice-init\", \"what_would_support_it\": [\"Emailservice exception is independent of any dependency failure\", \"Checkoutservice errors confirm 'no healthy upstream' referencing emailservice\"], \"what_would_weaken_it\": [\"A separate checkoutservice dependency fails before emailservice exception\", \"Emailservice exception is triggered by a malformed request from checkoutservice\"]}, {\"initiating_event_ids\": [\"event:8:checkoutservice:primary\"], \"propagation_reading\": \"checkoutservice suffers an internal failure causing 'no healthy upstream' errors to its dependencies (emailservice, paymentservice, etc.). Its latency increases and propagates to frontend, which eventually shows massi...\", \"story_id\": \"S2-checkoutservice-init\", \"what_would_support_it\": [\"Checkoutservice error logs precede emailservice failures\", \"Emailservice shows no independent internal exception\"], \"what_would_weaken_it\": [\"Emailservice shows a self-contained code-level exception before checkoutservice errors\", \"Checkoutservice 'no healthy upstream' points specifically to an unhealthy emailservice\"]}, {\"initiating_event_ids\": [\"event:6:shippingservice:primary\"], \"propagation_reading\": \"shippingservice experiences resource anomalies (cpu drop, memory increase) that degrade its performance. Although it has no direct trace callers, its slowdown may affect shared infrastructure or cause downstream queue...\", \"story_id\": \"S3-shippingservice-init\", \"what_would_support_it\": [\"Evidence that shippingservice slowdown impacts a shared resource (e.g., network, Redis)\", \"Frontend errors correlate temporally with shippingservice resource changes\"], \"what_would_weaken_it\": [\"No detectable impact on other services or frontend\", \"Other source candidates have stronger and more direct propagation paths\"]}, {\"initiating_event_ids\": [\"event:2:redis:primary\"], \"propagation_reading\": \"redis suffers cpu saturation and memory pressure, causing slow responses to dependent services (e.g., cartservice, though not traced). This creates cascading latency and errors visible in frontend. Late diskio spike i...\", \"story_id\": \"S4-redis-reactive\", \"what_would_support_it\": [\"Direct callers of redis show correlated latency\", \"Redis resource saturation precedes all service anomalies\"], \"what_would_weaken_it\": [\"No service shows redis-specific errors or timeouts\", \"Redis resource anomalies are explainable by abnormal query patterns from a faulty service\"]}], \"component_event_features\": [{\"component\": \"adservice\", \"missing_checks\": [\"Verify if cpu drop is due to reduced workload or internal bottleneck\", \"Check for callee dependencies that could cause queueing\"], \"near_onset_mechanism\": [\"cpu drop\"], \"primary_event_ids\": [\"event:1:adservice:primary\"], \"symptom_visibility\": [\"latency degradation visible to upstream callers (not traced)\"], \"timing_cautions\": [\"dominant metric is cpu drop at onset, not late\"], \"topology_notes\": [\"no direct callers or callees in trace; may be a leaf service\"]}, {\"component\": \"redis\", \"missing_checks\": [\"Check if services like checkoutservice call redis via inferred naming\", \"Likely reactive pressure from abnormal query patterns\"], \"near_onset_mechanism\": [\"cpu drop\", \"memory increase\"], \"primary_event_ids\": [\"event:2:redis:primary\"], \"symptom_visibility\": [\"diskio spike late indicates reactive disk activity\"], \"timing_cautions\": [\"dominant metric (diskio) occurs 108s after onset, late\"], \"topology_notes\": [\"storage/dependency layer; no trace callers; inferred dependencies possible\"]}, {\"component\": \"recommendationservice\", \"missing_checks\": [\"Verify if cpu drop is due to reduced workload\", \"Check caller frontend latency correlation\"], \"near_onset_mechanism\": [\"cpu drop\"], \"primary_event_ids\": [\"event:3:recommendationservice:primary\"], \"symptom_visibility\": [\"latency increase visible to frontend\"], \"timing_cautions\": [\"dominant metric is latency increase at onset\"], \"topology_notes\": [\"called by frontend; calls productcatalogservice\"]}, {\"component\": \"paymentservice\", \"missing_checks\": [\"Confirm if latency increase is due to upstream dependency\", \"No internal mechanism found\"], \"near_onset_mechanism\": [\"none, latency/workload only\"], \"primary_event_ids\": [\"event:4:paymentservice:primary\"], \"symptom_visibility\": [\"latency increase, called by checkoutservice\"], \"timing_cautions\": [\"latency-only onset\"], \"topology_notes\": [\"called by checkoutservice; no callees\"]}, {\"component\": \"frontend\", \"missing_checks\": [\"Determine if error spike is due to backend failures\", \"Check dependency latency correlation\"], \"near_onset_mechanism\": [\"cpu drop\"], \"primary_event_ids\": [\"event:5:frontend:primary\"], \"symptom_visibility\": [\"massive error spike at 1731912256 (576s late)\"], \"timing_cautions\": [\"dominant error spike very late\"], \"topology_notes\": [\"entry component; calls productcatalog, currencyservice, recommendationservice, checkoutservice\"]}, {\"component\": \"shippingservice\", \"missing_checks\": [\"Check if this service has callers not in trace\", \"Determine if its anomaly explains others\"], \"near_onset_mechanism\": [\"cpu drop\", \"memory increase\"], \"primary_event_ids\": [\"event:6:shippingservice:primary\"], \"symptom_visibility\": [\"latency increase and workload drop\"], \"timing_cautions\": [\"dominant metric is memory increase 18s after onset, not late\"], \"topology_notes\": [\"no direct callers or callees; might be a leaf service\"]}, {\"component\": \"emailservice\", \"missing_checks\": [\"Confirm exception is not due to a dependency\", \"Check if '_Server' object missing 'Check' indicates coding error or config drift\"], \"near_onset_mechanism\": [\"AttributeError exception logs\"], \"primary_event_ids\": [\"event:7:emailservice:primary\"], \"symptom_visibility\": [\"latency spike at 1731911760, called by checkoutservice\"], \"timing_cautions\": [\"dominant latency spike 70.8s after onset, late\"], \"topology_notes\": [\"called by checkoutservice; no callees\"]}, {\"component\": \"checkoutservice\", \"missing_checks\": [\"Determine if 'no healthy upstream' errors are due to emailservice or other dependency\", \"Likely victim per IVD\"], \"near_onset_mechanism\": [\"log exceptions\", \"memory drop\"], \"primary_event_ids\": [\"event:8:checkoutservice:primary\"], \"symptom_visibility\": [\"latency increase, called by frontend\"], \"timing_cautions\": [\"dominant metric latency at 11s after onset, not late\"], \"topology_notes\": [\"calls multiple services including emailservice; called by frontend\"]}, {\"component\": \"productcatalogservice\", \"missing_checks\": [\"Check if cpu drop is independent or caused by upstream throttling\"], \"near_onset_mechanism\": [\"cpu drop\"], \"primary_event_ids\": [\"event:9:productcatalogservice:primary\"], \"symptom_visibility\": [\"memory spike late, called by frontend and others\"], \"timing_cautions\": [\"dominant memory spike 105s late\"], \"topology_notes\": [\"called by frontend, recommendationservice, checkoutservice; no callees\"]}, {\"component\": \"cartservice\", \"missing_checks\": [\"Verify if cpu drop is due to reduced workload\"], \"near_onset_mechanism\": [\"cpu drop\"], \"primary_event_ids\": [\"event:10:cartservice:primary\"], \"symptom_visibility\": [\"memory spike late\"], \"timing_cautions\": [\"dominant memory spike 116s late\"], \"topology_notes\": [\"no callers or callees; may be leaf\"]}, {\"component\": \"currencyservice\", \"missing_checks\": [\"Confirm if cpu spike late is caused by upstream or internal\"], \"near_onset_mechanism\": [\"none, workload drop\"], \"primary_event_ids\": [\"event:11:currencyservice:primary\"], \"symptom_visibility\": [\"cpu spike late, called by frontend and checkoutservice\"], \"timing_cautions\": [\"dominant cpu spike 260s late\"], \"topology_notes\": [\"called by frontend and checkoutservice; no callees\"]}], \"event_timeline\": [{\"ambiguity_cues\": [\"near-onset internal signal is weak or single-signal\"], \"causal_links_to_check\": [\"Verify if cpu drop correlates with dependency queueing\"], \"component\": \"recommendationservice\", \"diagnostic_implication\": \"Weak internal signal; likely symptom of upstream issue.\", \"event_id\": \"event:3:recommendationservice:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1731911680.0, \"mechanism_strength\": \"weak\", \"multimodal_evidence\": [\"latency-50 +15 ms at 0s\", \"cpu -9% at 24s\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"latency increase coincides with onset\"]}, {\"ambiguity_cues\": [\"near-onset internal signal is weak or single-signal\"], \"causal_links_to_check\": [\"Check if cpu drop is due to reduced workload\"], \"component\": \"adservice\", \"diagnostic_implication\": \"Weak internal signal; may be reactive or idle.\", \"event_id\": \"event:1:adservice:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1731911680.0, \"mechanism_strength\": \"weak\", \"multimodal_evidence\": [\"cpu -63% at 5s\", \"latency-90 -11 ms at 0s\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"cpu drop and latency drop could indicate reduced activity\"]}, {\"ambiguity_cues\": [\"component is storage/dependency; anomalies often reactive\"], \"causal_links_to_check\": [\"Determine if redis pressure is from a faulty caller\"], \"component\": \"redis\", \"diagnostic_implication\": \"Strong resource anomalies, but likely reactive dependency.\", \"event_id\": \"event:2:redis:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1731911680.0, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"memory +32% at 0s\", \"cpu -23% at 18s\"], \"source_like_cues\": [\"multiple internal signals at onset (cpu, memory)\"], \"symptom_like_cues\": [\"storage component without emitter exceptions\"]}, {\"ambiguity_cues\": [\"near-onset evidence is latency/workload only\"], \"causal_links_to_check\": [\"Check if latency is from upstream caller\"], \"component\": \"paymentservice\", \"diagnostic_implication\": \"Latency symptom without internal mechanism; likely propagation.\", \"event_id\": \"event:4:paymentservice:primary\", \"event_kind\": \"latency_symptom_candidate_event\", \"event_time\": 1731911680.0, \"mechanism_strength\": \"symptom_like\", \"multimodal_evidence\": [\"latency-90 +17.5 ms at 0s\", \"latency-50 +6.5 ms at 0s\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"latency-only onset, no internal signal\"]}, {\"ambiguity_cues\": [\"entry component errors often surface backend failures\"], \"causal_links_to_check\": [\"Correlate error spike with dependency anomalies\"], \"component\": \"frontend\", \"diagnostic_implication\": \"Entry symptom; errors likely caused by backends.\", \"event_id\": \"event:5:frontend:primary\", \"event_kind\": \"entry_error_observation_event\", \"event_time\": 1731911680.0, \"mechanism_strength\": \"weak\", \"multimodal_evidence\": [\"cpu -5.6% at 0s\", \"error +67M at 576s (late)\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"error spike occurs very late, typical of failure boundary\"]}, {\"ambiguity_cues\": [\"no strong near-onset source cue detected in deterministic features\"], \"causal_links_to_check\": [\"Verify if cpu drop and memory increase indicate internal fault\"], \"component\": \"shippingservice\", \"diagnostic_implication\": \"Internal mechanism signals present; candidate source but no callers traced.\", \"event_id\": \"event:6:shippingservice:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1731911681.0, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"cpu -5.2% at 0s\", \"memory +9.6% at 18s\"], \"source_like_cues\": [\"multiple internal signals (cpu, memory)\"], \"symptom_like_cues\": []}, {\"ambiguity_cues\": [\"dominant metric spike is late relative to primary event\"], \"causal_links_to_check\": [\"Confirm if emailservice exception is root cause or victim\"], \"component\": \"emailservice\", \"diagnostic_implication\": \"Strong internal exception; likely initiator per IVD.\", \"event_id\": \"event:7:emailservice:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1731911689.1437926, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"log AttributeError at 0s\", \"latency-90 +820 ms at 70.8s later\"], \"source_like_cues\": [\"emitter-side exception/log evidence\", \"has direct callers; fault can surface upstream\"], \"symptom_like_cues\": []}, {\"ambiguity_cues\": [\"has direct callees/dependencies; request path does not prove caller-root\"], \"causal_links_to_check\": [\"Determine if 'no healthy upstream' refers to emailservice\"], \"component\": \"checkoutservice\", \"diagnostic_implication\": \"Exception logs point to dependency failure; IVD labels it victim.\", \"event_id\": \"event:8:checkoutservice:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1731911689.7849898, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"log 'no healthy upstream' at 0s\", \"memory -20.2% at 0.2s\"], \"source_like_cues\": [\"has direct callers; fault can surface upstream\"], \"symptom_like_cues\": [\"exception indicates dependency unavailability\"]}, {\"ambiguity_cues\": [\"dominant metric spike is late relative to primary event\"], \"causal_links_to_check\": [\"Check if cpu drop is independent or caused by upstream throttling\"], \"component\": \"productcatalogservice\", \"diagnostic_implication\": \"Moderate internal signal; late memory spike may be reactive.\", \"event_id\": \"event:9:productcatalogservice:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1731911690.0, \"mechanism_strength\": \"moderate\", \"multimodal_evidence\": [\"latency-90 -7.9 ms at 0s\", \"cpu -5.8% at 29s\"], \"source_like_cues\": [\"near-onset internal mechanism signals observed: cpu\"], \"symptom_like_cues\": [\"memory spike late at 105s\"]}, {\"ambiguity_cues\": [\"weak or single-signal near-onset internal signal\"], \"causal_links_to_check\": [\"Verify if cpu drop is due to reduced workload\"], \"component\": \"cartservice\", \"diagnostic_implication\": \"Weak internal signal; likely idle or reactive.\", \"event_id\": \"event:10:cartservice:primary\", \"event_kind\": \"weak_internal_or_queueing_candidate_event\", \"event_time\": 1731911691.0, \"mechanism_strength\": \"weak\", \"multimodal_evidence\": [\"cpu -7.7% at 0s\", \"workload -4.5% at 10s\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"cpu and workload drop suggest reduced activity\"]}, {\"ambiguity_cues\": [\"near-onset evidence is latency/workload only\"], \"causal_links_to_check\": [\"Confirm if late cpu spike is caused by upstream\"], \"component\": \"currencyservice\", \"diagnostic_implication\": \"Latency symptom; no internal mechanism until very late.\", \"event_id\": \"event:11:currencyservice:primary\", \"event_kind\": \"latency_symptom_candidate_event\", \"event_time\": 1731911702.0, \"mechanism_strength\": \"symptom_like\", \"multimodal_evidence\": [\"workload -4% at 0s\", \"cpu +5.2% at 260s late\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"workload drop and late cpu spike typical of backpressure\"]}, {\"ambiguity_cues\": [], \"causal_links_to_check\": [\"Link latency spike to emailservice exception\"], \"component\": \"emailservice\", \"diagnostic_implication\": \"Follow-up late dominant metric; consequence of earlier fault.\", \"event_id\": \"event:7:emailservice:late_dominant_metric\", \"event_kind\": \"late_dominant_metric_followup\", \"event_time\": 1731911760.0, \"mechanism_strength\": \"unknown\", \"multimodal_evidence\": [\"latency-90 +820 ms\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"late metric spike confirms fault escalation\"]}, {\"ambiguity_cues\": [], \"causal_links_to_check\": [\"Determine if diskio spike is reactive to abnormal query patterns\"], \"component\": \"redis\", \"diagnostic_implication\": \"Late diskio spike confirms reactive storage pressure.\", \"event_id\": \"event:2:redis:late_dominant_metric\", \"event_kind\": \"late_dominant_metric_followup\", \"event_time\": 1731911788.0, \"mechanism_strength\": \"unknown\", \"multimodal_evidence\": [\"diskio +147829186568760.3\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"very late diskio indicates reactive I/O\"]}, {\"ambiguity_cues\": [], \"causal_links_to_check\": [\"Correlate memory spike with upstream activity\"], \"component\": \"productcatalogservice\", \"diagnostic_implication\": \"Late memory spike, likely reactive.\", \"event_id\": \"event:9:productcatalogservice:late_dominant_metric\", \"event_kind\": \"late_dominant_metric_followup\", \"event_time\": 1731911795.0, \"mechanism_strength\": \"unknown\", \"multimodal_evidence\": [\"memory +17.8%\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"late memory spike\"]}, {\"ambiguity_cues\": [], \"causal_links_to_check\": [\"Check if memory spike is due to cache warmup or leak\"], \"component\": \"cartservice\", \"diagnostic_implication\": \"Late memory spike, unclear cause.\", \"event_id\": \"event:10:cartservice:late_dominant_metric\", \"event_kind\": \"late_dominant_metric_followup\", \"event_time\": 1731911807.0, \"mechanism_strength\": \"unknown\", \"multimodal_evidence\": [\"memory +29.1%\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"late memory spike\"]}, {\"ambiguity_cues\": [], \"causal_links_to_check\": [\"Link late cpu spike to upstream backpressure\"], \"component\": \"currencyservice\", \"diagnostic_implication\": \"Late cpu spike confirms reactive resource use.\", \"event_id\": \"event:11:currencyservice:late_dominant_metric\", \"event_kind\": \"late_dominant_metric_followup\", \"event_time\": 1731911962.0, \"mechanism_strength\": \"unknown\", \"multimodal_evidence\": [\"cpu +5.2%\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"late cpu spike\"]}, {\"ambiguity_cues\": [], \"causal_links_to_check\": [\"Correlate with backend dependency failures\"], \"component\": \"frontend\", \"diagnostic_implication\": \"Massive error spike confirms failure boundary at entry.\", \"event_id\": \"event:5:frontend:late_dominant_metric\", \"event_kind\": \"late_dominant_metric_followup\", \"event_time\": 1731912256.0, \"mechanism_strength\": \"unknown\", \"multimodal_evidence\": [\"error +67M\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"very late error spike\"]}], \"ivd\": {\"interpretation\": \"IVD uses pairwise tournament (Copeland score) to identify the initiator vs victim among source candidates. The initiator is the candidate whose anomaly is least explainable by others and most explanatory for others. Do not select a candidate labeled as 'victim' over one labeled as 'initiator'.\", \"ivd_enabled\": true, \"ranking\": [\"emailservice\", \"shippingservice\", \"checkoutservice\"], \"verdicts\": {\"checkoutservice\": {\"caller_anomalies\": [], \"caller_anomalies_count\": 0, \"copeland_score\": -2, \"downstream_coverage_count\": 4, \"fault_signature_label\": \"dependency_induced_exception\", \"ivd_role\": \"victim\", \"resource_magnitude\": 20.25, \"temporal_gap_seconds\": 101.0, \"temporal_verdict\": \"resource_before_workload\", \"workload_magnitude\": 4.477611940298508}, \"emailservice\": {\"caller_anomalies\": [\"checkoutservice\"], \"caller_anomalies_count\": 1, \"copeland_score\": 1, \"downstream_coverage_count\": 0, \"fault_signature_label\": \"ambiguous_or_no_exception\", \"ivd_role\": \"initiator\", \"resource_magnitude\": 18.723166991915246, \"temporal_gap_seconds\": -248.0, \"temporal_verdict\": \"workload_before_resource\", \"workload_magnitude\": 3.007518796992481}, \"shippingservice\": {\"caller_anomalies\": [], \"caller_anomalies_count\": 0, \"copeland_score\": 1, \"downstream_coverage_count\": 0, \"fault_signature_label\": \"ambiguous_or_no_exception\", \"ivd_role\": \"ambiguous\", \"resource_magnitude\": 14.720880833138965, \"temporal_gap_seconds\": 22.0, \"temporal_verdict\": \"resource_before_workload\", \"workload_magnitude\": 5.741573033707868}}}, \"main_agent_guidance\": {\"event_features_to_reuse_in_final_reasoning\": [\"IVD labels emailservice as initiator; its exception is earliest strong internal mechanism.\", \"Checkoutservice is a victim with dependency-induced exceptions (no healthy upstream).\", \"Redis shows reactive resource pressure, not initiating fault.\", \"Frontend errors are late and likely surface backend failures.\"], \"high_value_next_actions\": [\"NoiseLab test: induce emailservice AttributeError to see if it causes checkoutservice 'no healthy upstream' errors and frontend errors.\", \"Check if emailservice object 'Check' attribute missing due to code ..."
+      },
+      "event_causal_fact_count": 17,
+      "final_belief_state": [
+        {
+          "hypothesis_id": "H3-emailservice-emitter-exception",
+          "root_component": "emailservice",
+          "position": "leading",
+          "source_vs_symptom_judgment": "strong source",
+          "supporting_factors": [
+            "Own-code AttributeError logs at onset (1731911689)",
+            "IVD label initiator (Copeland 1) among source candidates",
+            "Downstream test confirms emailservice failure surfaces as checkoutservice 'no healthy upstream' and frontend errors via reverse call paths"
+          ],
+          "contradicting_factors": [],
+          "missing_information": [],
+          "why_not_others": "shippingservice ambiguous with no downstream impact proven; checkoutservice victim with dependency-induced exceptions; redis reactive; frontend entry symptom."
+        },
+        {
+          "hypothesis_id": "H7-shippingservice-latency-degradation",
+          "root_component": "shippingservice",
+          "position": "weakened",
+          "source_vs_symptom_judgment": "possible source but lacks propagation",
+          "supporting_factors": [
+            "Near-onset cpu/memory signals"
+          ],
+          "contradicting_factors": [
+            "Downstream test shows zero paths to checkoutservice or frontend; no impact on main symptoms",
+            "IVD ambiguous, not initiator"
+          ],
+          "missing_information": [],
+          "why_not_others": "emailservice has direct caller chain and IVD initiator; shippingservice is isolated."
+        },
+        {
+          "hypothesis_id": "H8-checkoutservice-emitter-exception",
+          "root_component": "checkoutservice",
+          "position": "unlikely",
+          "source_vs_symptom_judgment": "symptom",
+          "supporting_factors": [],
+          "contradicting_factors": [
+            "IVD victim; fault signature dependency_induced_exception",
+            "Errors reference unhealthy upstream (emailservice)"
+          ],
+          "missing_information": [],
+          "why_not_others": "checkoutservice is downstream victim; cannot be root."
+        },
+        {
+          "hypothesis_id": "H1-redis-cpu-saturation",
+          "root_component": "redis",
+          "position": "unlikely",
+          "source_vs_symptom_judgment": "reactive symptom",
+          "supporting_factors": [],
+          "contradicting_factors": [
+            "Causal role dependency_candidate, no emitter exceptions",
+            "Late diskio spike (108s) indicates reactive load"
+          ],
+          "missing_information": [],
+          "why_not_others": "storage component without internal fault; resource pressure caused by a service."
+        },
+        {
+          "hypothesis_id": "H2-frontend-service-error",
+          "root_component": "frontend",
+          "position": "unlikely",
+          "source_vs_symptom_judgment": "entry symptom",
+          "supporting_factors": [],
+          "contradicting_factors": [
+            "Causal role entry_symptom, error spike 576s late",
+            "Failure boundary, not root"
+          ],
+          "missing_information": [],
+          "why_not_others": "frontend errors are propagated from backend."
+        }
+      ],
+      "transcript": [
+        {
+          "step_index": 0,
+          "agent_response": {
+            "truncated_json": "{\"agent\": \"continuous_noise_native\", \"allowed_tool_names\": [\"inspect_noise_features\", \"compare_source_symptom\", \"counterfactual_remove\", \"test_downstream_explanation\"], \"case_context_without_label_leakage\": {\"components\": [\"adservice\", \"cartservice\", \"checkoutservice\", \"currencyservice\", \"emailservice\", \"frontend\", \"paymentservice\", \"productcatalogservice\", \"recommendationservice\", \"redis\", \"shippingservice\"], \"entry_components\": [\"frontend\"], \"event_time\": 1731911680.0, \"observations\": [{\"component\": \"redis\", \"first_seen\": 1731911680.0, \"magnitude\": 147829186568815.12, \"reason_family\": \"cpu saturation\", \"signals\": [\"cpu\", \"disk\", \"memory\"], \"symptoms\": [\"redis disk changed near 1731911788.000\", \"redis memory changed near 1731911680.000\", \"redis cpu changed near 1731911698.000\"]}, {\"component\": \"frontend\", \"first_seen\": 1731911680.0, \"magnitude\": 67000031.20108684, \"reason_family\": \"service error\", \"signals\": [\"cpu\", \"error\", \"latency\", \"memory\", \"socket\", \"workload\"], \"symptoms\": [\"frontend error changed near 1731912256.000\", \"frontend memory changed near 1731912121.000\", \"frontend latency changed near 1731911956.000\"]}, {\"component\": \"emailservice\", \"first_seen\": 1731911689.1437926, \"magnitude\": 1183.1303234700672, \"reason_family\": \"emitter exception\", \"signals\": [\"latency\", \"log\", \"memory\", \"socket\", \"workload\"], \"symptoms\": [\"emailservice latency changed near 1731911760.000\", \"emailservice latency changed near 1731911760.000\", \"emailservice socket changed near 1731911978.000\"]}, {\"component\": \"checkoutservice\", \"first_seen\": 1731911689.7849898, \"magnitude\": 201.1686057291189, \"reason_family\": \"emitter exception\", \"signals\": [\"latency\", \"log\", \"memory\", \"workload\"], \"symptoms\": [\"checkoutservice latency changed near 1731911701.000\", \"checkoutservice memory changed near 1731911690.000\", \"checkoutservice latency changed near 1731911941.000\"]}, {\"component\": \"adservice\", \"first_seen\": 1731911680.0, \"magnitude\": 125.40009235572136, \"reason_family\": \"latency degradation\", \"signals\": [\"cpu\", \"latency\", \"memory\", \"workload\"], \"symptoms\": [\"adservice cpu changed near 1731911685.000\", \"adservice memory changed near 1731911751.000\", \"adservice latency changed near 1731911680.000\"]}, {\"component\": \"cartservice\", \"first_seen\": 1731911691.0, \"magnitude\": 50.330150598080905, \"reason_family\": \"latency degradation\", \"signals\": [\"cpu\", \"latency\", \"memory\", \"workload\"], \"symptoms\": [\"cartservice memory changed near 1731911807.000\", \"cartservice cpu changed near 1731911691.000\", \"cartservice latency changed near 1731911805.000\"]}, {\"component\": \"productcatalogservice\", \"first_seen\": 1731911690.0, \"magnitude\": 40.44941182743447, \"reason_family\": \"latency degradation\", \"signals\": [\"cpu\", \"latency\", \"memory\", \"workload\"], \"symptoms\": [\"productcatalogservice memory changed near 1731911795.000\", \"productcatalogservice latency changed near 1731911690.000\", \"productcatalogservice cpu changed near 1731911719.000\"]}, {\"component\": \"recommendationservice\", \"first_seen\": 1731911680.0, \"magnitude\": 38.10063146865118, \"reason_family\": \"latency degradation\", \"signals\": [\"cpu\", \"latency\", \"workload\"], \"symptoms\": [\"recommendationservice latency changed near 1731911680.000\", \"recommendationservice latency changed near 1731911680.000\", \"recommendationservice cpu changed near 1731911704.000\"]}, {\"component\": \"paymentservice\", \"first_seen\": 1731911680.0, \"magnitude\": 32.142301652517155, \"reason_family\": \"latency degradation\", \"signals\": [\"cpu\", \"latency\", \"workload\"], \"symptoms\": [\"paymentservice latency changed near 1731911680.000\", \"paymentservice latency changed near 1731911680.000\", \"paymentservice cpu changed near 1731912309.000\"]}, {\"component\": \"shippingservice\", \"first_seen\": 1731911681.0, \"magnitude\": 27.198412627249724, \"reason_family\": \"latency degradation\", \"signals\": [\"cpu\", \"latency\", \"memory\", \"workload\"], \"symptoms\": [\"shippingservice memory changed near 1731911699.000\", \"shippingservice latency changed near 1731911746.000\", \"shippingservice workload changed near 1731911703.000\"]}, {\"component\": \"currencyservice\", \"first_seen\": 1731911702.0, \"magnitude\": 12.51656153521361, \"reason_family\": \"cpu saturation\", \"signals\": [\"cpu\", \"memory\", \"workload\"], \"symptoms\": [\"currencyservice cpu changed near 1731911962.000\", \"currencyservice workload changed near 1731911702.000\", \"currencyservice memory changed near 1731911753.000\"]}]}, \"event_causal_profile\": {\"causal_story_options\": [{\"initiating_event_ids\": [\"event:7:emailservice:primary\"], \"propagation_reading\": \"emailservice triggers an AttributeError exception, causing latency spikes. checkoutservice, which calls emailservice, fails with 'no healthy upstream' errors and propagates latency to frontend. Frontend accumulates er...\", \"story_id\": \"S1-emailservice-init\", \"what_would_support_it\": [\"Emailservice exception is independent of any dependency failure\", \"Checkoutservice errors confirm 'no healthy upstream' referencing emailservice\"], \"what_would_weaken_it\": [\"A separate checkoutservice dependency fails before emailservice exception\", \"Emailservice exception is triggered by a malformed request from checkoutservice\"]}, {\"initiating_event_ids\": [\"event:8:checkoutservice:primary\"], \"propagation_reading\": \"checkoutservice suffers an internal failure causing 'no healthy upstream' errors to its dependencies (emailservice, paymentservice, etc.). Its latency increases and propagates to frontend, which eventually shows massi...\", \"story_id\": \"S2-checkoutservice-init\", \"what_would_support_it\": [\"Checkoutservice error logs precede emailservice failures\", \"Emailservice shows no independent internal exception\"], \"what_would_weaken_it\": [\"Emailservice shows a self-contained code-level exception before checkoutservice errors\", \"Checkoutservice 'no healthy upstream' points specifically to an unhealthy emailservice\"]}, {\"initiating_event_ids\": [\"event:6:shippingservice:primary\"], \"propagation_reading\": \"shippingservice experiences resource anomalies (cpu drop, memory increase) that degrade its performance. Although it has no direct trace callers, its slowdown may affect shared infrastructure or cause downstream queue...\", \"story_id\": \"S3-shippingservice-init\", \"what_would_support_it\": [\"Evidence that shippingservice slowdown impacts a shared resource (e.g., network, Redis)\", \"Frontend errors correlate temporally with shippingservice resource changes\"], \"what_would_weaken_it\": [\"No detectable impact on other services or frontend\", \"Other source candidates have stronger and more direct propagation paths\"]}, {\"initiating_event_ids\": [\"event:2:redis:primary\"], \"propagation_reading\": \"redis suffers cpu saturation and memory pressure, causing slow responses to dependent services (e.g., cartservice, though not traced). This creates cascading latency and errors visible in frontend. Late diskio spike i...\", \"story_id\": \"S4-redis-reactive\", \"what_would_support_it\": [\"Direct callers of redis show correlated latency\", \"Redis resource saturation precedes all service anomalies\"], \"what_would_weaken_it\": [\"No service shows redis-specific errors or timeouts\", \"Redis resource anomalies are explainable by abnormal query patterns from a faulty service\"]}], \"component_event_features\": [{\"component\": \"adservice\", \"missing_checks\": [\"Verify if cpu drop is due to reduced workload or internal bottleneck\", \"Check for callee dependencies that could cause queueing\"], \"near_onset_mechanism\": [\"cpu drop\"], \"primary_event_ids\": [\"event:1:adservice:primary\"], \"symptom_visibility\": [\"latency degradation visible to upstream callers (not traced)\"], \"timing_cautions\": [\"dominant metric is cpu drop at onset, not late\"], \"topology_notes\": [\"no direct callers or callees in trace; may be a leaf service\"]}, {\"component\": \"redis\", \"missing_checks\": [\"Check if services like checkoutservice call redis via inferred naming\", \"Likely reactive pressure from abnormal query patterns\"], \"near_onset_mechanism\": [\"cpu drop\", \"memory increase\"], \"primary_event_ids\": [\"event:2:redis:primary\"]..."
+          },
+          "executed_action": {
+            "action_id": "fallback-features-0",
+            "tool_name": "inspect_noise_features",
+            "target_hypothesis_ids": [
+              "H1-redis-cpu-saturation",
+              "H2-frontend-service-error",
+              "H3-emailservice-emitter-exception",
+              "H4-adservice-latency-degradation",
+              "H5-recommendationservice-latency-degradation",
+              "H6-paymentservice-latency-degradation",
+              "H7-shippingservice-latency-degradation",
+              "H8-checkoutservice-emitter-exception",
+              "H9-productcatalogservice-latency-degradation",
+              "H10-currencyservice-cpu-saturation"
+            ],
+            "question": "Build fused NoiseLab feature table for all candidates.",
+            "args": {
+              "component_scope": [
+                "redis",
+                "frontend",
+                "emailservice",
+                "adservice",
+                "recommendationservice",
+                "paymentservice",
+                "shippingservice",
+                "checkoutservice",
+                "productcatalogservice",
+                "currencyservice"
+              ],
+              "time_window": [
+                1731911380.0,
+                1731912580.0
+              ],
+              "feature_groups": [
+                "onset",
+                "local_mechanism",
+                "logs",
+                "propagation"
+              ]
+            },
+            "expected_information_gain": "Establish shared feature memory before narrowing candidates."
+          },
+          "evidence_id": "evidence:195bfe6bd4032b72183d7ced572f5cbfd0c0e47b68b203b2efea4cb043a782d5"
+        },
+        {
+          "step_index": 1,
+          "agent_response": {
+            "belief_state": [
+              {
+                "hypothesis_id": "H3-emailservice-emitter-exception",
+                "position": "leading",
+                "supporting_factors": [
+                  "IVD verdict labels emailservice as initiator with Copeland score 1",
+                  "AttributeError exception logs starting near onset indicate internal mechanism",
+                  "Causal role source_candidate with high likelihood (implied from features)"
+                ],
+                "contradicting_factors": [
+                  "Dominant latency spike occurs 70s after onset, potentially late"
+                ],
+                "missing_information": [
+                  "Confirm that emailservice failure directly causes checkoutservice 'no healthy upstream' errors"
+                ],
+                "source_vs_symptom_judgment": "strong source",
+                "root_component": "emailservice",
+                "why_not_others": "emailservice outranks all others per IVD tournament; checkoutservice is victim, shippingservice ambiguous, redis reactive dependency, frontend entry symptom."
+              },
+              {
+                "hypothesis_id": "H8-checkoutservice-emitter-exception",
+                "position": "unlikely",
+                "supporting_factors": [
+                  "Has caller anomalies (frontend)",
+                  "Exception logs indicate dependency unavailability"
+                ],
+                "contradicting_factors": [
+                  "IVD labels victim",
+                  "Fault signature dependency_induced_exception"
+                ],
+                "missing_information": [],
+                "source_vs_symptom_judgment": "symptom of emailservice failure",
+                "root_component": "checkoutservice",
+                "why_not_others": "checkoutservice's own errors are caused by emailservice; it cannot be root."
+              },
+              {
+                "hypothesis_id": "H7-shippingservice-latency-degradation",
+                "position": "plausible",
+                "supporting_factors": [
+                  "Near-onset internal signals: cpu drop and memory increase",
+                  "Source_likelihood_score 3.0",
+                  "IVD ambiguous"
+                ],
+                "contradicting_factors": [
+                  "No direct callers to propagate to entry",
+                  "Anomalies are modest and may be idle state"
+                ],
+                "missing_information": [
+                  "Demonstrate causal path from shippingservice to frontend errors"
+                ],
+                "source_vs_symptom_judgment": "possible source but less explanatory than emailservice",
+                "root_component": "shippingservice",
+                "why_not_others": "emailservice has stronger IVD rank and direct caller chain."
+              },
+              {
+                "hypothesis_id": "H1-redis-cpu-saturation",
+                "position": "unlikely",
+                "supporting_factors": [
+                  "Large resource anomalies"
+                ],
+                "contradicting_factors": [
+                  "Causal role dependency_candidate",
+                  "Late dominant diskio spike (108s) suggests reactive behavior",
+                  "Source_likelihood_score -1.0"
+                ],
+                "missing_information": [
+                  "Evidence that redis anomalies are independent of service load"
+                ],
+                "source_vs_symptom_judgment": "reactive symptom",
+                "root_component": "redis",
+                "why_not_others": "redis is a storage dependency; its anomalies are likely caused by a faulty caller."
+              },
+              {
+                "hypothesis_id": "H2-frontend-service-error",
+                "position": "unlikely",
+                "supporting_factors": [
+                  "Entry component captures errors"
+                ],
+                "contradicting_factors": [
+                  "Error spike 576s late, typical of failure boundary",
+                  "Causal role entry_symptom",
+                  "Source_likelihood_score 0.0"
+                ],
+                "missing_information": [
+                  "Internal mechanism evidence"
+                ],
+                "source_vs_symptom_judgment": "downstream symptom",
+                "root_component": "frontend",
+                "why_not_others": "frontend errors are best explained by backend failures, especially emailservice."
+              }
+            ],
+            "case_narrative": "Around 1731911680, emailservice encounters an AttributeError ('_Server' object has no attribute 'Check'), causing internal latency to spike. This renders it unhealthy, leading checkoutservice to report 'no healthy upstream' errors. Checkoutservice's degraded performance propagates latency to the entry frontend, which eventually surfaces massive error spikes. Redis shows resource pressure (cpu drop, memory increase, late diskio) likely due to reactive load from downstream services. Other services like shippingservice exhibit mild resource anomalies but without significant propagation. IVD analysis identifies emailservice as the initiator and checkoutservice as a victim.",
+            "final_decision": null,
+            "next_action": {
+              "action_id": "downstream-1",
+              "args": {
+                "candidate_component": "emailservice",
+                "symptom_components": [
+                  "checkoutservice",
+                  "frontend"
+                ],
+                "time_window": [
+                  1731911380.0,
+                  1731912580.0
+                ]
+              },
+              "expected_information_gain": "Confirm that emailservice could cause checkoutservice and frontend anomalies",
+              "question": "Does emailservice's AttributeError explain checkoutservice 'no healthy upstream' and frontend error spike?",
+              "target_hypothesis_ids": [
+                "H3-emailservice-emitter-exception"
+              ],
+              "tool_name": "test_downstream_explanation"
+            }
+          },
+          "executed_action": {
+            "action_id": "downstream-1",
+            "tool_name": "test_downstream_explanation",
+            "target_hypothesis_ids": [
+              "H1-redis-cpu-saturation",
+              "H2-frontend-service-error",
+              "H3-emailservice-emitter-exception"
+            ],
+            "question": "Does emailservice's AttributeError explain checkoutservice 'no healthy upstream' and frontend error spike?",
+            "args": {
+              "candidate_component": "emailservice",
+              "symptom_components": [
+                "checkoutservice",
+                "frontend"
+              ],
+              "time_window": [
+                1731911380.0,
+                1731912580.0
+              ]
+            },
+            "expected_information_gain": "Confirm that emailservice could cause checkoutservice and frontend anomalies"
+          },
+          "evidence_id": "evidence:491faa68a2929b8c80e209fecac2431d901ff12f8628ef801a43655e91a3781d"
+        },
+        {
+          "step_index": 2,
+          "agent_response": {
+            "belief_state": [
+              {
+                "hypothesis_id": "H3-emailservice-emitter-exception",
+                "root_component": "emailservice",
+                "position": "leading",
+                "source_vs_symptom_judgment": "strong source",
+                "supporting_factors": [
+                  "IVD initiator with Copeland 1, outranking shippingservice",
+                  "Own-code AttributeError logs at onset prove internal fault",
+                  "Downstream test confirms emailservice failure surfaces as checkoutservice 'no healthy upstream' and frontend errors via reverse call paths"
+                ],
+                "contradicting_factors": [
+                  "Dominant latency spike 70s after onset; but near‑onset log evidence supersedes"
+                ],
+                "missing_information": [],
+                "why_not_others": "IVD ranks emailservice above all; checkoutservice is victim, shippingservice ambiguous, redis reactive, frontend entry symptom."
+              },
+              {
+                "hypothesis_id": "H7-shippingservice-latency-degradation",
+                "root_component": "shippingservice",
+                "position": "plausible",
+                "source_vs_symptom_judgment": "possible source but less explanatory than emailservice",
+                "supporting_factors": [
+                  "Near‑onset cpu/memory signals, source_likelihood_score 3.0",
+                  "IVD ambiguous (Copeland 1 but no initiator verdict)"
+                ],
+                "contradicting_factors": [
+                  "No direct callers to frontend; propagation path unverified",
+                  "Anomalies could be idle/reactive"
+                ],
+                "missing_information": [
+                  "Need downstream test to see if shippingservice can explain frontend or other observed symptoms"
+                ],
+                "why_not_others": "emailservice has stronger IVD and direct caller chain; shippingservice lacks demonstrated impact."
+              },
+              {
+                "hypothesis_id": "H8-checkoutservice-emitter-exception",
+                "root_component": "checkoutservice",
+                "position": "unlikely",
+                "source_vs_symptom_judgment": "symptom of emailservice failure",
+                "supporting_factors": [
+                  "Exception logs indicate dependency unavailability"
+                ],
+                "contradicting_factors": [
+                  "IVD verdict victim; fault signature dependency_induced_exception",
+                  "Errors reference unhealthy upstream (emailservice)"
+                ],
+                "missing_information": [],
+                "why_not_others": "checkoutservice is downstream victim of emailservice; cannot be root."
+              },
+              {
+                "hypothesis_id": "H1-redis-cpu-saturation",
+                "root_component": "redis",
+                "position": "unlikely",
+                "source_vs_symptom_judgment": "reactive symptom",
+                "supporting_factors": [],
+                "contradicting_factors": [
+                  "Causal role dependency_candidate, source_likelihood -1.0",
+                  "Late dominant diskio (108s) confirms reactive load",
+                  "No emitter exceptions"
+                ],
+                "missing_information": [],
+                "why_not_others": "storage component without internal fault; resource pressure caused by a service."
+              },
+              {
+                "hypothesis_id": "H2-frontend-service-error",
+                "root_component": "frontend",
+                "position": "unlikely",
+                "source_vs_symptom_judgment": "entry symptom",
+                "supporting_factors": [],
+                "contradicting_factors": [
+                  "Causal role entry_symptom, source_likelihood 0.0",
+                  "Error spike 576s late, typical failure boundary"
+                ],
+                "missing_information": [],
+                "why_not_others": "frontend errors are propagated from backend, especially emailservice."
+              }
+            ],
+            "case_narrative": "At ~1731911689 emailservice encounters an AttributeError (‘_Server’ object has no attribute ‘Check’), causing internal latency to spike and making it unhealthy. Checkoutservice, its upstream caller, reports ‘no healthy upstream’ errors. The degradation propagates to frontend via checkoutservice, eventually surfacing massive error spikes. Downstream explanation confirms emailservice’s failure surfaces as checkoutservice and frontend symptoms. IVD labels emailservice initiator and checkoutservice victim. Shippingservice shows some internal signals but lacks demonstrated impact. Redis exhibits late diskio spikes consistent with reactive pressure.",
+            "final_decision": null,
+            "next_action": {
+              "action_id": "compare-source-2",
+              "args": {
+                "component_scope": [
+                  "emailservice",
+                  "shippingservice"
+                ],
+                "time_window": [
+                  1731911380.0,
+                  1731912580.0
+                ]
+              },
+              "expected_information_gain": "Directly compare source‑vs‑symptom cues between emailservice initiator and shippingservice ambiguous candidate to confirm emailservice as root.",
+              "question": "Does emailservice show stronger source cues than shippingservice, supporting its initiator role?",
+              "target_hypothesis_ids": [
+                "H3-emailservice-emitter-exception",
+                "H7-shippingservice-latency-degradation"
+              ],
+              "tool_name": "compare_source_symptom"
+            }
+          },
+          "executed_action": {
+            "action_id": "compare-source-2",
+            "tool_name": "compare_source_symptom",
+            "target_hypothesis_ids": [
+              "H3-emailservice-emitter-exception",
+              "H7-shippingservice-latency-degradation"
+            ],
+            "question": "Does emailservice show stronger source cues than shippingservice, supporting its initiator role?",
+            "args": {
+              "component_scope": [
+                "emailservice",
+                "shippingservice"
+              ],
+              "time_window": [
+                1731911380.0,
+                1731912580.0
+              ]
+            },
+            "expected_information_gain": "Directly compare source‑vs‑symptom cues between emailservice initiator and shippingservice ambiguous candidate to confirm emailservice as root."
+          },
+          "evidence_id": "evidence:2d41d4f8eedef34185cac3b1d234c5ac8ad311d4110fe8874a14722210bed2b5"
+        },
+        {
+          "step_index": 3,
+          "agent_response": {
+            "agent": "continuous_noise_native",
+            "belief_state": [
+              {
+                "hypothesis_id": "H3-emailservice-emitter-exception",
+                "position": "leading",
+                "root_component": "emailservice",
+                "source_vs_symptom_judgment": "strong source",
+                "supporting_factors": [
+                  "IVD initiator with Copeland 1, outranking shippingservice",
+                  "Own-code AttributeError logs at onset prove internal fault",
+                  "Downstream test confirms emailservice failure surfaces as checkoutservice 'no healthy upstream' and frontend errors via reverse call paths"
+                ],
+                "contradicting_factors": [
+                  "Dominant latency spike 70s after onset; but near‑onset log evidence supersedes"
+                ],
+                "missing_information": [],
+                "why_not_others": "IVD ranks emailservice above all; checkoutservice is victim, shippingservice ambiguous, redis reactive, frontend entry symptom."
+              },
+              {
+                "hypothesis_id": "H7-shippingservice-latency-degradation",
+                "position": "plausible",
+                "root_component": "shippingservice",
+                "source_vs_symptom_judgment": "possible source but less explanatory than emailservice",
+                "supporting_factors": [
+                  "Near‑onset cpu/memory signals, source_likelihood_score 3.0",
+                  "IVD ambiguous (Copeland 1 but no initiator verdict)"
+                ],
+                "contradicting_factors": [
+                  "No direct callers to frontend; propagation path unverified",
+                  "Anomalies could be idle/reactive"
+                ],
+                "missing_information": [
+                  "Need downstream test to see if shippingservice can explain frontend or other observed symptoms"
+                ],
+                "why_not_others": "emailservice has stronger IVD and direct caller chain; shippingservice lacks demonstrated impact."
+              },
+              {
+                "hypothesis_id": "H8-checkoutservice-emitter-exception",
+                "position": "unlikely",
+                "root_component": "checkoutservice",
+                "source_vs_symptom_judgment": "symptom of emailservice failure",
+                "supporting_factors": [
+                  "Exception logs indicate dependency unavailability"
+                ],
+                "contradicting_factors": [
+                  "IVD verdict victim; fault signature dependency_induced_exception",
+                  "Errors reference unhealthy upstream (emailservice)"
+                ],
+                "missing_information": [],
+                "why_not_others": "checkoutservice is downstream victim of emailservice; cannot be root."
+              },
+              {
+                "hypothesis_id": "H1-redis-cpu-saturation",
+                "position": "unlikely",
+                "root_component": "redis",
+                "source_vs_symptom_judgment": "reactive symptom",
+                "supporting_factors": [],
+                "contradicting_factors": [
+                  "Causal role dependency_candidate, source_likelihood -1.0",
+                  "Late dominant diskio (108s) confirms reactive load",
+                  "No emitter exceptions"
+                ],
+                "missing_information": [],
+                "why_not_others": "storage component without internal fault; resource pressure caused by a service."
+              },
+              {
+                "hypothesis_id": "H2-frontend-service-error",
+                "position": "unlikely",
+                "root_component": "frontend",
+                "source_vs_symptom_judgment": "entry symptom",
+                "supporting_factors": [],
+                "contradicting_factors": [
+                  "Causal role entry_symptom, source_likelihood 0.0",
+                  "Error spike 576s late, typical failure boundary"
+                ],
+                "missing_information": [],
+                "why_not_others": "frontend errors are propagated from backend, especially emailservice."
+              }
+            ],
+            "case_narrative": "At ~1731911689 emailservice throws AttributeError ('_Server' object has no attribute 'Check'), triggering latency spikes. Upstream checkoutservice sees 'no healthy upstream' errors; the degradation propagates to frontend, causing massive error spikes later. Downstream test confirms emailservice failure surfaces through checkoutservice to frontend. IVD labels emailservice initiator, shippingservice ambiguous with some internal signals but no proven impact, checkoutservice victim. Redis shows late diskio consistent with reactive load. Root cause is emailservice's own-code exception.",
+            "final_decision": null,
+            "next_action": {
+              "action_id": "downstream-shp",
+              "tool_name": "test_downstream_explanation",
+              "args": {
+                "candidate_component": "shippingservice",
+                "symptom_components": [
+                  "checkoutservice",
+                  "frontend"
+                ],
+                "time_window": [
+                  1731911380.0,
+                  1731912580.0
+                ]
+              },
+              "question": "Does shippingservice's anomaly explain checkoutservice or frontend symptoms, or is it an isolated latency degradation?",
+              "expected_information_gain": "Rule out shippingservice as root cause if it cannot propagate to the main affected components.",
+              "target_hypothesis_ids": [
+                "H7-shippingservice-latency-degradation"
+              ]
+            }
+          },
+          "executed_action": {
+            "action_id": "downstream-shp",
+            "tool_name": "test_downstream_explanation",
+            "target_hypothesis_ids": [
+              "H1-redis-cpu-saturation",
+              "H2-frontend-service-error",
+              "H3-emailservice-emitter-exception"
+            ],
+            "question": "Does shippingservice's anomaly explain checkoutservice or frontend symptoms, or is it an isolated latency degradation?",
+            "args": {
+              "candidate_component": "shippingservice",
+              "symptom_components": [
+                "checkoutservice",
+                "frontend"
+              ],
+              "time_window": [
+                1731911380.0,
+                1731912580.0
+              ]
+            },
+            "expected_information_gain": "Rule out shippingservice as root cause if it cannot propagate to the main affected components."
+          },
+          "evidence_id": "evidence:47b26eb5ceb98429d45938d755864e4eb11292c31b6dfc87ba678d9fc0125a63"
+        }
+      ],
+      "case_id": "RE3-OB/emailservice_f1/1",
+      "expected_component": "emailservice",
+      "hit": true,
+      "elapsed_sec": 580.209,
+      "error": null,
+      "token_usage": {
+        "call_count": 6,
+        "prompt_tokens": 129794,
+        "completion_tokens": 36471,
+        "total_tokens": 166265,
+        "by_purpose": {
+          "event_causalizer_state_update": {
+            "call_count": 1,
+            "prompt_tokens": 20686,
+            "completion_tokens": 9277,
+            "total_tokens": 29963
+          },
+          "continuous_noise_native_state_update": {
+            "call_count": 5,
+            "prompt_tokens": 109108,
+            "completion_tokens": 27194,
+            "total_tokens": 136302
+          }
+        }
+      }
+    },
+    {
+      "status": "continuous_final",
+      "hypothesis_id": "H3-emailservice-latency-degradation",
+      "predicted_component": "emailservice",
+      "reason_family": "latency degradation",
+      "onset_interval": [
+        1732376319.0,
+        1732376379.0
+      ],
+      "steps_completed": 4,
+      "evidence_count": 4,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD tournament identifies emailservice as initiator (Copeland 4) with the highest source likelihood. It shows earliest, strongest near-onset internal mechanism: memory +5489.5 at +8s, socket down 13.33 at +13s, cpu up 130.35 at +22s. Checkoutservice logs reveal serialization failures when calling emailservice (trace evidence confirms checkoutservice->emailservice paths). These failures cascaded to frontend errors. Downstream explanation validates symptom-to-candidate paths with count 20, reinforcing emailservice as the callee whose degradation caused upstream symptoms. Alternative candidates are weaker: checkoutservice is IVD victim with late spikes and dependency-failure logs; paymentservice has latency-only near-onset and a late, unrelated credit card exception; redis is a storage dependency without application faults; productcatalogservice is IVD ambiguous with only a moderate CPU signal. Emailservice’s resource exhaustion best explains the entire outage chain.",
+      "uncertainties": [
+        "emailservice lacks own log evidence; diagnosis relies on metrics and downstream corroboration"
+      ],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "redis",
+        "frontend",
+        "emailservice",
+        "recommendationservice",
+        "cartservice",
+        "currencyservice",
+        "checkoutservice",
+        "paymentservice",
+        "productcatalogservice",
+        "adservice",
+        "shippingservice"
+      ],
+      "event_causal_profile": {
+        "truncated_json": "{\"causal_story_options\": [{\"initiating_event_ids\": [\"event:1:emailservice:primary\"], \"propagation_reading\": \"emailservice suffers resource exhaustion (memory, cpu, socket) → checkoutservice calls to emailservice fail, generating log errors → frontend, the entry point, sees error spikes and latency as checkoutservice degrades...\", \"story_id\": \"S1-emailservice-initiated\", \"what_would_support_it\": [\"Checkoutservice error logs mentioning emailservice timeouts or failures\", \"Timing: emailservice memory spike precedes checkoutservice errors\"], \"what_would_weaken_it\": [\"Evidence that emailservice anomaly was caused by checkoutservice workload pattern\", \"Earlier emitter exception in another service (e.g., paymentservice) that could explain emailservice pressure\"]}, {\"initiating_event_ids\": [\"event:5:paymentservice:primary\"], \"propagation_reading\": \"paymentservice encounters a credit card processing exception → checkoutservice calls to paymentservice fail, causing log errors → frontend errors as checkoutservice returns failures. emailservice may show resource pre...\", \"story_id\": \"S2-paymentservice-fault\", \"what_would_support_it\": [\"Checkoutservice error logs explicitly citing paymentservice failures\", \"paymentservice exception timestamp predates checkoutservice errors\"], \"what_would_weaken_it\": [\"paymentservice exception occurs after checkoutservice log errors begin\", \"emailservice shows large resource spike earlier than paymentservice latency onset\"]}, {\"initiating_event_ids\": [\"event:6:redis:primary\"], \"propagation_reading\": \"redis experiences CPU/disk saturation (possibly due to abnormal query load) → services that depend on redis (cartservice, possibly others) stall, increasing latency → frontend timeouts. emailservice and checkoutservic...\", \"story_id\": \"S3-redis-pressure\", \"what_would_support_it\": [\"Trace evidence showing cartservice or other service calling redis with high latency\", \"redis disk IO pattern consistent with service query patterns\"], \"what_would_weaken_it\": [\"No service emitter exception directly implicating redis\", \"redis resource anomaly magnitude is disproportionate and could be a monitoring artifact\"]}], \"component_event_features\": [{\"component\": \"emailservice\", \"missing_checks\": [\"No log evidence for emailservice; check logs for internal errors\"], \"near_onset_mechanism\": [\"cpu\", \"memory\", \"socket\"], \"primary_event_ids\": [\"event:1:emailservice:primary\"], \"symptom_visibility\": [], \"timing_cautions\": [], \"topology_notes\": []}, {\"component\": \"recommendationservice\", \"missing_checks\": [\"No log evidence; weak cpu signal needs corroboration\"], \"near_onset_mechanism\": [\"cpu\"], \"primary_event_ids\": [\"event:2:recommendationservice:primary\"], \"symptom_visibility\": [], \"timing_cautions\": [], \"topology_notes\": []}, {\"component\": \"cartservice\", \"missing_checks\": [\"No trace context; no log evidence\"], \"near_onset_mechanism\": [\"cpu\"], \"primary_event_ids\": [\"event:3:cartservice:primary\", \"event:3:cartservice:late_dominant_metric\"], \"symptom_visibility\": [], \"timing_cautions\": [\"Dominant latency spike is late (+190s relative to onset)\"], \"topology_notes\": []}, {\"component\": \"currencyservice\", \"missing_checks\": [\"No internal mechanism at onset; pure symptom\"], \"near_onset_mechanism\": [], \"primary_event_ids\": [\"event:4:currencyservice:primary\", \"event:4:currencyservice:late_dominant_metric\"], \"symptom_visibility\": [], \"timing_cautions\": [\"Onset is latency/workload-only; dominant cpu spike is late (+38s)\"], \"topology_notes\": []}, {\"component\": \"paymentservice\", \"missing_checks\": [\"Log exception is late; need early internal mechanism evidence\"], \"near_onset_mechanism\": [], \"primary_event_ids\": [\"event:5:paymentservice:primary\", \"event:5:paymentservice:late_dominant_metric\"], \"symptom_visibility\": [], \"timing_cautions\": [\"Onset is latency-only; dominant memory spike is late (+250s)\"], \"topology_notes\": []}, {\"component\": \"redis\", \"missing_checks\": [\"No emitter exception; no direct trace evidence of service queries\"], \"near_onset_mechanism\": [\"cpu\", \"disk\"], \"primary_event_ids\": [\"event:6:redis:primary\"], \"symptom_visibility\": [], \"timing_cautions\": [], \"topology_notes\": []}, {\"component\": \"shippingservice\", \"missing_checks\": [\"No log evidence; no trace context\"], \"near_onset_mechanism\": [], \"primary_event_ids\": [\"event:7:shippingservice:primary\", \"event:7:shippingservice:late_dominant_metric\"], \"symptom_visibility\": [], \"timing_cautions\": [\"Onset is latency-only; dominant memory spike is late (+136s)\"], \"topology_notes\": []}, {\"component\": \"productcatalogservice\", \"missing_checks\": [\"No log evidence; moderate cpu signal needs corroboration\"], \"near_onset_mechanism\": [\"cpu\"], \"primary_event_ids\": [\"event:8:productcatalogservice:primary\"], \"symptom_visibility\": [], \"timing_cautions\": [], \"topology_notes\": []}, {\"component\": \"checkoutservice\", \"missing_checks\": [\"Log errors are about dependency failures; need to confirm root vs symptom\"], \"near_onset_mechanism\": [\"log\"], \"primary_event_ids\": [\"event:9:checkoutservice:primary\", \"event:9:checkoutservice:late_dominant_metric\"], \"symptom_visibility\": [], \"timing_cautions\": [\"Dominant latency spike is very late (+389s)\"], \"topology_notes\": []}, {\"component\": \"adservice\", \"missing_checks\": [\"No log evidence; no trace context\"], \"near_onset_mechanism\": [\"cpu\"], \"primary_event_ids\": [\"event:10:adservice:primary\"], \"symptom_visibility\": [], \"timing_cautions\": [], \"topology_notes\": []}, {\"component\": \"frontend\", \"missing_checks\": [\"Generic request error log; lacks specific internal mechanism\"], \"near_onset_mechanism\": [\"cpu\"], \"primary_event_ids\": [\"event:11:frontend:primary\", \"event:11:frontend:late_dominant_metric\"], \"symptom_visibility\": [], \"timing_cautions\": [\"Dominant error spike is late (+195s)\"], \"topology_notes\": []}], \"event_timeline\": [{\"ambiguity_cues\": [], \"causal_links_to_check\": [\"Correlate emailservice memory spike with checkoutservice call failures\"], \"component\": \"emailservice\", \"diagnostic_implication\": \"Strong source candidate; early resource exhaustion likely initiator of downstream errors\", \"event_id\": \"event:1:emailservice:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1732376349.0, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"Memory up 5489.5 at +8s\", \"CPU up 130.35 at +22s\", \"Socket down 13.33 at +13s\"], \"source_like_cues\": [\"Near-onset internal mechanism signals (cpu, memory, socket)\", \"Has direct callers; fault can surface upstream\"], \"symptom_like_cues\": []}, {\"ambiguity_cues\": [\"Later dominant metric spike separates from onset\"], \"causal_links_to_check\": [\"Check if recommendationservice latency correlates with productcatalogservice or frontend calls\"], \"component\": \"recommendationservice\", \"diagnostic_implication\": \"Likely symptom; weak mechanism suggests reactivity to upstream issues\", \"event_id\": \"event:2:recommendationservice:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1732376349.0, \"mechanism_strength\": \"weak\", \"multimodal_evidence\": [\"CPU down 14.03 at +3s\", \"Latency up 10.23 at onset\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"Latency-only onset with weak internal signal\", \"IVD victim; anomaly likely from upstream\"]}, {\"ambiguity_cues\": [\"Single-signal cpu onset\", \"Dominant latency spike is late (+190s)\"], \"causal_links_to_check\": [\"Investigate if cartservice latency is due to upstream dependency pressure\"], \"component\": \"cartservice\", \"diagnostic_implication\": \"Ambiguous; weak mechanism and late dominant metric suggest symptom\", \"event_id\": \"event:3:cartservice:primary\", \"event_kind\": \"weak_internal_or_queueing_candidate_event\", \"event_time\": 1732376349.0, \"mechanism_strength\": \"weak\", \"multimodal_evidence\": [\"CPU up 7.37 at +20s\", \"Latency spikes at +190s\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"Latency-dominated pattern, may be reactive\"]}, {\"ambiguity_cues\": [\"Dominant cpu spike is late (+38s)\"], \"causal_links_to_check\": [\"Check if currencyservice latency is driven by frontend or checkoutservice call patterns\"], \"component\": \"currencyservice\", \"diagnostic_implication\": \"Propagation symptom; reflects upstream overload\", \"event_id\": \"event:4:currencyservice:primary\", \"event_kind\": \"latency_symptom_candidate_event\", \"event_time\": 1732376349.0, \"mechanism_strength\": \"symptom_like\", \"multimodal_evidence\": [\"Workload up 5.05 at onset\", \"CPU down 7.10 at +38s\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"Near-onset evidence is latency/workload only\"]}, {\"ambiguity_cues\": [\"Exception log is business error (UnacceptedCreditCard), may not indicate systemic fault\"], \"causal_links_to_check\": [\"Verify if paymentservice exception causes downstream checkoutservice errors\"], \"component\": \"paymentservice\", \"diagnostic_implication\": \"Source candidate with strong exception, but late mechanism and latency-only onset raise ambiguity\", \"event_id\": \"event:5:paymentservice:primary\", \"event_kind\": \"latency_symptom_candidate_event\", \"event_time\": 1732376349.0, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"Latency spike at onset\", \"Memory spike at +250s\", \"Emitter log at ~+385s\"], \"source_like_cues\": [\"Emitter exception log: credit card processing error\"], \"symptom_like_cues\": [\"Near-onset is latency-only; dominant memory spike is late\"]}, {\"ambiguity_cues\": [], \"causal_links_to_check\": [\"Check if redis resource pressure correlates with abnormal query patterns from a service\"], \"component\": \"redis\", \"diagnostic_implication\": \"Dependency candidate; storage reactiveness makes it unlikely root cause without service emitter evidence\", \"event_id\": \"event:6:redis:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1732376353.0, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"CPU down 28.47 at 0s\", \"Disk up 1.353e14 at +16s\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"Storage component; CPU and disk anomalies likely reactive to service queries\"]}, {\"ambiguity_cues\": [\"Dominant memory spike is late (+136s)\"], \"causal_links_to_check\": [\"Determine if shippingservice latency is due to dependency pressure\"], \"component\": \"shippingservice\", \"diagnostic_implication\": \"Propagation symptom; no internal mechanism suggests victim\", \"event_id\": \"event:7:shippingservice:primary\", \"event_kind\": \"latency_symptom_candidate_event\", \"event_time\": 1732376355.0, \"mechanism_strength\": \"symptom_like\", \"multimodal_evidence\": [\"Latency down 3.24 at onset\", \"Memory down 6.07 at +136s\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"Near-onset latency only\"]}, {\"ambiguity_cues\": [], \"causal_links_to_check\": [\"Check if productcatalogservice CPU spike correlates with increased workload from upstream\"], \"component\": \"productcatalogservice\", \"diagnostic_implication\": \"Source candidate with moderate mechanism; ambiguous role, needs corroboration\", \"event_id\": \"event:8:productcatalogservice:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1732376359.0, \"mechanism_strength\": \"moderate\", \"multimodal_evidence\": [\"CPU up 13.36 at 0s\", \"Latency up 4.47/4.26 at +75s\"], \"source_like_cues\": [\"CPU anomaly at onset\", \"Has direct callers; fault can surface upstream\"], \"symptom_like_cues\": []}, {\"ambiguity_cues\": [\"Dominant latency spike is late (+389s)\", \"Error log is about serialization failure, not internal fault\"], \"causal_links_to_check\": [\"Investigate if checkoutservice errors are due to emailservice or paymentservice failures\"], \"component\": \"checkoutservice\", \"diagnostic_implication\": \"Strong symptom; errors and late spikes suggest victim of upstream issues\", \"event_id\": \"event:9:checkoutservice:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1732376359.4115102, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"Log error at onset\", \"Latency spikes at +389s\", \"Memory up at +82s\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"Emitter error log indicates dependency failure observed\", \"IVD victim; anomaly likely caused by upstream emailservice or other dependency\"]}, {\"ambiguity_cues\": [\"Single-signal cpu anomaly, no log/trace context\"], \"causal_links_to_check\": [\"Check if adservice latency correlates with any upstream dependency failure\"], \"component\": \"adservice\", \"diagnostic_implication\": \"Ambiguous; weak and isolated, hard to assess\", \"event_id\": \"event:10:adservice:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1732376371.0, \"mechanism_strength\": \"weak\", \"multimodal_evidence\": [\"CPU down 10.20 at 0s\", \"Latency down at +93s\"], \"source_like_cues\": [], \"symptom_like_cues\": []}, {\"ambiguity_cues\": [\"Dominant error spike is late (+195s)\"], \"causal_links_to_check\": [\"Verify if frontend errors are caused by checkoutservice or other backend call failures\"], \"component\": \"frontend\", \"diagnostic_implication\": \"Entry symptom; reflects downstream failures, not root cause\", \"event_id\": \"event:11:frontend:primary\", \"event_kind\": \"entry_error_observation_event\", \"event_time\": 1732376374.0, \"mechanism_strength\": \"weak\", \"multimodal_evidence\": [\"Error spike 6.7e7 at +195s\", \"CPU down 9.94 at +11s\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"Entry component errors show backend failures\", \"Generic request error is visibility evidence, not source proof\"]}, {\"ambiguity_cues\": [\"May be consequence, not cause\"], \"causal_links_to_check\": [\"Correlate with primary onset events\"], \"component\": \"currencyservice\", \"diagnostic_implication\": \"Late metric spike; not primary evidence\", \"event_id\": \"event:4:currencyservice:late_dominant_metric\", \"event_kind\": \"late_dominant_metric_followup\", \"event_time\": 1732376387.0, \"mechanism_strength\": \"unknown\", \"multimodal_evidence\": [\"CPU down 7.10 at +38s (local max)\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"Late dominant cpu spike separate from onset\"]}, {\"ambiguity_cues\": [\"May be consequence, not cause\"], \"causal_links_to_check\": [\"Correlate with primary onset events\"], \"component\": \"shippingservice\", \"diagnostic_implication\": \"Late metric spike; not primary evidence\", \"event_id\": \"event:7:shippingservice:late_dominant_metric\", \"event_kind\": \"late_dominant_metric_followup\", \"event_time\": 1732376491.0, \"mechanism_strength\": \"unknown\", \"multimodal_evidence\": [\"Memory down 6.07 at +136s (local max)\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"Late dominant memory spike separate from onset\"]}, {\"ambiguity_cues\": [\"May be consequence, not cause\"], \"causal_links_to_check\": [\"Correlate with primary onset events\"], \"component\": \"cartservice\", \"diagnostic_implication\": \"Late metric spike; not primary evidence\", \"event_id\": \"event:3:cartservice:late_dominant_metric\", \"event_kind\": \"late_dominant_metric_followup\", \"event_time\": 1732376539.0, \"mechanism_strength\": \"unknown\", \"multimodal_evidence\": [\"Latency down 9.15 at +190s (local max)\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"Late dominant latency spike separate from onset\"]}, {\"ambiguity_cues\": [\"May be consequence, not cause\"], \"causal_links_to_check\": [\"Correlate with primary onset events\"], \"component\": \"frontend\", \"diagnostic_implication\": \"Late metric spike; not primary evidence\", \"event_id\": \"event:11:frontend:late_dominant_metric\", \"event_kind\": \"late_dominant_metric_followup\", \"event_time\": 1732376569.0, \"mechanism_strength\": \"unknown\", \"multimodal_evidence\": [\"Error spike 6.7e7 at +195s (local max)\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"Late dominant error spike separate from onset\"]}, {\"ambiguity_cues\": [\"May be consequence, not cause\"], \"causal_links_to_check\": [\"Correlate with primary onset events\"], \"component\": \"paymentservice\", \"diagnostic_implication\": \"Late metric spike; not primary evidence\", \"event_id\": \"event:5:paymentservice:late_dominant_metric\", \"event_kind\": \"late_dominant_metric_followup\", \"event_time\": 1732376599.0, \"mechanism_strength\": \"unknown\", \"multimodal_evidence\": [\"Memory up 4.09 at +250s (local max)\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"Late dominant memory spike separate from onset\"]}, {\"ambiguity_cues\": [\"May be consequence, not cause\"], \"causal_links_to_check\": [\"Correlate with primary onset events\"], \"component\": \"checkoutservice\", \"diagnostic_implication\": \"Late metric spike; not primary evidence\", \"event_id\": \"event:9:checkoutservice:late_dominant_metric\", \"event_kind\": \"late_dominant_metric_followup\", \"event_time\": 1732376749.0, \"mechanism_strength\": \"unknown\", \"multimodal_evidence\": [\"Latency down 6.20 at +389s (local max)\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"Late dominant latency spike separate from onset\"]}], \"ivd\": {\"interpretation\": \"IVD uses pairwise tournament (Copeland score) to identify the initiator vs victim among source candidates. The initiator is the candidate whose anomaly is least explainable by others and most explanatory for others. Do not select a candidate labeled as 'victim' over one labeled as 'initiator'.\", \"ivd_enabled\": true, \"ranking\": [\"emailservice\", \"productcatalogservice\", \"adservice\", \"recommendationservice\", \"checkoutservice\"], \"verdicts\": {\"adservice\": {\"caller_anomalies\": [], \"caller_anomalies_count\": 0, \"copeland_score\": 0, \"downstream_coverage_count\": 0, \"fault_signature_label\": \"ambiguous_or_no_exception\", \"ivd_role\": \"ambiguous\", \"resource_magnitude\": 10.198773517453798, \"temporal_gap_seconds\": null, \"temporal_verdict\": \"resource_only\", \"workload_magnitude\": 0}, \"checkoutservice\": {\"caller_anomalies\": [], \"caller_anomalies_count\": 0, \"copeland_score\": -4, \"downstream_coverage_count\": 4, \"fault_signature_label\": \"ambiguous_or_no_exception\", \"ivd_role\": \"victim\", \"resource_magnitude\": 6.303883361417292, \"temporal_gap_seconds\": 142.0, \"temporal_verdict\": \"resource_before_workload\", \"workload_magnitude\": 3.2012012012012017}, \"emailservice\": {\"caller_anomalies\": [\"checkoutservice\"], \"caller_anomalies_count\": 1, \"copeland_score\": 4, \"downstream_coverage_count\": 0, \"fault_signature_label\": \"ambiguous_or_no_exception\", \"ivd_role\": \"initiator\", \"resource_magnitude\": 5619.845665778732, \"temporal_gap_seconds\": -8.0, \"temporal_verdict\": \"workload_before_resource\", \"workload_magnitude\": 5.015037593984961}, \"productcatalogservice\": {\"caller_anomalies\": [\"checkoutservice\", \"recommendationservice\"], \"caller_anomalies_count\": 2, \"copeland_score\": 2, \"downstream_coverage_count\": 0, \"fault_signature_label\": \"ambiguous_or_no_exception\", \"ivd_role\": \"ambiguous\", \"resource_magnitude\": 13.36331417435077, \"temporal_gap_seconds\": 197.0, \"temporal_verdict\": \"resource_before_workload\", \"workload_magnitude\": 3.8461538461538476}, \"recommendationservice\": {\"caller_anomalies\": [], \"caller_anomalies_count\": 0, \"copeland_score\": -2, \"downstream_coverage_count\": 1, \"fault_signature_label\": \"ambiguous_or_no_exception\", \"ivd_role\": \"victim\", \"resource_magnitude\": 14.034459848519235, \"temporal_gap_seconds\": 204.0, \"temporal_verdict\": \"resource_before_workload\", \"workload_magnitude\": 4.457025920873131}}}, \"main_agent_guidance\": {\"event_features_to_reuse_in_final_reasoning\": [\"event:1:emailservice:primary (strong source candidate, early resource exhaustion)\", \"event:9:checkoutservice:primary (strong symptom, log evidence of dependency failure)\", \"event:5:paymentservice:primary (source candidate with emitter exception, but late mechanism)\", \"event:6:redis:primary (dependency candidate, reactive storage anomalies)\", \"event:11:frontend:primary (entry symptom, error spike)\"], \"high_value_next_actions\": [\"Correlate emailservice memory spike timing with checkoutservice error log timestamps\", \"Check if checkoutservice error logs mention emailservice or paymentservice failures\", \"Investigate if paymentservice exception is caused by invalid input from checkoutservice or is an independent fault\", \"Trace missing dependencies: use inferred naming to confirm cartservice and redis call relationships\"], \"pitfalls_to_avoid\": [\"Do not assume redis is root cause because of high disk magnitude; storage reactiveness makes it unlikely\", \"Do not promote checkoutservice to root despite strong logs; IVD identifies it as victim\", \"Do not ignore late ..."
+      },
+      "event_causal_fact_count": 17,
+      "final_belief_state": [
+        {
+          "contradicting_factors": [],
+          "hypothesis_id": "H3-emailservice-latency-degradation",
+          "missing_information": [],
+          "position": "leading",
+          "root_component": "emailservice",
+          "source_vs_symptom_judgment": "source (IVD initiator, early memory/socket/cpu exhaustion explains checkoutservice serialization failures, trace evidence shows checkoutservice→emailservice calls)",
+          "supporting_factors": [
+            "IVD verdict: initiator with Copeland score 4",
+            "strong near-onset internal mechanism: memory +5489.5 at +8s, socket down 13.33 at +13s, cpu up 130.35 at +22s",
+            "checkoutservice logs show Failed to serialize response errors consistent with emailservice degradation",
+            "downstream explanation: symptom-to-candidate path count 20 confirms emailservice as callee whose failure surfaces upstream"
+          ],
+          "why_not_others": "checkoutservice is IVD victim with late dominant spike and dependency-failure logs; paymentservice has latency-only near-onset and late separate credit card exception; redis is storage dependency without emitter errors; productcatalogservice is IVD ambiguous but weaker evidence"
+        },
+        {
+          "contradicting_factors": [
+            "IVD victim label",
+            "dominant latency spike is very late (+389s)",
+            "logs show dependency failure, not own-code fault"
+          ],
+          "hypothesis_id": "H7-checkoutservice-emitter-exception",
+          "missing_information": [],
+          "position": "weakened",
+          "root_component": "checkoutservice",
+          "source_vs_symptom_judgment": "symptom (IVD victim; serialization errors indicate dependency failure, not internal root cause)",
+          "supporting_factors": [],
+          "why_not_others": "emailservice has earlier and stronger mechanism, IVD initiator, and its resource exhaustion explains checkoutservice's observed failures"
+        },
+        {
+          "contradicting_factors": [
+            "near-onset is latency-only",
+            "dominant memory spike is late (+250s)",
+            "not in IVD initiator set"
+          ],
+          "hypothesis_id": "H8-paymentservice-emitter-exception",
+          "missing_information": [],
+          "position": "unlikely",
+          "root_component": "paymentservice",
+          "source_vs_symptom_judgment": "weak source candidate; latency-only near-onset, late separate credit card exception, not explanatory for serialization failures",
+          "supporting_factors": [
+            "emitter exception log present (credit card error)"
+          ],
+          "why_not_others": "emailservice has stronger early mechanism and IVD initiator; paymentservice's exception type does not match checkoutservice serialization failures"
+        },
+        {
+          "contradicting_factors": [
+            "storage dependency without emitter exception",
+            "cpu/disk anomalies likely reactive to service queries",
+            "no service emitter errors linking to redis"
+          ],
+          "hypothesis_id": "H1-redis-cpu-saturation",
+          "missing_information": [],
+          "position": "unlikely",
+          "root_component": "redis",
+          "source_vs_symptom_judgment": "symptom (reactive storage; no application-level fault signals)",
+          "supporting_factors": [
+            "large disk IO anomaly"
+          ],
+          "why_not_others": "emailservice is a service with internal exceptions affecting callers; redis is a callee dependency without emitter exceptions"
+        },
+        {
+          "contradicting_factors": [
+            "IVD ambiguous, no log evidence",
+            "emailservice's mechanism is stronger and more explanatory"
+          ],
+          "hypothesis_id": "H9-productcatalogservice-latency-degradation",
+          "missing_information": [],
+          "position": "unlikely",
+          "root_component": "productcatalogservice",
+          "source_vs_symptom_judgment": "ambiguous (IVD ambiguous; moderate CPU mechanism, but emailservice is initiator and better explains downstream)",
+          "supporting_factors": [
+            "CPU anomaly at onset"
+          ],
+          "why_not_others": "emailservice has IVD initiator role and better early mechanism; productcatalogservice's caller anomalies may be downstream of emailservice issues"
+        }
+      ],
+      "transcript": [
+        {
+          "step_index": 0,
+          "agent_response": {
+            "belief_state": [
+              {
+                "contradicting_factors": [],
+                "hypothesis_id": "H3-emailservice-latency-degradation",
+                "missing_information": [
+                  "emailservice internal log evidence",
+                  "checkoutservice error logs referencing emailservice",
+                  "downstream explanation strength"
+                ],
+                "position": "leading",
+                "root_component": "emailservice",
+                "source_vs_symptom_judgment": "source candidate (IVD initiator; early resource exhaustion; caller anomalies)",
+                "supporting_factors": [
+                  "IVD verdict: initiator with highest Copeland score",
+                  "strong near-onset mechanism signals (memory, cpu, socket)",
+                  "checkoutservice shows caller anomaly for emailservice"
+                ],
+                "why_not_others": "checkoutservice is IVD victim with late dominant latency; paymentservice has late mechanism and no initiator role; redis is a storage dependency without emitter exception; productcatalogservice is IVD ambiguous and lacks strong mechanism"
+              },
+              {
+                "contradicting_factors": [
+                  "IVD victim label",
+                  "dominant latency spike is very late (+389s)",
+                  "error log indicates dependency failure, not internal fault"
+                ],
+                "hypothesis_id": "H7-checkoutservice-emitter-exception",
+                "missing_information": [
+                  "log content: which dependency failed",
+                  "evidence that its errors are caused by emailservice"
+                ],
+                "position": "weakened",
+                "root_component": "checkoutservice",
+                "source_vs_symptom_judgment": "symptom candidate (IVD victim; downstream of emailservice)",
+                "supporting_factors": [
+                  "has emitter exception log at onset",
+                  "shows caller anomaly for emailservice"
+                ],
+                "why_not_others": "does not explain emailservice resource spikes; IVD ranks emailservice as initiator; frontend errors are downstream of checkoutservice"
+              },
+              {
+                "contradicting_factors": [
+                  "near-onset is latency-only",
+                  "dominant memory spike is late (+250s)",
+                  "not in IVD initiator set"
+                ],
+                "hypothesis_id": "H8-paymentservice-emitter-exception",
+                "missing_information": [
+                  "log correlation with checkoutservice errors",
+                  "evidence that exception is independent vs. triggered"
+                ],
+                "position": "plausible",
+                "root_component": "paymentservice",
+                "source_vs_symptom_judgment": "source candidate but with weak early evidence",
+                "supporting_factors": [
+                  "emitter exception log (credit card processing error)"
+                ],
+                "why_not_others": "emailservice has stronger early mechanism and IVD initiator; paymentservice's late dominant spike suggests it may be a victim of earlier upstream issues"
+              },
+              {
+                "contradicting_factors": [
+                  "storage dependency without emitter exception",
+                  "CPU/disk anomalies likely reactive to service queries"
+                ],
+                "hypothesis_id": "H1-redis-cpu-saturation",
+                "missing_information": [
+                  "trace evidence of callers overwhelming redis",
+                  "independent mechanism beyond resource utilization"
+                ],
+                "position": "unlikely",
+                "root_component": "redis",
+                "source_vs_symptom_judgment": "symptom candidate (reactive storage; no emitter exception)",
+                "supporting_factors": [
+                  "large disk IO anomaly magnitude"
+                ],
+                "why_not_others": "emailservice is a service with internal exceptions affecting callers; redis is a callee dependency without application-level fault signals"
+              },
+              {
+                "contradicting_factors": [
+                  "IVD ambiguous label",
+                  "no log evidence"
+                ],
+                "hypothesis_id": "H9-productcatalogservice-latency-degradation",
+                "missing_information": [
+                  "log or trace context to elevate from ambiguous",
+                  "downstream coverage beyond recommendationservice"
+                ],
+                "position": "plausible",
+                "root_component": "productcatalogservice",
+                "source_vs_symptom_judgment": "ambiguous (IVD ambiguous; moderate CPU mechanism)",
+                "supporting_factors": [
+                  "CPU anomaly at onset",
+                  "has caller anomalies (checkoutservice, recommendationservice)"
+                ],
+                "why_not_others": "emailservice has stronger mechanism and IVD initiator; productcatalogservice's caller anomalies may be downstream of other issues"
+              }
+            ],
+            "case_narrative": "At event time 1732376349, emailservice suffered resource exhaustion (memory, cpu, socket), causing checkoutservice calls to fail with dependency errors. These errors propagated to frontend and other services, leading to elevated error rates and latency. Redis exhibited reactive disk and cpu spikes but no emitter exception, pointing to abnormal query load from affected services. Paymentservice had a late emitter exception but lacked early mechanism strength. IVD analysis confirms emailservice as the initiator, with checkoutservice as victim.",
+            "final_decision": null,
+            "next_action": {
+              "action_id": "noise_inspect_emailservice_checkoutservice",
+              "args": {
+                "component_scope": [
+                  "emailservice",
+                  "checkoutservice"
+                ],
+                "feature_groups": [
+                  "onset",
+                  "local_mechanism",
+                  "logs",
+                  "propagation"
+                ],
+                "time_window": [
+                  1732376249,
+                  1732376549
+                ]
+              },
+              "expected_information_gain": "Reveal emailservice internal logs and checkoutservice error log content to confirm dependency failure link; strengthen or weaken emailservice as root cause",
+              "question": "Do emailservice logs show internal faults, and do checkoutservice error logs explicitly mention emailservice failures?",
+              "target_hypothesis_ids": [
+                "H3-emailservice-latency-degradation",
+                "H7-checkoutservice-emitter-exception"
+              ],
+              "tool_name": "inspect_noise_features"
+            },
+            "step_index": 0
+          },
+          "executed_action": {
+            "action_id": "noise_inspect_emailservice_checkoutservice",
+            "tool_name": "inspect_noise_features",
+            "target_hypothesis_ids": [
+              "H3-emailservice-latency-degradation",
+              "H7-checkoutservice-emitter-exception"
+            ],
+            "question": "Do emailservice logs show internal faults, and do checkoutservice error logs explicitly mention emailservice failures?",
+            "args": {
+              "component_scope": [
+                "emailservice",
+                "checkoutservice"
+              ],
+              "time_window": [
+                1732376249.0,
+                1732376549.0
+              ],
+              "feature_groups": [
+                "onset",
+                "local_mechanism",
+                "logs",
+                "propagation"
+              ]
+            },
+            "expected_information_gain": "Reveal emailservice internal logs and checkoutservice error log content to confirm dependency failure link; strengthen or weaken emailservice as root cause"
+          },
+          "evidence_id": "evidence:4696d989d744f787572a015f297e1a03306b5c3228fa3ad13a5069859e66344a"
+        },
+        {
+          "step_index": 1,
+          "agent_response": {
+            "belief_state": [
+              {
+                "contradicting_factors": [],
+                "hypothesis_id": "H3-emailservice-latency-degradation",
+                "missing_information": [
+                  "explicit confirmation that checkoutservice serialization failure is caused by emailservice and not paymentservice or other dependency"
+                ],
+                "position": "leading",
+                "root_component": "emailservice",
+                "source_vs_symptom_judgment": "source candidate (IVD initiator; early resource exhaustion with checkoutservice log evidence of dependency failure)",
+                "supporting_factors": [
+                  "IVD verdict: initiator with highest Copeland score",
+                  "strong near-onset mechanism signals (memory +5489.5 at +8s, cpu, socket)",
+                  "checkoutservice logs show serialization failure, consistent with emailservice response degradation"
+                ],
+                "why_not_others": "checkoutservice logs indicate dependency failure, not internal fault; emailservice's early resource exhaustion explains those failures; paymentservice's late emitter exception is about credit card processing, not serialization; redis is a storage without application errors"
+              },
+              {
+                "contradicting_factors": [
+                  "IVD victim label",
+                  "dominant latency spike is very late (+389s)",
+                  "logs show dependency failure (serialization), not internal fault"
+                ],
+                "hypothesis_id": "H7-checkoutservice-emitter-exception",
+                "missing_information": [
+                  "precise dependency identification to confirm root cause"
+                ],
+                "position": "weakened",
+                "root_component": "checkoutservice",
+                "source_vs_symptom_judgment": "symptom candidate (IVD victim; logs indicate dependency failure)",
+                "supporting_factors": [],
+                "why_not_others": "emailservice has earlier and stronger internal mechanism, IVD initiator, and its resource exhaustion explains checkoutservice's dependency failure"
+              },
+              {
+                "contradicting_factors": [
+                  "near-onset is latency-only",
+                  "dominant memory spike is late (+250s)",
+                  "not in IVD initiator set"
+                ],
+                "hypothesis_id": "H8-paymentservice-emitter-exception",
+                "missing_information": [
+                  "log content correlation with checkoutservice errors; evidence exception is independent"
+                ],
+                "position": "plausible",
+                "root_component": "paymentservice",
+                "source_vs_symptom_judgment": "source candidate but weak early evidence and late dominant spike",
+                "supporting_factors": [
+                  "emitter exception log (credit card processing error)"
+                ],
+                "why_not_others": "emailservice has stronger early mechanism and IVD initiator; paymentservice's late spike suggests reactive, not initiator"
+              },
+              {
+                "contradicting_factors": [
+                  "storage dependency without emitter exception",
+                  "cpu/disk anomalies likely reactive",
+                  "no service emitter errors linking to redis"
+                ],
+                "hypothesis_id": "H1-redis-cpu-saturation",
+                "missing_information": [
+                  "trace evidence of callers overwhelming redis"
+                ],
+                "position": "unlikely",
+                "root_component": "redis",
+                "source_vs_symptom_judgment": "symptom candidate (reactive storage; no application-level fault signals)",
+                "supporting_factors": [
+                  "large disk IO anomaly"
+                ],
+                "why_not_others": "emailservice is a service with internal exceptions affecting callers; redis is a callee dependency without emitter exceptions"
+              },
+              {
+                "contradicting_factors": [
+                  "IVD ambiguous label",
+                  "no log evidence"
+                ],
+                "hypothesis_id": "H9-productcatalogservice-latency-degradation",
+                "missing_information": [
+                  "log or trace context to elevate from ambiguous"
+                ],
+                "position": "plausible",
+                "root_component": "productcatalogservice",
+                "source_vs_symptom_judgment": "ambiguous (IVD ambiguous; moderate CPU mechanism)",
+                "supporting_factors": [
+                  "CPU anomaly at onset",
+                  "has caller anomalies (checkoutservice, recommendationservice)"
+                ],
+                "why_not_others": "emailservice has stronger mechanism and IVD initiator; productcatalogservice's caller anomalies may be downstream of other issues"
+              }
+            ],
+            "case_narrative": "At event time 1732376349, emailservice suffered resource exhaustion (memory spike +5489.5 at +8s, cpu, socket), causing checkoutservice calls to fail with serialization errors (\"Failed to serialize response!\"). These errors propagated to frontend and other services, leading to elevated error rates and latency. Redis exhibited reactive disk and cpu spikes but no emitter exception, pointing to abnormal query load from affected services. Paymentservice had a late credit card processing exception, separate from the serialization failures, and lacks early mechanism strength. IVD analysis confirms emailservice as the initiator, with checkoutservice as victim.",
+            "final_decision": null,
+            "next_action": {
+              "action_id": "noise_inspect_paymentservice_checkoutservice_logs",
+              "args": {
+                "component_scope": [
+                  "paymentservice",
+                  "checkoutservice"
+                ],
+                "feature_groups": [
+                  "onset",
+                  "local_mechanism",
+                  "logs",
+                  "propagation"
+                ],
+                "time_window": [
+                  1732376249.0,
+                  1732376549.0
+                ]
+              },
+              "expected_information_gain": "Resolve remaining ambiguity: confirm whether checkoutservice serialization errors are due to emailservice or paymentservice, and see if paymentservice logs reveal any internal faults that could be root.",
+              "question": "Do checkoutservice error logs explicitly mention paymentservice or emailservice as the failing dependency? What do paymentservice logs show?",
+              "target_hypothesis_ids": [
+                "H3-emailservice-latency-degradation",
+                "H8-paymentservice-emitter-exception"
+              ],
+              "tool_name": "inspect_noise_features"
+            }
+          },
+          "executed_action": {
+            "action_id": "noise_inspect_paymentservice_checkoutservice_logs",
+            "tool_name": "inspect_noise_features",
+            "target_hypothesis_ids": [
+              "H3-emailservice-latency-degradation",
+              "H8-paymentservice-emitter-exception"
+            ],
+            "question": "Do checkoutservice error logs explicitly mention paymentservice or emailservice as the failing dependency? What do paymentservice logs show?",
+            "args": {
+              "component_scope": [
+                "paymentservice",
+                "checkoutservice"
+              ],
+              "time_window": [
+                1732376249.0,
+                1732376549.0
+              ],
+              "feature_groups": [
+                "onset",
+                "local_mechanism",
+                "logs",
+                "propagation"
+              ]
+            },
+            "expected_information_gain": "Resolve remaining ambiguity: confirm whether checkoutservice serialization errors are due to emailservice or paymentservice, and see if paymentservice logs reveal any internal faults that could be root."
+          },
+          "evidence_id": "evidence:e66e3d3178c654cc49fe12ee1d88fe97d9a53d12fb5a29d4ed2cf19e6a64eb58"
+        },
+        {
+          "step_index": 2,
+          "agent_response": {
+            "agent": "continuous_noise_native",
+            "belief_state": [
+              {
+                "hypothesis_id": "H3-emailservice-latency-degradation",
+                "root_component": "emailservice",
+                "position": "leading",
+                "source_vs_symptom_judgment": "source (IVD initiator, early memory/socket/cpu exhaustion, explains checkoutservice serialization failures and downstream errors)",
+                "supporting_factors": [
+                  "IVD verdict: initiator with highest Copeland score",
+                  "strong near-onset internal mechanism: memory +5489.5 at +8s, socket down 13.33 at +13s, cpu up 130.35 at +22s",
+                  "checkoutservice logs show serialization failure consistent with emailservice response degradation"
+                ],
+                "contradicting_factors": [],
+                "missing_information": [
+                  "need to demonstrate emailservice can causally explain checkoutservice serialization failures and frontend error spike timing"
+                ],
+                "why_not_others": "checkoutservice is IVD victim with late dominant spike and logs indicating dependency failure; paymentservice has latency-only near-onset and late separate credit card exception; redis is a storage dependency without emitter errors; productcatalogservice is IVD ambiguous but weaker overall evidence"
+              },
+              {
+                "hypothesis_id": "H7-checkoutservice-emitter-exception",
+                "root_component": "checkoutservice",
+                "position": "weakened",
+                "source_vs_symptom_judgment": "symptom (IVD victim; serialization errors indicate dependency failure, not internal root cause)",
+                "supporting_factors": [],
+                "contradicting_factors": [
+                  "IVD victim label",
+                  "dominant latency spike is very late (+389s)",
+                  "logs show dependency failure, not own-code fault"
+                ],
+                "missing_information": [],
+                "why_not_others": "emailservice has earlier and stronger mechanism, IVD initiator, and its resource exhaustion explains checkoutservice's observed failures"
+              },
+              {
+                "hypothesis_id": "H8-paymentservice-emitter-exception",
+                "root_component": "paymentservice",
+                "position": "plausible",
+                "source_vs_symptom_judgment": "weak source candidate; latency-only near-onset, late memory spike, exception about credit card, not serialization",
+                "supporting_factors": [
+                  "emitter exception log present (credit card error, not serialization)"
+                ],
+                "contradicting_factors": [
+                  "near-onset is latency-only",
+                  "dominant memory spike is late (+250s)",
+                  "not in IVD initiator set"
+                ],
+                "missing_information": [
+                  "log content correlation with checkoutservice errors"
+                ],
+                "why_not_others": "emailservice has stronger early mechanism and IVD initiator; paymentservice's late spike suggests reactive, not initiator; exception type does not match checkoutservice serialization failures"
+              },
+              {
+                "hypothesis_id": "H1-redis-cpu-saturation",
+                "root_component": "redis",
+                "position": "unlikely",
+                "source_vs_symptom_judgment": "symptom (reactive storage; no application-level fault signals)",
+                "supporting_factors": [
+                  "large disk IO anomaly"
+                ],
+                "contradicting_factors": [
+                  "storage dependency without emitter exception",
+                  "cpu/disk anomalies likely reactive to service queries",
+                  "no service emitter errors linking to redis"
+                ],
+                "missing_information": [],
+                "why_not_others": "emailservice is a service with internal exceptions affecting callers; redis is a callee dependency without emitter exceptions"
+              },
+              {
+                "hypothesis_id": "H9-productcatalogservice-latency-degradation",
+                "root_component": "productcatalogservice",
+                "position": "plausible",
+                "source_vs_symptom_judgment": "ambiguous (IVD ambiguous; moderate CPU mechanism, caller anomalies exist but not sufficient to override emailservice)",
+                "supporting_factors": [
+                  "CPU anomaly at onset",
+                  "has caller anomalies (checkoutservice, recommendationservice)"
+                ],
+                "contradicting_factors": [
+                  "IVD ambiguous, no log evidence",
+                  "emailservice's mechanism is stronger and more explanatory"
+                ],
+                "missing_information": [
+                  "log or trace context to elevate from ambiguous"
+                ],
+                "why_not_others": "emailservice has IVD initiator role and better early mechanism; productcatalogservice's caller anomalies may be downstream of emailservice issues"
+              }
+            ],
+            "case_narrative": "At event time 1732376349, emailservice suffered resource exhaustion (memory spike +5489.5 at +8s, cpu, socket), causing downstream checkoutservice to fail with serialization errors (\"Failed to serialize response!\"). These errors propagated to frontend, producing elevated error rates. Redis showed reactive disk/cpu spikes due to abnormal query load from affected services. Paymentservice had a late, separate credit card processing exception. IVD confirms emailservice as the initiator, making it the root cause.",
+            "final_decision": null,
+            "next_action": {
+              "action_id": "noise_test_downstream_explanation",
+              "tool_name": "test_downstream_explanation",
+              "question": "Can emailservice's early resource exhaustion causally explain the checkoutservice serialization failures and subsequent frontend errors?",
+              "expected_information_gain": "Demonstrate that emailservice's anomaly timing and nature can account for checkoutservice and frontend symptoms, solidifying the causal chain and addressing remaining ambiguity.",
+              "target_hypothesis_ids": [
+                "H3-emailservice-latency-degradation",
+                "H7-checkoutservice-emitter-exception"
+              ],
+              "args": {
+                "candidate_component": "emailservice",
+                "symptom_components": [
+                  "checkoutservice",
+                  "frontend"
+                ],
+                "time_window": [
+                  1732376249.0,
+                  1732376549.0
+                ]
+              }
+            }
+          },
+          "executed_action": {
+            "action_id": "noise_test_downstream_explanation",
+            "tool_name": "test_downstream_explanation",
+            "target_hypothesis_ids": [
+              "H3-emailservice-latency-degradation",
+              "H7-checkoutservice-emitter-exception"
+            ],
+            "question": "Can emailservice's early resource exhaustion causally explain the checkoutservice serialization failures and subsequent frontend errors?",
+            "args": {
+              "candidate_component": "emailservice",
+              "symptom_components": [
+                "checkoutservice",
+                "frontend"
+              ],
+              "time_window": [
+                1732376249.0,
+                1732376549.0
+              ]
+            },
+            "expected_information_gain": "Demonstrate that emailservice's anomaly timing and nature can account for checkoutservice and frontend symptoms, solidifying the causal chain and addressing remaining ambiguity."
+          },
+          "evidence_id": "evidence:b02e88fc90d4d25501a71966b0981b0dd1c1ad1913d10bb8355cad7fec6373b7"
+        },
+        {
+          "step_index": 3,
+          "agent_response": {
+            "agent": "continuous_noise_native",
+            "belief_state": [
+              {
+                "hypothesis_id": "H3-emailservice-latency-degradation",
+                "root_component": "emailservice",
+                "position": "leading",
+                "source_vs_symptom_judgment": "source (IVD initiator, early memory/socket/cpu exhaustion, explains checkoutservice serialization failures and downstream errors, confirmed by downstream explanation trace paths)",
+                "supporting_factors": [
+                  "IVD verdict: initiator with highest Copeland score",
+                  "strong near-onset internal mechanism: memory +5489.5 at +8s, socket down 13.33 at +13s, cpu up 130.35 at +22s",
+                  "checkoutservice logs show serialization failure consistent with emailservice response degradation",
+                  "downstream explanation confirms checkoutservice->emailservice call paths, with symptom-to-candidate path count 20 supporting emailservice as callee whose failure surfaces upstream"
+                ],
+                "contradicting_factors": [],
+                "missing_information": [],
+                "why_not_others": "checkoutservice is IVD victim with late dominant spike and logs indicating dependency failure; paymentservice has latency-only near-onset and late separate credit card exception; redis is a storage dependency without emitter errors; productcatalogservice is IVD ambiguous but weaker overall evidence"
+              },
+              {
+                "hypothesis_id": "H7-checkoutservice-emitter-exception",
+                "root_component": "checkoutservice",
+                "position": "weakened",
+                "source_vs_symptom_judgment": "symptom (IVD victim; serialization errors indicate dependency failure, not internal root cause)",
+                "supporting_factors": [],
+                "contradicting_factors": [
+                  "IVD victim label",
+                  "dominant latency spike is very late (+389s)",
+                  "logs show dependency failure, not own-code fault"
+                ],
+                "missing_information": [],
+                "why_not_others": "emailservice has earlier and stronger mechanism, IVD initiator, and its resource exhaustion explains checkoutservice's observed failures"
+              },
+              {
+                "hypothesis_id": "H8-paymentservice-emitter-exception",
+                "root_component": "paymentservice",
+                "position": "plausible",
+                "source_vs_symptom_judgment": "weak source candidate; latency-only near-onset, late memory spike, exception about credit card, not serialization",
+                "supporting_factors": [
+                  "emitter exception log present (credit card error, not serialization)"
+                ],
+                "contradicting_factors": [
+                  "near-onset is latency-only",
+                  "dominant memory spike is late (+250s)",
+                  "not in IVD initiator set"
+                ],
+                "missing_information": [
+                  "log content correlation with checkoutservice errors"
+                ],
+                "why_not_others": "emailservice has stronger early mechanism and IVD initiator; paymentservice's late spike suggests reactive, not initiator; exception type does not match checkoutservice serialization failures"
+              },
+              {
+                "hypothesis_id": "H1-redis-cpu-saturation",
+                "root_component": "redis",
+                "position": "unlikely",
+                "source_vs_symptom_judgment": "symptom (reactive storage; no application-level fault signals)",
+                "supporting_factors": [
+                  "large disk IO anomaly"
+                ],
+                "contradicting_factors": [
+                  "storage dependency without emitter exception",
+                  "cpu/disk anomalies likely reactive to service queries",
+                  "no service emitter errors linking to redis"
+                ],
+                "missing_information": [],
+                "why_not_others": "emailservice is a service with internal exceptions affecting callers; redis is a callee dependency without emitter exceptions"
+              },
+              {
+                "hypothesis_id": "H9-productcatalogservice-latency-degradation",
+                "root_component": "productcatalogservice",
+                "position": "plausible",
+                "source_vs_symptom_judgment": "ambiguous (IVD ambiguous; moderate CPU mechanism, caller anomalies exist but not sufficient to override emailservice)",
+                "supporting_factors": [
+                  "CPU anomaly at onset",
+                  "has caller anomalies (checkoutservice, recommendationservice)"
+                ],
+                "contradicting_factors": [
+                  "IVD ambiguous, no log evidence",
+                  "emailservice's mechanism is stronger and more explanatory"
+                ],
+                "missing_information": [
+                  "log or trace context to elevate from ambiguous"
+                ],
+                "why_not_others": "emailservice has IVD initiator role and better early mechanism; productcatalogservice's caller anomalies may be downstream of emailservice issues"
+              }
+            ],
+            "case_narrative": "At event time 1732376349, emailservice suffered severe memory exhaustion (+5489.5 at +8s) along with socket and cpu degradation, causing checkoutservice to fail with serialization errors when calling it (trace evidence shows checkoutservice->emailservice calls). These errors propagated to frontend, producing elevated error rates. Redis later showed reactive disk/cpu spikes due to abnormal query load. Paymentservice had a late, separate credit card exception. IVD confirms emailservice as the initiator.",
+            "final_decision": {
+              "root_component": "emailservice",
+              "mechanism": "memory exhaustion leading to resource degradation (cpu, socket), causing downstream checkoutservice serialization failures and frontend errors.",
+              "rationale": "Emailservice is the IVD-confirmed initiator with the highest Copeland score. It exhibits strong near-onset internal mechanism signals: memory spike (+5489.5 at +8s), socket degradation (−13.33 at +13s), and cpu spike (+130.35 at +22s), all before any downstream anomalies. Checkoutservice logs show serialization failures ('Failed to serialize response!') consistent with emailservice response degradation, and downstream explanation trace paths confirm checkoutservice->emailservice calls, supporting emailservice as the failing callee. Paymentservice has latency-only near-onset and a late, unrelated credit card exception; redis shows reactive storage pressure without emitter errors; productcatalogservice is IVD ambiguous but lacks the early multi-signal strength of emailservice. All evidence aligns with emailservice as the initiating root cause."
+            },
+            "next_action": null
+          },
+          "executed_action": {
+            "action_id": "fallback-features-3",
+            "tool_name": "inspect_noise_features",
+            "target_hypothesis_ids": [
+              "H1-redis-cpu-saturation",
+              "H2-frontend-service-error",
+              "H3-emailservice-latency-degradation",
+              "H4-recommendationservice-latency-degradation",
+              "H5-cartservice-latency-degradation",
+              "H6-currencyservice-latency-degradation",
+              "H7-checkoutservice-emitter-exception",
+              "H8-paymentservice-emitter-exception",
+              "H9-productcatalogservice-latency-degradation",
+              "H10-adservice-latency-degradation"
+            ],
+            "question": "Build fused NoiseLab feature table for all candidates.",
+            "args": {
+              "component_scope": [
+                "redis",
+                "frontend",
+                "emailservice",
+                "recommendationservice",
+                "cartservice",
+                "currencyservice",
+                "checkoutservice",
+                "paymentservice",
+                "productcatalogservice",
+                "adservice"
+              ],
+              "time_window": [
+                1732376049.0,
+                1732377249.0
+              ],
+              "feature_groups": [
+                "onset",
+                "local_mechanism",
+                "logs",
+                "propagation"
+              ]
+            },
+            "expected_information_gain": "Establish shared feature memory before narrowing candidates."
+          },
+          "evidence_id": "evidence:0c76b254fb72a2e3428b042cc22e334e723995080d3fcbe8ee2f74f8789cf7e5"
+        }
+      ],
+      "case_id": "RE3-OB/emailservice_f4/3",
+      "expected_component": "emailservice",
+      "hit": true,
+      "elapsed_sec": 461.004,
+      "error": null,
+      "token_usage": {
+        "call_count": 7,
+        "prompt_tokens": 131777,
+        "completion_tokens": 35993,
+        "total_tokens": 167770,
+        "by_purpose": {
+          "event_causalizer_state_update": {
+            "call_count": 1,
+            "prompt_tokens": 21094,
+            "completion_tokens": 13840,
+            "total_tokens": 34934
+          },
+          "continuous_noise_native_state_update": {
+            "call_count": 5,
+            "prompt_tokens": 100269,
+            "completion_tokens": 14104,
+            "total_tokens": 114373
+          },
+          "continuous_noise_native_json_repair": {
+            "call_count": 1,
+            "prompt_tokens": 10414,
+            "completion_tokens": 8049,
+            "total_tokens": 18463
+          }
+        }
+      }
+    }
+  ]
+}

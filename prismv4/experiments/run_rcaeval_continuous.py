@@ -98,6 +98,11 @@ def parse_args() -> argparse.Namespace:
         default="",
         help="JSONL path for full-fidelity LLM request/response records.",
     )
+    parser.add_argument(
+        "--only-cases",
+        default="",
+        help="Comma-separated case name fragments to run (e.g. 'front-end_f1/2,emailservice_f1/1'). Empty = run all.",
+    )
     return parser.parse_args()
 
 
@@ -108,6 +113,12 @@ def main() -> int:
         system=args.system,
         limit=args.max_cases if args.max_cases > 0 else None,
     )
+    if args.only_cases:
+        fragments = [f.strip() for f in args.only_cases.split(",") if f.strip()]
+        case_dirs = [
+            cd for cd in case_dirs
+            if any(frag in str(cd) for frag in fragments)
+        ]
     if not case_dirs:
         raise SystemExit("no RCAEval cases discovered")
 
@@ -399,6 +410,21 @@ Important causal rules:
 - Use mechanism_strength. A weak single-signal memory event in a caller with
   callees may be queueing/blocking on a slower dependency, not an independent
   source.
+- A storage/dependency component (mongo, redis, db) with resource anomalies
+  but no emitter exceptions is usually a reactive dependency, not the
+  initiating root cause. A service logic error can cause its storage to show
+  reactive resource pressure (memory, cpu, disk) through abnormal query
+  patterns.
+- When a service and its storage dependency both show strong anomalies,
+  list the service as source-like and the storage as symptom-like or
+  ambiguous. The service is more likely the root because its logic error
+  explains the storage's reactive anomalies.
+- Use causal_role and source_likelihood_score from the feature row:
+  source_candidate > dependency_candidate > propagation_symptom for
+  root-cause likelihood. Do not promote dependency_candidate to source-like
+  without independent emitter exception evidence.
+- Use inferred dependency edges (inferred_from_naming in trace_context) to
+  determine call direction between services and their storage dependencies.
 - Never use dataset path names, fault-name labels, case IDs, or metadata.
 
 Be concise. Reuse compact event fields instead of copying raw traces or logs.
@@ -471,7 +497,11 @@ def _request_event_causal_profile(
         "response_schema": schema,
         "case_context_without_label_leakage": _case_context(case),
         "hypotheses": [_hypothesis_context(h) for h in hypotheses],
-        "event_causal_facts": _truncate_jsonable(compact_facts, max_chars=45000),
+        "event_causal_facts": _truncate_jsonable(
+            {k: v for k, v in compact_facts.items() if k != "ivd"},
+            max_chars=42000,
+        ),
+        "ivd_verdicts": compact_facts.get("ivd"),
         "output_requirements": [
             "Preserve event IDs from event_causal_facts when referring to events.",
             "Cover every event_id, but keep each event entry concise.",
@@ -482,6 +512,12 @@ def _request_event_causal_profile(
             "Treat trace_error_boundary as symptom-surface evidence unless independent source mechanism exists.",
             "is_entry_like_component marks the request surface (where traffic enters), NOT root-cause strength. An entry component with internal anomalies is one candidate among several; do not treat entry status as evidence that it is the initiating fault.",
             "When an entry-like component and a background service both show strong internal mechanism signals, list both as source-like and let the main agent compare onset timing, dependency direction, and which component's anomaly explains the other.",
+            "causal_role=dependency_candidate means the component is a storage/database layer with resource anomalies but no emitter exceptions; resource anomalies in storage are often reactive to service-level faults. Do not list dependency_candidate components as source-like unless they have independent emitter exceptions.",
+            "causal_role=source_candidate means the component has emitter exceptions or strong internal mechanism as a service; prioritize these over dependency_candidate components when both show anomalies.",
+            "Use inferred dependency edges (inferred_from_naming in trace_context) to determine call direction: if a service calls a storage, the service is the caller and the storage is the callee/dependency.",
+            "When a service and its storage dependency both show strong anomalies, list the service as source-like and the storage as symptom-like or ambiguous, because a service logic error can cause its storage to show reactive resource pressure.",
+            "IVD (Initiator-Victim Disambiguation) verdicts are provided in event_causal_facts.ivd. Use them to classify candidates: ivd_role=initiator should be listed as source-like, ivd_role=victim should be listed as symptom-like. The initiator is the candidate whose anomaly is least explainable by others.",
+            "Do not use raw event timeline ordering to break ties. If two candidates have near-simultaneous onsets (gap < 10s), raw timestamp order is unreliable.",
             "Do not include case IDs, dataset paths, expected labels, rankings, scores, or probabilities.",
         ],
     }
@@ -617,9 +653,11 @@ def _normalize_event_causal_profile(
         "component_event_features": _compact_component_event_features(component_features),
         "causal_story_options": _compact_story_options(story_options),
         "main_agent_guidance": _compact_guidance(dict(guidance)),
+        "ivd": _compact_ivd(fallback_facts.get("ivd")),
         "profile_semantics": [
             "This profile is an event-level feature map generated by a sub-agent, not a final RCA decision.",
             "Use event IDs and causal cues to plan NoiseLab actions and final reasoning.",
+            "IVD verdicts (if present) classify candidates as initiator or victim. Use them to guide final selection.",
         ],
     }
 
@@ -647,6 +685,9 @@ def _compact_event_causal_facts(facts: Mapping[str, Any]) -> Mapping[str, Any]:
                     "magnitude": causal.get("near_onset_anomaly_magnitude"),
                     "latency_only": causal.get("latency_only_near_onset"),
                 },
+                "causal_role": causal.get("causal_role", "ambiguous"),
+                "source_likelihood_score": causal.get("source_likelihood_score", 0.0),
+                "is_storage_component": causal.get("is_storage_component", False),
                 "timing_flags": {
                     "late_dominant_metric": causal.get("late_dominant_metric"),
                     "dominant_metric": _compact_metric(causal.get("dominant_metric")),
@@ -670,6 +711,7 @@ def _compact_event_causal_facts(facts: Mapping[str, Any]) -> Mapping[str, Any]:
         "component_scope": facts.get("component_scope"),
         "event_causal_observations": events,
         "feature_semantics": facts.get("feature_semantics", []),
+        "ivd": _compact_ivd(facts.get("ivd")),
         "load_control_note": (
             "This is a compact projection preserving every event_id while omitting raw traces/log bodies."
         ),
@@ -686,6 +728,32 @@ def _compact_metric(value: Any) -> Mapping[str, Any] | None:
         "magnitude": value.get("magnitude"),
         "direction": value.get("direction"),
         "seconds_after_earliest": value.get("seconds_after_earliest"),
+    }
+
+
+def _compact_ivd(value: Any) -> Mapping[str, Any] | None:
+    if not isinstance(value, Mapping) or not value.get("ivd_enabled"):
+        return None
+    verdicts = value.get("verdicts", {})
+    compact_verdicts = {}
+    for comp, v in verdicts.items():
+        compact_verdicts[comp] = {
+            "ivd_role": v.get("ivd_role"),
+            "copeland_score": v.get("copeland_score"),
+            "fault_signature_label": v.get("fault_signature_label"),
+            "temporal_verdict": v.get("temporal_verdict"),
+            "temporal_gap_seconds": v.get("temporal_gap_seconds"),
+            "downstream_coverage_count": v.get("downstream_coverage_count"),
+            "caller_anomalies_count": v.get("caller_anomalies_count"),
+            "caller_anomalies": v.get("caller_anomalies"),
+            "resource_magnitude": v.get("resource_magnitude"),
+            "workload_magnitude": v.get("workload_magnitude"),
+        }
+    return {
+        "ivd_enabled": True,
+        "ranking": value.get("ranking", []),
+        "verdicts": compact_verdicts,
+        "interpretation": value.get("interpretation", ""),
     }
 
 
@@ -877,6 +945,36 @@ Before final_decision, apply these hard causal checks:
 - Do not choose a request failure boundary solely because trace status errors
   point to it. A boundary component may be timing out because one of its callees
   is slow or faulty.
+- Do not choose a storage/dependency component (mongo, redis, db) over a
+  service with emitter exceptions solely because the storage has stronger
+  resource anomalies. A service logic error can cause its storage dependency
+  to show reactive resource pressure (memory, cpu, disk) through abnormal
+  query patterns. Use causal_role: source_candidate > dependency_candidate
+  for root-cause likelihood. Use inferred_dependency_edges to determine call
+  direction: if a service calls a storage, the service is the caller and the
+  storage is the callee/dependency.
+- When a service and its storage dependency both show strong anomalies, prefer
+  the service as the root cause. The service's emitter exceptions (application-
+  level errors) explain why the storage shows resource anomalies (reactive
+  load from abnormal queries). The reverse direction (storage causes service
+  failure) would typically produce timeout errors in the service, not emitter
+  exceptions.
+- IVD (Initiator-Victim Disambiguation): when multiple services have similar
+  source_likelihood scores, do NOT select the one that appears earliest in
+  the event timeline. Use the IVD verdicts instead: the initiator is the
+  candidate whose anomaly is least explainable by other candidates
+  (exogeneity) and most explanatory for downstream anomalies (coverage).
+  A candidate with ivd_role=initiator MUST be selected over any candidate
+  labeled ambiguous or victim. Earliest unexplained cause beats earliest
+  observed symptom.
+- Temporal fragility: if two candidates have near-simultaneous onsets
+  (gap < 10s), raw timestamp order is unreliable and must not be used as
+  the sole tiebreaker. Use topology-constrained ordering and IVD instead.
+- FaultSignature: one of six IVD channels, not a standalone override. Own-code
+  stack traces suggest internal fault, but a victim can also have own-code
+  exceptions triggered by the initiator's upstream fault (e.g., invalid data
+  propagated from the true root). Do not use fault signature alone to override
+  IVD ranking.
 
 Never use dataset path names, fault-name labels, case IDs, or metadata to infer
 the answer. They are intentionally omitted from the case context.
@@ -914,7 +1012,11 @@ def _request_agent_state(
         "allowed_tool_names": list(NOISELAB_TOOL_NAMES),
         "case_context_without_label_leakage": _case_context(case),
         "hypotheses": [_hypothesis_context(h) for h in hypotheses],
-        "event_causal_profile": _truncate_jsonable(event_causal_profile, max_chars=30000),
+        "event_causal_profile": _truncate_jsonable(
+            {k: v for k, v in event_causal_profile.items() if k != "ivd"},
+            max_chars=28000,
+        ),
+        "ivd_verdicts": event_causal_profile.get("ivd"),
         "previous_working_memory": _truncate_jsonable(context_state, max_chars=20000),
         "evidence_history": _truncate_jsonable(evidence_history, max_chars=40000),
         "used_tool_calls": list(used_tool_calls),
@@ -931,6 +1033,14 @@ def _request_agent_state(
             "A latency-only earliest component needs additional internal mechanism evidence before it can outrank a slightly later memory/socket/cpu/error component.",
             "A weak EventCausalizer mechanism_strength or caller_side_memory_caution requires NoiseLab corroboration before final selection.",
             "Trace status errors identify the failure boundary; test whether a callee dependency explains the boundary component before selecting it.",
+            "A storage/dependency component (mongo, redis, db) with resource anomalies but no emitter exceptions is usually a reactive dependency, not the initiating root. Use causal_role: source_candidate > dependency_candidate.",
+            "When a service and its storage dependency both show strong anomalies, prefer the service: a service logic error causes abnormal DB queries that make the storage show reactive resource pressure. The reverse (storage causes service failure) would produce timeout errors, not emitter exceptions.",
+            "Use source_likelihood_score for ranking: higher score = more likely initiating root. Compare top_source_candidates_by_likelihood from compare_source_symptom output.",
+            "Use inferred_dependency_edges to determine call direction: if service A calls storage B, A is the caller and B is the callee/dependency; B's resource anomalies may be caused by A's fault.",
+            "IVD (Initiator-Victim Disambiguation): the ivd_verdicts field provides a pairwise tournament ranking (Copeland score) among source candidates. The initiator (ivd_role=initiator) is the candidate whose anomaly is least explainable by others and most explanatory for others. When IVD labels one candidate as initiator, you MUST select it over any candidate labeled ambiguous or victim. Do NOT override IVD ranking based on fault signature, caller count, or onset timing alone — the IVD tournament already weighs all six evidence channels.",
+            "Do not use raw event timeline ordering to break ties between candidates. If two candidates have near-simultaneous onsets (gap < 10s), raw timestamp order is unreliable (TemporalFragility). Use IVD ranking instead.",
+            "FaultSignature is one of six IVD channels, not a standalone override. A candidate with own-code exceptions but low IVD copeland score is likely a victim whose exception was triggered by the initiator's upstream fault (e.g., invalid data propagated from the true root). Do not use fault signature alone to override IVD ranking.",
+            "Exogeneity and coverage are IVD channels, not standalone rules. The IVD verdicts already incorporate caller_anomalies_count and downstream_coverage_count with resource-magnitude gating. Do not re-apply these heuristics independently to override IVD ranking.",
             "After each evidence item, explicitly say whether it suggests source, symptom, or ambiguity.",
             "Every leading hypothesis must have a why_not_others comparison.",
             "Use missing_information to drive the next action.",

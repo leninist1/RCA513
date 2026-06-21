@@ -1,0 +1,70 @@
+nohup: 忽略输入
+RE3-OB/adservice_f3/1: predicted=adservice expected=adservice hit=True tokens=178656 error=None
+RE3-OB/adservice_f3/2: predicted=adservice expected=adservice hit=True tokens=150187 error=None
+RE3-OB/adservice_f3/3: predicted=adservice expected=adservice hit=True tokens=150838 error=None
+RE3-OB/adservice_f4/1: predicted=adservice expected=adservice hit=True tokens=130068 error=None
+RE3-OB/adservice_f4/2: predicted=adservice expected=adservice hit=True tokens=174868 error=None
+RE3-OB/adservice_f4/3: predicted=adservice expected=adservice hit=True tokens=152992 error=None
+RE3-OB/adservice_f5/1: predicted=adservice expected=adservice hit=True tokens=228539 error=None
+RE3-OB/adservice_f5/2: predicted=adservice expected=adservice hit=True tokens=217543 error=None
+RE3-OB/adservice_f5/3: predicted=adservice expected=adservice hit=True tokens=142588 error=None
+RE3-OB/cartservice_f1/1: predicted=cartservice expected=cartservice hit=True tokens=152663 error=None
+RE3-OB/cartservice_f1/2: predicted=currencyservice expected=cartservice hit=False tokens=132970 error=None
+RE3-OB/cartservice_f1/3: predicted=cartservice expected=cartservice hit=True tokens=179099 error=None
+RE3-OB/currencyservice_f1/1: predicted=currencyservice expected=currencyservice hit=True tokens=149670 error=None
+RE3-OB/currencyservice_f1/2: predicted=currencyservice expected=currencyservice hit=True tokens=189992 error=None
+RE3-OB/currencyservice_f1/3: predicted=currencyservice expected=currencyservice hit=True tokens=163185 error=None
+RE3-OB/emailservice_f1/1: predicted=emailservice expected=emailservice hit=True tokens=166804 error=None
+RE3-OB/emailservice_f1/2: predicted=emailservice expected=emailservice hit=True tokens=138091 error=None
+RE3-OB/emailservice_f1/3: predicted=emailservice expected=emailservice hit=True tokens=125791 error=None
+RE3-OB/emailservice_f2/1: predicted=emailservice expected=emailservice hit=True tokens=185772 error=None
+RE3-OB/emailservice_f2/2: predicted=emailservice expected=emailservice hit=True tokens=189312 error=None
+RE3-OB/emailservice_f2/3: predicted=emailservice expected=emailservice hit=True tokens=161441 error=None
+RE3-OB/emailservice_f3/1: predicted=emailservice expected=emailservice hit=True tokens=131038 error=None
+RE3-OB/emailservice_f3/2: predicted=emailservice expected=emailservice hit=True tokens=134672 error=None
+RE3-OB/emailservice_f3/3: predicted=emailservice expected=emailservice hit=True tokens=178652 error=None
+RE3-OB/emailservice_f4/1: predicted=checkoutservice expected=emailservice hit=False tokens=163122 error=None
+RE3-OB/emailservice_f4/2: predicted=emailservice expected=emailservice hit=True tokens=132598 error=None
+RE3-OB/emailservice_f4/3: predicted=emailservice expected=emailservice hit=True tokens=150514 error=None
+RE3-OB/emailservice_f5/1: predicted=emailservice expected=emailservice hit=True tokens=171192 error=None
+RE3-OB/emailservice_f5/2: predicted=emailservice expected=emailservice hit=True tokens=165160 error=None
+RE3-OB/emailservice_f5/3: predicted=emailservice expected=emailservice hit=True tokens=168215 error=None
+{
+  "dataset": "RCAEval",
+  "system": "RE3-OB",
+  "mode": "continuous-noise-native-event-causalizer",
+  "total_cases": 30,
+  "top1_accuracy": 0.9333333333333333,
+  "top1_hits": 28,
+  "recall_pool_size": 15,
+  "max_hypotheses": 10,
+  "elapsed_sec": 13829.392,
+  "cost": {
+    "total_calls": 185,
+    "total_prompt_tokens": 3441547,
+    "total_completion_tokens": 1414685,
+    "total_tokens": 4856232,
+    "avg_tokens_per_case": 161874,
+    "by_purpose": {
+      "event_causalizer_state_update": {
+        "call_count": 30,
+        "prompt_tokens": 538480,
+        "completion_tokens": 412440,
+        "total_tokens": 950920
+      },
+      "continuous_noise_native_state_update": {
+        "call_count": 150,
+        "prompt_tokens": 2851563,
+        "completion_tokens": 973297,
+        "total_tokens": 3824860
+      },
+      "continuous_noise_native_json_repair": {
+        "call_count": 5,
+        "prompt_tokens": 51504,
+        "completion_tokens": 28948,
+        "total_tokens": 80452
+      }
+    }
+  }
+}
+wrote prismv4/results/prism_cht/OB_full_recall_v1.json

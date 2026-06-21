@@ -1,0 +1,42 @@
+nohup: 忽略输入
+RE3-OB/emailservice_f1/1: predicted=emailservice expected=emailservice hit=True tokens=166265 error=None
+RE3-OB/emailservice_f4/3: predicted=emailservice expected=emailservice hit=True tokens=167770 error=None
+{
+  "dataset": "RCAEval",
+  "system": "RE3-OB",
+  "mode": "continuous-noise-native-event-causalizer",
+  "total_cases": 2,
+  "top1_accuracy": 1.0,
+  "top1_hits": 2,
+  "recall_pool_size": 15,
+  "max_hypotheses": 10,
+  "elapsed_sec": 1041.213,
+  "cost": {
+    "total_calls": 13,
+    "total_prompt_tokens": 261571,
+    "total_completion_tokens": 72464,
+    "total_tokens": 334035,
+    "avg_tokens_per_case": 167017,
+    "by_purpose": {
+      "event_causalizer_state_update": {
+        "call_count": 2,
+        "prompt_tokens": 41780,
+        "completion_tokens": 23117,
+        "total_tokens": 64897
+      },
+      "continuous_noise_native_state_update": {
+        "call_count": 10,
+        "prompt_tokens": 209377,
+        "completion_tokens": 41298,
+        "total_tokens": 250675
+      },
+      "continuous_noise_native_json_repair": {
+        "call_count": 1,
+        "prompt_tokens": 10414,
+        "completion_tokens": 8049,
+        "total_tokens": 18463
+      }
+    }
+  }
+}
+wrote prismv4/results/prism_cht/OB_v4_retry.json

@@ -1,0 +1,601 @@
+{
+  "dataset": "RCAEval",
+  "system": "RE3-SS",
+  "mode": "continuous-noise-native-event-causalizer",
+  "total_cases": 1,
+  "top1_accuracy": 1.0,
+  "top1_hits": 1,
+  "recall_pool_size": 15,
+  "max_hypotheses": 10,
+  "elapsed_sec": 330.895,
+  "cost": {
+    "total_calls": 6,
+    "total_prompt_tokens": 133673,
+    "total_completion_tokens": 36207,
+    "total_tokens": 169880,
+    "avg_tokens_per_case": 169880,
+    "by_purpose": {
+      "event_causalizer_state_update": {
+        "call_count": 1,
+        "prompt_tokens": 20637,
+        "completion_tokens": 9225,
+        "total_tokens": 29862
+      },
+      "continuous_noise_native_state_update": {
+        "call_count": 5,
+        "prompt_tokens": 113036,
+        "completion_tokens": 26982,
+        "total_tokens": 140018
+      }
+    }
+  },
+  "results": [
+    {
+      "status": "continuous_final",
+      "hypothesis_id": "H2-front-end-emitter-exception",
+      "predicted_component": "front-end",
+      "reason_family": "emitter exception",
+      "onset_interval": [
+        1732258782.0,
+        1732258842.0
+      ],
+      "steps_completed": 4,
+      "evidence_count": 4,
+      "referenced_evidence_ids": [
+        "evidence:39c318b8a585bc5bdac546f054ee5e990c3e8a545d8847230e926e2fbd0cbb33",
+        "evidence:0ab974e310c4b349040c6cd984034ed6c38b7074780ed51448cc78cc44b82c19",
+        "evidence:3a0e58daff32b4e27893a505a2428b5f40678206e04eb00b33daee1122633f47",
+        "evidence:3e0b5da7a08ba8302f0eeeb636bfc59d105b08f18f9a73a12fd2ab14527f014c"
+      ],
+      "rationale": "Front-end is the IVD initiator with highest Copeland score (3), indicating its anomaly is least explainable by others and most explanatory for downstream components. It exhibits strong near-onset internal mechanism: memory spike, CPU drop, and emitter exception logs (PaymentDeclinedException) at 1732258812. The 406 errors it reports from orders are dependency failures, not root causes. Orders, despite its own anomalies, is an IVD victim; its errors are explained by front-end’s upstream fault. Storage components show reactive resource pressure typical of dependency load. Queue-master’s I/O exception is ambiguous and lacks propagation linkage to the primary failure. No other candidate matches the combination of early onset, emitter-side mechanism, and broad explanatory coverage.",
+      "uncertainties": [
+        "Queue-master's I/O exception is unexplained but likely independent and not causal to the main incident."
+      ],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "session-db",
+        "front-end",
+        "queue-master",
+        "shipping",
+        "orders",
+        "catalogue-db",
+        "orders-db",
+        "user",
+        "carts-db",
+        "catalogue",
+        "carts",
+        "user-db",
+        "payment",
+        "rabbitmq",
+        "rabbitmq-exporter"
+      ],
+      "event_causal_profile": {
+        "truncated_json": "{\"causal_story_options\": [{\"initiating_event_ids\": [\"event:1:front-end:primary\"], \"propagation_reading\": \"Front-end emitter exception propagates to orders (406 errors) and payment, causing downstream errors and resource anomalies. Orders and user are victims with reactive anomalies. Databases show reactive pressure.\", \"story_id\": \"S1\", \"what_would_support_it\": [\"Trace showing front-end internal fault preceding orders 406 responses.\", \"Orders error rate correlation with front-end exception timing.\"], \"what_would_weaken_it\": [\"Orders showing independent crash/restart before front-end anomaly.\", \"Network or infra fault affecting orders directly.\"]}, {\"initiating_event_ids\": [\"event:3:orders:primary\"], \"propagation_reading\": \"Orders service error causes front-end to observe 406 dependency failures, and orders-db resource pressure follows. Front-end is a symptom reporter, not root.\", \"story_id\": \"S2\", \"what_would_support_it\": [\"Orders error logs originating without front-end triggers.\", \"Orders-db pressure typical of orders load.\"], \"what_would_weaken_it\": [\"Front-end anomaly onset precedes orders error onset by seconds.\", \"Front-end resource anomalies are not explainable by orders failure alone.\"]}, {\"initiating_event_ids\": [\"event:9:queue-master:primary\"], \"propagation_reading\": \"Queue-master I/O exception leads to rabbitmq issues and downstream message processing delays, indirectly affecting orders and front-end.\", \"story_id\": \"S3\", \"what_would_support_it\": [\"Queue-master exception logs indicate internal issue.\", \"Rabbitmq anomalies occur shortly after queue-master exception.\"], \"what_would_weaken_it\": [\"Queue-master anomaly onset is later than front-end and orders, and no direct link to their errors.\"]}], \"component_event_features\": [{\"component\": \"front-end\", \"missing_checks\": [\"Confirm whether front-end internal exception precedes or follows orders errors via trace timing.\"], \"near_onset_mechanism\": [\"cpu\", \"error\", \"memory\"], \"primary_event_ids\": [\"event:1:front-end:primary\"], \"symptom_visibility\": [\"Entry component with high visibility 406 errors from orders dependency.\"], \"timing_cautions\": [\"Dominant memory spike at +6s but not late; overall onset very early.\"], \"topology_notes\": [\"Direct callees include orders, payment (from emitter logs).\"]}, {\"component\": \"shipping\", \"missing_checks\": [\"Corroborate with workload or dependency traces.\"], \"near_onset_mechanism\": [\"cpu\"], \"primary_event_ids\": [\"event:2:shipping:primary\"], \"symptom_visibility\": [\"Isolated cpu spike with no error or latency.\"], \"timing_cautions\": [\"Weak single-signal onset; could be reactive.\"], \"topology_notes\": [\"No direct callee info available.\"]}, {\"component\": \"orders\", \"missing_checks\": [\"Determine if orders errors are self-originating or due to upstream call failure.\"], \"near_onset_mechanism\": [\"cpu\", \"error\", \"memory\"], \"primary_event_ids\": [\"event:3:orders:primary\"], \"symptom_visibility\": [\"Service with errors and resource anomalies; error onset at 1732258834.0.\"], \"timing_cautions\": [\"Error onset is 22s after earliest metric (cpu at 1732258816.0).\"], \"topology_notes\": [\"IVD labels this component as victim; likely reacting to front-end.\"]}, {\"component\": \"catalogue-db\", \"missing_checks\": [\"Check catalogue service error behavior for link.\"], \"near_onset_mechanism\": [\"cpu\"], \"primary_event_ids\": [\"event:4:catalogue-db:primary\"], \"symptom_visibility\": [\"Single cpu signal; storage component.\"], \"timing_cautions\": [\"Very early but weak; likely reactive to catalogue service.\"], \"topology_notes\": [\"Database dependency; resource anomalies often reactive.\"]}, {\"component\": \"user\", \"missing_checks\": [\"Trace whether user latency driven by orders/front-end failures.\"], \"near_onset_mechanism\": [\"cpu\", \"memory\"], \"primary_event_ids\": [\"event:5:user:primary\"], \"symptom_visibility\": [\"Latency and memory after cpu; no error.\"], \"timing_cautions\": [\"Dominant memory spike at +25s; possible follower artifact.\"], \"topology_notes\": [\"IVD labels this component as victim; likely downstream symptom.\"]}, {\"component\": \"payment\", \"missing_checks\": [\"Confirm if payment has independent failure evidence.\"], \"near_onset_mechanism\": [\"cpu\"], \"primary_event_ids\": [\"event:6:payment:primary\", \"event:6:payment:late_dominant_metric\"], \"symptom_visibility\": [\"Latency spikes and late memory surge; no internal error.\"], \"timing_cautions\": [\"Dominant memory spike is very late (+266s); likely reactive.\"], \"topology_notes\": [\"Dependency of front-end; likely suffering from front-end exception cascade.\"]}, {\"component\": \"user-db\", \"missing_checks\": [\"Correlate with user service workload at onset.\"], \"near_onset_mechanism\": [\"cpu\"], \"primary_event_ids\": [\"event:7:user-db:primary\"], \"symptom_visibility\": [\"Storage component with cpu and disk/memory later.\"], \"timing_cautions\": [\"Single near-onset signal; could be reactive to user service load.\"], \"topology_notes\": [\"Database dependency; resource anomalies often reactive.\"]}, {\"component\": \"catalogue\", \"missing_checks\": [\"Trace if catalogue errors or latency correlate with upstream failures.\"], \"near_onset_mechanism\": [\"cpu\"], \"primary_event_ids\": [\"event:8:catalogue:primary\", \"event:8:catalogue:late_dominant_metric\"], \"symptom_visibility\": [\"Latency dominant spike at +69s; large memory late.\"], \"timing_cautions\": [\"Dominant metric is late; near-onset cpu only.\"], \"topology_notes\": [\"Likely downstream victim of front-end/orders anomaly.\"]}, {\"component\": \"queue-master\", \"missing_checks\": [\"Investigate whether I/O exception stems from network or local resource.\"], \"near_onset_mechanism\": [\"log\"], \"primary_event_ids\": [\"event:9:queue-master:primary\", \"event:9:queue-master:late_dominant_metric\"], \"symptom_visibility\": [\"I/O exception logs at 1732258813.310; cpu and socket later.\"], \"timing_cautions\": [\"Dominant cpu spike is late (+74.7s); exception log is early but singular.\"], \"topology_notes\": [\"IVD labels ambiguous; could be independent source or symptom.\"]}, {\"component\": \"carts-db\", \"missing_checks\": [\"Link to carts service error or workload.\"], \"near_onset_mechanism\": [\"cpu\", \"disk\"], \"primary_event_ids\": [\"event:10:carts-db:primary\"], \"symptom_visibility\": [\"Storage component with cpu and disk at onset; memory later.\"], \"timing_cautions\": [\"Onset at 1732258816.0; possible reactive to carts or upstream.\"], \"topology_notes\": [\"Database dependency; resource anomalies often reactive to service faults.\"]}, {\"component\": \"session-db\", \"missing_checks\": [\"Determine if any service directed abnormal load to session-db.\"], \"near_onset_mechanism\": [\"cpu\", \"memory\", \"socket\"], \"primary_event_ids\": [\"event:11:session-db:primary\", \"event:11:session-db:late_dominant_metric\"], \"symptom_visibility\": [\"Multi-signal onset; massive late disk spike at +163s.\"], \"timing_cautions\": [\"Dominant disk spike is extremely late and huge; likely a follower artifact.\"], \"topology_notes\": [\"Storage component; high resource anomalies could be reactive to service calls.\"]}, {\"component\": \"orders-db\", \"missing_checks\": [\"Verify if orders-db pressure is proportional to orders service workload.\"], \"near_onset_mechanism\": [\"cpu\", \"disk\", \"memory\"], \"primary_event_ids\": [\"event:12:orders-db:primary\"], \"symptom_visibility\": [\"Multi-signal onset with cpu disk memory.\"], \"timing_cautions\": [\"Onset at 1732258825.0, after orders error onset; likely reactive.\"], \"topology_notes\": [\"Database dependency; resource pressure likely from orders service errors.\"]}, {\"component\": \"carts\", \"missing_checks\": [\"Check if carts errors correlate with upstream orders/front-end failures.\"], \"near_onset_mechanism\": [], \"primary_event_ids\": [\"event:13:carts:primary\"], \"symptom_visibility\": [\"Latency-only near-onset; later cpu and memory.\"], \"timing_cautions\": [\"Latency-only near-onset is weak evidence for root cause.\"], \"topology_notes\": [\"Entry-like component; latency likely symptomatic of backend issues.\"]}, {\"component\": \"rabbitmq\", \"missing_checks\": [\"Link to queue-master exception timing.\"], \"near_onset_mechanism\": [\"cpu\"], \"primary_event_ids\": [\"event:14:rabbitmq:primary\"], \"symptom_visibility\": [\"Single cpu signal at late onset (1732258865.0).\"], \"timing_cautions\": [\"Very late onset; likely reactive to queue-master or general load.\"], \"topology_notes\": [\"Messaging component; may reflect downstream traffic changes.\"]}, {\"component\": \"rabbitmq-exporter\", \"missing_checks\": [\"Monitor if rabbitmq-exporter shows rabbitmq health issues.\"], \"near_onset_mechanism\": [], \"primary_event_ids\": [\"event:15:rabbitmq-exporter:primary\"], \"symptom_visibility\": [\"No significant anomaly observed; placeholder event.\"], \"timing_cautions\": [\"No timing info available.\"], \"topology_notes\": [\"Exporter for rabbitmq; likely not a causal candidate.\"]}], \"event_timeline\": [{\"ambiguity_cues\": [\"Emitter log mentions dependency/storage failure; mentioned dependency is evidence, not a label.\"], \"causal_links_to_check\": [\"Whether front-end exception caused orders 406 or vice versa.\"], \"component\": \"front-end\", \"diagnostic_implication\": \"Front-end is a strong source candidate due to emitter exceptions and internal anomalies.\", \"event_id\": \"event:1:front-end:primary\", \"event_kind\": \"emitter_dependency_failure_event\", \"event_time\": 1732258812.0, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"Memory spike +1152% at 6s, CPU down 44%, error +43.8 at 25s.\"], \"source_like_cues\": [\"Emitter-side exception/log evidence with multiple near-onset internal mechanism signals.\"], \"symptom_like_cues\": []}, {\"ambiguity_cues\": [\"Near-onset internal signal is weak or single-signal; corroborate before selecting as root.\"], \"causal_links_to_check\": [\"Corroborate with caller/callee trace or error logs.\"], \"component\": \"shipping\", \"diagnostic_implication\": \"Weak candidate with only cpu spike; likely reactive.\", \"event_id\": \"event:2:shipping:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1732258812.0, \"mechanism_strength\": \"weak\", \"multimodal_evidence\": [\"CPU up 54% at onset, workload +5 at +12s.\"], \"source_like_cues\": [], \"symptom_like_cues\": []}, {\"ambiguity_cues\": [], \"causal_links_to_check\": [\"If orders errors originate independently or are triggered by upstream call failures.\"], \"component\": \"orders\", \"diagnostic_implication\": \"Orders is a source candidate but IVD labels it victim; likely reacting to front-end.\", \"event_id\": \"event:3:orders:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1732258812.0, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"CPU down 13% at 4s, error +11.9 at 22s, socket +8.2 at 6s.\"], \"source_like_cues\": [\"Near-onset internal mechanism signals: cpu, error, memory, socket.\"], \"symptom_like_cues\": []}, {\"ambiguity_cues\": [\"Near-onset internal signal is weak or single-signal.\"], \"causal_links_to_check\": [\"Link to catalogue service activity.\"], \"component\": \"catalogue-db\", \"diagnostic_implication\": \"Reactive storage anomaly; not a source candidate.\", \"event_id\": \"event:4:catalogue-db:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1732258812.0, \"mechanism_strength\": \"weak\", \"multimodal_evidence\": [\"CPU down 38.4% at onset.\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"Component is a storage/dependency layer; resource anomalies here are often reactive.\"]}, {\"ambiguity_cues\": [], \"causal_links_to_check\": [\"Whether user anomalies are downstream of front-end/orders failures.\"], \"component\": \"user\", \"diagnostic_implication\": \"Source candidate but IVD labels victim; likely downstream symptom.\", \"event_id\": \"event:5:user:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1732258812.0, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"CPU down 7% at onset, memory +19% at 25s, latency +5.8 at 48s.\"], \"source_like_cues\": [\"Near-onset internal mechanism signals: cpu, memory.\"], \"symptom_like_cues\": []}, {\"ambiguity_cues\": [\"Near-onset internal signal is weak or single-signal.\", \"Dominant metric spike is late relative to primary event.\"], \"causal_links_to_check\": [\"If payment has independent failure or is affected by front-end exception cascade.\"], \"component\": \"payment\", \"diagnostic_implication\": \"Weak candidate; late memory surge suggests reactive behavior.\", \"event_id\": \"event:6:payment:primary\", \"event_kind\": \"weak_internal_or_queueing_candidate_event\", \"event_time\": 1732258812.0, \"mechanism_strength\": \"weak\", \"multimodal_evidence\": [\"Latency spikes at onset, cpu down 6.3% at 10s, memory +9 at late 266s.\"], \"source_like_cues\": [], \"symptom_like_cues\": []}, {\"ambiguity_cues\": [\"Near-onset internal signal is weak or single-signal.\"], \"causal_links_to_check\": [\"Correlate with user service workload.\"], \"component\": \"user-db\", \"diagnostic_implication\": \"Reactive storage anomaly; not a source candidate.\", \"event_id\": \"event:7:user-db:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1732258812.0, \"mechanism_strength\": \"weak\", \"multimodal_evidence\": [\"CPU down 23.9% at onset, memory +11.8 at 80s, disk -6.4% at 37s.\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"Component is a storage/dependency layer; resource anomalies here are often reactive.\"]}, {\"ambiguity_cues\": [\"Near-onset internal signal is weak or single-signal.\", \"Dominant metric spike is late relative to primary event.\"], \"causal_links_to_check\": [\"If catalogue latency driven by front-end/orders or local resource.\"], \"component\": \"catalogue\", \"diagnostic_implication\": \"Late dominant latency/memory; likely downstream symptom.\", \"event_id\": \"event:8:catalogue:primary\", \"event_kind\": \"weak_internal_or_queueing_candidate_event\", \"event_time\": 1732258812.0, \"mechanism_strength\": \"weak\", \"multimodal_evidence\": [\"CPU down 15.7% at onset, memory +146 at +69s, latency spikes +109.7 and +23.2 at 41-42s.\"], \"source_like_cues\": [], \"symptom_like_cues\": []}, {\"ambiguity_cues\": [\"Dominant metric spike is late relative to primary event.\"], \"causal_links_to_check\": [\"Whether I/O exception is due to local resource or network issue.\"], \"component\": \"queue-master\", \"diagnostic_implication\": \"Potential source candidate but ambiguous onset; IVD labels ambiguous.\", \"event_id\": \"event:9:queue-master:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1732258813.310198, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"I/O exception logs at 1732258813.310, cpu down 14.5 at +74.7s.\"], \"source_like_cues\": [\"Emitter-side exception/log evidence at early onset.\"], \"symptom_like_cues\": []}, {\"ambiguity_cues\": [], \"causal_links_to_check\": [\"Link to carts service workload or errors.\"], \"component\": \"carts-db\", \"diagnostic_implication\": \"Storage candidate with strong onset; likely reactive to carts service.\", \"event_id\": \"event:10:carts-db:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1732258816.0, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"CPU up 11.7%, disk +6.8% at onset; memory +5.4 at +271s.\"], \"source_like_cues\": [\"Near-onset internal mechanism signals: cpu, disk.\"], \"symptom_like_cues\": [\"Component is a storage/dependency layer; resource anomalies here are often reactive.\"]}, {\"ambiguity_cues\": [\"Dominant metric spike is late relative to primary event.\"], \"causal_links_to_check\": [\"Determine which service triggered abnormal load on session-db.\"], \"component\": \"session-db\", \"diagnostic_implication\": \"Storage candidate with massive late spike; reactive symptom, not root.\", \"event_id\": \"event:11:session-db:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1732258823.0, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"Memory -25% at onset, cpu -47% at 19s, disk +huge at 163s.\"], \"source_like_cues\": [\"Near-onset internal mechanism signals: cpu, memory, socket.\"], \"symptom_like_cues\": [\"Component is a storage/dependency layer; resource anomalies here are often reactive.\"]}, {\"ambiguity_cues\": [], \"causal_links_to_check\": [\"Link to orders service errors and workload.\"], \"component\": \"orders-db\", \"diagnostic_implication\": \"Storage candidate; likely reactive to orders service fault.\", \"event_id\": \"event:12:orders-db:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1732258825.0, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"Disk +7.2% at onset, cpu -19.2% at 2s, memory +21.4 at 30s.\"], \"source_like_cues\": [\"Near-onset internal mechanism signals: cpu, disk, memory.\"], \"symptom_like_cues\": [\"Component is a storage/dependency layer; resource anomalies here are often reactive.\"]}, {\"ambiguity_cues\": [\"Near-onset evidence is latency/workload only.\"], \"causal_links_to_check\": [\"If carts latency is caused by backend failures.\"], \"component\": \"carts\", \"diagnostic_implication\": \"Latency-only symptom; propagation candidate, not root.\", \"event_id\": \"event:13:carts:primary\", \"event_kind\": \"latency_symptom_candidate_event\", \"event_time\": 1732258832.0, \"mechanism_strength\": \"symptom_like\", \"multimodal_evidence\": [\"Latency +83.6% at onset, cpu +10.5 at 57s.\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"Near-onset evidence is latency/workload only, which is often a downstream symptom.\"]}, {\"ambiguity_cues\": [\"Near-onset internal signal is weak or single-signal.\"], \"causal_links_to_check\": [\"Correlate with queue-master exception or message flow.\"], \"component\": \"rabbitmq\", \"diagnostic_implication\": \"Late weak signal; likely reactive to queue-master issues.\", \"event_id\": \"event:14:rabbitmq:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1732258865.0, \"mechanism_strength\": \"weak\", \"multimodal_evidence\": [\"CPU down 7.8% at onset.\"], \"source_like_cues\": [], \"symptom_like_cues\": []}, {\"ambiguity_cues\": [\"Largest local magnitude occurs late; separate follow-up event.\"], \"causal_links_to_check\": [\"If this spike is a reaction to upstream failures.\"], \"component\": \"catalogue\", \"diagnostic_implication\": \"Late reactive metric; not source evidence.\", \"event_id\": \"event:8:catalogue:late_dominant_metric\", \"event_kind\": \"late_dominant_metric_followup\", \"event_time\": 1732258881.0, \"mechanism_strength\": \"unknown\", \"multimodal_evidence\": [\"Memory spike +146% at +69s from primary.\"], \"source_like_cues\": [], \"symptom_like_cues\": []}, {\"ambiguity_cues\": [\"Largest local magnitude occurs late; separate follow-up event.\"], \"causal_links_to_check\": [\"If cpu drop follows the I/O exception.\"], \"component\": \"queue-master\", \"diagnostic_implication\": \"Late metric; likely consequence of earlier exception.\", \"event_id\": \"event:9:queue-master:late_dominant_metric\", \"event_kind\": \"late_dominant_metric_followup\", \"event_time\": 1732258888.0, \"mechanism_strength\": \"unknown\", \"multimodal_evidence\": [\"CPU down 14.5% at +74.7s from primary.\"], \"source_like_cues\": [], \"symptom_like_cues\": []}, {\"ambiguity_cues\": [\"Largest local magnitude occurs late; separate follow-up event.\"], \"causal_links_to_check\": [\"What triggered such a massive disk IO spike later.\"], \"component\": \"session-db\", \"diagnostic_implication\": \"Late reactive spike; likely a follower symptom.\", \"event_id\": \"event:11:session-db:late_dominant_metric\", \"event_kind\": \"late_dominant_metric_followup\", \"event_time\": 1732258986.0, \"mechanism_strength\": \"unknown\", \"multimodal_evidence\": [\"Disk spike extremely huge at +163s.\"], \"source_like_cues\": [], \"symptom_like_cues\": []}, {\"ambiguity_cues\": [\"Largest local magnitude occurs late; separate follow-up event.\"], \"causal_links_to_check\": [\"If memory increase is a lagging indicator of earlier load.\"], \"component\": \"payment\", \"diagnostic_implication\": \"Late reactive metric; not source evidence.\", \"event_id\": \"event:6:payment:late_dominant_metric\", \"event_kind\": \"late_dominant_metric_followup\", \"event_time\": 1732259078.0, \"mechanism_strength\": \"unknown\", \"multimodal_evidence\": [\"Memory +9% at +266s.\"], \"source_like_cues\": [], \"symptom_like_cues\": []}, {\"ambiguity_cues\": [\"No strong near-onset source cue detected.\"], \"causal_links_to_check\": [\"If rabbitmq-exporter reflects rabbitmq health.\"], \"component\": \"rabbitmq-exporte..."
+      },
+      "event_causal_fact_count": 19,
+      "final_belief_state": [
+        {
+          "contradicting_factors": [],
+          "hypothesis_id": "H2-front-end-emitter-exception",
+          "missing_information": [],
+          "position": "leading",
+          "root_component": "front-end",
+          "source_vs_symptom_judgment": "strong source (IVD initiator, emitter exception with near-onset internal mechanism, early onset)",
+          "supporting_factors": [
+            "IVD initiator (Copeland 3)",
+            "emitter exception logs with PaymentDeclinedException",
+            "near-onset cpu, memory, error, socket signals"
+          ],
+          "why_not_others": "Orders is IVD victim; its errors are downstream dependency failures visible from front-end. Queue-master ambiguous with no propagation to primary failure scope. All databases are reactive storage components."
+        },
+        {
+          "contradicting_factors": [
+            "IVD victim (Copeland -2)",
+            "errors likely reactive to front-end fault"
+          ],
+          "hypothesis_id": "H5-orders-service-error",
+          "missing_information": [],
+          "position": "weakened",
+          "root_component": "orders",
+          "source_vs_symptom_judgment": "symptom candidate (near-onset mechanism but overridden by IVD victim role)",
+          "supporting_factors": [
+            "near-onset cpu, error, memory"
+          ],
+          "why_not_others": "Front-end has stronger emitter evidence and IVD initiator status; orders' errors can be explained by front-end's anomalous calls."
+        },
+        {
+          "contradicting_factors": [
+            "IVD ambiguous",
+            "late dominant cpu spike",
+            "no clear propagation to front-end/orders"
+          ],
+          "hypothesis_id": "H3-queue-master-emitter-exception",
+          "missing_information": [],
+          "position": "plausible",
+          "root_component": "queue-master",
+          "source_vs_symptom_judgment": "ambiguous (early exception log but isolated, no propagation support)",
+          "supporting_factors": [
+            "early emitter exception log at 1732258813.310"
+          ],
+          "why_not_others": "Front-end directly explains orders symptoms and has broader impact; queue-master's failure domain is separate."
+        }
+      ],
+      "transcript": [
+        {
+          "step_index": 0,
+          "agent_response": {
+            "agent": "continuous_noise_native",
+            "belief_state": [
+              {
+                "contradicting_factors": [],
+                "hypothesis_id": "H2-front-end-emitter-exception",
+                "missing_information": [
+                  "local_mechanism details from NoiseLab",
+                  "downstream_explanation for orders and payment symptoms",
+                  "source_vs_symptom comparison against orders"
+                ],
+                "position": "leading",
+                "root_component": "front-end",
+                "source_vs_symptom_judgment": "strong source candidate (IVD initiator, emitter exception with near-onset mechanism)",
+                "supporting_factors": [
+                  "IVD verdict: initiator (Copeland score 3)",
+                  "Emitter exception with near-onset cpu, memory, error signals",
+                  "Early onset at 1732258812.0 matching event_time"
+                ],
+                "why_not_others": "Orders is IVD victim and its errors likely triggered by front-end dependency failures; queue-master is ambiguous with no clear propagation to front-end/orders; session-db is a reactive storage component with late dominant spike."
+              },
+              {
+                "contradicting_factors": [
+                  "IVD verdict: victim (Copeland score -2)"
+                ],
+                "hypothesis_id": "H5-orders-service-error",
+                "missing_information": [
+                  "independent error origin vs. front-end dependency evidence",
+                  "downstream_explanation for front-end symptoms"
+                ],
+                "position": "weakened",
+                "root_component": "orders",
+                "source_vs_symptom_judgment": "symptom candidate (near-onset mechanism but IVD victim, errors could be reactive to front-end fault)",
+                "supporting_factors": [
+                  "Near-onset cpu, error, memory, socket signals",
+                  "Error onset at 1732258834.0"
+                ],
+                "why_not_others": "Front-end has stronger emitter-side exception evidence and IVD initiator role; orders' errors are explainable as downstream dependency failures seen by front-end."
+              },
+              {
+                "contradicting_factors": [
+                  "IVD verdict: ambiguous",
+                  "Dominant cpu spike is late (+74.7s)"
+                ],
+                "hypothesis_id": "H3-queue-master-emitter-exception",
+                "missing_information": [
+                  "I/O exception root cause (local vs. network)",
+                  "propagation path to front-end or orders",
+                  "downstream_explanation for rabbitmq or other symptoms"
+                ],
+                "position": "plausible",
+                "root_component": "queue-master",
+                "source_vs_symptom_judgment": "ambiguous (early exception log but no clear propagation link to primary failure scope)",
+                "supporting_factors": [
+                  "Emitter-side exception log at 1732258813.310",
+                  "Near-onset log signal"
+                ],
+                "why_not_others": "Front-end has earlier and broader internal mechanism signals with direct evidence of dependency errors; queue-master's late cpu spike weakens its case as initiator of the observed cascade."
+              },
+              {
+                "contradicting_factors": [
+                  "Dominant disk spike is extremely late (+163s)",
+                  "Storage/dependency component",
+                  "No emitter exception or service error"
+                ],
+                "hypothesis_id": "H1-session-db-cpu-saturation",
+                "missing_information": [
+                  "source_vs_symptom comparison with candidate services",
+                  "downstream_explanation for service symptoms"
+                ],
+                "position": "unlikely",
+                "root_component": "session-db",
+                "source_vs_symptom_judgment": "symptom candidate (reactive storage resource pressure, late dominant metric)",
+                "supporting_factors": [
+                  "Multi-signal onset (cpu, memory, socket)",
+                  "High resource magnitude"
+                ],
+                "why_not_others": "No service-level emitter evidence; its anomalies are typical of a storage reacting to abnormal query load from a faulty service; late disk spike confirms follower behavior."
+              },
+              {
+                "contradicting_factors": [
+                  "IVD verdict: victim (Copeland score -2)"
+                ],
+                "hypothesis_id": "H8-user-latency-degradation",
+                "missing_information": [
+                  "link to front-end/orders failures",
+                  "independent fault evidence"
+                ],
+                "position": "unlikely",
+                "root_component": "user",
+                "source_vs_symptom_judgment": "symptom candidate (latency degradation with IVD victim role)",
+                "supporting_factors": [
+                  "Near-onset cpu and memory signals"
+                ],
+                "why_not_others": "Front-end is IVD initiator and has emitter exceptions; user's latency and resource changes are downstream consequences of the cascade."
+              }
+            ],
+            "case_narrative": "Front-end experienced internal emitter exception around 1732258812.0, leading to downstream errors in orders (victim) and resource pressure in databases. Queue-master shows ambiguous I/O exception but no strong propagation link. All other components exhibit reactive symptoms.",
+            "final_decision": null,
+            "next_action": {
+              "action_id": "inspect_frontend_features",
+              "args": {
+                "component_scope": [
+                  "front-end"
+                ],
+                "feature_groups": [
+                  "onset",
+                  "local_mechanism",
+                  "logs",
+                  "propagation"
+                ],
+                "time_window": [
+                  1732258780.0,
+                  1732258850.0
+                ]
+              },
+              "expected_information_gain": "Concrete local mechanism features and log details for front-end, confirming its internal fault nature and onset timing to strengthen source-likelihood.",
+              "question": "What are the onset, local mechanism, and log features of front-end around 1732258812?",
+              "target_hypothesis_ids": [
+                "H2-front-end-emitter-exception"
+              ],
+              "tool_name": "inspect_noise_features"
+            }
+          },
+          "executed_action": {
+            "action_id": "inspect_frontend_features",
+            "tool_name": "inspect_noise_features",
+            "target_hypothesis_ids": [
+              "H1-session-db-cpu-saturation",
+              "H2-front-end-emitter-exception",
+              "H3-queue-master-emitter-exception"
+            ],
+            "question": "What are the onset, local mechanism, and log features of front-end around 1732258812?",
+            "args": {
+              "component_scope": [
+                "front-end"
+              ],
+              "time_window": [
+                1732258780.0,
+                1732258850.0
+              ],
+              "feature_groups": [
+                "onset",
+                "local_mechanism",
+                "logs",
+                "propagation"
+              ]
+            },
+            "expected_information_gain": "Concrete local mechanism features and log details for front-end, confirming its internal fault nature and onset timing to strengthen source-likelihood."
+          },
+          "evidence_id": "evidence:39c318b8a585bc5bdac546f054ee5e990c3e8a545d8847230e926e2fbd0cbb33"
+        },
+        {
+          "step_index": 1,
+          "agent_response": {
+            "truncated_json": "{\"agent\": \"continuous_noise_native\", \"allowed_tool_names\": [\"inspect_noise_features\", \"compare_source_symptom\", \"counterfactual_remove\", \"test_downstream_explanation\"], \"case_context_without_label_leakage\": {\"components\": [\"carts\", \"carts-db\", \"catalogue\", \"catalogue-db\", \"front-end\", \"orders\", \"orders-db\", \"payment\", \"queue-master\", \"rabbitmq\", \"rabbitmq-exporter\", \"session-db\", \"shipping\", \"user\", \"user-db\"], \"entry_components\": [\"carts\"], \"event_time\": 1732258812.0, \"observations\": [{\"component\": \"session-db\", \"first_seen\": 1732258823.0, \"magnitude\": 258594743171355.1, \"reason_family\": \"cpu saturation\", \"signals\": [\"cpu\", \"disk\", \"memory\", \"socket\"], \"symptoms\": [\"session-db disk changed near 1732258986.000\", \"session-db cpu changed near 1732258842.000\", \"session-db memory changed near 1732258823.000\"]}, {\"component\": \"front-end\", \"first_seen\": 1732258812.0, \"magnitude\": 1319.745864227499, \"reason_family\": \"emitter exception\", \"signals\": [\"cpu\", \"error\", \"latency\", \"log\", \"memory\", \"socket\", \"workload\"], \"symptoms\": [\"front-end memory changed near 1732258818.000\", \"front-end cpu changed near 1732258812.000\", \"front-end error changed near 1732258837.000\"]}, {\"component\": \"queue-master\", \"first_seen\": 1732258813.310198, \"magnitude\": 472.49332106398236, \"reason_family\": \"emitter exception\", \"signals\": [\"cpu\", \"log\", \"socket\"], \"symptoms\": [\"queue-master cpu changed near 1732258888.000\", \"queue-master socket changed near 1732259358.000\"]}, {\"component\": \"catalogue\", \"first_seen\": 1732258812.0, \"magnitude\": 311.31870512305517, \"reason_family\": \"latency degradation\", \"signals\": [\"cpu\", \"latency\", \"memory\", \"socket\", \"workload\"], \"symptoms\": [\"catalogue memory changed near 1732258881.000\", \"catalogue latency changed near 1732258853.000\", \"catalogue latency changed near 1732258852.000\"]}, {\"component\": \"carts\", \"first_seen\": 1732258832.0, \"magnitude\": 116.21120045866542, \"reason_family\": \"latency degradation\", \"signals\": [\"cpu\", \"latency\", \"memory\", \"workload\"], \"symptoms\": [\"carts latency changed near 1732258832.000\", \"carts cpu changed near 1732258889.000\", \"carts latency changed near 1732258877.000\"]}, {\"component\": \"shipping\", \"first_seen\": 1732258812.0, \"magnitude\": 62.529345074407736, \"reason_family\": \"cpu saturation\", \"signals\": [\"cpu\", \"socket\", \"workload\"], \"symptoms\": [\"shipping cpu changed near 1732258812.000\", \"shipping workload changed near 1732258824.000\", \"shipping socket changed near 1732259018.000\"]}, {\"component\": \"orders\", \"first_seen\": 1732258812.0, \"magnitude\": 52.10131498828595, \"reason_family\": \"service error\", \"signals\": [\"cpu\", \"error\", \"latency\", \"memory\", \"socket\", \"workload\"], \"symptoms\": [\"orders cpu changed near 1732258816.000\", \"orders error changed near 1732258834.000\", \"orders socket changed near 1732258818.000\"]}, {\"component\": \"orders-db\", \"first_seen\": 1732258825.0, \"magnitude\": 47.892838284089244, \"reason_family\": \"cpu saturation\", \"signals\": [\"cpu\", \"disk\", \"memory\"], \"symptoms\": [\"orders-db memory changed near 1732258855.000\", \"orders-db cpu changed near 1732258827.000\", \"orders-db disk changed near 1732258825.000\"]}, {\"component\": \"user-db\", \"first_seen\": 1732258812.0, \"magnitude\": 42.15304867303005, \"reason_family\": \"cpu saturation\", \"signals\": [\"cpu\", \"disk\", \"memory\"], \"symptoms\": [\"user-db cpu changed near 1732258812.000\", \"user-db memory changed near 1732258892.000\", \"user-db disk changed near 1732258849.000\"]}, {\"component\": \"payment\", \"first_seen\": 1732258812.0, \"magnitude\": 39.95995907525932, \"reason_family\": \"latency degradation\", \"signals\": [\"cpu\", \"latency\", \"memory\", \"socket\", \"workload\"], \"symptoms\": [\"payment memory changed near 1732259078.000\", \"payment latency changed near 1732258812.000\", \"payment cpu changed near 1732258822.000\"]}, {\"component\": \"user\", \"first_seen\": 1732258812.0, \"magnitude\": 39.87225183461952, \"reason_family\": \"latency degradation\", \"signals\": [\"cpu\", \"latency\", \"memory\", \"workload\"], \"symptoms\": [\"user memory changed near 1732258837.000\", \"user cpu changed near 1732258812.000\", \"user latency changed near 1732258860.000\"]}, {\"component\": \"catalogue-db\", \"first_seen\": 1732258812.0, \"magnitude\": 38.41086279555222, \"reason_family\": \"cpu saturation\", \"signals\": [\"cpu\"], \"symptoms\": [\"catalogue-db cpu changed near 1732258812.000\"]}, {\"component\": \"carts-db\", \"first_seen\": 1732258816.0, \"magnitude\": 23.952247596589498, \"reason_family\": \"cpu saturation\", \"signals\": [\"cpu\", \"disk\", \"memory\"], \"symptoms\": [\"carts-db cpu changed near 1732258816.000\", \"carts-db disk changed near 1732258816.000\", \"carts-db memory changed near 1732259087.000\"]}, {\"component\": \"rabbitmq\", \"first_seen\": 1732258865.0, \"magnitude\": 7.821449684014183, \"reason_family\": \"cpu saturation\", \"signals\": [\"cpu\"], \"symptoms\": [\"rabbitmq cpu changed near 1732258865.000\"]}]}, \"event_causal_profile\": {\"causal_story_options\": [{\"initiating_event_ids\": [\"event:1:front-end:primary\"], \"propagation_reading\": \"Front-end emitter exception propagates to orders (406 errors) and payment, causing downstream errors and resource anomalies. Orders and user are victims with reactive anomalies. Databases show reactive pressure.\", \"story_id\": \"S1\", \"what_would_support_it\": [\"Trace showing front-end internal fault preceding orders 406 responses.\", \"Orders error rate correlation with front-end exception timing.\"], \"what_would_weaken_it\": [\"Orders showing independent crash/restart before front-end anomaly.\", \"Network or infra fault affecting orders directly.\"]}, {\"initiating_event_ids\": [\"event:3:orders:primary\"], \"propagation_reading\": \"Orders service error causes front-end to observe 406 dependency failures, and orders-db resource pressure follows. Front-end is a symptom reporter, not root.\", \"story_id\": \"S2\", \"what_would_support_it\": [\"Orders error logs originating without front-end triggers.\", \"Orders-db pressure typical of orders load.\"], \"what_would_weaken_it\": [\"Front-end anomaly onset precedes orders error onset by seconds.\", \"Front-end resource anomalies are not explainable by orders failure alone.\"]}, {\"initiating_event_ids\": [\"event:9:queue-master:primary\"], \"propagation_reading\": \"Queue-master I/O exception leads to rabbitmq issues and downstream message processing delays, indirectly affecting orders and front-end.\", \"story_id\": \"S3\", \"what_would_support_it\": [\"Queue-master exception logs indicate internal issue.\", \"Rabbitmq anomalies occur shortly after queue-master exception.\"], \"what_would_weaken_it\": [\"Queue-master anomaly onset is later than front-end and orders, and no direct link to their errors.\"]}], \"component_event_features\": [{\"component\": \"front-end\", \"missing_checks\": [\"Confirm whether front-end internal exception precedes or follows orders errors via trace timing.\"], \"near_onset_mechanism\": [\"cpu\", \"error\", \"memory\"], \"primary_event_ids\": [\"event:1:front-end:primary\"], \"symptom_visibility\": [\"Entry component with high visibility 406 errors from orders dependency.\"], \"timing_cautions\": [\"Dominant memory spike at +6s but not late; overall onset very early.\"], \"topology_notes\": [\"Direct callees include orders, payment (from emitter logs).\"]}, {\"component\": \"shipping\", \"missing_checks\": [\"Corroborate with workload or dependency traces.\"], \"near_onset_mechanism\": [\"cpu\"], \"primary_event_ids\": [\"event:2:shipping:primary\"], \"symptom_visibility\": [\"Isolated cpu spike with no error or latency.\"], \"timing_cautions\": [\"Weak single-signal onset; could be reactive.\"], \"topology_notes\": [\"No direct callee info available.\"]}, {\"component\": \"orders\", \"missing_checks\": [\"Determine if orders errors are self-originating or due to upstream call failure.\"], \"near_onset_mechanism\": [\"cpu\", \"error\", \"memory\"], \"primary_event_ids\": [\"event:3:orders:primary\"], \"symptom_visibility\": [\"Service with errors and resource anomalies; error onset at 1732258834.0.\"], \"timing_cautions\": [\"Error onset is 22s after earliest metric (cpu at 1732258816.0).\"], \"topology_notes\": [\"IVD labels this component as victim; likely reacting to front-end.\"]}, {\"compon..."
+          },
+          "executed_action": {
+            "action_id": "fallback-features-1",
+            "tool_name": "inspect_noise_features",
+            "target_hypothesis_ids": [
+              "H1-session-db-cpu-saturation",
+              "H2-front-end-emitter-exception",
+              "H3-queue-master-emitter-exception",
+              "H4-shipping-cpu-saturation",
+              "H5-orders-service-error",
+              "H6-catalogue-db-cpu-saturation",
+              "H7-orders-db-cpu-saturation",
+              "H8-user-latency-degradation",
+              "H9-carts-db-cpu-saturation",
+              "H10-catalogue-latency-degradation"
+            ],
+            "question": "Build fused NoiseLab feature table for all candidates.",
+            "args": {
+              "component_scope": [
+                "session-db",
+                "front-end",
+                "queue-master",
+                "shipping",
+                "orders",
+                "catalogue-db",
+                "orders-db",
+                "user",
+                "carts-db",
+                "catalogue"
+              ],
+              "time_window": [
+                1732258512.0,
+                1732259712.0
+              ],
+              "feature_groups": [
+                "onset",
+                "local_mechanism",
+                "logs",
+                "propagation"
+              ]
+            },
+            "expected_information_gain": "Establish shared feature memory before narrowing candidates."
+          },
+          "evidence_id": "evidence:0ab974e310c4b349040c6cd984034ed6c38b7074780ed51448cc78cc44b82c19"
+        },
+        {
+          "step_index": 2,
+          "agent_response": {
+            "agent": "continuous_noise_native",
+            "belief_state": [
+              {
+                "contradicting_factors": [],
+                "hypothesis_id": "H2-front-end-emitter-exception",
+                "missing_information": [
+                  "downstream explanation coverage of orders, payment, shipping, catalogue",
+                  "counterfactual removal impact on downstream components"
+                ],
+                "position": "leading",
+                "root_component": "front-end",
+                "source_vs_symptom_judgment": "strong source (IVD initiator, emitter exception with near-onset internal mechanism, early onset)",
+                "supporting_factors": [
+                  "IVD initiator (Copeland 3)",
+                  "emitter exception logs with PaymentDeclinedException",
+                  "near-onset cpu, memory, error, socket signals",
+                  "NoiseLab causal_role: source_candidate, score 6.0"
+                ],
+                "why_not_others": "Orders is IVD victim; its errors are downstream dependency failures visible from front-end. Queue-master ambiguous with no propagation to primary failure scope. All databases are reactive storage components."
+              },
+              {
+                "contradicting_factors": [
+                  "IVD victim (Copeland -2)",
+                  "errors likely reactive to front-end fault"
+                ],
+                "hypothesis_id": "H5-orders-service-error",
+                "missing_information": [
+                  "independent error origin vs. dependency failure from front-end",
+                  "downstream coverage of front-end symptoms"
+                ],
+                "position": "weakened",
+                "root_component": "orders",
+                "source_vs_symptom_judgment": "symptom candidate (near-onset mechanism but overridden by IVD victim role)",
+                "supporting_factors": [
+                  "near-onset cpu, error, memory"
+                ],
+                "why_not_others": "Front-end has stronger emitter evidence and IVD initiator status; orders' errors can be explained by front-end's anomalous calls."
+              },
+              {
+                "contradicting_factors": [
+                  "IVD ambiguous",
+                  "late dominant cpu spike",
+                  "no clear propagation to front-end/orders"
+                ],
+                "hypothesis_id": "H3-queue-master-emitter-exception",
+                "missing_information": [
+                  "link to main failure cascade",
+                  "I/O exception root cause"
+                ],
+                "position": "plausible",
+                "root_component": "queue-master",
+                "source_vs_symptom_judgment": "ambiguous (early exception log but isolated, no propagation support)",
+                "supporting_factors": [
+                  "early emitter exception log at 1732258813.310"
+                ],
+                "why_not_others": "Front-end directly explains orders symptoms and has broader impact; queue-master's failure domain is separate."
+              },
+              {
+                "contradicting_factors": [
+                  "late dominant disk spike",
+                  "storage component",
+                  "no emitter exception"
+                ],
+                "hypothesis_id": "H1-session-db-cpu-saturation",
+                "missing_information": [],
+                "position": "unlikely",
+                "root_component": "session-db",
+                "source_vs_symptom_judgment": "reactive storage symptom",
+                "supporting_factors": [],
+                "why_not_others": "All candidates above have emitter or service errors explaining the cascade; session-db's anomalies are typical reactive resource pressure."
+              },
+              {
+                "contradicting_factors": [
+                  "IVD victim (Copeland -2)"
+                ],
+                "hypothesis_id": "H8-user-latency-degradation",
+                "missing_information": [],
+                "position": "unlikely",
+                "root_component": "user",
+                "source_vs_symptom_judgment": "downstream symptom",
+                "supporting_factors": [],
+                "why_not_others": "Front-end is IVD initiator; user's latency and resource changes are consequences of the cascade."
+              }
+            ],
+            "case_narrative": "Front-end experienced an internal emitter exception at 1732258812.0, triggering 406 errors from orders dependency. This cascaded into orders service errors (victim) and resource pressure in databases (session-db, orders-db, carts-db). Queue-master shows an ambiguous I/O exception but no link to primary failure. All other components are reactive symptoms matching an application-layer fault originating in front-end.",
+            "final_decision": null,
+            "next_action": {
+              "action_id": "test-downstream-front-end",
+              "args": {
+                "candidate_component": "front-end",
+                "symptom_components": [
+                  "orders",
+                  "payment",
+                  "shipping",
+                  "catalogue",
+                  "session-db",
+                  "orders-db",
+                  "carts-db",
+                  "user"
+                ],
+                "time_window": [
+                  1732258512.0,
+                  1732259712.0
+                ]
+              },
+              "expected_information_gain": "Confirm whether front-end anomaly can explain downstream symptoms in orders, payment, shipping, and databases, providing coverage evidence to solidify front-end as root cause.",
+              "question": "Does the front-end anomaly explain the observed symptoms in orders, payment, shipping, catalogue, session-db, orders-db, carts-db, and user?",
+              "target_hypothesis_ids": [
+                "H2-front-end-emitter-exception",
+                "H5-orders-service-error",
+                "H3-queue-master-emitter-exception"
+              ],
+              "tool_name": "test_downstream_explanation"
+            }
+          },
+          "executed_action": {
+            "action_id": "test-downstream-front-end",
+            "tool_name": "test_downstream_explanation",
+            "target_hypothesis_ids": [
+              "H2-front-end-emitter-exception",
+              "H5-orders-service-error",
+              "H3-queue-master-emitter-exception"
+            ],
+            "question": "Does the front-end anomaly explain the observed symptoms in orders, payment, shipping, catalogue, session-db, orders-db, carts-db, and user?",
+            "args": {
+              "candidate_component": "front-end",
+              "symptom_components": [
+                "orders",
+                "payment",
+                "shipping",
+                "catalogue",
+                "session-db",
+                "orders-db",
+                "carts-db",
+                "user"
+              ],
+              "time_window": [
+                1732258512.0,
+                1732259712.0
+              ]
+            },
+            "expected_information_gain": "Confirm whether front-end anomaly can explain downstream symptoms in orders, payment, shipping, and databases, providing coverage evidence to solidify front-end as root cause."
+          },
+          "evidence_id": "evidence:3a0e58daff32b4e27893a505a2428b5f40678206e04eb00b33daee1122633f47"
+        },
+        {
+          "step_index": 3,
+          "agent_response": {
+            "agent": "continuous_noise_native",
+            "belief_state": [
+              {
+                "contradicting_factors": [],
+                "hypothesis_id": "H2-front-end-emitter-exception",
+                "missing_information": [],
+                "position": "leading",
+                "root_component": "front-end",
+                "source_vs_symptom_judgment": "strong source (IVD initiator, emitter exception with near-onset internal mechanism, early onset)",
+                "supporting_factors": [
+                  "IVD initiator (Copeland 3)",
+                  "emitter exception logs with PaymentDeclinedException",
+                  "near-onset cpu, memory, error, socket signals"
+                ],
+                "why_not_others": "Orders is IVD victim; its errors are downstream dependency failures visible from front-end. Queue-master ambiguous with no propagation to primary failure scope. All databases are reactive storage components."
+              },
+              {
+                "contradicting_factors": [
+                  "IVD victim (Copeland -2)",
+                  "errors likely reactive to front-end fault"
+                ],
+                "hypothesis_id": "H5-orders-service-error",
+                "missing_information": [],
+                "position": "weakened",
+                "root_component": "orders",
+                "source_vs_symptom_judgment": "symptom candidate (near-onset mechanism but overridden by IVD victim role)",
+                "supporting_factors": [
+                  "near-onset cpu, error, memory"
+                ],
+                "why_not_others": "Front-end has stronger emitter evidence and IVD initiator status; orders' errors can be explained by front-end's anomalous calls."
+              },
+              {
+                "contradicting_factors": [
+                  "IVD ambiguous",
+                  "late dominant cpu spike",
+                  "no clear propagation to front-end/orders"
+                ],
+                "hypothesis_id": "H3-queue-master-emitter-exception",
+                "missing_information": [],
+                "position": "plausible",
+                "root_component": "queue-master",
+                "source_vs_symptom_judgment": "ambiguous (early exception log but isolated, no propagation support)",
+                "supporting_factors": [
+                  "early emitter exception log at 1732258813.310"
+                ],
+                "why_not_others": "Front-end directly explains orders symptoms and has broader impact; queue-master's failure domain is separate."
+              }
+            ],
+            "case_narrative": "At 1732258812, front-end experienced an internal emitter exception (PaymentDeclinedException), producing 406 errors from orders dependency. This cascaded into orders service errors (victim) and resource pressure in storage components (session-db, orders-db, carts-db). Queue-master showed an ambiguous I/O exception but no link to primary failure. Other components are reactive symptoms consistent with this application-layer fault.",
+            "final_decision": {
+              "mechanism": "Emitter exception in front-end causing PaymentDeclinedException and 406 errors from orders dependency, inducing cascading service errors and resource anomalies downstream.",
+              "root_component": "front-end",
+              "root_event_id": "event:1:front-end:primary"
+            },
+            "next_action": null
+          },
+          "executed_action": {
+            "action_id": "fallback-source-symptom-3",
+            "tool_name": "compare_source_symptom",
+            "target_hypothesis_ids": [
+              "H1-session-db-cpu-saturation",
+              "H2-front-end-emitter-exception",
+              "H3-queue-master-emitter-exception",
+              "H4-shipping-cpu-saturation",
+              "H5-orders-service-error",
+              "H6-catalogue-db-cpu-saturation",
+              "H7-orders-db-cpu-saturation",
+              "H8-user-latency-degradation",
+              "H9-carts-db-cpu-saturation",
+              "H10-catalogue-latency-degradation"
+            ],
+            "question": "Compare source-vs-symptom cues for all candidates.",
+            "args": {
+              "component_scope": [
+                "session-db",
+                "front-end",
+                "queue-master",
+                "shipping",
+                "orders",
+                "catalogue-db",
+                "orders-db",
+                "user",
+                "carts-db",
+                "catalogue"
+              ],
+              "time_window": [
+                1732258512.0,
+                1732259712.0
+              ]
+            },
+            "expected_information_gain": "Separate likely source candidates from loud symptoms."
+          },
+          "evidence_id": "evidence:3e0b5da7a08ba8302f0eeeb636bfc59d105b08f18f9a73a12fd2ab14527f014c"
+        }
+      ],
+      "case_id": "RE3-SS/front-end_f1/2",
+      "expected_component": "front-end",
+      "hit": true,
+      "elapsed_sec": 330.895,
+      "error": null,
+      "token_usage": {
+        "call_count": 6,
+        "prompt_tokens": 133673,
+        "completion_tokens": 36207,
+        "total_tokens": 169880,
+        "by_purpose": {
+          "event_causalizer_state_update": {
+            "call_count": 1,
+            "prompt_tokens": 20637,
+            "completion_tokens": 9225,
+            "total_tokens": 29862
+          },
+          "continuous_noise_native_state_update": {
+            "call_count": 5,
+            "prompt_tokens": 113036,
+            "completion_tokens": 26982,
+            "total_tokens": 140018
+          }
+        }
+      }
+    }
+  ]
+}
