@@ -1,0 +1,684 @@
+{
+  "dataset": "Eadro",
+  "system": "Eadro-SN",
+  "mode": "continuous-noise-native-event-causalizer",
+  "total_cases": 1,
+  "top1_accuracy": 0.0,
+  "top1_hits": 0,
+  "recall_pool_size": 15,
+  "max_hypotheses": 10,
+  "elapsed_sec": 341.039,
+  "cost": {
+    "total_calls": 6,
+    "total_prompt_tokens": 136496,
+    "total_completion_tokens": 37429,
+    "total_tokens": 173925,
+    "avg_tokens_per_case": 173925,
+    "by_purpose": {
+      "event_causalizer_state_update": {
+        "call_count": 1,
+        "prompt_tokens": 19850,
+        "completion_tokens": 10474,
+        "total_tokens": 30324
+      },
+      "continuous_noise_native_state_update": {
+        "call_count": 5,
+        "prompt_tokens": 116646,
+        "completion_tokens": 26955,
+        "total_tokens": 143601
+      }
+    }
+  },
+  "results": [
+    {
+      "status": "continuous_final",
+      "hypothesis_id": "H3-home-timeline-service-emitter-exception",
+      "predicted_component": "home-timeline-service",
+      "reason_family": "emitter exception",
+      "onset_interval": [
+        1650161569.0,
+        1650161575.0
+      ],
+      "steps_completed": 4,
+      "evidence_count": 4,
+      "referenced_evidence_ids": [
+        "evidence:98ece1b95996dcfd6d3108e253dd2b8ab6ea4d8c3279e0420fc1623b6ec8049e",
+        "evidence:1d10d7e38bd400a1ab6a2fec8ce109e2a96f0e691edcb3c23eb9cab93da196d2",
+        "evidence:987eb166f4f967b097e869c47e3ba0d3b350b5f87593787c28b3e5bee75e5723",
+        "evidence:31541eac67dc4c29ea2676d07d27e50a72fd8fbc37dbabba319d09befa0542b8"
+      ],
+      "rationale": "Home-timeline-service is the IVD initiator (Copeland 5) with strong emitter exception logs ('Failed to get followers from social-network-service') and near-onset CPU surge. Counterfactual removal shows eliminating home-timeline prevents anomalies in social-graph-service and media-service. Social-graph's ZADD 'no key' errors are reactive to missing data from home-timeline failure. Media's late massive CPU spike is a downstream symptom, not an independent root. Competing candidates (text-service, media-service) lack emitter exceptions and IVD initiator status. The evidence converges on home-timeline as the initiating faulty component.",
+      "uncertainties": [
+        "Trace paths between home-timeline and social-graph not directly observed, but inferred dependency and counterfactual evidence support the linkage",
+        "Media-service's exact propagation mechanism (CPU surge) is not explicitly traced, but counterfactual removal confirms it as downstream"
+      ],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "media-service",
+        "text-service",
+        "home-timeline-service",
+        "user-timeline-service",
+        "user-service",
+        "compose-post-service",
+        "unique-id-service",
+        "nginx-web-server",
+        "social-graph-service",
+        "user-mention-service",
+        "url-shorten-service",
+        "post-storage-service"
+      ],
+      "event_causal_profile": {
+        "truncated_json": "{\"causal_story_options\": [{\"initiating_event_ids\": [\"event:2:home-timeline-service:primary\"], \"propagation_reading\": \"Home-timeline-service experienced internal exceptions and resource saturation, causing cascading failures to its caller compose-post-service (who reports dependency errors). Downstream, social-graph-service shows exce...\", \"story_id\": \"story_home_timeline_initiator\", \"what_would_support_it\": [\"NoiseLab confirms home-timeline's exception occurs before related anomalies\", \"social-graph 'ZADD' errors correlate with home-timeline's 'get followers' failures\"], \"what_would_weaken_it\": [\"NoiseLab finds independent root cause in social-graph-service or text-service with earlier trigger\", \"media-service massive CPU spike unexplained by cascade\"]}, {\"initiating_event_ids\": [\"event:12:media-service:primary\"], \"propagation_reading\": \"Media-service experienced a massive CPU saturation at 1650161580, which propagated back to upstream services causing widespread overload. The earlier anomalies in home-timeline and others were unrelated transient spik...\", \"story_id\": \"story_media_late_spike_initiator\", \"what_would_support_it\": [\"NoiseLab shows media-service CPU spike precedes other services' spikes in a causal DAG\", \"compose-post logs show media-related errors\"], \"what_would_weaken_it\": [\"Media-service spike is later than home-timeline's exception\", \"no clear dependency from home-timeline to media\"]}], \"component_event_features\": [{\"component\": \"text-service\", \"missing_checks\": [\"verify if text-service is called by compose-post-service\", \"check if CPU surge is reactive to downstream failure or independent\"], \"near_onset_mechanism\": [\"CPU surge (cpu_usage_user +7.11e9 at 1650161569)\", \"memory and socket changes\"], \"primary_event_ids\": [\"event:1:text-service:primary\"], \"symptom_visibility\": [\"no external error surface; internal resource metrics only\"], \"timing_cautions\": [\"onset simultaneous with many components; no clear temporal precedence\"], \"topology_notes\": [\"inferred as dependency for compose-post-service; request direction not fully captured\"]}, {\"component\": \"home-timeline-service\", \"missing_checks\": [\"confirm if social-graph-service is called by home-timeline (inferred from naming)\", \"check if 'get followers' failure causes ZADD errors downstream\"], \"near_onset_mechanism\": [\"emitter exception logs ('Failed to get followers from soci...')\", \"CPU surge (cpu_usage_user +7.19e9 at +6s)\"], \"primary_event_ids\": [\"event:2:home-timeline-service:primary\"], \"symptom_visibility\": [\"errors surface via compose-post-service logs as dependency failure\"], \"timing_cautions\": [\"dominant metric spike at +6s is not late; onset aligns with many components\"], \"topology_notes\": [\"called by compose-post-service; may call social-graph-service; ivd_verdict initiator\"]}, {\"component\": \"user-timeline-service\", \"missing_checks\": [\"verify if user-timeline-service is called by compose-post-service\", \"check if its anomaly is independent or a symptom of upstream load\"], \"near_onset_mechanism\": [\"CPU surge (cpu_usage_user +2e7 at +2s)\", \"memory drop\"], \"primary_event_ids\": [\"event:3:user-timeline-service:primary\"], \"symptom_visibility\": [\"no external error surface\"], \"timing_cautions\": [\"onset simultaneous with many components; may be reactive\"], \"topology_notes\": [\"likely downstream of compose-post-service\"]}, {\"component\": \"user-service\", \"missing_checks\": [\"verify if user-service is called by compose-post-service\", \"determine if system CPU is due to kernel overhead from I/O or context switches\"], \"near_onset_mechanism\": [\"CPU surge (cpu_usage_system +2e7 at +5s)\", \"memory drop\"], \"primary_event_ids\": [\"event:4:user-service:primary\"], \"symptom_visibility\": [\"no external error surface\"], \"timing_cautions\": [\"onset simultaneous; dominance in system CPU\"], \"topology_notes\": [\"likely downstream dependency\"]}, {\"component\": \"compose-post-service\", \"missing_checks\": [\"confirm that local resource spikes are reactive to home-timeline failure\", \"check if compose-post-service has any independent exception\"], \"near_onset_mechanism\": [\"CPU surge (cpu_usage_system +2e7 at 1650161569)\", \"emitter dependency-failure logs pointing to home-timeline-service\"], \"primary_event_ids\": [\"event:5:compose-post-service:primary\"], \"symptom_visibility\": [\"reports home-timeline failure; ivd_verdict victim\"], \"timing_cautions\": [\"early onset (1650161569) simultaneous with many; may be first sign of failure propagation\"], \"topology_notes\": [\"entry component; calls home-timeline-service; its errors provide surface evidence\"]}, {\"component\": \"unique-id-service\", \"missing_checks\": [\"verify if unique-id-service is a dependency of compose-post-service\", \"check if its CPU spike is caused by increased requests from upstream\"], \"near_onset_mechanism\": [\"CPU surge (cpu_usage_system +1e7 at +11s)\", \"socket changes\"], \"primary_event_ids\": [\"event:6:unique-id-service:primary\"], \"symptom_visibility\": [\"no external error surface\"], \"timing_cautions\": [\"dominant metric spike at +11s; could be reactive\"], \"topology_notes\": [\"ivd_verdict victim\"]}, {\"component\": \"nginx-web-server\", \"missing_checks\": [\"check if nginx memory change is a red herring\", \"determine if nginx reflects traffic shape change due to failures\"], \"near_onset_mechanism\": [\"memory drop (memory_usage -380 at 1650161569)\", \"CPU spike later (cpu_usage_user +9 at +12s)\"], \"primary_event_ids\": [\"event:7:nginx-web-server:primary\"], \"symptom_visibility\": [\"no direct errors; ivd_verdict victim\"], \"timing_cautions\": [\"memory drop is small magnitude; CPU spike late; likely proxy of upstream issues\"], \"topology_notes\": [\"frontend proxy; its anomalies often mirror backend\"]}, {\"component\": \"user-mention-service\", \"missing_checks\": [\"verify if user-mention-service is a dependency\", \"check if late spike correlates with retries or batch jobs\"], \"near_onset_mechanism\": [\"socket increase (tx_bytes +10.4 at +5s)\", \"memory drop small\"], \"primary_event_ids\": [\"event:8:user-mention-service:primary\", \"event:8:user-mention-service:late_dominant_metric\"], \"symptom_visibility\": [\"no external errors; late CPU spike likely a consequence of system overload\"], \"timing_cautions\": [\"late dominant CPU spike (+1e7 at +44s) is far from onset; primary event weak\"], \"topology_notes\": [\"likely downstream; late metric suggests batch/backfill reaction\"]}, {\"component\": \"social-graph-service\", \"missing_checks\": [\"confirm if social-graph is called by home-timeline\", \"test if ZADD errors occur when home-timeline's get followers fails\"], \"near_onset_mechanism\": [\"emitter exception logs ('ZADD: no key specified')\", \"CPU surge (cpu_usage_user +2e7 at +1.5s)\"], \"primary_event_ids\": [\"event:9:social-graph-service:primary\"], \"symptom_visibility\": [\"ZADD errors may be a symptom of missing data from upstream (e.g., home-timeline)\"], \"timing_cautions\": [\"onset 1650161570.49, slightly after many others; ivd_verdict victim\"], \"topology_notes\": [\"likely dependency of home-timeline; ivd suggests its errors are not root cause\"]}, {\"component\": \"post-storage-service\", \"missing_checks\": [\"verify if post-storage is called by compose-post or others\", \"check if high CPU is due to query load from failing upstream\"], \"near_onset_mechanism\": [\"CPU surge (cpu_usage_system +1e7 at +17s)\", \"socket increase\"], \"primary_event_ids\": [\"event:10:post-storage-service:primary\"], \"symptom_visibility\": [\"no internal exceptions; storage layer resource pressure likely reactive\"], \"timing_cautions\": [\"onset 1650161574; dominant spike at +17s; ivd_verdict victim\"], \"topology_notes\": [\"storage component; its anomaly is often a consequence of service logic errors\"]}, {\"component\": \"url-shorten-service\", \"missing_checks\": [\"verify dependency relationship\", \"check if its CPU spike is caused by upstream retries\"], \"near_onset_mechanism\": [\"CPU surge (cpu_usage_user +1e7 at +13s)\", \"socket increase\"], \"primary_event_ids\": [\"event:11:url-shorten-service:primary\"], \"symptom_visibility\": [\"no internal exceptions\"], \"timing_cautions\": [\"onset 1650161574; dominant spike at +13s; may be reactive\"], \"topology_notes\": [\"likely downstream dependency\"]}, {\"component\": \"media-service\", \"missing_checks\": [\"verify if media-service is called by compose-post-service\", \"determine if its late spike is a cause or effect of failures\"], \"near_onset_mechanism\": [\"massive CPU surge (cpu_usage_user +7.63e9 at +8s)\", \"socket increase\"], \"primary_event_ids\": [\"event:12:media-service:primary\"], \"symptom_visibility\": [\"no internal exceptions; very high resource magnitude\"], \"timing_cautions\": [\"latest onset (1650161580); ivd ambiguous\"], \"topology_notes\": [\"ivd ambiguous; late but massive spike; needs further disambiguation\"]}], \"event_timeline\": [{\"ambiguity_cues\": [\"no special deterministic ambiguity cue\"], \"causal_links_to_check\": [\"check if text-service is called by compose-post-service\", \"verify if its CPU spike is independent or a symptom of load from upstream failure\"], \"component\": \"text-service\", \"diagnostic_implication\": \"Text-service experienced a strong CPU surge near the earliest anomaly time, but lacks exception evidence.\", \"event_id\": \"event:1:text-service:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1650161569.0, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"cpu_usage_user +7.11e9 at 1650161569; memory_working_set +76; tx_bytes +7.4 at +14s\"], \"source_like_cues\": [\"near-onset internal mechanism signals: cpu, memory, socket\"], \"symptom_like_cues\": [\"no strong symptom-only cue\"]}, {\"ambiguity_cues\": [\"no special deterministic ambiguity cue\"], \"causal_links_to_check\": [\"confirm if social-graph-service is called by home-timeline\", \"check if compose-post-service dependency error is attributable to this failure\"], \"component\": \"home-timeline-service\", \"diagnostic_implication\": \"Home-timeline-service shows internal exceptions and resource surge, making it a strong candidate for initiating fault.\", \"event_id\": \"event:2:home-timeline-service:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1650161569.0, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"cpu_usage_user +7.19e9 at +6s; emitter error at 1650161570.528; memory_usage -6274\"], \"source_like_cues\": [\"near-onset internal mechanism signals: cpu, log, memory, socket\", \"emitter-side exception logs ('Failed to get followers from soci...')\"], \"symptom_like_cues\": [\"no strong symptom-only cue\"]}, {\"ambiguity_cues\": [\"no special deterministic ambiguity cue\"], \"causal_links_to_check\": [\"verify if user-timeline-service is downstream of compose-post-service\", \"check if its anomaly is caused by upstream load\"], \"component\": \"user-timeline-service\", \"diagnostic_implication\": \"User-timeline-service shows a moderate CPU spike near onset; could be a reactive symptom.\", \"event_id\": \"event:3:user-timeline-service:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1650161569.0, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"cpu_usage_user +2e7 at +2s; memory_usage -2790 at 1650161569\"], \"source_like_cues\": [\"near-onset internal mechanism signals: cpu, memory, socket\"], \"symptom_like_cues\": [\"no strong symptom-only cue\"]}, {\"ambiguity_cues\": [\"no special deterministic ambiguity cue\"], \"causal_links_to_check\": [\"determine if user-service is a dependency and if its anomaly is reactive\"], \"component\": \"user-service\", \"diagnostic_implication\": \"User-service system CPU spike may indicate kernel overhead, possibly due to I/O wait or context switches from downstream issues.\", \"event_id\": \"event:4:user-service:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1650161569.0, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"cpu_usage_system +2e7 at +5s; memory_working_set -5.3 at 1650161569\"], \"source_like_cues\": [\"near-onset internal mechanism signals: cpu, memory, socket\"], \"symptom_like_cues\": [\"no strong symptom-only cue\"]}, {\"ambiguity_cues\": [\"emitter log mentions dependency/storage failure; mentioned dependency is evidence, not a label\"], \"causal_links_to_check\": [\"verify that home-timeline failure is the root cause of these errors\"], \"component\": \"compose-post-service\", \"diagnostic_implication\": \"Compose-post-service is an entry point and reports home-timeline failure; its own resource spikes are likely consequences.\", \"event_id\": \"event:5:compose-post-service:primary\", \"event_kind\": \"emitter_dependency_failure_event\", \"event_time\": 1650161569.0, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"cpu_usage_system +2e7 at 1650161569; emitter error logs: 'Failed to write home time...'\"], \"source_like_cues\": [\"near-onset internal mechanism signals: cpu, memory, socket\"], \"symptom_like_cues\": [\"emitter logs indicate dependency failure from home-timeline-service (ivd_verdict victim)\"]}, {\"ambiguity_cues\": [\"no special deterministic ambiguity cue\"], \"causal_links_to_check\": [\"verify if unique-id-service is called by compose-post-service\", \"confirm its late spike is not initiating\"], \"component\": \"unique-id-service\", \"diagnostic_implication\": \"Unique-id-service shows a delayed CPU spike, likely reactive; ivd_verdict victim.\", \"event_id\": \"event:6:unique-id-service:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1650161569.0, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"cpu_usage_system +1e7 at +11s; tx_bytes +8.3 at +9s\"], \"source_like_cues\": [\"near-onset internal mechanism signals: cpu, memory, socket\"], \"symptom_like_cues\": [\"no strong symptom-only cue\"]}, {\"ambiguity_cues\": [\"no special deterministic ambiguity cue\"], \"causal_links_to_check\": [\"check if nginx metrics correlate with traffic shape changes due to failures\"], \"component\": \"nginx-web-server\", \"diagnostic_implication\": \"Nginx shows minor memory change and late small CPU spike; likely reflects backend issues rather than being a source.\", \"event_id\": \"event:7:nginx-web-server:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1650161569.0, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"memory_usage -380 at 1650161569; cpu_usage_user +9 at +12s\"], \"source_like_cues\": [\"near-onset internal mechanism signals: cpu, memory, socket\"], \"symptom_like_cues\": [\"no strong symptom-only cue\"]}, {\"ambiguity_cues\": [\"largest local magnitude occurs late; separate follow-up event from initiating event\", \"dominant metric spike is late relative to primary event\"], \"causal_links_to_check\": [\"check if user-mention-service is a dependency and if late spike is caused by retries\"], \"component\": \"user-mention-service\", \"diagnostic_implication\": \"Weak early signals with a late massive CPU spike (event:8 late) suggests a reactive or batch processing effect.\", \"event_id\": \"event:8:user-mention-service:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1650161569.0, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"tx_bytes +10.4 at +5s; memory_usage -3.4 at 1650161569\"], \"source_like_cues\": [\"near-onset internal mechanism signals: memory, socket\"], \"symptom_like_cues\": [\"no strong symptom-only cue\"]}, {\"ambiguity_cues\": [\"no special deterministic ambiguity cue\"], \"causal_links_to_check\": [\"verify if social-graph is downstream of home-timeline\", \"test if ZADD errors occur when home-timeline's get followers fails\"], \"component\": \"social-graph-service\", \"diagnostic_implication\": \"Social-graph-service shows exceptions, but ivd labels it victim; ZADD errors may stem from missing data caused by upstream home-timeline failure.\", \"event_id\": \"event:9:social-graph-service:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1650161570.490796, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"cpu_usage_user +2e7 at +1.5s; emitter error at 1650161570.491\"], \"source_like_cues\": [\"near-onset internal mechanism signals: cpu, log, socket\", \"emitter-side exception logs ('ZADD: no key specified')\"], \"symptom_like_cues\": [\"ivd_verdict victim\"]}, {\"ambiguity_cues\": [\"no special deterministic ambiguity cue\"], \"causal_links_to_check\": [\"confirm if post-storage is called by compose-post or others\", \"check if its CPU spike is due to query load from failing upstream\"], \"component\": \"post-storage-service\", \"diagnostic_implication\": \"Post-storage-service shows resource pressure, typical of a reactive storage component; ivd_verdict victim.\", \"event_id\": \"event:10:post-storage-service:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1650161574.0, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"cpu_usage_system +1e7 at +17s; tx_bytes +8.1 at 1650161574\"], \"source_like_cues\": [\"near-onset internal mechanism signals: cpu, socket\"], \"symptom_like_cues\": [\"no strong symptom-only cue\"]}, {\"ambiguity_cues\": [\"no special deterministic ambiguity cue\"], \"causal_links_to_check\": [\"verify if it is a dependency of compose-post-service\", \"check if its spike is caused by upstream retries\"], \"component\": \"url-shorten-service\", \"diagnostic_implication\": \"Url-shorten-service shows delayed CPU spike, likely reactive.\", \"event_id\": \"event:11:url-shorten-service:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1650161574.0, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"cpu_usage_user +1e7 at +13s; tx_bytes +9.0 at 1650161574\"], \"source_like_cues\": [\"near-onset internal mechanism signals: cpu, socket\"], \"symptom_like_cues\": [\"no strong symptom-only cue\"]}, {\"ambiguity_cues\": [\"latest onset among primary events; ivd ambiguous\"], \"causal_links_to_check\": [\"verify if media-service is called by compose-post-service\", \"determine if its spike can be explained by load from other failing components\"], \"component\": \"media-service\", \"diagnostic_implication\": \"Media-service exhibits a late but extremely large CPU spike; could be a separate root cause or a massive reactive cascade.\", \"event_id\": \"event:12:media-service:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1650161580.0, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"cpu_usage_user +7.63e9 at +8s; cpu_usage_system +5.3e9 at +1s\"], \"source_like_cues\": [\"near-onset internal mechanism signals: cpu, socket\", \"massive CPU surge (cpu_usage_user +7.63e9)\"], \"symptom_like_cues\": [\"no strong symptom-only cue\"]}, {\"ambiguity_cues\": [\"temporal_anchor is largest local metric spike, not component onset\"], \"causal_links_to_check\": [\"correlate with other late spikes or system recovery behavior\"], \"component\": \"user-mention-service\", \"diagnostic_implication\": \"This late CPU spike suggests a secondary effect, possibly batch processing or retries, rather than an initiating event.\", \"event_id\": \"event:8:user-mention-service:late_dominant_metric\", \"event_kind\": \"late_dominant_metric_followup\", \"event_time\": 1650161613.0, \"mechanism_strength\": \"unknown\", \"multimodal_evidence\": [\"cpu_usage_user +1e7 at 1650161613\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"late massive cpu spike (+1e7) at +44s after primary onset\"]}], \"ivd\": {\"interpretation\": \"IVD uses pairwise tournament (Copeland score) to identify the initiator vs victim among source candidates. The initiator is the candidate whose anomaly is least explainable by others and most explanatory for others. Do not select a candidate labeled as 'victim' over one labeled as 'initiator'.\", \"ivd_enabled\": true, \"ranking\": [\"home-timeline-service\", \"media-service\", \"text-service\", \"social-graph-service\", \"post-storage-service\", \"unique-id-service\", \"compose-post-service\", \"nginx-web-server\"], \"verdicts\": {\"compose-post-service\": {\"caller_anomalies\": [], \"caller_anomalies_count\": 0, \"copeland_score\": -5, \"downstream_coverage_count\": 0, \"fault_signature_label\": \"dependency_induced_exception\", \"ivd_role\": \"victim\", \"resource_magnitude\": 30000459.42080966, \"temporal_gap_seconds\": null, \"temporal_verdict\": \"resource_only\", \"workload_magnitude\": 0}, \"home-timeline-service\": {\"caller_anomalies\": [], \"caller_anomalies_count\": 0, \"copeland_score\": 5..."
+      },
+      "event_causal_fact_count": 13,
+      "final_belief_state": [
+        {
+          "contradicting_factors": [],
+          "hypothesis_id": "H3-home-timeline-service-emitter-exception",
+          "missing_information": [],
+          "position": "leading",
+          "root_component": "home-timeline-service",
+          "source_vs_symptom_judgment": "source",
+          "supporting_factors": [
+            "Highest source likelihood score 6.0 and IVD initiator (Copeland 5)",
+            "Emitter exception logs repeatedly show 'Failed to get followers from social-network-service'",
+            "Counterfactual removal indicates home-timeline prevents media and social-graph anomalies",
+            "Downstream timing: home-timeline observed before social-graph and media symptoms"
+          ],
+          "why_not_others": "Text-service lacks emitter exceptions and is IVD ambiguous; media-service has late onset without logs and IVD ambiguous; social-graph is IVD victim with ZADD errors reactive; compose-post is IVD victim with dependency logs pointing to home-timeline."
+        },
+        {
+          "contradicting_factors": [
+            "No emitter exception or log evidence",
+            "IVD ambiguous (Copeland 5 but not initiator)",
+            "Counterfactual removal of home-timeline explains symptoms better than independent text-service fault"
+          ],
+          "hypothesis_id": "H2-text-service-cpu-saturation",
+          "missing_information": [],
+          "position": "weakened",
+          "root_component": "text-service",
+          "source_vs_symptom_judgment": "symptom",
+          "supporting_factors": [
+            "Earliest onset with strong CPU spike"
+          ],
+          "why_not_others": "Home-timeline's emitter exceptions and IVD initiator status provide stronger mechanism evidence."
+        },
+        {
+          "contradicting_factors": [
+            "Latest onset among primary events",
+            "No emitter exceptions, IVD ambiguous",
+            "Counterfactual suggests home-timeline removal eliminates its spike"
+          ],
+          "hypothesis_id": "H1-media-service-cpu-saturation",
+          "missing_information": [],
+          "position": "weakened",
+          "root_component": "media-service",
+          "source_vs_symptom_judgment": "symptom",
+          "supporting_factors": [
+            "Extremely large local anomaly magnitude"
+          ],
+          "why_not_others": "Late massive spike better explained as downstream symptom of home-timeline failure."
+        },
+        {
+          "contradicting_factors": [
+            "IVD victim (Copeland -1)",
+            "ZADD errors likely reactive to home-timeline missing data",
+            "Counterfactual removal of home-timeline explains away social-graph anomalies"
+          ],
+          "hypothesis_id": "H9-social-graph-service-emitter-exception",
+          "missing_information": [],
+          "position": "weakened",
+          "root_component": "social-graph-service",
+          "source_vs_symptom_judgment": "symptom",
+          "supporting_factors": [
+            "Emitter exception logs"
+          ],
+          "why_not_others": "Home-timeline is IVD initiator and likely calls social-graph; social-graph's exceptions are better explained as reactive."
+        },
+        {
+          "contradicting_factors": [
+            "IVD victim (Copeland -5)",
+            "Logs report home-timeline dependency failure",
+            "No internal exception to initiate fault"
+          ],
+          "hypothesis_id": "H6-compose-post-service-cpu-saturation",
+          "missing_information": [],
+          "position": "unlikely",
+          "root_component": "compose-post-service",
+          "source_vs_symptom_judgment": "symptom",
+          "supporting_factors": [
+            "Entry point with early CPU spike"
+          ],
+          "why_not_others": "Clearly a downstream component mirroring home-timeline failure it reports."
+        }
+      ],
+      "transcript": [
+        {
+          "step_index": 0,
+          "agent_response": {
+            "truncated_json": "{\"agent\": \"continuous_noise_native\", \"allowed_tool_names\": [\"inspect_noise_features\", \"compare_source_symptom\", \"counterfactual_remove\", \"test_downstream_explanation\"], \"case_context_without_label_leakage\": {\"components\": [\"compose-post-service\", \"home-timeline-service\", \"media-service\", \"nginx-web-server\", \"post-storage-service\", \"social-graph-service\", \"text-service\", \"unique-id-service\", \"url-shorten-service\", \"user-mention-service\", \"user-service\", \"user-timeline-service\"], \"entry_components\": [\"compose-post-service\"], \"event_time\": 1650161568.334613, \"observations\": [{\"component\": \"media-service\", \"first_seen\": 1650161580.0, \"magnitude\": 12930126255.314009, \"reason_family\": \"cpu saturation\", \"signals\": [\"cpu\", \"memory\", \"socket\"], \"symptoms\": [\"media-service cpu changed near 1650161588.000\", \"media-service cpu changed near 1650161581.000\", \"media-service cpu changed near 1650161580.000\"]}, {\"component\": \"text-service\", \"first_seen\": 1650161569.0, \"magnitude\": 12140018252.317247, \"reason_family\": \"cpu saturation\", \"signals\": [\"cpu\", \"memory\", \"socket\"], \"symptoms\": [\"text-service cpu changed near 1650161569.000\", \"text-service cpu changed near 1650161569.000\", \"text-service cpu changed near 1650161569.000\"]}, {\"component\": \"home-timeline-service\", \"first_seen\": 1650161569.0, \"magnitude\": 12130026286.86358, \"reason_family\": \"emitter exception\", \"signals\": [\"cpu\", \"log\", \"memory\", \"socket\"], \"symptoms\": [\"home-timeline-service cpu changed near 1650161575.000\", \"home-timeline-service cpu changed near 1650161580.000\", \"home-timeline-service cpu changed near 1650161589.000\"]}, {\"component\": \"user-timeline-service\", \"first_seen\": 1650161569.0, \"magnitude\": 40005602.40460377, \"reason_family\": \"cpu saturation\", \"signals\": [\"cpu\", \"memory\", \"socket\"], \"symptoms\": [\"user-timeline-service cpu changed near 1650161571.000\", \"user-timeline-service cpu changed near 1650161575.000\", \"user-timeline-service memory changed near 1650161569.000\"]}, {\"component\": \"user-service\", \"first_seen\": 1650161569.0, \"magnitude\": 40000033.27947988, \"reason_family\": \"cpu saturation\", \"signals\": [\"cpu\", \"memory\", \"socket\"], \"symptoms\": [\"user-service cpu changed near 1650161574.000\", \"user-service cpu changed near 1650161578.000\", \"user-service socket changed near 1650161589.000\"]}, {\"component\": \"compose-post-service\", \"first_seen\": 1650161569.0, \"magnitude\": 30000582.714273874, \"reason_family\": \"cpu saturation\", \"signals\": [\"cpu\", \"log\", \"memory\", \"socket\"], \"symptoms\": [\"compose-post-service cpu changed near 1650161569.000\", \"compose-post-service cpu changed near 1650161572.000\", \"compose-post-service memory changed near 1650161569.000\"]}, {\"component\": \"social-graph-service\", \"first_seen\": 1650161570.490796, \"magnitude\": 20000331.87711064, \"reason_family\": \"emitter exception\", \"signals\": [\"cpu\", \"log\", \"memory\", \"socket\"], \"symptoms\": [\"social-graph-service cpu changed near 1650161572.000\", \"social-graph-service socket changed near 1650161574.000\", \"social-graph-service cpu changed near 1650161612.000\"]}, {\"component\": \"user-mention-service\", \"first_seen\": 1650161569.0, \"magnitude\": 20000032.59298975, \"reason_family\": \"cpu saturation\", \"signals\": [\"cpu\", \"memory\", \"socket\"], \"symptoms\": [\"user-mention-service cpu changed near 1650161613.000\", \"user-mention-service cpu changed near 1650161665.000\", \"user-mention-service socket changed near 1650161574.000\"]}, {\"component\": \"unique-id-service\", \"first_seen\": 1650161569.0, \"magnitude\": 20000028.871699274, \"reason_family\": \"cpu saturation\", \"signals\": [\"cpu\", \"memory\", \"socket\"], \"symptoms\": [\"unique-id-service cpu changed near 1650161580.000\", \"unique-id-service cpu changed near 1650161634.000\", \"unique-id-service socket changed near 1650161578.000\"]}, {\"component\": \"url-shorten-service\", \"first_seen\": 1650161574.0, \"magnitude\": 20000023.821458537, \"reason_family\": \"cpu saturation\", \"signals\": [\"cpu\", \"socket\"], \"symptoms\": [\"url-shorten-service cpu changed near 1650161587.000\", \"url-shorten-service cpu changed near 1650161621.000\", \"url-shorten-service socket changed near 1650161574.000\"]}, {\"component\": \"post-storage-service\", \"first_seen\": 1650161574.0, \"magnitude\": 20000020.00777593, \"reason_family\": \"cpu saturation\", \"signals\": [\"cpu\", \"socket\"], \"symptoms\": [\"post-storage-service cpu changed near 1650161591.000\", \"post-storage-service cpu changed near 1650161591.000\", \"post-storage-service socket changed near 1650161574.000\"]}, {\"component\": \"nginx-web-server\", \"first_seen\": 1650161569.0, \"magnitude\": 794.5720211476723, \"reason_family\": \"cpu saturation\", \"signals\": [\"cpu\", \"memory\", \"socket\"], \"symptoms\": [\"nginx-web-server memory changed near 1650161569.000\", \"nginx-web-server memory changed near 1650161569.000\", \"nginx-web-server cpu changed near 1650161580.000\"]}]}, \"event_causal_profile\": {\"causal_story_options\": [{\"initiating_event_ids\": [\"event:2:home-timeline-service:primary\"], \"propagation_reading\": \"Home-timeline-service experienced internal exceptions and resource saturation, causing cascading failures to its caller compose-post-service (who reports dependency errors). Downstream, social-graph-service shows exce...\", \"story_id\": \"story_home_timeline_initiator\", \"what_would_support_it\": [\"NoiseLab confirms home-timeline's exception occurs before related anomalies\", \"social-graph 'ZADD' errors correlate with home-timeline's 'get followers' failures\"], \"what_would_weaken_it\": [\"NoiseLab finds independent root cause in social-graph-service or text-service with earlier trigger\", \"media-service massive CPU spike unexplained by cascade\"]}, {\"initiating_event_ids\": [\"event:12:media-service:primary\"], \"propagation_reading\": \"Media-service experienced a massive CPU saturation at 1650161580, which propagated back to upstream services causing widespread overload. The earlier anomalies in home-timeline and others were unrelated transient spik...\", \"story_id\": \"story_media_late_spike_initiator\", \"what_would_support_it\": [\"NoiseLab shows media-service CPU spike precedes other services' spikes in a causal DAG\", \"compose-post logs show media-related errors\"], \"what_would_weaken_it\": [\"Media-service spike is later than home-timeline's exception\", \"no clear dependency from home-timeline to media\"]}], \"component_event_features\": [{\"component\": \"text-service\", \"missing_checks\": [\"verify if text-service is called by compose-post-service\", \"check if CPU surge is reactive to downstream failure or independent\"], \"near_onset_mechanism\": [\"CPU surge (cpu_usage_user +7.11e9 at 1650161569)\", \"memory and socket changes\"], \"primary_event_ids\": [\"event:1:text-service:primary\"], \"symptom_visibility\": [\"no external error surface; internal resource metrics only\"], \"timing_cautions\": [\"onset simultaneous with many components; no clear temporal precedence\"], \"topology_notes\": [\"inferred as dependency for compose-post-service; request direction not fully captured\"]}, {\"component\": \"home-timeline-service\", \"missing_checks\": [\"confirm if social-graph-service is called by home-timeline (inferred from naming)\", \"check if 'get followers' failure causes ZADD errors downstream\"], \"near_onset_mechanism\": [\"emitter exception logs ('Failed to get followers from soci...')\", \"CPU surge (cpu_usage_user +7.19e9 at +6s)\"], \"primary_event_ids\": [\"event:2:home-timeline-service:primary\"], \"symptom_visibility\": [\"errors surface via compose-post-service logs as dependency failure\"], \"timing_cautions\": [\"dominant metric spike at +6s is not late; onset aligns with many components\"], \"topology_notes\": [\"called by compose-post-service; may call social-graph-service; ivd_verdict initiator\"]}, {\"component\": \"user-timeline-service\", \"missing_checks\": [\"verify if user-timeline-service is called by compose-post-service\", \"check if its anomaly is independent or a symptom of upstream load\"], \"near_onset_mechanism\": [\"CPU surge (cpu_usage_user +2e7 at +2s)\", \"memory drop\"], \"primary_event_ids\": [\"event:3:user-timeline-service:primary\"], \"symptom_visibility\": [\"no external error sur..."
+          },
+          "executed_action": {
+            "action_id": "fallback-features-0",
+            "tool_name": "inspect_noise_features",
+            "target_hypothesis_ids": [
+              "H1-media-service-cpu-saturation",
+              "H2-text-service-cpu-saturation",
+              "H3-home-timeline-service-emitter-exception",
+              "H4-user-timeline-service-cpu-saturation",
+              "H5-user-service-cpu-saturation",
+              "H6-compose-post-service-cpu-saturation",
+              "H7-unique-id-service-cpu-saturation",
+              "H8-nginx-web-server-cpu-saturation",
+              "H9-social-graph-service-emitter-exception",
+              "H10-user-mention-service-cpu-saturation"
+            ],
+            "question": "Build fused NoiseLab feature table for all candidates.",
+            "args": {
+              "component_scope": [
+                "media-service",
+                "text-service",
+                "home-timeline-service",
+                "user-timeline-service",
+                "user-service",
+                "compose-post-service",
+                "unique-id-service",
+                "nginx-web-server",
+                "social-graph-service",
+                "user-mention-service"
+              ],
+              "time_window": [
+                1650161268.334613,
+                1650162468.334613
+              ],
+              "feature_groups": [
+                "onset",
+                "local_mechanism",
+                "logs",
+                "propagation"
+              ]
+            },
+            "expected_information_gain": "Establish shared feature memory before narrowing candidates."
+          },
+          "evidence_id": "evidence:98ece1b95996dcfd6d3108e253dd2b8ab6ea4d8c3279e0420fc1623b6ec8049e"
+        },
+        {
+          "step_index": 1,
+          "agent_response": {
+            "belief_state": [
+              {
+                "hypothesis_id": "H3-home-timeline-service-emitter-exception",
+                "position": "leading",
+                "root_component": "home-timeline-service",
+                "source_vs_symptom_judgment": "source",
+                "supporting_factors": [
+                  "Highest source_likelihood_score 6.0",
+                  "Emitter exception logs: repeated 'Failed to get followers from social-network-service'",
+                  "IVD verdict: initiator with Copeland score 5",
+                  "Near-onset internal signals: cpu, log, memory, socket"
+                ],
+                "contradicting_factors": [],
+                "why_not_others": "social-graph-service is IVD victim, ZADD errors likely reactive; media-service has late massive spike without own exceptions and IVD ambiguous; text-service has no exception evidence and IVD not initiator; compose-post-service is IVD victim with dependency logs pointing to home-timeline.",
+                "missing_information": [
+                  "Confirm that home-timeline calls social-graph (dependency direction)",
+                  "Test if home-timeline's 'get followers' failure causes social-graph's ZADD errors",
+                  "Verify whether media-service CPU spike is explained by cascade from home-timeline"
+                ]
+              },
+              {
+                "hypothesis_id": "H2-text-service-cpu-saturation",
+                "position": "plausible",
+                "root_component": "text-service",
+                "source_vs_symptom_judgment": "ambiguous",
+                "supporting_factors": [
+                  "Earliest onset (1650161569) with strong CPU spike (7.11e9)",
+                  "Near-onset internal signals: cpu, memory, socket"
+                ],
+                "contradicting_factors": [
+                  "No emitter exception or log evidence",
+                  "IVD status ambiguous (Copeland 5 but not initiator)"
+                ],
+                "why_not_others": "home-timeline-service has stronger mechanism evidence (emitter exceptions) and IVD initiator ranking.",
+                "missing_information": [
+                  "Determine if text-service is a direct dependency of compose-post-service",
+                  "Check if its CPU spike is reactive to upstream failure"
+                ]
+              },
+              {
+                "hypothesis_id": "H1-media-service-cpu-saturation",
+                "position": "plausible",
+                "root_component": "media-service",
+                "source_vs_symptom_judgment": "ambiguous",
+                "supporting_factors": [
+                  "Extremely large local anomaly magnitude (12.9e9)",
+                  "Massive CPU user spike (7.63e9)"
+                ],
+                "contradicting_factors": [
+                  "Latest onset (1650161580) among primary events",
+                  "No emitter exception or error logs",
+                  "IVD ambiguous (Copeland 5 but not initiator)"
+                ],
+                "why_not_others": "home-timeline-service's earlier exception and initiator status make it more likely root; media's late spike could be secondary.",
+                "missing_information": [
+                  "Confirm whether media-service is called by compose-post",
+                  "Test if its CPU spike can be explained by upstream load from home-timeline failure"
+                ]
+              },
+              {
+                "hypothesis_id": "H9-social-graph-service-emitter-exception",
+                "position": "weakened",
+                "root_component": "social-graph-service",
+                "source_vs_symptom_judgment": "symptom",
+                "supporting_factors": [
+                  "Emitter exception logs ('ZADD: no key specified')",
+                  "Near-onset CPU surge"
+                ],
+                "contradicting_factors": [
+                  "IVD verdict victim (Copeland -1)",
+                  "ZADD errors likely result from missing data caused by upstream home-timeline failure"
+                ],
+                "why_not_others": "home-timeline-service is IVD initiator and directly calls social-graph; social-graph's exceptions are better explained as reactive.",
+                "missing_information": [
+                  "Verify dependency direction: does home-timeline call social-graph?",
+                  "Test if home-timeline's 'get followers' failure triggers 'ZADD no key'"
+                ]
+              },
+              {
+                "hypothesis_id": "H6-compose-post-service-cpu-saturation",
+                "position": "unlikely",
+                "root_component": "compose-post-service",
+                "source_vs_symptom_judgment": "symptom",
+                "supporting_factors": [
+                  "Entry point with early CPU spike",
+                  "Logs provide surface error evidence"
+                ],
+                "contradicting_factors": [
+                  "IVD victim (Copeland -5)",
+                  "Logs explicitly report home-timeline-service dependency failure",
+                  "No internal exception that would initiate a fault"
+                ],
+                "why_not_others": "Clearly a downstream component; its anomalies mirror the home-timeline failure it reports.",
+                "missing_information": []
+              }
+            ],
+            "case_narrative": "At 1650161569, home-timeline-service began emitting exceptions 'Failed to get followers from social-network-service' alongside resource saturation. As the IVD initiator, its failure propagated to compose-post-service (entry point) which logged dependency errors. social-graph-service showed ZADD exceptions shortly after, likely reactive to missing data from home-timeline. media-service exhibited a massive late CPU spike, possibly a secondary cascade. Need to confirm home-timeline's role by testing downstream explanation for social-graph and media symptoms.",
+            "next_action": {
+              "action_id": "downstream-explanation-1",
+              "tool_name": "test_downstream_explanation",
+              "args": {
+                "candidate_component": "home-timeline-service",
+                "symptom_components": [
+                  "social-graph-service",
+                  "media-service",
+                  "compose-post-service"
+                ],
+                "time_window": [
+                  1650161268.334613,
+                  1650162468.334613
+                ]
+              },
+              "question": "Can home-timeline-service's failure explain social-graph-service's ZADD errors and media-service's CPU spike?",
+              "expected_information_gain": "Determine if social-graph and media anomalies are causally downstream of home-timeline, confirming root cause.",
+              "target_hypothesis_ids": [
+                "H3-home-timeline-service-emitter-exception",
+                "H9-social-graph-service-emitter-exception",
+                "H1-media-service-cpu-saturation"
+              ]
+            },
+            "final_decision": null
+          },
+          "executed_action": {
+            "action_id": "downstream-explanation-1",
+            "tool_name": "test_downstream_explanation",
+            "target_hypothesis_ids": [
+              "H3-home-timeline-service-emitter-exception",
+              "H9-social-graph-service-emitter-exception",
+              "H1-media-service-cpu-saturation"
+            ],
+            "question": "Can home-timeline-service's failure explain social-graph-service's ZADD errors and media-service's CPU spike?",
+            "args": {
+              "candidate_component": "home-timeline-service",
+              "symptom_components": [
+                "social-graph-service",
+                "media-service",
+                "compose-post-service"
+              ],
+              "time_window": [
+                1650161268.334613,
+                1650162468.334613
+              ]
+            },
+            "expected_information_gain": "Determine if social-graph and media anomalies are causally downstream of home-timeline, confirming root cause."
+          },
+          "evidence_id": "evidence:1d10d7e38bd400a1ab6a2fec8ce109e2a96f0e691edcb3c23eb9cab93da196d2"
+        },
+        {
+          "step_index": 2,
+          "agent_response": {
+            "belief_state": [
+              {
+                "contradicting_factors": [],
+                "hypothesis_id": "H3-home-timeline-service-emitter-exception",
+                "missing_information": [
+                  "Confirm dependency direction between home-timeline and social-graph via trace paths",
+                  "Test if home-timeline's 'get followers' failure causes social-graph's ZADD errors",
+                  "Determine if media-service CPU spike is downstream of home-timeline or independent"
+                ],
+                "position": "leading",
+                "root_component": "home-timeline-service",
+                "source_vs_symptom_judgment": "source",
+                "supporting_factors": [
+                  "Highest source_likelihood_score 6.0",
+                  "Emitter exception logs repeatedly show 'Failed to get followers from social-network-service'",
+                  "IVD verdict: initiator with Copeland score 5",
+                  "Downstream timing confirms home-timeline observed before social-graph and media symptoms",
+                  "Logs mention 'social-network-service', implying it calls social-graph"
+                ],
+                "why_not_others": "text-service lacks emitter exceptions and is IVD ambiguous; media-service has late onset without logs and is IVD ambiguous; social-graph is IVD victim with ZADD errors likely reactive; compose-post is IVD victim with dependency logs pointing to home-timeline."
+              },
+              {
+                "contradicting_factors": [
+                  "No emitter exception or log evidence",
+                  "IVD status ambiguous (Copeland 5 but not initiator)"
+                ],
+                "hypothesis_id": "H2-text-service-cpu-saturation",
+                "missing_information": [
+                  "Clarify dependency relationship with compose-post-service",
+                  "Assess whether CPU surge is reactive to upstream failure"
+                ],
+                "position": "plausible",
+                "root_component": "text-service",
+                "source_vs_symptom_judgment": "ambiguous",
+                "supporting_factors": [
+                  "Earliest onset (1650161569) with strong CPU spike (7.11e9)",
+                  "Near-onset internal signals: cpu, memory, socket"
+                ],
+                "why_not_others": "home-timeline-service has stronger mechanism evidence (emitter exceptions) and IVD initiator ranking."
+              },
+              {
+                "contradicting_factors": [
+                  "Latest onset (1650161580) among primary events",
+                  "No emitter exception or error logs",
+                  "IVD ambiguous (Copeland 5 but not initiator)",
+                  "Downstream explanation found no request path from home-timeline"
+                ],
+                "hypothesis_id": "H1-media-service-cpu-saturation",
+                "missing_information": [
+                  "Verify if media-service is called by compose-post",
+                  "Test if its CPU spike can be explained by upstream load from home-timeline failure"
+                ],
+                "position": "plausible",
+                "root_component": "media-service",
+                "source_vs_symptom_judgment": "ambiguous",
+                "supporting_factors": [
+                  "Extremely large local anomaly magnitude (12.9e9)",
+                  "Massive CPU user spike (7.63e9)"
+                ],
+                "why_not_others": "home-timeline's earlier exception and initiator status make it more likely root; media's late spike could be secondary."
+              },
+              {
+                "contradicting_factors": [
+                  "IVD verdict victim (Copeland -1)",
+                  "ZADD errors likely result from missing data caused by upstream home-timeline failure",
+                  "Downstream explanation found no direct trace paths from home-timeline"
+                ],
+                "hypothesis_id": "H9-social-graph-service-emitter-exception",
+                "missing_information": [
+                  "Confirm dependency direction: does home-timeline call social-graph?",
+                  "Test causal link between home-timeline failure and ZADD 'no key' errors"
+                ],
+                "position": "weakened",
+                "root_component": "social-graph-service",
+                "source_vs_symptom_judgment": "symptom",
+                "supporting_factors": [
+                  "Emitter exception logs ('ZADD: no key specified')",
+                  "Near-onset CPU surge"
+                ],
+                "why_not_others": "home-timeline-service is IVD initiator and likely calls social-graph; social-graph's exceptions are better explained as reactive."
+              },
+              {
+                "contradicting_factors": [
+                  "IVD victim (Copeland -5)",
+                  "Logs explicitly report home-timeline-service dependency failure",
+                  "No internal exception that would initiate a fault",
+                  "Downstream explanation confirms home-timeline observed before compose-post"
+                ],
+                "hypothesis_id": "H6-compose-post-service-cpu-saturation",
+                "missing_information": [],
+                "position": "unlikely",
+                "root_component": "compose-post-service",
+                "source_vs_symptom_judgment": "symptom",
+                "supporting_factors": [
+                  "Entry point with early CPU spike",
+                  "Logs provide surface error evidence"
+                ],
+                "why_not_others": "Clearly a downstream component; its anomalies mirror the home-timeline failure it reports."
+              }
+            ],
+            "case_narrative": "Home-timeline-service began emitting 'Failed to get followers from social-network-service' near 1650161569, alongside resource saturation. As the IVD initiator, its failure propagated to compose-post-service (entry point) which logged dependency errors. Downstream explanation confirms home-timeline preceded social-graph and media symptoms, though trace paths are absent. Social-graph's ZADD exceptions are likely reactive. Media-service's late massive spike remains ambiguous. Text-service lacks emitter evidence. Next: compare source-symptom cues among top candidates to solidify home-timeline's lead.",
+            "final_decision": null,
+            "next_action": {
+              "action_id": "source-symptom-comparison-2",
+              "args": {
+                "component_scope": [
+                  "home-timeline-service",
+                  "text-service",
+                  "media-service"
+                ],
+                "time_window": [
+                  1650161268.334613,
+                  1650162468.334613
+                ]
+              },
+              "expected_information_gain": "Directly compare source-vs-symptom cues for the three leading ambiguous candidates to confirm home-timeline's initiator status and rule out text-service and media-service as independent roots.",
+              "question": "Which of home-timeline-service, text-service, or media-service shows the strongest source-like evidence, and can text-service or media-service be relegated to symptoms?",
+              "target_hypothesis_ids": [
+                "H3-home-timeline-service-emitter-exception",
+                "H2-text-service-cpu-saturation",
+                "H1-media-service-cpu-saturation"
+              ],
+              "tool_name": "compare_source_symptom"
+            }
+          },
+          "executed_action": {
+            "action_id": "source-symptom-comparison-2",
+            "tool_name": "compare_source_symptom",
+            "target_hypothesis_ids": [
+              "H3-home-timeline-service-emitter-exception",
+              "H2-text-service-cpu-saturation",
+              "H1-media-service-cpu-saturation"
+            ],
+            "question": "Which of home-timeline-service, text-service, or media-service shows the strongest source-like evidence, and can text-service or media-service be relegated to symptoms?",
+            "args": {
+              "component_scope": [
+                "home-timeline-service",
+                "text-service",
+                "media-service"
+              ],
+              "time_window": [
+                1650161268.334613,
+                1650162468.334613
+              ]
+            },
+            "expected_information_gain": "Directly compare source-vs-symptom cues for the three leading ambiguous candidates to confirm home-timeline's initiator status and rule out text-service and media-service as independent roots."
+          },
+          "evidence_id": "evidence:987eb166f4f967b097e869c47e3ba0d3b350b5f87593787c28b3e5bee75e5723"
+        },
+        {
+          "step_index": 3,
+          "agent_response": {
+            "belief_state": [
+              {
+                "contradicting_factors": [],
+                "hypothesis_id": "H3-home-timeline-service-emitter-exception",
+                "missing_information": [
+                  "Confirm dependency direction between home-timeline and social-graph via trace paths",
+                  "Counterfactual test: would removing home-timeline prevent social-graph ZADD errors and media CPU spike?"
+                ],
+                "position": "leading",
+                "root_component": "home-timeline-service",
+                "source_vs_symptom_judgment": "source",
+                "supporting_factors": [
+                  "Highest source_likelihood_score 6.0",
+                  "Emitter exception logs repeatedly show 'Failed to get followers from social-network-service'",
+                  "IVD verdict: initiator with Copeland score 5",
+                  "Downstream timing confirms home-timeline observed before social-graph and media symptoms"
+                ],
+                "why_not_others": "text-service lacks emitter exceptions and is IVD ambiguous; media-service has late onset without logs and is IVD ambiguous; social-graph is IVD victim with ZADD errors likely reactive; compose-post is IVD victim with dependency logs pointing to home-timeline."
+              },
+              {
+                "contradicting_factors": [
+                  "No emitter exception or log evidence",
+                  "IVD status ambiguous (Copeland 5 but not initiator)"
+                ],
+                "hypothesis_id": "H2-text-service-cpu-saturation",
+                "missing_information": [
+                  "Clarify dependency relationship with compose-post-service",
+                  "Counterfactual test to rule out as independent initiator"
+                ],
+                "position": "plausible",
+                "root_component": "text-service",
+                "source_vs_symptom_judgment": "ambiguous",
+                "supporting_factors": [
+                  "Earliest onset (1650161569) with strong CPU spike (7.11e9)",
+                  "Near-onset internal signals: cpu, memory, socket"
+                ],
+                "why_not_others": "home-timeline-service has stronger mechanism evidence (emitter exceptions) and IVD initiator ranking."
+              },
+              {
+                "contradicting_factors": [
+                  "Latest onset (1650161580) among primary events",
+                  "No emitter exception or error logs",
+                  "IVD ambiguous (Copeland 5 but not initiator)",
+                  "Downstream explanation found no request path from home-timeline"
+                ],
+                "hypothesis_id": "H1-media-service-cpu-saturation",
+                "missing_information": [
+                  "Verify if media-service is called by compose-post",
+                  "Counterfactual test: does removing home-timeline eliminate its spike?"
+                ],
+                "position": "plausible",
+                "root_component": "media-service",
+                "source_vs_symptom_judgment": "ambiguous",
+                "supporting_factors": [
+                  "Extremely large local anomaly magnitude (12.9e9)",
+                  "Massive CPU user spike (7.63e9)"
+                ],
+                "why_not_others": "home-timeline's earlier exception and initiator status make it more likely root; media's late spike could be secondary."
+              },
+              {
+                "contradicting_factors": [
+                  "IVD verdict victim (Copeland -1)",
+                  "ZADD errors likely result from missing data caused by upstream home-timeline failure",
+                  "Downstream explanation found no direct trace paths from home-timeline"
+                ],
+                "hypothesis_id": "H9-social-graph-service-emitter-exception",
+                "missing_information": [
+                  "Test causal link between home-timeline failure and ZADD 'no key' errors via counterfactual"
+                ],
+                "position": "weakened",
+                "root_component": "social-graph-service",
+                "source_vs_symptom_judgment": "symptom",
+                "supporting_factors": [
+                  "Emitter exception logs ('ZADD: no key specified')",
+                  "Near-onset CPU surge"
+                ],
+                "why_not_others": "home-timeline-service is IVD initiator and likely calls social-graph; social-graph's exceptions are better explained as reactive."
+              },
+              {
+                "contradicting_factors": [
+                  "IVD victim (Copeland -5)",
+                  "Logs explicitly report home-timeline-service dependency failure",
+                  "No internal exception that would initiate a fault"
+                ],
+                "hypothesis_id": "H6-compose-post-service-cpu-saturation",
+                "missing_information": [],
+                "position": "unlikely",
+                "root_component": "compose-post-service",
+                "source_vs_symptom_judgment": "symptom",
+                "supporting_factors": [
+                  "Entry point with early CPU spike",
+                  "Logs provide surface error evidence"
+                ],
+                "why_not_others": "Clearly a downstream component; its anomalies mirror the home-timeline failure it reports."
+              }
+            ],
+            "case_narrative": "Home-timeline-service began emitting 'Failed to get followers from social-network-service' near 1650161569, alongside resource saturation. As the IVD initiator, its failure propagated to compose-post-service (entry point) which logged dependency errors. Downstream explanation confirms home-timeline preceded social-graph and media symptoms, though trace paths are absent. Social-graph's ZADD exceptions are likely reactive. Media-service's late massive spike remains ambiguous but could be downstream. Counterfactual removal of home-timeline will test whether these symptoms vanish, solidifying root cause.",
+            "final_decision": null,
+            "next_action": {
+              "action_id": "counterfactual-remove-3",
+              "args": {
+                "component": "home-timeline-service",
+                "symptom_components": [
+                  "media-service",
+                  "social-graph-service"
+                ],
+                "time_window": [
+                  1650161268.334613,
+                  1650162468.334613
+                ]
+              },
+              "expected_information_gain": "Resolve whether removing home-timeline eliminates media and social-graph anomalies, confirming home-timeline as the unique root cause.",
+              "question": "Would removing home-timeline-service prevent the observed anomalies in media-service and social-graph-service?",
+              "target_hypothesis_ids": [
+                "H3-home-timeline-service-emitter-exception",
+                "H1-media-service-cpu-saturation",
+                "H9-social-graph-service-emitter-exception"
+              ],
+              "tool_name": "counterfactual_remove"
+            }
+          },
+          "executed_action": {
+            "action_id": "counterfactual-remove-3",
+            "tool_name": "counterfactual_remove",
+            "target_hypothesis_ids": [
+              "H3-home-timeline-service-emitter-exception",
+              "H1-media-service-cpu-saturation",
+              "H9-social-graph-service-emitter-exception"
+            ],
+            "question": "Would removing home-timeline-service prevent the observed anomalies in media-service and social-graph-service?",
+            "args": {
+              "component": "home-timeline-service",
+              "symptom_components": [
+                "media-service",
+                "social-graph-service"
+              ],
+              "time_window": [
+                1650161268.334613,
+                1650162468.334613
+              ]
+            },
+            "expected_information_gain": "Resolve whether removing home-timeline eliminates media and social-graph anomalies, confirming home-timeline as the unique root cause."
+          },
+          "evidence_id": "evidence:31541eac67dc4c29ea2676d07d27e50a72fd8fbc37dbabba319d09befa0542b8"
+        }
+      ],
+      "case_id": "Eadro-SN/SN.2022-04-17T181245D2022-04-17T183616/fault0",
+      "expected_component": "text-service",
+      "hit": false,
+      "elapsed_sec": 341.039,
+      "error": null,
+      "token_usage": {
+        "call_count": 6,
+        "prompt_tokens": 136496,
+        "completion_tokens": 37429,
+        "total_tokens": 173925,
+        "by_purpose": {
+          "event_causalizer_state_update": {
+            "call_count": 1,
+            "prompt_tokens": 19850,
+            "completion_tokens": 10474,
+            "total_tokens": 30324
+          },
+          "continuous_noise_native_state_update": {
+            "call_count": 5,
+            "prompt_tokens": 116646,
+            "completion_tokens": 26955,
+            "total_tokens": 143601
+          }
+        }
+      }
+    }
+  ]
+}

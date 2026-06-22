@@ -7,7 +7,10 @@ only sees a generic case and a telemetry store.
 
 from __future__ import annotations
 
+import json
+import re
 from dataclasses import dataclass
+from datetime import datetime
 from pathlib import Path
 from typing import Any, Mapping, Sequence
 
@@ -29,7 +32,7 @@ DEFAULT_METRIC_ALIASES = {
     "latency": ("latency-90", "latency-99", "istio-latency-99"),
     "error": ("error", "istio-error-total"),
     "disk": ("diskio", "blkio", "fs-writes", "fs-reads"),
-    "socket": ("socket", "sockets"),
+    "socket": ("socket", "sockets", "rx_bytes", "tx_bytes"),
     "workload": ("workload", "request-total"),
 }
 VALID_SERVICE_EXCLUDES = (
@@ -2593,3 +2596,334 @@ def _find_paths(edges, source, target, max_hops):
 
     dfs(source, [], {source})
     return found
+
+
+# ---------------------------------------------------------------------------
+# Eadro dataset support
+# ---------------------------------------------------------------------------
+
+EADRO_EXTRACTED_ROOT = Path(
+    "/home/dell2/RCA513/syh/datasets/Eadro/.adapter_work_v22"
+)
+EADRO_SYSTEM_MAP = {
+    "Eadro-SN": "extracted_sn",
+    "Eadro-TT": "extracted_tt",
+}
+
+_EADRO_LOG_TS_RE = re.compile(
+    r"^\[(?P<ts>\d{4}-[A-Za-z]{3}-\d{2} \d{2}:\d{2}:\d{2}(?:\.\d+)?)\]"
+)
+
+_EADRO_NOFAULT_CACHE: dict[str, pd.DataFrame] = {}
+
+
+def _eadro_nofault_baseline(
+    root: Path, system: str, fault_start: float
+) -> pd.DataFrame | None:
+    """Load a no-fault case and shift timestamps to precede *fault_start*.
+
+    Eadro fault-case telemetry begins at (or mere seconds before) the first
+    fault, leaving the adapter with virtually no baseline.  We borrow 300
+    seconds of clean telemetry from a no-fault case, shift it to
+    [fault_start - 600, fault_start - 300], and prepend it so that
+    ``RCAEvalTelemetryStore._baseline`` (which calls ``tail(300)``) gets
+    a full 300-row clean reference.
+    """
+    if system in _EADRO_NOFAULT_CACHE:
+        template = _EADRO_NOFAULT_CACHE[system]
+    else:
+        extracted_root = root / EADRO_SYSTEM_MAP.get(system, system)
+        nofault_dirs = [
+            d
+            for d in sorted(extracted_root.iterdir())
+            if d.is_dir() and "fault-" not in d.name and (d / "metrics").exists()
+        ]
+        if not nofault_dirs:
+            _EADRO_NOFAULT_CACHE[system] = pd.DataFrame()
+            return None
+        template = _read_eadro_metrics(nofault_dirs[0])
+        _EADRO_NOFAULT_CACHE[system] = template
+
+    if template.empty:
+        return None
+
+    shifted = template.copy()
+    t0 = shifted["time"].iloc[0]
+    shift = (fault_start - 600) - t0
+    shifted["time"] = shifted["time"] + shift
+    shifted = shifted[shifted["time"] < fault_start - 250]
+    return shifted
+
+
+def _normalize_eadro_service(fault_name: str, *, system: str) -> str:
+    if system == "Eadro-SN":
+        name = fault_name
+        if name.startswith("socialnetwork-"):
+            name = name[len("socialnetwork-"):]
+        if name.endswith("-1"):
+            name = name[:-2]
+        if name == "nginx-thrift":
+            name = "nginx-web-server"
+        return name
+    if system == "Eadro-TT":
+        name = fault_name
+        if name.startswith("dockercomposemanifests_"):
+            name = name[len("dockercomposemanifests_"):]
+        if name.endswith("_1"):
+            name = name[:-2]
+        return name
+    return fault_name
+
+
+def discover_eadro_cases(
+    root: str | Path,
+    *,
+    system: str = "Eadro-SN",
+    limit: int | None = None,
+) -> tuple[dict[str, Any], ...]:
+    root_path = Path(root)
+    extracted_dir = root_path / EADRO_SYSTEM_MAP.get(system, system) / "data"
+    if not extracted_dir.exists():
+        raise FileNotFoundError(
+            f"Eadro extracted data directory not found: {extracted_dir}"
+        )
+
+    cases: list[dict[str, Any]] = []
+    for fault_json in sorted(extracted_dir.glob("*.fault-*.json")):
+        fault_data = json.loads(fault_json.read_text())
+        faults = fault_data.get("faults", [])
+        if not faults:
+            continue
+        case_name = fault_json.stem.replace("fault-", "")
+        case_dir = extracted_dir / case_name
+        if not case_dir.exists():
+            continue
+        for idx, fault in enumerate(faults):
+            cases.append(
+                {
+                    "case_dir": case_dir,
+                    "fault_json_path": fault_json,
+                    "fault_index": idx,
+                    "system": system,
+                    "fault": fault,
+                }
+            )
+            if limit is not None and len(cases) >= limit:
+                return tuple(cases)
+    return tuple(cases)
+
+
+def _parse_eadro_log_ts(message: str) -> float:
+    m = _EADRO_LOG_TS_RE.match(message)
+    if not m:
+        return 0.0
+    ts_str = m.group("ts")
+    for fmt in ("%Y-%b-%d %H:%M:%S.%f", "%Y-%b-%d %H:%M:%S"):
+        try:
+            return datetime.strptime(ts_str, fmt).timestamp()
+        except ValueError:
+            continue
+    return 0.0
+
+
+def _read_eadro_metrics(case_dir: Path) -> pd.DataFrame:
+    metrics_dir = case_dir / "metrics"
+    if not metrics_dir.exists():
+        raise FileNotFoundError(f"Eadro metrics directory not found: {metrics_dir}")
+
+    frames: list[pd.DataFrame] = []
+    for csv_path in sorted(metrics_dir.glob("*.csv")):
+        service = csv_path.stem
+        df = pd.read_csv(csv_path)
+        rename: dict[str, str] = {}
+        for col in df.columns:
+            if col == "timestamp":
+                rename[col] = "time"
+            else:
+                rename[col] = f"{service}_{col}"
+        df = df.rename(columns=rename)
+        frames.append(df)
+
+    if not frames:
+        raise ValueError(f"No metric CSVs found in {metrics_dir}")
+
+    merged = frames[0]
+    for df in frames[1:]:
+        merged = pd.merge(merged, df, on="time", how="outer")
+
+    merged = merged.sort_values("time").reset_index(drop=True)
+    merged = merged.replace([float("inf"), float("-inf")], pd.NA).ffill().fillna(0)
+    merged["time"] = pd.to_numeric(merged["time"], errors="coerce")
+    return merged.dropna(subset=["time"])
+
+
+_EADRO_LOG_SERVICE_ALIASES = {
+    "social-network-service": "social-graph-service",
+}
+
+
+def _read_eadro_logs(case_dir: Path) -> pd.DataFrame | None:
+    logs_path = case_dir / "logs.json"
+    if not logs_path.exists():
+        return None
+    try:
+        logs_data = json.loads(logs_path.read_text())
+    except Exception:
+        return None
+
+    rows: list[dict[str, Any]] = []
+    for service, messages in logs_data.items():
+        for msg in messages:
+            ts = _parse_eadro_log_ts(msg)
+            normalized = msg
+            for alias, canonical in _EADRO_LOG_SERVICE_ALIASES.items():
+                normalized = normalized.replace(alias, canonical)
+            rows.append(
+                {
+                    "time": ts,
+                    "timestamp": int(ts * 1e9) if ts else 0,
+                    "container_name": service,
+                    "message": normalized,
+                    "pod_name": "",
+                    "node_name": "",
+                }
+            )
+
+    if not rows:
+        return None
+    df = pd.DataFrame(rows)
+    df = df.sort_values("time").reset_index(drop=True)
+    return df
+
+
+def _read_eadro_traces(
+    case_dir: Path, *, time_shift_sec: float = -28800.0
+) -> pd.DataFrame | None:
+    spans_path = case_dir / "spans.json"
+    if not spans_path.exists():
+        return None
+    try:
+        traces = json.loads(spans_path.read_text())
+    except Exception:
+        return None
+
+    rows: list[dict[str, Any]] = []
+    for trace in traces:
+        trace_id = trace.get("traceID", "")
+        processes = trace.get("processes", {})
+        for span in trace.get("spans", []):
+            process_id = span.get("processID", "")
+            service_name = processes.get(process_id, {}).get("serviceName", "")
+            start_time_us = span.get("startTime", 0)
+            start_time_s = start_time_us / 1e6 + time_shift_sec
+
+            parent_id = ""
+            for ref in span.get("references", []):
+                if ref.get("refType") == "CHILD_OF":
+                    parent_id = ref.get("spanID", "")
+                    break
+
+            status = 0
+            for tag in span.get("tags", []):
+                if tag.get("key") == "error" and tag.get("value") is True:
+                    status = 1
+                    break
+
+            rows.append(
+                {
+                    "time": start_time_s,
+                    "traceID": trace_id,
+                    "spanID": span.get("spanID", ""),
+                    "serviceName": service_name,
+                    "operationName": span.get("operationName", ""),
+                    "startTimeMillis": start_time_us / 1000,
+                    "startTime": start_time_us,
+                    "duration": span.get("duration", 0),
+                    "statusCode": status,
+                    "parentSpanID": parent_id,
+                }
+            )
+
+    if not rows:
+        return None
+    df = pd.DataFrame(rows)
+    df = df.sort_values("time").reset_index(drop=True)
+    return df
+
+
+def load_eadro_case(
+    case_spec: Mapping[str, Any],
+    *,
+    top_k: int = 5,
+    eadro_root: str | Path | None = None,
+) -> RCAEvalLoadedCase:
+    case_dir = Path(case_spec["case_dir"])
+    fault = case_spec["fault"]
+    system = case_spec["system"]
+    fault_index = case_spec["fault_index"]
+
+    event_time = float(fault["start"])
+    expected_component = _normalize_eadro_service(fault["name"], system=system)
+
+    metrics = _read_eadro_metrics(case_dir)
+
+    if eadro_root is not None:
+        root = Path(eadro_root)
+    else:
+        root = case_dir.parent.parent.parent
+
+    nofault_bl = _eadro_nofault_baseline(root, system, event_time)
+    if nofault_bl is not None and not nofault_bl.empty:
+        shared_cols = sorted(
+            set(metrics.columns) & set(nofault_bl.columns) | {"time"}
+        )
+        metrics = pd.concat(
+            [nofault_bl[shared_cols], metrics[shared_cols]],
+            ignore_index=True,
+        )
+        metrics = metrics.sort_values("time").reset_index(drop=True)
+        metrics = metrics.replace([float("inf"), float("-inf")], pd.NA)
+        metrics = metrics.ffill().fillna(0)
+        metrics["time"] = pd.to_numeric(metrics["time"], errors="coerce")
+        metrics = metrics.dropna(subset=["time"])
+
+    logs = _read_eadro_logs(case_dir)
+    traces = _read_eadro_traces(case_dir)
+
+    store = RCAEvalTelemetryStore(
+        metrics=metrics,
+        logs=logs,
+        traces=traces,
+        event_time=event_time,
+    )
+    observations = store.build_observations(top_k=top_k)
+    components = tuple(sorted(store.components))
+    entries = _infer_entry_components(
+        components=components,
+        store=store,
+        event_time=event_time,
+    )
+
+    case_name = case_dir.name
+    case_id = f"{system}/{case_name}/fault{fault_index}"
+    case = GenericRCACase(
+        case_id=case_id,
+        dataset_name="Eadro",
+        system_name=system,
+        event_time=event_time,
+        components=components,
+        entry_components=entries,
+        observations=observations,
+        metadata={
+            "case_dir": str(case_dir),
+            "fault_name": fault["name"],
+            "fault_type": fault["fault"],
+            "fault_index": fault_index,
+        },
+    )
+    return RCAEvalLoadedCase(
+        case=case,
+        store=store,
+        expected_component=expected_component,
+        case_dir=case_dir,
+    )

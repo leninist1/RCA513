@@ -19,7 +19,9 @@ from pathlib import Path
 from typing import Any, Mapping, Sequence
 
 from prismv4.experiments.rcaeval_adapter import (
+    discover_eadro_cases,
     discover_re3_cases,
+    load_eadro_case,
     load_re3_case,
 )
 from prismv4.prism_cht.canonical import build_tool_call_signature, canonicalize_json_value
@@ -77,6 +79,7 @@ class RetryingModelClient:
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Continuous NoiseNative RCAEval runner")
     parser.add_argument("--data-root", default=DEFAULT_RE3_ROOT)
+    parser.add_argument("--dataset", default="RE3", choices=["RE3", "Eadro"])
     parser.add_argument("--system", default="RE3-OB")
     parser.add_argument("--max-cases", type=int, default=5)
     parser.add_argument("--max-hypotheses", type=int, default=10)
@@ -108,19 +111,42 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> int:
     args = parse_args()
-    case_dirs = discover_re3_cases(
-        args.data_root,
-        system=args.system,
-        limit=args.max_cases if args.max_cases > 0 else None,
-    )
-    if args.only_cases:
-        fragments = [f.strip() for f in args.only_cases.split(",") if f.strip()]
-        case_dirs = [
-            cd for cd in case_dirs
-            if any(frag in str(cd) for frag in fragments)
-        ]
-    if not case_dirs:
-        raise SystemExit("no RCAEval cases discovered")
+
+    if args.dataset == "Eadro":
+        eadro_root = str(
+            Path(__file__).resolve().parent.parent.parent
+            / "../syh/datasets/Eadro/.adapter_work_v22"
+        )
+        eadro_root = str(Path(eadro_root).resolve())
+        if args.data_root == DEFAULT_RE3_ROOT:
+            args.data_root = eadro_root
+        case_specs = discover_eadro_cases(
+            args.data_root,
+            system=args.system,
+            limit=args.max_cases if args.max_cases > 0 else None,
+        )
+        if args.only_cases:
+            fragments = [f.strip() for f in args.only_cases.split(",") if f.strip()]
+            case_specs = [
+                cs for cs in case_specs
+                if any(frag in str(cs["case_dir"]) or frag in cs["fault"]["name"] for frag in fragments)
+            ]
+        if not case_specs:
+            raise SystemExit("no Eadro cases discovered")
+    else:
+        case_dirs = discover_re3_cases(
+            args.data_root,
+            system=args.system,
+            limit=args.max_cases if args.max_cases > 0 else None,
+        )
+        if args.only_cases:
+            fragments = [f.strip() for f in args.only_cases.split(",") if f.strip()]
+            case_dirs = [
+                cd for cd in case_dirs
+                if any(frag in str(cd) for frag in fragments)
+            ]
+        if not case_dirs:
+            raise SystemExit("no RCAEval cases discovered")
 
     config = load_openai_compatible_config_from_mapping(dict(os.environ))
     provider_client = OpenAICompatibleChatModelClient(
@@ -145,10 +171,21 @@ def main() -> int:
 
     results: list[dict[str, Any]] = []
     started_all = time.time()
-    for case_dir in case_dirs:
+
+    if args.dataset == "Eadro":
+        case_iter = case_specs
+    else:
+        case_iter = case_dirs
+
+    for case_item in case_iter:
         started = time.time()
         cost_before = cost_window.snapshot()
-        loaded = load_re3_case(case_dir, top_k=args.recall_pool_size)
+        if args.dataset == "Eadro":
+            loaded = load_eadro_case(
+                case_item, top_k=args.recall_pool_size, eadro_root=args.data_root
+            )
+        else:
+            loaded = load_re3_case(case_item, top_k=args.recall_pool_size)
         try:
             result = run_case(
                 loaded=loaded,
@@ -195,7 +232,7 @@ def main() -> int:
     cost_summary = cost_window.summary()
     avg_tokens = cost_summary["total_tokens"] // total if total else 0
     summary = {
-        "dataset": "RCAEval",
+        "dataset": args.dataset,
         "system": args.system,
         "mode": "continuous-noise-native-event-causalizer",
         "total_cases": total,
