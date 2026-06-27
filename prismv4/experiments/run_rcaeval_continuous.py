@@ -552,6 +552,33 @@ def run_case_lightweight(
             "llm_calls": 0,
         }
 
+    # When consensus is not strong, fall back to IVD ranking top-1
+    # without LLM.  This keeps the approach fully deterministic and
+    # reflects the true capability of the pairwise tournament.
+    ivd_ranking = signals.get("ivd", {}).get("ranking", [])
+    if ivd_ranking:
+        return {
+            "status": "lightweight_ivd_fallback",
+            "hypothesis_id": None,
+            "predicted_component": ivd_ranking[0],
+            "predicted_ranking": ivd_ranking[:5],
+            "reason_family": "ivd_fallback",
+            "onset_interval": [loaded.case.event_time, loaded.case.event_time + 60],
+            "steps_completed": 0,
+            "evidence_count": 0,
+            "referenced_evidence_ids": [],
+            "rationale": "IVD consensus weak, using Copeland ranking top-1 as fallback",
+            "uncertainties": [],
+            "global_rescue": False,
+            "outside_hypothesis_set": False,
+            "recall_pool": signals["recall_pool"],
+            "event_causal_profile": {},
+            "event_causal_fact_count": 0,
+            "final_belief_state": [],
+            "transcript": [],
+            "llm_calls": 0,
+        }
+
     # Build compact LLM prompt
     # Keep system prompt fixed for cache reuse; vary only case-specific user msg
     user_content = json.dumps(signals, ensure_ascii=False, sort_keys=True)

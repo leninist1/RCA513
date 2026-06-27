@@ -2016,9 +2016,9 @@ def _ivd_pairwise(
     cov_a = len(coverage_a)
     cov_b = len(coverage_b)
     if resource_comparable:
-        if cov_a < cov_b:
+        if cov_a > cov_b:
             reasons_a.append(f"callee_anomalies: {a} has {cov_a} anomalous callees vs {b} has {cov_b}")
-        elif cov_b < cov_a:
+        elif cov_b > cov_a:
             reasons_b.append(f"callee_anomalies: {b} has {cov_b} anomalous callees vs {a} has {cov_a}")
 
     # 4. CallerAnomalies asymmetry: more anomalous callers = INITIATOR (your
@@ -2027,9 +2027,9 @@ def _ivd_pairwise(
     inc_a = len(incoming_a)
     inc_b = len(incoming_b)
     if resource_comparable:
-        if inc_a > inc_b:
+        if inc_a < inc_b:
             reasons_a.append(f"caller_anomalies: {a} has {inc_a} anomalous callers vs {b} has {inc_b}")
-        elif inc_b > inc_a:
+        elif inc_b < inc_a:
             reasons_b.append(f"caller_anomalies: {b} has {inc_b} anomalous callers vs {a} has {inc_a}")
 
     # 5. Storage penalty
