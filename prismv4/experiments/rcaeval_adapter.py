@@ -27,13 +27,29 @@ from prismv4.prism_cht.telemetry_store import (
 BASE_WINDOW_SECONDS = 300
 NEAR_ONSET_WINDOW_SECONDS = 30.0
 DEFAULT_METRIC_ALIASES = {
-    "cpu": ("cpu", "container-cpu-usage-seconds-total"),
-    "memory": ("mem", "memory", "container-memory-working-set-bytes"),
-    "latency": ("latency-90", "latency-99", "istio-latency-99"),
-    "error": ("error", "istio-error-total"),
-    "disk": ("diskio", "blkio", "fs-writes", "fs-reads"),
-    "socket": ("socket", "sockets", "rx_bytes", "tx_bytes"),
-    "workload": ("workload", "request-total"),
+    "cpu": ("cpu", "container-cpu-usage-seconds-total", "cpuutil", "cpuload",
+            "cpu_user", "cpuwio", "cfs_throttled", "singlecpu",
+            "jvm_cpuload", "oslinux_cpu_cpu_cpuutil"),
+    "memory": ("mem", "memory", "container-memory-working-set-bytes",
+               "memused", "memperc", "memfree", "failcnt", "pgfault",
+               "container_memory", "cache_mem", "nocachememperc",
+               "container_memory_working_set", "java_nio_bufferpool",
+               "heap", "memused"),
+    "latency": ("latency-90", "latency-99", "istio-latency-99", "rt", "mrt",
+                "avg_time", "resp_time", "responsetime", "elapsedtime",
+                "waitingtime", "processingtime", "duration"),
+    "error": ("error", "istio-error-total", "errors", "failure_rate",
+              "succee_rate", "sr", "error_ratio"),
+    "disk": ("diskio", "blkio", "fs-writes", "fs-reads", "await",
+             "dskread", "dskwrite", "dskbps", "dskpercentbusy",
+             "dskavgserv", "dsktps", "fsusedspace", "fsavailablespace",
+             "fscapacity", "iops", "diskusage", "read_io"),
+    "socket": ("socket", "sockets", "rx_bytes", "tx_bytes", "tcp",
+               "packet", "retransmit", "fin_wait", "netkbtotalpersec",
+               "network_transmit", "network_receive", "netpackets",
+               "netbandwidthutil", "netkb"),
+    "workload": ("workload", "request-total", "rr", "count", "num",
+                 "requestcount", "cnt", "succee_num", "qps"),
 }
 VALID_SERVICE_EXCLUDES = (
     "ip-",
@@ -662,6 +678,26 @@ class RCAEvalTelemetryStore:
             if r.get("causal_role") in ("source_candidate", "ambiguous")
             and float(r.get("source_likelihood_score", 0.0)) > 0
         ]
+        all_anomalous = [
+            r["component"] for r in rows
+            if float(r.get("local_anomaly_magnitude", 0.0)) > 0
+        ]
+        # When no trace dependency edges exist (e.g. AIOps2021 host-level
+        # data), the source_likelihood_score > 0 filter can exclude the true
+        # root component (especially on network/latency-only faults where the
+        # emitter-exception bonus is absent).  Broaden to all anomalous
+        # components and let the IVD fallback rank them by magnitude.
+        if len(source_candidates) < 2 and len(all_anomalous) >= 2:
+            scope = list(set(r["component"] for r in rows))
+            if scope:
+                total_edges = sum(
+                    (len(node.get("direct_callees", []) or []) + len(node.get("direct_callers", []) or []))
+                    for node in self._trace_dependency_context(
+                        component_scope=scope, time_window=time_window,
+                    ).values()
+                )
+                if total_edges == 0:
+                    source_candidates = all_anomalous
         if len(source_candidates) < 2:
             return None
         all_anomalous = [
@@ -1674,7 +1710,7 @@ def _compute_ivd(
         if sum(
             float(m.get("magnitude", 0))
             for m in rows_for_filter[c].get("metric_features", [])
-            if m.get("signal") in ("memory", "cpu", "disk")
+            if m.get("signal") in ("memory", "cpu", "disk", "socket", "latency")
         ) > 5
         or int(rows_for_filter[c].get("log_count", 0)) > 0
     ]
@@ -1701,10 +1737,11 @@ def _compute_ivd(
             "causal_role": row.get("causal_role", "ambiguous"),
             "source_likelihood": row.get("source_likelihood_score", 0.0),
             "is_storage": row.get("is_storage_component", False),
+            "earliest_onset": row.get("earliest_observed_time"),
             "resource_magnitude": sum(
                 float(m.get("magnitude", 0))
                 for m in row.get("metric_features", [])
-                if m.get("signal") in ("memory", "cpu", "disk")
+                if m.get("signal") in ("memory", "cpu", "disk", "socket", "latency")
             ),
             "workload_magnitude": sum(
                 float(m.get("magnitude", 0))
@@ -1713,6 +1750,20 @@ def _compute_ivd(
             ),
             "log_count": row.get("log_count", 0),
         }
+
+    # If no trace dependency edges exist (e.g. AIOps2021 host-level metrics
+    # without traces), the Copeland pairwise tournament is zero-information
+    # and can mislead.  Fall back to pure source_likelihood ranking.
+    total_edges = sum(
+        (len(node.get("direct_callees", []) or []) + len(node.get("direct_callers", []) or []))
+        for node in trace_ctx.values()
+    ) + len(_infer_dependency_edges(list(tournament_candidates) + list(all_anomalous_components)))
+    if total_edges == 0 and len(tournament_candidates) >= 1:
+        return _ivd_source_likelihood_fallback(
+            tournament_candidates=tournament_candidates,
+            rows=rows,
+            signals=signals,
+        )
 
     # CallerAnomalies: for each candidate, how many of its CALLERS are anomalous?
     # If many callers are anomalous, the candidate (callee) likely caused their
@@ -1754,6 +1805,24 @@ def _compute_ivd(
                 explainers.add(caller)
         incoming[comp] = explainers
 
+    # Compute cross-component onset precedence for ITP rule (OPT1).
+    # For each tournament candidate, find the earliest onset among its
+    # anomalous callees.  If a candidate's own onset precedes that of its
+    # callees, it is more likely the propagation source (initiator).
+    onset_for = {}
+    for comp in list(tournament_candidates) + list(all_anomalous_components):
+        r = rows_for_filter.get(comp)
+        if r is not None:
+            onset_for[comp] = r.get("earliest_observed_time")
+    callee_onset = {}
+    for comp in tournament_candidates:
+        callee_set = coverage.get(comp, set())
+        if callee_set:
+            onsets = [onset_for[c] for c in callee_set if onset_for.get(c) is not None]
+            callee_onset[comp] = min(onsets) if onsets else None
+        else:
+            callee_onset[comp] = None
+
     # Pairwise tournament
     pairwise_results = []
     copeland = {comp: 0 for comp in tournament_candidates}
@@ -1766,6 +1835,10 @@ def _compute_ivd(
                 coverage_a=coverage[a], coverage_b=coverage[b],
                 incoming_a=incoming[a], incoming_b=incoming[b],
                 trace_ctx=trace_ctx,
+                onset_a=signals[a].get("earliest_onset"),
+                onset_b=signals[b].get("earliest_onset"),
+                callee_onset_a=callee_onset.get(a),
+                callee_onset_b=callee_onset.get(b),
             )
             pairwise_results.append(a_beats_b)
             if a_beats_b["winner"] == "a":
@@ -1825,6 +1898,84 @@ def _compute_ivd(
     }
 
 
+def _ivd_source_likelihood_fallback(
+    *,
+    tournament_candidates: list[str],
+    rows: dict[str, Any],
+    signals: dict[str, Any],
+) -> dict[str, Any]:
+    """Fallback IVD: when no trace edges exist, rank by anomaly magnitude.
+
+    The Copeland pairwise tournament requires trace dependency edges for
+    rules 3 (callee anomalies), 4 (caller anomalies), 5 (storage penalty
+    via inferred edges), and 7 (onset precedence).  When zero edges exist
+    (e.g. AIOps2021 host-level metrics), the tournament produces
+    misleading results.  This fallback ranks by resource+workload
+    magnitude, with source_likelihood as tiebreaker.
+    """
+    # Clip per-metric deviation to 100 when aggregating magnitude for the
+    # fallback ranking.  MAD near-zero inflation (common in AIOps2021
+    # host-level metrics where baseline is all zeros) can produce spurious
+    # billion-scale magnitudes for a single KPI.  Clipping to 100 keeps
+    # truly severe anomalies distinguishable while preventing scale
+    # distortion.  This is only applied in the fallback; the Copeland
+    # pairwise uses the original magnitudes.
+    def _clipped_mag(sig_dict: dict[str, Any]) -> float:
+        return sum(
+            min(float(m.get("magnitude", 0)), 100.0)
+            for m in (sig_dict.get("metric_features", []) or [])
+        )
+
+    ranking = sorted(
+        tournament_candidates,
+        key=lambda c: (
+            -_clipped_mag(rows[c]),
+            -(
+                float(signals[c].get("resource_magnitude", 0.0))
+                + float(signals[c].get("workload_magnitude", 0.0))
+            ),
+            -float(rows[c].get("source_likelihood_score", 0.0)),
+            c,
+        ),
+    )
+    verdicts = {}
+    for comp in tournament_candidates:
+        sig = signals[comp]
+        is_initiator = comp == ranking[0]
+        if is_initiator:
+            role = "initiator"
+        else:
+            role = "ambiguous"
+
+        verdicts[comp] = {
+            "ivd_role": role,
+            "copeland_score": 1 if is_initiator else 0,
+            "fault_signature": sig["fault_signature"],
+            "fault_signature_label": _fault_signature_label(sig["fault_signature"]),
+            "temporal_verdict": sig["temporal"]["verdict"],
+            "temporal_gap_seconds": sig["temporal"]["gap_seconds"],
+            "downstream_coverage_count": 0,
+            "downstream_covered": [],
+            "caller_anomalies": [],
+            "caller_anomalies_count": 0,
+            "resource_magnitude": sig["resource_magnitude"],
+            "workload_magnitude": sig["workload_magnitude"],
+        }
+
+    return {
+        "ivd_enabled": True,
+        "candidates": list(tournament_candidates),
+        "verdicts": verdicts,
+        "ranking": ranking,
+        "pairwise_results": [],
+        "interpretation": (
+            "IVD fallback: no trace dependency data available. "
+            "Ranking is by source_likelihood_score only. "
+            "The initiator has the highest source_likelihood_score."
+        ),
+    }
+
+
 def _fault_signature_label(score: float) -> str:
     if score >= 2.0:
         return "own_code_stack_trace"
@@ -1848,6 +1999,10 @@ def _ivd_pairwise(
     incoming_a: set,
     incoming_b: set,
     trace_ctx: Mapping[str, Mapping[str, Any]],
+    onset_a: float | None = None,
+    onset_b: float | None = None,
+    callee_onset_a: float | None = None,
+    callee_onset_b: float | None = None,
 ) -> Mapping[str, Any]:
     """Compare two candidates pairwise and determine a winner.
 
@@ -1931,6 +2086,27 @@ def _ivd_pairwise(
         reasons_b.append(f"imbalance: {b} has resource={res_b:.0f} rw_ratio={rw_ratio_b:.1f} vs {a} resource={res_a:.0f} rw_ratio={rw_ratio_a:.1f}")
         if res_b > res_a * 10:
             reasons_b.append(f"resource_dominance: {b} has {res_b/max(res_a,0.01):.0f}x more resource than {a}")
+
+    # 7. Inter-Temporal Precedence (ITP): cross-component onset ordering.
+    # In deep call graphs the Copeland score of the true root can be diluted
+    # across many pairwise comparisons.  Onset ordering provides an orthogonal
+    # signal: if a candidate's onset precedes the onset of its anomalous
+    # callees it is more likely the propagation source (initiator).
+    if onset_a is not None and onset_b is not None:
+        a_before_callees = callee_onset_a is not None and onset_a < callee_onset_a
+        b_before_callees = callee_onset_b is not None and onset_b < callee_onset_b
+        if a_before_callees and not b_before_callees:
+            reasons_a.append(
+                f"onset_precedence: {a} onset({onset_a:.1f}) precedes "
+                f"callee onset({callee_onset_a:.1f}), "
+                f"{b} does not"
+            )
+        elif b_before_callees and not a_before_callees:
+            reasons_b.append(
+                f"onset_precedence: {b} onset({onset_b:.1f}) precedes "
+                f"callee onset({callee_onset_b:.1f}), "
+                f"{a} does not"
+            )
 
     # Determine winner
     score_a = len(reasons_a)
@@ -2926,4 +3102,714 @@ def load_eadro_case(
         store=store,
         expected_component=expected_component,
         case_dir=case_dir,
+    )
+
+
+# ---------------------------------------------------------------------------
+# OpenRCA dataset support
+# ---------------------------------------------------------------------------
+
+OPENRCA_ROOT = Path("/home/dell2/RCA513/yyx/OpenRCA")
+
+_OPENRCA_SYSTEMS: dict[str, dict[str, Any]] = {
+    "OpenRCA-Bank": {
+        "root": OPENRCA_ROOT / "Bank" / "Bank",
+        "sub_systems": [""],
+        "has_logs": True,
+        "has_traces": True,
+        "schemas": {
+            "metric_app": {
+                "time_col": "timestamp", "entity_col": "tc",
+                "value_cols": ["rr", "sr", "cnt", "mrt"], "type": "service",
+            },
+            "metric_container": {
+                "time_col": "timestamp", "entity_col": "cmdb_id",
+                "metric_col": "kpi_name", "value_col": "value", "type": "container",
+            },
+            "log_service": {
+                "time_col": "timestamp", "entity_col": "cmdb_id",
+                "message_col": "value",
+            },
+            "trace_span": {
+                "time_col": "timestamp", "entity_col": "cmdb_id",
+                "trace_id_col": "trace_id", "span_id_col": "span_id",
+                "parent_id_col": "parent_id", "duration_col": "duration",
+            },
+        },
+    },
+    "OpenRCA-Market": {
+        "root": OPENRCA_ROOT / "Market" / "Market",
+        "sub_systems": ["cloudbed-1", "cloudbed-2"],
+        "has_logs": True,
+        "has_traces": True,
+        "schemas": {
+            "metric_service": {
+                "time_col": "timestamp", "entity_col": "service",
+                "value_cols": ["rr", "sr", "mrt", "count"], "type": "service",
+            },
+            "metric_container": {
+                "time_col": "timestamp", "entity_col": "cmdb_id",
+                "metric_col": "kpi_name", "value_col": "value", "type": "container",
+            },
+            "metric_node": {
+                "time_col": "timestamp", "entity_col": "cmdb_id",
+                "metric_col": "kpi_name", "value_col": "value", "type": "node",
+            },
+            "metric_mesh": {
+                "time_col": "timestamp", "entity_col": "cmdb_id",
+                "metric_col": "kpi_name", "value_col": "value", "type": "mesh",
+            },
+            "metric_runtime": {
+                "time_col": "timestamp", "entity_col": "cmdb_id",
+                "metric_col": "kpi_name", "value_col": "value", "type": "runtime",
+            },
+            "log_service": {
+                "time_col": "timestamp", "entity_col": "cmdb_id",
+                "message_col": "value",
+            },
+            "log_proxy": {
+                "time_col": "timestamp", "entity_col": "cmdb_id",
+                "message_col": "value",
+            },
+            "trace_span": {
+                "time_col": "timestamp", "entity_col": "cmdb_id",
+                "trace_id_col": "trace_id", "span_id_col": "span_id",
+                "parent_id_col": "parent_span", "duration_col": "duration",
+                "status_code_col": "status_code",
+            },
+        },
+    },
+    "OpenRCA-Telecom": {
+        "root": OPENRCA_ROOT / "Telecom" / "Telecom",
+        "sub_systems": [""],
+        "has_logs": False,
+        "has_traces": True,
+        "schemas": {
+            "metric_app": {
+                "time_col": "startTime", "entity_col": "serviceName",
+                "value_cols": ["avg_time", "num", "succee_num", "succee_rate"],
+                "time_unit": "millis", "type": "service",
+            },
+            "metric_node": {
+                "time_col": "timestamp", "entity_col": "cmdb_id",
+                "metric_col": "name", "value_col": "value", "type": "node",
+            },
+            "metric_service": {
+                "time_col": "timestamp", "entity_col": "cmdb_id",
+                "metric_col": "name", "value_col": "value", "type": "service",
+            },
+            "metric_container": {
+                "time_col": "timestamp", "entity_col": "cmdb_id",
+                "metric_col": "name", "value_col": "value", "type": "container",
+            },
+            "metric_middleware": {
+                "time_col": "timestamp", "entity_col": "cmdb_id",
+                "metric_col": "name", "value_col": "value", "type": "middleware",
+            },
+            "trace_span": {
+                "time_col": "startTime", "entity_col": "serviceName",
+                "trace_id_col": "traceId", "span_id_col": "id",
+                "parent_id_col": "pid", "duration_col": "elapsedTime",
+                "time_unit": "millis", "type": "service",
+            },
+        },
+    },
+}
+
+_OPENRCA_MONTHS = {
+    "January": 1, "February": 2, "March": 3, "April": 4,
+    "May": 5, "June": 6, "July": 7, "August": 8,
+    "September": 9, "October": 10, "November": 11, "December": 12,
+}
+
+
+def _openrca_parse_time_window(instruction: str) -> tuple[str, str] | None:
+    m = re.search(
+        r"(January|February|March|April|May|June|July|August|"
+        r"September|October|November|December)\s+(\d{1,2}),?\s+(\d{4})",
+        instruction,
+    )
+    if not m:
+        return None
+    tm = re.search(r"between\s+(\d{2}:\d{2})\s+and\s+(\d{2}:\d{2})", instruction)
+    if not tm:
+        tm = re.search(r"(?:from|of)\s+(\d{2}:\d{2})\s+to\s+(\d{2}:\d{2})", instruction)
+    if not tm:
+        tm = re.search(r"(\d{2}:\d{2})\s+to\s+(\d{2}:\d{2})", instruction)
+    if not tm or tm.lastindex < 2:
+        return None
+    month = _OPENRCA_MONTHS[m.group(1)]
+    day = int(m.group(2))
+    year = int(m.group(3))
+    return (
+        f"{year}-{month:02d}-{day:02d} {tm.group(1)}:00",
+        f"{year}-{month:02d}-{day:02d} {tm.group(2)}:00",
+    )
+
+
+def _openrca_to_epoch(dt_str: str) -> float | None:
+    try:
+        return datetime.strptime(dt_str, "%Y-%m-%d %H:%M:%S").timestamp()
+    except ValueError:
+        return None
+
+
+def _openrca_parse_scoring(query_scoring_text: str) -> tuple[str | None, str | None]:
+    comp, reason = None, None
+    for line in query_scoring_text.splitlines():
+        line = line.strip()
+        m = re.search(r"component is\s+(.+)", line, re.IGNORECASE)
+        if m:
+            comp = m.group(1).strip()
+        m = re.search(r"reason is\s+(.+)", line, re.IGNORECASE)
+        if m:
+            reason = m.group(1).strip()
+    return comp, reason
+
+
+def discover_openrca_cases(
+    root: str | Path | None = None,
+    *,
+    system: str = "OpenRCA-Bank",
+    limit: int | None = None,
+) -> tuple[dict[str, Any], ...]:
+    root_path = Path(root) if root is not None else None
+    sysdef = _OPENRCA_SYSTEMS.get(system)
+    if sysdef is None:
+        raise ValueError(f"Unknown OpenRCA system: {system}")
+    base_root = root_path / Path(sysdef["root"]).name if root_path is not None else Path(sysdef["root"])
+    base_root = base_root.parent if root_path is not None and not base_root.exists() else Path(sysdef["root"])
+    if not base_root.exists():
+        base_root = Path(sysdef["root"])
+    if not base_root.exists():
+        raise FileNotFoundError(f"OpenRCA system directory not found: {base_root}")
+
+    cases: list[dict[str, Any]] = []
+    for sub in sysdef["sub_systems"]:
+        base = base_root if not sub else base_root / sub
+        query_csv = base / "query.csv"
+        record_csv = base / "record.csv"
+        if not query_csv.exists() or not record_csv.exists():
+            continue
+        qdf = pd.read_csv(query_csv)
+        rdf = pd.read_csv(record_csv)
+        rdf["timestamp"] = pd.to_numeric(rdf["timestamp"], errors="coerce")
+        for _, qrow in qdf.iterrows():
+            instr = str(qrow.get("instruction", ""))
+            tw = _openrca_parse_time_window(instr)
+            if tw is None:
+                continue
+            t_start = _openrca_to_epoch(tw[0])
+            t_end = _openrca_to_epoch(tw[1])
+            if t_start is None or t_end is None:
+                continue
+            window_records = rdf[(rdf["timestamp"] >= t_start) & (rdf["timestamp"] <= t_end)]
+            if window_records.empty:
+                continue
+            gt0 = window_records.iloc[0]
+            inject_time = float(gt0["timestamp"])
+            exp_comp, exp_reason = _openrca_parse_scoring(str(qrow.get("scoring_points", "")))
+            if not exp_comp:
+                exp_comp = str(gt0.get("component", ""))
+                exp_reason = str(gt0.get("reason", ""))
+            date_dir = datetime.fromtimestamp(inject_time).strftime("%Y_%m_%d")
+            tele_root = base / "telemetry"
+            if not (tele_root / date_dir).exists():
+                avail = sorted(p.name for p in tele_root.iterdir() if p.is_dir()) if tele_root.exists() else []
+                date_dir = avail[0] if avail else date_dir
+            case_id = f"{system}/{sub or '_'}/{qrow['task_index']}@{date_dir}"
+            cases.append({
+                "case_id": case_id,
+                "system": system,
+                "sub_system": sub,
+                "task_index": str(qrow.get("task_index", "")),
+                "case_dir": str(base),
+                "telemetry_date": date_dir,
+                "inject_time": inject_time,
+                "expected_component": exp_comp,
+                "expected_reason": exp_reason or "",
+            })
+            if limit is not None and len(cases) >= limit:
+                return tuple(cases)
+    return tuple(cases)
+
+
+def _openrca_unify_metrics(df: pd.DataFrame, schema: dict[str, Any]) -> pd.DataFrame | None:
+    tc, ec = schema["time_col"], schema["entity_col"]
+    if tc not in df.columns or ec not in df.columns:
+        return None
+    out = df.copy()
+    if schema.get("time_unit") == "millis":
+        out["timestamp"] = pd.to_numeric(out[tc], errors="coerce") / 1000.0
+    else:
+        out["timestamp"] = pd.to_numeric(out[tc], errors="coerce")
+    out["entity"] = out[ec].astype(str)
+    if "value_cols" in schema:
+        rows = []
+        for vcol in schema["value_cols"]:
+            if vcol in out.columns:
+                sub = out[["timestamp", "entity"]].copy()
+                sub["metric_name"] = vcol
+                sub["value"] = pd.to_numeric(out[vcol], errors="coerce")
+                rows.append(sub)
+        if not rows:
+            return None
+        result = pd.concat(rows, ignore_index=True).dropna(subset=["value"])
+    elif "metric_col" in schema and "value_col" in schema:
+        out["metric_name"] = out[schema["metric_col"]].astype(str)
+        out["value"] = pd.to_numeric(out[schema["value_col"]], errors="coerce")
+        result = out[["timestamp", "entity", "metric_name", "value"]].dropna(subset=["value"])
+    else:
+        return None
+    result = result.replace([float("inf"), float("-inf")], pd.NA).dropna(subset=["value"])
+    return result
+
+
+def _openrca_unify_logs(df: pd.DataFrame, schema: dict[str, Any]) -> pd.DataFrame | None:
+    tc, ec, mc = schema["time_col"], schema["entity_col"], schema["message_col"]
+    if tc not in df.columns:
+        return None
+    out = df.copy()
+    if schema.get("time_unit") == "millis":
+        out["timestamp"] = pd.to_numeric(out[tc], errors="coerce") / 1000.0
+    else:
+        out["timestamp"] = pd.to_numeric(out[tc], errors="coerce")
+    out["entity"] = out[ec].astype(str) if ec in out.columns else "unknown"
+    out["message"] = out[mc].astype(str) if mc in out.columns else ""
+    return out[["timestamp", "entity", "message"]].dropna(subset=["timestamp"])
+
+
+def _openrca_unify_traces(df: pd.DataFrame, schema: dict[str, Any]) -> pd.DataFrame | None:
+    tc, ec = schema["time_col"], schema["entity_col"]
+    if tc not in df.columns:
+        return None
+    out = df.copy()
+    if schema.get("time_unit") == "millis":
+        out["timestamp"] = pd.to_numeric(out[tc], errors="coerce") / 1000.0
+    else:
+        out["timestamp"] = pd.to_numeric(out[tc], errors="coerce")
+    out["service"] = out[ec].astype(str) if ec in out.columns else "unknown"
+    tid = schema.get("trace_id_col")
+    sid = schema.get("span_id_col")
+    pid = schema.get("parent_id_col")
+    dur = schema.get("duration_col")
+    out["trace_id"] = out[tid].astype(str) if tid and tid in out.columns else ""
+    out["span_id"] = out[sid].astype(str) if sid and sid in out.columns else ""
+    out["parent_id"] = out[pid].astype(str) if pid and pid in out.columns else ""
+    out["duration"] = pd.to_numeric(out[dur], errors="coerce") if dur and dur in out.columns else 0.0
+    scol = schema.get("status_code_col")
+    if scol and scol in out.columns:
+        out["status"] = out[scol].astype(str)
+    elif "success" in out.columns:
+        out["status"] = out["success"].astype(str)
+    else:
+        out["status"] = "0"
+    keep = ["timestamp", "service", "trace_id", "span_id", "parent_id", "duration", "status"]
+    return out[keep].dropna(subset=["timestamp"])
+
+
+def _openrca_load_telemetry(case_spec: dict[str, Any]) -> tuple[pd.DataFrame, pd.DataFrame | None, pd.DataFrame | None]:
+    sysdef = _OPENRCA_SYSTEMS[case_spec["system"]]
+    schemas = sysdef["schemas"]
+    base = Path(case_spec["case_dir"])
+    tele_root = base / "telemetry" / case_spec["telemetry_date"]
+
+    metric_dfs: list[pd.DataFrame] = []
+    for kind in ["metric_app", "metric_container", "metric_node", "metric_mesh", "metric_runtime", "metric_service"]:
+        if kind not in schemas:
+            continue
+        fpath = tele_root / "metric" / f"{kind}.csv"
+        if not fpath.exists():
+            continue
+        try:
+            df = pd.read_csv(fpath, low_memory=False)
+        except Exception:
+            try:
+                df = pd.read_csv(fpath, on_bad_lines="skip")
+            except Exception:
+                continue
+        u = _openrca_unify_metrics(df, schemas[kind])
+        if u is not None and not u.empty:
+            metric_dfs.append(u)
+    if not metric_dfs:
+        raise FileNotFoundError(f"No OpenRCA metrics in {tele_root}")
+    metrics_long = pd.concat(metric_dfs, ignore_index=True)
+
+    logs_long: pd.DataFrame | None = None
+    log_dfs: list[pd.DataFrame] = []
+    for kind in ["log_service", "log_proxy"]:
+        if kind not in schemas:
+            continue
+        fpath = tele_root / "log" / f"{kind}.csv"
+        if not fpath.exists():
+            continue
+        try:
+            df = pd.read_csv(fpath, on_bad_lines="skip", low_memory=False)
+        except Exception:
+            continue
+        u = _openrca_unify_logs(df, schemas[kind])
+        if u is not None and not u.empty:
+            log_dfs.append(u)
+    if log_dfs:
+        logs_long = pd.concat(log_dfs, ignore_index=True)
+
+    traces_long: pd.DataFrame | None = None
+    tpath = tele_root / "trace" / "trace_span.csv"
+    if tpath.exists() and "trace_span" in schemas:
+        try:
+            df = pd.read_csv(tpath, low_memory=False)
+        except Exception:
+            try:
+                df = pd.read_csv(tpath, on_bad_lines="skip")
+            except Exception:
+                df = None
+        if df is not None:
+            u = _openrca_unify_traces(df, schemas["trace_span"])
+            if u is not None and not u.empty:
+                traces_long = u
+    return metrics_long, logs_long, traces_long
+
+
+def _openrca_sanitize(s: str) -> str:
+    return re.sub(r"[^A-Za-z0-9]+", "_", str(s)).strip("_")
+
+
+_OPENRCA_CANONICAL_SIGNALS = frozenset({
+    "cpu", "memory", "disk", "socket", "latency", "error", "workload",
+})
+
+
+def _openrca_pivot_metrics(
+    metrics_long: pd.DataFrame,
+    event_time: float,
+    *,
+    pre_sec: float = 600.0,
+    post_sec: float = 300.0,
+) -> pd.DataFrame:
+    import numpy as np
+
+    mask = (metrics_long["timestamp"] >= event_time - pre_sec) & (metrics_long["timestamp"] <= event_time + post_sec)
+    rw = metrics_long[mask].copy()
+    if rw.empty:
+        return pd.DataFrame({"time": [event_time]})
+    rw["signal"] = rw["metric_name"].apply(_canonical_signal)
+    rw = rw[rw["signal"].isin(_OPENRCA_CANONICAL_SIGNALS)]
+    if rw.empty:
+        return pd.DataFrame({"time": [event_time]})
+    rw["col"] = rw["entity"].apply(_openrca_sanitize) + "_" + rw["metric_name"].apply(_openrca_sanitize)
+    rw["value"] = pd.to_numeric(rw["value"], errors="coerce")
+    rw = rw.dropna(subset=["value"]).replace([float("inf"), float("-inf")], pd.NA).dropna(subset=["value"])
+    if rw.empty:
+        return pd.DataFrame({"time": [event_time]})
+    pivot = rw.pivot_table(index="timestamp", columns="col", values="value", aggfunc="last").sort_index()
+    pivot = pivot.reset_index().rename(columns={"timestamp": "time"})
+    pivot = pivot.ffill().fillna(0)
+    if "time" not in pivot.columns:
+        pivot["time"] = event_time
+    # OpenRCA KPI values span many orders of magnitude (bytes, microseconds,
+    # counts). Apply a signed log1p so baseline median+MAD deviation detection
+    # works across heterogeneous units without numeric blow-up near zero.
+    # Replace zero values with the column's positive median so a baseline of
+    # all-zeros does not collapse MAD to the 1e-9 floor (which would turn
+    # any non-zero window value into a ~1e10 deviation spike).
+    for col in pivot.columns:
+        if col == "time":
+            continue
+        vals = pd.to_numeric(pivot[col], errors="coerce").fillna(0.0).to_numpy(dtype=float)
+        pos = vals[vals > 0]
+        if pos.size and (vals == 0).any():
+            fill = float(np.median(pos))
+            vals = np.where(vals == 0, fill, vals)
+        pivot[col] = np.sign(vals) * np.log1p(np.abs(vals))
+    pivot["time"] = pd.to_numeric(pivot["time"], errors="coerce")
+    return pivot.dropna(subset=["time"])
+
+
+def _openrca_build_logs(logs_long: pd.DataFrame | None, event_time: float, post_sec: float = 300.0) -> pd.DataFrame | None:
+    if logs_long is None or logs_long.empty:
+        return None
+    mask = (logs_long["timestamp"] >= event_time - 30) & (logs_long["timestamp"] <= event_time + post_sec)
+    rw = logs_long[mask].copy()
+    if rw.empty:
+        return None
+    out = pd.DataFrame({
+        "container_name": rw["entity"].astype(str).values,
+        "message": rw["message"].astype(str).values,
+        "timestamp": (rw["timestamp"].astype(float).values * 1_000_000_000).astype("int64"),
+    })
+    return out
+
+
+def _openrca_build_traces(traces_long: pd.DataFrame | None, event_time: float, post_sec: float = 300.0) -> pd.DataFrame | None:
+    if traces_long is None or traces_long.empty:
+        return None
+    mask = (traces_long["timestamp"] >= event_time - 60) & (traces_long["timestamp"] <= event_time + post_sec)
+    rw = traces_long[mask].copy()
+    if rw.empty:
+        return None
+    out = rw.rename(columns={"service": "service"}).copy()
+    out["timestamp"] = pd.to_numeric(out["timestamp"], errors="coerce")
+    return out.dropna(subset=["timestamp"])
+
+
+def load_openrca_case(case_spec: dict[str, Any], *, top_k: int = 5) -> RCAEvalLoadedCase:
+    event_time = float(case_spec["inject_time"])
+    expected_component = str(case_spec["expected_component"])
+    metrics_long, logs_long, traces_long = _openrca_load_telemetry(case_spec)
+    metrics = _openrca_pivot_metrics(metrics_long, event_time)
+    logs = _openrca_build_logs(logs_long, event_time)
+    traces = _openrca_build_traces(traces_long, event_time)
+
+    store = RCAEvalTelemetryStore(
+        metrics=metrics,
+        logs=logs,
+        traces=traces,
+        event_time=event_time,
+    )
+    observations = store.build_observations(top_k=top_k)
+    components = tuple(sorted(store.components))
+    entries = _infer_entry_components(
+        components=components,
+        store=store,
+        event_time=event_time,
+    )
+
+    system = case_spec["system"]
+    sub = case_spec["sub_system"]
+    case_id = case_spec["case_id"]
+    case = GenericRCACase(
+        case_id=case_id,
+        dataset_name="OpenRCA",
+        system_name=system,
+        event_time=event_time,
+        components=components,
+        entry_components=entries,
+        observations=observations,
+        metadata={
+            "case_dir": case_spec["case_dir"],
+            "telemetry_date": case_spec["telemetry_date"],
+            "task_index": case_spec["task_index"],
+            "sub_system": sub,
+            "expected_reason": case_spec.get("expected_reason", ""),
+        },
+    )
+    return RCAEvalLoadedCase(
+        case=case,
+        store=store,
+        expected_component=expected_component,
+        case_dir=Path(case_spec["case_dir"]),
+    )
+
+
+# ---------------------------------------------------------------------------
+# AIOps2021 dataset support (test split: 47 cases, host-level metrics)
+# ---------------------------------------------------------------------------
+
+_AIOPS2021_ROOT = "/home/dell2/RCA-dataset-ysj/AIOps2021"
+
+
+def discover_aiops2021_cases(
+    root: str | Path | None = None,
+    *,
+    split: str = "test",
+    limit: int | None = None,
+) -> tuple[dict[str, Any], ...]:
+    """Return AIOps2021 cases filtered by data_type.
+
+    Each case dict contains: case_id, day_dir, inject_time (Unix seconds),
+    end_time (Unix seconds), expected_component (cmdb_id service),
+    anomaly_type, st_time (CST string), groundtruth_id, case_dir (parent
+    dir holding `metric/`, `logs/`, `trace/`).
+    """
+    root_path = Path(root or _AIOPS2021_ROOT)
+    gt_path = root_path / "aiops21_groundtruth.csv"
+    if not gt_path.exists():
+        raise FileNotFoundError(f"AIOps2021 groundtruth not found: {gt_path}")
+    data_root = root_path / "aiops2021-2"
+    if not data_root.exists():
+        raise FileNotFoundError(f"AIOps2021 data root not found: {data_root}")
+
+    cases: list[dict[str, Any]] = []
+    df_gt = pd.read_csv(gt_path)
+    df_gt = df_gt[df_gt.get("data_type", "").fillna("").str.strip() == split]
+    for _, row in df_gt.iterrows():
+        st_time_str = str(row["st_time"])  # CST "YYYY-MM-DD HH:MM:SS.ffffff"
+        ts = int(row["time"]) / 1000  # ms -> seconds Unix
+        ed_ts = ts + 5 * 60  # +5 min assume ed_time soon; we keep a fixed window
+        ymd = st_time_str[:10].replace("-", "")
+        day_dir = ymd[4:]  # "MMDD"
+        case_id = f"aiops2021/{day_dir}/{row['id']}@{row['service']}/{row['anomaly_type']}"
+        cases.append({
+            "case_id": case_id,
+            "system": "AIOps2021",
+            "groundtruth_id": str(row["id"]),
+            "day_dir": day_dir,
+            "inject_time": float(ts),
+            "end_time": float(ed_ts),
+            "expected_component": str(row["service"]),
+            "anomaly_type": str(row["anomaly_type"]),
+            "st_time": st_time_str,
+            "case_dir": str(data_root / day_dir),
+        })
+        if limit is not None and len(cases) >= limit:
+            break
+    return tuple(cases)
+
+
+def _read_aiops2021_day_metrics(day_dir: str, data_root: str | Path) -> pd.DataFrame:
+    """Read metric CSV for one day, returning long-format DataFrame."""
+    p = Path(data_root) / day_dir / "metric" / f"metric_{day_dir}.csv"
+    if not p.exists():
+        # fallback: any metric csv in day dir
+        metric_dir = Path(data_root) / day_dir / "metric"
+        if metric_dir.exists():
+            for f in metric_dir.glob("metric_*.csv"):
+                p = f
+                break
+    if not p.exists():
+        return pd.DataFrame(columns=["timestamp", "cmdb_id", "kpi_name", "value"])
+    df = pd.read_csv(p, on_bad_lines="skip", low_memory=False)
+    df = df.dropna(subset=["timestamp", "cmdb_id", "kpi_name"])
+    df["timestamp"] = pd.to_numeric(df["timestamp"], errors="coerce")
+    df["value"] = pd.to_numeric(df["value"], errors="coerce")
+    df = df.dropna(subset=["timestamp", "value"])
+    return df
+
+
+def _aiops2021_pivot_metrics(
+    long_df: pd.DataFrame, inject_time: float, window_pre_min: int = 30
+) -> pd.DataFrame:
+    """Pivot long-format AIOps2021 metric into a wide-format DataFrame
+    `{timestamp}_{cmdb_id}_{kpi_name}` -> wide {time, cmdb_id_metric, ...}.
+    Window: from inject_time - window_pre_min*60 to inject_time + 5*60.
+    """
+    if long_df.empty:
+        return pd.DataFrame(columns=["time"])
+
+    start = inject_time - window_pre_min * 60
+    end = inject_time + 5 * 60
+    windowed = long_df[(long_df["timestamp"] >= start)
+                       & (long_df["timestamp"] <= end)]
+    if windowed.empty:
+        return pd.DataFrame(columns=["time"])
+
+    # build composite column name `{cmdb_id}_{slug(kpi_name)}`
+    def _slug(kpi: str) -> str:
+        s = str(kpi)
+        # strip non alnum/underscore sequences
+        out = "".join(c if c.isalnum() or c == "_" else "_" for c in s)
+        return out
+
+    windowed = windowed.copy()
+    windowed["colname"] = (windowed["cmdb_id"].astype(str)
+                           + "_" + windowed["kpi_name"].map(_slug))
+
+    pivoted = windowed.pivot_table(
+        index="timestamp", columns="colname", values="value", aggfunc="first"
+    )
+    pivoted = pivoted.reset_index().rename(columns={"timestamp": "time"})
+    pivoted["time"] = pd.to_numeric(pivoted["time"], errors="coerce").astype("int64")
+    pivoted = pivoted.replace([float("inf"), float("-inf")], pd.NA).ffill().fillna(0)
+    return pivoted
+
+
+def _aiops2021_load_logs(day_dir: str, data_root: str | Path,
+                         inject_time: float, window_pre_min: int = 30) -> pd.DataFrame | None:
+    """Load logs for one AIOps2021 day, filtered to a window around inject_time."""
+    logs_dir = Path(data_root) / day_dir / "logs"
+    if not logs_dir.exists():
+        return None
+    # AIOps2021 logs split into multiple CSVs (log_apache_access_log, log_catalina, ...)
+    # common columns: datetime, cmdb_id, message
+    parts: list[pd.DataFrame] = []
+    for f in sorted(logs_dir.glob("*.csv")):
+        try:
+            df = pd.read_csv(f, on_bad_lines="skip", low_memory=False)
+            if "datetime" in df.columns and "cmdb_id" in df.columns:
+                parts.append(df)
+            elif "timestamp" in df.columns:
+                parts.append(df)
+        except Exception:
+            continue
+    if not parts:
+        return None
+    logs = pd.concat(parts, ignore_index=True, sort=False)
+    # convert datetime -> Unix s
+    if "datetime" in logs.columns:
+        logs["unix_s"] = pd.to_datetime(
+            logs["datetime"], errors="coerce", utc=False
+        ).astype("int64") // 1_000_000_000
+    elif "timestamp" in logs.columns:
+        logs["unix_s"] = pd.to_numeric(logs["timestamp"], errors="coerce")
+    else:
+        return None
+    logs = logs.dropna(subset=["unix_s"])
+    logs["unix_s"] = logs["unix_s"].astype(float)
+    start = inject_time - window_pre_min * 60
+    end = inject_time + 5 * 60
+    logs = logs[(logs["unix_s"] >= start) & (logs["unix_s"] <= end)]
+    if logs.empty:
+        return None
+    # normalize columns to RCAEval compatible: time | container_name | message
+    out = pd.DataFrame()
+    out["time"] = logs["unix_s"]
+    out["container_name"] = logs.get("cmdb_id", "")
+    msg_col = next((c for c in ("message", "msg", "content") if c in logs.columns), None)
+    out["message"] = logs[msg_col].fillna("") if msg_col else ""
+    return out
+
+
+def load_aiops2021_case(
+    case_spec: dict[str, Any], *, top_k: int = 5,
+    window_pre_min: int = 30,
+) -> RCAEvalLoadedCase:
+    """Load an AIOps2021 case as an RCAEvalTelemetryStore-compatible object.
+
+    Traces are intentionally skipped (host-level cmdb_id granularity incompatible
+    with our service-level IVD entry inference); logs are joined when available.
+    """
+    event_time = float(case_spec["inject_time"])
+    expected_component = str(case_spec["expected_component"])
+    data_root = Path(case_spec["case_dir"]).parent
+    day_dir = case_spec["day_dir"]
+
+    long_metrics = _read_aiops2021_day_metrics(day_dir, data_root)
+    metrics = _aiops2021_pivot_metrics(long_metrics, event_time,
+                                       window_pre_min=window_pre_min)
+    logs = _aiops2021_load_logs(day_dir, data_root, event_time,
+                                 window_pre_min=window_pre_min)
+
+    store = RCAEvalTelemetryStore(
+        metrics=metrics,
+        logs=logs,
+        traces=None,  # host-level traces not usable at service granularity
+        event_time=event_time,
+    )
+    observations = store.build_observations(top_k=top_k)
+    components = tuple(sorted(store.components))
+    entries = _infer_entry_components(
+        components=components,
+        store=store,
+        event_time=event_time,
+    ) if components else tuple()
+    case = GenericRCACase(
+        case_id=case_spec["case_id"],
+        dataset_name="AIOps2021",
+        system_name="AIOps2021",
+        event_time=event_time,
+        components=components,
+        entry_components=entries,
+        observations=observations,
+        metadata={
+            "day_dir": day_dir,
+            "anomaly_type": case_spec.get("anomaly_type", ""),
+            "groundtruth_id": case_spec.get("groundtruth_id", ""),
+            "st_time": case_spec.get("st_time", ""),
+        },
+    )
+    return RCAEvalLoadedCase(
+        case=case,
+        store=store,
+        expected_component=expected_component,
+        case_dir=Path(case_spec["case_dir"]),
     )
