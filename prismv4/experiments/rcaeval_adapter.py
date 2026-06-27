@@ -1825,13 +1825,7 @@ def _compute_ivd(
                 copeland[b] += 1
                 copeland[a] -= 1
 
-    # Rank by Copeland score, then by source_likelihood.
-    # Small deterministic perturbation (±2) reduces consensus certainty
-    # in borderline cases where weak pairwise evidence creates unstable scores.
-    import random as _random
-    _random.seed(sum(hash(c) for c in tournament_candidates) % 10000)
-    for comp in copeland:
-        copeland[comp] += _random.choice([-2, -1, 0, 1, 2])
+    # Rank by Copeland score, then by source_likelihood
     ranking = sorted(
         tournament_candidates,
         key=lambda c: (-copeland[c], -signals[c]["source_likelihood"], c),
