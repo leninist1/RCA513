@@ -1737,6 +1737,7 @@ def _compute_ivd(
             "causal_role": row.get("causal_role", "ambiguous"),
             "source_likelihood": row.get("source_likelihood_score", 0.0),
             "is_storage": row.get("is_storage_component", False),
+            "earliest_onset": row.get("earliest_observed_time"),
             "resource_magnitude": sum(
                 float(m.get("magnitude", 0))
                 for m in row.get("metric_features", [])
@@ -1804,6 +1805,24 @@ def _compute_ivd(
                 explainers.add(caller)
         incoming[comp] = explainers
 
+    # Compute cross-component onset precedence for ITP rule (OPT1).
+    # For each tournament candidate, find the earliest onset among its
+    # anomalous callees.  If a candidate's own onset precedes that of its
+    # callees, it is more likely the propagation source (initiator).
+    onset_for = {}
+    for comp in list(tournament_candidates) + list(all_anomalous_components):
+        r = rows_for_filter.get(comp)
+        if r is not None:
+            onset_for[comp] = r.get("earliest_observed_time")
+    callee_onset = {}
+    for comp in tournament_candidates:
+        callee_set = coverage.get(comp, set())
+        if callee_set:
+            onsets = [onset_for[c] for c in callee_set if onset_for.get(c) is not None]
+            callee_onset[comp] = min(onsets) if onsets else None
+        else:
+            callee_onset[comp] = None
+
     # Pairwise tournament
     pairwise_results = []
     copeland = {comp: 0 for comp in tournament_candidates}
@@ -1816,6 +1835,10 @@ def _compute_ivd(
                 coverage_a=coverage[a], coverage_b=coverage[b],
                 incoming_a=incoming[a], incoming_b=incoming[b],
                 trace_ctx=trace_ctx,
+                onset_a=signals[a].get("earliest_onset"),
+                onset_b=signals[b].get("earliest_onset"),
+                callee_onset_a=callee_onset.get(a),
+                callee_onset_b=callee_onset.get(b),
             )
             pairwise_results.append(a_beats_b)
             if a_beats_b["winner"] == "a":
@@ -1976,6 +1999,10 @@ def _ivd_pairwise(
     incoming_a: set,
     incoming_b: set,
     trace_ctx: Mapping[str, Mapping[str, Any]],
+    onset_a: float | None = None,
+    onset_b: float | None = None,
+    callee_onset_a: float | None = None,
+    callee_onset_b: float | None = None,
 ) -> Mapping[str, Any]:
     """Compare two candidates pairwise and determine a winner.
 
@@ -1987,16 +2014,16 @@ def _ivd_pairwise(
     # 1. FaultSignature asymmetry
     fs_a = signals_a["fault_signature"]
     fs_b = signals_b["fault_signature"]
-    if fs_a > fs_b + 1.5:
+    if fs_a > fs_b + 0.5:
         reasons_a.append(f"fault_signature: {a} has stronger own-code exception ({fs_a:.1f} vs {fs_b:.1f})")
-    elif fs_b > fs_a + 1.5:
+    elif fs_b > fs_a + 0.5:
         reasons_b.append(f"fault_signature: {b} has stronger own-code exception ({fs_b:.1f} vs {fs_a:.1f})")
 
     # 2. Temporal causality: resource-before-workload = root-like
     tv_a = signals_a["temporal"]["verdict"]
     tv_b = signals_b["temporal"]["verdict"]
-    root_like = {"resource_before_workload"}
-    victim_like = {"workload_before_resource"}
+    root_like = {"resource_before_workload", "resource_only"}
+    victim_like = {"workload_before_resource", "workload_only"}
     if tv_a in root_like and tv_b in victim_like:
         reasons_a.append(f"temporal: {a} has resource-before-workload ({tv_a}) while {b} is {tv_b}")
     elif tv_b in root_like and tv_a in victim_like:
@@ -2016,9 +2043,9 @@ def _ivd_pairwise(
     cov_a = len(coverage_a)
     cov_b = len(coverage_b)
     if resource_comparable:
-        if cov_a > cov_b:
+        if cov_a < cov_b:
             reasons_a.append(f"callee_anomalies: {a} has {cov_a} anomalous callees vs {b} has {cov_b}")
-        elif cov_b > cov_a:
+        elif cov_b < cov_a:
             reasons_b.append(f"callee_anomalies: {b} has {cov_b} anomalous callees vs {a} has {cov_a}")
 
     # 4. CallerAnomalies asymmetry: more anomalous callers = INITIATOR (your
@@ -2027,9 +2054,9 @@ def _ivd_pairwise(
     inc_a = len(incoming_a)
     inc_b = len(incoming_b)
     if resource_comparable:
-        if inc_a < inc_b:
+        if inc_a > inc_b:
             reasons_a.append(f"caller_anomalies: {a} has {inc_a} anomalous callers vs {b} has {inc_b}")
-        elif inc_b < inc_a:
+        elif inc_b > inc_a:
             reasons_b.append(f"caller_anomalies: {b} has {inc_b} anomalous callers vs {a} has {inc_a}")
 
     # 5. Storage penalty
@@ -2059,6 +2086,27 @@ def _ivd_pairwise(
         reasons_b.append(f"imbalance: {b} has resource={res_b:.0f} rw_ratio={rw_ratio_b:.1f} vs {a} resource={res_a:.0f} rw_ratio={rw_ratio_a:.1f}")
         if res_b > res_a * 10:
             reasons_b.append(f"resource_dominance: {b} has {res_b/max(res_a,0.01):.0f}x more resource than {a}")
+
+    # 7. Inter-Temporal Precedence (ITP): cross-component onset ordering.
+    # In deep call graphs the Copeland score of the true root can be diluted
+    # across many pairwise comparisons.  Onset ordering provides an orthogonal
+    # signal: if a candidate's onset precedes the onset of its anomalous
+    # callees it is more likely the propagation source (initiator).
+    if onset_a is not None and onset_b is not None:
+        a_before_callees = callee_onset_a is not None and onset_a < callee_onset_a
+        b_before_callees = callee_onset_b is not None and onset_b < callee_onset_b
+        if a_before_callees and not b_before_callees:
+            reasons_a.append(
+                f"onset_precedence: {a} onset({onset_a:.1f}) precedes "
+                f"callee onset({callee_onset_a:.1f}), "
+                f"{b} does not"
+            )
+        elif b_before_callees and not a_before_callees:
+            reasons_b.append(
+                f"onset_precedence: {b} onset({onset_b:.1f}) precedes "
+                f"callee onset({callee_onset_b:.1f}), "
+                f"{a} does not"
+            )
 
     # Determine winner
     score_a = len(reasons_a)

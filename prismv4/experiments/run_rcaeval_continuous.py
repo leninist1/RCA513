@@ -269,6 +269,8 @@ def main() -> int:
                     loaded=loaded,
                     client=client,
                     recall_pool_size=args.recall_pool_size,
+                    max_hypotheses=args.max_hypotheses,
+                    max_steps=args.max_steps,
                 )
             else:
                 result = run_case(
@@ -482,7 +484,7 @@ def _ivd_has_strong_consensus(
         return False, None
     # Strong consensus: initiator with copeland score >= 3 and no tie
     if (v.get("role") == "initiator" and
-            (v.get("cs") or 0) > 2 and
+            (v.get("cs") or 0) > 0 and
             (len(ranking) == 1 or
              (verdicts.get(ranking[1], {}).get("cs") or 0) < (v.get("cs") or 0))):
         # NEW emitter-penalty: reject shortcut if top has emitter=True with
@@ -512,12 +514,14 @@ def run_case_lightweight(
     loaded,
     client: ModelClient,
     recall_pool_size: int = 15,
+    max_hypotheses: int = 10,
+    max_steps: int = 4,
 ) -> dict[str, Any]:
-    """Signal-first lightweight agent.
+    """Signal-first agent with IVD shortcut + full Agent fallback.
 
     1. Extract deterministic features + IVD.
     2. If IVD has strong consensus → return immediately (0 LLM calls).
-    3. Otherwise → ONE compact LLM call with <3k token summary.
+    3. Otherwise → full continuous NoiseNative agent (EventCausalizer + NoiseLab loop).
     """
     signals = _extract_compact_signals(
         loaded, recall_pool_size=recall_pool_size
@@ -552,96 +556,15 @@ def run_case_lightweight(
             "llm_calls": 0,
         }
 
-    # When consensus is not strong, fall back to IVD ranking top-1
-    # without LLM.  This keeps the approach fully deterministic and
-    # reflects the true capability of the pairwise tournament.
-    ivd_ranking = signals.get("ivd", {}).get("ranking", [])
-    if ivd_ranking:
-        return {
-            "status": "lightweight_ivd_fallback",
-            "hypothesis_id": None,
-            "predicted_component": ivd_ranking[0],
-            "predicted_ranking": ivd_ranking[:5],
-            "reason_family": "ivd_fallback",
-            "onset_interval": [loaded.case.event_time, loaded.case.event_time + 60],
-            "steps_completed": 0,
-            "evidence_count": 0,
-            "referenced_evidence_ids": [],
-            "rationale": "IVD consensus weak, using Copeland ranking top-1 as fallback",
-            "uncertainties": [],
-            "global_rescue": False,
-            "outside_hypothesis_set": False,
-            "recall_pool": signals["recall_pool"],
-            "event_causal_profile": {},
-            "event_causal_fact_count": 0,
-            "final_belief_state": [],
-            "transcript": [],
-            "llm_calls": 0,
-        }
-
-    # Build compact LLM prompt
-    # Keep system prompt fixed for cache reuse; vary only case-specific user msg
-    user_content = json.dumps(signals, ensure_ascii=False, sort_keys=True)
-    request = ModelRequest(
-        purpose="lightweight_rca_decision",
-        messages=(
-            ModelMessage(role="system", content=_LIGHTWEIGHT_SYSTEM_PROMPT),
-            ModelMessage(role="user", content=user_content),
-        ),
-        attempt_index=0,
+    # When IVD consensus is not strong, delegate to the full continuous
+    # NoiseNative agent (EventCausalizer + NoiseLab loop).
+    return run_case(
+        loaded=loaded,
+        max_hypotheses=max_hypotheses,
+        max_steps=max_steps,
+        client=client,
+        recall_pool_size=recall_pool_size,
     )
-    response = client.complete(request=request)
-    # Parse response
-    ivd = signals.get("ivd")
-    ivd_ranking = ivd.get("ranking", []) if ivd else []
-    try:
-        parsed = parse_json_object(response.content)
-        predicted = parsed.get("root_component", "")
-        rationale = parsed.get("rationale", "")
-        llm_ranking = parsed.get("ranking", [])
-        # Normalise to list[str]
-        if not isinstance(llm_ranking, list):
-            llm_ranking = []
-        llm_ranking = [str(x) for x in llm_ranking][:5]
-    except Exception:
-        # Fallback: use IVD top-1 if available
-        predicted = ivd_ranking[0] if ivd_ranking else ""
-        rationale = "LLM parse failed, fallback to IVD top-1"
-        llm_ranking = []
-
-    # Compose final ranking: LLM's list first, fall back to IVD ranking
-    predicted_ranking: list[str] = []
-    for c in llm_ranking:
-        if c not in predicted_ranking:
-            predicted_ranking.append(c)
-    for c in ivd_ranking:
-        if c not in predicted_ranking:
-            predicted_ranking.append(c)
-    if predicted and predicted not in predicted_ranking:
-        predicted_ranking.insert(0, predicted)
-    predicted_ranking = predicted_ranking[:5]
-
-    return {
-        "status": "lightweight_llm",
-        "hypothesis_id": None,
-        "predicted_component": predicted,
-        "predicted_ranking": predicted_ranking,
-        "reason_family": "lightweight",
-        "onset_interval": [loaded.case.event_time, loaded.case.event_time + 60],
-        "steps_completed": 1,
-        "evidence_count": 0,
-        "referenced_evidence_ids": [],
-        "rationale": rationale,
-        "uncertainties": [],
-        "global_rescue": False,
-        "outside_hypothesis_set": False,
-        "recall_pool": signals["recall_pool"],
-        "event_causal_profile": {},
-        "event_causal_fact_count": 0,
-        "final_belief_state": [],
-        "transcript": [{"agent_response": response.content[:2000]}],
-        "llm_calls": 1,
-    }
 
 
 def run_case(
