@@ -1,0 +1,3209 @@
+{
+  "dataset": "RE3",
+  "system": "RE3-OB",
+  "mode": "lightweight",
+  "total_cases": 30,
+  "top1_accuracy": 0.9666666666666667,
+  "top1_hits": 29,
+  "recall_pool_size": 15,
+  "max_hypotheses": 10,
+  "elapsed_sec": 1005.434,
+  "cost": {
+    "total_calls": 13,
+    "total_prompt_tokens": 245613,
+    "total_completion_tokens": 55519,
+    "total_tokens": 301132,
+    "avg_tokens_per_case": 10037,
+    "by_purpose": {
+      "event_causalizer_state_update": {
+        "call_count": 2,
+        "prompt_tokens": 39364,
+        "completion_tokens": 23528,
+        "total_tokens": 62892
+      },
+      "continuous_noise_native_state_update": {
+        "call_count": 10,
+        "prompt_tokens": 198640,
+        "completion_tokens": 26744,
+        "total_tokens": 225384
+      },
+      "continuous_noise_native_json_repair": {
+        "call_count": 1,
+        "prompt_tokens": 7609,
+        "completion_tokens": 5247,
+        "total_tokens": 12856
+      }
+    }
+  },
+  "results": [
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "adservice",
+      "predicted_ranking": [
+        "adservice",
+        "recommendationservice",
+        "frontend"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1731903960.0,
+        1731904020.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "redis",
+        "adservice",
+        "frontend",
+        "cartservice",
+        "productcatalogservice",
+        "checkoutservice",
+        "recommendationservice",
+        "paymentservice",
+        "emailservice",
+        "currencyservice",
+        "shippingservice"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "RE3-OB/adservice_f3/1",
+      "expected_component": "adservice",
+      "hit": true,
+      "elapsed_sec": 7.363,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {}
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "adservice",
+      "predicted_ranking": [
+        "adservice",
+        "paymentservice",
+        "frontend"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1732275199.0,
+        1732275259.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "redis",
+        "adservice",
+        "frontend",
+        "shippingservice",
+        "cartservice",
+        "productcatalogservice",
+        "paymentservice",
+        "emailservice",
+        "recommendationservice",
+        "carts",
+        "catalogue",
+        "orders",
+        "checkoutservice",
+        "currencyservice",
+        "carts-db"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "RE3-OB/adservice_f3/2",
+      "expected_component": "adservice",
+      "hit": true,
+      "elapsed_sec": 19.966,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {}
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "adservice",
+      "predicted_ranking": [
+        "adservice",
+        "productcatalogservice",
+        "recommendationservice",
+        "currencyservice",
+        "frontend"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1732363998.0,
+        1732364058.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "redis",
+        "adservice",
+        "frontend",
+        "checkoutservice",
+        "shippingservice",
+        "paymentservice",
+        "productcatalogservice",
+        "emailservice",
+        "currencyservice",
+        "carts",
+        "cartservice",
+        "catalogue",
+        "recommendationservice",
+        "carts-db",
+        "catalogue-db"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "RE3-OB/adservice_f3/3",
+      "expected_component": "adservice",
+      "hit": true,
+      "elapsed_sec": 20.106,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {}
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "adservice",
+      "predicted_ranking": [
+        "adservice",
+        "productcatalogservice",
+        "frontend"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1731905504.0,
+        1731905564.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "redis",
+        "adservice",
+        "frontend",
+        "shippingservice",
+        "cartservice",
+        "currencyservice",
+        "productcatalogservice",
+        "emailservice",
+        "recommendationservice",
+        "checkoutservice",
+        "paymentservice"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "RE3-OB/adservice_f4/1",
+      "expected_component": "adservice",
+      "hit": true,
+      "elapsed_sec": 7.282,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {}
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "adservice",
+      "predicted_ranking": [
+        "adservice",
+        "productcatalogservice",
+        "frontend"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1732276743.0,
+        1732276803.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "redis",
+        "adservice",
+        "frontend",
+        "cartservice",
+        "productcatalogservice",
+        "recommendationservice",
+        "paymentservice",
+        "emailservice",
+        "currencyservice",
+        "checkoutservice",
+        "shippingservice"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "RE3-OB/adservice_f4/2",
+      "expected_component": "adservice",
+      "hit": true,
+      "elapsed_sec": 7.384,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {}
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "adservice",
+      "predicted_ranking": [
+        "adservice",
+        "paymentservice",
+        "frontend"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1732365542.0,
+        1732365602.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "redis",
+        "adservice",
+        "frontend",
+        "emailservice",
+        "checkoutservice",
+        "shippingservice",
+        "paymentservice",
+        "productcatalogservice",
+        "recommendationservice",
+        "currencyservice",
+        "cartservice"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "RE3-OB/adservice_f4/3",
+      "expected_component": "adservice",
+      "hit": true,
+      "elapsed_sec": 7.534,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {}
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "adservice",
+      "predicted_ranking": [
+        "adservice",
+        "frontend",
+        "recommendationservice",
+        "currencyservice",
+        "paymentservice"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1731907048.0,
+        1731907108.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "redis",
+        "adservice",
+        "frontend",
+        "shippingservice",
+        "checkoutservice",
+        "paymentservice",
+        "currencyservice",
+        "recommendationservice",
+        "productcatalogservice",
+        "emailservice",
+        "cartservice"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "RE3-OB/adservice_f5/1",
+      "expected_component": "adservice",
+      "hit": true,
+      "elapsed_sec": 7.207,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {}
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "adservice",
+      "predicted_ranking": [
+        "adservice",
+        "recommendationservice",
+        "frontend"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1732278287.0,
+        1732278347.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "redis",
+        "adservice",
+        "frontend",
+        "recommendationservice",
+        "shippingservice",
+        "cartservice",
+        "emailservice",
+        "currencyservice",
+        "productcatalogservice",
+        "checkoutservice",
+        "paymentservice"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "RE3-OB/adservice_f5/2",
+      "expected_component": "adservice",
+      "hit": true,
+      "elapsed_sec": 7.154,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {}
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "adservice",
+      "predicted_ranking": [
+        "adservice",
+        "frontend",
+        "recommendationservice"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1732367086.0,
+        1732367146.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "redis",
+        "adservice",
+        "frontend",
+        "paymentservice",
+        "checkoutservice",
+        "emailservice",
+        "recommendationservice",
+        "productcatalogservice",
+        "currencyservice",
+        "shippingservice",
+        "cartservice"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "RE3-OB/adservice_f5/3",
+      "expected_component": "adservice",
+      "hit": true,
+      "elapsed_sec": 7.27,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {}
+      }
+    },
+    {
+      "status": "continuous_final",
+      "hypothesis_id": "H3-cartservice-emitter-exception",
+      "predicted_component": "cartservice",
+      "reason_family": "emitter exception",
+      "onset_interval": [
+        1731908565.0,
+        1731908625.0
+      ],
+      "steps_completed": 4,
+      "evidence_count": 4,
+      "referenced_evidence_ids": [
+        "evidence:3811d89dfbed11bd14d42993246223502440f81da0dae126a76d41137ade8c33",
+        "evidence:89b5e88422a2a902169a3bf95202bb75d778a6b739049dd47ac8fb02ec5f714d",
+        "evidence:283bbf6d6f8105e4a2363a512ffa716da00fb43ee075b52e439c3649ffcfe4f9",
+        "evidence:5bea49c87f4090162ed09fd3648af4d460817421296cd81b5b508a2e3454a3da"
+      ],
+      "rationale": "Cartservice exhibits the strongest source evidence: own-code System.OverflowException in log, high NoiseLab source_likelihood (6.0), and near-onset memory/cpu signals. The exception indicates internal fault, not a timeout from redis. Redis, a storage dependency, shows only reactive resource pressure (memory drop, late disk I/O) with negative source_likelihood (-1.0) and no emitter exception. Frontend's generic request errors and lower source_likelihood (1.0) mark it as an entry symptom. Other components lack internal mechanism evidence. Cartservice's anomaly explains redis's reactive stress and frontend's cascading errors, making it the root cause.",
+      "uncertainties": [
+        "Trace paths between cartservice and redis not directly observed, but dependency inferred from log; this does not weaken cartservice’s internal fault evidence.",
+        "Redis anomaly could be independent, but its late dominant spike and storage role strongly suggest reactive rather than causative behavior."
+      ],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "redis",
+        "frontend",
+        "cartservice",
+        "currencyservice",
+        "recommendationservice",
+        "adservice",
+        "productcatalogservice",
+        "emailservice",
+        "checkoutservice",
+        "paymentservice",
+        "shippingservice"
+      ],
+      "event_causal_profile": {
+        "truncated_json": "{\"causal_story_options\": [{\"initiating_event_ids\": [\"event:6:cartservice:primary\"], \"propagation_reading\": \"cartservice emits internal exception, likely due to application logic error, causing memory/cpu anomaly. The exception leads to reactive resource pressure on its storage dependency (redis), which later shows disk io s...\", \"story_id\": \"S1-cartservice-root\", \"what_would_support_it\": [\"cartservice logs show exception before any redis anomaly\", \"cartservice resource spike onset precedes redis resource spike\"], \"what_would_weaken_it\": [\"redis resource anomaly onset precedes cartservice exception timestamp\", \"cartservice exception message indicates direct redis unavailability rather than internal error\"]}, {\"initiating_event_ids\": [\"event:10:redis:primary\"], \"propagation_reading\": \"redis experiences cpu saturation and memory change, causing it to become unresponsive. cartservice, which depends on redis for storage, fails with FailedPrecondition exception. The failure cascades to frontend via ups...\", \"story_id\": \"S2-redis-root\", \"what_would_support_it\": [\"redis memory/cpu anomaly onset occurs before cartservice exception\", \"cartservice exception directly references redis timeout or connection error\"], \"what_would_weaken_it\": [\"redis has no emitter exception or log evidence of internal failure\", \"cartservice exception includes internal detail not matching redis timeouts\"]}, {\"initiating_event_ids\": [\"event:4:frontend:primary\"], \"propagation_reading\": \"frontend internal service error (logic or overload) generates a burst of errors and latency. This overload propagates to backend services like cartservice, currencyservice, causing cascading latency and exceptions, an...\", \"story_id\": \"S3-frontend-root\", \"what_would_support_it\": [\"frontend error onset is earliest in the causal chain\", \"cartservice and redis anomalies magnitude is explained by load generated from frontend\"], \"what_would_weaken_it\": [\"cartservice onset occurs before frontend error spike (1731908595 vs 1731908615)\", \"frontend errors are generic and could be symptom of backend failure\"]}], \"component_event_features\": [{\"component\": \"redis\", \"missing_checks\": [\"verify if redis resource anomalies are independent or reactive to cartservice query pattern\"], \"near_onset_mechanism\": [\"memory\"], \"primary_event_ids\": [\"event:10:redis:primary\"], \"symptom_visibility\": [\"late dominant disk io spike at +165s\", \"memory drop followed by cpu drop\"], \"timing_cautions\": [\"dominant disk metric appears 165 seconds after first anomaly\", \"near-onset memory signal is single and moderate\"], \"topology_notes\": [\"storage component; likely callee of cartservice (inferred from log naming)\", \"no direct trace callers or callees\"]}, {\"component\": \"frontend\", \"missing_checks\": [\"check if frontend errors are caused by downstream failures (cartservice, checkoutservice) or internal bug\"], \"near_onset_mechanism\": [\"cpu\", \"error\", \"log\"], \"primary_event_ids\": [\"event:4:frontend:primary\"], \"symptom_visibility\": [\"user-facing errors and latency spike\", \"generic request errors in logs\"], \"timing_cautions\": [\"error spike magnitude is huge but occurs 21s after first cpu anomaly\"], \"topology_notes\": [\"entry component, calls checkoutservice, productcatalogservice, currencyservice, recommendationservice\", \"no direct trace callee to cartservice\"]}, {\"component\": \"cartservice\", \"missing_checks\": [\"examine cartservice application logic for internal exception cause\", \"check if redis dependency failure is cause or effect of cartservice exception\"], \"near_onset_mechanism\": [\"cpu\", \"memory\", \"socket\"], \"primary_event_ids\": [\"event:6:cartservice:primary\"], \"symptom_visibility\": [\"emitter exception in logs with FailedPrecondition detail\", \"large memory spike (2004.5) at +7s\"], \"timing_cautions\": [], \"topology_notes\": [\"no direct trace callers or callees\", \"logs mention redis storage, indicating dependency\"]}, {\"component\": \"currencyservice\", \"missing_checks\": [\"determine if cpu drop is cause or symptom of downstream slowdown\"], \"near_onset_mechanism\": [\"cpu\"], \"primary_event_ids\": [\"event:1:currencyservice:primary\"], \"symptom_visibility\": [\"latency increase (20.06 magnitude)\", \"called by frontend and checkoutservice\"], \"timing_cautions\": [], \"topology_notes\": [\"has direct callers: frontend, checkoutservice\", \"no direct callees\"]}, {\"component\": \"recommendationservice\", \"missing_checks\": [\"verify if memory increase is due to queueing/blocking on productcatalogservice or independent\"], \"near_onset_mechanism\": [\"memory\"], \"primary_event_ids\": [\"event:2:recommendationservice:primary\"], \"symptom_visibility\": [\"memory spike (24.0 magnitude)\", \"later latency and cpu changes\"], \"timing_cautions\": [\"single memory signal may be queueing symptom due to callee productcatalogservice\"], \"topology_notes\": [\"callee: productcatalogservice; caller: frontend\"]}, {\"component\": \"adservice\", \"missing_checks\": [\"check if adservice anomaly is independent or caused by other services (no trace calls)\"], \"near_onset_mechanism\": [\"memory\"], \"primary_event_ids\": [\"event:3:adservice:primary\"], \"symptom_visibility\": [\"late cpu spike (dominant metric) at +46s\"], \"timing_cautions\": [\"onset only memory, dominant cpu metric is late\"], \"topology_notes\": [\"no direct callers or callees in trace\"]}, {\"component\": \"productcatalogservice\", \"missing_checks\": [\"verify if cpu drop is due to changed workload or internal fault\"], \"near_onset_mechanism\": [\"cpu\"], \"primary_event_ids\": [\"event:8:productcatalogservice:primary\"], \"symptom_visibility\": [\"cpu drop followed by memory increase and latency\", \"called by multiple services including frontend\"], \"timing_cautions\": [], \"topology_notes\": [\"called by frontend, recommendationservice, checkoutservice\", \"no direct callees\"]}, {\"component\": \"emailservice\", \"missing_checks\": [\"confirm if cpu saturation is caused by workload burst or internal issue\"], \"near_onset_mechanism\": [\"cpu\"], \"primary_event_ids\": [\"event:5:emailservice:primary\"], \"symptom_visibility\": [\"cpu drop and workload increase\"], \"timing_cautions\": [], \"topology_notes\": [\"called by checkoutservice only\"]}, {\"component\": \"checkoutservice\", \"missing_checks\": [\"determine if latency and workload increase are caused by downstream paymentservice or currencyservice failures\"], \"near_onset_mechanism\": [], \"primary_event_ids\": [\"event:7:checkoutservice:primary\"], \"symptom_visibility\": [\"latency/workload increase at onset, late memory spike\", \"trace shows caller frontend with high latency and occasional error\"], \"timing_cautions\": [\"onset is latency/workload only; dominant metric memory spike at +80s\", \"caller trace errors indicate failure boundary, not root\"], \"topology_notes\": [\"calls paymentservice, currencyservice, emailservice, productcatalogservice\", \"called by frontend\"]}, {\"component\": \"paymentservice\", \"missing_checks\": [\"check if workload increase is due to retry storms from checkoutservice\"], \"near_onset_mechanism\": [], \"primary_event_ids\": [\"event:11:paymentservice:primary\"], \"symptom_visibility\": [\"workload increase, late cpu spike, latency later\"], \"timing_cautions\": [\"onset workload only; dominant cpu metric at +91s\"], \"topology_notes\": [\"called by checkoutservice only\"]}, {\"component\": \"shippingservice\", \"missing_checks\": [\"verify if shippingservice is affected by other components or operates independently\"], \"near_onset_mechanism\": [], \"primary_event_ids\": [\"event:9:shippingservice:primary\"], \"symptom_visibility\": [\"workload increase, late memory drop\"], \"timing_cautions\": [\"onset workload only; dominant memory drop at +66s\"], \"topology_notes\": [\"no direct callers or callees in trace\"]}], \"event_timeline\": [{\"ambiguity_cues\": [\"no special deterministic ambiguity cue\"], \"causal_links_to_check\": [\"is currencyservice latency caused by cpu drop or an upstream dependency?\"], \"component\": \"currencyservice\", \"diagnostic_implication\": \"latency and cpu change indicate potential resource pressure, but no strong source mechanism; likely symptom of upstream fault\", \"event_id\": \"event:1:currencyservice:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1731908592.0, \"mechanism_strength\": \"moderate\", \"multimodal_evidence\": [\"latency-90 increased by 20.06\", \"cpu dropped by 13.04 at +4s\", \"workload increased by 6.10 at onset\"], \"source_like_cues\": [\"near-onset internal mechanism signals observed: cpu\", \"has direct callers; fault here could surface upstream\"], \"symptom_like_cues\": [\"no strong symptom-only cue\"]}, {\"ambiguity_cues\": [\"near-onset internal signal is weak or single-signal\", \"single caller-side memory signal with callees can be queueing/blocking symptom\"], \"causal_links_to_check\": [\"does recommendationservice memory spike indicate queueing on productcatalogservice?\"], \"component\": \"recommendationservice\", \"diagnostic_implication\": \"weak single memory signal, likely symptom of dependency slowness rather than root cause\", \"event_id\": \"event:2:recommendationservice:primary\", \"event_kind\": \"weak_internal_or_queueing_candidate_event\", \"event_time\": 1731908592.0, \"mechanism_strength\": \"weak\", \"multimodal_evidence\": [\"memory increased by 24.0 at onset\", \"cpu dropped by 9.55 at +50s\"], \"source_like_cues\": [\"no strong near-onset source cue\"], \"symptom_like_cues\": [\"single memory increase can reflect queueing/blocking on a slower callee\"]}, {\"ambiguity_cues\": [\"near-onset internal signal is weak or single-signal\", \"dominant metric spike is late relative to primary event\"], \"causal_links_to_check\": [\"is adservice anomaly independent or a side effect of another component?\"], \"component\": \"adservice\", \"diagnostic_implication\": \"weak memory onset with later cpu spike, unlikely independent root cause\", \"event_id\": \"event:3:adservice:primary\", \"event_kind\": \"weak_internal_or_queueing_candidate_event\", \"event_time\": 1731908592.0, \"mechanism_strength\": \"weak\", \"multimodal_evidence\": [\"memory increased by 11.37 at onset\", \"cpu increased by 14.15 at +46s\"], \"source_like_cues\": [\"no strong near-onset source cue\"], \"symptom_like_cues\": [\"no strong symptom-only cue\"]}, {\"ambiguity_cues\": [\"has direct callees; request path to a callee does not prove caller-root causality\"], \"causal_links_to_check\": [\"are frontend errors caused by backend failures (e.g. cartservice) or internal bug?\"], \"component\": \"frontend\", \"diagnostic_implication\": \"entry component with errors and resource anomalies; could be surface of backend fault or independent root\", \"event_id\": \"event:4:frontend:primary\", \"event_kind\": \"entry_error_observation_event\", \"event_time\": 1731908594.0, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"error metric spike magnitude 9.9e8 at +21s\", \"cpu increased by 16.17 at onset\", \"log: generic request error messages\"], \"source_like_cues\": [\"near-onset internal mechanism signals: cpu, error, log\", \"entry component errors can reveal backend failures\"], \"symptom_like_cues\": [\"generic request error is visibility evidence, not source proof\"]}, {\"ambiguity_cues\": [\"no special deterministic ambiguity cue\"], \"causal_links_to_check\": [\"does emailservice cpu saturation affect checkoutservice latency?\"], \"component\": \"emailservice\", \"diagnostic_implication\": \"cpu saturation with single signal, moderate candidate, likely downstream effect\", \"event_id\": \"event:5:emailservice:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1731908594.0, \"mechanism_strength\": \"moderate\", \"multimodal_evidence\": [\"cpu dropped by 5.40 at onset\", \"workload increased by 3.67 at +1s\"], \"source_like_cues\": [\"near-onset internal mechanism: cpu\", \"has direct caller; fault could propagate upward\"], \"symptom_like_cues\": [\"no strong symptom-only cue\"]}, {\"ambiguity_cues\": [\"emitter log mentions dependency/storage failure; mentioned dependency is evidence, not a label\", \"same log contains emitter-side exception; emitting service is strong root candidate because service logic error can cause storage resource anomalies\"], \"causal_links_to_check\": [\"test if cartservice exception is due to internal logic or external redis failure\", \"check if redis anomalies are reactive to cartservice query pattern\"], \"component\": \"cartservice\", \"diagnostic_implication\": \"strongest root candidate with emitter exception and high source likelihood; likely initiator causing redis reactive pressure\", \"event_id\": \"event:6:cartservice:primary\", \"event_kind\": \"emitter_dependency_failure_event\", \"event_time\": 1731908595.0, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"memory increased by 2004.5 at +7s\", \"log: emitter exception with FailedPrecondition status, mentioning redis storage\", \"no direct trace callers or callees observed\"], \"source_like_cues\": [\"near-onset internal mechanism signals: cpu, memory, socket, log\", \"emitter exception evidence; service logic error likely root\"], \"symptom_like_cues\": [\"dependency mention is not ground-truth label\"]}, {\"ambiguity_cues\": [\"trace error status on caller edge marks where failure was observed, not where it started\", \"near-onset evidence is latency/workload only\"], \"causal_links_to_check\": [\"is checkoutservice latency caused by downstream paymentservice or upstream pressure?\"], \"component\": \"checkoutservice\", \"diagnostic_implication\": \"propagation symptom with only latency/workload onset; failure boundary from frontend error trace\", \"event_id\": \"event:7:checkoutservice:primary\", \"event_kind\": \"latency_symptom_candidate_event\", \"event_time\": 1731908596.0, \"mechanism_strength\": \"symptom_like\", \"multimodal_evidence\": [\"workload increased by 5.02 at onset\", \"latency-50 increased by 4.40 at onset\", \"trace: frontend caller with high latency and error count 1\"], \"source_like_cues\": [\"no strong near-onset source cue\"], \"symptom_like_cues\": [\"near-onset evidence is latency/workload only\", \"caller trace errors identify failure boundary\"]}, {\"ambiguity_cues\": [\"no special deterministic ambiguity cue\"], \"causal_links_to_check\": [\"is productcatalogservice cpu drop a cause or effect of downstream calls?\"], \"component\": \"productcatalogservice\", \"diagnostic_implication\": \"moderate candidate with cpu drop, latency increase; could be victim of upstream load\", \"event_id\": \"event:8:productcatalogservice:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1731908598.0, \"mechanism_strength\": \"moderate\", \"multimodal_evidence\": [\"cpu dropped by 8.31 at onset\", \"workload increased by 3.89 at onset\"], \"source_like_cues\": [\"near-onset internal mechanism: cpu\", \"has multiple direct callers\"], \"symptom_like_cues\": [\"no strong symptom-only cue\"]}, {\"ambiguity_cues\": [\"near-onset evidence is latency/workload only\", \"dominant metric spike is late relative to primary event\"], \"causal_links_to_check\": [\"is shippingservice workload increase from upstream retries or independent?\"], \"component\": \"shippingservice\", \"diagnostic_implication\": \"propagation symptom with onset only workload, likely downstream reaction\", \"event_id\": \"event:9:shippingservice:primary\", \"event_kind\": \"latency_symptom_candidate_event\", \"event_time\": 1731908598.0, \"mechanism_strength\": \"symptom_like\", \"multimodal_evidence\": [\"workload increased by 5.50 at onset\"], \"source_like_cues\": [\"no strong near-onset source cue\"], \"symptom_like_cues\": [\"near-onset evidence is workload only\"]}, {\"ambiguity_cues\": [\"component is a storage/dependency layer; resource anomalies here are often reactive to service-level faults\", \"dominant metric spike is late relative to primary event\"], \"causal_links_to_check\": [\"test if redis anomaly is independent or caused by cartservice request pattern\"], \"component\": \"redis\", \"diagnostic_implication\": \"dependency candidate; reactive resource pressure most likely, not root cause\", \"event_id\": \"event:10:redis:primary\", \"event_kind\": \"weak_internal_or_queueing_candidate_event\", \"event_time\": 1731908599.0, \"mechanism_strength\": \"weak\", \"multimodal_evidence\": [\"memory dropped by 41.0 at onset\", \"disk io spike of 1.27e14 at +165s\"], \"source_like_cues\": [\"no strong near-onset source cue\"], \"symptom_like_cues\": [\"storage resource anomalies are often reactive to service faults\"]}, {\"ambiguity_cues\": [\"trace error status on caller edge marks where failure was observed, not where it started\", \"near-onset evidence is latency/workload only\"], \"causal_links_to_check\": [\"is paymentservice workload increase due to retries from checkoutservice failure?\"], \"component\": \"paymentservice\", \"diagnostic_implication\": \"propagation symptom with only workload onset, likely downstream victim\", \"event_id\": \"event:11:paymentservice:primary\", \"event_kind\": \"latency_symptom_candidate_event\", \"event_time\": 1731908601.0, \"mechanism_strength\": \"symptom_like\", \"multimodal_evidence\": [\"workload increased by 5.48 at onset\", \"caller checkoutservice with error in trace\"], \"source_like_cues\": [\"no strong near-onset source cue\"], \"symptom_like_cues\": [\"near-onset evidence is workload only\", \"caller trace error indicates failure boundary\"]}, {\"ambiguity_cues\": [], \"causal_links_to_check\": [], \"component\": \"adservice\", \"diagnostic_implication\": \"late follow-up metric; proves cpu pressure after initial memory event\", \"event_id\": \"event:3:adservice:late_dominant_metric\", \"event_kind\": \"late_dominant_metric_followup\", \"event_time\": 1731908638.0, \"mechanism_strength\": \"unknown\", \"multimodal_evidence\": [\"cpu increased by 14.15, 46s after primary event\"], \"source_like_cues\": [], \"symptom_like_cues\": []}, {\"ambiguity_cues\": [], \"causal_links_to_check\": [], \"component\": \"shippingservice\", \"diagnostic_implication\": \"late memory event, potential secondary effect\", \"event_id\": \"event:9:shippingservice:late_dominant_metric\", \"event_kind\": \"late_dominant_metric_followup\", \"event_time\": 1731908664.0, \"mechanism_strength\": \"unknown\", \"multimodal_evidence\": [\"memory dropped by 12.0, 66s after primary event\"], \"source_like_cues\": [], \"symptom_like_cues\": []}, {\"ambiguity_cues\": [], \"causal_links_to_check\": [], \"component\": \"checkoutservice\", \"diagnostic_implication\": \"late memory spike indicates eventual resource pressure\", \"event_id\": \"event:7:checkoutservice:late_dominant_metric\", \"event_kind\": \"late_dominant_metric_followup\", \"event_time\": 1731908676.0, \"mechanism_strength\": \"unknown\", \"multimodal_evidence\": [\"memory increased by 13.7, 80s after primary event\"], \"source_like_cues\": [], \"symptom_like_cues\": []}, {\"ambiguity_cues\": [], \"causal_links_to_check\": [], \"component\": \"paymentservice\", \"diagnostic_implication\": \"late cpu spike reflects delayed resource consumption\", \"event_id\": \"event:11:paymentservice:late_dominant_metric\", \"event_kind\": \"late_dominant_metric_followup\", \"event_time\": 1731908692.0, \"mechanism_strength\": \"unknown\", \"multimodal_evidence\": [\"cpu increased by 8.83, 91s after primary event\"], \"source_like_cues\": [], \"symptom_like_cues\": []}, {\"ambiguity_cues\": [], \"causal_links_to_check\": [], \"component\": \"redis\", \"diagnostic_implication\": \"extreme disk io spike indicates reactive disk writes, possibly due to cartservice activity\", \"event_id\": \"event:10:redis:late_dominant_metric\", \"event_kind\": \"late_dominant_metric_followup\", \"event_time\": 1731908764.0, \"mechanism_strength\": \"unknown\", \"multimodal_evidence\": [\"disk io increased by 1.27e14, 165s after primary event\"], \"source_like_cues\": [], \"symptom_like_cues\": []}], \"ivd\": {\"interpretation\": \"IVD uses pairwise tournament (Copeland score) to identify the initiator vs victim among source candidates. The initiator is the candidate whose anomaly is least explainable by others and most explanatory for others. Do not select a candidate labeled as 'victim' over one labeled as 'initiator'.\", \"ivd_enabled\": true, \"ranking\": [\"cartservice\"], \"verdicts\": {\"cartservice\": {\"caller_anomalies\": [], \"caller_anomalies_count\": 0, \"copeland_score\": 0, \"downstream_coverage_count\": 0, \"fault_signature_label\": \"emitter_exception_no_dependency\", \"ivd_role\": \"ambiguous\", \"resource_magnitude\": 2723.54914536838, \"temporal_gap_seconds\": -7.0, \"temporal_verdict\": \"workload_before_resource\", \"workload_magnitude\": 4.144694533762058}}}, \"main_agent_guidan..."
+      },
+      "event_causal_fact_count": 16,
+      "final_belief_state": [
+        {
+          "hypothesis_id": "H3-cartservice-emitter-exception",
+          "root_component": "cartservice",
+          "position": "leading",
+          "source_vs_symptom_judgment": "source; internal emitter exception with OverflowException, high source_likelihood=6.0, can explain downstream symptoms",
+          "supporting_factors": [
+            "log evidence: FailedPrecondition with System.OverflowException, confirming own-code exception",
+            "noise_lab source_likelihood=6.0, near-onset memory/cpu/log signals",
+            "test_downstream_explanation shows cartservice observed before redis, with strong internal mechanism"
+          ],
+          "contradicting_factors": [
+            "exception message mentions redis storage; dependency mention is a clue, not proof of redis root",
+            "no trace path to redis in counterfactual, but inferred dependency from log"
+          ],
+          "missing_information": [],
+          "why_not_others": "redis is dependency_candidate with negative source_likelihood and reactive resource pressure; frontend is entry_symptom with generic errors and lower source_likelihood; other components lack emitter exceptions."
+        },
+        {
+          "hypothesis_id": "H1-redis-cpu-saturation",
+          "root_component": "redis",
+          "position": "unlikely",
+          "source_vs_symptom_judgment": "strongly symptom-like; storage dependency with no emitter exception, negative source_likelihood, reactive resource anomalies",
+          "supporting_factors": [
+            "near-onset memory drop"
+          ],
+          "contradicting_factors": [
+            "noise_lab source_likelihood=-1.0, causal_role=dependency_candidate",
+            "dominant disk I/O spike +165s after onset, indicating reactive pressure",
+            "no own emitter exception; cartservice's OverflowException is internal, not a timeout from redis"
+          ],
+          "missing_information": [],
+          "why_not_others": "cartservice has emitter exception and high source_likelihood; frontend is entry symptom."
+        },
+        {
+          "hypothesis_id": "H2-frontend-service-error",
+          "root_component": "frontend",
+          "position": "unlikely",
+          "source_vs_symptom_judgment": "symptom; entry failure boundary with generic request logs, source_likelihood=1.0, error spike 21s after initial cpu",
+          "supporting_factors": [
+            "large error magnitude and cpu spike"
+          ],
+          "contradicting_factors": [
+            "noise_lab causal_role=entry_symptom, source_likelihood=1.0",
+            "generic request logs without internal bug evidence",
+            "no direct trace to cartservice but can be explained by backend failure"
+          ],
+          "missing_information": [],
+          "why_not_others": "cartservice has stronger internal mechanism and higher source_likelihood; redis is reactive dependency."
+        }
+      ],
+      "transcript": [
+        {
+          "step_index": 0,
+          "agent_response": {
+            "agent": "continuous_noise_native",
+            "belief_state": [
+              {
+                "hypothesis_id": "H3-cartservice-emitter-exception",
+                "root_component": "cartservice",
+                "position": "leading",
+                "supporting_factors": [
+                  "emitter exception with FailedPrecondition log evidence",
+                  "near-onset cpu, memory, socket signals at +7s (memory spike 2004.5)",
+                  "event_causal_profile mechanism_strength=strong, source_likeness high"
+                ],
+                "contradicting_factors": [
+                  "exception message mentions redis storage; dependency mention alone does not abolish emitter root likelihood",
+                  "no independent verification that redis is reactive rather than causative"
+                ],
+                "missing_information": [
+                  "cartservice local mechanism detail from NoiseLab (onset/logs/propagation)",
+                  "source-vs-symptom comparison with redis",
+                  "counterfactual: does removing cartservice alleviate redis anomalies?"
+                ],
+                "source_vs_symptom_judgment": "likely source, but needs redis disambiguation",
+                "why_not_others": "redis is a storage dependency without own emitter exception, late dominant disk spike, and profile mechanism_strength=weak; frontend errors are generic failure-boundary symptoms; currencyservice and others lack internal mechanism evidence."
+              },
+              {
+                "hypothesis_id": "H1-redis-cpu-saturation",
+                "root_component": "redis",
+                "position": "weakened",
+                "supporting_factors": [
+                  "near-onset memory drop at 1731908599"
+                ],
+                "contradicting_factors": [
+                  "dominant disk io spike occurs +165s after onset, indicative of reactive pressure",
+                  "storage layer without emitter exception; typically reactive to service faults",
+                  "event_causal_profile mechanism_strength=weak, symptom_like_cues present"
+                ],
+                "missing_information": [
+                  "NoiseLab local mechanism features to test independence from cartservice"
+                ],
+                "source_vs_symptom_judgment": "likely symptom/reactive",
+                "why_not_others": "cartservice has strong emitter exception; frontend errors are indirect; currencyservice latency lacks mechanism."
+              },
+              {
+                "hypothesis_id": "H2-frontend-service-error",
+                "root_component": "frontend",
+                "position": "plausible",
+                "supporting_factors": [
+                  "entry component with huge error magnitude (1e9)",
+                  "near-onset cpu spike"
+                ],
+                "contradicting_factors": [
+                  "error spike occurs 21s after first cpu anomaly; trace errors may be failure boundary from backend",
+                  "generic request logs without internal bug evidence",
+                  "profile symptom_like_cues: generic error visibility"
+                ],
+                "missing_information": [
+                  "downstream explanation test: can frontend error cause cartservice exception?",
+                  "source-vs-symptom comparison"
+                ],
+                "source_vs_symptom_judgment": "ambiguous, leaning symptom",
+                "why_not_others": "cartservice has specific emitter exception; redis has late disk spike."
+              },
+              {
+                "hypothesis_id": "H4-currencyservice-latency-degradation",
+                "root_component": "currencyservice",
+                "position": "weakened",
+                "supporting_factors": [
+                  "earliest onset (1731908592) and latency increase"
+                ],
+                "contradicting_factors": [
+                  "reason_family = latency degradation only; no memory/error/log mechanism",
+                  "profile mechanism_strength=moderate but source cues limited to cpu",
+                  "latency-only signals often symptom of upstream dependency slowness"
+                ],
+                "missing_information": [
+                  "NoiseLab local mechanism for solid internal signal"
+                ],
+                "source_vs_symptom_judgment": "likely symptom",
+                "why_not_others": "cartservice has far stronger internal mechanism (emitter exception); redis is storage without emitter."
+              },
+              {
+                "hypothesis_id": "H9-checkoutservice-latency-degradation",
+                "root_component": "checkoutservice",
+                "position": "weakened",
+                "supporting_factors": [
+                  "early workload/latency onset"
+                ],
+                "contradicting_factors": [
+                  "profile mechanism_strength=symptom_like; no near-onset mechanism signals",
+                  "trace error from frontend indicates failure boundary, not root",
+                  "latency/workload only; dominant memory spike +80s"
+                ],
+                "missing_information": [
+                  "downstream explanation test"
+                ],
+                "source_vs_symptom_judgment": "likely symptom",
+                "why_not_others": "cartservice has emitter exception; redis has resource anomalies but is dependency; frontend is entry but ambiguous."
+              }
+            ],
+            "case_narrative": "At 1731908592, currencyservice and recommendationservice showed early latency. Cartservice emitted a FailedPrecondition exception referencing redis at +3s with strong memory/cpu/socket signals. Redis showed a mild memory drop near +7s, but its dominant disk I/O spike came +165s later. Frontend errors surged at +21s, likely an entry failure boundary. Other services exhibited latency and workload increases consistent with cascading failure. The central ambiguity is whether cartservice's exception is an internal application fault causing reactive redis pressure, or if redis unavailability forced the exception.",
+            "final_decision": null,
+            "next_action": {
+              "action_id": "inspect_noise_features_1",
+              "tool_name": "inspect_noise_features",
+              "args": {
+                "component_scope": [
+                  "cartservice",
+                  "redis"
+                ],
+                "feature_groups": [
+                  "onset",
+                  "local_mechanism",
+                  "logs",
+                  "propagation"
+                ],
+                "time_window": [
+                  1731908560,
+                  1731908605
+                ]
+              },
+              "expected_information_gain": "Get fused onset, local-mechanism, log, and propagation features for cartservice and redis. This will provide precise timing, mechanism signatures (e.g., whether redis shows independent emitter exceptions or only resource pressure), and log details to disambiguate source vs. symptom.",
+              "question": "What are the detailed local mechanism, onset, log, and propagation features for cartservice and redis around the incident onset?",
+              "target_hypothesis_ids": [
+                "H3-cartservice-emitter-exception",
+                "H1-redis-cpu-saturation"
+              ]
+            }
+          },
+          "executed_action": {
+            "action_id": "inspect_noise_features_1",
+            "tool_name": "inspect_noise_features",
+            "target_hypothesis_ids": [
+              "H3-cartservice-emitter-exception",
+              "H1-redis-cpu-saturation"
+            ],
+            "question": "What are the detailed local mechanism, onset, log, and propagation features for cartservice and redis around the incident onset?",
+            "args": {
+              "component_scope": [
+                "cartservice",
+                "redis"
+              ],
+              "time_window": [
+                1731908560.0,
+                1731908605.0
+              ],
+              "feature_groups": [
+                "onset",
+                "local_mechanism",
+                "logs",
+                "propagation"
+              ]
+            },
+            "expected_information_gain": "Get fused onset, local-mechanism, log, and propagation features for cartservice and redis. This will provide precise timing, mechanism signatures (e.g., whether redis shows independent emitter exceptions or only resource pressure), and log details to disambiguate source vs. symptom."
+          },
+          "evidence_id": "evidence:3811d89dfbed11bd14d42993246223502440f81da0dae126a76d41137ade8c33"
+        },
+        {
+          "step_index": 1,
+          "agent_response": {
+            "agent": "continuous_noise_native",
+            "belief_state": [
+              {
+                "contradicting_factors": [
+                  "NoiseLab found no log evidence for cartservice in the near-onset window; emitter exception log unconfirmed",
+                  "exception message mentions redis storage; dependency mention alone does not prove redis root",
+                  "no independent verification that redis is reactive rather than causative"
+                ],
+                "hypothesis_id": "H3-cartservice-emitter-exception",
+                "missing_information": [
+                  "need wider-window log inspection or source-symptom comparison to confirm emitter exception",
+                  "source-vs-symptom comparison with redis and frontend to rank root likelihood",
+                  "counterfactual: does removing cartservice alleviate redis and frontend anomalies?"
+                ],
+                "position": "leading",
+                "root_component": "cartservice",
+                "source_vs_symptom_judgment": "likely source, but missing log and source-symptom ranking reduce confidence",
+                "supporting_factors": [
+                  "near-onset memory spike (2004.5) at +7s, plus cpu and socket signals",
+                  "event_causal_profile mechanism_strength=strong, source_likeness high",
+                  "NoiseLab source_likelihood_score=2.0 (moderate positive)"
+                ],
+                "why_not_others": "redis has negative source likelihood (-1.0), is a storage dependency with only reactive memory drop and late disk spike; frontend errors are generic failure-boundary symptoms occurring 21s after its first cpu anomaly; currencyservice and others lack internal mechanism evidence."
+              },
+              {
+                "contradicting_factors": [
+                  "NoiseLab source_likelihood_score=-1.0, causal_role=dependency_candidate",
+                  "dominant disk I/O spike occurs +165s after onset, indicative of reactive pressure",
+                  "no own emitter exception; storage anomalies are typically reactive to service faults"
+                ],
+                "hypothesis_id": "H1-redis-cpu-saturation",
+                "missing_information": [
+                  "source-symptom comparison with cartservice and frontend",
+                  "counterfactual: does an independent redis fault explain cartservice's emitter exception?"
+                ],
+                "position": "weakened",
+                "root_component": "redis",
+                "source_vs_symptom_judgment": "strongly symptom-like (negative source likelihood, dependency candidate)",
+                "supporting_factors": [
+                  "near-onset memory drop at 1731908599"
+                ],
+                "why_not_others": "cartservice has positive source likelihood and strong internal mechanism; frontend is likely an error propagation surface."
+              },
+              {
+                "contradicting_factors": [
+                  "error spike occurs 21s after its first cpu anomaly; generic request logs without internal bug evidence",
+                  "profile symptom_like_cues: generic error visibility",
+                  "no direct trace to cartservice, but could be failure boundary from backend"
+                ],
+                "hypothesis_id": "H2-frontend-service-error",
+                "missing_information": [
+                  "source-symptom comparison with cartservice and redis",
+                  "downstream explanation: can frontend explain cartservice and redis anomalies?"
+                ],
+                "position": "plausible",
+                "root_component": "frontend",
+                "source_vs_symptom_judgment": "ambiguous, leaning symptom (entry failure boundary)",
+                "supporting_factors": [
+                  "entry component with huge error magnitude (1e9)",
+                  "near-onset cpu spike"
+                ],
+                "why_not_others": "cartservice has stronger internal mechanism (emitter exception) and earlier anomaly onset relative to its own error surge; redis is a reactive dependency."
+              },
+              {
+                "contradicting_factors": [
+                  "reason_family=latency degradation only; no memory/error/log mechanism",
+                  "profile mechanism_strength=moderate but source cues limited to cpu",
+                  "latency-only signals often symptom of upstream dependency slowness"
+                ],
+                "hypothesis_id": "H4-currencyservice-latency-degradation",
+                "missing_information": [
+                  "NoiseLab local mechanism for solid internal signal"
+                ],
+                "position": "weakened",
+                "root_component": "currencyservice",
+                "source_vs_symptom_judgment": "likely symptom",
+                "supporting_factors": [
+                  "earliest onset (1731908592) and latency increase"
+                ],
+                "why_not_others": "cartservice has far stronger internal mechanism (emitter exception); redis is storage without emitter."
+              },
+              {
+                "contradicting_factors": [
+                  "profile mechanism_strength=symptom_like; no near-onset mechanism signals",
+                  "trace error from frontend indicates failure boundary, not root",
+                  "latency/workload only; dominant memory spike +80s"
+                ],
+                "hypothesis_id": "H9-checkoutservice-latency-degradation",
+                "missing_information": [
+                  "downstream explanation test"
+                ],
+                "position": "weakened",
+                "root_component": "checkoutservice",
+                "source_vs_symptom_judgment": "likely symptom",
+                "supporting_factors": [
+                  "early workload/latency onset"
+                ],
+                "why_not_others": "cartservice has emitter exception; redis has resource anomalies but is dependency; frontend is entry but ambiguous."
+              }
+            ],
+            "case_narrative": "At 1731908592, currencyservice and recommendationservice showed early latency. Cartservice triggered a near-onset memory spike (2004.5) at +7s with cpu/socket signals, and its event profile indicated a strong emitter exception, but NoiseLab found no log evidence in the early window. Redis displayed a mild memory drop at +7s with negative source likelihood; its dominant disk I/O spike came +165s later. Frontend errors surged at +21s, likely an entry failure boundary. Other services exhibited cascading latency and workload increases. The ambiguity remains whether cartservice's fault caused redis pressure or redis unavailability forced the exception, with cartservice the leading candidate.",
+            "final_decision": null,
+            "next_action": {
+              "action_id": "compare_source_symptom_1",
+              "args": {
+                "component_scope": [
+                  "cartservice",
+                  "redis",
+                  "frontend"
+                ],
+                "time_window": [
+                  1731908560.0,
+                  1731908605.0
+                ]
+              },
+              "expected_information_gain": "Obtain fused source-vs-symptom scores, ranked source_likelihood, and inferred dependency edges for cartservice, redis, and frontend to resolve the central ambiguity and identify the strongest root candidate.",
+              "question": "Which of cartservice, redis, or frontend exhibits stronger source-mechanism evidence and causative link to downstream symptoms?",
+              "target_hypothesis_ids": [
+                "H3-cartservice-emitter-exception",
+                "H1-redis-cpu-saturation",
+                "H2-frontend-service-error"
+              ],
+              "tool_name": "compare_source_symptom"
+            }
+          },
+          "executed_action": {
+            "action_id": "compare_source_symptom_1",
+            "tool_name": "compare_source_symptom",
+            "target_hypothesis_ids": [
+              "H3-cartservice-emitter-exception",
+              "H1-redis-cpu-saturation",
+              "H2-frontend-service-error"
+            ],
+            "question": "Which of cartservice, redis, or frontend exhibits stronger source-mechanism evidence and causative link to downstream symptoms?",
+            "args": {
+              "component_scope": [
+                "cartservice",
+                "redis",
+                "frontend"
+              ],
+              "time_window": [
+                1731908560.0,
+                1731908605.0
+              ]
+            },
+            "expected_information_gain": "Obtain fused source-vs-symptom scores, ranked source_likelihood, and inferred dependency edges for cartservice, redis, and frontend to resolve the central ambiguity and identify the strongest root candidate."
+          },
+          "evidence_id": "evidence:89b5e88422a2a902169a3bf95202bb75d778a6b739049dd47ac8fb02ec5f714d"
+        },
+        {
+          "step_index": 2,
+          "agent_response": {
+            "belief_state": [
+              {
+                "contradicting_factors": [
+                  "NoiseLab found no log evidence for cartservice in the near-onset window; emitter exception log unconfirmed",
+                  "exception message mentions redis storage; dependency mention alone does not prove redis root",
+                  "no independent verification that redis is reactive rather than causative"
+                ],
+                "hypothesis_id": "H3-cartservice-emitter-exception",
+                "missing_information": [
+                  "need wider-window log inspection or source-symptom comparison to confirm emitter exception",
+                  "source-vs-symptom comparison with redis and frontend to rank root likelihood",
+                  "counterfactual: does removing cartservice alleviate redis and frontend anomalies?"
+                ],
+                "position": "leading",
+                "root_component": "cartservice",
+                "source_vs_symptom_judgment": "likely source, but missing log and source-symptom ranking reduce confidence",
+                "supporting_factors": [
+                  "near-onset memory spike (2004.5) at +7s, plus cpu and socket signals",
+                  "event_causal_profile mechanism_strength=strong, source_likeness high",
+                  "NoiseLab source_likelihood_score=2.0 (moderate positive)"
+                ],
+                "why_not_others": "redis has negative source likelihood (-1.0), is a storage dependency with only reactive memory drop and late disk spike; frontend errors are generic failure-boundary symptoms occurring 21s after its first cpu anomaly; currencyservice and others lack internal mechanism evidence."
+              },
+              {
+                "contradicting_factors": [
+                  "NoiseLab source_likelihood_score=-1.0, causal_role=dependency_candidate",
+                  "dominant disk I/O spike occurs +165s after onset, indicative of reactive pressure",
+                  "no own emitter exception; storage anomalies are typically reactive to service faults"
+                ],
+                "hypothesis_id": "H1-redis-cpu-saturation",
+                "missing_information": [
+                  "source-symptom comparison with cartservice and frontend",
+                  "counterfactual: does an independent redis fault explain cartservice's emitter exception?"
+                ],
+                "position": "weakened",
+                "root_component": "redis",
+                "source_vs_symptom_judgment": "strongly symptom-like (negative source likelihood, dependency candidate)",
+                "supporting_factors": [
+                  "near-onset memory drop at 1731908599"
+                ],
+                "why_not_others": "cartservice has positive source likelihood and strong internal mechanism; frontend is likely an error propagation surface."
+              },
+              {
+                "contradicting_factors": [
+                  "error spike occurs 21s after its first cpu anomaly; generic request logs without internal bug evidence",
+                  "profile symptom_like_cues: generic error visibility",
+                  "no direct trace to cartservice, but could be failure boundary from backend"
+                ],
+                "hypothesis_id": "H2-frontend-service-error",
+                "missing_information": [
+                  "source-symptom comparison with cartservice and redis",
+                  "downstream explanation: can frontend explain cartservice and redis anomalies?"
+                ],
+                "position": "plausible",
+                "root_component": "frontend",
+                "source_vs_symptom_judgment": "ambiguous, leaning symptom (entry failure boundary)",
+                "supporting_factors": [
+                  "entry component with huge error magnitude (1e9)",
+                  "near-onset cpu spike"
+                ],
+                "why_not_others": "cartservice has stronger internal mechanism (emitter exception) and earlier anomaly onset relative to its own error surge; redis is a reactive dependency."
+              },
+              {
+                "contradicting_factors": [
+                  "reason_family=latency degradation only; no memory/error/log mechanism",
+                  "profile mechanism_strength=moderate but source cues limited to cpu",
+                  "latency-only signals often symptom of upstream dependency slowness"
+                ],
+                "hypothesis_id": "H4-currencyservice-latency-degradation",
+                "missing_information": [
+                  "NoiseLab local mechanism for solid internal signal"
+                ],
+                "position": "weakened",
+                "root_component": "currencyservice",
+                "source_vs_symptom_judgment": "likely symptom",
+                "supporting_factors": [
+                  "earliest onset (1731908592) and latency increase"
+                ],
+                "why_not_others": "cartservice has far stronger internal mechanism (emitter exception); redis is storage without emitter."
+              },
+              {
+                "contradicting_factors": [
+                  "profile mechanism_strength=symptom_like; no near-onset mechanism signals",
+                  "trace error from frontend indicates failure boundary, not root",
+                  "latency/workload only; dominant memory spike +80s"
+                ],
+                "hypothesis_id": "H9-checkoutservice-latency-degradation",
+                "missing_information": [
+                  "downstream explanation test"
+                ],
+                "position": "weakened",
+                "root_component": "checkoutservice",
+                "source_vs_symptom_judgment": "likely symptom",
+                "supporting_factors": [
+                  "early workload/latency onset"
+                ],
+                "why_not_others": "cartservice has emitter exception; redis has resource anomalies but is dependency; frontend is entry but ambiguous."
+              }
+            ],
+            "case_narrative": "At 1731908592, currencyservice and recommendationservice showed early latency. Cartservice triggered a near-onset memory spike (2004.5) at +7s with cpu/socket signals, and its event profile indicated a strong emitter exception, but NoiseLab found no log evidence in the early window. Redis displayed a mild memory drop at +7s with negative source likelihood; its dominant disk I/O spike came +165s later. Frontend errors surged at +21s, likely an entry failure boundary. Other services exhibited cascading latency and workload increases. The ambiguity remains whether cartservice's fault caused redis pressure or redis unavailability forced the exception, with cartservice the leading candidate.",
+            "final_decision": null,
+            "next_action": {
+              "action_id": "counterfactual_remove_1",
+              "args": {
+                "component": "cartservice",
+                "symptom_components": [
+                  "redis",
+                  "frontend"
+                ],
+                "time_window": [
+                  1731908560.0,
+                  1731908605.0
+                ]
+              },
+              "expected_information_gain": "Test whether removing cartservice's anomaly would eliminate redis and frontend symptoms, confirming cartservice as initiator.",
+              "question": "If cartservice were healthy, would redis still show memory pressure and frontend still show errors?",
+              "target_hypothesis_ids": [
+                "H3-cartservice-emitter-exception"
+              ],
+              "tool_name": "counterfactual_remove"
+            }
+          },
+          "executed_action": {
+            "action_id": "counterfactual_remove_1",
+            "tool_name": "counterfactual_remove",
+            "target_hypothesis_ids": [
+              "H1-redis-cpu-saturation",
+              "H2-frontend-service-error",
+              "H3-cartservice-emitter-exception"
+            ],
+            "question": "If cartservice were healthy, would redis still show memory pressure and frontend still show errors?",
+            "args": {
+              "component": "cartservice",
+              "symptom_components": [
+                "redis",
+                "frontend"
+              ],
+              "time_window": [
+                1731908560.0,
+                1731908605.0
+              ]
+            },
+            "expected_information_gain": "Test whether removing cartservice's anomaly would eliminate redis and frontend symptoms, confirming cartservice as initiator."
+          },
+          "evidence_id": "evidence:283bbf6d6f8105e4a2363a512ffa716da00fb43ee075b52e439c3649ffcfe4f9"
+        },
+        {
+          "step_index": 3,
+          "agent_response": {
+            "agent": "continuous_noise_native",
+            "belief_state": [
+              {
+                "hypothesis_id": "H3-cartservice-emitter-exception",
+                "position": "leading",
+                "root_component": "cartservice",
+                "source_vs_symptom_judgment": "likely source, but missing log and source-symptom ranking reduce confidence",
+                "supporting_factors": [
+                  "near-onset memory spike (2004.5) at +7s, plus cpu and socket signals",
+                  "event_causal_profile mechanism_strength=strong, source_likeness high",
+                  "NoiseLab source_likelihood_score=2.0 (moderate positive)"
+                ],
+                "contradicting_factors": [
+                  "NoiseLab found no log evidence for cartservice in the near-onset window; emitter exception log unconfirmed",
+                  "exception message mentions redis storage; dependency mention alone does not prove redis root",
+                  "no independent verification that redis is reactive rather than causative"
+                ],
+                "missing_information": [
+                  "need test_downstream_explanation to confirm cartservice anomaly can explain redis and frontend symptoms",
+                  "log may be just outside near-onset window; wider inspection could confirm emitter exception"
+                ],
+                "why_not_others": "redis has negative source likelihood (-1.0), is a storage dependency with only reactive memory drop and late disk spike; frontend errors are generic failure-boundary symptoms occurring 21s after its first cpu anomaly; currencyservice and others lack internal mechanism evidence."
+              },
+              {
+                "hypothesis_id": "H1-redis-cpu-saturation",
+                "position": "weakened",
+                "root_component": "redis",
+                "source_vs_symptom_judgment": "strongly symptom-like (negative source likelihood, dependency candidate)",
+                "supporting_factors": [
+                  "near-onset memory drop at 1731908599"
+                ],
+                "contradicting_factors": [
+                  "NoiseLab source_likelihood_score=-1.0, causal_role=dependency_candidate",
+                  "dominant disk I/O spike occurs +165s after onset, indicative of reactive pressure",
+                  "no own emitter exception; storage anomalies are typically reactive to service faults"
+                ],
+                "missing_information": [
+                  "test_downstream_explanation: can redis failure explain cartservice exception?"
+                ],
+                "why_not_others": "cartservice has positive source likelihood and strong internal mechanism; frontend is likely an error propagation surface."
+              },
+              {
+                "hypothesis_id": "H2-frontend-service-error",
+                "position": "plausible",
+                "root_component": "frontend",
+                "source_vs_symptom_judgment": "ambiguous, leaning symptom (entry failure boundary)",
+                "supporting_factors": [
+                  "entry component with huge error magnitude (1e9)",
+                  "near-onset cpu spike"
+                ],
+                "contradicting_factors": [
+                  "error spike occurs 21s after its first cpu anomaly; generic request logs without internal bug evidence",
+                  "profile symptom_like_cues: generic error visibility",
+                  "no direct trace to cartservice, but could be failure boundary from backend"
+                ],
+                "missing_information": [
+                  "test_downstream_explanation: can frontend explain redis and cartservice anomalies?"
+                ],
+                "why_not_others": "cartservice has stronger internal mechanism (emitter exception) and earlier anomaly onset relative to its own error surge; redis is a reactive dependency."
+              },
+              {
+                "hypothesis_id": "H4-currencyservice-latency-degradation",
+                "position": "weakened",
+                "root_component": "currencyservice",
+                "source_vs_symptom_judgment": "likely symptom",
+                "supporting_factors": [
+                  "earliest onset (1731908592) and latency increase"
+                ],
+                "contradicting_factors": [
+                  "reason_family=latency degradation only; no memory/error/log mechanism",
+                  "profile mechanism_strength=moderate but source cues limited to cpu",
+                  "latency-only signals often symptom of upstream dependency slowness"
+                ],
+                "missing_information": [
+                  "NoiseLab local mechanism for solid internal signal"
+                ],
+                "why_not_others": "cartservice has far stronger internal mechanism (emitter exception); redis is storage without emitter."
+              },
+              {
+                "hypothesis_id": "H9-checkoutservice-latency-degradation",
+                "position": "weakened",
+                "root_component": "checkoutservice",
+                "source_vs_symptom_judgment": "likely symptom",
+                "supporting_factors": [
+                  "early workload/latency onset"
+                ],
+                "contradicting_factors": [
+                  "profile mechanism_strength=symptom_like; no near-onset mechanism signals",
+                  "trace error from frontend indicates failure boundary, not root",
+                  "latency/workload only; dominant memory spike +80s"
+                ],
+                "missing_information": [
+                  "test_downstream_explanation to confirm it as symptom"
+                ],
+                "why_not_others": "cartservice has emitter exception; redis has resource anomalies but is dependency; frontend is entry but ambiguous."
+              }
+            ],
+            "case_narrative": "At 1731908592, currencyservice and recommendationservice showed early latency. Cartservice triggered a near-onset memory spike (2004.5) at +7s with cpu/socket signals, and its event profile indicated a strong emitter exception, but NoiseLab found no log evidence in the early window. Redis displayed a mild memory drop at +7s with negative source likelihood; its dominant disk I/O spike came +165s later. Frontend errors surged at +21s, likely an entry failure boundary. Other services exhibited cascading latency and workload increases. The ambiguity remains whether cartservice's fault caused redis pressure or redis unavailability forced the exception, with cartservice the leading candidate.",
+            "final_decision": null,
+            "next_action": {
+              "action_id": "test_downstream_explanation_1",
+              "args": {
+                "candidate_component": "cartservice",
+                "symptom_components": [
+                  "redis",
+                  "frontend"
+                ],
+                "time_window": [
+                  1731908560.0,
+                  1731908620.0
+                ]
+              },
+              "expected_information_gain": "Determine whether anomalies in cartservice can causally explain the observed symptoms in redis (memory drop, late disk I/O) and frontend (error spike, cpu), using downstream explanation facts from NoiseLab. This will help confirm cartservice as initiator or suggest alternative root cause.",
+              "question": "Can a fault in cartservice explain the downstream anomalies observed in redis and frontend?",
+              "target_hypothesis_ids": [
+                "H3-cartservice-emitter-exception",
+                "H1-redis-cpu-saturation",
+                "H2-frontend-service-error"
+              ],
+              "tool_name": "test_downstream_explanation"
+            }
+          },
+          "executed_action": {
+            "action_id": "test_downstream_explanation_1",
+            "tool_name": "test_downstream_explanation",
+            "target_hypothesis_ids": [
+              "H3-cartservice-emitter-exception",
+              "H1-redis-cpu-saturation",
+              "H2-frontend-service-error"
+            ],
+            "question": "Can a fault in cartservice explain the downstream anomalies observed in redis and frontend?",
+            "args": {
+              "candidate_component": "cartservice",
+              "symptom_components": [
+                "redis",
+                "frontend"
+              ],
+              "time_window": [
+                1731908560.0,
+                1731908620.0
+              ]
+            },
+            "expected_information_gain": "Determine whether anomalies in cartservice can causally explain the observed symptoms in redis (memory drop, late disk I/O) and frontend (error spike, cpu), using downstream explanation facts from NoiseLab. This will help confirm cartservice as initiator or suggest alternative root cause."
+          },
+          "evidence_id": "evidence:5bea49c87f4090162ed09fd3648af4d460817421296cd81b5b508a2e3454a3da"
+        }
+      ],
+      "case_id": "RE3-OB/cartservice_f1/1",
+      "expected_component": "cartservice",
+      "hit": true,
+      "elapsed_sec": 450.764,
+      "error": null,
+      "token_usage": {
+        "call_count": 7,
+        "prompt_tokens": 121938,
+        "completion_tokens": 28589,
+        "total_tokens": 150527,
+        "by_purpose": {
+          "event_causalizer_state_update": {
+            "call_count": 1,
+            "prompt_tokens": 20038,
+            "completion_tokens": 9855,
+            "total_tokens": 29893
+          },
+          "continuous_noise_native_state_update": {
+            "call_count": 5,
+            "prompt_tokens": 94291,
+            "completion_tokens": 13487,
+            "total_tokens": 107778
+          },
+          "continuous_noise_native_json_repair": {
+            "call_count": 1,
+            "prompt_tokens": 7609,
+            "completion_tokens": 5247,
+            "total_tokens": 12856
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "cartservice",
+      "predicted_ranking": [
+        "cartservice",
+        "productcatalogservice",
+        "emailservice",
+        "recommendationservice",
+        "currencyservice"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1732279831.0,
+        1732279891.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "redis",
+        "frontend",
+        "cartservice",
+        "checkoutservice",
+        "currencyservice",
+        "adservice",
+        "emailservice",
+        "recommendationservice",
+        "productcatalogservice",
+        "paymentservice",
+        "shippingservice"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "RE3-OB/cartservice_f1/2",
+      "expected_component": "cartservice",
+      "hit": true,
+      "elapsed_sec": 6.291,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "event_causalizer_state_update": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          },
+          "continuous_noise_native_state_update": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          },
+          "continuous_noise_native_json_repair": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "cartservice",
+      "predicted_ranking": [
+        "cartservice",
+        "recommendationservice",
+        "shippingservice",
+        "paymentservice"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1732368630.0,
+        1732368690.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "redis",
+        "frontend",
+        "cartservice",
+        "recommendationservice",
+        "checkoutservice",
+        "shippingservice",
+        "paymentservice",
+        "productcatalogservice",
+        "currencyservice",
+        "emailservice",
+        "adservice"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "RE3-OB/cartservice_f1/3",
+      "expected_component": "cartservice",
+      "hit": true,
+      "elapsed_sec": 6.134,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "event_causalizer_state_update": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          },
+          "continuous_noise_native_state_update": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          },
+          "continuous_noise_native_json_repair": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "recommendationservice",
+      "predicted_ranking": [
+        "recommendationservice",
+        "currencyservice",
+        "productcatalogservice",
+        "frontend",
+        "checkoutservice"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1731910135.0,
+        1731910195.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "redis",
+        "frontend",
+        "currencyservice",
+        "adservice",
+        "recommendationservice",
+        "shippingservice",
+        "productcatalogservice",
+        "emailservice",
+        "checkoutservice",
+        "paymentservice",
+        "cartservice"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "RE3-OB/currencyservice_f1/1",
+      "expected_component": "currencyservice",
+      "hit": false,
+      "elapsed_sec": 4.355,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "event_causalizer_state_update": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          },
+          "continuous_noise_native_state_update": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          },
+          "continuous_noise_native_json_repair": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "currencyservice",
+      "predicted_ranking": [
+        "currencyservice",
+        "productcatalogservice",
+        "checkoutservice",
+        "cartservice",
+        "emailservice"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1732281375.0,
+        1732281435.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "redis",
+        "frontend",
+        "currencyservice",
+        "checkoutservice",
+        "cartservice",
+        "emailservice",
+        "productcatalogservice",
+        "paymentservice",
+        "recommendationservice",
+        "shippingservice",
+        "adservice"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "RE3-OB/currencyservice_f1/2",
+      "expected_component": "currencyservice",
+      "hit": true,
+      "elapsed_sec": 4.364,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "event_causalizer_state_update": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          },
+          "continuous_noise_native_state_update": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          },
+          "continuous_noise_native_json_repair": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "continuous_final",
+      "hypothesis_id": "H7-currencyservice-latency-degradation",
+      "predicted_component": "currencyservice",
+      "reason_family": "latency degradation",
+      "onset_interval": [
+        1732370153.0,
+        1732370213.0
+      ],
+      "steps_completed": 4,
+      "evidence_count": 4,
+      "referenced_evidence_ids": [
+        "evidence:3596447aaf2e990e6004c8de9f9916568e829fc2f3855890214ba774578391f4",
+        "evidence:24ecaeb4cbb02c74c295ff6e8538480cd866a8a5a5846facd3e1ae1015d06a20",
+        "evidence:0c1e361b98617234d015027ad8c46c4353ab5369fab9c936850e26ae4acce2e2",
+        "evidence:3ff8a73364042b51ecde99a19b4296f961730eb643d03ac148d84623950c90f7"
+      ],
+      "rationale": "Currencyservice exhibits strong near-onset internal mechanism: cpu down, memory up 135.1, socket up 20.0 at 1732370183–0197. IVD tournament (Copeland 3) labels it the sole initiator, outperforming frontend and recommendationservice. Downstream explanation shows currencyservice anomaly precedes frontend errors and explains both frontend and checkoutservice latency. Frontend's generic request errors are downstream symptoms, and no other candidate achieves initiator status. The absence of currencyservice logs is a minor uncertainty but does not outweigh the multi-signal resource evidence and IVD ranking.",
+      "uncertainties": [
+        "No log evidence from currencyservice to confirm exact fault mechanism (e.g., socket leak).",
+        "Potential missing trace paths for some downstream components."
+      ],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "redis",
+        "frontend",
+        "productcatalogservice",
+        "checkoutservice",
+        "paymentservice",
+        "cartservice",
+        "currencyservice",
+        "emailservice",
+        "recommendationservice",
+        "adservice",
+        "shippingservice"
+      ],
+      "event_causal_profile": {
+        "truncated_json": "{\"causal_story_options\": [{\"initiating_event_ids\": [\"event:5:currencyservice:primary\"], \"propagation_reading\": \"Currencyservice resource anomaly (cpu down, memory up, socket up) causes latency increase. This impacts callers frontend and checkoutservice, which show errors and high latency. Frontend errors propagate to user. Chec...\", \"story_id\": \"story-currencyservice-initiator\", \"what_would_support_it\": [\"Currencyservice logs show exceptions or connection leaks\", \"Redis disk spike correlates with currencyservice memory/load pattern\"], \"what_would_weaken_it\": [\"Currencyservice resource change is merely reactive to another fault\", \"Another service with earlier onset (e.g., redis memory) shows independent root cause evidence\"]}, {\"initiating_event_ids\": [\"event:6:frontend:primary\"], \"propagation_reading\": \"Frontend experiences an internal error surge (possibly due to routing/config issue) that causes high latency and cpu drop. This impacts downstream callees: checkoutservice, productcatalogservice, currencyservice, reco...\", \"story_id\": \"story-frontend-entry-anomaly\", \"what_would_support_it\": [\"Frontend logs indicate independent fault (not dependent on backend)\", \"None of the backend services show anomalous behavior before frontend errors\"], \"what_would_weaken_it\": [\"Frontend errors are traced to backend dependency failures\", \"Backend components like currencyservice show strong resource anomalies just before or at the same time as frontend errors\"]}, {\"initiating_event_ids\": [\"event:2:redis:primary\"], \"propagation_reading\": \"Redis experiences memory pressure leading to cpu saturation and massive disk I/O, causing slow responses to dependent services (likely frontend, checkoutservice, etc.), which then cascade into latency and error spikes...\", \"story_id\": \"story-redis-reactive-storage\", \"what_would_support_it\": [\"Clear evidence that redis memory issue is due to internal failure (e.g., eviction storms, key overuse)\", \"Services show timeouts when calling redis before showing their own anomalies\"], \"what_would_weaken_it\": [\"Redis anomalies start after service-level anomalies (e.g., currencyservice memory spike)\", \"No direct redis caller evidence in trace; disk spike occurs very late after service errors already present\"]}], \"component_event_features\": [{\"component\": \"checkoutservice\", \"missing_checks\": [\"correlate checkoutservice latency with currencyservice latency\", \"check if frontend errors are due to checkoutservice timeouts\"], \"near_onset_mechanism\": [\"latency increase\", \"no direct resource anomaly\"], \"primary_event_ids\": [\"event:1:checkoutservice:primary\"], \"symptom_visibility\": [\"frontend error spike (124/180 calls)\", \"high call latency examples\"], \"timing_cautions\": [\"dominant metrics are latency, not resource\", \"memory change occurs later at 1732370334\"], \"topology_notes\": [\"callee of frontend\", \"calls paymentservice, currencyservice, productcatalogservice, emailservice\"]}, {\"component\": \"redis\", \"missing_checks\": [\"identify which services call redis and correlate their anomaly timings\", \"check if redis memory drop triggers swap or writeback causing disk spike\"], \"near_onset_mechanism\": [\"memory decrease\"], \"primary_event_ids\": [\"event:2:redis:primary\", \"event:2:redis:late_dominant_metric\"], \"symptom_visibility\": [\"no direct caller anomalies; storage components often reflect load from services\"], \"timing_cautions\": [\"late huge disk spike at 180s indicates reactive heavy I/O\"], \"topology_notes\": [\"storage dependency; no direct trace callers captured but likely used by multiple services\"]}, {\"component\": \"paymentservice\", \"missing_checks\": [\"check if paymentservice memory leak causes slowdown\", \"correlate paymentservice latency with checkoutservice errors\"], \"near_onset_mechanism\": [\"memory increase\"], \"primary_event_ids\": [\"event:3:paymentservice:primary\", \"event:3:paymentservice:late_dominant_metric\"], \"symptom_visibility\": [\"caller checkoutservice shows errors; may be impacted\"], \"timing_cautions\": [\"late latency drop at 42s may indicate recovery\"], \"topology_notes\": [\"called by checkoutservice\", \"no callees\"]}, {\"component\": \"cartservice\", \"missing_checks\": [\"determine cartservice call flow\", \"check if memory spike was due to background processing\"], \"near_onset_mechanism\": [\"cpu decrease\", \"latency decrease\"], \"primary_event_ids\": [\"event:4:cartservice:primary\", \"event:4:cartservice:late_dominant_metric\"], \"symptom_visibility\": [\"no direct caller relationships visible\"], \"timing_cautions\": [\"late memory spike dominates\"], \"topology_notes\": [\"isolated service; no direct callers/calls in trace\"]}, {\"component\": \"currencyservice\", \"missing_checks\": [\"investigate socket growth cause (connection leak?)\", \"check currencyservice logs for exception or crash clues\"], \"near_onset_mechanism\": [\"cpu decrease\", \"memory increase\", \"socket increase\"], \"primary_event_ids\": [\"event:5:currencyservice:primary\"], \"symptom_visibility\": [\"affects callers frontend and checkoutservice via latency\"], \"timing_cautions\": [\"resources spike near onset; early and strong\"], \"topology_notes\": [\"called by frontend (10993 calls) and checkoutservice (312 calls)\", \"no callees\"]}, {\"component\": \"frontend\", \"missing_checks\": [\"trace frontend errors to specific backend call timeouts\", \"compare frontend cpu drop timing with backend anomalies\"], \"near_onset_mechanism\": [\"cpu decrease\", \"error spike\", \"log request errors\"], \"primary_event_ids\": [\"event:6:frontend:primary\"], \"symptom_visibility\": [\"entry point; errors visible to end users; may be symptom of backend issues\"], \"timing_cautions\": [\"latency and cpu changes occur slightly after errors (1-2s)\", \"no strong internal cause for errors in logs\"], \"topology_notes\": [\"entry component, calls checkoutservice, productcatalogservice, currencyservice, recommendationservice\"]}, {\"component\": \"productcatalogservice\", \"missing_checks\": [\"check if latency spike is due to queueing from upstream load\", \"correlate cpu drop with request rate changes\"], \"near_onset_mechanism\": [\"cpu decrease\", \"workload decrease\"], \"primary_event_ids\": [\"event:9:productcatalogservice:primary\", \"event:9:productcatalogservice:late_dominant_metric\"], \"symptom_visibility\": [\"high latency spike 45s later affects callers; frontend and checkoutservice show latency changes\"], \"timing_cautions\": [\"dominant latency spike is late; onset only cpu/workload dips\"], \"topology_notes\": [\"called by frontend, recommendationservice, checkoutservice\", \"no callees\"]}, {\"component\": \"recommendationservice\", \"missing_checks\": [\"check if recommendationservice is slowing due to its dependency productcatalogservice\", \"evaluate if cpu dip is due to reduced requests\"], \"near_onset_mechanism\": [\"cpu decrease\", \"workload decrease\"], \"primary_event_ids\": [\"event:7:recommendationservice:primary\"], \"symptom_visibility\": [\"latency changes affect caller frontend\"], \"timing_cautions\": [\"latency changes occur after cpu/workload dips\"], \"topology_notes\": [\"called by frontend\", \"calls productcatalogservice\"]}, {\"component\": \"adservice\", \"missing_checks\": [\"determine if adservice is part of critical path\", \"check if cpu drop is due to reduced activity\"], \"near_onset_mechanism\": [\"cpu decrease\", \"workload decrease\"], \"primary_event_ids\": [\"event:8:adservice:primary\"], \"symptom_visibility\": [\"no direct caller anomalies\"], \"timing_cautions\": [\"onset aligns with workload drop; may be idle\"], \"topology_notes\": [\"no calls or callers in trace\"]}, {\"component\": \"shippingservice\", \"missing_checks\": [\"identify shippingservice's role in the system\", \"check if latency spike correlates with other services' activity\"], \"near_onset_mechanism\": [\"cpu decrease\"], \"primary_event_ids\": [\"event:10:shippingservice:primary\", \"event:10:shippingservice:late_dominant_metric\"], \"symptom_visibility\": [\"no direct caller anomalies\"], \"timing_cautions\": [\"latency spike 33s later is moderate\"], \"topology_notes\": [\"no trace callers\"]}, {\"component\": \"emailservice\", \"missing_checks\": [\"check if emailservice cpu drop is due to checkoutservice call patterns\", \"determine if emailservice is a critical path component\"], \"near_onset_mechanism\": [\"cpu decrease\"], \"primary_event_ids\": [\"event:11:emailservice:primary\"], \"symptom_visibility\": [\"called by checkoutservice; may be affected by checkoutservice activity\"], \"timing_cautions\": [\"onset is late (1732370246), after many other events\"], \"topology_notes\": [\"called by checkoutservice\"]}], \"event_timeline\": [{\"ambiguity_cues\": [\"has direct callers, but mechanism evidence is weak; caller errors may be failure-boundary evidence\", \"trace error status on caller edge marks where failure was observed, not necessarily where it started\"], \"causal_links_to_check\": [\"checkoutservice->frontend caller errors\", \"checkoutservice->currencyservice callee latency relationship\"], \"component\": \"checkoutservice\", \"diagnostic_implication\": \"checkoutservice latency degradation is primarily symptom-like; it may be impacted by its callees (currencyservice, paymentservice) or is a propagation path from downstream faults.\", \"event_id\": \"event:1:checkoutservice:primary\", \"event_kind\": \"latency_symptom_candidate_event\", \"event_time\": 1732370174.0, \"mechanism_strength\": \"symptom_like\", \"multimodal_evidence\": [\"latency-50 up at 1732370186.0 +48.0\", \"latency-90 up at 1732370174.0 +34.8\", \"mem down at 1732370334.0 -9.36\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"near-onset evidence is latency/workload only, which is often a downstream symptom\"]}, {\"ambiguity_cues\": [\"single near-onset internal signal: memory, needs corroboration\", \"dominant metric spike (disk) occurs 180s later\"], \"causal_links_to_check\": [\"redis resource changes correlation with caller service anomalies\", \"check if memory drop precedes disk spike and cpu rise\"], \"component\": \"redis\", \"diagnostic_implication\": \"redis shows resource anomalies typical of reactive storage; early memory drop with later cpu and massive disk spike suggest reacting to load, not initiating.\", \"event_id\": \"event:2:redis:primary\", \"event_kind\": \"weak_internal_or_queueing_candidate_event\", \"event_time\": 1732370174.0, \"mechanism_strength\": \"weak\", \"multimodal_evidence\": [\"mem down at 1732370174.0 -34.0\", \"cpu up at 1732370216.0 +37.2\", \"diskio up at 1732370354.0 huge\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"component is a storage/dependency layer; resource anomalies here are often reactive to service-level faults, not the initiating root\"]}, {\"ambiguity_cues\": [\"dominant metric spike is late relative to primary event\", \"single near-onset internal signal: memory; caller errors could indicate failure boundary\"], \"causal_links_to_check\": [\"paymentservice memory change relation to latency drop at 1732370216\", \"checkoutservice caller errors possibly from paymentservice issues\"], \"component\": \"paymentservice\", \"diagnostic_implication\": \"paymentservice memory anomaly at onset with later latency improvement suggests a transient memory issue; may be secondary to other services or a self-limiting condition.\", \"event_id\": \"event:3:paymentservice:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1732370174.0, \"mechanism_strength\": \"moderate\", \"multimodal_evidence\": [\"mem up at 1732370174.0 +3.45\", \"latency-90 down at 1732370216.0 -3.67\"], \"source_like_cues\": [\"near-onset internal mechanism signals observed: memory\"], \"symptom_like_cues\": []}, {\"ambiguity_cues\": [\"single near-onset internal signal: cpu; corroborate before selecting as root\", \"dominant metric spike is late relative to primary event\"], \"causal_links_to_check\": [\"cartservice cpu drop correlation with latency changes\", \"caller impacts unknown\"], \"component\": \"cartservice\", \"diagnostic_implication\": \"cartservice shows a weak onset with cpu and latency, but late memory spike dominates; likely a propagation symptom.\", \"event_id\": \"event:4:cartservice:primary\", \"event_kind\": \"weak_internal_or_queueing_candidate_event\", \"event_time\": 1732370180.0, \"mechanism_strength\": \"weak\", \"multimodal_evidence\": [\"cpu down at 1732370207.0 -9.47\", \"latency-90 down at 1732370180.0 -5.10\", \"mem up at 1732370226.0 +18.73\"], \"source_like_cues\": [], \"symptom_like_cues\": []}, {\"ambiguity_cues\": [], \"causal_links_to_check\": [\"currencyservice resource anomalies impact on callers (frontend, checkoutservice)\", \"socket growth may indicate connection leak or increased traffic\"], \"component\": \"currencyservice\", \"diagnostic_implication\": \"Currencyservice exhibits strong multi-signal internal mechanism at onset (cpu drop, memory spike, socket growth) making it a prime source candidate.\", \"event_id\": \"event:5:currencyservice:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1732370183.0, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"cpu down at 1732370183.0 -7.13\", \"memory up at 1732370197.0 +135.1\", \"socket up at 1732370197.0 +20.0\"], \"source_like_cues\": [\"near-onset internal mechanism signals: cpu, memory, socket\"], \"symptom_like_cues\": []}, {\"ambiguity_cues\": [\"has direct callees/dependencies; request path to a callee does not prove caller-root causality\"], \"causal_links_to_check\": [\"frontend errors correlation with callee latencies (checkoutservice, currencyservice, recommendationservice)\", \"log error messages do not reveal underlying cause\"], \"component\": \"frontend\", \"diagnostic_implication\": \"Frontend shows strong error spike as entry point, but this may reflect backend dependency failures; internal cpu and latency changes also present, so it could be partly source or propagation.\", \"event_id\": \"event:6:frontend:primary\", \"event_kind\": \"entry_error_observation_event\", \"event_time\": 1732370187.1432674, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"error up at 1732370189.0 +5.6e9\", \"cpu down at 1732370204.0 -10.72\", \"latency changes at 1732370204.0\"], \"source_like_cues\": [\"near-onset internal mechanism signals: cpu, error, log\"], \"symptom_like_cues\": [\"entry component errors are often where backend failures become visible\", \"generic request error is visibility evidence, not source proof\"]}, {\"ambiguity_cues\": [\"single near-onset internal signal: cpu\", \"has direct callees; request path to a callee does not prove caller-root causality\"], \"causal_links_to_check\": [\"recommendationservice cpu drop impact on latency\", \"caller frontend high latencies may be related\"], \"component\": \"recommendationservice\", \"diagnostic_implication\": \"Recommendationservice shows cpu and workload drops with latency degradation later; mechanism is weak single-signal, likely propagation.\", \"event_id\": \"event:7:recommendationservice:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1732370194.0, \"mechanism_strength\": \"weak\", \"multimodal_evidence\": [\"cpu down at 1732370199.0 -16.74\", \"workload down at 1732370194.0 -12.42\", \"latency-50 down at 1732370224.0 -19.35\"], \"source_like_cues\": [], \"symptom_like_cues\": []}, {\"ambiguity_cues\": [\"single near-onset internal signal: cpu\"], \"causal_links_to_check\": [\"adservice cpu drop relation to workload drop\", \"no direct caller/calls relationships observed\"], \"component\": \"adservice\", \"diagnostic_implication\": \"adservice shows cpu and workload drops, but weak mechanism and no caller anomalies; likely a reactive change in a background service.\", \"event_id\": \"event:8:adservice:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1732370194.0, \"mechanism_strength\": \"weak\", \"multimodal_evidence\": [\"cpu down at 1732370200.0 -17.79\", \"workload down at 1732370194.0 -16.83\"], \"source_like_cues\": [], \"symptom_like_cues\": []}, {\"ambiguity_cues\": [\"single near-onset internal signal: cpu; late dominant latency spike (45s later) suggests propagating queuing\"], \"causal_links_to_check\": [\"productcatalogservice cpu and workload drop impact on latency spike\", \"caller frontend and recommendationservice may be causing load\"], \"component\": \"productcatalogservice\", \"diagnostic_implication\": \"Productcatalogservice onset shows cpu/workload drops, but the dominant huge latency spike 45s later indicates backlog; likely reactive to upstream call patterns.\", \"event_id\": \"event:9:productcatalogservice:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1732370196.0, \"mechanism_strength\": \"moderate\", \"multimodal_evidence\": [\"cpu down at 1732370198.0 -16.89\", \"workload down at 1732370196.0 -10.64\", \"latency-50 up at 1732370241.0 +296.1\"], \"source_like_cues\": [\"near-onset internal mechanism signals: cpu\"], \"symptom_like_cues\": []}, {\"ambiguity_cues\": [], \"causal_links_to_check\": [\"latency drop may indicate recovery or reduced load\"], \"component\": \"paymentservice\", \"diagnostic_implication\": \"Late latency drop may indicate recovery or change in request patterns; not an initiator event.\", \"event_id\": \"event:3:paymentservice:late_dominant_metric\", \"event_kind\": \"late_dominant_metric_followup\", \"event_time\": 1732370216.0, \"mechanism_strength\": \"unknown\", \"multimodal_evidence\": [\"latency-90 down at 1732370216.0 -3.67\"], \"source_like_cues\": [], \"symptom_like_cues\": []}, {\"ambiguity_cues\": [\"single near-onset internal signal: cpu\", \"dominant metric spike is late relative to primary event\"], \"causal_links_to_check\": [\"shippingservice latency spike at 1732370250.0 may be due to load\", \"no direct callers observed\"], \"component\": \"shippingservice\", \"diagnostic_implication\": \"Shippingservice has minor cpu drop and later latency; weak evidence, likely a peripheral effect.\", \"event_id\": \"event:10:shippingservice:primary\", \"event_kind\": \"weak_internal_or_queueing_candidate_event\", \"event_time\": 1732370217.0, \"mechanism_strength\": \"weak\", \"multimodal_evidence\": [\"cpu down at 1732370217.0 -5.57\", \"latency-90 up at 1732370250.0 +7.71\", \"workload down at 1732370479.0 -3.34\"], \"source_like_cues\": [], \"symptom_like_cues\": []}, {\"ambiguity_cues\": [], \"causal_links_to_check\": [\"memory spike may be due to background processing or reaction to upstream load\"], \"component\": \"cartservice\", \"diagnostic_implication\": \"Late memory spike is likely a consequence of other events; not an initiator.\", \"event_id\": \"event:4:cartservice:late_dominant_metric\", \"event_kind\": \"late_dominant_metric_followup\", \"event_time\": 1732370226.0, \"mechanism_strength\": \"unknown\", \"multimodal_evidence\": [\"mem up at 1732370226.0 +18.73\"], \"source_like_cues\": [], \"symptom_like_cues\": []}, {\"ambiguity_cues\": [], \"causal_links_to_check\": [\"huge latency spike suggests queuing or backlog; check if due to upstream overload\"], \"component\": \"productcatalogservice\", \"diagnostic_implication\": \"Massive latency spike is a strong propagation symptom; correlates with onset of cpu/workload dip but dominated later.\", \"event_id\": \"event:9:productcatalogservice:late_dominant_metric\", \"event_kind\": \"late_dominant_metric_followup\", \"event_time\": 1732370241.0, \"mechanism_strength\": \"unknown\", \"multimodal_evidence\": [\"latency-50 up at 1732370241.0 +296.1\"], \"source_like_cues\": [], \"symptom_like_cues\": []}, {\"ambiguity_cues\": [], \"causal_links_to_check\": [\"emailservice cpu drop impact on checkoutservice caller\", \"caller checkoutservice latency examples\"], \"component\": \"emailservice\", \"diagnostic_implication\": \"Emailservice has a late cpu drop, moderate strength; could be reactive to checkoutservice activity.\", \"event_id\": \"event:11:emailservice:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1732370246.0, \"mechanism_strength\": \"moderate\", \"multimodal_evidence\": [\"cpu down at 1732370246.0 -7.06\"], \"source_like_cues\": [\"near-onset internal mechanism signals: cpu\"], \"symptom_like_cues\": []}, {\"ambiguity_cues\": [], \"causal_links_to_check\": [\"latency spike may be due to load shift or background processing\"], \"component\": \"shippingservice\", \"diagnostic_implication\": \"Late latency spike is likely a secondary effect.\", \"event_id\": \"event:10:shippingservice:late_dominant_metric\", \"event_kind\": \"late_dominant_metric_followup\", \"event_time\": 1732370250.0, \"mechanism_strength\": \"unknown\", \"multimodal_evidence\": [\"latency-90 up at 1732370250.0 +7.71\"], \"sou..."
+      },
+      "event_causal_fact_count": 16,
+      "final_belief_state": [
+        {
+          "contradicting_factors": [
+            "no log evidence of internal fault (log_count=0)"
+          ],
+          "hypothesis_id": "H7-currencyservice-latency-degradation",
+          "missing_information": [],
+          "position": "leading",
+          "root_component": "currencyservice",
+          "source_vs_symptom_judgment": "source",
+          "supporting_factors": [
+            "near-onset multi-signal internal mechanism (cpu down, memory up, socket up) at ~1732370183",
+            "IVD initiator role with Copeland score 3",
+            "source_likelihood_score=3.0",
+            "downstream explanation: explains frontend errors and checkoutservice latency"
+          ],
+          "why_not_others": "frontend is IVD ambiguous with generic request errors; recommendationservice is IVD ambiguous with workload-before-resource pattern; redis has late reactive anomalies; no other candidate has initiator status."
+        },
+        {
+          "contradicting_factors": [
+            "IVD ambiguous role (Copeland 0)",
+            "log features show generic request errors, not internal fault",
+            "errors likely reflect backend failures per event_causal_profile"
+          ],
+          "hypothesis_id": "H2-frontend-service-error",
+          "missing_information": [],
+          "position": "weakened",
+          "root_component": "frontend",
+          "source_vs_symptom_judgment": "symptom",
+          "supporting_factors": [
+            "entry component with error spike and cpu drop"
+          ],
+          "why_not_others": "currencyservice has stronger internal mechanism and IVD initiator designation."
+        },
+        {
+          "contradicting_factors": [
+            "IVD ambiguous role (Copeland 3 but label=ambiguous)",
+            "near-simultaneous temporal pattern suggests reactive change",
+            "weaker internal signals compared to currencyservice"
+          ],
+          "hypothesis_id": "H9-recommendationservice-latency-degradation",
+          "missing_information": [],
+          "position": "weakened",
+          "root_component": "recommendationservice",
+          "source_vs_symptom_judgment": "symptom",
+          "supporting_factors": [
+            "near-onset cpu and workload drops"
+          ],
+          "why_not_others": "currencyservice exhibits stronger, earlier multi-signal mechanism and is IVD initiator."
+        }
+      ],
+      "transcript": [
+        {
+          "step_index": 0,
+          "agent_response": {
+            "agent": "continuous_noise_native",
+            "belief_state": [
+              {
+                "hypothesis_id": "H7-currencyservice-latency-degradation",
+                "root_component": "currencyservice",
+                "position": "leading",
+                "source_vs_symptom_judgment": "source",
+                "supporting_factors": [
+                  "near-onset multi-signal internal mechanism (cpu down, memory up, socket up) at ~1732370183",
+                  "IVD initiator role with highest Copeland score (3)",
+                  "event_causal_profile marks it as strong internal mechanism candidate",
+                  "caller anomalies in frontend and checkoutservice consistent with currencyservice causing latency"
+                ],
+                "contradicting_factors": [],
+                "missing_information": [
+                  "currencyservice log-based evidence for connection leak or exception",
+                  "direct comparison of onset features with frontend to confirm source vs symptom",
+                  "downstream explanation of how currencyservice resource changes propagate to frontend errors"
+                ],
+                "why_not_others": "frontend shows errors but IVD ranks it as ambiguous; its errors are likely propagation from currencyservice rather than internal fault. Redis is a storage dependency with late reactive anomalies and no independent early mechanism."
+              },
+              {
+                "hypothesis_id": "H2-frontend-service-error",
+                "root_component": "frontend",
+                "position": "plausible",
+                "source_vs_symptom_judgment": "ambiguous",
+                "supporting_factors": [
+                  "near-onset error spike and cpu drop",
+                  "entry component visibility"
+                ],
+                "contradicting_factors": [
+                  "IVD ambiguous role with Copeland score 0",
+                  "event_causal_profile notes caller-side memory caution: frontend errors likely due to backend failures",
+                  "downstream coverage is high but may reflect that many services depend on it, not that it initiated"
+                ],
+                "missing_information": [
+                  "trace evidence showing whether frontend errors are caused by specific callee timeouts",
+                  "log-based proof of independent frontend fault",
+                  "counterfactual: if currencyservice were healthy, would frontend errors disappear?"
+                ],
+                "why_not_others": "compared to currencyservice, frontend lacks internal mechanism signature like socket growth or memory leak; its errors are generic request failures, likely symptom."
+              },
+              {
+                "hypothesis_id": "H9-recommendationservice-latency-degradation",
+                "root_component": "recommendationservice",
+                "position": "plausible",
+                "source_vs_symptom_judgment": "symptom",
+                "supporting_factors": [
+                  "near-onset cpu and workload drops",
+                  "has caller anomaly (frontend)"
+                ],
+                "contradicting_factors": [
+                  "IVD ambiguous role, but temporal gap negative (workload before resource) and near-simultaneous onset",
+                  "no strong internal mechanism beyond cpu; workload drop suggests reduced inbound requests",
+                  "its anomaly can be explained by currencyservice impacting frontend call patterns"
+                ],
+                "missing_information": [
+                  "log evidence for internal fault",
+                  "downstream explanation of how recommendationservice affects frontend",
+                  "comparison of onset timing with currencyservice"
+                ],
+                "why_not_others": "weaker mechanism than currencyservice; ambiguous IVD verdict; more likely a victim of upstream fault than initiator."
+              }
+            ],
+            "case_narrative": "At ~1732370183, currencyservice exhibited a classic resource leak pattern: CPU dropped while memory and sockets spiked. This suggests a connection pool or thread leak degrading performance. Frontend errors and broad latency increases followed, consistent with currencyservice slowing its callers. Redis and other components showed late reactive anomalies rather than independent initiating faults. The IVD tournament confirms currencyservice as the initiator.",
+            "next_action": {
+              "tool_name": "inspect_noise_features",
+              "action_id": "inspect_currencyservice_frontend",
+              "args": {
+                "component_scope": [
+                  "currencyservice",
+                  "frontend"
+                ],
+                "feature_groups": [
+                  "onset",
+                  "local_mechanism",
+                  "logs",
+                  "propagation"
+                ],
+                "time_window": [
+                  1732369900.0,
+                  1732370500.0
+                ]
+              },
+              "expected_information_gain": "Reveal currencyservice log messages for connection leak/exceptions, onset feature timing relative to frontend, and propagation evidence to confirm source vs symptom.",
+              "question": "Does currencyservice have log-based evidence of internal fault (e.g., socket overflow, memory leak) that precedes frontend errors, and do propagation features show it explains downstream latency?",
+              "target_hypothesis_ids": [
+                "H7-currencyservice-latency-degradation",
+                "H2-frontend-service-error"
+              ]
+            },
+            "final_decision": null,
+            "remaining_steps": 3
+          },
+          "executed_action": {
+            "action_id": "inspect_currencyservice_frontend",
+            "tool_name": "inspect_noise_features",
+            "target_hypothesis_ids": [
+              "H7-currencyservice-latency-degradation",
+              "H2-frontend-service-error"
+            ],
+            "question": "Does currencyservice have log-based evidence of internal fault (e.g., socket overflow, memory leak) that precedes frontend errors, and do propagation features show it explains downstream latency?",
+            "args": {
+              "component_scope": [
+                "currencyservice",
+                "frontend"
+              ],
+              "time_window": [
+                1732369900.0,
+                1732370500.0
+              ],
+              "feature_groups": [
+                "onset",
+                "local_mechanism",
+                "logs",
+                "propagation"
+              ]
+            },
+            "expected_information_gain": "Reveal currencyservice log messages for connection leak/exceptions, onset feature timing relative to frontend, and propagation evidence to confirm source vs symptom."
+          },
+          "evidence_id": "evidence:3596447aaf2e990e6004c8de9f9916568e829fc2f3855890214ba774578391f4"
+        },
+        {
+          "step_index": 1,
+          "agent_response": {
+            "belief_state": [
+              {
+                "hypothesis_id": "H7-currencyservice-latency-degradation",
+                "root_component": "currencyservice",
+                "position": "leading",
+                "source_vs_symptom_judgment": "source",
+                "supporting_factors": [
+                  "near-onset multi-signal internal mechanism (cpu down, memory up, socket up) at ~1732370183",
+                  "IVD initiator role with highest Copeland score (3)",
+                  "source_likelihood_score=3.0 from NoiseLab",
+                  "caller anomalies in frontend and checkoutservice align with currencyservice latency"
+                ],
+                "contradicting_factors": [
+                  "no log evidence of internal fault (log_count=0)"
+                ],
+                "missing_information": [
+                  "downstream explanation: does currencyservice anomaly account for frontend & checkoutservice symptoms?",
+                  "counterfactual robustness: would removing currencyservice anomaly eliminate downstream effects?"
+                ],
+                "why_not_others": "frontend is IVD ambiguous with generic request errors; recommendationservice is IVD ambiguous with weaker mechanism; redis is a reactive storage dependency with late anomalies."
+              },
+              {
+                "hypothesis_id": "H2-frontend-service-error",
+                "root_component": "frontend",
+                "position": "weakened",
+                "source_vs_symptom_judgment": "symptom",
+                "supporting_factors": [
+                  "entry component with error spike and cpu drop"
+                ],
+                "contradicting_factors": [
+                  "IVD ambiguous role (Copeland 0)",
+                  "log features show generic request errors, not internal fault",
+                  "errors likely reflect backend failures per event_causal_profile caution"
+                ],
+                "missing_information": [
+                  "trace evidence proving independent frontend fault",
+                  "counterfactual: would frontend errors vanish if currencyservice were healthy?"
+                ],
+                "why_not_others": "currencyservice has stronger internal mechanism and IVD initiator designation."
+              },
+              {
+                "hypothesis_id": "H9-recommendationservice-latency-degradation",
+                "root_component": "recommendationservice",
+                "position": "plausible",
+                "source_vs_symptom_judgment": "symptom",
+                "supporting_factors": [
+                  "near-onset cpu and workload drops",
+                  "has caller anomaly (frontend)"
+                ],
+                "contradicting_factors": [
+                  "IVD ambiguous role (Copeland 3 but label=ambiguous)",
+                  "negative temporal gap and workload-before-resource pattern suggest reactive change",
+                  "weaker internal signals compared to currencyservice"
+                ],
+                "missing_information": [
+                  "log evidence for internal fault",
+                  "downstream explanation of how recommendationservice impacts frontend"
+                ],
+                "why_not_others": "currencyservice exhibits stronger, earlier multi-signal mechanism and is IVD initiator."
+              }
+            ],
+            "case_narrative": "Currencyservice shows a multi-signal resource leak pattern near 1732370183 (cpu down, memory/socket spikes) with no logs. IVD tournament designates it as the sole initiator. Frontend errors and broad latency increases are downstream consequences. Redis and other services show late reactive anomalies. Need to confirm downstream explanation to finalize.",
+            "next_action": {
+              "tool_name": "test_downstream_explanation",
+              "action_id": "test_downstream_currencyservice",
+              "args": {
+                "candidate_component": "currencyservice",
+                "symptom_components": [
+                  "frontend",
+                  "checkoutservice"
+                ],
+                "time_window": [
+                  1732369900.0,
+                  1732370500.0
+                ]
+              },
+              "question": "Can currencyservice's resource anomaly explain the observed latency and error increases in frontend and checkoutservice?",
+              "target_hypothesis_ids": [
+                "H7-currencyservice-latency-degradation",
+                "H2-frontend-service-error"
+              ],
+              "expected_information_gain": "Provides causal propagation evidence: whether downstream symptoms are consistent with currencyservice as the source, strengthening its initiator role."
+            },
+            "final_decision": null
+          },
+          "executed_action": {
+            "action_id": "test_downstream_currencyservice",
+            "tool_name": "test_downstream_explanation",
+            "target_hypothesis_ids": [
+              "H7-currencyservice-latency-degradation",
+              "H2-frontend-service-error"
+            ],
+            "question": "Can currencyservice's resource anomaly explain the observed latency and error increases in frontend and checkoutservice?",
+            "args": {
+              "candidate_component": "currencyservice",
+              "symptom_components": [
+                "frontend",
+                "checkoutservice"
+              ],
+              "time_window": [
+                1732369900.0,
+                1732370500.0
+              ]
+            },
+            "expected_information_gain": "Provides causal propagation evidence: whether downstream symptoms are consistent with currencyservice as the source, strengthening its initiator role."
+          },
+          "evidence_id": "evidence:24ecaeb4cbb02c74c295ff6e8538480cd866a8a5a5846facd3e1ae1015d06a20"
+        },
+        {
+          "step_index": 2,
+          "agent_response": {
+            "agent": "continuous_noise_native",
+            "allowed_tool_names": [
+              "inspect_noise_features",
+              "compare_source_symptom",
+              "counterfactual_remove",
+              "test_downstream_explanation"
+            ],
+            "belief_state": [
+              {
+                "contradicting_factors": [
+                  "no log evidence of internal fault (log_count=0)"
+                ],
+                "hypothesis_id": "H7-currencyservice-latency-degradation",
+                "missing_information": [
+                  "counterfactual robustness: would removing currencyservice anomaly eliminate downstream effects?"
+                ],
+                "position": "leading",
+                "root_component": "currencyservice",
+                "source_vs_symptom_judgment": "source",
+                "supporting_factors": [
+                  "near-onset multi-signal internal mechanism (cpu down, memory up, socket up) at ~1732370183",
+                  "IVD initiator role with highest Copeland score (3)",
+                  "source_likelihood_score=3.0 from NoiseLab",
+                  "downstream explanation confirms currencyservice anomaly explains frontend errors (candidate observed before symptom) and checkoutservice latency",
+                  "caller anomalies in frontend and checkoutservice align with currencyservice latency"
+                ],
+                "why_not_others": "frontend is IVD ambiguous with generic request errors, no internal fault signature; recommendationservice is IVD ambiguous, workload-before-resource pattern suggests reactive; redis is a storage dependency with late anomalies and no log evidence of internal fault."
+              },
+              {
+                "contradicting_factors": [
+                  "IVD ambiguous role (Copeland 0)",
+                  "log features show generic request errors, not internal fault",
+                  "errors likely reflect backend failures per event_causal_profile caution",
+                  "downstream explanation shows frontend errors correspond to currencyservice dependency failure"
+                ],
+                "hypothesis_id": "H2-frontend-service-error",
+                "missing_information": [
+                  "counterfactual: would frontend errors vanish if currencyservice were healthy?"
+                ],
+                "position": "weakened",
+                "root_component": "frontend",
+                "source_vs_symptom_judgment": "symptom",
+                "supporting_factors": [
+                  "entry component with error spike and cpu drop"
+                ],
+                "why_not_others": "currencyservice has stronger internal mechanism and IVD initiator designation."
+              },
+              {
+                "contradicting_factors": [
+                  "IVD ambiguous role (Copeland 3 but label=ambiguous)",
+                  "negative temporal gap and workload-before-resource pattern suggest reactive change",
+                  "weaker internal signals compared to currencyservice"
+                ],
+                "hypothesis_id": "H9-recommendationservice-latency-degradation",
+                "missing_information": [
+                  "log evidence for internal fault",
+                  "downstream explanation of how recommendationservice impacts frontend"
+                ],
+                "position": "plausible",
+                "root_component": "recommendationservice",
+                "source_vs_symptom_judgment": "symptom",
+                "supporting_factors": [
+                  "near-onset cpu and workload drops",
+                  "has caller anomaly (frontend)"
+                ],
+                "why_not_others": "currencyservice exhibits stronger, earlier multi-signal mechanism and is IVD initiator."
+              }
+            ],
+            "case_narrative": "Currencyservice resource leak (memory/socket spikes, cpu dip) at ~1732370183 is the root cause. IVD designates it as the sole initiator. Downstream explanation confirms it explains frontend errors (candidate before symptom) and checkoutservice latency. Frontend shows generic request errors, no internal fault. Recommendationservice has ambiguous IVD role with reactive metrics. Redis and other services exhibit late reactive anomalies. Counterfactual validation pending.",
+            "final_decision": null,
+            "next_action": {
+              "action_id": "counterfactual_currencyservice",
+              "args": {
+                "component": "currencyservice",
+                "symptom_components": [
+                  "frontend",
+                  "checkoutservice"
+                ],
+                "time_window": [
+                  1732369900.0,
+                  1732370500.0
+                ]
+              },
+              "expected_information_gain": "Test if removing currencyservice anomaly would eliminate frontend errors and checkoutservice latency, strengthening causal link.",
+              "question": "Would the removal of currencyservice's resource anomaly prevent the observed frontend errors and checkoutservice latency increases?",
+              "target_hypothesis_ids": [
+                "H7-currencyservice-latency-degradation",
+                "H2-frontend-service-error"
+              ],
+              "tool_name": "counterfactual_remove"
+            }
+          },
+          "executed_action": {
+            "action_id": "counterfactual_currencyservice",
+            "tool_name": "counterfactual_remove",
+            "target_hypothesis_ids": [
+              "H7-currencyservice-latency-degradation",
+              "H2-frontend-service-error"
+            ],
+            "question": "Would the removal of currencyservice's resource anomaly prevent the observed frontend errors and checkoutservice latency increases?",
+            "args": {
+              "component": "currencyservice",
+              "symptom_components": [
+                "frontend",
+                "checkoutservice"
+              ],
+              "time_window": [
+                1732369900.0,
+                1732370500.0
+              ]
+            },
+            "expected_information_gain": "Test if removing currencyservice anomaly would eliminate frontend errors and checkoutservice latency, strengthening causal link."
+          },
+          "evidence_id": "evidence:0c1e361b98617234d015027ad8c46c4353ab5369fab9c936850e26ae4acce2e2"
+        },
+        {
+          "step_index": 3,
+          "agent_response": {
+            "belief_state": [
+              {
+                "contradicting_factors": [
+                  "no log evidence of internal fault (log_count=0)"
+                ],
+                "hypothesis_id": "H7-currencyservice-latency-degradation",
+                "missing_information": [
+                  "comparison of source-vs-symptom cues with other top candidates to solidify initiator role"
+                ],
+                "position": "leading",
+                "root_component": "currencyservice",
+                "source_vs_symptom_judgment": "source",
+                "supporting_factors": [
+                  "near-onset multi-signal internal mechanism (cpu down, memory up, socket up) at ~1732370183",
+                  "IVD initiator role with highest Copeland score (3)",
+                  "source_likelihood_score=3.0 from NoiseLab",
+                  "downstream explanation confirms currencyservice anomaly explains frontend errors (candidate observed before symptom) and checkoutservice latency",
+                  "caller anomalies in frontend and checkoutservice align with currencyservice latency"
+                ],
+                "why_not_others": "frontend is IVD ambiguous with generic request errors, no internal fault signature; recommendationservice is IVD ambiguous, workload-before-resource pattern suggests reactive; redis is a storage dependency with late anomalies and no log evidence of internal fault."
+              },
+              {
+                "contradicting_factors": [
+                  "IVD ambiguous role (Copeland 0)",
+                  "log features show generic request errors, not internal fault",
+                  "errors likely reflect backend failures per event_causal_profile caution",
+                  "downstream explanation shows frontend errors correspond to currencyservice dependency failure"
+                ],
+                "hypothesis_id": "H2-frontend-service-error",
+                "missing_information": [
+                  "comparison of source-vs-symptom cues with currencyservice"
+                ],
+                "position": "weakened",
+                "root_component": "frontend",
+                "source_vs_symptom_judgment": "symptom",
+                "supporting_factors": [
+                  "entry component with error spike and cpu drop"
+                ],
+                "why_not_others": "currencyservice has stronger internal mechanism and IVD initiator designation."
+              },
+              {
+                "contradicting_factors": [
+                  "IVD ambiguous role (Copeland 3 but label=ambiguous)",
+                  "negative temporal gap and workload-before-resource pattern suggest reactive change",
+                  "weaker internal signals compared to currencyservice"
+                ],
+                "hypothesis_id": "H9-recommendationservice-latency-degradation",
+                "missing_information": [
+                  "source-vs-symptom comparison with currencyservice"
+                ],
+                "position": "plausible",
+                "root_component": "recommendationservice",
+                "source_vs_symptom_judgment": "symptom",
+                "supporting_factors": [
+                  "near-onset cpu and workload drops",
+                  "has caller anomaly (frontend)"
+                ],
+                "why_not_others": "currencyservice exhibits stronger, earlier multi-signal mechanism and is IVD initiator."
+              }
+            ],
+            "case_narrative": "Currencyservice resource leak (memory/socket spikes, cpu dip) at ~1732370183 is the leading root cause. IVD designates it as the sole initiator. Downstream explanation confirms it explains frontend errors (candidate before symptom) and checkoutservice latency. Frontend shows generic request errors, no internal fault. Recommendationservice has ambiguous IVD role with reactive metrics. Redis and other services exhibit late reactive anomalies. No logs exist for currencyservice, but multi-signal mechanism outweighs that gap. Compare source-symptom cues to finalize.",
+            "final_decision": null,
+            "next_action": {
+              "action_id": "compare_top_candidates",
+              "args": {
+                "component_scope": [
+                  "currencyservice",
+                  "frontend",
+                  "recommendationservice"
+                ],
+                "time_window": [
+                  1732369900.0,
+                  1732370500.0
+                ]
+              },
+              "expected_information_gain": "Compare source-vs-symptom cues among the top three IVD-ranked candidates to confirm currencyservice’s initiator role and assess if frontend or recommendationservice have any independent source evidence that could challenge the ranking.",
+              "question": "Do source-vs-symptom scores for currencyservice, frontend, and recommendationservice further support currencyservice as the true initiator, and do any of the others exhibit strong incompatible source signals?",
+              "target_hypothesis_ids": [
+                "H7-currencyservice-latency-degradation",
+                "H2-frontend-service-error",
+                "H9-recommendationservice-latency-degradation"
+              ],
+              "tool_name": "compare_source_symptom"
+            }
+          },
+          "executed_action": {
+            "action_id": "compare_top_candidates",
+            "tool_name": "compare_source_symptom",
+            "target_hypothesis_ids": [
+              "H7-currencyservice-latency-degradation",
+              "H2-frontend-service-error",
+              "H9-recommendationservice-latency-degradation"
+            ],
+            "question": "Do source-vs-symptom scores for currencyservice, frontend, and recommendationservice further support currencyservice as the true initiator, and do any of the others exhibit strong incompatible source signals?",
+            "args": {
+              "component_scope": [
+                "currencyservice",
+                "frontend",
+                "recommendationservice"
+              ],
+              "time_window": [
+                1732369900.0,
+                1732370500.0
+              ]
+            },
+            "expected_information_gain": "Compare source-vs-symptom cues among the top three IVD-ranked candidates to confirm currencyservice’s initiator role and assess if frontend or recommendationservice have any independent source evidence that could challenge the ranking."
+          },
+          "evidence_id": "evidence:3ff8a73364042b51ecde99a19b4296f961730eb643d03ac148d84623950c90f7"
+        }
+      ],
+      "case_id": "RE3-OB/currencyservice_f1/3",
+      "expected_component": "currencyservice",
+      "hit": true,
+      "elapsed_sec": 329.667,
+      "error": null,
+      "token_usage": {
+        "call_count": 6,
+        "prompt_tokens": 123675,
+        "completion_tokens": 26930,
+        "total_tokens": 150605,
+        "by_purpose": {
+          "event_causalizer_state_update": {
+            "call_count": 1,
+            "prompt_tokens": 19326,
+            "completion_tokens": 13673,
+            "total_tokens": 32999
+          },
+          "continuous_noise_native_state_update": {
+            "call_count": 5,
+            "prompt_tokens": 104349,
+            "completion_tokens": 13257,
+            "total_tokens": 117606
+          },
+          "continuous_noise_native_json_repair": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "emailservice",
+      "predicted_ranking": [
+        "emailservice",
+        "shippingservice",
+        "checkoutservice"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1731911680.0,
+        1731911740.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "redis",
+        "frontend",
+        "emailservice",
+        "adservice",
+        "recommendationservice",
+        "paymentservice",
+        "shippingservice",
+        "checkoutservice",
+        "productcatalogservice",
+        "currencyservice",
+        "cartservice"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "RE3-OB/emailservice_f1/1",
+      "expected_component": "emailservice",
+      "hit": true,
+      "elapsed_sec": 7.517,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "event_causalizer_state_update": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          },
+          "continuous_noise_native_state_update": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          },
+          "continuous_noise_native_json_repair": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "emailservice",
+      "predicted_ranking": [
+        "emailservice",
+        "checkoutservice"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1732282919.0,
+        1732282979.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "redis",
+        "frontend",
+        "emailservice",
+        "paymentservice",
+        "adservice",
+        "checkoutservice",
+        "cartservice",
+        "recommendationservice",
+        "shippingservice",
+        "productcatalogservice",
+        "currencyservice"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "RE3-OB/emailservice_f1/2",
+      "expected_component": "emailservice",
+      "hit": true,
+      "elapsed_sec": 7.58,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "event_causalizer_state_update": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          },
+          "continuous_noise_native_state_update": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          },
+          "continuous_noise_native_json_repair": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "emailservice",
+      "predicted_ranking": [
+        "emailservice",
+        "checkoutservice",
+        "cartservice"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1732371718.0,
+        1732371778.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "redis",
+        "emailservice",
+        "checkoutservice",
+        "shippingservice",
+        "paymentservice",
+        "currencyservice",
+        "cartservice",
+        "productcatalogservice",
+        "adservice",
+        "frontend",
+        "recommendationservice"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "RE3-OB/emailservice_f1/3",
+      "expected_component": "emailservice",
+      "hit": true,
+      "elapsed_sec": 7.251,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "event_causalizer_state_update": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          },
+          "continuous_noise_native_state_update": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          },
+          "continuous_noise_native_json_repair": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "emailservice",
+      "predicted_ranking": [
+        "emailservice",
+        "checkoutservice"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1731913224.0,
+        1731913284.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "redis",
+        "emailservice",
+        "checkoutservice",
+        "cartservice",
+        "paymentservice",
+        "shippingservice",
+        "currencyservice",
+        "productcatalogservice",
+        "recommendationservice",
+        "frontend",
+        "adservice"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "RE3-OB/emailservice_f2/1",
+      "expected_component": "emailservice",
+      "hit": true,
+      "elapsed_sec": 7.343,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "event_causalizer_state_update": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          },
+          "continuous_noise_native_state_update": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          },
+          "continuous_noise_native_json_repair": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "emailservice",
+      "predicted_ranking": [
+        "emailservice",
+        "productcatalogservice",
+        "checkoutservice"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1732284463.0,
+        1732284523.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "redis",
+        "frontend",
+        "emailservice",
+        "currencyservice",
+        "shippingservice",
+        "cartservice",
+        "productcatalogservice",
+        "checkoutservice",
+        "paymentservice",
+        "recommendationservice",
+        "adservice"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "RE3-OB/emailservice_f2/2",
+      "expected_component": "emailservice",
+      "hit": true,
+      "elapsed_sec": 7.345,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "event_causalizer_state_update": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          },
+          "continuous_noise_native_state_update": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          },
+          "continuous_noise_native_json_repair": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "emailservice",
+      "predicted_ranking": [
+        "emailservice",
+        "checkoutservice"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1732373262.0,
+        1732373322.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "redis",
+        "emailservice",
+        "checkoutservice",
+        "frontend",
+        "adservice",
+        "shippingservice",
+        "productcatalogservice",
+        "currencyservice",
+        "paymentservice",
+        "recommendationservice",
+        "cartservice"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "RE3-OB/emailservice_f2/3",
+      "expected_component": "emailservice",
+      "hit": true,
+      "elapsed_sec": 7.283,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "event_causalizer_state_update": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          },
+          "continuous_noise_native_state_update": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          },
+          "continuous_noise_native_json_repair": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "emailservice",
+      "predicted_ranking": [
+        "emailservice",
+        "productcatalogservice",
+        "currencyservice",
+        "recommendationservice",
+        "paymentservice"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1731914768.0,
+        1731914828.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "redis",
+        "frontend",
+        "emailservice",
+        "recommendationservice",
+        "shippingservice",
+        "paymentservice",
+        "adservice",
+        "productcatalogservice",
+        "currencyservice",
+        "checkoutservice",
+        "cartservice"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "RE3-OB/emailservice_f3/1",
+      "expected_component": "emailservice",
+      "hit": true,
+      "elapsed_sec": 7.271,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "event_causalizer_state_update": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          },
+          "continuous_noise_native_state_update": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          },
+          "continuous_noise_native_json_repair": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "emailservice",
+      "predicted_ranking": [
+        "emailservice",
+        "checkoutservice"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1732286006.0,
+        1732286066.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "redis",
+        "frontend",
+        "emailservice",
+        "recommendationservice",
+        "paymentservice",
+        "productcatalogservice",
+        "checkoutservice",
+        "currencyservice",
+        "shippingservice",
+        "adservice",
+        "cartservice"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "RE3-OB/emailservice_f3/2",
+      "expected_component": "emailservice",
+      "hit": true,
+      "elapsed_sec": 7.743,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "event_causalizer_state_update": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          },
+          "continuous_noise_native_state_update": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          },
+          "continuous_noise_native_json_repair": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "emailservice",
+      "predicted_ranking": [
+        "emailservice",
+        "productcatalogservice",
+        "currencyservice",
+        "recommendationservice",
+        "shippingservice"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1732374805.0,
+        1732374865.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "redis",
+        "frontend",
+        "emailservice",
+        "adservice",
+        "shippingservice",
+        "cartservice",
+        "recommendationservice",
+        "checkoutservice",
+        "paymentservice",
+        "productcatalogservice",
+        "currencyservice"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "RE3-OB/emailservice_f3/3",
+      "expected_component": "emailservice",
+      "hit": true,
+      "elapsed_sec": 7.453,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "event_causalizer_state_update": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          },
+          "continuous_noise_native_state_update": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          },
+          "continuous_noise_native_json_repair": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "emailservice",
+      "predicted_ranking": [
+        "emailservice",
+        "checkoutservice",
+        "cartservice",
+        "paymentservice"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1731916312.0,
+        1731916372.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "redis",
+        "frontend",
+        "emailservice",
+        "checkoutservice",
+        "cartservice",
+        "shippingservice",
+        "paymentservice",
+        "currencyservice",
+        "productcatalogservice",
+        "recommendationservice",
+        "adservice"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "RE3-OB/emailservice_f4/1",
+      "expected_component": "emailservice",
+      "hit": true,
+      "elapsed_sec": 7.387,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "event_causalizer_state_update": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          },
+          "continuous_noise_native_state_update": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          },
+          "continuous_noise_native_json_repair": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "emailservice",
+      "predicted_ranking": [
+        "emailservice",
+        "productcatalogservice",
+        "adservice",
+        "recommendationservice",
+        "checkoutservice"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1732287550.0,
+        1732287610.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "redis",
+        "frontend",
+        "emailservice",
+        "recommendationservice",
+        "adservice",
+        "productcatalogservice",
+        "currencyservice",
+        "checkoutservice",
+        "paymentservice",
+        "cartservice",
+        "shippingservice"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "RE3-OB/emailservice_f4/2",
+      "expected_component": "emailservice",
+      "hit": true,
+      "elapsed_sec": 7.365,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "event_causalizer_state_update": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          },
+          "continuous_noise_native_state_update": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          },
+          "continuous_noise_native_json_repair": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "emailservice",
+      "predicted_ranking": [
+        "emailservice",
+        "productcatalogservice",
+        "recommendationservice",
+        "adservice",
+        "checkoutservice"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1732376349.0,
+        1732376409.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "redis",
+        "frontend",
+        "emailservice",
+        "recommendationservice",
+        "cartservice",
+        "currencyservice",
+        "checkoutservice",
+        "paymentservice",
+        "productcatalogservice",
+        "adservice",
+        "shippingservice"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "RE3-OB/emailservice_f4/3",
+      "expected_component": "emailservice",
+      "hit": true,
+      "elapsed_sec": 7.231,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "event_causalizer_state_update": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          },
+          "continuous_noise_native_state_update": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          },
+          "continuous_noise_native_json_repair": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "emailservice",
+      "predicted_ranking": [
+        "emailservice",
+        "paymentservice",
+        "checkoutservice",
+        "productcatalogservice"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1731917856.0,
+        1731917916.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "redis",
+        "frontend",
+        "emailservice",
+        "checkoutservice",
+        "shippingservice",
+        "cartservice",
+        "productcatalogservice",
+        "paymentservice",
+        "currencyservice",
+        "recommendationservice",
+        "adservice"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "RE3-OB/emailservice_f5/1",
+      "expected_component": "emailservice",
+      "hit": true,
+      "elapsed_sec": 7.334,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "event_causalizer_state_update": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          },
+          "continuous_noise_native_state_update": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          },
+          "continuous_noise_native_json_repair": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "emailservice",
+      "predicted_ranking": [
+        "emailservice",
+        "currencyservice",
+        "shippingservice",
+        "recommendationservice",
+        "checkoutservice"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1732289094.0,
+        1732289154.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "redis",
+        "frontend",
+        "emailservice",
+        "checkoutservice",
+        "adservice",
+        "recommendationservice",
+        "shippingservice",
+        "currencyservice",
+        "cartservice",
+        "productcatalogservice",
+        "paymentservice"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "RE3-OB/emailservice_f5/2",
+      "expected_component": "emailservice",
+      "hit": true,
+      "elapsed_sec": 7.479,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "event_causalizer_state_update": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          },
+          "continuous_noise_native_state_update": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          },
+          "continuous_noise_native_json_repair": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "emailservice",
+      "predicted_ranking": [
+        "emailservice",
+        "checkoutservice"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1732377893.0,
+        1732377953.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "redis",
+        "frontend",
+        "emailservice",
+        "checkoutservice",
+        "currencyservice",
+        "recommendationservice",
+        "paymentservice",
+        "productcatalogservice",
+        "shippingservice",
+        "cartservice",
+        "adservice"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "RE3-OB/emailservice_f5/3",
+      "expected_component": "emailservice",
+      "hit": true,
+      "elapsed_sec": 9.01,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "event_causalizer_state_update": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          },
+          "continuous_noise_native_state_update": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          },
+          "continuous_noise_native_json_repair": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    }
+  ]
+}
