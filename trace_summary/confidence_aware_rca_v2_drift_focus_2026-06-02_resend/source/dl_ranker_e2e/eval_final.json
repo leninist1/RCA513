@@ -1,0 +1,127 @@
+{
+  "dataset": "aiops2021",
+  "details_csv": "dl_ranker_e2e/details_final.csv",
+  "metric_policy": {
+    "note": "AIOps2021 summary does not use OpenRCA time/partial-credit scoring.",
+    "primary_metrics": [
+      "service_top1_accuracy",
+      "service_HR@3",
+      "service_HR@5",
+      "service_NDCG@3",
+      "service_NDCG@5",
+      "anomaly_type_accuracy",
+      "service_type_tuple_accuracy"
+    ],
+    "primary_task": "AIOps2021 service localization plus anomaly-type classification"
+  },
+  "summary": {
+    "anomaly_type_accuracy": 0.7232704402515723,
+    "avg_ranking_len": 5.19496855345912,
+    "by_failure_type": {
+      "cpu": {
+        "anomaly_type_accuracy": 0.925,
+        "n_cases": 40,
+        "service_HR@3": 0.925,
+        "service_HR@5": 0.95,
+        "service_NDCG@3": 0.9,
+        "service_NDCG@5": 0.9096713201808635,
+        "service_top1_accuracy": 0.875,
+        "service_type_tuple_accuracy": 0.85
+      },
+      "disk_io": {
+        "anomaly_type_accuracy": 0.8333333333333334,
+        "n_cases": 24,
+        "service_HR@3": 0.9583333333333334,
+        "service_HR@5": 0.9583333333333334,
+        "service_NDCG@3": 0.9429554063988107,
+        "service_NDCG@5": 0.9429554063988107,
+        "service_top1_accuracy": 0.9166666666666666,
+        "service_type_tuple_accuracy": 0.7916666666666666
+      },
+      "filesystem": {
+        "anomaly_type_accuracy": 0.6666666666666666,
+        "n_cases": 6,
+        "service_HR@3": 1.0,
+        "service_HR@5": 1.0,
+        "service_NDCG@3": 0.9384882922619097,
+        "service_NDCG@5": 0.9384882922619097,
+        "service_top1_accuracy": 0.8333333333333334,
+        "service_type_tuple_accuracy": 0.6666666666666666
+      },
+      "jvm_oom": {
+        "anomaly_type_accuracy": 0.5,
+        "n_cases": 12,
+        "service_HR@3": 0.9166666666666666,
+        "service_HR@5": 1.0,
+        "service_NDCG@3": 0.875,
+        "service_NDCG@5": 0.9072377339362118,
+        "service_top1_accuracy": 0.8333333333333334,
+        "service_type_tuple_accuracy": 0.5
+      },
+      "memory": {
+        "anomaly_type_accuracy": 0.5384615384615384,
+        "n_cases": 13,
+        "service_HR@3": 0.7692307692307693,
+        "service_HR@5": 0.7692307692307693,
+        "service_NDCG@3": 0.7307692307692307,
+        "service_NDCG@5": 0.7307692307692307,
+        "service_top1_accuracy": 0.6923076923076923,
+        "service_type_tuple_accuracy": 0.46153846153846156
+      },
+      "network_latency": {
+        "anomaly_type_accuracy": 0.7037037037037037,
+        "n_cases": 27,
+        "service_HR@3": 0.8148148148148148,
+        "service_HR@5": 0.9259259259259259,
+        "service_NDCG@3": 0.7689577595238117,
+        "service_NDCG@5": 0.8168107104208554,
+        "service_top1_accuracy": 0.7037037037037037,
+        "service_type_tuple_accuracy": 0.6296296296296297
+      },
+      "network_packet_loss": {
+        "anomaly_type_accuracy": 0.5945945945945946,
+        "n_cases": 37,
+        "service_HR@3": 0.8108108108108109,
+        "service_HR@5": 0.8918918918918919,
+        "service_NDCG@3": 0.7738089122586881,
+        "service_NDCG@5": 0.8075442074852104,
+        "service_top1_accuracy": 0.7297297297297297,
+        "service_type_tuple_accuracy": 0.5135135135135135
+      }
+    },
+    "by_split": {
+      "test": {
+        "anomaly_type_accuracy": 0.425531914893617,
+        "n_cases": 47,
+        "service_HR@3": 0.6170212765957447,
+        "service_HR@5": 0.7872340425531915,
+        "service_NDCG@3": 0.5296338140577527,
+        "service_NDCG@5": 0.6001432015486162,
+        "service_top1_accuracy": 0.425531914893617,
+        "service_type_tuple_accuracy": 0.2765957446808511
+      },
+      "train": {
+        "anomaly_type_accuracy": 0.8482142857142857,
+        "n_cases": 112,
+        "service_HR@3": 0.9821428571428571,
+        "service_HR@5": 0.9821428571428571,
+        "service_NDCG@3": 0.9710880313137761,
+        "service_NDCG@5": 0.9710880313137761,
+        "service_top1_accuracy": 0.9553571428571429,
+        "service_type_tuple_accuracy": 0.8214285714285714
+      }
+    },
+    "details_csv": "dl_ranker_e2e/details_final.csv",
+    "missing_gt_in_ranking": 10,
+    "n_cases": 159,
+    "ranking_source_counts": {
+      "all_decisions": 159
+    },
+    "service_HR@3": 0.8742138364779874,
+    "service_HR@5": 0.9245283018867925,
+    "service_NDCG@3": 0.8405952752695427,
+    "service_NDCG@5": 0.8614376728297349,
+    "service_top1_accuracy": 0.7987421383647799,
+    "service_type_tuple_accuracy": 0.660377358490566
+  }
+}

@@ -493,12 +493,14 @@ class D32RefutationPipeline:
         candidates: list[RootCandidate],
         evidence: D32EvidenceQuery,
     ) -> dict[str, float]:
+        schema = self._reason_classifier.schema if self._reason_classifier else None
         feats = extract_features(
             metric_df=evidence.metric_df,
             log_df=evidence.log_df,
             trace_summary=evidence.trace_summary,
             baseline=evidence.baseline,
             joint_candidates=candidates,
+            schema=schema,
         )
         if self._reason_classifier is None:
             return {}
