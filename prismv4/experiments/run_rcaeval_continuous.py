@@ -12,6 +12,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import time
 from dataclasses import fields, is_dataclass
 from enum import Enum
@@ -19,9 +20,13 @@ from pathlib import Path
 from typing import Any, Mapping, Sequence
 
 from prismv4.experiments.rcaeval_adapter import (
+    discover_aiops2021_cases,
     discover_eadro_cases,
+    discover_openrca_cases,
     discover_re3_cases,
+    load_aiops2021_case,
     load_eadro_case,
+    load_openrca_case,
     load_re3_case,
 )
 from prismv4.prism_cht.canonical import build_tool_call_signature, canonicalize_json_value
@@ -46,6 +51,27 @@ from prismv4.prism_cht.provider_config import load_openai_compatible_config_from
 
 
 DEFAULT_RE3_ROOT = "/home/dell2/RCA513/ysj/dataset/RCAEval/RE3"
+
+_INSTANCE_SUFFIX_RE = re.compile(r"-\d+$")
+
+
+def _component_match(predicted: str | None, expected: str | None) -> bool:
+    """Check if predicted component matches expected.
+
+    OpenRCA ground-truth labels include instance suffixes (e.g. ``shippingservice-1``,
+    ``node-4``) that do not exist as separate entities in the telemetry metrics. When
+    the recall pool / IVD only sees the base name (``shippingservice``, ``node``), we
+    match on the stripped base name so that ``predicted=node`` correctly hits
+    ``expected=node-1``. This does NOT affect ``adservice2`` (no hyphen) or other
+    service-renamed instances.
+    """
+    if predicted is None or expected is None:
+        return False
+    if predicted == expected:
+        return True
+    exp_base = _INSTANCE_SUFFIX_RE.sub("", expected)
+    pred_base = _INSTANCE_SUFFIX_RE.sub("", predicted)
+    return exp_base == pred_base and exp_base != expected
 
 
 class RetryingModelClient:
@@ -79,7 +105,7 @@ class RetryingModelClient:
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Continuous NoiseNative RCAEval runner")
     parser.add_argument("--data-root", default=DEFAULT_RE3_ROOT)
-    parser.add_argument("--dataset", default="RE3", choices=["RE3", "Eadro"])
+    parser.add_argument("--dataset", default="RE3", choices=["RE3", "Eadro", "OpenRCA", "AIOps2021"])
     parser.add_argument("--system", default="RE3-OB")
     parser.add_argument("--max-cases", type=int, default=5)
     parser.add_argument("--max-hypotheses", type=int, default=10)
@@ -92,6 +118,14 @@ def parse_args() -> argparse.Namespace:
         "width).  Offline validation showed 15 saturates recall on RE3-TT.",
     )
     parser.add_argument("--max-steps", type=int, default=4)
+    parser.add_argument(
+        "--mode",
+        default="full",
+        choices=["full", "lightweight"],
+        help="'full' = original multi-step agent. 'lightweight' = signal-first: "
+        "extract deterministic features + IVD, skip LLM when IVD consensus is "
+        "strong, otherwise make one compact LLM call with <3k token summary.",
+    )
     parser.add_argument(
         "--output",
         default="prismv4/results/prism_cht/rcaeval_continuous_results.json",
@@ -127,12 +161,51 @@ def main() -> int:
         )
         if args.only_cases:
             fragments = [f.strip() for f in args.only_cases.split(",") if f.strip()]
+
+            def _eadro_case_key(cs):
+                from pathlib import Path
+                bn = Path(str(cs["case_dir"])).name
+                return f"{bn}/fault{cs['fault_index']}"
+
             case_specs = [
                 cs for cs in case_specs
-                if any(frag in str(cs["case_dir"]) or frag in cs["fault"]["name"] for frag in fragments)
+                if any(frag in str(cs["case_dir"])
+                       or frag in cs["fault"]["name"]
+                       or frag == _eadro_case_key(cs)
+                       or frag in _eadro_case_key(cs)
+                       for frag in fragments)
             ]
         if not case_specs:
             raise SystemExit("no Eadro cases discovered")
+    elif args.dataset == "OpenRCA":
+        if args.max_cases > 0:
+            case_specs = discover_openrca_cases(
+                None, system=args.system, limit=args.max_cases
+            )
+        else:
+            case_specs = discover_openrca_cases(None, system=args.system)
+        if args.only_cases:
+            fragments = [f.strip() for f in args.only_cases.split(",") if f.strip()]
+            case_specs = [
+                cs for cs in case_specs
+                if any(frag in str(cs.get("case_id", "")) or frag in str(cs.get("telemetry_date", "")) for frag in fragments)
+            ]
+        if not case_specs:
+            raise SystemExit("no OpenRCA cases discovered")
+    elif args.dataset == "AIOps2021":
+        # AIOps2021 only has test split (47 cases). --system is ignored; --max-cases=0 = all.
+        case_specs = discover_aiops2021_cases(
+            split=getattr(args, "split", "test"),
+            limit=args.max_cases if args.max_cases > 0 else None,
+        )
+        if args.only_cases:
+            fragments = [f.strip() for f in args.only_cases.split(",") if f.strip()]
+            case_specs = [
+                cs for cs in case_specs
+                if any(frag in str(cs.get("case_id", "")) or frag in str(cs.get("groundtruth_id", "")) for frag in fragments)
+            ]
+        if not case_specs:
+            raise SystemExit("no AIOps2021 cases discovered")
     else:
         case_dirs = discover_re3_cases(
             args.data_root,
@@ -172,7 +245,7 @@ def main() -> int:
     results: list[dict[str, Any]] = []
     started_all = time.time()
 
-    if args.dataset == "Eadro":
+    if args.dataset in ("Eadro", "OpenRCA", "AIOps2021"):
         case_iter = case_specs
     else:
         case_iter = case_dirs
@@ -184,18 +257,29 @@ def main() -> int:
             loaded = load_eadro_case(
                 case_item, top_k=args.recall_pool_size, eadro_root=args.data_root
             )
+        elif args.dataset == "OpenRCA":
+            loaded = load_openrca_case(case_item, top_k=args.recall_pool_size)
+        elif args.dataset == "AIOps2021":
+            loaded = load_aiops2021_case(case_item, top_k=args.recall_pool_size)
         else:
             loaded = load_re3_case(case_item, top_k=args.recall_pool_size)
         try:
-            result = run_case(
-                loaded=loaded,
-                max_hypotheses=args.max_hypotheses,
-                max_steps=args.max_steps,
-                client=client,
-                recall_pool_size=args.recall_pool_size,
-            )
+            if args.mode == "lightweight":
+                result = run_case_lightweight(
+                    loaded=loaded,
+                    client=client,
+                    recall_pool_size=args.recall_pool_size,
+                )
+            else:
+                result = run_case(
+                    loaded=loaded,
+                    max_hypotheses=args.max_hypotheses,
+                    max_steps=args.max_steps,
+                    client=client,
+                    recall_pool_size=args.recall_pool_size,
+                )
             predicted = result.get("predicted_component")
-            hit = predicted == loaded.expected_component
+            hit = _component_match(predicted, loaded.expected_component)
             case_cost = _case_cost_delta(cost_before, cost_window.snapshot())
             result.update(
                 {
@@ -234,7 +318,7 @@ def main() -> int:
     summary = {
         "dataset": args.dataset,
         "system": args.system,
-        "mode": "continuous-noise-native-event-causalizer",
+        "mode": ("lightweight" if args.mode == "lightweight" else "continuous-noise-native-event-causalizer"),
         "total_cases": total,
         "top1_accuracy": hits / total if total else 0.0,
         "top1_hits": hits,
@@ -281,6 +365,255 @@ def _case_cost_delta(
         "completion_tokens": int(after.get("completion_tokens", 0)) - int(before.get("completion_tokens", 0)),
         "total_tokens": int(after.get("total_tokens", 0)) - int(before.get("total_tokens", 0)),
         "by_purpose": delta_by_purpose,
+    }
+
+
+# ---------------------------------------------------------------------------
+# Lightweight signal-first agent (low token cost)
+# ---------------------------------------------------------------------------
+
+_LIGHTWEIGHT_SYSTEM_PROMPT = """You are a root cause analyst for microservice incidents.
+
+You receive a compact JSON summary of pre-extracted deterministic signals: per-component anomaly features, IVD (Initiator-Victim Disambiguation) verdicts, and recall pool ranking. You do NOT receive raw metrics, logs, or traces.
+
+Rules:
+- If IVD provides an initiator with copeland_score > 0, select it.
+- Source_candidate with emitter_exception=True outranks source_candidate without, UNLESS that candidate has near-zero anomaly magnitude (``mag`` <= 0.5) AND another candidate has mag >= 2x larger resource anomaly — in that case the emitter may be a reactive caller (``Failed to call X`` is a symptom, not the root cause).
+- Storage components (mongo/redis/mysql/db suffix) with resource anomalies but no emitter exceptions are reactive dependencies, NOT the root cause.
+- Entry-like components (frontend/gateway/ingress) are traffic surfaces, not root causes.
+- Pick exactly one root_component from the candidates list, and also provide a top-5 ranking (best first) of all candidates.
+- Output one valid JSON object: {"root_component": "...", "ranking": ["...", "...", ...], "rationale": "..."}"""
+
+
+def _extract_compact_signals(
+    loaded,
+    *,
+    recall_pool_size: int = 15,
+) -> dict[str, Any]:
+    """Extract deterministic signals into a compact dict (~1-2k tokens)."""
+    store = loaded.store
+    case = loaded.case
+    recall_pool = _build_recall_pool(loaded, pool_size=recall_pool_size)
+    time_window = (
+        max(0.0, case.event_time - 30.0),
+        case.event_time + 600.0,
+    )
+    facts = store.build_event_causal_observations(
+        component_scope=list(recall_pool),
+        time_window=time_window,
+        max_events=32,
+    )
+    ivd_raw = facts.get("ivd")
+    ivd = _compact_ivd(ivd_raw) if ivd_raw else None
+
+    # Compact per-component features
+    comp_features = []
+    for row in facts.get("component_feature_rows", []):
+        comp_features.append({
+            "c": row["component"],
+            "role": row.get("causal_role", "?"),
+            "sl": round(float(row.get("source_likelihood_score", 0)), 2),
+            "mag": round(float(row.get("near_onset_anomaly_magnitude", 0)), 1),
+            "sig": list(row.get("near_onset_internal_signals", [])),
+            "log_cnt": int(row.get("log_count", 0)),
+            "emit": bool(row.get("has_emitter_exception", False)),
+            "entry": bool(row.get("is_entry_like_component", False)),
+            "storage": bool(row.get("is_storage_component", False)),
+        })
+
+    # Compact IVD verdicts
+    ivd_compact = None
+    if ivd and ivd.get("ivd_enabled"):
+        ivd_compact = {
+            "ivd_enabled": True,
+            "ranking": ivd.get("ranking", []),
+            "verdicts": {},
+        }
+        for comp, v in ivd.get("verdicts", {}).items():
+            ivd_compact["verdicts"][comp] = {
+                "role": v.get("ivd_role"),
+                "cs": v.get("copeland_score"),
+                "fs": v.get("fault_signature_label"),
+                "cov": v.get("downstream_coverage_count"),
+                "call": v.get("caller_anomalies_count"),
+                "res": round(float(v.get("resource_magnitude", 0) or 0), 1),
+                "wl": round(float(v.get("workload_magnitude", 0) or 0), 1),
+            }
+
+    return {
+        "recall_pool": list(recall_pool),
+        "ivd": ivd_compact,
+        "components": comp_features,
+        "observations": [
+            {"c": o.component, "fs": round(o.first_seen, 1), "sig": list(o.signals)}
+            for o in case.observations[:10]
+        ],
+        "entry_components": list(case.entry_components),
+    }
+
+
+def _ivd_has_strong_consensus(
+    ivd: dict[str, Any] | None,
+    *,
+    comp_features: list[dict[str, Any]] | None = None,
+) -> tuple[bool, str | None]:
+    """Check if IVD has a clear winner we can use without LLM.
+
+    An ``emitter`` component flagged by IVD as initiator but whose anomaly
+    magnitude (``res``) is near-zero — typically a downstream service that
+    merely emitted ``Failed to call X`` error logs — should NOT qualify for
+    the shortcut. In such cases the true root-cause (which has resource/metric
+    anomalies but no error-stack) is better handled by the LLM path that can
+    see the full component-feature summary. This is the Eadro-TT failure
+    pattern: fault service emits no error logs, downstream ``Failed to call``
+    get misclassified as emitter/initiator.
+    """
+    if not ivd or not ivd.get("ivd_enabled"):
+        return False, None
+    ranking = ivd.get("ranking", [])
+    if not ranking:
+        return False, None
+    verdicts = ivd.get("verdicts", {})
+    if not verdicts:
+        return False, None
+    top = ranking[0]
+    v = verdicts.get(top)
+    if not v:
+        return False, None
+    # Strong consensus: initiator with copeland score >= 3 and no tie
+    if (v.get("role") == "initiator" and
+            (v.get("cs") or 0) > 2 and
+            (len(ranking) == 1 or
+             (verdicts.get(ranking[1], {}).get("cs") or 0) < (v.get("cs") or 0))):
+        # NEW emitter-penalty: reject shortcut if top has emitter=True with
+        # near-zero resource anomaly magnitude (reactive caller), particularly
+        # when another candidate has resource anomaly but no emitter.
+        if comp_features:
+            top_feat = next((f for f in comp_features if f["c"] == top), None)
+            res_top = float(top_feat.get("mag") or 0) if top_feat else 0.0
+            emit_top = bool(top_feat.get("emit")) if top_feat else False
+            # caller_anomalies signals the top is a *reactive* caller, not
+            # the true root-cause. ``v.get("call")`` exposes this count.
+            caller_anomaly_count = v.get("call") or 0
+            has_alt_resource = any(
+                f["c"] != top and float(f.get("mag") or 0) > res_top * 2.0
+                for f in comp_features
+            )
+            if emit_top and res_top <= 0.5 and (caller_anomaly_count > 0 or has_alt_resource):
+                # Likely a downstream "Failed to call X" emitter, not the
+                # root cause. Force LLM disambiguation.
+                return False, None
+        return True, top
+    return False, None
+
+
+def run_case_lightweight(
+    *,
+    loaded,
+    client: ModelClient,
+    recall_pool_size: int = 15,
+) -> dict[str, Any]:
+    """Signal-first lightweight agent.
+
+    1. Extract deterministic features + IVD.
+    2. If IVD has strong consensus → return immediately (0 LLM calls).
+    3. Otherwise → ONE compact LLM call with <3k token summary.
+    """
+    signals = _extract_compact_signals(
+        loaded, recall_pool_size=recall_pool_size
+    )
+    # Attempt deterministic shortcut
+    strong, winner = _ivd_has_strong_consensus(
+        signals.get("ivd"), comp_features=signals.get("components")
+    )
+    if strong and winner:
+        return {
+            "status": "lightweight_ivd_shortcut",
+            "hypothesis_id": None,
+            "predicted_component": winner,
+            "predicted_ranking": (
+                signals.get("ivd", {}).get("ranking", [])[:5]
+                if signals.get("ivd") else [winner]
+            ),
+            "reason_family": "ivd_consensus",
+            "onset_interval": [loaded.case.event_time, loaded.case.event_time + 60],
+            "steps_completed": 0,
+            "evidence_count": 0,
+            "referenced_evidence_ids": [],
+            "rationale": "IVD strong consensus, no LLM needed",
+            "uncertainties": [],
+            "global_rescue": False,
+            "outside_hypothesis_set": False,
+            "recall_pool": signals["recall_pool"],
+            "event_causal_profile": {},
+            "event_causal_fact_count": 0,
+            "final_belief_state": [],
+            "transcript": [],
+            "llm_calls": 0,
+        }
+
+    # Build compact LLM prompt
+    # Keep system prompt fixed for cache reuse; vary only case-specific user msg
+    user_content = json.dumps(signals, ensure_ascii=False, sort_keys=True)
+    request = ModelRequest(
+        purpose="lightweight_rca_decision",
+        messages=(
+            ModelMessage(role="system", content=_LIGHTWEIGHT_SYSTEM_PROMPT),
+            ModelMessage(role="user", content=user_content),
+        ),
+        attempt_index=0,
+    )
+    response = client.complete(request=request)
+    # Parse response
+    ivd = signals.get("ivd")
+    ivd_ranking = ivd.get("ranking", []) if ivd else []
+    try:
+        parsed = parse_json_object(response.content)
+        predicted = parsed.get("root_component", "")
+        rationale = parsed.get("rationale", "")
+        llm_ranking = parsed.get("ranking", [])
+        # Normalise to list[str]
+        if not isinstance(llm_ranking, list):
+            llm_ranking = []
+        llm_ranking = [str(x) for x in llm_ranking][:5]
+    except Exception:
+        # Fallback: use IVD top-1 if available
+        predicted = ivd_ranking[0] if ivd_ranking else ""
+        rationale = "LLM parse failed, fallback to IVD top-1"
+        llm_ranking = []
+
+    # Compose final ranking: LLM's list first, fall back to IVD ranking
+    predicted_ranking: list[str] = []
+    for c in llm_ranking:
+        if c not in predicted_ranking:
+            predicted_ranking.append(c)
+    for c in ivd_ranking:
+        if c not in predicted_ranking:
+            predicted_ranking.append(c)
+    if predicted and predicted not in predicted_ranking:
+        predicted_ranking.insert(0, predicted)
+    predicted_ranking = predicted_ranking[:5]
+
+    return {
+        "status": "lightweight_llm",
+        "hypothesis_id": None,
+        "predicted_component": predicted,
+        "predicted_ranking": predicted_ranking,
+        "reason_family": "lightweight",
+        "onset_interval": [loaded.case.event_time, loaded.case.event_time + 60],
+        "steps_completed": 1,
+        "evidence_count": 0,
+        "referenced_evidence_ids": [],
+        "rationale": rationale,
+        "uncertainties": [],
+        "global_rescue": False,
+        "outside_hypothesis_set": False,
+        "recall_pool": signals["recall_pool"],
+        "event_causal_profile": {},
+        "event_causal_fact_count": 0,
+        "final_belief_state": [],
+        "transcript": [{"agent_response": response.content[:2000]}],
+        "llm_calls": 1,
     }
 
 
