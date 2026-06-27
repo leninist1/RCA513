@@ -1,0 +1,39 @@
+RE2-SS/catalogue_delay/1: predicted=queue-master expected=catalogue hit=False tokens=140059 error=None
+RE2-SS/catalogue_delay/2: predicted=queue-master expected=catalogue hit=False tokens=147684 error=None
+RE2-SS/catalogue_delay/3: predicted=queue-master expected=catalogue hit=False tokens=134657 error=None
+RE2-SS/catalogue_socket/1: predicted=catalogue expected=catalogue hit=True tokens=125837 error=None
+RE2-SS/orders_cpu/2: predicted=queue-master expected=orders hit=False tokens=145947 error=None
+RE2-SS/payment_socket/3: predicted=queue-master expected=payment hit=False tokens=146161 error=None
+{
+  "dataset": "RE3",
+  "system": "RE2-SS",
+  "mode": "continuous-noise-native-event-causalizer",
+  "total_cases": 6,
+  "top1_accuracy": 0.16666666666666666,
+  "top1_hits": 1,
+  "recall_pool_size": 15,
+  "max_hypotheses": 10,
+  "elapsed_sec": 596.381,
+  "cost": {
+    "total_calls": 36,
+    "total_prompt_tokens": 777137,
+    "total_completion_tokens": 63208,
+    "total_tokens": 840345,
+    "avg_tokens_per_case": 140057,
+    "by_purpose": {
+      "event_causalizer_state_update": {
+        "call_count": 6,
+        "prompt_tokens": 120147,
+        "completion_tokens": 33743,
+        "total_tokens": 153890
+      },
+      "continuous_noise_native_state_update": {
+        "call_count": 30,
+        "prompt_tokens": 656990,
+        "completion_tokens": 29465,
+        "total_tokens": 686455
+      }
+    }
+  }
+}
+wrote prismv4/results/prism_cht/RE2-SS_ambig_full.json

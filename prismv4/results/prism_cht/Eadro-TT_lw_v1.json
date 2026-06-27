@@ -1,0 +1,5397 @@
+{
+  "dataset": "Eadro",
+  "system": "Eadro-TT",
+  "mode": "lightweight",
+  "total_cases": 81,
+  "top1_accuracy": 0.13580246913580246,
+  "top1_hits": 11,
+  "recall_pool_size": 15,
+  "max_hypotheses": 10,
+  "elapsed_sec": 154.982,
+  "cost": {
+    "total_calls": 26,
+    "total_prompt_tokens": 58856,
+    "total_completion_tokens": 3866,
+    "total_tokens": 62722,
+    "avg_tokens_per_case": 774,
+    "by_purpose": {
+      "lightweight_rca_decision": {
+        "call_count": 26,
+        "prompt_tokens": 58856,
+        "completion_tokens": 3866,
+        "total_tokens": 62722
+      }
+    }
+  },
+  "results": [
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "ts-contacts-service",
+      "predicted_ranking": [
+        "ts-contacts-service",
+        "ts-food-service",
+        "ts-route-service",
+        "ts-order-other-service",
+        "ts-security-service"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1650172864.064904,
+        1650172924.064904
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD identifies ts-contacts-service as initiator with copeland_score 6 (>0). No emitter exceptions, but highest copeland score and resource anomaly magnitude is high. Other candidates with lower copeland scores or negative scores are victims or ambiguous.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-station-service",
+        "ts-security-service",
+        "ts-food-service",
+        "ts-basic-service",
+        "ts-ticketinfo-service",
+        "ts-contacts-service",
+        "ts-preserve-service",
+        "ts-auth-service",
+        "ts-verification-code-service",
+        "ts-order-other-service",
+        "ts-assurance-service",
+        "ts-payment-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"ts-contacts-service\",\n  \"ranking\": [\n    \"ts-contacts-service\",\n    \"ts-food-service\",\n    \"ts-route-service\",\n    \"ts-order-other-service\",\n    \"ts-security-service\"\n  ],\n  \"rationale\": \"IVD identifies ts-contacts-service as initiator with copeland_score 6 (>0). No emitter exceptions, but highest copeland score and resource anomaly magnitude is high. Other candidates with lower copeland scores or negative scores are victims or ambiguous.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "Eadro-TT/TT.2022-04-17T212101D2022-04-17T230842/fault0",
+      "expected_component": "ts-food-service",
+      "hit": false,
+      "elapsed_sec": 3.462,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 2270,
+        "completion_tokens": 111,
+        "total_tokens": 2381,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 2270,
+            "completion_tokens": 111,
+            "total_tokens": 2381
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "ts-contacts-service",
+      "predicted_ranking": [
+        "ts-contacts-service",
+        "ts-auth-service",
+        "ts-order-other-service",
+        "ts-assurance-service",
+        "ts-order-service"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650173578.637172,
+        1650173638.637172
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-station-service",
+        "ts-basic-service",
+        "ts-auth-service",
+        "ts-security-service",
+        "ts-ticketinfo-service",
+        "ts-contacts-service",
+        "ts-preserve-service",
+        "ts-verification-code-service",
+        "ts-order-other-service",
+        "ts-assurance-service",
+        "ts-food-service",
+        "ts-config-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-TT/TT.2022-04-17T212101D2022-04-17T230842/fault1",
+      "expected_component": "ts-food-service",
+      "hit": false,
+      "elapsed_sec": 1.111,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "ts-contacts-service",
+      "predicted_ranking": [
+        "ts-contacts-service",
+        "ts-route-service",
+        "ts-auth-service",
+        "ts-order-other-service",
+        "ts-assurance-service"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650174303.018547,
+        1650174363.018547
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-security-service",
+        "ts-order-other-service",
+        "ts-food-service",
+        "ts-station-service",
+        "ts-contacts-service",
+        "ts-auth-service",
+        "ts-basic-service",
+        "ts-ticketinfo-service",
+        "ts-preserve-service",
+        "ts-verification-code-service",
+        "ts-assurance-service",
+        "ts-config-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-TT/TT.2022-04-17T212101D2022-04-17T230842/fault2",
+      "expected_component": "ts-food-service",
+      "hit": false,
+      "elapsed_sec": 0.961,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "ts-contacts-service",
+      "predicted_ranking": [
+        "ts-contacts-service",
+        "ts-assurance-service",
+        "ts-auth-service",
+        "ts-order-other-service",
+        "ts-order-service"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650175017.93866,
+        1650175077.93866
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-contacts-service",
+        "ts-auth-service",
+        "ts-assurance-service",
+        "ts-station-service",
+        "ts-security-service",
+        "ts-basic-service",
+        "ts-ticketinfo-service",
+        "ts-preserve-service",
+        "ts-verification-code-service",
+        "ts-order-other-service",
+        "ts-food-service",
+        "ts-config-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-TT/TT.2022-04-17T212101D2022-04-17T230842/fault3",
+      "expected_component": "ts-travel-service",
+      "hit": false,
+      "elapsed_sec": 1.084,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "ts-contacts-service",
+      "predicted_ranking": [
+        "ts-contacts-service",
+        "ts-assurance-service",
+        "ts-auth-service",
+        "ts-order-other-service",
+        "ts-order-service"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650175732.37853,
+        1650175792.37853
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-basic-service",
+        "ts-ticketinfo-service",
+        "ts-auth-service",
+        "ts-verification-code-service",
+        "ts-station-service",
+        "ts-security-service",
+        "ts-contacts-service",
+        "ts-preserve-service",
+        "ts-order-other-service",
+        "ts-assurance-service",
+        "ts-food-service",
+        "ts-config-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-TT/TT.2022-04-17T212101D2022-04-17T230842/fault4",
+      "expected_component": "ts-travel-service",
+      "hit": false,
+      "elapsed_sec": 0.958,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "ts-contacts-service",
+      "predicted_ranking": [
+        "ts-contacts-service",
+        "ts-route-service",
+        "ts-auth-service",
+        "ts-order-other-service",
+        "ts-assurance-service"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650176456.720742,
+        1650176516.720742
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-contacts-service",
+        "ts-inside-payment-service",
+        "ts-preserve-service",
+        "ts-station-service",
+        "ts-security-service",
+        "ts-auth-service",
+        "ts-basic-service",
+        "ts-ticketinfo-service",
+        "ts-verification-code-service",
+        "ts-order-other-service",
+        "ts-assurance-service",
+        "ts-food-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-TT/TT.2022-04-17T212101D2022-04-17T230842/fault5",
+      "expected_component": "ts-travel-service",
+      "hit": false,
+      "elapsed_sec": 1.084,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "ts-contacts-service",
+      "predicted_ranking": [
+        "ts-contacts-service",
+        "ts-assurance-service",
+        "ts-auth-service",
+        "ts-order-other-service",
+        "ts-order-service"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650177172.111051,
+        1650177232.111051
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-security-service",
+        "ts-contacts-service",
+        "ts-auth-service",
+        "ts-station-service",
+        "ts-basic-service",
+        "ts-order-other-service",
+        "ts-ticketinfo-service",
+        "ts-preserve-service",
+        "ts-verification-code-service",
+        "ts-assurance-service",
+        "ts-food-service",
+        "ts-payment-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-TT/TT.2022-04-17T212101D2022-04-17T230842/fault6",
+      "expected_component": "ts-contacts-service",
+      "hit": true,
+      "elapsed_sec": 0.947,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "ts-order-service",
+      "predicted_ranking": [
+        "ts-order-service",
+        "ts-route-service",
+        "ts-station-service",
+        "ts-security-service",
+        "ts-basic-service"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1650177886.357982,
+        1650177946.357982
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD ranking shows ts-assurance-service as initiator but copeland_score 4 with no emitter exception and entry component. ts-order-service has highest mag among non-entry, non-storage components and is top in recall pool. ts-route-service and ts-station-service have similar high mag and same anomaly signatures.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-station-service",
+        "ts-security-service",
+        "ts-basic-service",
+        "ts-ticketinfo-service",
+        "ts-preserve-service",
+        "ts-verification-code-service",
+        "ts-auth-service",
+        "ts-contacts-service",
+        "ts-order-other-service",
+        "ts-assurance-service",
+        "ts-food-service",
+        "ts-config-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"ts-order-service\",\n  \"ranking\": [\n    \"ts-order-service\",\n    \"ts-route-service\",\n    \"ts-station-service\",\n    \"ts-security-service\",\n    \"ts-basic-service\"\n  ],\n  \"rationale\": \"IVD ranking shows ts-assurance-service as initiator but copeland_score 4 with no emitter exception and entry component. ts-order-service has highest mag among non-entry, non-storage components and is top in recall pool. ts-route-service and ts-station-service have similar high mag and same anomaly signatures.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "Eadro-TT/TT.2022-04-17T212101D2022-04-17T230842/fault7",
+      "expected_component": "ts-contacts-service",
+      "hit": false,
+      "elapsed_sec": 3.887,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 2261,
+        "completion_tokens": 123,
+        "total_tokens": 2384,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 2261,
+            "completion_tokens": 123,
+            "total_tokens": 2384
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "ts-travel-service",
+      "predicted_ranking": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-station-service",
+        "ts-security-service"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1650178610.640178,
+        1650178670.640178
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "ts-travel-service has the highest anomaly magnitude (1.97e13) with CPU, memory, and socket anomalies. No emitter exceptions, but magnitude is extremely high. IVD ranks ts-assurance-service as initiator (copeland_score=4), but it is an entry component; rule says entry components are traffic surfaces, not root causes. ts-travel-service is not entry or storage, and has highest magnitude, so it is selected as root cause.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-security-service",
+        "ts-basic-service",
+        "ts-contacts-service",
+        "ts-station-service",
+        "ts-ticketinfo-service",
+        "ts-verification-code-service",
+        "ts-auth-service",
+        "ts-preserve-service",
+        "ts-order-other-service",
+        "ts-assurance-service",
+        "ts-food-service",
+        "ts-config-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"ts-travel-service\",\n  \"ranking\": [\"ts-travel-service\", \"ts-order-service\", \"ts-route-service\", \"ts-station-service\", \"ts-security-service\"],\n  \"rationale\": \"ts-travel-service has the highest anomaly magnitude (1.97e13) with CPU, memory, and socket anomalies. No emitter exceptions, but magnitude is extremely high. IVD ranks ts-assurance-service as initiator (copeland_score=4), but it is an entry component; rule says entry components are traffic surfaces, not root causes. ts-travel-service is not entry or storage, and has highest magnitude, so it is selected as root cause.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "Eadro-TT/TT.2022-04-17T212101D2022-04-17T230842/fault8",
+      "expected_component": "ts-contacts-service",
+      "hit": false,
+      "elapsed_sec": 2.91,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 2266,
+        "completion_tokens": 146,
+        "total_tokens": 2412,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 2266,
+            "completion_tokens": 146,
+            "total_tokens": 2412
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "ts-inside-payment-service",
+      "predicted_ranking": [
+        "ts-inside-payment-service",
+        "ts-route-service",
+        "ts-auth-service",
+        "ts-order-other-service",
+        "ts-order-service"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650219923.294469,
+        1650219983.294469
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-security-service",
+        "ts-ticketinfo-service",
+        "ts-user-service",
+        "ts-station-service",
+        "ts-basic-service",
+        "ts-contacts-service",
+        "ts-preserve-service",
+        "ts-verification-code-service",
+        "ts-auth-service",
+        "ts-inside-payment-service",
+        "ts-order-other-service",
+        "ts-assurance-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-TT/TT.2022-04-18T102520D2022-04-18T121301/fault0",
+      "expected_component": "ts-user-service",
+      "hit": false,
+      "elapsed_sec": 1.639,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "ts-inside-payment-service",
+      "predicted_ranking": [
+        "ts-inside-payment-service",
+        "ts-assurance-service",
+        "ts-auth-service",
+        "ts-basic-service",
+        "ts-contacts-service"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650220637.609615,
+        1650220697.609615
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-security-service",
+        "ts-basic-service",
+        "ts-ticketinfo-service",
+        "ts-station-service",
+        "ts-contacts-service",
+        "ts-preserve-service",
+        "ts-auth-service",
+        "ts-verification-code-service",
+        "ts-inside-payment-service",
+        "ts-order-other-service",
+        "ts-assurance-service",
+        "ts-user-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-TT/TT.2022-04-18T102520D2022-04-18T121301/fault1",
+      "expected_component": "ts-user-service",
+      "hit": false,
+      "elapsed_sec": 1.408,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "ts-inside-payment-service",
+      "predicted_ranking": [
+        "ts-inside-payment-service",
+        "ts-assurance-service",
+        "ts-auth-service",
+        "ts-basic-service",
+        "ts-contacts-service"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650221361.936631,
+        1650221421.936631
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-basic-service",
+        "ts-contacts-service",
+        "ts-preserve-service",
+        "ts-station-service",
+        "ts-security-service",
+        "ts-ticketinfo-service",
+        "ts-auth-service",
+        "ts-verification-code-service",
+        "ts-inside-payment-service",
+        "ts-order-other-service",
+        "ts-assurance-service",
+        "ts-user-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-TT/TT.2022-04-18T102520D2022-04-18T121301/fault2",
+      "expected_component": "ts-user-service",
+      "hit": false,
+      "elapsed_sec": 1.456,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "ts-inside-payment-service",
+      "predicted_ranking": [
+        "ts-inside-payment-service",
+        "ts-assurance-service",
+        "ts-auth-service",
+        "ts-basic-service",
+        "ts-contacts-service"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650222076.83836,
+        1650222136.83836
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-security-service",
+        "ts-inside-payment-service",
+        "ts-food-service",
+        "ts-station-service",
+        "ts-basic-service",
+        "ts-ticketinfo-service",
+        "ts-contacts-service",
+        "ts-preserve-service",
+        "ts-auth-service",
+        "ts-verification-code-service",
+        "ts-order-other-service",
+        "ts-assurance-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-TT/TT.2022-04-18T102520D2022-04-18T121301/fault3",
+      "expected_component": "ts-notification-service",
+      "hit": false,
+      "elapsed_sec": 1.605,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "ts-inside-payment-service",
+      "predicted_ranking": [
+        "ts-inside-payment-service",
+        "ts-assurance-service",
+        "ts-auth-service",
+        "ts-basic-service",
+        "ts-contacts-service"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650222791.223181,
+        1650222851.223181
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-station-service",
+        "ts-contacts-service",
+        "ts-preserve-service",
+        "ts-basic-service",
+        "ts-security-service",
+        "ts-ticketinfo-service",
+        "ts-auth-service",
+        "ts-verification-code-service",
+        "ts-inside-payment-service",
+        "ts-order-other-service",
+        "ts-assurance-service",
+        "ts-food-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-TT/TT.2022-04-18T102520D2022-04-18T121301/fault4",
+      "expected_component": "ts-notification-service",
+      "hit": false,
+      "elapsed_sec": 1.429,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "ts-inside-payment-service",
+      "predicted_ranking": [
+        "ts-inside-payment-service",
+        "ts-auth-service",
+        "ts-assurance-service",
+        "ts-basic-service",
+        "ts-order-service"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650223515.669701,
+        1650223575.669701
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-security-service",
+        "ts-contacts-service",
+        "ts-inside-payment-service",
+        "ts-station-service",
+        "ts-basic-service",
+        "ts-ticketinfo-service",
+        "ts-preserve-service",
+        "ts-auth-service",
+        "ts-verification-code-service",
+        "ts-order-other-service",
+        "ts-assurance-service",
+        "ts-food-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-TT/TT.2022-04-18T102520D2022-04-18T121301/fault5",
+      "expected_component": "ts-notification-service",
+      "hit": false,
+      "elapsed_sec": 1.435,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "ts-inside-payment-service",
+      "predicted_ranking": [
+        "ts-inside-payment-service",
+        "ts-auth-service",
+        "ts-assurance-service",
+        "ts-basic-service",
+        "ts-order-service"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650224230.608109,
+        1650224290.608109
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-station-service",
+        "ts-auth-service",
+        "ts-inside-payment-service",
+        "ts-verification-code-service",
+        "ts-security-service",
+        "ts-basic-service",
+        "ts-ticketinfo-service",
+        "ts-preserve-service",
+        "ts-contacts-service",
+        "ts-order-other-service",
+        "ts-assurance-service",
+        "ts-food-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-TT/TT.2022-04-18T102520D2022-04-18T121301/fault6",
+      "expected_component": "ts-inside-payment-service",
+      "hit": true,
+      "elapsed_sec": 1.576,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "ts-route-service",
+      "predicted_ranking": [
+        "ts-route-service",
+        "ts-auth-service",
+        "ts-order-service",
+        "ts-assurance-service",
+        "ts-contacts-service"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650224944.868821,
+        1650225004.868821
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-security-service",
+        "ts-auth-service",
+        "ts-inside-payment-service",
+        "ts-station-service",
+        "ts-contacts-service",
+        "ts-order-other-service",
+        "ts-basic-service",
+        "ts-ticketinfo-service",
+        "ts-preserve-service",
+        "ts-verification-code-service",
+        "ts-assurance-service",
+        "ts-food-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-TT/TT.2022-04-18T102520D2022-04-18T121301/fault7",
+      "expected_component": "ts-inside-payment-service",
+      "hit": false,
+      "elapsed_sec": 1.411,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "ts-assurance-service",
+      "predicted_ranking": [
+        "ts-assurance-service",
+        "ts-auth-service",
+        "ts-order-service",
+        "ts-contacts-service",
+        "ts-basic-service"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1650225669.352949,
+        1650225729.352949
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD identifies ts-assurance-service as initiator with Copeland score 4 > 0, and it is an entry-like component but no longer considered traffic surface because its high anomaly magnitude and resource anomalies suggest internal cause. No emitter exceptions exist, but IVD initiator rule overrides other heuristics.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-security-service",
+        "ts-contacts-service",
+        "ts-price-service",
+        "ts-station-service",
+        "ts-basic-service",
+        "ts-auth-service",
+        "ts-ticketinfo-service",
+        "ts-preserve-service",
+        "ts-verification-code-service",
+        "ts-inside-payment-service",
+        "ts-order-other-service",
+        "ts-assurance-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"ts-assurance-service\",\n  \"ranking\": [\n    \"ts-assurance-service\",\n    \"ts-auth-service\",\n    \"ts-order-service\",\n    \"ts-contacts-service\",\n    \"ts-basic-service\"\n  ],\n  \"rationale\": \"IVD identifies ts-assurance-service as initiator with Copeland score 4 > 0, and it is an entry-like component but no longer considered traffic surface because its high anomaly magnitude and resource anomalies suggest internal cause. No emitter exceptions exist, but IVD initiator rule overrides other heuristics.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "Eadro-TT/TT.2022-04-18T102520D2022-04-18T121301/fault8",
+      "expected_component": "ts-inside-payment-service",
+      "hit": false,
+      "elapsed_sec": 3.131,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 2255,
+        "completion_tokens": 122,
+        "total_tokens": 2377,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 2255,
+            "completion_tokens": 122,
+            "total_tokens": 2377
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "ts-assurance-service",
+      "predicted_ranking": [
+        "ts-assurance-service",
+        "ts-price-service",
+        "ts-auth-service",
+        "ts-order-service",
+        "ts-route-service"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1650226518.11708,
+        1650226578.11708
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD identifies ts-assurance-service as the initiator with copeland_score 6. It is an entry component (traffic surface) but also has high anomaly magnitude (8.2e10) and no emitter exception, making it the best candidate. Other candidates have lower Copeland scores or are victims.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-security-service",
+        "ts-route-plan-service",
+        "ts-preserve-service",
+        "ts-basic-service",
+        "ts-ticketinfo-service",
+        "ts-contacts-service",
+        "ts-station-service",
+        "ts-auth-service",
+        "ts-verification-code-service",
+        "ts-order-other-service",
+        "ts-price-service",
+        "ts-assurance-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"ts-assurance-service\",\n  \"ranking\": [\"ts-assurance-service\", \"ts-price-service\", \"ts-auth-service\", \"ts-order-service\", \"ts-route-service\"],\n  \"rationale\": \"IVD identifies ts-assurance-service as the initiator with copeland_score 6. It is an entry component (traffic surface) but also has high anomaly magnitude (8.2e10) and no emitter exception, making it the best candidate. Other candidates have lower Copeland scores or are victims.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "Eadro-TT/TT.2022-04-18T121515D2022-04-18T140256/fault0",
+      "expected_component": "ts-route-plan-service",
+      "hit": false,
+      "elapsed_sec": 3.371,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 2261,
+        "completion_tokens": 114,
+        "total_tokens": 2375,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 2261,
+            "completion_tokens": 114,
+            "total_tokens": 2375
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "ts-assurance-service",
+      "predicted_ranking": [
+        "ts-assurance-service",
+        "ts-auth-service",
+        "ts-order-service",
+        "ts-preserve-service",
+        "ts-basic-service"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650227232.358939,
+        1650227292.358939
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-basic-service",
+        "ts-ticketinfo-service",
+        "ts-contacts-service",
+        "ts-auth-service",
+        "ts-station-service",
+        "ts-security-service",
+        "ts-preserve-service",
+        "ts-verification-code-service",
+        "ts-order-other-service",
+        "ts-price-service",
+        "ts-assurance-service",
+        "ts-food-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-TT/TT.2022-04-18T121515D2022-04-18T140256/fault1",
+      "expected_component": "ts-route-plan-service",
+      "hit": false,
+      "elapsed_sec": 1.485,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "ts-assurance-service",
+      "predicted_ranking": [
+        "ts-assurance-service",
+        "ts-auth-service",
+        "ts-order-service",
+        "ts-preserve-service",
+        "ts-basic-service"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650227956.700722,
+        1650228016.700722
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-station-service",
+        "ts-security-service",
+        "ts-verification-code-service",
+        "ts-basic-service",
+        "ts-ticketinfo-service",
+        "ts-contacts-service",
+        "ts-preserve-service",
+        "ts-auth-service",
+        "ts-order-other-service",
+        "ts-price-service",
+        "ts-assurance-service",
+        "ts-food-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-TT/TT.2022-04-18T121515D2022-04-18T140256/fault2",
+      "expected_component": "ts-route-plan-service",
+      "hit": false,
+      "elapsed_sec": 1.627,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "ts-assurance-service",
+      "predicted_ranking": [
+        "ts-assurance-service",
+        "ts-auth-service",
+        "ts-order-service",
+        "ts-preserve-service",
+        "ts-basic-service"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650228671.81574,
+        1650228731.81574
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-station-service",
+        "ts-auth-service",
+        "ts-order-other-service",
+        "ts-security-service",
+        "ts-assurance-service",
+        "ts-basic-service",
+        "ts-ticketinfo-service",
+        "ts-contacts-service",
+        "ts-preserve-service",
+        "ts-verification-code-service",
+        "ts-price-service",
+        "ts-food-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-TT/TT.2022-04-18T121515D2022-04-18T140256/fault3",
+      "expected_component": "ts-assurance-service",
+      "hit": true,
+      "elapsed_sec": 1.32,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "ts-auth-service",
+      "predicted_ranking": [
+        "ts-auth-service",
+        "ts-order-service",
+        "ts-preserve-service",
+        "ts-basic-service",
+        "ts-contacts-service"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650229386.076203,
+        1650229446.076203
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-station-service",
+        "ts-security-service",
+        "ts-basic-service",
+        "ts-ticketinfo-service",
+        "ts-contacts-service",
+        "ts-preserve-service",
+        "ts-auth-service",
+        "ts-verification-code-service",
+        "ts-order-other-service",
+        "ts-price-service",
+        "ts-assurance-service",
+        "ts-food-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-TT/TT.2022-04-18T121515D2022-04-18T140256/fault4",
+      "expected_component": "ts-assurance-service",
+      "hit": false,
+      "elapsed_sec": 1.399,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "ts-auth-service",
+      "predicted_ranking": [
+        "ts-auth-service",
+        "ts-order-service",
+        "ts-preserve-service",
+        "ts-basic-service",
+        "ts-food-service"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650230110.547442,
+        1650230170.547442
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-station-service",
+        "ts-contacts-service",
+        "ts-food-service",
+        "ts-security-service",
+        "ts-basic-service",
+        "ts-ticketinfo-service",
+        "ts-preserve-service",
+        "ts-auth-service",
+        "ts-verification-code-service",
+        "ts-order-other-service",
+        "ts-price-service",
+        "ts-assurance-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-TT/TT.2022-04-18T121515D2022-04-18T140256/fault5",
+      "expected_component": "ts-assurance-service",
+      "hit": false,
+      "elapsed_sec": 1.616,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "ts-auth-service",
+      "predicted_ranking": [
+        "ts-auth-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-basic-service",
+        "ts-station-service"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1650230825.479746,
+        1650230885.479746
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD identifies ts-auth-service as initiator with copeland_score 6 (>0). No emitter exceptions among source candidates, but IVD initiator outranks based on rules. Highest anomaly magnitude among initiators. ts-order-service also has copeland_score 6 but is ambiguous; ts-auth-service is explicitly initiator.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-basic-service",
+        "ts-price-service",
+        "ts-food-service",
+        "ts-ticketinfo-service",
+        "ts-station-service",
+        "ts-security-service",
+        "ts-contacts-service",
+        "ts-preserve-service",
+        "ts-auth-service",
+        "ts-verification-code-service",
+        "ts-order-other-service",
+        "ts-assurance-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"ts-auth-service\",\n  \"ranking\": [\n    \"ts-auth-service\",\n    \"ts-order-service\",\n    \"ts-route-service\",\n    \"ts-basic-service\",\n    \"ts-station-service\"\n  ],\n  \"rationale\": \"IVD identifies ts-auth-service as initiator with copeland_score 6 (>0). No emitter exceptions among source candidates, but IVD initiator outranks based on rules. Highest anomaly magnitude among initiators. ts-order-service also has copeland_score 6 but is ambiguous; ts-auth-service is explicitly initiator.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "Eadro-TT/TT.2022-04-18T121515D2022-04-18T140256/fault6",
+      "expected_component": "ts-price-service",
+      "hit": false,
+      "elapsed_sec": 3.194,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 2275,
+        "completion_tokens": 125,
+        "total_tokens": 2400,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 2275,
+            "completion_tokens": 125,
+            "total_tokens": 2400
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "ts-auth-service",
+      "predicted_ranking": [
+        "ts-auth-service",
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-ticketinfo-service",
+        "ts-security-service"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1650231539.752048,
+        1650231599.752048
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD identifies ts-auth-service as initiator with copeland_score 6 > 0. It does not have emitter_exception, but no other source_candidate has emitter_exception either. All candidates have very high anomaly magnitudes (mag far above 0.5), so the rule about swapping due to low mag does not apply. ts-auth-service is not storage, not entry (entry component is ts-assurance-service), and thus is selected as root cause.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-ticketinfo-service",
+        "ts-security-service",
+        "ts-preserve-service",
+        "ts-station-service",
+        "ts-basic-service",
+        "ts-contacts-service",
+        "ts-auth-service",
+        "ts-verification-code-service",
+        "ts-order-other-service",
+        "ts-price-service",
+        "ts-assurance-service",
+        "ts-food-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"ts-auth-service\",\n  \"ranking\": [\n    \"ts-auth-service\",\n    \"ts-travel-service\",\n    \"ts-order-service\",\n    \"ts-ticketinfo-service\",\n    \"ts-security-service\"\n  ],\n  \"rationale\": \"IVD identifies ts-auth-service as initiator with copeland_score 6 > 0. It does not have emitter_exception, but no other source_candidate has emitter_exception either. All candidates have very high anomaly magnitudes (mag far above 0.5), so the rule about swapping due to low mag does not apply. ts-auth-service is not storage, not entry (entry component is ts-assurance-service), and thus is selected as root cause.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "Eadro-TT/TT.2022-04-18T121515D2022-04-18T140256/fault7",
+      "expected_component": "ts-price-service",
+      "hit": false,
+      "elapsed_sec": 3.823,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 2266,
+        "completion_tokens": 153,
+        "total_tokens": 2419,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 2266,
+            "completion_tokens": 153,
+            "total_tokens": 2419
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "ts-auth-service",
+      "predicted_ranking": [
+        "ts-auth-service",
+        "ts-order-service",
+        "ts-travel-service",
+        "ts-security-service",
+        "ts-route-service"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1650232264.082325,
+        1650232324.082325
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD identifies ts-auth-service as initiator with copeland_score 6 > 0. No component has emitter_exception. ts-auth-service has high anomaly magnitude (7781360001627.2) and memory anomalies. ts-order-service is ambiguous but ranked second. ts-travel-service has highest anomaly magnitude but is storage? No, it's not storage. However, IVD priority overrides.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-station-service",
+        "ts-basic-service",
+        "ts-auth-service",
+        "ts-security-service",
+        "ts-ticketinfo-service",
+        "ts-preserve-service",
+        "ts-contacts-service",
+        "ts-verification-code-service",
+        "ts-price-service",
+        "ts-order-other-service",
+        "ts-assurance-service",
+        "ts-food-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"ts-auth-service\",\n  \"ranking\": [\"ts-auth-service\", \"ts-order-service\", \"ts-travel-service\", \"ts-security-service\", \"ts-route-service\"],\n  \"rationale\": \"IVD identifies ts-auth-service as initiator with copeland_score 6 > 0. No component has emitter_exception. ts-auth-service has high anomaly magnitude (7781360001627.2) and memory anomalies. ts-order-service is ambiguous but ranked second. ts-travel-service has highest anomaly magnitude but is storage? No, it's not storage. However, IVD priority overrides.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "Eadro-TT/TT.2022-04-18T121515D2022-04-18T140256/fault8",
+      "expected_component": "ts-price-service",
+      "hit": false,
+      "elapsed_sec": 3.589,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 2281,
+        "completion_tokens": 132,
+        "total_tokens": 2413,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 2281,
+            "completion_tokens": 132,
+            "total_tokens": 2413
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "ts-train-service",
+      "predicted_ranking": [
+        "ts-train-service",
+        "ts-basic-service",
+        "ts-contacts-service",
+        "ts-order-other-service",
+        "ts-security-service"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650236852.123072,
+        1650236912.123072
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-station-service",
+        "ts-security-service",
+        "ts-contacts-service",
+        "ts-basic-service",
+        "ts-ticketinfo-service",
+        "ts-verification-code-service",
+        "ts-preserve-service",
+        "ts-auth-service",
+        "ts-order-other-service",
+        "ts-train-service",
+        "ts-assurance-service",
+        "ts-food-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-TT/TT.2022-04-18T150729D2022-04-18T165511/fault0",
+      "expected_component": "ts-train-service",
+      "hit": true,
+      "elapsed_sec": 2.265,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "ts-order-service",
+      "predicted_ranking": [
+        "ts-order-service",
+        "ts-auth-service",
+        "ts-basic-service",
+        "ts-contacts-service",
+        "ts-order-other-service"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650237566.364055,
+        1650237626.364055
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-station-service",
+        "ts-security-service",
+        "ts-preserve-service",
+        "ts-verification-code-service",
+        "ts-basic-service",
+        "ts-ticketinfo-service",
+        "ts-contacts-service",
+        "ts-auth-service",
+        "ts-order-other-service",
+        "ts-train-service",
+        "ts-assurance-service",
+        "ts-food-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-TT/TT.2022-04-18T150729D2022-04-18T165511/fault1",
+      "expected_component": "ts-train-service",
+      "hit": false,
+      "elapsed_sec": 1.067,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "ts-order-service",
+      "predicted_ranking": [
+        "ts-order-service",
+        "ts-auth-service",
+        "ts-contacts-service",
+        "ts-order-other-service",
+        "ts-preserve-service"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650238290.675351,
+        1650238350.675351
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-verification-code-service",
+        "ts-order-other-service",
+        "ts-train-service",
+        "ts-station-service",
+        "ts-security-service",
+        "ts-basic-service",
+        "ts-ticketinfo-service",
+        "ts-contacts-service",
+        "ts-preserve-service",
+        "ts-auth-service",
+        "ts-assurance-service",
+        "ts-food-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-TT/TT.2022-04-18T150729D2022-04-18T165511/fault2",
+      "expected_component": "ts-train-service",
+      "hit": false,
+      "elapsed_sec": 0.974,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "ts-order-service",
+      "predicted_ranking": [
+        "ts-order-service",
+        "ts-auth-service",
+        "ts-contacts-service",
+        "ts-order-other-service",
+        "ts-basic-service"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650239005.587445,
+        1650239065.587445
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-basic-service",
+        "ts-food-service",
+        "ts-payment-service",
+        "ts-station-service",
+        "ts-ticketinfo-service",
+        "ts-security-service",
+        "ts-contacts-service",
+        "ts-preserve-service",
+        "ts-auth-service",
+        "ts-verification-code-service",
+        "ts-order-other-service",
+        "ts-assurance-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-TT/TT.2022-04-18T150729D2022-04-18T165511/fault3",
+      "expected_component": "ts-order-service",
+      "hit": true,
+      "elapsed_sec": 1.03,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "ts-auth-service",
+      "predicted_ranking": [
+        "ts-auth-service",
+        "ts-order-other-service",
+        "ts-assurance-service",
+        "ts-basic-service",
+        "ts-contacts-service"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1650239719.952695,
+        1650239779.952695
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD identifies ts-auth-service as initiator with copeland_score=6 >0. It has high anomaly magnitude (7078010000720.8) and no emitter exception, but no other candidate has both higher magnitude and emitter exception to override IVD. ts-order-other-service is ambiguous but has same copeland_score, placed second due to lower magnitude. ts-assurance-service is flagged as entry component (victim), ranked third. Other candidates are lower magnitude victims.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-route-service",
+        "ts-basic-service",
+        "ts-ticketinfo-service",
+        "ts-order-service",
+        "ts-auth-service",
+        "ts-station-service",
+        "ts-preserve-service",
+        "ts-verification-code-service",
+        "ts-security-service",
+        "ts-order-other-service",
+        "ts-contacts-service",
+        "ts-assurance-service",
+        "ts-food-service",
+        "ts-food-map-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"ts-auth-service\",\n  \"ranking\": [\"ts-auth-service\", \"ts-order-other-service\", \"ts-assurance-service\", \"ts-basic-service\", \"ts-contacts-service\"],\n  \"rationale\": \"IVD identifies ts-auth-service as initiator with copeland_score=6 >0. It has high anomaly magnitude (7078010000720.8) and no emitter exception, but no other candidate has both higher magnitude and emitter exception to override IVD. ts-order-other-service is ambiguous but has same copeland_score, placed second due to lower magnitude. ts-assurance-service is flagged as entry component (victim), ranked third. Other candidates are lower magnitude victims.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "Eadro-TT/TT.2022-04-18T150729D2022-04-18T165511/fault4",
+      "expected_component": "ts-order-service",
+      "hit": false,
+      "elapsed_sec": 3.167,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 2264,
+        "completion_tokens": 150,
+        "total_tokens": 2414,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 2264,
+            "completion_tokens": 150,
+            "total_tokens": 2414
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "ts-auth-service",
+      "predicted_ranking": [
+        "ts-auth-service",
+        "ts-order-other-service",
+        "ts-travel-service",
+        "ts-preserve-service",
+        "ts-route-service"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1650240444.363153,
+        1650240504.363153
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD identifies ts-auth-service as the only initiator with positive Copeland score (cs=6), indicating it is likely the root cause. No components have emitter_exception=True. Storage components are absent. Among source_candidates, ts-auth-service has high anomaly magnitude, and IVD ranking confirms its primacy.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-preserve-service",
+        "ts-station-service",
+        "ts-route-service",
+        "ts-auth-service",
+        "ts-ticketinfo-service",
+        "ts-order-service",
+        "ts-verification-code-service",
+        "ts-basic-service",
+        "ts-security-service",
+        "ts-order-other-service",
+        "ts-contacts-service",
+        "ts-food-service",
+        "ts-assurance-service",
+        "ts-inside-payment-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"ts-auth-service\",\n  \"ranking\": [\"ts-auth-service\", \"ts-order-other-service\", \"ts-travel-service\", \"ts-preserve-service\", \"ts-route-service\"],\n  \"rationale\": \"IVD identifies ts-auth-service as the only initiator with positive Copeland score (cs=6), indicating it is likely the root cause. No components have emitter_exception=True. Storage components are absent. Among source_candidates, ts-auth-service has high anomaly magnitude, and IVD ranking confirms its primacy.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "Eadro-TT/TT.2022-04-18T150729D2022-04-18T165511/fault5",
+      "expected_component": "ts-order-service",
+      "hit": false,
+      "elapsed_sec": 3.046,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 2274,
+        "completion_tokens": 117,
+        "total_tokens": 2391,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 2274,
+            "completion_tokens": 117,
+            "total_tokens": 2391
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "ts-order-other-service",
+      "predicted_ranking": [
+        "ts-order-other-service",
+        "ts-station-service",
+        "ts-inside-payment-service",
+        "ts-order-service",
+        "ts-assurance-service"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1650241160.518665,
+        1650241220.518665
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "Highest anomaly magnitude (7.07e11) and earliest timestamp, with no emitter exceptions, indicating it is the root cause among microservices with similar signal patterns. Other candidates have smaller magnitudes or later timestamps.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-order-other-service",
+        "ts-order-service",
+        "ts-station-service",
+        "ts-assurance-service",
+        "ts-config-service",
+        "ts-food-map-service",
+        "ts-inside-payment-service",
+        "ts-user-service",
+        "ts-security-service",
+        "ts-travel-service",
+        "ts-payment-service",
+        "ts-price-service",
+        "ts-food-service",
+        "ts-contacts-service",
+        "ts-auth-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"ts-order-other-service\",\n  \"ranking\": [\"ts-order-other-service\", \"ts-station-service\", \"ts-inside-payment-service\", \"ts-order-service\", \"ts-assurance-service\"],\n  \"rationale\": \"Highest anomaly magnitude (7.07e11) and earliest timestamp, with no emitter exceptions, indicating it is the root cause among microservices with similar signal patterns. Other candidates have smaller magnitudes or later timestamps.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "Eadro-TT/TT.2022-04-18T150729D2022-04-18T165511/fault6",
+      "expected_component": "ts-cancel-service",
+      "hit": false,
+      "elapsed_sec": 3.279,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 2231,
+        "completion_tokens": 100,
+        "total_tokens": 2331,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 2231,
+            "completion_tokens": 100,
+            "total_tokens": 2331
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "ts-travel-service",
+      "predicted_ranking": [
+        "ts-travel-service",
+        "ts-order-other-service",
+        "ts-station-service",
+        "ts-config-service",
+        "ts-payment-service"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1650241874.660202,
+        1650241934.660202
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "No emitter exceptions, but ts-travel-service has highest anomaly magnitude (mag=575020000082.3) and earliest first signal time (fs=1650241875) among source_candidates. IVD returns ambiguous for all, so select component with highest mag and earliest fs.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-order-other-service",
+        "ts-station-service",
+        "ts-travel-service",
+        "ts-route-service",
+        "ts-basic-service",
+        "ts-route-plan-service",
+        "ts-config-service",
+        "ts-food-map-service",
+        "ts-auth-service",
+        "ts-payment-service",
+        "ts-price-service",
+        "ts-travel2-service",
+        "ts-contacts-service",
+        "ts-inside-payment-service",
+        "ts-assurance-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"ts-travel-service\",\n  \"ranking\": [\n    \"ts-travel-service\",\n    \"ts-order-other-service\",\n    \"ts-station-service\",\n    \"ts-config-service\",\n    \"ts-payment-service\"\n  ],\n  \"rationale\": \"No emitter exceptions, but ts-travel-service has highest anomaly magnitude (mag=575020000082.3) and earliest first signal time (fs=1650241875) among source_candidates. IVD returns ambiguous for all, so select component with highest mag and earliest fs.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "Eadro-TT/TT.2022-04-18T150729D2022-04-18T165511/fault7",
+      "expected_component": "ts-cancel-service",
+      "hit": false,
+      "elapsed_sec": 2.876,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 2242,
+        "completion_tokens": 120,
+        "total_tokens": 2362,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 2242,
+            "completion_tokens": 120,
+            "total_tokens": 2362
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "ts-order-other-service",
+      "predicted_ranking": [
+        "ts-order-other-service",
+        "ts-travel-service",
+        "ts-user-service",
+        "ts-food-service",
+        "ts-config-service"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1650242598.972086,
+        1650242658.972086
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "All candidates have no emitter exceptions and high anomaly magnitudes. IVD is ambiguous. ts-order-other-service has the highest anomaly magnitude (707020000006.9) and is not an entry, storage, or frontend component, making it the most likely root cause.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-order-other-service",
+        "ts-payment-service",
+        "ts-config-service",
+        "ts-user-service",
+        "ts-food-service",
+        "ts-contacts-service",
+        "ts-travel-service",
+        "ts-travel2-service",
+        "ts-auth-service",
+        "ts-price-service",
+        "ts-order-service",
+        "ts-station-service",
+        "ts-inside-payment-service",
+        "ts-food-map-service",
+        "ts-assurance-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"ts-order-other-service\",\n  \"ranking\": [\n    \"ts-order-other-service\",\n    \"ts-travel-service\",\n    \"ts-user-service\",\n    \"ts-food-service\",\n    \"ts-config-service\"\n  ],\n  \"rationale\": \"All candidates have no emitter exceptions and high anomaly magnitudes. IVD is ambiguous. ts-order-other-service has the highest anomaly magnitude (707020000006.9) and is not an entry, storage, or frontend component, making it the most likely root cause.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "Eadro-TT/TT.2022-04-18T150729D2022-04-18T165511/fault8",
+      "expected_component": "ts-cancel-service",
+      "hit": false,
+      "elapsed_sec": 2.715,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 2245,
+        "completion_tokens": 116,
+        "total_tokens": 2361,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 2245,
+            "completion_tokens": 116,
+            "total_tokens": 2361
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "ts-basic-service",
+      "predicted_ranking": [
+        "ts-basic-service",
+        "ts-order-other-service",
+        "ts-route-service",
+        "ts-travel-service",
+        "ts-station-service"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1650243490.643996,
+        1650243550.643996
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD identifies ts-basic-service as initiator with copeland_score=6 (>0). No component has emitter_exception, so no override. Storage components are absent, entry component (ts-assurance-service) excluded. Ts-basic-service has extremely high anomaly magnitude (10440220465868.1) and resource anomalies in cpu and socket, consistent with being the root cause.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-station-service",
+        "ts-security-service",
+        "ts-basic-service",
+        "ts-ticketinfo-service",
+        "ts-contacts-service",
+        "ts-auth-service",
+        "ts-preserve-service",
+        "ts-order-other-service",
+        "ts-verification-code-service",
+        "ts-assurance-service",
+        "ts-food-service",
+        "ts-config-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"ts-basic-service\",\n  \"ranking\": [\n    \"ts-basic-service\",\n    \"ts-order-other-service\",\n    \"ts-route-service\",\n    \"ts-travel-service\",\n    \"ts-station-service\"\n  ],\n  \"rationale\": \"IVD identifies ts-basic-service as initiator with copeland_score=6 (>0). No component has emitter_exception, so no override. Storage components are absent, entry component (ts-assurance-service) excluded. Ts-basic-service has extremely high anomaly magnitude (10440220465868.1) and resource anomalies in cpu and socket, consistent with being the root cause.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "Eadro-TT/TT.2022-04-18T165807D2022-04-18T184548/fault0",
+      "expected_component": "ts-basic-service",
+      "hit": true,
+      "elapsed_sec": 4.303,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 2267,
+        "completion_tokens": 141,
+        "total_tokens": 2408,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 2267,
+            "completion_tokens": 141,
+            "total_tokens": 2408
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "ts-order-other-service",
+      "predicted_ranking": [
+        "ts-order-other-service",
+        "ts-auth-service",
+        "ts-contacts-service",
+        "ts-food-service",
+        "ts-order-service"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650244205.096655,
+        1650244265.096655
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-security-service",
+        "ts-basic-service",
+        "ts-food-service",
+        "ts-station-service",
+        "ts-preserve-service",
+        "ts-ticketinfo-service",
+        "ts-contacts-service",
+        "ts-auth-service",
+        "ts-order-other-service",
+        "ts-verification-code-service",
+        "ts-assurance-service",
+        "ts-config-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-TT/TT.2022-04-18T165807D2022-04-18T184548/fault1",
+      "expected_component": "ts-basic-service",
+      "hit": false,
+      "elapsed_sec": 1.151,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "ts-order-other-service",
+      "predicted_ranking": [
+        "ts-order-other-service",
+        "ts-auth-service",
+        "ts-basic-service",
+        "ts-contacts-service",
+        "ts-food-service"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650244929.462781,
+        1650244989.462781
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-security-service",
+        "ts-ticketinfo-service",
+        "ts-contacts-service",
+        "ts-station-service",
+        "ts-preserve-service",
+        "ts-basic-service",
+        "ts-auth-service",
+        "ts-order-other-service",
+        "ts-verification-code-service",
+        "ts-assurance-service",
+        "ts-food-service",
+        "ts-config-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-TT/TT.2022-04-18T165807D2022-04-18T184548/fault2",
+      "expected_component": "ts-basic-service",
+      "hit": false,
+      "elapsed_sec": 1.018,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "ts-order-other-service",
+      "predicted_ranking": [
+        "ts-order-other-service",
+        "ts-auth-service",
+        "ts-basic-service",
+        "ts-contacts-service",
+        "ts-food-service"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650245644.459863,
+        1650245704.459863
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-station-service",
+        "ts-contacts-service",
+        "ts-order-other-service",
+        "ts-security-service",
+        "ts-preserve-service",
+        "ts-basic-service",
+        "ts-ticketinfo-service",
+        "ts-auth-service",
+        "ts-verification-code-service",
+        "ts-assurance-service",
+        "ts-food-service",
+        "ts-config-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-TT/TT.2022-04-18T165807D2022-04-18T184548/fault3",
+      "expected_component": "ts-order-other-service",
+      "hit": true,
+      "elapsed_sec": 1.06,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "ts-auth-service",
+      "predicted_ranking": [
+        "ts-auth-service",
+        "ts-basic-service",
+        "ts-contacts-service",
+        "ts-food-service",
+        "ts-order-service"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650246358.69964,
+        1650246418.69964
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-preserve-service",
+        "ts-order-other-service",
+        "ts-food-service",
+        "ts-station-service",
+        "ts-security-service",
+        "ts-basic-service",
+        "ts-ticketinfo-service",
+        "ts-contacts-service",
+        "ts-auth-service",
+        "ts-verification-code-service",
+        "ts-assurance-service",
+        "ts-config-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-TT/TT.2022-04-18T165807D2022-04-18T184548/fault4",
+      "expected_component": "ts-order-other-service",
+      "hit": false,
+      "elapsed_sec": 1.031,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "ts-auth-service",
+      "predicted_ranking": [
+        "ts-auth-service",
+        "ts-order-other-service",
+        "ts-basic-service",
+        "ts-food-service",
+        "ts-order-service"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1650247082.925413,
+        1650247142.925413
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "LLM parse failed, fallback to IVD top-1",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-station-service",
+        "ts-preserve-service",
+        "ts-contacts-service",
+        "ts-verification-code-service",
+        "ts-security-service",
+        "ts-basic-service",
+        "ts-ticketinfo-service",
+        "ts-auth-service",
+        "ts-order-other-service",
+        "ts-assurance-service",
+        "ts-food-service",
+        "ts-config-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"ts-travel-service\", \"ranking\": [\"ts-travel-service\", \"ts-route-service\", \"ts-station-service\", \"ts-preserve-service\", \"ts-contacts-service\"], \"rationale\": \"No emitter exceptions present. IVD identifies ts-auth-service as initiator with copeland_score=3 (<0 rule not applicable since >0? Actually 3>0, but no emitter exception. However, IVD is ambiguous for all except ts-auth-service and ts-order-other-service with cs=3. But ts-auth-service is not the highest anomaly magnitude; ts-travel-service has highest anomaly magnitude (mag=1.98e13) and resource anomaly (cpu, socket). Additionally, ts-auth-service is not in the recall pool top (though it is in ivd ranking). Per rule: if IVD provides an initiator with copeland_score > 0, select it. But here, ts-auth-service has cs=3, which is >0. So should select ts-auth-service? Wait, rule says \"If IVD provides an initiator with copeland_score > 0, select it.\" That would be ts-auth-service. However, other rules: emitter_exception=False for all. So ts-auth-service is a candidate with no exception. But ts-travel-service has much higher mag. The rule says: \"Source_candidate with emitter_exception=True outranks ... UNLESS that candidate has near-zero anomaly magnitude (mag <= 0.5) AND another candidate has mag >= 2x larger resource anomaly — in that case the emitter may be a reactive caller.\" Here, no emitter_exception, so that rule doesn't apply. The IVD rule is direct: select ts-auth-service. But check IVD: ts-auth-service role is \"initiator\", cs=3. So per exact rule, root_component should be ts-auth-service. However, the IVD also says \"ambiguous_or_no_exception\" for all. But the rule says \"If IVD provides an initiator with copeland_score > 0, select it.\" So we must follow that. But recall_pool does not include ts-auth-service? Actually it does: \"ts-auth-service\" is in recall_pool. So final answer: ts-auth-service. But wait, the instruction says \"Pick exactly one root_component from the candidates list\". Candida"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "Eadro-TT/TT.2022-04-18T165807D2022-04-18T184548/fault5",
+      "expected_component": "ts-order-other-service",
+      "hit": false,
+      "elapsed_sec": 8.071,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 2266,
+        "completion_tokens": 687,
+        "total_tokens": 2953,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 2266,
+            "completion_tokens": 687,
+            "total_tokens": 2953
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "ts-auth-service",
+      "predicted_ranking": [
+        "ts-auth-service",
+        "ts-food-service",
+        "ts-order-other-service",
+        "ts-order-service",
+        "ts-assurance-service"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650247797.736095,
+        1650247857.736095
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-station-service",
+        "ts-security-service",
+        "ts-order-other-service",
+        "ts-basic-service",
+        "ts-ticketinfo-service",
+        "ts-preserve-service",
+        "ts-contacts-service",
+        "ts-auth-service",
+        "ts-verification-code-service",
+        "ts-assurance-service",
+        "ts-food-service",
+        "ts-price-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-TT/TT.2022-04-18T165807D2022-04-18T184548/fault6",
+      "expected_component": "ts-travel-plan-service",
+      "hit": false,
+      "elapsed_sec": 1.017,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "ts-auth-service",
+      "predicted_ranking": [
+        "ts-auth-service",
+        "ts-food-service",
+        "ts-order-other-service",
+        "ts-route-service",
+        "ts-order-service"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650248511.985636,
+        1650248571.985636
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-auth-service",
+        "ts-food-service",
+        "ts-price-service",
+        "ts-station-service",
+        "ts-security-service",
+        "ts-contacts-service",
+        "ts-basic-service",
+        "ts-ticketinfo-service",
+        "ts-preserve-service",
+        "ts-verification-code-service",
+        "ts-order-other-service",
+        "ts-assurance-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-TT/TT.2022-04-18T165807D2022-04-18T184548/fault7",
+      "expected_component": "ts-travel-plan-service",
+      "hit": false,
+      "elapsed_sec": 1.12,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "ts-auth-service",
+      "predicted_ranking": [
+        "ts-auth-service",
+        "ts-order-service",
+        "ts-assurance-service",
+        "ts-contacts-service",
+        "ts-food-service"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650249236.386004,
+        1650249296.386004
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-station-service",
+        "ts-route-service",
+        "ts-security-service",
+        "ts-food-service",
+        "ts-contacts-service",
+        "ts-auth-service",
+        "ts-order-other-service",
+        "ts-basic-service",
+        "ts-ticketinfo-service",
+        "ts-preserve-service",
+        "ts-verification-code-service",
+        "ts-assurance-service",
+        "ts-price-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-TT/TT.2022-04-18T165807D2022-04-18T184548/fault8",
+      "expected_component": "ts-travel-plan-service",
+      "hit": false,
+      "elapsed_sec": 1.001,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "ts-config-service",
+      "predicted_ranking": [
+        "ts-config-service",
+        "ts-food-map-service",
+        "ts-auth-service",
+        "ts-route-service",
+        "ts-basic-service"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1650250082.29745,
+        1650250142.29745
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD assigns ts-config-service as initiator with copeland_score 6 (>0). No emitter exceptions present, so the tiebreaker does not apply. Storage components are not involved. Entry components (ts-assurance-service) are not root causes. ts-config-service has high anomaly magnitude (2.09e12) and is top-ranked by IVD.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-station-service",
+        "ts-security-service",
+        "ts-auth-service",
+        "ts-basic-service",
+        "ts-ticketinfo-service",
+        "ts-contacts-service",
+        "ts-preserve-service",
+        "ts-verification-code-service",
+        "ts-order-other-service",
+        "ts-assurance-service",
+        "ts-food-map-service",
+        "ts-config-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"ts-config-service\",\n  \"ranking\": [\n    \"ts-config-service\",\n    \"ts-food-map-service\",\n    \"ts-auth-service\",\n    \"ts-route-service\",\n    \"ts-basic-service\"\n  ],\n  \"rationale\": \"IVD assigns ts-config-service as initiator with copeland_score 6 (>0). No emitter exceptions present, so the tiebreaker does not apply. Storage components are not involved. Entry components (ts-assurance-service) are not root causes. ts-config-service has high anomaly magnitude (2.09e12) and is top-ranked by IVD.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "Eadro-TT/TT.2022-04-18T184759D2022-04-18T203539/fault0",
+      "expected_component": "ts-food-map-service",
+      "hit": false,
+      "elapsed_sec": 3.814,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 2275,
+        "completion_tokens": 131,
+        "total_tokens": 2406,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 2275,
+            "completion_tokens": 131,
+            "total_tokens": 2406
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "ts-config-service",
+      "predicted_ranking": [
+        "ts-config-service",
+        "ts-auth-service",
+        "ts-order-service",
+        "ts-assurance-service",
+        "ts-basic-service"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650250796.624081,
+        1650250856.624081
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-ticketinfo-service",
+        "ts-assurance-service",
+        "ts-food-map-service",
+        "ts-station-service",
+        "ts-security-service",
+        "ts-basic-service",
+        "ts-contacts-service",
+        "ts-preserve-service",
+        "ts-auth-service",
+        "ts-verification-code-service",
+        "ts-order-other-service",
+        "ts-config-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-TT/TT.2022-04-18T184759D2022-04-18T203539/fault1",
+      "expected_component": "ts-food-map-service",
+      "hit": false,
+      "elapsed_sec": 1.036,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "ts-config-service",
+      "predicted_ranking": [
+        "ts-config-service",
+        "ts-auth-service",
+        "ts-order-service",
+        "ts-assurance-service",
+        "ts-basic-service"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650251520.927737,
+        1650251580.927737
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-verification-code-service",
+        "ts-assurance-service",
+        "ts-food-map-service",
+        "ts-station-service",
+        "ts-security-service",
+        "ts-basic-service",
+        "ts-ticketinfo-service",
+        "ts-contacts-service",
+        "ts-preserve-service",
+        "ts-auth-service",
+        "ts-order-other-service",
+        "ts-config-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-TT/TT.2022-04-18T184759D2022-04-18T203539/fault2",
+      "expected_component": "ts-food-map-service",
+      "hit": false,
+      "elapsed_sec": 1.022,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "ts-config-service",
+      "predicted_ranking": [
+        "ts-config-service",
+        "ts-auth-service",
+        "ts-basic-service",
+        "ts-order-service",
+        "ts-assurance-service"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650252235.776447,
+        1650252295.776447
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-auth-service",
+        "ts-config-service",
+        "ts-food-service",
+        "ts-verification-code-service",
+        "ts-station-service",
+        "ts-security-service",
+        "ts-basic-service",
+        "ts-ticketinfo-service",
+        "ts-contacts-service",
+        "ts-preserve-service",
+        "ts-order-other-service",
+        "ts-assurance-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-TT/TT.2022-04-18T184759D2022-04-18T203539/fault3",
+      "expected_component": "ts-config-service",
+      "hit": true,
+      "elapsed_sec": 1.008,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "ts-auth-service",
+      "predicted_ranking": [
+        "ts-auth-service",
+        "ts-assurance-service",
+        "ts-basic-service",
+        "ts-order-other-service",
+        "ts-order-service"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650252950.02762,
+        1650253010.02762
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-security-service",
+        "ts-contacts-service",
+        "ts-config-service",
+        "ts-station-service",
+        "ts-basic-service",
+        "ts-ticketinfo-service",
+        "ts-preserve-service",
+        "ts-auth-service",
+        "ts-verification-code-service",
+        "ts-order-other-service",
+        "ts-assurance-service",
+        "ts-food-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-TT/TT.2022-04-18T184759D2022-04-18T203539/fault4",
+      "expected_component": "ts-config-service",
+      "hit": false,
+      "elapsed_sec": 1.007,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "ts-auth-service",
+      "predicted_ranking": [
+        "ts-auth-service",
+        "ts-order-service",
+        "ts-assurance-service",
+        "ts-order-other-service",
+        "ts-basic-service"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650253674.309396,
+        1650253734.309396
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-auth-service",
+        "ts-order-other-service",
+        "ts-verification-code-service",
+        "ts-station-service",
+        "ts-security-service",
+        "ts-basic-service",
+        "ts-ticketinfo-service",
+        "ts-contacts-service",
+        "ts-preserve-service",
+        "ts-assurance-service",
+        "ts-config-service",
+        "ts-food-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-TT/TT.2022-04-18T184759D2022-04-18T203539/fault5",
+      "expected_component": "ts-config-service",
+      "hit": false,
+      "elapsed_sec": 1.015,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "ts-route-service",
+      "predicted_ranking": [
+        "ts-route-service",
+        "ts-auth-service",
+        "ts-order-service",
+        "ts-assurance-service",
+        "ts-order-other-service"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650254389.218774,
+        1650254449.218774
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-security-service",
+        "ts-config-service",
+        "ts-food-map-service",
+        "ts-station-service",
+        "ts-basic-service",
+        "ts-contacts-service",
+        "ts-ticketinfo-service",
+        "ts-preserve-service",
+        "ts-auth-service",
+        "ts-verification-code-service",
+        "ts-order-other-service",
+        "ts-assurance-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-TT/TT.2022-04-18T184759D2022-04-18T203539/fault6",
+      "expected_component": "ts-security-service",
+      "hit": false,
+      "elapsed_sec": 1.009,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "ts-auth-service",
+      "predicted_ranking": [
+        "ts-auth-service",
+        "ts-order-service",
+        "ts-assurance-service",
+        "ts-order-other-service",
+        "ts-contacts-service"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650255103.447273,
+        1650255163.447273
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-route-service",
+        "ts-order-service",
+        "ts-station-service",
+        "ts-security-service",
+        "ts-auth-service",
+        "ts-contacts-service",
+        "ts-preserve-service",
+        "ts-order-other-service",
+        "ts-basic-service",
+        "ts-ticketinfo-service",
+        "ts-verification-code-service",
+        "ts-assurance-service",
+        "ts-food-service",
+        "ts-price-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-TT/TT.2022-04-18T184759D2022-04-18T203539/fault7",
+      "expected_component": "ts-security-service",
+      "hit": false,
+      "elapsed_sec": 0.96,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "ts-auth-service",
+      "predicted_ranking": [
+        "ts-auth-service",
+        "ts-basic-service",
+        "ts-contacts-service",
+        "ts-food-map-service",
+        "ts-inside-payment-service"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650255827.781035,
+        1650255887.781035
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-route-service",
+        "ts-station-service",
+        "ts-inside-payment-service",
+        "ts-food-map-service",
+        "ts-travel2-service",
+        "ts-order-service",
+        "ts-ticketinfo-service",
+        "ts-contacts-service",
+        "ts-security-service",
+        "ts-basic-service",
+        "ts-auth-service",
+        "ts-verification-code-service",
+        "ts-preserve-service",
+        "ts-order-other-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-TT/TT.2022-04-18T184759D2022-04-18T203539/fault8",
+      "expected_component": "ts-security-service",
+      "hit": false,
+      "elapsed_sec": 0.975,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "ts-payment-service",
+      "predicted_ranking": [
+        "ts-payment-service",
+        "ts-station-service",
+        "ts-route-service",
+        "ts-travel-service",
+        "ts-ticketinfo-service"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1650256689.687898,
+        1650256749.687898
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD assigns ts-payment-service as initiator (cs=6>0), and it is not storage or entry component. No emitter exceptions present, so fall back to IVD initiator.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-station-service",
+        "ts-ticketinfo-service",
+        "ts-auth-service",
+        "ts-basic-service",
+        "ts-security-service",
+        "ts-contacts-service",
+        "ts-preserve-service",
+        "ts-verification-code-service",
+        "ts-order-other-service",
+        "ts-payment-service",
+        "ts-assurance-service",
+        "ts-travel2-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"ts-payment-service\", \"ranking\": [\"ts-payment-service\", \"ts-station-service\", \"ts-route-service\", \"ts-travel-service\", \"ts-ticketinfo-service\"], \"rationale\": \"IVD assigns ts-payment-service as initiator (cs=6>0), and it is not storage or entry component. No emitter exceptions present, so fall back to IVD initiator.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "Eadro-TT/TT.2022-04-18T203805D2022-04-18T222547/fault0",
+      "expected_component": "ts-station-service",
+      "hit": false,
+      "elapsed_sec": 3.781,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 2280,
+        "completion_tokens": 91,
+        "total_tokens": 2371,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 2280,
+            "completion_tokens": 91,
+            "total_tokens": 2371
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "ts-payment-service",
+      "predicted_ranking": [
+        "ts-payment-service",
+        "ts-assurance-service",
+        "ts-auth-service",
+        "ts-basic-service",
+        "ts-contacts-service"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650257403.932515,
+        1650257463.932515
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-station-service",
+        "ts-contacts-service",
+        "ts-inside-payment-service",
+        "ts-security-service",
+        "ts-basic-service",
+        "ts-ticketinfo-service",
+        "ts-preserve-service",
+        "ts-auth-service",
+        "ts-verification-code-service",
+        "ts-order-other-service",
+        "ts-payment-service",
+        "ts-assurance-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-TT/TT.2022-04-18T203805D2022-04-18T222547/fault1",
+      "expected_component": "ts-station-service",
+      "hit": false,
+      "elapsed_sec": 1.024,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "ts-payment-service",
+      "predicted_ranking": [
+        "ts-payment-service",
+        "ts-assurance-service",
+        "ts-auth-service",
+        "ts-basic-service",
+        "ts-contacts-service"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650258128.287633,
+        1650258188.287633
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-security-service",
+        "ts-basic-service",
+        "ts-auth-service",
+        "ts-station-service",
+        "ts-ticketinfo-service",
+        "ts-contacts-service",
+        "ts-preserve-service",
+        "ts-verification-code-service",
+        "ts-order-other-service",
+        "ts-payment-service",
+        "ts-assurance-service",
+        "ts-travel2-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-TT/TT.2022-04-18T203805D2022-04-18T222547/fault2",
+      "expected_component": "ts-station-service",
+      "hit": false,
+      "elapsed_sec": 0.945,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "ts-payment-service",
+      "predicted_ranking": [
+        "ts-payment-service",
+        "ts-route-service",
+        "ts-order-service",
+        "ts-auth-service",
+        "ts-contacts-service"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650258843.226009,
+        1650258903.226009
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-auth-service",
+        "ts-travel2-service",
+        "ts-notification-service",
+        "ts-station-service",
+        "ts-security-service",
+        "ts-ticketinfo-service",
+        "ts-basic-service",
+        "ts-contacts-service",
+        "ts-preserve-service",
+        "ts-verification-code-service",
+        "ts-order-other-service",
+        "ts-payment-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-TT/TT.2022-04-18T203805D2022-04-18T222547/fault3",
+      "expected_component": "ts-travel2-service",
+      "hit": false,
+      "elapsed_sec": 1.002,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "ts-payment-service",
+      "predicted_ranking": [
+        "ts-payment-service",
+        "ts-route-service",
+        "ts-order-service",
+        "ts-auth-service",
+        "ts-contacts-service"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650259557.408149,
+        1650259617.408149
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-station-service",
+        "ts-security-service",
+        "ts-order-other-service",
+        "ts-contacts-service",
+        "ts-auth-service",
+        "ts-payment-service",
+        "ts-basic-service",
+        "ts-ticketinfo-service",
+        "ts-preserve-service",
+        "ts-verification-code-service",
+        "ts-assurance-service",
+        "ts-travel2-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-TT/TT.2022-04-18T203805D2022-04-18T222547/fault4",
+      "expected_component": "ts-travel2-service",
+      "hit": false,
+      "elapsed_sec": 1.004,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "ts-payment-service",
+      "predicted_ranking": [
+        "ts-payment-service",
+        "ts-route-service",
+        "ts-contacts-service",
+        "ts-station-service",
+        "ts-assurance-service"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650260281.719905,
+        1650260341.719905
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-contacts-service",
+        "ts-payment-service",
+        "ts-assurance-service",
+        "ts-station-service",
+        "ts-security-service",
+        "ts-order-other-service",
+        "ts-basic-service",
+        "ts-ticketinfo-service",
+        "ts-preserve-service",
+        "ts-auth-service",
+        "ts-verification-code-service",
+        "ts-travel2-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-TT/TT.2022-04-18T203805D2022-04-18T222547/fault5",
+      "expected_component": "ts-travel2-service",
+      "hit": false,
+      "elapsed_sec": 0.964,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "ts-payment-service",
+      "predicted_ranking": [
+        "ts-payment-service",
+        "ts-auth-service",
+        "ts-order-other-service",
+        "ts-assurance-service",
+        "ts-basic-service"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650260996.537974,
+        1650261056.537974
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-station-service",
+        "ts-security-service",
+        "ts-basic-service",
+        "ts-ticketinfo-service",
+        "ts-contacts-service",
+        "ts-preserve-service",
+        "ts-auth-service",
+        "ts-verification-code-service",
+        "ts-order-other-service",
+        "ts-payment-service",
+        "ts-assurance-service",
+        "ts-food-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-TT/TT.2022-04-18T203805D2022-04-18T222547/fault6",
+      "expected_component": "ts-payment-service",
+      "hit": true,
+      "elapsed_sec": 0.936,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "ts-auth-service",
+      "predicted_ranking": [
+        "ts-auth-service",
+        "ts-order-other-service",
+        "ts-assurance-service",
+        "ts-basic-service",
+        "ts-contacts-service"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1650261710.739907,
+        1650261770.739907
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD identifies ts-auth-service as initiator with copeland_score 6 > 0. No emitter exceptions, but all components have very high anomaly magnitude; ts-auth-service has the highest resource anomaly among IVD candidates (mag 7212165000734.6 vs others). Entry component ts-assurance-service is a victim (cs=-1). Storage components absent.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-station-service",
+        "ts-security-service",
+        "ts-payment-service",
+        "ts-basic-service",
+        "ts-ticketinfo-service",
+        "ts-preserve-service",
+        "ts-contacts-service",
+        "ts-verification-code-service",
+        "ts-auth-service",
+        "ts-order-other-service",
+        "ts-assurance-service",
+        "ts-food-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"ts-auth-service\",\n  \"ranking\": [\n    \"ts-auth-service\",\n    \"ts-order-other-service\",\n    \"ts-assurance-service\",\n    \"ts-basic-service\",\n    \"ts-contacts-service\"\n  ],\n  \"rationale\": \"IVD identifies ts-auth-service as initiator with copeland_score 6 > 0. No emitter exceptions, but all components have very high anomaly magnitude; ts-auth-service has the highest resource anomaly among IVD candidates (mag 7212165000734.6 vs others). Entry component ts-assurance-service is a victim (cs=-1). Storage components absent.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "Eadro-TT/TT.2022-04-18T203805D2022-04-18T222547/fault7",
+      "expected_component": "ts-payment-service",
+      "hit": false,
+      "elapsed_sec": 3.033,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 2266,
+        "completion_tokens": 136,
+        "total_tokens": 2402,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 2266,
+            "completion_tokens": 136,
+            "total_tokens": 2402
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "ts-auth-service",
+      "predicted_ranking": [
+        "ts-auth-service",
+        "ts-order-other-service",
+        "ts-station-service",
+        "ts-travel-service",
+        "ts-order-service"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1650262435.018219,
+        1650262495.018219
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD identifies ts-auth-service as initiator with copeland_score=6>0. No emitter exceptions; all source_candidates have no exceptions. Mag for ts-auth-service (7207165000852.4) is high, and no other candidate has mag >= 2x larger. No storage or entry components qualify as root cause. Ranking based on IVD score and mag.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-station-service",
+        "ts-basic-service",
+        "ts-auth-service",
+        "ts-security-service",
+        "ts-ticketinfo-service",
+        "ts-preserve-service",
+        "ts-contacts-service",
+        "ts-verification-code-service",
+        "ts-order-other-service",
+        "ts-payment-service",
+        "ts-assurance-service",
+        "ts-food-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"ts-auth-service\", \"ranking\": [\"ts-auth-service\", \"ts-order-other-service\", \"ts-station-service\", \"ts-travel-service\", \"ts-order-service\"], \"rationale\": \"IVD identifies ts-auth-service as initiator with copeland_score=6>0. No emitter exceptions; all source_candidates have no exceptions. Mag for ts-auth-service (7207165000852.4) is high, and no other candidate has mag >= 2x larger. No storage or entry components qualify as root cause. Ranking based on IVD score and mag.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "Eadro-TT/TT.2022-04-18T203805D2022-04-18T222547/fault8",
+      "expected_component": "ts-payment-service",
+      "hit": false,
+      "elapsed_sec": 3.31,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 2277,
+        "completion_tokens": 126,
+        "total_tokens": 2403,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 2277,
+            "completion_tokens": 126,
+            "total_tokens": 2403
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "ts-food-service",
+      "predicted_ranking": [
+        "ts-food-service",
+        "ts-auth-service",
+        "ts-basic-service",
+        "ts-order-service",
+        "ts-assurance-service"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650263283.846696,
+        1650263343.846696
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-contacts-service",
+        "ts-auth-service",
+        "ts-price-service",
+        "ts-security-service",
+        "ts-basic-service",
+        "ts-verification-code-service",
+        "ts-station-service",
+        "ts-ticketinfo-service",
+        "ts-preserve-service",
+        "ts-order-other-service",
+        "ts-assurance-service",
+        "ts-food-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-TT/TT.2022-04-18T222801D2022-04-19T001541/fault0",
+      "expected_component": "ts-preserve-service",
+      "hit": false,
+      "elapsed_sec": 1.659,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "ts-food-service",
+      "predicted_ranking": [
+        "ts-food-service",
+        "ts-auth-service",
+        "ts-basic-service",
+        "ts-order-service",
+        "ts-assurance-service"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650263998.094308,
+        1650264058.094308
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-contacts-service",
+        "ts-preserve-service",
+        "ts-auth-service",
+        "ts-station-service",
+        "ts-security-service",
+        "ts-basic-service",
+        "ts-ticketinfo-service",
+        "ts-verification-code-service",
+        "ts-order-other-service",
+        "ts-assurance-service",
+        "ts-food-service",
+        "ts-user-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-TT/TT.2022-04-18T222801D2022-04-19T001541/fault1",
+      "expected_component": "ts-preserve-service",
+      "hit": false,
+      "elapsed_sec": 1.129,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "ts-food-service",
+      "predicted_ranking": [
+        "ts-food-service",
+        "ts-auth-service",
+        "ts-basic-service",
+        "ts-order-service",
+        "ts-order-other-service"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650264722.415017,
+        1650264782.415017
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-basic-service",
+        "ts-contacts-service",
+        "ts-preserve-service",
+        "ts-auth-service",
+        "ts-station-service",
+        "ts-security-service",
+        "ts-ticketinfo-service",
+        "ts-verification-code-service",
+        "ts-order-other-service",
+        "ts-assurance-service",
+        "ts-food-service",
+        "ts-user-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-TT/TT.2022-04-18T222801D2022-04-19T001541/fault2",
+      "expected_component": "ts-preserve-service",
+      "hit": false,
+      "elapsed_sec": 0.945,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "ts-food-service",
+      "predicted_ranking": [
+        "ts-food-service",
+        "ts-auth-service",
+        "ts-basic-service",
+        "ts-order-service",
+        "ts-order-other-service"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650265437.247674,
+        1650265497.247674
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-security-service",
+        "ts-contacts-service",
+        "ts-user-service",
+        "ts-preserve-service",
+        "ts-station-service",
+        "ts-basic-service",
+        "ts-ticketinfo-service",
+        "ts-auth-service",
+        "ts-verification-code-service",
+        "ts-order-other-service",
+        "ts-assurance-service",
+        "ts-food-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-TT/TT.2022-04-18T222801D2022-04-19T001541/fault3",
+      "expected_component": "ts-seat-service",
+      "hit": false,
+      "elapsed_sec": 1.1,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "ts-auth-service",
+      "predicted_ranking": [
+        "ts-auth-service",
+        "ts-basic-service",
+        "ts-order-service",
+        "ts-order-other-service",
+        "ts-assurance-service"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650266151.512033,
+        1650266211.512033
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-station-service",
+        "ts-security-service",
+        "ts-ticketinfo-service",
+        "ts-verification-code-service",
+        "ts-basic-service",
+        "ts-contacts-service",
+        "ts-preserve-service",
+        "ts-auth-service",
+        "ts-order-other-service",
+        "ts-assurance-service",
+        "ts-food-service",
+        "ts-user-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-TT/TT.2022-04-18T222801D2022-04-19T001541/fault4",
+      "expected_component": "ts-seat-service",
+      "hit": false,
+      "elapsed_sec": 0.977,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "ts-auth-service",
+      "predicted_ranking": [
+        "ts-auth-service",
+        "ts-basic-service",
+        "ts-order-service",
+        "ts-order-other-service",
+        "ts-assurance-service"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650266875.856766,
+        1650266935.856766
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-basic-service",
+        "ts-ticketinfo-service",
+        "ts-food-service",
+        "ts-verification-code-service",
+        "ts-station-service",
+        "ts-security-service",
+        "ts-contacts-service",
+        "ts-preserve-service",
+        "ts-auth-service",
+        "ts-order-other-service",
+        "ts-assurance-service",
+        "ts-user-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-TT/TT.2022-04-18T222801D2022-04-19T001541/fault5",
+      "expected_component": "ts-seat-service",
+      "hit": false,
+      "elapsed_sec": 0.98,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "ts-auth-service",
+      "predicted_ranking": [
+        "ts-auth-service",
+        "ts-order-other-service",
+        "ts-assurance-service",
+        "ts-basic-service",
+        "ts-contacts-service"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650267590.783522,
+        1650267650.783522
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-station-service",
+        "ts-security-service",
+        "ts-auth-service",
+        "ts-basic-service",
+        "ts-preserve-service",
+        "ts-contacts-service",
+        "ts-ticketinfo-service",
+        "ts-verification-code-service",
+        "ts-order-other-service",
+        "ts-assurance-service",
+        "ts-food-service",
+        "ts-user-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-TT/TT.2022-04-18T222801D2022-04-19T001541/fault6",
+      "expected_component": "ts-verification-code-service",
+      "hit": false,
+      "elapsed_sec": 1.001,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "ts-auth-service",
+      "predicted_ranking": [
+        "ts-auth-service",
+        "ts-route-service",
+        "ts-order-other-service",
+        "ts-assurance-service",
+        "ts-contacts-service"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650268305.077511,
+        1650268365.077511
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-auth-service",
+        "ts-order-other-service",
+        "ts-food-service",
+        "ts-station-service",
+        "ts-security-service",
+        "ts-contacts-service",
+        "ts-basic-service",
+        "ts-ticketinfo-service",
+        "ts-preserve-service",
+        "ts-verification-code-service",
+        "ts-assurance-service",
+        "ts-user-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-TT/TT.2022-04-18T222801D2022-04-19T001541/fault7",
+      "expected_component": "ts-verification-code-service",
+      "hit": false,
+      "elapsed_sec": 0.975,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "ts-auth-service",
+      "predicted_ranking": [
+        "ts-auth-service",
+        "ts-assurance-service",
+        "ts-basic-service",
+        "ts-contacts-service",
+        "ts-food-service"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650269029.470916,
+        1650269089.470916
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-contacts-service",
+        "ts-order-other-service",
+        "ts-assurance-service",
+        "ts-station-service",
+        "ts-basic-service",
+        "ts-security-service",
+        "ts-ticketinfo-service",
+        "ts-preserve-service",
+        "ts-verification-code-service",
+        "ts-auth-service",
+        "ts-food-service",
+        "ts-user-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-TT/TT.2022-04-18T222801D2022-04-19T001541/fault8",
+      "expected_component": "ts-verification-code-service",
+      "hit": false,
+      "elapsed_sec": 1.004,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "ts-auth-service",
+      "predicted_ranking": [
+        "ts-auth-service",
+        "ts-contacts-service",
+        "ts-order-service",
+        "ts-assurance-service",
+        "ts-basic-service"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650269875.883025,
+        1650269935.883025
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-station-service",
+        "ts-contacts-service",
+        "ts-auth-service",
+        "ts-ticketinfo-service",
+        "ts-basic-service",
+        "ts-security-service",
+        "ts-preserve-service",
+        "ts-verification-code-service",
+        "ts-order-other-service",
+        "ts-assurance-service",
+        "ts-food-service",
+        "ts-train-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-TT/TT.2022-04-19T001753D2022-04-19T020534/fault0",
+      "expected_component": "ts-auth-service",
+      "hit": true,
+      "elapsed_sec": 1.96,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "ts-contacts-service",
+      "predicted_ranking": [
+        "ts-contacts-service",
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-station-service"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1650270590.263875,
+        1650270650.263875
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD identifies ts-contacts-service as the sole initiator with copeland_score=2 > 0, and no component has emitter_exception=true. It has high anomaly magnitude (8.54e12) with cpu and socket anomalies, and it is not storage or entry. The top 5 ranking follows IVD initiator first, then other high-magnitude source candidates with similar anomaly signatures.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-station-service",
+        "ts-ticketinfo-service",
+        "ts-security-service",
+        "ts-basic-service",
+        "ts-preserve-service",
+        "ts-contacts-service",
+        "ts-auth-service",
+        "ts-verification-code-service",
+        "ts-order-other-service",
+        "ts-assurance-service",
+        "ts-food-service",
+        "ts-travel2-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"ts-contacts-service\",\n  \"ranking\": [\"ts-contacts-service\", \"ts-travel-service\", \"ts-order-service\", \"ts-route-service\", \"ts-station-service\"],\n  \"rationale\": \"IVD identifies ts-contacts-service as the sole initiator with copeland_score=2 > 0, and no component has emitter_exception=true. It has high anomaly magnitude (8.54e12) with cpu and socket anomalies, and it is not storage or entry. The top 5 ranking follows IVD initiator first, then other high-magnitude source candidates with similar anomaly signatures.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "Eadro-TT/TT.2022-04-19T001753D2022-04-19T020534/fault1",
+      "expected_component": "ts-auth-service",
+      "hit": false,
+      "elapsed_sec": 3.443,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 2267,
+        "completion_tokens": 135,
+        "total_tokens": 2402,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 2267,
+            "completion_tokens": 135,
+            "total_tokens": 2402
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "ts-auth-service",
+      "predicted_ranking": [
+        "ts-auth-service",
+        "ts-order-service",
+        "ts-contacts-service",
+        "ts-assurance-service",
+        "ts-preserve-service"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650271314.547678,
+        1650271374.547678
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-auth-service",
+        "ts-verification-code-service",
+        "ts-order-other-service",
+        "ts-station-service",
+        "ts-basic-service",
+        "ts-ticketinfo-service",
+        "ts-security-service",
+        "ts-preserve-service",
+        "ts-contacts-service",
+        "ts-assurance-service",
+        "ts-food-service",
+        "ts-travel2-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-TT/TT.2022-04-19T001753D2022-04-19T020534/fault2",
+      "expected_component": "ts-auth-service",
+      "hit": true,
+      "elapsed_sec": 1.012,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "ts-auth-service",
+      "predicted_ranking": [
+        "ts-auth-service",
+        "ts-order-service",
+        "ts-contacts-service",
+        "ts-preserve-service",
+        "ts-assurance-service"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1650272029.484325,
+        1650272089.484325
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD identifies ts-auth-service as initiator (copeland_score=3>0). No emitter exceptions; all source_candidates have similar anomalies but ts-auth-service has highest copeland_score and significant resource anomaly magnitude. Entry component ts-assurance-service is not root cause.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-station-service",
+        "ts-order-other-service",
+        "ts-assurance-service",
+        "ts-ticketinfo-service",
+        "ts-basic-service",
+        "ts-security-service",
+        "ts-preserve-service",
+        "ts-contacts-service",
+        "ts-auth-service",
+        "ts-verification-code-service",
+        "ts-food-service",
+        "ts-train-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"ts-auth-service\", \"ranking\": [\"ts-auth-service\", \"ts-order-service\", \"ts-contacts-service\", \"ts-preserve-service\", \"ts-assurance-service\"], \"rationale\": \"IVD identifies ts-auth-service as initiator (copeland_score=3>0). No emitter exceptions; all source_candidates have similar anomalies but ts-auth-service has highest copeland_score and significant resource anomaly magnitude. Entry component ts-assurance-service is not root cause.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "Eadro-TT/TT.2022-04-19T001753D2022-04-19T020534/fault3",
+      "expected_component": "ts-route-service",
+      "hit": false,
+      "elapsed_sec": 2.915,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 2265,
+        "completion_tokens": 102,
+        "total_tokens": 2367,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 2265,
+            "completion_tokens": 102,
+            "total_tokens": 2367
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "ts-auth-service",
+      "predicted_ranking": [
+        "ts-auth-service",
+        "ts-order-service",
+        "ts-security-service",
+        "ts-contacts-service",
+        "ts-order-other-service"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1650272743.955296,
+        1650272803.955296
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD identifies ts-auth-service as initiator with copeland_score 4, the highest. None of the source_candidates have emitter_exception=true. Storage components (none) and entry components (ts-assurance-service as victim) are excluded. Among candidates, ts-auth-service has high anomaly magnitude (mag > 6e12) and is ranked first by IVD. ts-order-service and ts-security-service have same copeland score 4 but lower magnitude ranking by IVD. ts-contacts-service and ts-order-other-service follow.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-order-other-service",
+        "ts-preserve-service",
+        "ts-basic-service",
+        "ts-station-service",
+        "ts-security-service",
+        "ts-contacts-service",
+        "ts-ticketinfo-service",
+        "ts-auth-service",
+        "ts-verification-code-service",
+        "ts-assurance-service",
+        "ts-food-service",
+        "ts-travel2-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"ts-auth-service\",\n  \"ranking\": [\"ts-auth-service\", \"ts-order-service\", \"ts-security-service\", \"ts-contacts-service\", \"ts-order-other-service\"],\n  \"rationale\": \"IVD identifies ts-auth-service as initiator with copeland_score 4, the highest. None of the source_candidates have emitter_exception=true. Storage components (none) and entry components (ts-assurance-service as victim) are excluded. Among candidates, ts-auth-service has high anomaly magnitude (mag > 6e12) and is ranked first by IVD. ts-order-service and ts-security-service have same copeland score 4 but lower magnitude ranking by IVD. ts-contacts-service and ts-order-other-service follow.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "Eadro-TT/TT.2022-04-19T001753D2022-04-19T020534/fault4",
+      "expected_component": "ts-route-service",
+      "hit": false,
+      "elapsed_sec": 3.512,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 2246,
+        "completion_tokens": 161,
+        "total_tokens": 2407,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 2246,
+            "completion_tokens": 161,
+            "total_tokens": 2407
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "ts-travel-service",
+      "predicted_ranking": [
+        "ts-travel-service",
+        "ts-preserve-service",
+        "ts-order-other-service",
+        "ts-food-service",
+        "ts-verification-code-service"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1650273468.331719,
+        1650273528.331719
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD ranking shows ts-auth-service as initiator (cs=4) and ts-assurance-service as victim (cs=-4). However, none have emitter exceptions. All candidates have extremely high anomaly magnitudes, with ts-travel-service having the highest mag (22484150000586.9) and a broader signature (cpu, memory, socket), indicating a primary resource overload. The recall pool also lists ts-travel-service first. Based on the rule that storage/entry components are not root causes (none here), the component with the highest anomaly magnitude and widest impact is selected.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-preserve-service",
+        "ts-order-other-service",
+        "ts-food-service",
+        "ts-station-service",
+        "ts-ticketinfo-service",
+        "ts-basic-service",
+        "ts-security-service",
+        "ts-contacts-service",
+        "ts-auth-service",
+        "ts-verification-code-service",
+        "ts-assurance-service",
+        "ts-travel2-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"ts-travel-service\",\n  \"ranking\": [\"ts-travel-service\", \"ts-preserve-service\", \"ts-order-other-service\", \"ts-food-service\", \"ts-verification-code-service\"],\n  \"rationale\": \"IVD ranking shows ts-auth-service as initiator (cs=4) and ts-assurance-service as victim (cs=-4). However, none have emitter exceptions. All candidates have extremely high anomaly magnitudes, with ts-travel-service having the highest mag (22484150000586.9) and a broader signature (cpu, memory, socket), indicating a primary resource overload. The recall pool also lists ts-travel-service first. Based on the rule that storage/entry components are not root causes (none here), the component with the highest anomaly magnitude and widest impact is selected.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "Eadro-TT/TT.2022-04-19T001753D2022-04-19T020534/fault5",
+      "expected_component": "ts-route-service",
+      "hit": false,
+      "elapsed_sec": 3.459,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 2274,
+        "completion_tokens": 175,
+        "total_tokens": 2449,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 2274,
+            "completion_tokens": 175,
+            "total_tokens": 2449
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "ts-auth-service",
+      "predicted_ranking": [
+        "ts-auth-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-contacts-service",
+        "ts-preserve-service"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1650274183.197065,
+        1650274243.197065
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD identifies ts-auth-service as initiator with copeland_score=4 (>0). No component has emitter_exception; all source_candidates have high anomaly magnitudes. Storage or entry components are absent among top candidates. Hence, pick IVD initiator.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-ticketinfo-service",
+        "ts-contacts-service",
+        "ts-price-service",
+        "ts-station-service",
+        "ts-security-service",
+        "ts-preserve-service",
+        "ts-basic-service",
+        "ts-auth-service",
+        "ts-verification-code-service",
+        "ts-order-other-service",
+        "ts-assurance-service",
+        "ts-food-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n    \"root_component\": \"ts-auth-service\",\n    \"ranking\": [\"ts-auth-service\", \"ts-order-service\", \"ts-route-service\", \"ts-contacts-service\", \"ts-preserve-service\"],\n    \"rationale\": \"IVD identifies ts-auth-service as initiator with copeland_score=4 (>0). No component has emitter_exception; all source_candidates have high anomaly magnitudes. Storage or entry components are absent among top candidates. Hence, pick IVD initiator.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "Eadro-TT/TT.2022-04-19T001753D2022-04-19T020534/fault6",
+      "expected_component": "ts-ticketinfo-service",
+      "hit": false,
+      "elapsed_sec": 2.36,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 2253,
+        "completion_tokens": 103,
+        "total_tokens": 2356,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 2253,
+            "completion_tokens": 103,
+            "total_tokens": 2356
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "ts-auth-service",
+      "predicted_ranking": [
+        "ts-auth-service",
+        "ts-order-service",
+        "ts-travel-service",
+        "ts-route-service",
+        "ts-security-service"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1650274897.499906,
+        1650274957.499906
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD identifies ts-auth-service as initiator with copeland_score 6 (>0). No emitter exceptions exist, but ts-auth-service has high anomaly magnitude and is not storage or entry. Other candidates have lower IVD scores or are victims.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-ticketinfo-service",
+        "ts-security-service",
+        "ts-auth-service",
+        "ts-station-service",
+        "ts-basic-service",
+        "ts-preserve-service",
+        "ts-contacts-service",
+        "ts-verification-code-service",
+        "ts-order-other-service",
+        "ts-assurance-service",
+        "ts-food-service",
+        "ts-config-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"ts-auth-service\", \"ranking\": [\"ts-auth-service\", \"ts-order-service\", \"ts-travel-service\", \"ts-route-service\", \"ts-security-service\"], \"rationale\": \"IVD identifies ts-auth-service as initiator with copeland_score 6 (>0). No emitter exceptions exist, but ts-auth-service has high anomaly magnitude and is not storage or entry. Other candidates have lower IVD scores or are victims.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "Eadro-TT/TT.2022-04-19T001753D2022-04-19T020534/fault7",
+      "expected_component": "ts-ticketinfo-service",
+      "hit": false,
+      "elapsed_sec": 2.462,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 2269,
+        "completion_tokens": 95,
+        "total_tokens": 2364,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 2269,
+            "completion_tokens": 95,
+            "total_tokens": 2364
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "ts-auth-service",
+      "predicted_ranking": [
+        "ts-auth-service",
+        "ts-order-service",
+        "ts-travel-service",
+        "ts-order-other-service",
+        "ts-basic-service"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1650275621.789632,
+        1650275681.789632
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD identifies ts-auth-service as the initiator with copeland_score=6, highest among all candidates. No component has emitter_exception=true, so the priority rule for exceptions does not apply. ts-auth-service is not a storage or entry component, and has a significant anomaly magnitude (7654120000542.0). ts-order-service is ambiguous but has a high magnitude, making it the second candidate. The ranking follows IVD's ranking and anomaly magnitudes.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-travel-service",
+        "ts-order-service",
+        "ts-route-service",
+        "ts-station-service",
+        "ts-assurance-service",
+        "ts-food-service",
+        "ts-security-service",
+        "ts-basic-service",
+        "ts-ticketinfo-service",
+        "ts-preserve-service",
+        "ts-contacts-service",
+        "ts-auth-service",
+        "ts-verification-code-service",
+        "ts-order-other-service",
+        "ts-config-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"ts-auth-service\",\n  \"ranking\": [\n    \"ts-auth-service\",\n    \"ts-order-service\",\n    \"ts-travel-service\",\n    \"ts-order-other-service\",\n    \"ts-basic-service\"\n  ],\n  \"rationale\": \"IVD identifies ts-auth-service as the initiator with copeland_score=6, highest among all candidates. No component has emitter_exception=true, so the priority rule for exceptions does not apply. ts-auth-service is not a storage or entry component, and has a significant anomaly magnitude (7654120000542.0). ts-order-service is ambiguous but has a high magnitude, making it the second candidate. The ranking follows IVD's ranking and anomaly magnitudes.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "Eadro-TT/TT.2022-04-19T001753D2022-04-19T020534/fault8",
+      "expected_component": "ts-ticketinfo-service",
+      "hit": false,
+      "elapsed_sec": 3.134,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 2260,
+        "completion_tokens": 154,
+        "total_tokens": 2414,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 2260,
+            "completion_tokens": 154,
+            "total_tokens": 2414
+          }
+        }
+      }
+    }
+  ]
+}

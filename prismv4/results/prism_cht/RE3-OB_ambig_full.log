@@ -1,0 +1,35 @@
+RE3-OB/cartservice_f1/1: predicted=cartservice expected=cartservice hit=True tokens=120595 error=None
+RE3-OB/emailservice_f1/1: predicted=emailservice expected=emailservice hit=True tokens=136006 error=None
+{
+  "dataset": "RE3",
+  "system": "RE3-OB",
+  "mode": "continuous-noise-native-event-causalizer",
+  "total_cases": 2,
+  "top1_accuracy": 1.0,
+  "top1_hits": 2,
+  "recall_pool_size": 15,
+  "max_hypotheses": 10,
+  "elapsed_sec": 377.734,
+  "cost": {
+    "total_calls": 12,
+    "total_prompt_tokens": 238954,
+    "total_completion_tokens": 17647,
+    "total_tokens": 256601,
+    "avg_tokens_per_case": 128300,
+    "by_purpose": {
+      "event_causalizer_state_update": {
+        "call_count": 2,
+        "prompt_tokens": 40724,
+        "completion_tokens": 8696,
+        "total_tokens": 49420
+      },
+      "continuous_noise_native_state_update": {
+        "call_count": 10,
+        "prompt_tokens": 198230,
+        "completion_tokens": 8951,
+        "total_tokens": 207181
+      }
+    }
+  }
+}
+wrote prismv4/results/prism_cht/RE3-OB_ambig_full.json

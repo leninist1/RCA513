@@ -1,0 +1,41 @@
+Eadro-SN/SN.2022-04-17T181245D2022-04-17T183616/fault0: predicted=text-service expected=text-service hit=True tokens=149157 error=None
+Eadro-SN/SN.2022-04-17T181245D2022-04-17T183616/fault7: predicted=social-graph-service expected=media-service hit=False tokens=136954 error=None
+Eadro-SN/SN.2022-04-17T181245D2022-04-17T183616/fault8: predicted=social-graph-service expected=media-service hit=False tokens=130932 error=None
+Eadro-SN/SN.2022-04-17T183729D2022-04-17T190100/fault0: predicted=social-graph-service expected=post-storage-service hit=False tokens=120428 error=None
+Eadro-SN/SN.2022-04-17T183729D2022-04-17T190100/fault4: predicted=nginx-web-server expected=social-graph-service hit=False tokens=134350 error=None
+Eadro-SN/SN.2022-04-17T183729D2022-04-17T190100/fault6: predicted=social-graph-service expected=url-shorten-service hit=False tokens=116483 error=None
+Eadro-SN/SN.2022-04-17T183729D2022-04-17T190100/fault7: predicted=social-graph-service expected=url-shorten-service hit=False tokens=127864 error=None
+Eadro-SN/SN.2022-04-17T183729D2022-04-17T190100/fault8: predicted=social-graph-service expected=url-shorten-service hit=False tokens=139588 error=None
+{
+  "dataset": "Eadro",
+  "system": "Eadro-SN",
+  "mode": "continuous-noise-native-event-causalizer",
+  "total_cases": 8,
+  "top1_accuracy": 0.125,
+  "top1_hits": 1,
+  "recall_pool_size": 15,
+  "max_hypotheses": 10,
+  "elapsed_sec": 633.753,
+  "cost": {
+    "total_calls": 48,
+    "total_prompt_tokens": 977541,
+    "total_completion_tokens": 78215,
+    "total_tokens": 1055756,
+    "avg_tokens_per_case": 131969,
+    "by_purpose": {
+      "event_causalizer_state_update": {
+        "call_count": 8,
+        "prompt_tokens": 157759,
+        "completion_tokens": 30939,
+        "total_tokens": 188698
+      },
+      "continuous_noise_native_state_update": {
+        "call_count": 40,
+        "prompt_tokens": 819782,
+        "completion_tokens": 47276,
+        "total_tokens": 867058
+      }
+    }
+  }
+}
+wrote prismv4/results/prism_cht/Eadro-SN_ambig_full.json

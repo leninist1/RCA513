@@ -1,0 +1,1181 @@
+{
+  "dataset": "RCAEval",
+  "system": "RE3-OB",
+  "mode": "continuous-noise-native-event-causalizer-check",
+  "total_cases": 1,
+  "top1_hits": 1,
+  "top1_accuracy": 1.0,
+  "elapsed_sec": 438.993,
+  "results": [
+    {
+      "status": "continuous_final",
+      "hypothesis_id": "H4-currencyservice-latency-degradation",
+      "predicted_component": "currencyservice",
+      "reason_family": "latency degradation",
+      "onset_interval": [
+        1732370153.0,
+        1732370213.0
+      ],
+      "steps_completed": 4,
+      "evidence_count": 4,
+      "referenced_evidence_ids": [
+        "evidence:11d21c96609e1134e8a97f7a7b913a4286bd2dd2c0aa3f083e1cdb5877f6adf6",
+        "evidence:335b0a2d7fe521fe7cd90bb28a968a96b04ce753a20b481d4e9add241df0d100",
+        "evidence:654768f1e32c1272f341ce9ba624f3eedb7dd0e1a451687161c4ef32aca87cfa",
+        "evidence:dcda82ea87443f425f31312d62b0be599f5423de0903c6173e4512d393d7e7e4"
+      ],
+      "rationale": "Currencyservice displays the strongest near-onset internal mechanism evidence (CPU drop, memory spike, socket spike) among all components, indicating resource exhaustion. Its degradation can explain the observed symptoms: it is called by frontend and checkoutservice, and the timing (onset 1732370183, before frontend errors at 1732370187) supports causality. Alternative hypotheses fail: redis lacks trace dependency evidence and has a small, isolated memory decrease; frontend and checkoutservice are downstream symptom aggregators; productcatalogservice’s dominant latency is too late. Despite a minor pre-existing checkoutservice latency spike, the currencyservice anomaly is the primary driver of the incident.",
+      "uncertainties": [
+        "No currencyservice logs confirm memory exhaustion or socket errors.",
+        "Initial checkoutservice latency at 1732370174 is not fully explained by currencyservice alone; may be a separate, low-impact anomaly or a trigger that loaded currencyservice.",
+        "Absence of direct errors on currencyservice calls; the exact failure mode (timeout vs. slow response) is not confirmed."
+      ],
+      "event_causal_profile": {
+        "event_timeline": [
+          {
+            "event_id": "event:2:redis:primary",
+            "event_time": 1732370174.0,
+            "component": "redis",
+            "event_kind": "internal_mechanism_candidate_event",
+            "multimodal_evidence": [
+              "Near-onset memory drop (34.0) at 1732370174.0",
+              "Later cpu increase (37.18) at 1732370216.0",
+              "Very late diskio spike (128493322577753.88) at 1732370354.0",
+              "No logs or trace callers/callees"
+            ],
+            "diagnostic_implication": "Early memory reduction suggests resource change that may evolve into CPU pressure and massive disk I/O later; lacks direct upstream visibility but could affect dependent services indirectly.",
+            "source_like_cues": [
+              "near-onset internal mechanism signals observed: memory"
+            ],
+            "symptom_like_cues": [
+              "no strong symptom-only cue detected in deterministic features"
+            ],
+            "ambiguity_cues": [
+              "largest local magnitude occurs late; separate follow-up event from initiating event"
+            ],
+            "causal_links_to_check": [
+              "Identify which components depend on redis and whether their errors/latency correlate with redis anomalies.",
+              "Check if redis memory change is a cause or a consequence of workload shifts."
+            ]
+          },
+          {
+            "event_id": "event:1:checkoutservice:primary",
+            "event_time": 1732370174.0,
+            "component": "checkoutservice",
+            "event_kind": "latency_symptom_candidate_event",
+            "multimodal_evidence": [
+              "Latency-90 increase (34.78) at onset 1732370174.0",
+              "Latency-50 increase (48.0) at 1732370186.0",
+              "Memory decrease (9.36) very late at 1732370334.0",
+              "Workload increase (5.48) at 1732370224.0",
+              "Trace: called by frontend with high error status (124 errors out of 180 calls) and high latency examples (30193ms, 8857ms, 6954ms); calls paymentservice (1 error), currencyservice, productcatalogservice, emailservice"
+            ],
+            "diagnostic_implication": "Early latency rise without internal mechanism changes points to being a symptom of issues in its own dependencies or caller-induced load; the high frontend error rate suggests checkoutservice is failing, which could be due to backend problems.",
+            "source_like_cues": [
+              "no strong near-onset source cue detected in deterministic features"
+            ],
+            "symptom_like_cues": [
+              "near-onset evidence is latency/workload only, which is often a downstream symptom"
+            ],
+            "ambiguity_cues": [
+              "has direct callers, but near-onset evidence is latency-only; needs internal mechanism corroboration",
+              "has direct callees/dependencies; request path to a callee does not prove caller-root causality"
+            ],
+            "causal_links_to_check": [
+              "Investigate if checkoutservice latency originates from its dependencies (currencyservice, productcatalogservice, paymentservice, emailservice).",
+              "Check if frontend errors are caused by checkoutservice failures or vice versa.",
+              "Look for internal resource anomalies in checkoutservice that could explain latency."
+            ]
+          },
+          {
+            "event_id": "event:3:currencyservice:primary",
+            "event_time": 1732370183.0,
+            "component": "currencyservice",
+            "event_kind": "internal_mechanism_candidate_event",
+            "multimodal_evidence": [
+              "CPU drop (7.13) at onset 1732370183.0",
+              "Latency-90 increase (13.16) at 1732370194.0",
+              "Memory increase (135.06) and socket increase (20.0) at 1732370197.0",
+              "Latency-50 increase (12.83) at 1732370216.0",
+              "Workload drop (6.17) at 1732370226.0",
+              "Trace: called by frontend (10993 calls, no errors) and checkoutservice (312 calls, no errors); no callees"
+            ],
+            "diagnostic_implication": "Strong internal mechanism change (memory + socket) combined with latency suggests it could be a root-cause candidate; frontend is a heavy caller but reports no errors, indicating latency may propagate without failures.",
+            "source_like_cues": [
+              "near-onset internal mechanism signals observed: cpu, memory, socket",
+              "has direct callers; a fault here can surface upstream in caller errors or latency"
+            ],
+            "symptom_like_cues": [
+              "no strong symptom-only cue detected in deterministic features"
+            ],
+            "ambiguity_cues": [
+              "no special deterministic ambiguity cue"
+            ],
+            "causal_links_to_check": [
+              "Verify if currencyservice memory/socket issues are self-inflicted or due to its environment.",
+              "Check if frontend latency (observed later) correlates with currencyservice latency.",
+              "Test if currencyservice degradation can explain errors in checkoutservice or frontend."
+            ]
+          },
+          {
+            "event_id": "event:4:frontend:primary",
+            "event_time": 1732370187.1432674,
+            "component": "frontend",
+            "event_kind": "entry_error_observation_event",
+            "multimodal_evidence": [
+              "Dominant error spike (5599999999.999999) at 1732370189.0",
+              "Latency-50 drop (52.44) and latency-90 increase (30.93) at 1732370204.0",
+              "CPU drop (10.72) at 1732370204.0",
+              "Memory and workload increase later",
+              "Logs: repeated generic 'request error' starting at 1732370187.143",
+              "Trace: calls checkoutservice (124 errors out of 180), productcatalogservice (0 errors), currencyservice (0 errors), recommendationservice (0 errors); no callers"
+            ],
+            "diagnostic_implication": "Immediate errors and logs indicate visibility of backend failures, likely from checkoutservice (high error rate). Frontend itself may not be the root cause but a symptom aggregator.",
+            "source_like_cues": [
+              "near-onset internal mechanism signals observed: cpu, error, log"
+            ],
+            "symptom_like_cues": [
+              "entry component errors are often where backend failures become visible",
+              "generic request error is visibility evidence, not source proof",
+              "generic request error is visibility evidence, not source proof",
+              "generic request error is visibility evidence, not source proof"
+            ],
+            "ambiguity_cues": [
+              "has direct callees/dependencies; request path to a callee does not prove caller-root causality"
+            ],
+            "causal_links_to_check": [
+              "Map frontend errors to specific backend calls; checkoutservice shows errors, others do not.",
+              "Determine if frontend's CPU drop and latency changes are reactions to backend timeouts.",
+              "Check if frontend could have self-induced errors (e.g., misconfiguration) or if all errors stem from its dependencies."
+            ]
+          },
+          {
+            "event_id": "event:5:productcatalogservice:primary",
+            "event_time": 1732370196.0,
+            "component": "productcatalogservice",
+            "event_kind": "internal_mechanism_candidate_event",
+            "multimodal_evidence": [
+              "Workload drop (10.64) at onset 1732370196.0",
+              "CPU drop (16.89) at 1732370198.0",
+              "Latency-50 spike (296.08) and latency-90 increase (25.80) at late 1732370241.0",
+              "Memory increase (9.28) very late at 1732370390.0",
+              "Trace: called by frontend (12411 calls, 0 errors), recommendationservice (2012 calls), checkoutservice (255 calls); no callees"
+            ],
+            "diagnostic_implication": "Early CPU/workload drop may signal resource starvation or throttling; massive latency appears later, possibly a consequence. Could be a source if the initial resource issue propagates.",
+            "source_like_cues": [
+              "near-onset internal mechanism signals observed: cpu",
+              "has direct callers; a fault here can surface upstream in caller errors or latency"
+            ],
+            "symptom_like_cues": [
+              "no strong symptom-only cue detected in deterministic features"
+            ],
+            "ambiguity_cues": [
+              "largest local magnitude occurs late; separate follow-up event from initiating event"
+            ],
+            "causal_links_to_check": [
+              "Investigate if the CPU drop is due to throttling or external load reduction.",
+              "Check if productcatalogservice latency spike is correlated with frontend or other callers' performance.",
+              "Assess potential dependency on redis if applicable (though trace shows no callees)."
+            ]
+          },
+          {
+            "event_id": "event:5:productcatalogservice:late_dominant_metric",
+            "event_time": 1732370241.0,
+            "component": "productcatalogservice",
+            "event_kind": "late_dominant_metric_followup",
+            "multimodal_evidence": [
+              "Massive latency-50 spike (296.08) at 1732370241.0, 45s after earliest anomaly",
+              "Called by frontend, recommendationservice, checkoutservice with no error statuses"
+            ],
+            "diagnostic_implication": "This late latency surge is likely a secondary effect; do not treat as root-cause onset.",
+            "source_like_cues": [],
+            "symptom_like_cues": [
+              "late dominant metric can be a consequence or secondary event; do not use it as onset evidence"
+            ],
+            "ambiguity_cues": [],
+            "causal_links_to_check": [
+              "Determine if this latency spike is a reaction to upstream pressure or internal resource exhaustion triggered earlier."
+            ]
+          },
+          {
+            "event_id": "event:2:redis:late_dominant_metric",
+            "event_time": 1732370354.0,
+            "component": "redis",
+            "event_kind": "late_dominant_metric_followup",
+            "multimodal_evidence": [
+              "Extremely large diskio spike (128493322577753.88) at 1732370354.0, 180s after earliest anomaly",
+              "No direct callers or callees"
+            ],
+            "diagnostic_implication": "This late disk event is likely a consequence of earlier resource pressure; highly anomalous but not primary onset.",
+            "source_like_cues": [],
+            "symptom_like_cues": [
+              "late dominant metric can be a consequence or secondary event; do not use it as onset evidence"
+            ],
+            "ambiguity_cues": [],
+            "causal_links_to_check": [
+              "Investigate if the disk spike is a result of earlier memory pressure causing swap or log writes."
+            ]
+          }
+        ],
+        "component_event_features": [
+          {
+            "component": "redis",
+            "primary_event_ids": [
+              "event:2:redis:primary"
+            ],
+            "near_onset_mechanism": [
+              "memory"
+            ],
+            "symptom_visibility": "No direct callers; anomalies may surface indirectly through components that depend on redis (not shown in trace).",
+            "timing_cautions": [
+              "Dominant metric (diskio) is very late; near-onset magnitude is much smaller.",
+              "Late disk spike may be a consequence, not a cause."
+            ],
+            "topology_notes": [
+              "No direct trace dependencies observed; likely a backend data store.",
+              "If redis is a dependency for other services, its degradation could propagate through request paths not captured in these traces."
+            ],
+            "missing_checks": [
+              "Check whether any service has logs or metrics implicating redis failures.",
+              "Determine if the memory drop at onset is normal or indicative of a leak/pressure.",
+              "Verify if the massive diskio is related to persistence or swap."
+            ]
+          },
+          {
+            "component": "frontend",
+            "primary_event_ids": [
+              "event:4:frontend:primary"
+            ],
+            "near_onset_mechanism": [
+              "cpu",
+              "error",
+              "log"
+            ],
+            "symptom_visibility": "Directly visible via user-facing errors; acts as symptom aggregator for downstream failures.",
+            "timing_cautions": [
+              "Errors appear very early but may be triggered by slightly earlier backend issues.",
+              "Latency changes come after errors, suggesting them as follow-on metrics."
+            ],
+            "topology_notes": [
+              "Entry component; has no callers, only callees.",
+              "Calls checkoutservice (high errors), productcatalogservice, currencyservice, recommendationservice."
+            ],
+            "missing_checks": [
+              "Correlate frontend errors with specific backend call latencies/errors.",
+              "Check if frontend has any self-induced issues or if all errors stem from its callees.",
+              "Examine logs for exception traces or dependency-specific error messages."
+            ]
+          },
+          {
+            "component": "currencyservice",
+            "primary_event_ids": [
+              "event:3:currencyservice:primary"
+            ],
+            "near_onset_mechanism": [
+              "cpu",
+              "memory",
+              "socket"
+            ],
+            "symptom_visibility": "Visible as latency to its callers (frontend, checkoutservice), but no errors seen in callers.",
+            "timing_cautions": [
+              "Dominant metric (memory) occurs shortly after onset, not late.",
+              "CPU drop at onset may be misleading; could indicate throttling."
+            ],
+            "topology_notes": [
+              "Called by frontend and checkoutservice; no callees.",
+              "A fault here could cause slowdowns in callers without immediate errors."
+            ],
+            "missing_checks": [
+              "Determine if memory/socket changes reflect a resource leak or external attack.",
+              "Check if checkoutservice latency originates from currencyservice calls.",
+              "Verify whether frontend's later latency increase aligns with currencyservice degradation."
+            ]
+          },
+          {
+            "component": "checkoutservice",
+            "primary_event_ids": [
+              "event:1:checkoutservice:primary"
+            ],
+            "near_onset_mechanism": [],
+            "symptom_visibility": "High error rates from frontend caller; its own latencies may be symptoms of dependency issues.",
+            "timing_cautions": [
+              "Near-onset evidence is latency-only, no internal mechanism signal.",
+              "Memory change occurs very late, unlikely to be causal."
+            ],
+            "topology_notes": [
+              "Called by frontend; calls paymentservice, currencyservice, productcatalogservice, emailservice.",
+              "Frontend reports many errors on calls to checkoutservice, suggesting checkoutservice is failing."
+            ],
+            "missing_checks": [
+              "Investigate which dependency of checkoutservice is causing its failures.",
+              "Check if the error status from frontend calls correlates with latency in checkoutservice's downstream calls.",
+              "Look for internal resource exhaustion in checkoutservice that could explain latency without metric signals."
+            ]
+          },
+          {
+            "component": "productcatalogservice",
+            "primary_event_ids": [
+              "event:5:productcatalogservice:primary",
+              "event:5:productcatalogservice:late_dominant_metric"
+            ],
+            "near_onset_mechanism": [
+              "cpu"
+            ],
+            "symptom_visibility": "Latency spike visible to callers (frontend, etc.), but no errors reported.",
+            "timing_cautions": [
+              "Dominant latency spike occurs late; near-onset magnitude is small.",
+              "CPU drop at onset may indicate resource contention or throttling."
+            ],
+            "topology_notes": [
+              "Called by frontend (high volume), recommendationservice, checkoutservice.",
+              "No callees; could depend on redis indirectly (not in trace)."
+            ],
+            "missing_checks": [
+              "Check if productcatalogservice depends on redis or other backends not in trace.",
+              "Determine if the CPU drop is due to external throttling or internal issue.",
+              "Correlate the late latency spike with potential cascading effects from other components."
+            ]
+          }
+        ],
+        "causal_story_options": [
+          {
+            "story_id": "S1-redis-resource-pressure",
+            "initiating_event_ids": [
+              "event:2:redis:primary"
+            ],
+            "propagation_reading": "Redis experiences memory reduction at onset, leading to CPU saturation and later disk thrashing. This degrades services that depend on redis (e.g., product or cart services not in trace), causing cascading latency and eventually errors visible in frontend through checkoutservice.",
+            "what_would_support_it": [
+              "Evidence that checkoutservice or other affected services depend on redis.",
+              "Correlated latency increases in redis-dependent services shortly after redis memory change.",
+              "Redis logs showing connection timeouts or slow queries during the incident window."
+            ],
+            "what_would_weaken_it": [
+              "Absence of any redis dependency in affected components' traces or configs.",
+              "Earlier or simultaneous internal mechanism changes in currencyservice or productcatalogservice.",
+              "Direct evidence that frontend errors are solely due to a component not connected to redis."
+            ]
+          },
+          {
+            "story_id": "S2-currencyservice-internal-fault",
+            "initiating_event_ids": [
+              "event:3:currencyservice:primary"
+            ],
+            "propagation_reading": "Currencyservice exhibits early CPU drop, then memory/socket spike and latency increase. As a heavily called service by frontend and checkoutservice, this degradation causes checkoutservice to fail (leading to frontend errors) and may indirectly induce latency in other services like productcatalogservice.",
+            "what_would_support_it": [
+              "Checkoutservice traces showing high latency on calls to currencyservice.",
+              "Frontend errors correlating with currencyservice calls.",
+              "Currencyservice logs indicating memory exhaustion or socket errors."
+            ],
+            "what_would_weaken_it": [
+              "No latency contribution from currencyservice in checkoutservice calls (trace shows currencyservice latency examples are moderate).",
+              "Frontend does not show errors on currencyservice calls, only latency.",
+              "Earlier or larger anomalies in redis or productcatalogservice that better explain the blast radius."
+            ]
+          },
+          {
+            "story_id": "S3-frontend-self-inflicted",
+            "initiating_event_ids": [
+              "event:4:frontend:primary"
+            ],
+            "propagation_reading": "Frontend experiences an internal error surge (possibly due to misconfiguration or resource exhaustion) that floods backends with requests, causing cascading latency in checkoutservice, currencyservice, and others. The errors are not symptoms but the root cause.",
+            "what_would_support_it": [
+              "Frontend logs showing application-level exceptions unrelated to backend responses.",
+              "Backend metrics showing increased workload from frontend preceding their own anomalies.",
+              "Frontend resource metrics (cpu, memory) showing saturation before backend issues."
+            ],
+            "what_would_weaken_it": [
+              "Frontend errors exactly coincide with checkoutservice failures, suggesting dependency.",
+              "Checkoutservice shows high errors from frontend but frontend itself shows no internal errors in logs besides generic request errors.",
+              "Backend components exhibit internal mechanism changes before frontend error spike."
+            ]
+          },
+          {
+            "story_id": "S4-productcatalogservice-cpu-contention",
+            "initiating_event_ids": [
+              "event:5:productcatalogservice:primary"
+            ],
+            "propagation_reading": "Productcatalogservice suffers CPU/workload drop early, possibly due to throttling or resource contention. This eventually leads to a massive latency spike. As a critical service called by frontend and checkoutservice, the latency propagates and contributes to frontend errors via checkoutservice.",
+            "what_would_support_it": [
+              "Evidence that productcatalogservice calls are on the critical path for checkoutservice requests that fail.",
+              "Correlation between productcatalogservice latency spike and frontend error rate.",
+              "Productcatalogservice logs showing resource starvation or throttling events."
+            ],
+            "what_would_weaken_it": [
+              "Productcatalogservice's latency spike occurs well after frontend errors begin.",
+              "No evidence of productcatalogservice errors or timeouts in calling services.",
+              "Checkoutservice errors are clearly attributable to another dependency (e.g., currencyservice)."
+            ]
+          }
+        ],
+        "main_agent_guidance": {
+          "event_features_to_reuse_in_final_reasoning": [
+            "event:2:redis:primary (early memory change, later cpu/disk)",
+            "event:3:currencyservice:primary (memory+socket+latency as strong internal mechanism)",
+            "event:4:frontend:primary (error visibility, generic logs)",
+            "event:1:checkoutservice:primary (symptom latency, error propagation)",
+            "event:5:productcatalogservice:primary (cpu drop, late latency)"
+          ],
+          "high_value_next_actions": [
+            "Correlate frontend errors with specific backend call statuses and latencies from traces.",
+            "Check if any component shows resource saturation (cpu, memory) in logs or metrics that aligns with onset.",
+            "Investigate redis dependency map: use configs or service mesh to see who calls redis.",
+            "Analyze why currencyservice memory increased and whether it exhausted heap, leading to gc pauses.",
+            "Determine if productcatalogservice cpu drop is due to throttling (e.g., cgroup limits) or reduced workload.",
+            "Look for exception stack traces in frontend logs to identify which backend calls are failing."
+          ],
+          "pitfalls_to_avoid": [
+            "Do not treat late dominant metrics (redis disk, productcatalogservice latency) as primary onset.",
+            "Avoid assuming request direction implies fault direction; a callee fault can manifest as caller errors.",
+            "Generic frontend 'request error' logs are visibility cues, not root-cause proof.",
+            "Do not ignore components with lower local magnitude if they have earlier mechanism signals (currencyservice).",
+            "Latency-only early anomalies (checkoutservice) are weak source candidates without internal mechanism corroboration."
+          ]
+        },
+        "profile_semantics": [
+          "This profile is an event-level feature map generated by a sub-agent, not a final RCA decision.",
+          "Use event IDs and causal cues to plan NoiseLab actions and final reasoning."
+        ]
+      },
+      "event_causal_fact_count": 7,
+      "final_belief_state": [
+        {
+          "hypothesis_id": "H4-currencyservice-latency-degradation",
+          "root_component": "currencyservice",
+          "position": "leading",
+          "supporting_factors": [
+            "Near-onset internal mechanism signals: CPU drop (1732370183), memory +135 (1732370197), socket +20 (1732370197) indicate resource pressure.",
+            "Called by both frontend and checkoutservice, providing a clear propagation path to observed symptoms.",
+            "test_downstream_explanation confirms symptom-to-candidate paths exist, supporting currencyservice as a dependency whose failure surfaced upstream.",
+            "Compare_source_symptom shows strongest near-onset anomaly magnitude (175.36) and no late dominant metric, unlike redis.",
+            "Onset (1732370183) precedes frontend error burst (1732370187), allowing causality."
+          ],
+          "contradicting_factors": [
+            "Checkoutservice latency onset at 1732370174 predates currencyservice onset, creating a timing gap.",
+            "Dominant memory/socket spike at 1732370197 occurs after frontend errors have already begun.",
+            "No direct errors on currencyservice calls from callers; frontend errors are on checkoutservice calls, not currencyservice directly.",
+            "Missing logs from currencyservice to confirm memory exhaustion or socket errors."
+          ],
+          "missing_information": [
+            "Currencyservice application logs showing memory exhaustion or socket errors.",
+            "Detailed trace evidence linking checkoutservice failures specifically to currencyservice timeout/errors.",
+            "Explanation for the small, early checkoutservice latency spike that predates currencyservice anomaly."
+          ],
+          "source_vs_symptom_judgment": "Strong source cues: rich near-onset internal mechanism signals (cpu, memory, socket) outweigh the slightly later timing; the initial checkoutservice latency is likely a low-grade symptom or noise.",
+          "why_not_others": "Redis: earliest memory drop is isolated and a decrease; no trace dependency evidence; late dominant disk spike; counterfactual shows no propagation paths. Checkoutservice: latency-only near onset, no internal signals; high frontend errors indicate it is a symptom, not root. Frontend: generic request errors only, no self-inflicted resource saturation; clear symptom aggregator. Productcatalogservice: dominant latency spike occurs well after frontend errors; no error propagation from callers."
+        },
+        {
+          "hypothesis_id": "H1-redis-cpu-saturation",
+          "root_component": "redis",
+          "position": "plausible",
+          "supporting_factors": [
+            "Memory change at earliest observed time (1732370174), coinciding with checkoutservice latency onset.",
+            "Subsequent CPU increase and massive late disk spike suggest escalating internal strain.",
+            "Potential indirect dependency if services use redis for data (not captured in trace)."
+          ],
+          "contradicting_factors": [
+            "Counterfactual_remove reveals no trace paths to frontend or checkoutservice.",
+            "Memory change is a decrease, not typical pressure; could be reallocation.",
+            "Late dominant CPU and disk spikes are far from onset; near-onset anomaly magnitude is small (34).",
+            "No logs or service dependencies confirm redis impact."
+          ],
+          "missing_information": [
+            "Dependency map confirming which services call redis.",
+            "Mechanism linking redis memory drop to checkoutservice failures."
+          ],
+          "source_vs_symptom_judgment": "Earliest memory signal is source-like but very isolated; lack of propagation evidence weakens it. Alternative explanation as a coincidental normal fluctuation is possible.",
+          "why_not_others": "Currencyservice has stronger and more diverse near-onset internal signals and established callers; its anomalies directly propagate via known paths."
+        },
+        {
+          "hypothesis_id": "H2-frontend-service-error",
+          "root_component": "frontend",
+          "position": "weakened",
+          "supporting_factors": [
+            "Error and log signals at 1732370187."
+          ],
+          "contradicting_factors": [
+            "Generic 'request error' logs with no application-level exceptions.",
+            "Errors concentrated on checkoutservice calls; no internal resource saturation.",
+            "No supporting internal mechanism beyond visibility of backend failures."
+          ],
+          "missing_information": [
+            "Self-inflicted error evidence independent of backend calls."
+          ],
+          "source_vs_symptom_judgment": "Strongly symptom-like; acts as symptom aggregator for downstream failures.",
+          "why_not_others": "Currencyservice and redis have internal mechanism evidence; frontend errors consistent with symptom manifestation."
+        },
+        {
+          "hypothesis_id": "H3-productcatalogservice-latency-degradation",
+          "root_component": "productcatalogservice",
+          "position": "weakened",
+          "supporting_factors": [
+            "CPU drop at 1732370198."
+          ],
+          "contradicting_factors": [
+            "Dominant latency spike at 1732370241 well after frontend errors began.",
+            "No errors reported by callers on productcatalogservice calls.",
+            "Frontend errors are on checkoutservice, not productcatalogservice."
+          ],
+          "missing_information": [
+            "Link from productcatalogservice latency to checkoutservice errors."
+          ],
+          "source_vs_symptom_judgment": "Early CPU drop is source-like but late dominant metric and no error propagation weaken causality.",
+          "why_not_others": "Currencyservice's internal mechanisms are more timely and impactful on the error chain."
+        },
+        {
+          "hypothesis_id": "H5-checkoutservice-latency-degradation",
+          "root_component": "checkoutservice",
+          "position": "weakened",
+          "supporting_factors": [
+            "Earliest observed latency at 1732370174."
+          ],
+          "contradicting_factors": [
+            "Latency-only near onset; no CPU, memory, or error signals.",
+            "High error rate from frontend suggests it is the failing component, not initiator.",
+            "Depends on multiple backends; degradation likely from a dependency."
+          ],
+          "missing_information": [
+            "Internal mechanism evidence at onset."
+          ],
+          "source_vs_symptom_judgment": "Classic downstream symptom; latency-only onset with no internal corroboration.",
+          "why_not_others": "Currencyservice and redis have near-onset internal signals, making them stronger root cause candidates."
+        }
+      ],
+      "transcript": [
+        {
+          "step_index": 0,
+          "agent_response": {
+            "belief_state": [
+              {
+                "hypothesis_id": "H4-currencyservice-latency-degradation",
+                "root_component": "currencyservice",
+                "position": "leading",
+                "supporting_factors": [
+                  "Near-onset internal mechanism signals: cpu drop at 1732370183, followed by memory increase and socket increase at 1732370197.",
+                  "Called by both frontend and checkoutservice, so degradation can propagate upstream.",
+                  "Onset precedes frontend errors (1732370187) and is consistent with a cause-effect timeline."
+                ],
+                "contradicting_factors": [
+                  "Trace shows no errors on calls to currencyservice from frontend or checkoutservice.",
+                  "Frontend errors are concentrated on checkoutservice calls, not directly on currencyservice."
+                ],
+                "missing_information": [
+                  "Downstream explanation: can currencyservice anomalies cause checkoutservice to return errors?",
+                  "Source-vs-symptom comparison with redis and frontend.",
+                  "Currencyservice logs to confirm internal memory exhaustion or socket errors."
+                ],
+                "source_vs_symptom_judgment": "Strong source cues: internal mechanism signals; latency may be a symptom but the underlying resource changes are source-like.",
+                "why_not_others": "Unlike checkoutservice (latency-only, symptom) and frontend (mostly symptom aggregator), currencyservice shows clear internal resource anomalies near onset."
+              },
+              {
+                "hypothesis_id": "H1-redis-cpu-saturation",
+                "root_component": "redis",
+                "position": "plausible",
+                "supporting_factors": [
+                  "Early memory change at onset (1732370174) is a source-like internal mechanism signal.",
+                  "Subsequent cpu and disk signals indicate escalating resource pressure.",
+                  "Large magnitude anomaly (disk) suggests severe impact, possibly affecting dependent services."
+                ],
+                "contradicting_factors": [
+                  "Dominant disk spike is extremely late (1732370354), likely a consequence rather than cause.",
+                  "No direct trace dependencies from failing components to redis observed.",
+                  "Propagation path to frontend errors or checkoutservice latency is unclear."
+                ],
+                "missing_information": [
+                  "Dependency map: which services depend on redis?",
+                  "Downstream explanation: can redis resource pressure cause checkoutservice/frontend failures?",
+                  "Redis logs showing connection timeouts or slow queries during incident."
+                ],
+                "source_vs_symptom_judgment": "Near-onset mechanism exists (memory), but the most prominent anomaly is a late symptom (disk); ambiguous.",
+                "why_not_others": "Compared to currencyservice, redis lacks direct caller relationships and its anomalies are less directly connected to observed frontend errors."
+              },
+              {
+                "hypothesis_id": "H2-frontend-service-error",
+                "root_component": "frontend",
+                "position": "plausible",
+                "supporting_factors": [
+                  "Error and log signals near onset (1732370187).",
+                  "Entry component with high visibility into user-facing errors."
+                ],
+                "contradicting_factors": [
+                  "Generic 'request error' logs suggest dependency failures, not self-inflicted issues.",
+                  "High error rate on checkoutservice calls indicates downstream problem.",
+                  "No internal mechanism beyond error/log; frontend likely acts as symptom aggregator."
+                ],
+                "missing_information": [
+                  "Frontend log details: are there application-level exceptions unrelated to backend responses?",
+                  "Counterfactual: if checkoutservice were healthy, would frontend errors disappear?",
+                  "Frontend internal resource metrics (cpu, memory) showing self-induced saturation."
+                ],
+                "source_vs_symptom_judgment": "Symptom-like: errors are visibility of backend failures; no strong source cue.",
+                "why_not_others": "Currencyservice and redis have clearer near-onset internal mechanism evidence; frontend errors are likely consequential."
+              },
+              {
+                "hypothesis_id": "H3-productcatalogservice-latency-degradation",
+                "root_component": "productcatalogservice",
+                "position": "weakened",
+                "supporting_factors": [
+                  "Early cpu drop (1732370198) suggests some internal resource contention.",
+                  "Large latency spike later could affect callers."
+                ],
+                "contradicting_factors": [
+                  "Dominant latency spike is late (1732370241), after frontend errors have already begun.",
+                  "No errors reported by callers (frontend, checkoutservice) on calls to productcatalogservice.",
+                  "Frontend errors are on checkoutservice, not productcatalogservice; unclear propagation."
+                ],
+                "missing_information": [
+                  "Connection between productcatalogservice latency and checkoutservice errors.",
+                  "Source-vs-symptom evaluation relative to earlier-onset candidates."
+                ],
+                "source_vs_symptom_judgment": "Has some source cue (cpu), but the dominant metric is a late symptom; weak source.",
+                "why_not_others": "Currencyservice has stronger and earlier near-onset mechanisms; productcatalogservice's latency likely a secondary effect."
+              },
+              {
+                "hypothesis_id": "H5-checkoutservice-latency-degradation",
+                "root_component": "checkoutservice",
+                "position": "weakened",
+                "supporting_factors": [
+                  "Earliest onset (latency at 1732370174)."
+                ],
+                "contradicting_factors": [
+                  "Latency-only signal; no near-onset internal mechanism evidence (memory change very late).",
+                  "High error rate observed from frontend suggests checkoutservice is failing, likely due to its dependencies.",
+                  "Trace shows it calls multiple backends; degradation could originate downstream."
+                ],
+                "missing_information": [
+                  "Internal mechanism evidence (cpu, memory, error spikes) at onset.",
+                  "Which dependency of checkoutservice is causing its failures."
+                ],
+                "source_vs_symptom_judgment": "Strongly symptom-like; latency is typically a downstream effect.",
+                "why_not_others": "Currencyservice and redis have internal mechanism signals; checkoutservice lacks source cues and its errors are likely propagated."
+              }
+            ],
+            "case_narrative": "At incident onset (1732370174), redis shows an early memory change, but no direct impact is visible. Checkoutservice immediately exhibits latency, likely an early symptom. Shortly after (1732370183), currencyservice begins showing internal resource anomalies (cpu drop, then memory/socket increase) and latency, suggesting a root cause. Frontend then (1732370187) starts reporting errors on checkoutservice calls, aggregating the downstream failure. Productcatalogservice shows a later latency spike, probably a secondary consequence. The current leading hypothesis is that currencyservice is the root cause, but missing evidence on how its degradation translates into checkoutservice errors prevents a final decision.",
+            "final_decision": null,
+            "next_action": {
+              "action_id": "action_1",
+              "tool_name": "test_downstream_explanation",
+              "args": {
+                "candidate_component": "currencyservice",
+                "symptom_components": [
+                  "frontend",
+                  "checkoutservice"
+                ],
+                "time_window": [
+                  1732370160.0,
+                  1732370220.0
+                ]
+              },
+              "expected_information_gain": "Determine if currencyservice's resource anomalies (memory/socket/latency) can explain the observed errors and latency in frontend and checkoutservice. This will either strengthen currencyservice as root cause or reveal it as insufficient.",
+              "question": "Can currencyservice degradation cause checkoutservice and frontend symptoms?",
+              "target_hypothesis_ids": [
+                "H4-currencyservice-latency-degradation"
+              ]
+            }
+          },
+          "executed_action": {
+            "action_id": "action_1",
+            "tool_name": "test_downstream_explanation",
+            "target_hypothesis_ids": [
+              "H1-redis-cpu-saturation",
+              "H2-frontend-service-error",
+              "H3-productcatalogservice-latency-degradation"
+            ],
+            "question": "Can currencyservice degradation cause checkoutservice and frontend symptoms?",
+            "args": {
+              "candidate_component": "currencyservice",
+              "symptom_components": [
+                "frontend",
+                "checkoutservice"
+              ],
+              "time_window": [
+                1732370160.0,
+                1732370220.0
+              ]
+            },
+            "expected_information_gain": "Determine if currencyservice's resource anomalies (memory/socket/latency) can explain the observed errors and latency in frontend and checkoutservice. This will either strengthen currencyservice as root cause or reveal it as insufficient."
+          },
+          "evidence_id": "evidence:11d21c96609e1134e8a97f7a7b913a4286bd2dd2c0aa3f083e1cdb5877f6adf6"
+        },
+        {
+          "step_index": 1,
+          "agent_response": {
+            "belief_state": [
+              {
+                "contradicting_factors": [
+                  "candidate observed after checkoutservice earliest symptom onset (checkoutservice: 1732370174, currencyservice: 1732370183); cannot explain initial checkoutservice latency",
+                  "frontend errors are concentrated on checkoutservice calls, not directly on currencyservice; no currencyservice errors reported by callers",
+                  "test_downstream_explanation showed symptom_to_candidate paths exist (20) but candidate_to_symptom paths = 0, indicating request direction is caller->callee; currencyservice is a dependency, not an upstream caller"
+                ],
+                "hypothesis_id": "H4-currencyservice-latency-degradation",
+                "missing_information": [
+                  "currencyservice logs or internal mechanisms that would explain propagation to checkoutservice errors",
+                  "whether checkoutservice’s dependency on currencyservice can cause frontend errors despite timing mismatch",
+                  "redis dependency map and whether redis memory anomaly can better explain checkoutservice’s early latency"
+                ],
+                "position": "plausible",
+                "root_component": "currencyservice",
+                "source_vs_symptom_judgment": "Near-onset internal mechanism signals (cpu, memory, socket) are source-like, but downstream explanation reveals timing and path weaknesses; remains a strong source candidate but with unresolved propagation",
+                "supporting_factors": [
+                  "near-onset internal mechanism: cpu drop at 1732370183, memory increase (+135) and socket increase (+20) at 1732370197",
+                  "called by both frontend and checkoutservice, providing a plausible propagation path",
+                  "onset precedes frontend errors (1732370187), consistent with cause-effect timeline"
+                ],
+                "why_not_others": "checkoutservice is latency-only symptom; frontend is symptom aggregator; redis has no direct trace dependency and its dominant signal is a very late disk spike; productcatalogservice has late dominant latency and no error propagation to frontend"
+              },
+              {
+                "contradicting_factors": [
+                  "dominant disk spike extremely late (1732370354) and likely a consequence",
+                  "no direct trace dependencies from failing components (frontend, checkoutservice) to redis observed in current trace data",
+                  "impact on frontend errors not yet demonstrated"
+                ],
+                "hypothesis_id": "H1-redis-cpu-saturation",
+                "missing_information": [
+                  "dependency map: do checkoutservice or other affected services depend on redis?",
+                  "counterfactual remove of redis: would symptoms disappear?",
+                  "redis logs or metrics during onset showing connection issues or slow queries"
+                ],
+                "position": "plausible",
+                "root_component": "redis",
+                "source_vs_symptom_judgment": "Near-onset memory change is source-like, but lacking direct propagation evidence; ambiguous without dependency data",
+                "supporting_factors": [
+                  "memory change at earliest observed time (1732370174), coinciding with checkoutservice latency onset",
+                  "subsequent cpu and disk signals indicate escalating resource pressure",
+                  "large late disk anomaly suggests severe internal impact"
+                ],
+                "why_not_others": "currencyservice has internal mechanism but timing mismatch with checkoutservice; frontend is symptom aggregator; checkoutservice lacks internal mechanism; productcatalogservice has late dominant metric"
+              },
+              {
+                "contradicting_factors": [
+                  "generic 'request error' logs suggest dependency failures, not self-inflicted",
+                  "high error rate on checkoutservice calls indicates downstream origin",
+                  "no internal resource saturation besides error/log at onset"
+                ],
+                "hypothesis_id": "H2-frontend-service-error",
+                "missing_information": [
+                  "frontend log details revealing application-level exceptions independent of backend responses",
+                  "counterfactual: would removing checkoutservice failures eliminate frontend errors?",
+                  "frontend resource metrics (cpu, memory) showing self-induced overload"
+                ],
+                "position": "weakened",
+                "root_component": "frontend",
+                "source_vs_symptom_judgment": "Strongly symptom-like; errors are visibility of backend failures with no internal source mechanism",
+                "supporting_factors": [
+                  "error and log signals at visible onset (1732370187)"
+                ],
+                "why_not_others": "currencyservice and redis have earlier or concurrent near-onset mechanism signals; frontend errors are explained by dependency failures"
+              },
+              {
+                "contradicting_factors": [
+                  "dominant latency spike is late (1732370241) after frontend errors begin",
+                  "no errors reported by callers on productcatalogservice calls",
+                  "frontend errors are on checkoutservice, not productcatalogservice; unclear causal chain"
+                ],
+                "hypothesis_id": "H3-productcatalogservice-latency-degradation",
+                "missing_information": [
+                  "connection between productcatalogservice latency and checkoutservice errors",
+                  "source-vs-symptom evaluation relative to earlier-onset candidates"
+                ],
+                "position": "weakened",
+                "root_component": "productcatalogservice",
+                "source_vs_symptom_judgment": "Has early cpu drop but dominant metric is late symptom; weak source candidate",
+                "supporting_factors": [
+                  "early cpu drop at 1732370198 suggests possible resource contention"
+                ],
+                "why_not_others": "currencyservice and redis have stronger and earlier mechanism evidence; productcatalogservice likely secondary"
+              },
+              {
+                "contradicting_factors": [
+                  "latency-only signal; no near-onset cpu, memory, or error evidence (memory change very late at 1732370334)",
+                  "frontend errors on checkoutservice calls suggest checkoutservice is a symptom, not root",
+                  "trace shows it calls multiple backends; degradation could originate from dependencies"
+                ],
+                "hypothesis_id": "H5-checkoutservice-latency-degradation",
+                "missing_information": [
+                  "internal mechanism evidence (cpu, memory, error) at onset",
+                  "which specific dependency causes checkoutservice failures"
+                ],
+                "position": "weakened",
+                "root_component": "checkoutservice",
+                "source_vs_symptom_judgment": "Strongly symptom-like; latency-only onset typical of downstream effects",
+                "supporting_factors": [
+                  "earliest observed latency at 1732370174"
+                ],
+                "why_not_others": "currencyservice and redis have internal mechanism signals; checkoutservice lacks source cues and its failures are likely propagated"
+              }
+            ],
+            "case_narrative": "Redis and checkoutservice share earliest anomaly onset (1732370174): redis memory change, checkoutservice latency. Without dependency evidence, redis remains plausible but unlinked. Currencyservice’s internal resource anomalies (cpu, memory, socket) start at 1732370183, shortly before frontend errors on checkoutservice calls (1732370187). However, currencyservice cannot explain checkoutservice’s initial latency and shows no direct error propagation. Frontend errors are concentrated on checkoutservice, making checkoutservice the immediate failure point. The root cause likely lies in a backend dependency causing checkoutservice to degrade; top candidates are redis (if checkoutservice depends on it) or currencyservice (though timing is imperfect). Missing dependency information and logs keep the root cause ambiguous.",
+            "final_decision": null,
+            "next_action": {
+              "action_id": "action_2",
+              "args": {
+                "component_scope": [
+                  "redis",
+                  "checkoutservice",
+                  "currencyservice"
+                ],
+                "feature_groups": [
+                  "onset",
+                  "local_mechanism",
+                  "logs",
+                  "propagation"
+                ],
+                "time_window": [
+                  1732370170.0,
+                  1732370200.0
+                ]
+              },
+              "expected_information_gain": "Reveal logs, propagation links, and detailed internal mechanisms for redis, checkoutservice, and currencyservice near onset. Will show if checkoutservice depends on redis, if currencyservice logs indicate memory/socket errors, and if any propagation path exists from redis to affected services.",
+              "question": "What detailed feature evidence (logs, propagation, onset mechanisms) exists for redis, checkoutservice, and currencyservice in the early anomaly window?",
+              "target_hypothesis_ids": [
+                "H1-redis-cpu-saturation",
+                "H4-currencyservice-latency-degradation",
+                "H5-checkoutservice-latency-degradation"
+              ],
+              "tool_name": "inspect_noise_features"
+            }
+          },
+          "executed_action": {
+            "action_id": "action_2",
+            "tool_name": "inspect_noise_features",
+            "target_hypothesis_ids": [
+              "H1-redis-cpu-saturation",
+              "H4-currencyservice-latency-degradation",
+              "H5-checkoutservice-latency-degradation"
+            ],
+            "question": "What detailed feature evidence (logs, propagation, onset mechanisms) exists for redis, checkoutservice, and currencyservice in the early anomaly window?",
+            "args": {
+              "component_scope": [
+                "redis",
+                "checkoutservice",
+                "currencyservice"
+              ],
+              "time_window": [
+                1732370170.0,
+                1732370200.0
+              ],
+              "feature_groups": [
+                "onset",
+                "local_mechanism",
+                "logs",
+                "propagation"
+              ]
+            },
+            "expected_information_gain": "Reveal logs, propagation links, and detailed internal mechanisms for redis, checkoutservice, and currencyservice near onset. Will show if checkoutservice depends on redis, if currencyservice logs indicate memory/socket errors, and if any propagation path exists from redis to affected services."
+          },
+          "evidence_id": "evidence:335b0a2d7fe521fe7cd90bb28a968a96b04ce753a20b481d4e9add241df0d100"
+        },
+        {
+          "step_index": 2,
+          "agent_response": {
+            "agent": "continuous_noise_native",
+            "belief_state": [
+              {
+                "contradicting_factors": [
+                  "candidate observed after checkoutservice earliest symptom onset (checkoutservice: 1732370174, currencyservice: 1732370183); cannot explain initial checkoutservice latency",
+                  "frontend errors are concentrated on checkoutservice calls, not directly on currencyservice; no currencyservice errors reported by callers",
+                  "test_downstream_explanation showed symptom_to_candidate paths exist (20) but candidate_to_symptom paths = 0, indicating request direction is caller->callee; currencyservice is a dependency, not an upstream caller"
+                ],
+                "hypothesis_id": "H4-currencyservice-latency-degradation",
+                "missing_information": [
+                  "currencyservice logs or internal mechanisms that would explain propagation to checkoutservice errors",
+                  "whether checkoutservice’s dependency on currencyservice can cause frontend errors despite timing mismatch",
+                  "redis dependency map and whether redis memory anomaly can better explain checkoutservice’s early latency"
+                ],
+                "position": "plausible",
+                "root_component": "currencyservice",
+                "source_vs_symptom_judgment": "Near-onset internal mechanism signals (cpu, memory, socket) are source-like, but downstream explanation reveals timing and path weaknesses; remains a strong source candidate but with unresolved propagation",
+                "supporting_factors": [
+                  "near-onset internal mechanism: cpu drop at 1732370183, memory increase (+135) and socket increase (+20) at 1732370197",
+                  "called by both frontend and checkoutservice, providing a plausible propagation path",
+                  "onset precedes frontend errors (1732370187), consistent with cause-effect timeline"
+                ],
+                "why_not_others": "checkoutservice is latency-only symptom; frontend is symptom aggregator; redis has no direct trace dependency and its dominant signal is a very late disk spike; productcatalogservice has late dominant latency and no error propagation to frontend"
+              },
+              {
+                "contradicting_factors": [
+                  "dominant disk spike extremely late (1732370354) and likely a consequence",
+                  "no direct trace dependencies from failing components (frontend, checkoutservice) to redis observed in current trace data",
+                  "impact on frontend errors not yet demonstrated"
+                ],
+                "hypothesis_id": "H1-redis-cpu-saturation",
+                "missing_information": [
+                  "dependency map: do checkoutservice or other affected services depend on redis?",
+                  "counterfactual remove of redis: would symptoms disappear?",
+                  "redis logs or metrics during onset showing connection issues or slow queries"
+                ],
+                "position": "plausible",
+                "root_component": "redis",
+                "source_vs_symptom_judgment": "Near-onset memory change is source-like, but lacking direct propagation evidence; ambiguous without dependency data",
+                "supporting_factors": [
+                  "memory change at earliest observed time (1732370174), coinciding with checkoutservice latency onset",
+                  "subsequent cpu and disk signals indicate escalating resource pressure",
+                  "large late disk anomaly suggests severe internal impact"
+                ],
+                "why_not_others": "currencyservice has internal mechanism but timing mismatch with checkoutservice; frontend is symptom aggregator; checkoutservice lacks internal mechanism; productcatalogservice has late dominant metric"
+              },
+              {
+                "contradicting_factors": [
+                  "generic 'request error' logs suggest dependency failures, not self-inflicted",
+                  "high error rate on checkoutservice calls indicates downstream origin",
+                  "no internal resource saturation besides error/log at onset"
+                ],
+                "hypothesis_id": "H2-frontend-service-error",
+                "missing_information": [
+                  "frontend log details revealing application-level exceptions independent of backend responses",
+                  "counterfactual: would removing checkoutservice failures eliminate frontend errors?",
+                  "frontend resource metrics (cpu, memory) showing self-induced overload"
+                ],
+                "position": "weakened",
+                "root_component": "frontend",
+                "source_vs_symptom_judgment": "Strongly symptom-like; errors are visibility of backend failures with no internal source mechanism",
+                "supporting_factors": [
+                  "error and log signals at visible onset (1732370187)"
+                ],
+                "why_not_others": "currencyservice and redis have earlier or concurrent near-onset mechanism signals; frontend errors are explained by dependency failures"
+              },
+              {
+                "contradicting_factors": [
+                  "dominant latency spike is late (1732370241) after frontend errors begin",
+                  "no errors reported by callers on productcatalogservice calls",
+                  "frontend errors are on checkoutservice, not productcatalogservice; unclear causal chain"
+                ],
+                "hypothesis_id": "H3-productcatalogservice-latency-degradation",
+                "missing_information": [
+                  "connection between productcatalogservice latency and checkoutservice errors",
+                  "source-vs-symptom evaluation relative to earlier-onset candidates"
+                ],
+                "position": "weakened",
+                "root_component": "productcatalogservice",
+                "source_vs_symptom_judgment": "Has early cpu drop but dominant metric is late symptom; weak source candidate",
+                "supporting_factors": [
+                  "early cpu drop at 1732370198 suggests possible resource contention"
+                ],
+                "why_not_others": "currencyservice and redis have stronger and earlier mechanism evidence; productcatalogservice likely secondary"
+              },
+              {
+                "contradicting_factors": [
+                  "latency-only signal; no near-onset cpu, memory, or error evidence (memory change very late at 1732370334)",
+                  "frontend errors on checkoutservice calls suggest checkoutservice is a symptom, not root",
+                  "trace shows it calls multiple backends; degradation could originate from dependencies"
+                ],
+                "hypothesis_id": "H5-checkoutservice-latency-degradation",
+                "missing_information": [
+                  "internal mechanism evidence (cpu, memory, error) at onset",
+                  "which specific dependency causes checkoutservice failures"
+                ],
+                "position": "weakened",
+                "root_component": "checkoutservice",
+                "source_vs_symptom_judgment": "Strongly symptom-like; latency-only onset typical of downstream effects",
+                "supporting_factors": [
+                  "earliest observed latency at 1732370174"
+                ],
+                "why_not_others": "currencyservice and redis have internal mechanism signals; checkoutservice lacks source cues and its failures are likely propagated"
+              }
+            ],
+            "case_narrative": "Redis and checkoutservice share earliest anomaly onset (1732370174): redis memory change, checkoutservice latency. Without dependency evidence, redis remains plausible but unlinked. Currencyservice’s internal resource anomalies (cpu, memory, socket) start at 1732370183, shortly before frontend errors on checkoutservice calls (1732370187). However, currencyservice cannot explain checkoutservice’s initial latency and shows no direct error propagation. Frontend errors are concentrated on checkoutservice, making checkoutservice the immediate failure point. Next step: test counterfactual removal of redis to see if frontend and checkoutservice symptoms would be eliminated, directly assessing the redis hypothesis.",
+            "final_decision": null,
+            "next_action": {
+              "action_id": "action_3",
+              "args": {
+                "component": "redis",
+                "symptom_components": [
+                  "frontend",
+                  "checkoutservice"
+                ],
+                "time_window": [
+                  1732370170.0,
+                  1732370220.0
+                ]
+              },
+              "expected_information_gain": "Determine if removing redis would eliminate the observed symptoms of frontend errors and checkoutservice latency, strengthening or weakening the redis root-cause hypothesis.",
+              "question": "Would removing redis anomalies prevent frontend errors and checkoutservice latency?",
+              "target_hypothesis_ids": [
+                "H1-redis-cpu-saturation"
+              ],
+              "tool_name": "counterfactual_remove"
+            }
+          },
+          "executed_action": {
+            "action_id": "action_3",
+            "tool_name": "counterfactual_remove",
+            "target_hypothesis_ids": [
+              "H1-redis-cpu-saturation",
+              "H2-frontend-service-error",
+              "H3-productcatalogservice-latency-degradation"
+            ],
+            "question": "Would removing redis anomalies prevent frontend errors and checkoutservice latency?",
+            "args": {
+              "component": "redis",
+              "symptom_components": [
+                "frontend",
+                "checkoutservice"
+              ],
+              "time_window": [
+                1732370170.0,
+                1732370220.0
+              ]
+            },
+            "expected_information_gain": "Determine if removing redis would eliminate the observed symptoms of frontend errors and checkoutservice latency, strengthening or weakening the redis root-cause hypothesis."
+          },
+          "evidence_id": "evidence:654768f1e32c1272f341ce9ba624f3eedb7dd0e1a451687161c4ef32aca87cfa"
+        },
+        {
+          "step_index": 3,
+          "agent_response": {
+            "belief_state": [
+              {
+                "hypothesis_id": "H4-currencyservice-latency-degradation",
+                "root_component": "currencyservice",
+                "position": "plausible",
+                "source_vs_symptom_judgment": "Internal mechanisms (cpu drop, memory surge, socket spike) are source-like; feature richness and moderate timing suggest a possible root cause even though not earliest.",
+                "supporting_factors": [
+                  "near-onset internal mechanisms: cpu drop at 1732370183, memory +135 at 1732370197, socket +20 at 1732370197",
+                  "called by both frontend and checkoutservice, creating a propagation path",
+                  "currencyservice onset (1732370183) precedes frontend error onset (1732370187) by 4 seconds",
+                  "test_downstream_explanation confirmed symptom-to-candidate paths exist, consistent with callee dependency"
+                ],
+                "contradicting_factors": [
+                  "earliest anomaly in checkoutservice (1732370174) predates currencyservice; cannot explain initial checkoutservice latency",
+                  "no candidate-to-symptom trace paths in downstream_explanation; request direction is frontend/checkoutservice -> currencyservice, not reverse",
+                  "frontend errors occur on checkoutservice calls, not directly on currencyservice calls; currencyservice calls show no errors to callers",
+                  "frontend error burst starts before currencyservice memory/socket spike, weakening direct causal link"
+                ],
+                "missing_information": [
+                  "definitive proof that currencyservice degradation could cause checkoutservice errors despite timeline mismatch (e.g., cascading latency beyond 9s)",
+                  "logs or traces showing checkoutservice failing because of currencyservice timeouts or errors"
+                ],
+                "why_not_others": "checkoutservice and frontend lack internal source mechanisms; productcatalogservice has late dominant metric and no error propagation; redis lacks direct dependency evidence"
+              },
+              {
+                "hypothesis_id": "H1-redis-cpu-saturation",
+                "root_component": "redis",
+                "position": "plausible",
+                "source_vs_symptom_judgment": "Earliest memory change is source-like, but isolated; later CPU/disk spikes are ambiguous; no propagation evidence weakens source confidence.",
+                "supporting_factors": [
+                  "memory change at earliest observed time (1732370174), coinciding with checkoutservice latency onset",
+                  "subsequent CPU increase (1732370216) and massive late disk spike suggest escalating internal strain",
+                  "potential indirect dependency if services use redis for data (not captured in trace)"
+                ],
+                "contradicting_factors": [
+                  "counterfactual_remove revealed no trace paths from redis to frontend or checkoutservice in either direction, weakening direct dependency hypothesis",
+                  "dominant disk spike extremely late (1732370354) and likely a consequence, not onset evidence",
+                  "memory change is a decrease, not a typical pressure symptom; may indicate resource reallocation rather than fault"
+                ],
+                "missing_information": [
+                  "dependency map confirming which services call redis",
+                  "mechanism linking redis memory drop to later CPU/disk pressure that could cause checkoutservice failures",
+                  "evidence that checkoutservice or frontend errors would disappear if redis were healthy"
+                ],
+                "why_not_others": "currencyservice has richer internal signals but later timing; checkoutservice and frontend are symptom-like; productcatalogservice has late dominant metric"
+              },
+              {
+                "hypothesis_id": "H2-frontend-service-error",
+                "root_component": "frontend",
+                "position": "weakened",
+                "source_vs_symptom_judgment": "Strongly symptom-like; generic request error logs and error concentration on checkoutservice indicate backend failure visibility, not self-inflicted root cause.",
+                "supporting_factors": [
+                  "error and log signals at 1732370187"
+                ],
+                "contradicting_factors": [
+                  "generic 'request error' logs with no application-level exception evidence",
+                  "high error rate specifically on calls to checkoutservice",
+                  "no internal resource saturation besides error/log at onset"
+                ],
+                "missing_information": [
+                  "internal application exception logs independent of backend responses",
+                  "resource metrics showing self-induced overload before backend failures"
+                ],
+                "why_not_others": "currencyservice and redis have internal mechanism evidence; frontend errors are consistent with a downstream symptom of those components"
+              },
+              {
+                "hypothesis_id": "H3-productcatalogservice-latency-degradation",
+                "root_component": "productcatalogservice",
+                "position": "weakened",
+                "source_vs_symptom_judgment": "Early cpu drop is source-like, but dominant latency spike occurs 45s after onset and after frontend errors; weak root cause.",
+                "supporting_factors": [
+                  "cpu drop at 1732370198"
+                ],
+                "contradicting_factors": [
+                  "dominant latency spike at 1732370241 is well after frontend errors began",
+                  "no errors reported by callers on productcatalogservice calls",
+                  "frontend errors are on checkoutservice, not productcatalogservice"
+                ],
+                "missing_information": [
+                  "causal chain from productcatalogservice latency to checkoutservice errors",
+                  "alternative explanation for the early cpu drop (e.g., throttling)"
+                ],
+                "why_not_others": "currencyservice and redis have stronger mechanism evidence with better timing relative to symptoms"
+              },
+              {
+                "hypothesis_id": "H5-checkoutservice-latency-degradation",
+                "root_component": "checkoutservice",
+                "position": "weakened",
+                "source_vs_symptom_judgment": "Latency-only onset with no near‑onset internal signals; typical downstream symptom.",
+                "supporting_factors": [
+                  "earliest observed latency at 1732370174"
+                ],
+                "contradicting_factors": [
+                  "no cpu, memory, or error evidence at onset (memory change very late at 1732370334)",
+                  "high error rate from frontend on checkoutservice suggests checkoutservice is the failing component, not the initiator",
+                  "trace shows it depends on multiple backends; degradation likely originates from one of them"
+                ],
+                "missing_information": [
+                  "internal mechanism evidence at onset to support self-origin",
+                  "which dependency specifically causes checkoutservice failures"
+                ],
+                "why_not_others": "currencyservice and redis have near‑onset internal signals, making them much stronger root cause candidates"
+              }
+            ],
+            "case_narrative": "Redis shows a memory change at the earliest timestamp (1732370174), synchronous with checkoutservice latency onset, but no trace dependency connects it to failing components. Currencyservice exhibits richer internal anomalies (cpu, memory, socket) starting at 1732370183, shortly before frontend errors on checkoutservice (1732370187), yet appears after checkoutservice’s initial latency and lacks direct error propagation to frontend. Both remain plausible; currencyservice has stronger mechanism evidence but a timing gap, while redis has perfect temporal alignment but no proven propagation path. Checkoutservice and frontend are symptom manifestations. A direct source‑versus‑symptom comparison between redis and currencyservice is needed to break the tie.",
+            "next_action": {
+              "action_id": "action_4",
+              "tool_name": "compare_source_symptom",
+              "args": {
+                "component_scope": [
+                  "redis",
+                  "currencyservice"
+                ],
+                "time_window": [
+                  1732370170.0,
+                  1732370220.0
+                ]
+              },
+              "expected_information_gain": "Directly compare whether redis's early but isolated memory change or currencyservice's later but richer internal mechanisms (cpu, memory, socket) provide stronger source evidence. The result will clarify which component is more likely the root cause by systematically weighting onset timing, signal diversity, and symptom‑like versus source‑like features.",
+              "question": "Which of redis or currencyservice has stronger source‑mechanism evidence for the observed frontend and checkoutservice symptoms?",
+              "target_hypothesis_ids": [
+                "H1-redis-cpu-saturation",
+                "H4-currencyservice-latency-degradation"
+              ]
+            }
+          },
+          "executed_action": {
+            "action_id": "action_4",
+            "tool_name": "compare_source_symptom",
+            "target_hypothesis_ids": [
+              "H1-redis-cpu-saturation",
+              "H4-currencyservice-latency-degradation"
+            ],
+            "question": "Which of redis or currencyservice has stronger source‑mechanism evidence for the observed frontend and checkoutservice symptoms?",
+            "args": {
+              "component_scope": [
+                "redis",
+                "currencyservice"
+              ],
+              "time_window": [
+                1732370170.0,
+                1732370220.0
+              ]
+            },
+            "expected_information_gain": "Directly compare whether redis's early but isolated memory change or currencyservice's later but richer internal mechanisms (cpu, memory, socket) provide stronger source evidence. The result will clarify which component is more likely the root cause by systematically weighting onset timing, signal diversity, and symptom‑like versus source‑like features."
+          },
+          "evidence_id": "evidence:dcda82ea87443f425f31312d62b0be599f5423de0903c6173e4512d393d7e7e4"
+        }
+      ],
+      "case_id": "RE3-OB/currencyservice_f1/3",
+      "expected_component": "currencyservice",
+      "hit": true,
+      "elapsed_sec": 438.993,
+      "error": null
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+RE2-OB/checkoutservice_cpu/1: predicted=checkoutservice expected=checkoutservice hit=True tokens=0 error=None
+RE2-OB/checkoutservice_cpu/2: predicted=checkoutservice expected=checkoutservice hit=True tokens=0 error=None
+RE2-OB/checkoutservice_cpu/3: predicted=adservice expected=checkoutservice hit=False tokens=0 error=None
+RE2-OB/checkoutservice_cpu/multi-source-data: predicted=checkoutservice expected=checkoutservice hit=True tokens=0 error=None
+RE2-OB/checkoutservice_delay/1: predicted=currencyservice expected=checkoutservice hit=False tokens=1919 error=None
+{
+  "dataset": "RE3",
+  "system": "RE2-OB",
+  "mode": "continuous-noise-native-event-causalizer",
+  "total_cases": 5,
+  "top1_accuracy": 0.6,
+  "top1_hits": 3,
+  "recall_pool_size": 15,
+  "max_hypotheses": 10,
+  "elapsed_sec": 75.846,
+  "cost": {
+    "total_calls": 1,
+    "total_prompt_tokens": 1831,
+    "total_completion_tokens": 88,
+    "total_tokens": 1919,
+    "avg_tokens_per_case": 383,
+    "by_purpose": {
+      "lightweight_rca_decision": {
+        "call_count": 1,
+        "prompt_tokens": 1831,
+        "completion_tokens": 88,
+        "total_tokens": 1919
+      }
+    }
+  }
+}
+wrote prismv4/results/prism_cht/RE2-OB_lw_smoke.json

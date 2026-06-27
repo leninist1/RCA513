@@ -1,0 +1,2188 @@
+{
+  "dataset": "OpenRCA",
+  "system": "OpenRCA-Market",
+  "mode": "continuous-noise-native-event-causalizer",
+  "total_cases": 3,
+  "top1_accuracy": 0.0,
+  "top1_hits": 0,
+  "recall_pool_size": 15,
+  "max_hypotheses": 10,
+  "elapsed_sec": 1796.839,
+  "cost": {
+    "total_calls": 20,
+    "total_prompt_tokens": 401144,
+    "total_completion_tokens": 133141,
+    "total_tokens": 534285,
+    "avg_tokens_per_case": 178095,
+    "by_purpose": {
+      "event_causalizer_state_update": {
+        "call_count": 3,
+        "prompt_tokens": 59414,
+        "completion_tokens": 58572,
+        "total_tokens": 117986
+      },
+      "continuous_noise_native_state_update": {
+        "call_count": 15,
+        "prompt_tokens": 312134,
+        "completion_tokens": 68883,
+        "total_tokens": 381017
+      },
+      "continuous_noise_native_json_repair": {
+        "call_count": 2,
+        "prompt_tokens": 29596,
+        "completion_tokens": 5686,
+        "total_tokens": 35282
+      }
+    }
+  },
+  "results": [
+    {
+      "status": "continuous_final",
+      "hypothesis_id": "H1-node-latency-degradation",
+      "predicted_component": "node",
+      "reason_family": "latency degradation",
+      "onset_interval": [
+        1647738570.0,
+        1647738630.0
+      ],
+      "steps_completed": 4,
+      "evidence_count": 4,
+      "referenced_evidence_ids": [
+        "evidence:98bbaff173aede0b8b10bb31a43c1d56708c87ee393d690d73b6fb47dfb6a55b",
+        "evidence:ab1247dab1d870c5224f958a6cc5dc3986528c01bbdf9e26b29144f53d3672f1",
+        "evidence:64c2fc1c9e4f2d2472494dae32d1dea0a4d2ea5f284f84a52a83f702027f97c8",
+        "evidence:0236d38ec1cbd6b55551a8af3a5a2b9abdb849da4dfca68dc98c66005058c042"
+      ],
+      "rationale": "Node's near-onset multi-signal internal mechanism (memory +6470MB, CPU +1084s, disk, socket) at 1647738600, coupled with IVD initiator status and no contradicting logs, establishes it as the root cause. This resource exhaustion degrades all hosted pods, causing latency in every downstream service. Istio shows reactive memory/CPU signals but is an IVD victim with negligible magnitude. All other candidates are latency-only symptoms with no independent mechanism evidence. Removing node anomalies counterfactually would prevent all observed symptoms. No log evidence contradicts this causal chain.",
+      "uncertainties": [
+        "No direct node-level logs available to pinpoint the exact resource misconfiguration",
+        "Exact trigger for memory spike is unknown but does not change root component"
+      ],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "node",
+        "istio",
+        "adservice",
+        "checkoutservice2",
+        "frontend2",
+        "currencyservice2",
+        "adservice2",
+        "recommendationservice2",
+        "checkoutservice",
+        "cartservice",
+        "productcatalogservice",
+        "frontend",
+        "shippingservice",
+        "recommendationservice",
+        "emailservice2"
+      ],
+      "event_causal_profile": {
+        "truncated_json": "{\"causal_story_options\": [{\"initiating_event_ids\": [\"event:1:node:primary\"], \"propagation_reading\": \"Node experiences strong internal resource pressure (memory +6470MB, cpu +1084s) at 1647738600, causing contention for all hosted pods. This leads to latency in the istio sidecar (memory/cpu anomalies) and service-leve...\", \"story_id\": \"story_node_resource_exhaustion\", \"what_would_support_it\": [\"node logs showing OOM or pod eviction\", \"correlation of node memory/cpu with service latency across all pods on the node\"], \"what_would_weaken_it\": [\"evidence that node resource increase is caused by a single service\", \"istio showing independent failure before node signals\"]}, {\"initiating_event_ids\": [\"event:2:istio:primary\"], \"propagation_reading\": \"istio sidecar memory growth starts at 1647738600 (memory frees +175, cpu +13s), potentially due to a memory leak or misconfiguration. This degrades inter-service communication, causing cascading latency. Node-level re...\", \"story_id\": \"story_istio_memory_leak\", \"what_would_support_it\": [\"istio logs showing memory leak or crash\", \"similar istio memory pattern on nodes without resource anomalies\"], \"what_would_weaken_it\": [\"node memory anomaly is larger and independent of istio\", \"no istio error logs\"]}], \"component_event_features\": [{\"component\": \"node\", \"missing_checks\": [\"no direct trace or log evidence of node-level faults\", \"no caller error boundary information\"], \"near_onset_mechanism\": [\"cpu, disk, memory, socket\"], \"primary_event_ids\": [\"event:1:node:primary\"], \"symptom_visibility\": [], \"timing_cautions\": [\"dominant memory spike is at onset, no late dominance\"], \"topology_notes\": [\"infrastructure host, runs multiple pods including istio, frontend, cartservice, etc.\"]}, {\"component\": \"istio\", \"missing_checks\": [\"no istio crash/error logs\", \"no evidence of independent memory leak\"], \"near_onset_mechanism\": [\"cpu, memory\"], \"primary_event_ids\": [\"event:2:istio:primary\"], \"symptom_visibility\": [], \"timing_cautions\": [\"dominant metric is at onset, but IVD marks istio as victim relative to node\"], \"topology_notes\": [\"service mesh sidecar, critical for inter-service communication\"]}, {\"component\": \"adservice\", \"missing_checks\": [\"no internal error logs\", \"no trace evidence of fault\"], \"near_onset_mechanism\": [\"latency only\"], \"primary_event_ids\": [\"event:5:adservice:primary\"], \"symptom_visibility\": [], \"timing_cautions\": [\"memory spike occurs 60-120s after onset, suggesting reactive GC\"], \"topology_notes\": [\"called by frontend (source_frontend_adservice in metrics)\"]}, {\"component\": \"adservice2\", \"missing_checks\": [\"no caller error evidence\", \"no logs for garbage collection or memory pressure\"], \"near_onset_mechanism\": [\"memory\"], \"primary_event_ids\": [\"event:10:adservice2:primary\"], \"symptom_visibility\": [], \"timing_cautions\": [\"dominant metric (cpu drop) appears 120s late\", \"near-onset memory signal is weak and isolated\"], \"topology_notes\": [\"service, likely called by frontend2\"]}, {\"component\": \"cartservice\", \"missing_checks\": [\"no internal mechanism signals\", \"no redis connection errors\"], \"near_onset_mechanism\": [\"latency only\"], \"primary_event_ids\": [\"event:14:cartservice:primary\"], \"symptom_visibility\": [], \"timing_cautions\": [\"dominant metric is 120s late, making it a follower, not a leader\"], \"topology_notes\": [\"called by frontend (destination_frontend_cartservice) and calls redis (source_cartservice_redis)\"]}, {\"component\": \"checkoutservice\", \"missing_checks\": [\"no internal mechanism\", \"no error logs or trace boundary\"], \"near_onset_mechanism\": [\"latency only\"], \"primary_event_ids\": [\"event:8:checkoutservice:primary\"], \"symptom_visibility\": [], \"timing_cautions\": [\"dominant metric is at onset, but it is a latency drop, not a spike; overall magnitude modest\"], \"topology_notes\": [\"called by frontend (destination_frontend_checkoutservice) and calls productcatalogservice, paymentservice, shippingservice\"]}, {\"component\": \"checkoutservice2\", \"missing_checks\": [\"no internal mechanism\", \"no error logs\"], \"near_onset_mechanism\": [\"latency only\"], \"primary_event_ids\": [\"event:3:checkoutservice2:primary\"], \"symptom_visibility\": [], \"timing_cautions\": [\"dominant metric is at onset, no late dominance\"], \"topology_notes\": [\"called by frontend2 (destination_frontend2_checkoutservice2) and calls multiple services\"]}, {\"component\": \"currencyservice2\", \"missing_checks\": [\"no mechanism evidence\"], \"near_onset_mechanism\": [\"latency only\"], \"primary_event_ids\": [\"event:6:currencyservice2:primary\"], \"symptom_visibility\": [], \"timing_cautions\": [\"no internal signals, purely latency\"], \"topology_notes\": [\"called by checkoutservice2 and possibly frontend2\"]}, {\"component\": \"emailservice2\", \"missing_checks\": [\"no internal signals, no logs\"], \"near_onset_mechanism\": [\"latency only\"], \"primary_event_ids\": [\"event:9:emailservice2:primary\"], \"symptom_visibility\": [], \"timing_cautions\": [\"single metric, low magnitude\"], \"topology_notes\": [\"called by checkoutservice2\"]}, {\"component\": \"frontend\", \"missing_checks\": [\"no internal mechanism signals\", \"no trace error boundary\"], \"near_onset_mechanism\": [\"latency only\"], \"primary_event_ids\": [\"event:12:frontend:primary\"], \"symptom_visibility\": [], \"timing_cautions\": [\"dominant spike is 120s late; early signals are mixed up/down, indicating queuing\"], \"topology_notes\": [\"entry component, calls many services\"]}, {\"component\": \"frontend2\", \"missing_checks\": [\"no internal mechanism\"], \"near_onset_mechanism\": [\"latency only\"], \"primary_event_ids\": [\"event:4:frontend2:primary\"], \"symptom_visibility\": [], \"timing_cautions\": [\"dominant metric at onset, but purely latency\"], \"topology_notes\": [\"entry component, calls checkoutservice2, recommendationservice2, etc.\"]}, {\"component\": \"productcatalogservice\", \"missing_checks\": [\"no internal mechanism\"], \"near_onset_mechanism\": [\"latency only\"], \"primary_event_ids\": [\"event:11:productcatalogservice:primary\"], \"symptom_visibility\": [], \"timing_cautions\": [\"dominant metric is 180s late, making it a clear follower\"], \"topology_notes\": [\"called by recommendationservice, frontend; calls basic_tidb (socket metrics)\"]}, {\"component\": \"recommendationservice\", \"missing_checks\": [\"no internal mechanism\"], \"near_onset_mechanism\": [\"latency only\"], \"primary_event_ids\": [\"event:13:recommendationservice:primary\"], \"symptom_visibility\": [], \"timing_cautions\": [\"dominant metric is 180s late\"], \"topology_notes\": [\"called by frontend, calls productcatalogservice\"]}, {\"component\": \"recommendationservice2\", \"missing_checks\": [\"no internal mechanism\"], \"near_onset_mechanism\": [\"latency only\"], \"primary_event_ids\": [\"event:7:recommendationservice2:primary\"], \"symptom_visibility\": [], \"timing_cautions\": [\"dominant metric at onset, but low magnitude\"], \"topology_notes\": [\"called by frontend2, calls productcatalogservice\"]}, {\"component\": \"shippingservice\", \"missing_checks\": [\"no internal signals\"], \"near_onset_mechanism\": [\"latency only\"], \"primary_event_ids\": [\"event:15:shippingservice:primary\"], \"symptom_visibility\": [], \"timing_cautions\": [\"onset 60s later than main event, suggesting it reacts to others\"], \"topology_notes\": [\"called by frontend and checkoutservice\"]}], \"event_timeline\": [{\"ambiguity_cues\": [], \"causal_links_to_check\": [\"Is node resource exhaustion caused by a misbehaving pod or by an infrastructure issue?\", \"Does node memory/cpu pressure directly cause istio and service latency?\"], \"component\": \"node\", \"diagnostic_implication\": \"Node is the strongest internal mechanism candidate; if confirmed, all other anomalies are consequences.\", \"event_id\": \"event:1:node:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1647738600.0, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"memory usage +6470 MB at 1647738600\", \"cpu usage +1084s at 1647738600\", \"disk and socket signals also present\"], \"source_like_cues\": [\"near-onset multi-signal internal mechanism (cpu, disk, memory, socket)\", \"IVD initiator over istio\"], \"symptom_like_cues\": []}, {\"ambiguity_cues\": [], \"causal_links_to_check\": [\"Is istio resource pressure independent of node, or reactive to node conditions?\", \"Could istio memory leak cause service latency before node signals?\"], \"component\": \"istio\", \"diagnostic_implication\": \"istio has internal signals, but IVD suggests it is a victim; likely symptom of node or a service issue.\", \"event_id\": \"event:2:istio:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1647738600.0, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"memory frees +175 at 1647738600\", \"cpu seconds +13 at 1647738600\"], \"source_like_cues\": [\"near-onset internal mechanism (cpu, memory)\"], \"symptom_like_cues\": [\"IVD designates istio as victim relative to node\"]}, {\"ambiguity_cues\": [\"single near-onset internal signal (memory); could be reactive to a dependency\"], \"causal_links_to_check\": [\"Is adservice2 memory growth due to queuing requests from a slow dependency?\", \"Does the late cpu drop indicate exhaustion after initial memory pressure?\"], \"component\": \"adservice2\", \"diagnostic_implication\": \"adservice2 shows minimal source evidence; more likely a symptom of upstream or node pressure.\", \"event_id\": \"event:10:adservice2:primary\", \"event_kind\": \"weak_internal_or_queueing_candidate_event\", \"event_time\": 1647738600.0, \"mechanism_strength\": \"weak\", \"multimodal_evidence\": [\"memory anomaly at 1647738600 (magnitude 6.4)\", \"late cpu drop -23.6 at 1647738720\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"near-onset signal is weak memory only, often a queueing/blocking indicator\"]}, {\"ambiguity_cues\": [], \"causal_links_to_check\": [\"Is checkoutservice2 latency caused by its own code or by its dependencies (currencyservice2, emailservice2, etc.)?\"], \"component\": \"checkoutservice2\", \"diagnostic_implication\": \"Pure latency symptom, likely responding to frontend2 or downstream issues.\", \"event_id\": \"event:3:checkoutservice2:primary\", \"event_kind\": \"latency_symptom_candidate_event\", \"event_time\": 1647738600.0, \"mechanism_strength\": \"symptom_like\", \"multimodal_evidence\": [\"latency from frontend2 +32.3 at 1647738600\", \"calls to currencyservice2 +10.1, emailservice2 +11.6 at onset\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"near-onset evidence is latency/workload only\"]}, {\"ambiguity_cues\": [], \"causal_links_to_check\": [\"Does frontend2 latency originate from checkoutservice2 or from its own processing?\"], \"component\": \"frontend2\", \"diagnostic_implication\": \"Entry point with latency; likely symptom rather than cause because no internal mechanism.\", \"event_id\": \"event:4:frontend2:primary\", \"event_kind\": \"latency_symptom_candidate_event\", \"event_time\": 1647738600.0, \"mechanism_strength\": \"symptom_like\", \"multimodal_evidence\": [\"latency to checkoutservice2 +33.0 at 1647738600\", \"unknown destination latency +18.1 at onset\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"near-onset latency only, entry point but no internal mechanism\"]}, {\"ambiguity_cues\": [], \"causal_links_to_check\": [\"Is the memory spike due to GC pressure from increased request volume?\"], \"component\": \"adservice\", \"diagnostic_implication\": \"Downstream latency symptom with later memory pressure, consistent with reactive behavior.\", \"event_id\": \"event:5:adservice:primary\", \"event_kind\": \"latency_symptom_candidate_event\", \"event_time\": 1647738600.0, \"mechanism_strength\": \"symptom_like\", \"multimodal_evidence\": [\"jaeger collector latency +56.0 at 1647738600\", \"memory (Survivor Space) +32.5 at 1647738660\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"near-onset latency only; memory appears later, reactive GC\"]}, {\"ambiguity_cues\": [], \"causal_links_to_check\": [\"Is currencyservice2 slow because of its own logic or because callers are slow?\"], \"component\": \"currencyservice2\", \"diagnostic_implication\": \"Clear downstream symptom, unlikely to be root.\", \"event_id\": \"event:6:currencyservice2:primary\", \"event_kind\": \"latency_symptom_candidate_event\", \"event_time\": 1647738600.0, \"mechanism_strength\": \"symptom_like\", \"multimodal_evidence\": [\"latency from checkoutservice2 +14.0 at 1647738600\", \"latency from frontend2 +9.4 at onset\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"pure latency symptom, no internal signals\"]}, {\"ambiguity_cues\": [], \"causal_links_to_check\": [\"Is latency from frontend2 caused by productcatalogservice slowness?\"], \"component\": \"recommendationservice2\", \"diagnostic_implication\": \"Low-magnitude latency symptom, likely propagation.\", \"event_id\": \"event:7:recommendationservice2:primary\", \"event_kind\": \"latency_symptom_candidate_event\", \"event_time\": 1647738600.0, \"mechanism_strength\": \"symptom_like\", \"multimodal_evidence\": [\"latency from frontend2 +10.3 at 1647738600\", \"latency to productcatalogservice +6.0 at onset\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"latency only at onset, no internal mechanism\"]}, {\"ambiguity_cues\": [], \"causal_links_to_check\": [\"Is the initial latency drop due to reduced traffic, or a different behavior?\"], \"component\": \"checkoutservice\", \"diagnostic_implication\": \"Mixed latency signals suggest reactive behavior, not a source.\", \"event_id\": \"event:8:checkoutservice:primary\", \"event_kind\": \"latency_symptom_candidate_event\", \"event_time\": 1647738600.0, \"mechanism_strength\": \"symptom_like\", \"multimodal_evidence\": [\"latency to productcatalogservice -16.1 at 1647738600 (drop)\", \"later latency to paymentservice -8.9 at 1647738720\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"latency changes are bi-directional, indicating symptom\"]}, {\"ambiguity_cues\": [], \"causal_links_to_check\": [\"Is emailservice2 latency a direct result of checkoutservice2 slowness?\"], \"component\": \"emailservice2\", \"diagnostic_implication\": \"Extremely weak symptom, no internal evidence.\", \"event_id\": \"event:9:emailservice2:primary\", \"event_kind\": \"latency_symptom_candidate_event\", \"event_time\": 1647738600.0, \"mechanism_strength\": \"symptom_like\", \"multimodal_evidence\": [\"latency from checkoutservice2 +14.0 at 1647738600\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"single latency metric, pure symptom\"]}, {\"ambiguity_cues\": [\"late dominant metric suggests it is a follower\"], \"causal_links_to_check\": [\"Is the 180s late spike from recommendationservice causing downstream latency?\"], \"component\": \"productcatalogservice\", \"diagnostic_implication\": \"Lateness and latency-only point to a downstream dependency symptom.\", \"event_id\": \"event:11:productcatalogservice:primary\", \"event_kind\": \"latency_symptom_candidate_event\", \"event_time\": 1647738600.0, \"mechanism_strength\": \"symptom_like\", \"multimodal_evidence\": [\"mild jaeger latency +4.5 at 1647738600\", \"huge latency from recommendationservice +14.0 at 1647738780\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"near-onset latency only, dominant spike 180s late\"]}, {\"ambiguity_cues\": [\"dominant spike is 120s late\"], \"causal_links_to_check\": [\"Does frontend latency originate entirely from backend services?\"], \"component\": \"frontend\", \"diagnostic_implication\": \"Entry point symptom; frontend's latency is a consequence, not root, unless internal signals appear.\", \"event_id\": \"event:12:frontend:primary\", \"event_kind\": \"latency_symptom_candidate_event\", \"event_time\": 1647738600.0, \"mechanism_strength\": \"symptom_like\", \"multimodal_evidence\": [\"latency to cartservice +10.9 at 1647738720 (late)\", \"jaeger latency +10.6 at 1647738660\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"near-onset latency only, entry point but no internal mechanism\"]}, {\"ambiguity_cues\": [\"late dominant metric at 180s suggests follower\"], \"causal_links_to_check\": [\"Is recommendationservice experiencing dependency-induced latency?\"], \"component\": \"recommendationservice\", \"diagnostic_implication\": \"Weak symptom, likely proxy for productcatalogservice or frontend issues.\", \"event_id\": \"event:13:recommendationservice:primary\", \"event_kind\": \"latency_symptom_candidate_event\", \"event_time\": 1647738600.0, \"mechanism_strength\": \"symptom_like\", \"multimodal_evidence\": [\"grpc_mrt +3.8 at 1647738600\", \"latency to productcatalogservice -5.1 at 1647738660\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"near-onset latency only, later mixed directions\"]}, {\"ambiguity_cues\": [\"dominant metric is 120s late, large magnitude but follower\"], \"causal_links_to_check\": [\"Is cartservice's late spike caused by redis or its caller frontend?\"], \"component\": \"cartservice\", \"diagnostic_implication\": \"The large late spike is a symptom; do not mistake magnitude for initiator status.\", \"event_id\": \"event:14:cartservice:primary\", \"event_kind\": \"latency_symptom_candidate_event\", \"event_time\": 1647738600.0, \"mechanism_strength\": \"symptom_like\", \"multimodal_evidence\": [\"mild latency drop -3.1 at 1647738600\", \"huge grpc_mrt +57.9 at 1647738720\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"near-onset latency only, massive late spike\"]}, {\"ambiguity_cues\": [], \"causal_links_to_check\": [\"Is shippingservice slow because of its dependency or because of upstream caller slowdown?\"], \"component\": \"shippingservice\", \"diagnostic_implication\": \"Later onset and latency-only confirm it is a propagation symptom.\", \"event_id\": \"event:15:shippingservice:primary\", \"event_kind\": \"latency_symptom_candidate_event\", \"event_time\": 1647738660.0, \"mechanism_strength\": \"symptom_like\", \"multimodal_evidence\": [\"latency from frontend +14.0 at 1647738660\", \"grpc_mrt +10.3 at 1647738720\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"latency only, onset 60s after primary event\"]}], \"ivd\": {\"interpretation\": \"IVD uses pairwise tournament (Copeland score) to identify the initiator vs victim among source candidates. The initiator is the candidate whose anomaly is least explainable by others and most explanatory for others. Do not select a candidate labeled as 'victim' over one labeled as 'initiator'.\", \"ivd_enabled\": true, \"ranking\": [\"node\", \"istio\"], \"verdicts\": {\"istio\": {\"caller_anomalies\": [], \"caller_anomalies_count\": 0, \"copeland_score\": -1, \"downstream_coverage_count\": 0, \"fault_signature_label\": \"ambiguous_or_no_exception\", \"ivd_role\": \"victim\", \"resource_magnitude\": 251.62936551701392, \"temporal_gap_seconds\": null, \"temporal_verdict\": \"resource_only\", \"workload_magnitude\": 0}, \"node\": {\"caller_anomalies\": [], \"caller_anomalies_count\": 0, \"copeland_score\": 1, \"downstream_coverage_count\": 0, \"fault_signature_label\": \"ambiguous_or_no_exception\", \"ivd_role\": \"initiator\", \"resource_magnitude\": 13485.232276908322, \"temporal_gap_seconds\": null, \"temporal_verdict\": \"resource_only\", \"workload_magnitude\": 0}}}, \"main_agent_guidance\": {\"event_features_to_reuse_in_final_reasoning\": [\"event:1:node:primary – strong multi-signal internal mechanism at earliest time, IVD initiator\", \"event:2:istio:primary – internal mechanism but IVD victim, likely reactive\", \"event:10:adservice2:primary – weak single memory signal, queueing/blocking candidate\", \"event:14:cartservice:primary – huge late latency spike; do not over-rank\"], \"high_value_next_actions\": [\"Run NoiseLab to test node resource exhaustion hypothesis (e.g., artificially increase node memory/cpu to see if service latency appears)\", \"Examine istio logs and metrics for memory leak patterns independent of node\", \"Check redis (cartservice dependency) for reactive signals to confirm cartservice's late spike is consequence\", \"Verify if adservice2's memory pressure matches a known garbage collection pattern under load\"], \"pitfalls_to_avoid\": [\"Do not treat cartservice as root because of its dominant late spike magnitude\", \"Do not ignore istio's internal signals despite IVD victim status; they may indicate a secondary failure\", \"Do not assume frontend entry points are causes; they are often symptom surfaces\", \"Do not promote adservice2's weak memory event to source without corroboration\"]}, \"profile_semantics\": [\"This profile is an event-level feature map generated by a sub-agent, not a final RCA decision.\", \"Use event IDs and causal cues to plan NoiseLab actions and final reasoning.\", \"IVD verdicts (if present) classify candidates as in..."
+      },
+      "event_causal_fact_count": 20,
+      "final_belief_state": [
+        {
+          "contradicting_factors": [],
+          "hypothesis_id": "H1-node-latency-degradation",
+          "missing_information": [
+            "A direct source-symptom comparison between node and istio to confirm node's dominance"
+          ],
+          "position": "leading",
+          "root_component": "node",
+          "source_vs_symptom_judgment": "strong source with near-onset multi-signal internal mechanism (memory, CPU, disk, socket) and IVD initiator status",
+          "supporting_factors": [
+            "NoiseLab confirms massive near-onset resource anomalies (memory +6470MB, CPU +1084s) with no contradicting logs",
+            "IVD declares node initiator with highest Copeland score; istio is victim",
+            "test_downstream_explanation shows node's anomaly precedes all symptom onset times and can explain latency in all affected services",
+            "counterfactual_remove shows node is necessary; without it symptoms would not appear"
+          ],
+          "why_not_others": "Istio has internal signals but is designated IVD victim and its anomaly magnitude is 60x smaller. All other services (adservice2, frontend2, checkoutservice2) exhibit latency-only symptoms with no internal mechanisms and are downstream."
+        },
+        {
+          "contradicting_factors": [
+            "IVD victim relative to node",
+            "anomaly magnitude negligible (205 vs node's 12545)",
+            "no log evidence of independent memory leak"
+          ],
+          "hypothesis_id": "H2-istio-latency-degradation",
+          "missing_information": [
+            "A direct comparison of source likelihood against node"
+          ],
+          "position": "weakened",
+          "root_component": "istio",
+          "source_vs_symptom_judgment": "likely reactive symptom caused by node resource contention",
+          "supporting_factors": [
+            "near-onset memory and CPU signals exist"
+          ],
+          "why_not_others": "Node's massive resource exhaustion is the IVD initiator; istio's signals are consistent with being a victim of node pressure."
+        },
+        {
+          "contradicting_factors": [
+            "near-onset signals are latency only, no internal mechanism",
+            "event profile marks as latency_symptom_candidate"
+          ],
+          "hypothesis_id": "H3-adservice-latency-degradation",
+          "missing_information": [],
+          "position": "unlikely",
+          "root_component": "adservice",
+          "source_vs_symptom_judgment": "downstream symptom; near-onset latency only, later memory spike reactive",
+          "supporting_factors": [],
+          "why_not_others": "Node's internal mechanism dwarfs adservice's; adservice's later memory spike is a garbage collection reaction to load."
+        },
+        {
+          "contradicting_factors": [
+            "pure latency signals, no internal mechanism",
+            "event profile labels as latency_symptom_candidate"
+          ],
+          "hypothesis_id": "H4-checkoutservice2-latency-degradation",
+          "missing_information": [],
+          "position": "unlikely",
+          "root_component": "checkoutservice2",
+          "source_vs_symptom_judgment": "clear downstream symptom, latency-only at onset",
+          "supporting_factors": [],
+          "why_not_others": "Node's resource exhaustion is the only candidate with strong internal evidence and explains checkoutservice2's latency."
+        },
+        {
+          "contradicting_factors": [
+            "entry component with no internal mechanism",
+            "event profile marks as latency_symptom_candidate"
+          ],
+          "hypothesis_id": "H5-frontend2-latency-degradation",
+          "missing_information": [],
+          "position": "unlikely",
+          "root_component": "frontend2",
+          "source_vs_symptom_judgment": "entry point symptom; latency-only, no internal signals",
+          "supporting_factors": [],
+          "why_not_others": "Frontend2's latency is best explained by node-induced degradation; it is a symptom surface."
+        }
+      ],
+      "transcript": [
+        {
+          "step_index": 0,
+          "agent_response": {
+            "belief_state": [
+              {
+                "hypothesis_id": "H1-node-latency-degradation",
+                "root_component": "node",
+                "position": "leading",
+                "supporting_factors": [
+                  "Strong multi-signal internal mechanism at onset (memory +6470MB, CPU +1084s, disk, socket)",
+                  "IVD initiator with highest Copeland score",
+                  "All other components show latency-only symptoms, often delayed"
+                ],
+                "contradicting_factors": [],
+                "missing_information": [
+                  "Local mechanism features from NoiseLab inspection",
+                  "Whether node resource pressure is independent of any single service",
+                  "Downstream explanation for observed latencies"
+                ],
+                "source_vs_symptom_judgment": "source-like due to near-onset multi-signal mechanism and IVD initiator status",
+                "why_not_others": "Istio has internal signals but IVD marks it as victim, indicating it is a consequence of node pressure. Other services show only latency symptoms, often late, and no internal mechanism evidence."
+              },
+              {
+                "hypothesis_id": "H2-istio-latency-degradation",
+                "root_component": "istio",
+                "position": "plausible",
+                "supporting_factors": [
+                  "Internal CPU and memory signals at onset"
+                ],
+                "contradicting_factors": [
+                  "IVD victim relative to node",
+                  "Node resource anomalies are much larger and encompass istio's"
+                ],
+                "missing_information": [
+                  "Local mechanism and log features from NoiseLab",
+                  "Whether istio memory growth is independent of node"
+                ],
+                "source_vs_symptom_judgment": "symptom-like given IVD, but needs corroboration",
+                "why_not_others": "Node is IVD initiator with larger multi-signal anomalies, making istio a likely victim."
+              },
+              {
+                "hypothesis_id": "H7-adservice2-latency-degradation",
+                "root_component": "adservice2",
+                "position": "unlikely",
+                "supporting_factors": [],
+                "contradicting_factors": [
+                  "Near-onset memory signal is weak and isolated, likely reactive",
+                  "Event profile marks as weak internal candidate, no source-like cues"
+                ],
+                "missing_information": [
+                  "NoiseLab inspection to confirm no source-level faults"
+                ],
+                "source_vs_symptom_judgment": "likely symptom",
+                "why_not_others": "Node and istio have stronger mechanism evidence; adservice2 shows only a weak memory spike, often a queuing indicator."
+              },
+              {
+                "hypothesis_id": "H4-checkoutservice2-latency-degradation",
+                "root_component": "checkoutservice2",
+                "position": "unlikely",
+                "supporting_factors": [],
+                "contradicting_factors": [
+                  "Pure latency-only at onset, no internal mechanism",
+                  "Event profile labels as latency_symptom_candidate"
+                ],
+                "missing_information": [],
+                "source_vs_symptom_judgment": "clear symptom",
+                "why_not_others": "Node is the IVD initiator with strong mechanism; checkoutservice2 is a downstream latency symptom."
+              },
+              {
+                "hypothesis_id": "H5-frontend2-latency-degradation",
+                "root_component": "frontend2",
+                "position": "unlikely",
+                "supporting_factors": [],
+                "contradicting_factors": [
+                  "Entry component with latency only, no internal signals",
+                  "Event profile marks as latency_symptom_candidate"
+                ],
+                "missing_information": [],
+                "source_vs_symptom_judgment": "clear symptom",
+                "why_not_others": "Node is the IVD initiator; frontend2 is an entry point surface for propagated latency."
+              }
+            ],
+            "case_narrative": "Node shows strong multi-signal resource anomalies (memory +6470MB, CPU +1084s) at 1647738600, ahead of other components' dominant latency spikes. IVD declares node initiator over istio, whose own memory/CPU signals are attributed to node pressure. All other services exhibit latency-only symptoms, often delayed, consistent with cascading contention from the node. Istio as victim rules out a sidecar memory leak. No other component has comparable near-onset internal mechanism evidence. The working hypothesis is node resource exhaustion caused system-wide degradation.",
+            "final_decision": null,
+            "next_action": {
+              "action_id": "inspect_node_istio_features",
+              "tool_name": "inspect_noise_features",
+              "args": {
+                "component_scope": [
+                  "node",
+                  "istio"
+                ],
+                "feature_groups": [
+                  "onset",
+                  "local_mechanism",
+                  "logs",
+                  "propagation"
+                ],
+                "time_window": [
+                  1647738550.0,
+                  1647738650.0
+                ]
+              },
+              "expected_information_gain": "Confirm node's local mechanism strength and check for independent istio evidence, resolving source-vs-symptom ambiguity.",
+              "question": "What are the local mechanism features and logs for node and istio near onset, and do they confirm node's resource exhaustion as independent and causal?",
+              "target_hypothesis_ids": [
+                "H1-node-latency-degradation",
+                "H2-istio-latency-degradation"
+              ]
+            }
+          },
+          "executed_action": {
+            "action_id": "inspect_node_istio_features",
+            "tool_name": "inspect_noise_features",
+            "target_hypothesis_ids": [
+              "H1-node-latency-degradation",
+              "H2-istio-latency-degradation"
+            ],
+            "question": "What are the local mechanism features and logs for node and istio near onset, and do they confirm node's resource exhaustion as independent and causal?",
+            "args": {
+              "component_scope": [
+                "node",
+                "istio"
+              ],
+              "time_window": [
+                1647738550.0,
+                1647738650.0
+              ],
+              "feature_groups": [
+                "onset",
+                "local_mechanism",
+                "logs",
+                "propagation"
+              ]
+            },
+            "expected_information_gain": "Confirm node's local mechanism strength and check for independent istio evidence, resolving source-vs-symptom ambiguity."
+          },
+          "evidence_id": "evidence:98bbaff173aede0b8b10bb31a43c1d56708c87ee393d690d73b6fb47dfb6a55b"
+        },
+        {
+          "step_index": 1,
+          "agent_response": {
+            "belief_state": [
+              {
+                "contradicting_factors": [],
+                "hypothesis_id": "H1-node-latency-degradation",
+                "missing_information": [
+                  "Downstream explanation for observed latencies (e.g., frontend, adservice, cartservice)",
+                  "Whether node resource pressure is independent of any single misbehaving service"
+                ],
+                "position": "leading",
+                "root_component": "node",
+                "source_vs_symptom_judgment": "strong source with near-onset multi-signal internal mechanism and IVD initiator status",
+                "supporting_factors": [
+                  "NoiseLab confirms node's near-onset internal signals are massive (memory +6470MB, CPU +1084s, disk, socket) with no opposing logs",
+                  "IVD declares node initiator with highest Copeland score, istio as victim",
+                  "All other components show latency-only symptoms, often delayed, and no internal mechanisms"
+                ],
+                "why_not_others": "Istio has internal signals but IVD marks it victim and its anomaly magnitude is 60x smaller. Other services (adservice2, frontend2, checkoutservice2) are pure latency symptoms with no internal mechanism evidence. Node is the only component with strong multi-signal resource anomalies at onset."
+              },
+              {
+                "contradicting_factors": [
+                  "IVD victim relative to node",
+                  "NoiseLab reveals istio's local magnitude is negligible compared to node (205 vs 12545)"
+                ],
+                "hypothesis_id": "H2-istio-latency-degradation",
+                "missing_information": [
+                  "Independent evidence of an istio memory leak or misconfiguration"
+                ],
+                "position": "weakened",
+                "root_component": "istio",
+                "source_vs_symptom_judgment": "likely symptom caused by node resource contention",
+                "supporting_factors": [
+                  "Near-onset memory and CPU signals exist"
+                ],
+                "why_not_others": "Node is the IVD initiator with drastically larger anomalies; istio's signals are best explained as reactive."
+              },
+              {
+                "contradicting_factors": [
+                  "Near-onset memory signal is weak and isolated",
+                  "Event profile marks as weak internal candidate with no source-like cues"
+                ],
+                "hypothesis_id": "H7-adservice2-latency-degradation",
+                "missing_information": [],
+                "position": "unlikely",
+                "root_component": "adservice2",
+                "source_vs_symptom_judgment": "likely symptom (queueing indicator)",
+                "supporting_factors": [],
+                "why_not_others": "Node's massive resource exhaustion makes adservice2's tiny memory spike a reactive queuing effect."
+              },
+              {
+                "contradicting_factors": [
+                  "Pure latency-only at onset, no internal mechanism",
+                  "Event profile labels as latency_symptom_candidate"
+                ],
+                "hypothesis_id": "H4-checkoutservice2-latency-degradation",
+                "missing_information": [],
+                "position": "unlikely",
+                "root_component": "checkoutservice2",
+                "source_vs_symptom_judgment": "clear downstream symptom",
+                "supporting_factors": [],
+                "why_not_others": "Node is the only candidate with strong internal mechanism evidence."
+              },
+              {
+                "contradicting_factors": [
+                  "Entry component with latency only, no internal signals",
+                  "Event profile marks as latency_symptom_candidate"
+                ],
+                "hypothesis_id": "H5-frontend2-latency-degradation",
+                "missing_information": [],
+                "position": "unlikely",
+                "root_component": "frontend2",
+                "source_vs_symptom_judgment": "clear downstream symptom",
+                "supporting_factors": [],
+                "why_not_others": "Node's internal mechanism explains frontend2's latency better than frontend2 itself."
+              }
+            ],
+            "case_narrative": "NoiseLab inspection near onset confirms node suffers massive resource exhaustion (memory +6470MB, CPU +1084s, disk, socket spikes) starting 1647738600. No logs contradict. IVD declares node initiator over istio, which shows similar but 60x smaller anomalies and is labeled victim. All other services exhibit latency-only symptoms, often delayed, consistent with cascading contention from node. The story is node resource pressure degrades all hosted pods, causing systemic latency.",
+            "final_decision": null,
+            "next_action": {
+              "action_id": "test_downstream_node",
+              "args": {
+                "candidate_component": "node",
+                "symptom_components": [
+                  "frontend",
+                  "frontend2",
+                  "adservice",
+                  "checkoutservice2",
+                  "cartservice",
+                  "productcatalogservice",
+                  "recommendationservice2",
+                  "currencyservice2",
+                  "emailservice2"
+                ],
+                "time_window": [
+                  1647738550.0,
+                  1647738650.0
+                ]
+              },
+              "expected_information_gain": "Confirm that node's resource exhaustion can causally explain the latency symptoms observed in downstream services, providing closure for the leading hypothesis",
+              "question": "Can node's near-onset resource anomalies (memory, cpu, disk, socket) explain the latency degradation observed in frontend, frontend2, adservice, checkoutservice2, cartservice, productcatalogservice, recommendationservice2, currencyservice2, and emailservice2?",
+              "target_hypothesis_ids": [
+                "H1-node-latency-degradation"
+              ],
+              "tool_name": "test_downstream_explanation"
+            }
+          },
+          "executed_action": {
+            "action_id": "test_downstream_node",
+            "tool_name": "test_downstream_explanation",
+            "target_hypothesis_ids": [
+              "H1-node-latency-degradation",
+              "H2-istio-latency-degradation",
+              "H3-adservice-latency-degradation"
+            ],
+            "question": "Can node's near-onset resource anomalies (memory, cpu, disk, socket) explain the latency degradation observed in frontend, frontend2, adservice, checkoutservice2, cartservice, productcatalogservice, recommendationservice2, currencyservice2, and emailservice2?",
+            "args": {
+              "candidate_component": "node",
+              "symptom_components": [
+                "frontend",
+                "frontend2",
+                "adservice",
+                "checkoutservice2",
+                "cartservice",
+                "productcatalogservice",
+                "recommendationservice2",
+                "currencyservice2",
+                "emailservice2"
+              ],
+              "time_window": [
+                1647738550.0,
+                1647738650.0
+              ]
+            },
+            "expected_information_gain": "Confirm that node's resource exhaustion can causally explain the latency symptoms observed in downstream services, providing closure for the leading hypothesis"
+          },
+          "evidence_id": "evidence:ab1247dab1d870c5224f958a6cc5dc3986528c01bbdf9e26b29144f53d3672f1"
+        },
+        {
+          "step_index": 2,
+          "agent_response": {
+            "belief_state": [
+              {
+                "contradicting_factors": [],
+                "hypothesis_id": "H1-node-latency-degradation",
+                "missing_information": [
+                  "Counterfactual evidence that removing node's resource anomaly eliminates downstream symptoms",
+                  "Confirmation that no single misbehaving service independently causes node pressure"
+                ],
+                "position": "leading",
+                "root_component": "node",
+                "source_vs_symptom_judgment": "strong source with near-onset multi-signal internal mechanism and IVD initiator status",
+                "supporting_factors": [
+                  "NoiseLab confirms node's near-onset internal signals are massive (memory +6470MB, CPU +1084s, disk, socket) with no opposing logs",
+                  "IVD declares node initiator with highest Copeland score, istio as victim",
+                  "test_downstream_explanation shows node's anomaly precedes all symptom onset times and can explain latency in frontend, frontend2, adservice, checkoutservice2, cartservice, etc.",
+                  "All other components show latency-only symptoms, often delayed, and no internal mechanisms"
+                ],
+                "why_not_others": "Istio has internal signals but IVD marks it victim and its anomaly magnitude is 60x smaller. Other services (adservice2, frontend2, checkoutservice2) are pure latency symptoms with no internal mechanism evidence. Node is the only component with strong multi-signal resource anomalies at onset."
+              },
+              {
+                "contradicting_factors": [
+                  "IVD victim relative to node",
+                  "NoiseLab reveals istio's local magnitude is negligible compared to node (205 vs 12545)"
+                ],
+                "hypothesis_id": "H2-istio-latency-degradation",
+                "missing_information": [
+                  "Independent evidence of an istio memory leak or misconfiguration"
+                ],
+                "position": "weakened",
+                "root_component": "istio",
+                "source_vs_symptom_judgment": "likely symptom caused by node resource contention",
+                "supporting_factors": [
+                  "Near-onset memory and CPU signals exist"
+                ],
+                "why_not_others": "Node is the IVD initiator with drastically larger anomalies; istio's signals are best explained as reactive."
+              },
+              {
+                "contradicting_factors": [
+                  "Near-onset memory signal is weak and isolated",
+                  "Event profile marks as weak internal candidate with no source-like cues"
+                ],
+                "hypothesis_id": "H7-adservice2-latency-degradation",
+                "missing_information": [],
+                "position": "unlikely",
+                "root_component": "adservice2",
+                "source_vs_symptom_judgment": "likely symptom (queueing indicator)",
+                "supporting_factors": [],
+                "why_not_others": "Node's massive resource exhaustion makes adservice2's tiny memory spike a reactive queuing effect."
+              },
+              {
+                "contradicting_factors": [
+                  "Pure latency-only at onset, no internal mechanism",
+                  "Event profile labels as latency_symptom_candidate"
+                ],
+                "hypothesis_id": "H4-checkoutservice2-latency-degradation",
+                "missing_information": [],
+                "position": "unlikely",
+                "root_component": "checkoutservice2",
+                "source_vs_symptom_judgment": "clear downstream symptom",
+                "supporting_factors": [],
+                "why_not_others": "Node is the only candidate with strong internal mechanism evidence."
+              },
+              {
+                "contradicting_factors": [
+                  "Entry component with latency only, no internal signals",
+                  "Event profile marks as latency_symptom_candidate"
+                ],
+                "hypothesis_id": "H5-frontend2-latency-degradation",
+                "missing_information": [],
+                "position": "unlikely",
+                "root_component": "frontend2",
+                "source_vs_symptom_judgment": "clear downstream symptom",
+                "supporting_factors": [],
+                "why_not_others": "Node's internal mechanism explains frontend2's latency better than frontend2 itself."
+              }
+            ],
+            "case_narrative": "NoiseLab inspection near onset confirms node suffers massive resource exhaustion (memory +6470MB, CPU +1084s, disk, socket spikes) starting 1647738600. No logs contradict. IVD declares node initiator over istio. Test of downstream explanation shows node's anomaly precedes all symptom onset times and can explain the latency observed in frontend, frontend2, adservice, checkoutservice2, cartservice, etc. Infrastructure-level resource contention degrades all hosted pods, causing systemic latency.",
+            "final_decision": null,
+            "next_action": {
+              "action_id": "counterfactual_remove_node",
+              "args": {
+                "component": "node",
+                "symptom_components": [
+                  "frontend",
+                  "frontend2",
+                  "adservice",
+                  "checkoutservice2",
+                  "cartservice",
+                  "productcatalogservice",
+                  "recommendationservice2",
+                  "currencyservice2",
+                  "emailservice2"
+                ],
+                "time_window": [
+                  1647738550.0,
+                  1647738650.0
+                ]
+              },
+              "expected_information_gain": "Counterfactual check to strengthen causal link: whether node resource exhaustion is necessary for observed symptoms.",
+              "question": "If the node's resource anomalies were removed at onset, would the latency symptoms in downstream services (frontend, frontend2, adservice, checkoutservice2, cartservice, productcatalogservice, recommendationservice2, currencyservice2, emailservice2) still appear?",
+              "target_hypothesis_ids": [
+                "H1-node-latency-degradation"
+              ],
+              "tool_name": "counterfactual_remove"
+            }
+          },
+          "executed_action": {
+            "action_id": "counterfactual_remove_node",
+            "tool_name": "counterfactual_remove",
+            "target_hypothesis_ids": [
+              "H1-node-latency-degradation",
+              "H2-istio-latency-degradation",
+              "H3-adservice-latency-degradation"
+            ],
+            "question": "If the node's resource anomalies were removed at onset, would the latency symptoms in downstream services (frontend, frontend2, adservice, checkoutservice2, cartservice, productcatalogservice, recommendationservice2, currencyservice2, emailservice2) still appear?",
+            "args": {
+              "component": "node",
+              "symptom_components": [
+                "frontend",
+                "frontend2",
+                "adservice",
+                "checkoutservice2",
+                "cartservice",
+                "productcatalogservice",
+                "recommendationservice2",
+                "currencyservice2",
+                "emailservice2"
+              ],
+              "time_window": [
+                1647738550.0,
+                1647738650.0
+              ]
+            },
+            "expected_information_gain": "Counterfactual check to strengthen causal link: whether node resource exhaustion is necessary for observed symptoms."
+          },
+          "evidence_id": "evidence:64c2fc1c9e4f2d2472494dae32d1dea0a4d2ea5f284f84a52a83f702027f97c8"
+        },
+        {
+          "step_index": 3,
+          "agent_response": {
+            "belief_state": [
+              {
+                "hypothesis_id": "H1-node-latency-degradation",
+                "root_component": "node",
+                "position": "leading",
+                "source_vs_symptom_judgment": "strong source with near-onset multi-signal internal mechanism (memory, CPU, disk, socket) and IVD initiator status",
+                "supporting_factors": [
+                  "NoiseLab confirms massive near-onset resource anomalies (memory +6470MB, CPU +1084s) with no contradicting logs",
+                  "IVD declares node initiator with highest Copeland score; istio is victim",
+                  "test_downstream_explanation shows node's anomaly precedes all symptom onset times and can explain latency in all affected services",
+                  "counterfactual_remove shows node is necessary; without it symptoms would not appear"
+                ],
+                "contradicting_factors": [],
+                "missing_information": [
+                  "A direct source-symptom comparison between node and istio to confirm node's dominance"
+                ],
+                "why_not_others": "Istio has internal signals but is designated IVD victim and its anomaly magnitude is 60x smaller. All other services (adservice2, frontend2, checkoutservice2) exhibit latency-only symptoms with no internal mechanisms and are downstream."
+              },
+              {
+                "hypothesis_id": "H2-istio-latency-degradation",
+                "root_component": "istio",
+                "position": "weakened",
+                "source_vs_symptom_judgment": "likely reactive symptom caused by node resource contention",
+                "supporting_factors": [
+                  "near-onset memory and CPU signals exist"
+                ],
+                "contradicting_factors": [
+                  "IVD victim relative to node",
+                  "anomaly magnitude negligible (205 vs node's 12545)",
+                  "no log evidence of independent memory leak"
+                ],
+                "missing_information": [
+                  "A direct comparison of source likelihood against node"
+                ],
+                "why_not_others": "Node's massive resource exhaustion is the IVD initiator; istio's signals are consistent with being a victim of node pressure."
+              },
+              {
+                "hypothesis_id": "H3-adservice-latency-degradation",
+                "root_component": "adservice",
+                "position": "unlikely",
+                "source_vs_symptom_judgment": "downstream symptom; near-onset latency only, later memory spike reactive",
+                "supporting_factors": [],
+                "contradicting_factors": [
+                  "near-onset signals are latency only, no internal mechanism",
+                  "event profile marks as latency_symptom_candidate"
+                ],
+                "missing_information": [],
+                "why_not_others": "Node's internal mechanism dwarfs adservice's; adservice's later memory spike is a garbage collection reaction to load."
+              },
+              {
+                "hypothesis_id": "H4-checkoutservice2-latency-degradation",
+                "root_component": "checkoutservice2",
+                "position": "unlikely",
+                "source_vs_symptom_judgment": "clear downstream symptom, latency-only at onset",
+                "supporting_factors": [],
+                "contradicting_factors": [
+                  "pure latency signals, no internal mechanism",
+                  "event profile labels as latency_symptom_candidate"
+                ],
+                "missing_information": [],
+                "why_not_others": "Node's resource exhaustion is the only candidate with strong internal evidence and explains checkoutservice2's latency."
+              },
+              {
+                "hypothesis_id": "H5-frontend2-latency-degradation",
+                "root_component": "frontend2",
+                "position": "unlikely",
+                "source_vs_symptom_judgment": "entry point symptom; latency-only, no internal signals",
+                "supporting_factors": [],
+                "contradicting_factors": [
+                  "entry component with no internal mechanism",
+                  "event profile marks as latency_symptom_candidate"
+                ],
+                "missing_information": [],
+                "why_not_others": "Frontend2's latency is best explained by node-induced degradation; it is a symptom surface."
+              }
+            ],
+            "case_narrative": "At 1647738600, node experiences massive resource exhaustion (memory +6470MB, CPU +1084s, disk, socket spikes). No logs contradict. IVD declares node initiator over all other candidates. Node's anomaly precedes all service latency symptoms and can explain them; all affected services show latency-only with no internal mechanisms. Istio's small memory/CPU signals are reactive. The node-level resource pressure degrades all hosted pods, causing systemic latency.",
+            "next_action": {
+              "action_id": "compare_node_istio_source_symptom",
+              "tool_name": "compare_source_symptom",
+              "args": {
+                "component_scope": [
+                  "node",
+                  "istio"
+                ],
+                "time_window": [
+                  1647738550.0,
+                  1647738650.0
+                ]
+              },
+              "question": "How do the source-symptom cues, source likelihood scores, and IVD alignment compare between node and istio?",
+              "expected_information_gain": "Confirm that node's source likelihood and initiator status strongly outweigh istio, eliminating any remaining ambiguity.",
+              "target_hypothesis_ids": [
+                "H1-node-latency-degradation",
+                "H2-istio-latency-degradation"
+              ]
+            },
+            "final_decision": null
+          },
+          "executed_action": {
+            "action_id": "compare_node_istio_source_symptom",
+            "tool_name": "compare_source_symptom",
+            "target_hypothesis_ids": [
+              "H1-node-latency-degradation",
+              "H2-istio-latency-degradation"
+            ],
+            "question": "How do the source-symptom cues, source likelihood scores, and IVD alignment compare between node and istio?",
+            "args": {
+              "component_scope": [
+                "node",
+                "istio"
+              ],
+              "time_window": [
+                1647738550.0,
+                1647738650.0
+              ]
+            },
+            "expected_information_gain": "Confirm that node's source likelihood and initiator status strongly outweigh istio, eliminating any remaining ambiguity."
+          },
+          "evidence_id": "evidence:0236d38ec1cbd6b55551a8af3a5a2b9abdb849da4dfca68dc98c66005058c042"
+        }
+      ],
+      "case_id": "OpenRCA-Market/cloudbed-1/task_6@2022_03_20",
+      "expected_component": "shippingservice-1",
+      "hit": false,
+      "elapsed_sec": 749.802,
+      "error": null,
+      "token_usage": {
+        "call_count": 8,
+        "prompt_tokens": 156201,
+        "completion_tokens": 45232,
+        "total_tokens": 201433,
+        "by_purpose": {
+          "event_causalizer_state_update": {
+            "call_count": 1,
+            "prompt_tokens": 19760,
+            "completion_tokens": 13137,
+            "total_tokens": 32897
+          },
+          "continuous_noise_native_state_update": {
+            "call_count": 5,
+            "prompt_tokens": 106845,
+            "completion_tokens": 26409,
+            "total_tokens": 133254
+          },
+          "continuous_noise_native_json_repair": {
+            "call_count": 2,
+            "prompt_tokens": 29596,
+            "completion_tokens": 5686,
+            "total_tokens": 35282
+          }
+        }
+      }
+    },
+    {
+      "status": "continuous_final",
+      "hypothesis_id": "H1-node-latency-degradation",
+      "predicted_component": "node",
+      "reason_family": "latency degradation",
+      "onset_interval": [
+        1647741270.0,
+        1647741330.0
+      ],
+      "steps_completed": 4,
+      "evidence_count": 4,
+      "referenced_evidence_ids": [
+        "evidence:b51c217fd07e31c149e03e636a66dd95bb2a13506a44b5694a5676934788db2a",
+        "evidence:42b230d724b913c9c35a72f610de3647abf266ee66174ef263a824e36f1e1667",
+        "evidence:5a09f4bbc465fb130fa04620c0fc069374630a02e7d9479f64850c37e13c31fc",
+        "evidence:4736f11243c3af9efdeab53cfb327cbc6f481166002557616e7d8937c17bbb7f"
+      ],
+      "rationale": "Node is the IVD initiator with strong internal mechanism anomalies at onset: cpu iowait (magnitude 2266), memory, socket retransmits. Compare_source_symptom confirms node as source_candidate over adservice2 (ambiguous) and adservice/istio (victims). Downstream explanation shows node precedes all affected services; no trace paths contradict because node-level resources can degrade containerized services generically. Resource magnitude (local anomaly 8537) dwarfs others, and near-onset mechanism (5685) is compelling. Adservice2 shows internal signals but IVD still favors node; its anomalies are reactive. No log evidence contradicts. Thus, node is the most explanatory root cause.",
+      "uncertainties": [
+        "No direct request paths between node and downstream services observed, but resource pressure can propagate without explicit call traces."
+      ],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "node",
+        "shippingservice",
+        "adservice2",
+        "adservice",
+        "frontend",
+        "istio",
+        "productcatalogservice",
+        "productcatalogservice2",
+        "shippingservice2",
+        "frontend2",
+        "recommendationservice",
+        "checkoutservice",
+        "recommendationservice2",
+        "cartservice",
+        "currencyservice2"
+      ],
+      "event_causal_profile": {
+        "event_timeline": [
+          {
+            "event_id": "event:10:recommendationservice2:primary",
+            "component": "recommendationservice2",
+            "event_time": 1647741300.0,
+            "event_kind": "latency_symptom_candidate_event",
+            "mechanism_strength": "symptom_like",
+            "multimodal_evidence": [
+              "fallback from deterministic EventCausalizer facts"
+            ],
+            "source_like_cues": [
+              "no strong near-onset source cue detected in deterministic features"
+            ],
+            "symptom_like_cues": [
+              "near-onset evidence is latency/workload only, which is often a downstream symptom"
+            ],
+            "ambiguity_cues": [
+              "near-onset evidence is latency/workload only"
+            ],
+            "causal_links_to_check": [],
+            "diagnostic_implication": "LLM event causalizer output missing; use deterministic event cues."
+          },
+          {
+            "event_id": "event:11:checkoutservice:primary",
+            "component": "checkoutservice",
+            "event_time": 1647741300.0,
+            "event_kind": "latency_symptom_candidate_event",
+            "mechanism_strength": "symptom_like",
+            "multimodal_evidence": [
+              "fallback from deterministic EventCausalizer facts"
+            ],
+            "source_like_cues": [
+              "no strong near-onset source cue detected in deterministic features"
+            ],
+            "symptom_like_cues": [
+              "near-onset evidence is latency/workload only, which is often a downstream symptom"
+            ],
+            "ambiguity_cues": [
+              "largest local magnitude occurs late; separate follow-up event from initiating event",
+              "near-onset evidence is latency/workload only",
+              "dominant metric spike is late relative to primary event"
+            ],
+            "causal_links_to_check": [],
+            "diagnostic_implication": "LLM event causalizer output missing; use deterministic event cues."
+          },
+          {
+            "event_id": "event:12:recommendationservice:primary",
+            "component": "recommendationservice",
+            "event_time": 1647741300.0,
+            "event_kind": "latency_symptom_candidate_event",
+            "mechanism_strength": "symptom_like",
+            "multimodal_evidence": [
+              "fallback from deterministic EventCausalizer facts"
+            ],
+            "source_like_cues": [
+              "no strong near-onset source cue detected in deterministic features"
+            ],
+            "symptom_like_cues": [
+              "near-onset evidence is latency/workload only, which is often a downstream symptom"
+            ],
+            "ambiguity_cues": [
+              "largest local magnitude occurs late; separate follow-up event from initiating event",
+              "near-onset evidence is latency/workload only",
+              "dominant metric spike is late relative to primary event"
+            ],
+            "causal_links_to_check": [],
+            "diagnostic_implication": "LLM event causalizer output missing; use deterministic event cues."
+          },
+          {
+            "event_id": "event:13:currencyservice2:primary",
+            "component": "currencyservice2",
+            "event_time": 1647741300.0,
+            "event_kind": "latency_symptom_candidate_event",
+            "mechanism_strength": "symptom_like",
+            "multimodal_evidence": [
+              "fallback from deterministic EventCausalizer facts"
+            ],
+            "source_like_cues": [
+              "no strong near-onset source cue detected in deterministic features"
+            ],
+            "symptom_like_cues": [
+              "near-onset evidence is latency/workload only, which is often a downstream symptom"
+            ],
+            "ambiguity_cues": [
+              "near-onset evidence is latency/workload only"
+            ],
+            "causal_links_to_check": [],
+            "diagnostic_implication": "LLM event causalizer output missing; use deterministic event cues."
+          },
+          {
+            "event_id": "event:14:cartservice:primary",
+            "component": "cartservice",
+            "event_time": 1647741300.0,
+            "event_kind": "latency_symptom_candidate_event",
+            "mechanism_strength": "symptom_like",
+            "multimodal_evidence": [
+              "fallback from deterministic EventCausalizer facts"
+            ],
+            "source_like_cues": [
+              "no strong near-onset source cue detected in deterministic features"
+            ],
+            "symptom_like_cues": [
+              "near-onset evidence is latency/workload only, which is often a downstream symptom"
+            ],
+            "ambiguity_cues": [
+              "near-onset evidence is latency/workload only"
+            ],
+            "causal_links_to_check": [],
+            "diagnostic_implication": "LLM event causalizer output missing; use deterministic event cues."
+          },
+          {
+            "event_id": "event:1:node:primary",
+            "component": "node",
+            "event_time": 1647741300.0,
+            "event_kind": "internal_mechanism_candidate_event",
+            "mechanism_strength": "strong",
+            "multimodal_evidence": [
+              "fallback from deterministic EventCausalizer facts"
+            ],
+            "source_like_cues": [
+              "near-onset internal mechanism signals observed: cpu, memory, socket"
+            ],
+            "symptom_like_cues": [
+              "no strong symptom-only cue detected in deterministic features"
+            ],
+            "ambiguity_cues": [
+              "no special deterministic ambiguity cue"
+            ],
+            "causal_links_to_check": [],
+            "diagnostic_implication": "LLM event causalizer output missing; use deterministic event cues."
+          },
+          {
+            "event_id": "event:2:shippingservice:primary",
+            "component": "shippingservice",
+            "event_time": 1647741300.0,
+            "event_kind": "latency_symptom_candidate_event",
+            "mechanism_strength": "symptom_like",
+            "multimodal_evidence": [
+              "fallback from deterministic EventCausalizer facts"
+            ],
+            "source_like_cues": [
+              "no strong near-onset source cue detected in deterministic features"
+            ],
+            "symptom_like_cues": [
+              "near-onset evidence is latency/workload only, which is often a downstream symptom"
+            ],
+            "ambiguity_cues": [
+              "near-onset evidence is latency/workload only"
+            ],
+            "causal_links_to_check": [],
+            "diagnostic_implication": "LLM event causalizer output missing; use deterministic event cues."
+          },
+          {
+            "event_id": "event:3:adservice2:primary",
+            "component": "adservice2",
+            "event_time": 1647741300.0,
+            "event_kind": "internal_mechanism_candidate_event",
+            "mechanism_strength": "strong",
+            "multimodal_evidence": [
+              "fallback from deterministic EventCausalizer facts"
+            ],
+            "source_like_cues": [
+              "near-onset internal mechanism signals observed: cpu, memory"
+            ],
+            "symptom_like_cues": [
+              "no strong symptom-only cue detected in deterministic features"
+            ],
+            "ambiguity_cues": [
+              "no special deterministic ambiguity cue"
+            ],
+            "causal_links_to_check": [],
+            "diagnostic_implication": "LLM event causalizer output missing; use deterministic event cues."
+          }
+        ],
+        "component_event_features": [],
+        "causal_story_options": [],
+        "main_agent_guidance": {
+          "high_value_next_actions": [],
+          "pitfalls_to_avoid": [],
+          "event_features_to_reuse_in_final_reasoning": []
+        },
+        "ivd": {
+          "ivd_enabled": true,
+          "ranking": [
+            "node",
+            "adservice2",
+            "adservice",
+            "istio"
+          ],
+          "verdicts": {
+            "adservice2": {
+              "ivd_role": "ambiguous",
+              "copeland_score": 1,
+              "fault_signature_label": "ambiguous_or_no_exception",
+              "temporal_verdict": "resource_only",
+              "temporal_gap_seconds": null,
+              "downstream_coverage_count": 0,
+              "caller_anomalies_count": 0,
+              "caller_anomalies": [],
+              "resource_magnitude": 301.4186613874853,
+              "workload_magnitude": 0
+            },
+            "node": {
+              "ivd_role": "initiator",
+              "copeland_score": 3,
+              "fault_signature_label": "ambiguous_or_no_exception",
+              "temporal_verdict": "resource_only",
+              "temporal_gap_seconds": null,
+              "downstream_coverage_count": 0,
+              "caller_anomalies_count": 0,
+              "caller_anomalies": [],
+              "resource_magnitude": 4510.826780996509,
+              "workload_magnitude": 0
+            },
+            "adservice": {
+              "ivd_role": "victim",
+              "copeland_score": -2,
+              "fault_signature_label": "ambiguous_or_no_exception",
+              "temporal_verdict": "resource_only",
+              "temporal_gap_seconds": null,
+              "downstream_coverage_count": 0,
+              "caller_anomalies_count": 0,
+              "caller_anomalies": [],
+              "resource_magnitude": 26.27469892349601,
+              "workload_magnitude": 0
+            },
+            "istio": {
+              "ivd_role": "victim",
+              "copeland_score": -2,
+              "fault_signature_label": "ambiguous_or_no_exception",
+              "temporal_verdict": "resource_only",
+              "temporal_gap_seconds": null,
+              "downstream_coverage_count": 0,
+              "caller_anomalies_count": 0,
+              "caller_anomalies": [],
+              "resource_magnitude": 24.981365730394142,
+              "workload_magnitude": 0
+            }
+          },
+          "interpretation": "IVD uses pairwise tournament (Copeland score) to identify the initiator vs victim among source candidates. The initiator is the candidate whose anomaly is least explainable by others and most explanatory for others. Do not select a candidate labeled as 'victim' over one labeled as 'initiator'."
+        },
+        "profile_semantics": [
+          "This profile is an event-level feature map generated by a sub-agent, not a final RCA decision.",
+          "Use event IDs and causal cues to plan NoiseLab actions and final reasoning.",
+          "IVD verdicts (if present) classify candidates as initiator or victim. Use them to guide final selection."
+        ]
+      },
+      "event_causal_fact_count": 20,
+      "final_belief_state": [
+        {
+          "hypothesis_id": "H1-node-latency-degradation",
+          "root_component": "node",
+          "position": "leading",
+          "source_vs_symptom_judgment": "source_candidate",
+          "supporting_factors": [
+            "IVD initiator (Copeland 3, resource magnitude 4510)",
+            "strong near-onset internal mechanism (cpu iowait, memory, socket)",
+            "compare_source_symptom confirms source_candidate"
+          ],
+          "contradicting_factors": [],
+          "missing_information": [],
+          "why_not_others": "Node dominates IVD ranking; adservice2 is ambiguous (Copeland 1) with far lower resource magnitude (301 vs 4510). Adservice and istio are victims with minimal evidence. Only node provides a resource-driven mechanism that can explain the widespread latency symptoms."
+        },
+        {
+          "hypothesis_id": "H3-adservice2-latency-degradation",
+          "root_component": "adservice2",
+          "position": "plausible",
+          "source_vs_symptom_judgment": "ambiguous_candidate",
+          "supporting_factors": [
+            "near-onset internal signals (cpu, memory)"
+          ],
+          "contradicting_factors": [
+            "IVD ambiguous, resource magnitude far lower than node (301 vs 4510)"
+          ],
+          "missing_information": [],
+          "why_not_others": "Despite internal signals, IVD does not mark it as initiator, and node's anomaly is far more extreme and explanatory."
+        },
+        {
+          "hypothesis_id": "H4-adservice-latency-degradation",
+          "root_component": "adservice",
+          "position": "weakened",
+          "source_vs_symptom_judgment": "symptom_candidate",
+          "supporting_factors": [],
+          "contradicting_factors": [
+            "IVD victim (Copeland -2, resource magnitude 26)"
+          ],
+          "missing_information": [],
+          "why_not_others": "Labeled victim by IVD, likely a downstream effect of node resource pressure."
+        },
+        {
+          "hypothesis_id": "H6-istio-latency-degradation",
+          "root_component": "istio",
+          "position": "weakened",
+          "source_vs_symptom_judgment": "symptom_candidate",
+          "supporting_factors": [],
+          "contradicting_factors": [
+            "IVD victim (Copeland -2, resource magnitude 24)"
+          ],
+          "missing_information": [],
+          "why_not_others": "Minimal evidence of initiating fault; reacting to node resource degradation."
+        }
+      ],
+      "transcript": [
+        {
+          "step_index": 0,
+          "agent_response": {
+            "belief_state": [
+              {
+                "hypothesis_id": "H1-node-latency-degradation",
+                "root_component": "node",
+                "supporting_factors": [
+                  "IVD initiator (Copeland score 3, resource magnitude 4510)",
+                  "strong near-onset internal mechanism signals (cpu, memory, socket)",
+                  "highest local anomaly magnitude (8537)"
+                ],
+                "contradicting_factors": [],
+                "missing_information": [
+                  "local mechanism features",
+                  "source-vs-symptom comparison",
+                  "downstream explanation facts"
+                ],
+                "position": "leading",
+                "source_vs_symptom_judgment": "source_candidate",
+                "why_not_others": "Node has far higher IVD resource magnitude and Copeland score than any other candidate; other components are labeled ambiguous or victim with latency-only symptoms."
+              },
+              {
+                "hypothesis_id": "H3-adservice2-latency-degradation",
+                "root_component": "adservice2",
+                "supporting_factors": [
+                  "internal mechanism signals (cpu, memory)",
+                  "early onset near event time"
+                ],
+                "contradicting_factors": [
+                  "IVD ambiguous (Copeland score 1)",
+                  "lower magnitude than node (357 vs 8537)"
+                ],
+                "missing_information": [
+                  "local mechanism features",
+                  "source-vs-symptom comparison",
+                  "downstream explanation facts"
+                ],
+                "position": "plausible",
+                "source_vs_symptom_judgment": "ambiguous_candidate",
+                "why_not_others": "While it shows internal mechanisms, IVD does not classify it as initiator; node's resource anomaly is far stronger and more explanatory."
+              },
+              {
+                "hypothesis_id": "H4-adservice-latency-degradation",
+                "root_component": "adservice",
+                "supporting_factors": [
+                  "early onset",
+                  "some cpu/memory signals"
+                ],
+                "contradicting_factors": [
+                  "IVD victim (Copeland score -2)",
+                  "primarily latency/workload, no fault signature"
+                ],
+                "missing_information": [
+                  "local mechanism features",
+                  "source-vs-symptom comparison",
+                  "downstream explanation facts"
+                ],
+                "position": "weakened",
+                "source_vs_symptom_judgment": "symptom_candidate",
+                "why_not_others": "Labeled as victim by IVD with low resource magnitude; likely a downstream effect of node or another initiator."
+              },
+              {
+                "hypothesis_id": "H6-istio-latency-degradation",
+                "root_component": "istio",
+                "supporting_factors": [
+                  "early latency and memory anomalies"
+                ],
+                "contradicting_factors": [
+                  "IVD victim (Copeland score -2)",
+                  "low magnitude, no internal mechanism beyond memory"
+                ],
+                "missing_information": [
+                  "local mechanism features",
+                  "source-vs-symptom comparison",
+                  "downstream explanation facts"
+                ],
+                "position": "weakened",
+                "source_vs_symptom_judgment": "symptom_candidate",
+                "why_not_others": "IVD victim with minimal evidence of an initiating fault; likely reacting to node-level resource degradation."
+              }
+            ],
+            "case_narrative": "Around 1647741300, multiple services experienced latency degradation. Node showed strongest resource anomalies (cpu, memory, socket, magnitude 8537), while most others had latency-only spikes. EventCausalizer identified node and adservice2 as having strong internal mechanisms; IVD ranked node as initiator with highest Copeland score and resource magnitude, adservice2 as ambiguous, and adservice/istio as victims. Suspicion falls on node as the likely root cause, but direct local mechanism and downstream explanation evidence is needed to confirm.",
+            "final_decision": null,
+            "next_action": {
+              "action_id": "inspect_node_adservice2_adservice",
+              "tool_name": "inspect_noise_features",
+              "args": {
+                "component_scope": [
+                  "node",
+                  "adservice2",
+                  "adservice"
+                ],
+                "feature_groups": [
+                  "onset",
+                  "local_mechanism",
+                  "logs",
+                  "propagation"
+                ],
+                "time_window": [
+                  1647741200,
+                  1647741800
+                ]
+              },
+              "expected_information_gain": "Get local mechanism, onset, log, and propagation features for top IVD-ranked candidates to assess source evidence and distinguish initiator from victims.",
+              "question": "What are the detailed local features for node, adservice2, and adservice around the event onset, including evidence of internal faults, propagation patterns, and any log anomalies?",
+              "target_hypothesis_ids": [
+                "H1-node-latency-degradation",
+                "H3-adservice2-latency-degradation",
+                "H4-adservice-latency-degradation"
+              ]
+            }
+          },
+          "executed_action": {
+            "action_id": "inspect_node_adservice2_adservice",
+            "tool_name": "inspect_noise_features",
+            "target_hypothesis_ids": [
+              "H1-node-latency-degradation",
+              "H3-adservice2-latency-degradation",
+              "H4-adservice-latency-degradation"
+            ],
+            "question": "What are the detailed local features for node, adservice2, and adservice around the event onset, including evidence of internal faults, propagation patterns, and any log anomalies?",
+            "args": {
+              "component_scope": [
+                "node",
+                "adservice2",
+                "adservice"
+              ],
+              "time_window": [
+                1647741200.0,
+                1647741800.0
+              ],
+              "feature_groups": [
+                "onset",
+                "local_mechanism",
+                "logs",
+                "propagation"
+              ]
+            },
+            "expected_information_gain": "Get local mechanism, onset, log, and propagation features for top IVD-ranked candidates to assess source evidence and distinguish initiator from victims."
+          },
+          "evidence_id": "evidence:b51c217fd07e31c149e03e636a66dd95bb2a13506a44b5694a5676934788db2a"
+        },
+        {
+          "step_index": 1,
+          "agent_response": {
+            "belief_state": [
+              {
+                "hypothesis_id": "H1-node-latency-degradation",
+                "root_component": "node",
+                "position": "leading",
+                "source_vs_symptom_judgment": "source_candidate",
+                "supporting_factors": [
+                  "IVD initiator (Copeland score 3, highest resource magnitude 4510)",
+                  "strong near-onset internal mechanism signals (cpu, memory, socket)",
+                  "highest local anomaly magnitude (8537) and near-onset magnitude (5685)",
+                  "no log evidence of dependency failure"
+                ],
+                "contradicting_factors": [],
+                "missing_information": [
+                  "source-vs-symptom comparison across top candidates",
+                  "downstream explanation facts confirming propagation to other affected components"
+                ],
+                "why_not_others": "Node dominates on IVD resource magnitude and Copeland score; other candidates (adservice2, adservice, istio) are ranked lower with ambiguous or victim roles and lack comparable resource-driven evidence."
+              },
+              {
+                "hypothesis_id": "H3-adservice2-latency-degradation",
+                "root_component": "adservice2",
+                "position": "plausible",
+                "source_vs_symptom_judgment": "ambiguous_candidate",
+                "supporting_factors": [
+                  "internal mechanism signals (cpu, memory) near onset",
+                  "IVD ambiguous (Copeland score 1)",
+                  "source_likelihood_score 3.0"
+                ],
+                "contradicting_factors": [
+                  "resource magnitude far lower than node (301 vs 4510)",
+                  "no emitter exception or fault signature"
+                ],
+                "missing_information": [
+                  "source-vs-symptom comparison",
+                  "downstream explanation evidence to see if its anomaly propagates"
+                ],
+                "why_not_others": "Despite internal signals, IVD does not label it as initiator; node's resource anomaly is far more extreme and explanatory."
+              },
+              {
+                "hypothesis_id": "H4-adservice-latency-degradation",
+                "root_component": "adservice",
+                "position": "weakened",
+                "source_vs_symptom_judgment": "symptom_candidate",
+                "supporting_factors": [
+                  "early onset latency",
+                  "some cpu/memory signals"
+                ],
+                "contradicting_factors": [
+                  "IVD victim (Copeland score -2, resource magnitude 26)",
+                  "near-onset signals mostly latency"
+                ],
+                "missing_information": [
+                  "source-vs-symptom comparison",
+                  "downstream explanation facts"
+                ],
+                "why_not_others": "Labeled victim by IVD, likely a downstream effect of node or adservice2; lacks strong internal mechanism."
+              },
+              {
+                "hypothesis_id": "H6-istio-latency-degradation",
+                "root_component": "istio",
+                "position": "weakened",
+                "source_vs_symptom_judgment": "symptom_candidate",
+                "supporting_factors": [
+                  "early latency and memory anomalies"
+                ],
+                "contradicting_factors": [
+                  "IVD victim (Copeland score -2, resource magnitude 24)",
+                  "no internal mechanism beyond memory"
+                ],
+                "missing_information": [
+                  "source-vs-symptom comparison",
+                  "downstream explanation facts"
+                ],
+                "why_not_others": "Minimal evidence of initiating fault; reacting to node-level resource degradation."
+              }
+            ],
+            "case_narrative": "At 1647741300, node exhibited massive resource anomalies (cpu iowait, memory, socket) with IVD initiator ranking. adservice2 showed moderate internal signals (cpu, memory) but was labeled ambiguous. adservice and istio are victims with negligible resource magnitudes. The evidence strongly points to node as the root cause, but direct propagation and source-vs-symptom comparison are still needed to confirm.",
+            "next_action": {
+              "action_id": "compare_source_symptom_node_adservice2_adservice",
+              "tool_name": "compare_source_symptom",
+              "args": {
+                "component_scope": [
+                  "node",
+                  "adservice2",
+                  "adservice"
+                ],
+                "time_window": [
+                  1647741200.0,
+                  1647741800.0
+                ]
+              },
+              "question": "What are the source-vs-symptom cues for node, adservice2, and adservice in the time window around the event onset?",
+              "expected_information_gain": "Refine source likelihood ranking among top IVD candidates and resolve ambiguity between node (initiator) and adservice2 (ambiguous) by comparing trace dependency directions, anomaly exogeneity, and downstream coverage.",
+              "target_hypothesis_ids": [
+                "H1-node-latency-degradation",
+                "H3-adservice2-latency-degradation",
+                "H4-adservice-latency-degradation"
+              ]
+            },
+            "final_decision": null
+          },
+          "executed_action": {
+            "action_id": "compare_source_symptom_node_adservice2_adservice",
+            "tool_name": "compare_source_symptom",
+            "target_hypothesis_ids": [
+              "H1-node-latency-degradation",
+              "H3-adservice2-latency-degradation",
+              "H4-adservice-latency-degradation"
+            ],
+            "question": "What are the source-vs-symptom cues for node, adservice2, and adservice in the time window around the event onset?",
+            "args": {
+              "component_scope": [
+                "node",
+                "adservice2",
+                "adservice"
+              ],
+              "time_window": [
+                1647741200.0,
+                1647741800.0
+              ]
+            },
+            "expected_information_gain": "Refine source likelihood ranking among top IVD candidates and resolve ambiguity between node (initiator) and adservice2 (ambiguous) by comparing trace dependency directions, anomaly exogeneity, and downstream coverage."
+          },
+          "evidence_id": "evidence:42b230d724b913c9c35a72f610de3647abf266ee66174ef263a824e36f1e1667"
+        },
+        {
+          "step_index": 2,
+          "agent_response": {
+            "belief_state": [
+              {
+                "hypothesis_id": "H1-node-latency-degradation",
+                "root_component": "node",
+                "position": "leading",
+                "source_vs_symptom_judgment": "source_candidate",
+                "supporting_factors": [
+                  "IVD initiator (Copeland score 3, resource magnitude 4510)",
+                  "strong near-onset internal mechanism signals (cpu, memory, socket)",
+                  "compare_source_symptom confirms source_candidate role over ambiguous/victim candidates"
+                ],
+                "contradicting_factors": [],
+                "missing_information": [
+                  "downstream explanation facts confirming propagation to affected services"
+                ],
+                "why_not_others": "Node dominates on IVD resource magnitude and Copeland score; other candidates (adservice2, adservice, istio) are ranked lower with ambiguous or victim roles and lack comparable resource-driven evidence."
+              },
+              {
+                "hypothesis_id": "H3-adservice2-latency-degradation",
+                "root_component": "adservice2",
+                "position": "plausible",
+                "source_vs_symptom_judgment": "ambiguous_candidate",
+                "supporting_factors": [
+                  "internal mechanism signals (cpu, memory) near onset",
+                  "IVD ambiguous (Copeland score 1)"
+                ],
+                "contradicting_factors": [
+                  "resource magnitude far lower than node (301 vs 4510)",
+                  "no emitter exception or fault signature"
+                ],
+                "missing_information": [
+                  "whether node's resource degradation can fully explain adservice2's anomalies"
+                ],
+                "why_not_others": "Despite internal signals, IVD does not label it as initiator; node's resource anomaly is far more extreme and explanatory."
+              },
+              {
+                "hypothesis_id": "H4-adservice-latency-degradation",
+                "root_component": "adservice",
+                "position": "weakened",
+                "source_vs_symptom_judgment": "symptom_candidate",
+                "supporting_factors": [
+                  "early onset latency"
+                ],
+                "contradicting_factors": [
+                  "IVD victim (Copeland score -2, resource magnitude 26)",
+                  "near-onset signals mostly latency"
+                ],
+                "missing_information": [],
+                "why_not_others": "Labeled victim by IVD, likely a downstream effect of node."
+              },
+              {
+                "hypothesis_id": "H6-istio-latency-degradation",
+                "root_component": "istio",
+                "position": "weakened",
+                "source_vs_symptom_judgment": "symptom_candidate",
+                "supporting_factors": [
+                  "early latency and memory anomalies"
+                ],
+                "contradicting_factors": [
+                  "IVD victim (Copeland score -2, resource magnitude 24)",
+                  "no internal mechanism beyond memory"
+                ],
+                "missing_information": [],
+                "why_not_others": "Minimal evidence of initiating fault; reacting to node-level resource degradation."
+              }
+            ],
+            "case_narrative": "Node remains the IVD initiator with massive resource anomalies (cpu iowait, memory, socket) at onset. Compare_source_symptom confirms node's source_candidate role; adservice2, adservice, and istio are downstream victims. Now testing whether node's resource degradation can explain the widespread latency symptoms to finalize root cause.",
+            "next_action": {
+              "action_id": "test_downstream_explanation_node",
+              "tool_name": "test_downstream_explanation",
+              "args": {
+                "candidate_component": "node",
+                "symptom_components": [
+                  "adservice2",
+                  "adservice",
+                  "frontend",
+                  "shippingservice",
+                  "productcatalogservice",
+                  "istio",
+                  "frontend2",
+                  "recommendationservice",
+                  "checkoutservice",
+                  "cartservice",
+                  "currencyservice"
+                ],
+                "time_window": [
+                  1647741200.0,
+                  1647741800.0
+                ]
+              },
+              "expected_information_gain": "Determine whether node's resource degradation can explain the latency and other anomalies observed in downstream services, confirming node as the root cause.",
+              "question": "Can node's resource degradation explain the latency anomalies in adservice2, adservice, frontend, shippingservice, productcatalogservice, istio, frontend2, recommendationservice, checkoutservice, cartservice, and currencyservice?",
+              "target_hypothesis_ids": [
+                "H1-node-latency-degradation"
+              ]
+            },
+            "final_decision": null
+          },
+          "executed_action": {
+            "action_id": "test_downstream_explanation_node",
+            "tool_name": "test_downstream_explanation",
+            "target_hypothesis_ids": [
+              "H1-node-latency-degradation",
+              "H2-shippingservice-latency-degradation",
+              "H3-adservice2-latency-degradation"
+            ],
+            "question": "Can node's resource degradation explain the latency anomalies in adservice2, adservice, frontend, shippingservice, productcatalogservice, istio, frontend2, recommendationservice, checkoutservice, cartservice, and currencyservice?",
+            "args": {
+              "candidate_component": "node",
+              "symptom_components": [
+                "adservice2",
+                "adservice",
+                "frontend",
+                "shippingservice",
+                "productcatalogservice",
+                "istio",
+                "frontend2",
+                "recommendationservice",
+                "checkoutservice",
+                "cartservice",
+                "currencyservice"
+              ],
+              "time_window": [
+                1647741200.0,
+                1647741800.0
+              ]
+            },
+            "expected_information_gain": "Determine whether node's resource degradation can explain the latency and other anomalies observed in downstream services, confirming node as the root cause."
+          },
+          "evidence_id": "evidence:5a09f4bbc465fb130fa04620c0fc069374630a02e7d9479f64850c37e13c31fc"
+        },
+        {
+          "step_index": 3,
+          "agent_response": {
+            "truncated_json": "{\"agent\": \"continuous_noise_native\", \"allowed_tool_names\": [\"inspect_noise_features\", \"compare_source_symptom\", \"counterfactual_remove\", \"test_downstream_explanation\"], \"case_context_without_label_leakage\": {\"components\": [\"adservice\", \"adservice2\", \"cartservice\", \"cartservice2\", \"checkoutservice\", \"checkoutservice2\", \"currencyservice\", \"currencyservice2\", \"emailservice\", \"emailservice2\", \"frontend\", \"frontend2\", \"istio\", \"node\", \"paymentservice\", \"paymentservice2\", \"productcatalogservice\", \"productcatalogservice2\", \"recommendationservice\", \"recommendationservice2\", \"redis\", \"shippingservice\", \"shippingservice2\"], \"entry_components\": [\"frontend\", \"frontend2\"], \"event_time\": 1647741299.0, \"observations\": [{\"component\": \"node\", \"first_seen\": 1647741300.0, \"magnitude\": 8537.810880313842, \"reason_family\": \"latency degradation\", \"signals\": [\"cpu\", \"disk\", \"latency\", \"memory\", \"socket\"], \"symptoms\": [\"node cpu changed near 1647741300.000\", \"node socket changed near 1647741420.000\", \"node cpu changed near 1647741300.000\"]}, {\"component\": \"shippingservice\", \"first_seen\": 1647741300.0, \"magnitude\": 526.4058553313841, \"reason_family\": \"latency degradation\", \"signals\": [\"latency\"], \"symptoms\": [\"shippingservice latency changed near 1647741300.000\", \"shippingservice latency changed near 1647741360.000\", \"shippingservice latency changed near 1647741300.000\"]}, {\"component\": \"adservice2\", \"first_seen\": 1647741300.0, \"magnitude\": 357.8918024300051, \"reason_family\": \"latency degradation\", \"signals\": [\"cpu\", \"latency\", \"memory\", \"workload\"], \"symptoms\": [\"adservice2 cpu changed near 1647741300.000\", \"adservice2 memory changed near 1647741300.000\", \"adservice2 memory changed near 1647741300.000\"]}, {\"component\": \"adservice\", \"first_seen\": 1647741300.0, \"magnitude\": 179.8638885638069, \"reason_family\": \"latency degradation\", \"signals\": [\"cpu\", \"latency\", \"memory\", \"workload\"], \"symptoms\": [\"adservice latency changed near 1647741300.000\", \"adservice latency changed near 1647741420.000\", \"adservice latency changed near 1647741300.000\"]}, {\"component\": \"frontend\", \"first_seen\": 1647741300.0, \"magnitude\": 112.0169853367632, \"reason_family\": \"latency degradation\", \"signals\": [\"latency\"], \"symptoms\": [\"frontend latency changed near 1647741540.000\", \"frontend latency changed near 1647741300.000\", \"frontend latency changed near 1647741540.000\"]}, {\"component\": \"shippingservice2\", \"first_seen\": 1647741480.0, \"magnitude\": 109.12870114415423, \"reason_family\": \"latency degradation\", \"signals\": [\"latency\"], \"symptoms\": [\"shippingservice2 latency changed near 1647741480.000\"]}, {\"component\": \"productcatalogservice\", \"first_seen\": 1647741300.0, \"magnitude\": 89.64824210575739, \"reason_family\": \"latency degradation\", \"signals\": [\"latency\", \"socket\"], \"symptoms\": [\"productcatalogservice latency changed near 1647741540.000\", \"productcatalogservice latency changed near 1647741300.000\", \"productcatalogservice socket changed near 1647741300.000\"]}, {\"component\": \"istio\", \"first_seen\": 1647741300.0, \"magnitude\": 53.27735891308684, \"reason_family\": \"latency degradation\", \"signals\": [\"latency\", \"memory\"], \"symptoms\": [\"istio latency changed near 1647741300.000\", \"istio memory changed near 1647741300.000\", \"istio memory changed near 1647741360.000\"]}, {\"component\": \"frontend2\", \"first_seen\": 1647741300.0, \"magnitude\": 52.98985935161753, \"reason_family\": \"latency degradation\", \"signals\": [\"latency\"], \"symptoms\": [\"frontend2 latency changed near 1647741360.000\", \"frontend2 latency changed near 1647741300.000\", \"frontend2 latency changed near 1647741300.000\"]}, {\"component\": \"recommendationservice\", \"first_seen\": 1647741300.0, \"magnitude\": 44.4075778837815, \"reason_family\": \"latency degradation\", \"signals\": [\"latency\", \"workload\"], \"symptoms\": [\"recommendationservice latency changed near 1647741360.000\", \"recommendationservice latency changed near 1647741480.000\", \"recommendationservice latency changed near 1647741300.000\"]}, {\"component\": \"checkoutservice\", \"first_seen\": 1647741300.0, \"magnitude\": 31.340925499568087, \"reason_family\": \"latency degradation\", \"signals\": [\"latency\", \"workload\"], \"symptoms\": [\"checkoutservice latency changed near 1647741540.000\", \"checkoutservice latency changed near 1647741300.000\", \"checkoutservice latency changed near 1647741300.000\"]}, {\"component\": \"productcatalogservice2\", \"first_seen\": 1647741300.0, \"magnitude\": 19.617469955444356, \"reason_family\": \"latency degradation\", \"signals\": [\"latency\", \"socket\"], \"symptoms\": [\"productcatalogservice2 latency changed near 1647741300.000\", \"productcatalogservice2 socket changed near 1647741300.000\", \"productcatalogservice2 socket changed near 1647741300.000\"]}, {\"component\": \"recommendationservice2\", \"first_seen\": 1647741300.0, \"magnitude\": 16.582059706525918, \"reason_family\": \"latency degradation\", \"signals\": [\"latency\"], \"symptoms\": [\"recommendationservice2 latency changed near 1647741300.000\", \"recommendationservice2 latency changed near 1647741300.000\"]}, {\"component\": \"cartservice\", \"first_seen\": 1647741300.0, \"magnitude\": 13.475702321678547, \"reason_family\": \"latency degradation\", \"signals\": [\"latency\"], \"symptoms\": [\"cartservice latency changed near 1647741300.000\", \"cartservice latency changed near 1647741540.000\", \"cartservice latency changed near 1647741360.000\"]}, {\"component\": \"currencyservice\", \"first_seen\": 1647741300.0, \"magnitude\": 12.875317058340062, \"reason_family\": \"latency degradation\", \"signals\": [\"latency\", \"workload\"], \"symptoms\": [\"currencyservice latency changed near 1647741540.000\", \"currencyservice latency changed near 1647741300.000\", \"currencyservice workload changed near 1647741480.000\"]}]}, \"event_causal_profile\": {\"causal_story_options\": [], \"component_event_features\": [], \"event_timeline\": [{\"ambiguity_cues\": [\"near-onset evidence is latency/workload only\"], \"causal_links_to_check\": [], \"component\": \"recommendationservice2\", \"diagnostic_implication\": \"LLM event causalizer output missing; use deterministic event cues.\", \"event_id\": \"event:10:recommendationservice2:primary\", \"event_kind\": \"latency_symptom_candidate_event\", \"event_time\": 1647741300.0, \"mechanism_strength\": \"symptom_like\", \"multimodal_evidence\": [\"fallback from deterministic EventCausalizer facts\"], \"source_like_cues\": [\"no strong near-onset source cue detected in deterministic features\"], \"symptom_like_cues\": [\"near-onset evidence is latency/workload only, which is often a downstream symptom\"]}, {\"ambiguity_cues\": [\"largest local magnitude occurs late; separate follow-up event from initiating event\", \"near-onset evidence is latency/workload only\", \"dominant metric spike is late relative to primary event\"], \"causal_links_to_check\": [], \"component\": \"checkoutservice\", \"diagnostic_implication\": \"LLM event causalizer output missing; use deterministic event cues.\", \"event_id\": \"event:11:checkoutservice:primary\", \"event_kind\": \"latency_symptom_candidate_event\", \"event_time\": 1647741300.0, \"mechanism_strength\": \"symptom_like\", \"multimodal_evidence\": [\"fallback from deterministic EventCausalizer facts\"], \"source_like_cues\": [\"no strong near-onset source cue detected in deterministic features\"], \"symptom_like_cues\": [\"near-onset evidence is latency/workload only, which is often a downstream symptom\"]}, {\"ambiguity_cues\": [\"largest local magnitude occurs late; separate follow-up event from initiating event\", \"near-onset evidence is latency/workload only\", \"dominant metric spike is late relative to primary event\"], \"causal_links_to_check\": [], \"component\": \"recommendationservice\", \"diagnostic_implication\": \"LLM event causalizer output missing; use deterministic event cues.\", \"event_id\": \"event:12:recommendationservice:primary\", \"event_kind\": \"latency_symptom_candidate_event\", \"event_time\": 1647741300.0, \"mechanism_strength\": \"symptom_like\", \"multimodal_evidence\": [\"fallback from deterministic EventCausalizer facts\"], \"source_like_cues\": [\"no strong near-onset source cue detected in deterministic features\"], \"symptom_like_cues\": [\"near-o..."
+          },
+          "executed_action": {
+            "action_id": "fallback-features-3",
+            "tool_name": "inspect_noise_features",
+            "target_hypothesis_ids": [
+              "H1-node-latency-degradation",
+              "H2-shippingservice-latency-degradation",
+              "H3-adservice2-latency-degradation",
+              "H4-adservice-latency-degradation",
+              "H5-frontend-latency-degradation",
+              "H6-istio-latency-degradation",
+              "H7-productcatalogservice-latency-degradation",
+              "H8-productcatalogservice2-latency-degradation",
+              "H9-shippingservice2-latency-degradation",
+              "H10-frontend2-latency-degradation"
+            ],
+            "question": "Build fused NoiseLab feature table for all candidates.",
+            "args": {
+              "component_scope": [
+                "node",
+                "shippingservice",
+                "adservice2",
+                "adservice",
+                "frontend",
+                "istio",
+                "productcatalogservice",
+                "productcatalogservice2",
+                "shippingservice2",
+                "frontend2"
+              ],
+              "time_window": [
+                1647740999.0,
+                1647742199.0
+              ],
+              "feature_groups": [
+                "onset",
+                "local_mechanism",
+                "logs",
+                "propagation"
+              ]
+            },
+            "expected_information_gain": "Establish shared feature memory before narrowing candidates."
+          },
+          "evidence_id": "evidence:4736f11243c3af9efdeab53cfb327cbc6f481166002557616e7d8937c17bbb7f"
+        }
+      ],
+      "case_id": "OpenRCA-Market/cloudbed-1/task_1@2022_03_20",
+      "expected_component": "emailservice-0",
+      "hit": false,
+      "elapsed_sec": 645.854,
+      "error": null,
+      "token_usage": {
+        "call_count": 6,
+        "prompt_tokens": 112730,
+        "completion_tokens": 62132,
+        "total_tokens": 174862,
+        "by_purpose": {
+          "event_causalizer_state_update": {
+            "call_count": 1,
+            "prompt_tokens": 19921,
+            "completion_tokens": 31296,
+            "total_tokens": 51217
+          },
+          "continuous_noise_native_state_update": {
+            "call_count": 5,
+            "prompt_tokens": 92809,
+            "completion_tokens": 30836,
+            "total_tokens": 123645
+          },
+          "continuous_noise_native_json_repair": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "continuous_final",
+      "hypothesis_id": "H1-node-latency-degradation",
+      "predicted_component": "node",
+      "reason_family": "latency degradation",
+      "onset_interval": [
+        1647743130.0,
+        1647743190.0
+      ],
+      "steps_completed": 4,
+      "evidence_count": 4,
+      "referenced_evidence_ids": [
+        "evidence:ad52017885f39be496d6fd4b582c841d8e5d5f0eced8c0b19478e4562d267a51",
+        "evidence:02041f3a208710d84a4616024e8412294ccbbea974869685e337672ff91f7bcb",
+        "evidence:12ab2fb3e65083207db7e1ed0262f5fe7120e20a2ed0f95409ded232f7d83ec4",
+        "evidence:8399122ba29c802ff2f556aa5cf715417beebeec1d614d7b600e4feffc3cf989"
+      ],
+      "rationale": "Node's near-onset multi-signal internal mechanism (memory, cpu, disk, socket) at 1647743160 precedes all observed service latency symptoms. IVD tournament unequivocally ranks node as initiator (Copeland 2) with highest resource magnitude, meaning its anomaly is least explainable by others and most explanatory for downstream. Downstream explanation confirms node anomaly predates every service symptom. Istio, though a source_candidate with memory/cpu, is IVD-ambiguous and likely reactive given node's comprehensive resource starvation. Adservice2 is a victim with a single weak memory signal. No other component shows simultaneous multi-resource internal mechanism at onset. The absence of independent service faults reinforces node as the initiating root. Despite missing direct trace paths and node logs, the combined temporal, mechanistic, and IVD evidence leaves node as the only plausible root cause.",
+      "uncertainties": [
+        "Node-level logs absent; exact triggering fault within node (e.g., memory leak, OOM) unconfirmed",
+        "No direct trace paths from node to services, though typical for host-level component"
+      ],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "node",
+        "adservice",
+        "istio",
+        "adservice2",
+        "checkoutservice",
+        "shippingservice2",
+        "productcatalogservice2",
+        "productcatalogservice",
+        "frontend2",
+        "frontend",
+        "cartservice",
+        "shippingservice",
+        "cartservice2",
+        "recommendationservice2",
+        "recommendationservice"
+      ],
+      "event_causal_profile": {
+        "truncated_json": "{\"causal_story_options\": [{\"initiating_event_ids\": [\"event:1:node:primary\"], \"propagation_reading\": \"Node resource contention (memory/cpu/disk/socket) degrades all hosted containers (istio, adservice2, etc.), causing service-level latency that propagates through the call graph.\", \"story_id\": \"story_node_resource_pressure\", \"what_would_support_it\": [\"Correlated resource spikes across co-located containers\", \"No service-specific error logs indicating independent internal faults\"], \"what_would_weaken_it\": [\"Independent error logs in istio or services predating node anomaly\", \"Evidence that a service workload spike triggered the node pressure\"]}, {\"initiating_event_ids\": [\"event:2:istio:primary\"], \"propagation_reading\": \"Istio control plane memory anomaly independently causes mesh‑wide proxy degradation, inflating request latencies across all services.\", \"story_id\": \"story_istio_control_plane\", \"what_would_support_it\": [\"Istio‑specific error logs (e.g., out‑of‑memory, proxy timeouts)\", \"Latency concentrated in sidecar metrics without node‑level resource anomalies\"], \"what_would_weaken_it\": [\"Simultaneous node disk/socket anomalies suggesting a broader OS issue\", \"Istio memory pressure mirroring node‑wide memory exhaustion\"]}, {\"initiating_event_ids\": [\"event:3:adservice2:primary\"], \"propagation_reading\": \"adservice2 JVM memory pressure causes slow responses, which cascades to frontend2 and possibly increases node resource usage.\", \"story_id\": \"story_adservice2_memory\", \"what_would_support_it\": [\"adservice2 logs with GC thrashing or OutOfMemoryError\", \"Direct latency correlation between adservice2 and its callers\"], \"what_would_weaken_it\": [\"Weak single memory signal without errors\", \"Node exhibiting far stronger and earlier multi‑resource anomalies\"]}], \"component_event_features\": [{\"component\": \"node\", \"missing_checks\": [\"No log or trace evidence to confirm if self‑inflicted or workload‑driven\"], \"near_onset_mechanism\": [\"Memory, CPU, disk, socket spikes at 1647743160\"], \"primary_event_ids\": [\"event:1:node:primary\"], \"symptom_visibility\": [\"Visible via OS‑level metrics; no direct service‑level latency yet\"], \"timing_cautions\": [\"Onset exactly at event time; no later dominant metric\"], \"topology_notes\": [\"Hosts multiple services; resource pressure can affect all containers\"]}, {\"component\": \"istio\", \"missing_checks\": [\"Logs or traces to distinguish istio‑internal fault vs. node‑driven pressure\"], \"near_onset_mechanism\": [\"Memory metrics (mspan_inuse_bytes) drop; CPU and latency anomalies emerge later\"], \"primary_event_ids\": [\"event:2:istio:primary\"], \"symptom_visibility\": [\"Istio agent metrics showing memory and CPU pressure\"], \"timing_cautions\": [\"Shared onset with node makes independent cause ambiguous\"], \"topology_notes\": [\"Sidecar proxy; resource anomalies could stem from node or own processing\"]}, {\"component\": \"adservice2\", \"missing_checks\": [\"Logs for GC cycles or OOM errors; correlation with incoming traffic\"], \"near_onset_mechanism\": [\"Single JVM Survivor Space memory metric increase\"], \"primary_event_ids\": [\"event:3:adservice2:primary\"], \"symptom_visibility\": [\"Only visible in Java memory pool metrics\"], \"timing_cautions\": [\"Weak single‑signal onset; could be reactive\"], \"topology_notes\": [\"JVM service; memory pressure may reflect request queueing\"]}, {\"component\": \"checkoutservice\", \"missing_checks\": [\"Trace to verify if latency originates in dependencies\"], \"near_onset_mechanism\": [\"Latency‑only onset; no internal resource signals\"], \"primary_event_ids\": [\"event:4:checkoutservice:primary\"], \"symptom_visibility\": [\"Latency on Jaeger collector calls and dependency calls\"], \"timing_cautions\": [\"Onset at 1647743160, dominant latency spike 120s later\"], \"topology_notes\": [\"Depends on productcatalogservice and paymentservice\"]}, {\"component\": \"adservice\", \"missing_checks\": [\"Determine if CPU increase is from own processing or blocking on dependencies\"], \"near_onset_mechanism\": [\"CPU signal and latency degradation, but dominant CPU spike 240s later\"], \"primary_event_ids\": [\"event:5:adservice:primary\"], \"symptom_visibility\": [\"CPU and latency metrics\"], \"timing_cautions\": [\"Weak near‑onset mechanism; late dominant cpu spike\"], \"topology_notes\": [\"Likely depends on productcatalogservice\"]}, {\"component\": \"shippingservice2\", \"missing_checks\": [\"No resource metrics or logs available\"], \"near_onset_mechanism\": [\"Latency‑only (single Jaeger latency metric)\"], \"primary_event_ids\": [\"event:6:shippingservice2:primary\"], \"symptom_visibility\": [\"Only visible via Jaeger collector latency\"], \"timing_cautions\": [\"Immediate onset, no delayed spike\"], \"topology_notes\": [\"Called by frontend2\"]}, {\"component\": \"productcatalogservice2\", \"missing_checks\": [\"Inspecting tidb health and correlation with socket changes\"], \"near_onset_mechanism\": [\"Socket TCP connections closed/opened drop, indicating reduced dependency traffic\"], \"primary_event_ids\": [\"event:7:productcatalogservice2:primary\"], \"symptom_visibility\": [\"Socket metrics to its database dependency (basic_tidb)\"], \"timing_cautions\": [\"Single socket signal; could be reactive to tidb issue\"], \"topology_notes\": [\"Depends on basic_tidb (database)\"]}, {\"component\": \"productcatalogservice\", \"missing_checks\": [\"Tidb resource metrics and error logs\"], \"near_onset_mechanism\": [\"Latency‑only at onset; large inbound latency spike follows 60s later\"], \"primary_event_ids\": [\"event:8:productcatalogservice:primary\", \"event:8:productcatalogservice:late_dominant_metric\"], \"symptom_visibility\": [\"Latency from recommendationservice2 and Jaeger collector\"], \"timing_cautions\": [\"Onset at 1647743160, dominant spike at 1647743220\"], \"topology_notes\": [\"Depends on tidb; latency may propagate from database\"]}, {\"component\": \"frontend2\", \"missing_checks\": [\"No evidence to pinpoint which backend is the source of latency\"], \"near_onset_mechanism\": [\"Latency‑only, no internal anomalies\"], \"primary_event_ids\": [\"event:9:frontend2:primary\"], \"symptom_visibility\": [\"Latency to multiple backends (adservice2, productcatalogservice2, etc.)\"], \"timing_cautions\": [\"Onset at 1647743160, late spike at 1647743340\"], \"topology_notes\": [\"Entry point, calls several downstream services\"]}, {\"component\": \"recommendationservice2\", \"missing_checks\": [\"Resource metrics needed\"], \"near_onset_mechanism\": [\"Latency‑only\"], \"primary_event_ids\": [\"event:10:recommendationservice2:primary\"], \"symptom_visibility\": [\"Latency to frontend2 and productcatalogservice\"], \"timing_cautions\": [\"Immediate onset\"], \"topology_notes\": [\"Depends on productcatalogservice2\"]}, {\"component\": \"cartservice\", \"missing_checks\": [\"Redis resource metrics and error logs\"], \"near_onset_mechanism\": [\"Latency‑only, with late dominant grpc_mrt spike at 1647743340\"], \"primary_event_ids\": [\"event:11:cartservice:primary\"], \"symptom_visibility\": [\"Latency from frontend and to redis\"], \"timing_cautions\": [\"Late dominant spike\"], \"topology_notes\": [\"Depends on redis\"]}, {\"component\": \"frontend\", \"missing_checks\": [\"Internal metrics would help, but likely symptom\"], \"near_onset_mechanism\": [\"Latency‑only\"], \"primary_event_ids\": [\"event:12:frontend:primary\", \"event:12:frontend:late_dominant_metric\"], \"symptom_visibility\": [\"Latency to many backends (cartservice, adservice, productcatalogservice, etc.)\"], \"timing_cautions\": [\"Late dominant spike\"], \"topology_notes\": [\"Entry point, calls numerous downstream services\"]}, {\"component\": \"recommendationservice\", \"missing_checks\": [\"Resource metrics and error logs\"], \"near_onset_mechanism\": [\"Latency‑only\"], \"primary_event_ids\": [\"event:13:recommendationservice:primary\"], \"symptom_visibility\": [\"Latency from frontend\"], \"timing_cautions\": [\"Immediate onset\"], \"topology_notes\": [\"Depends on productcatalogservice\"]}, {\"component\": \"cartservice2\", \"missing_checks\": [\"Redis_cart2 health checks\"], \"near_onset_mechanism\": [\"Latency‑only (TCP to redis_cart2 drops)\"], \"primary_event_ids\": [\"event:14:cartservice2:primary\"], \"symptom_visibility\": [\"TCP metrics to redis_cart2\"], \"timing_cautions\": [\"Onset at 1647743220, later than some peers\"], \"topology_notes\": [\"Depends on redis_cart2\"]}, {\"component\": \"shippingservice\", \"missing_checks\": [\"Likely secondary symptom; no resource data\"], \"near_onset_mechanism\": [\"Latency‑only, with later workload drop\"], \"primary_event_ids\": [\"event:15:shippingservice:primary\"], \"symptom_visibility\": [\"Latency from frontend and Jaeger collector\"], \"timing_cautions\": [\"Onset at 1647743280, later than most\"], \"topology_notes\": [\"Called by frontend\"]}], \"event_timeline\": [{\"ambiguity_cues\": [\"No deterministic ambiguity cue; careful to confirm no external trigger\"], \"causal_links_to_check\": [\"Verify whether node pressure propagates latency to co‑located services\"], \"component\": \"node\", \"diagnostic_implication\": \"Strongest source candidate; likely root cause if no earlier external trigger\", \"event_id\": \"event:1:node:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1647743160.0, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"Memory usage (mem_pct_usage) surged by 4793.99 at onset, with simultaneous cpu, disk, and socket anomalies\"], \"source_like_cues\": [\"IVD initiator role\", \"Multiple near‑onset internal mechanism signals (cpu, disk, memory, socket)\"], \"symptom_like_cues\": []}, {\"ambiguity_cues\": [\"Shared onset with node makes independent cause ambiguous\"], \"causal_links_to_check\": [\"Determine if istio memory changes are independent or caused by node resource contention\"], \"component\": \"istio\", \"diagnostic_implication\": \"Possible source candidate, but simultaneous with node anomaly; may be a victim of node pressure\", \"event_id\": \"event:2:istio:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1647743160.0, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"Istio agent memory metrics (mspan_inuse_bytes) dropped sharply at onset; cpu and latency signals emerged later\"], \"source_like_cues\": [\"Near‑onset internal mechanism: memory, cpu\"], \"symptom_like_cues\": []}, {\"ambiguity_cues\": [\"Weak single internal signal; corroborate before selecting as root\"], \"causal_links_to_check\": [\"Check if memory pressure is from incoming traffic or dependency failure\"], \"component\": \"adservice2\", \"diagnostic_implication\": \"Likely symptom; not strong root candidate\", \"event_id\": \"event:3:adservice2:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1647743160.0, \"mechanism_strength\": \"weak\", \"multimodal_evidence\": [\"JVM Survivor Space memory metric increased at onset, but only a single signal\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"IVD victim role\", \"Single memory signal could be reactive queueing, not root cause\"]}, {\"ambiguity_cues\": [\"Late dominant metric suggests follow‑up, not initiating event\"], \"causal_links_to_check\": [\"Trace if latency is caused by slow dependencies (productcatalogservice, paymentservice)\"], \"component\": \"checkoutservice\", \"diagnostic_implication\": \"Downstream symptom; investigate upstream\", \"event_id\": \"event:4:checkoutservice:primary\", \"event_kind\": \"latency_symptom_candidate_event\", \"event_time\": 1647743160.0, \"mechanism_strength\": \"symptom_like\", \"multimodal_evidence\": [\"Latency on Jaeger collector and dependency calls fluctuated at onset; dominant spike later\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"Latency‑only onset\", \"No internal mechanism signals\"]}, {\"ambiguity_cues\": [\"Near‑onset CPU could be cause or effect\", \"Unclear if CPU spike initiates or reacts\"], \"causal_links_to_check\": [\"Check if CPU increase is from its own logic fault or blocking on downstream calls\"], \"component\": \"adservice\", \"diagnostic_implication\": \"Weak candidate; more likely a symptom of upstream node/istio anomaly\", \"event_id\": \"event:5:adservice:primary\", \"event_kind\": \"weak_internal_or_queueing_candidate_event\", \"event_time\": 1647743160.0, \"mechanism_strength\": \"weak\", \"multimodal_evidence\": [\"CPU signal and latency degradation, but dominant CPU spike 240s later\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"Late dominant CPU spike\", \"Latency/workload changes\"]}, {\"ambiguity_cues\": [\"Could be propagation of frontend2 or other service issues\"], \"causal_links_to_check\": [\"Verify if latency is self‑inflicted or from upstream/downstream\"], \"component\": \"shippingservice2\", \"diagnostic_implication\": \"Likely symptom\", \"event_id\": \"event:6:shippingservice2:primary\", \"event_kind\": \"latency_symptom_candidate_event\", \"event_time\": 1647743160.0, \"mechanism_strength\": \"symptom_like\", \"multimodal_evidence\": [\"Single latency metric spike on Jaeger collector\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"Latency‑only onset\", \"No internal mechanism signals\"]}, {\"ambiguity_cues\": [\"Single socket signal; could be reactive to tidb failure\", \"No memory/cpu; unclear if cause or consequence\"], \"causal_links_to_check\": [\"Check if tidb is the source or if productcatalogservice2 logic caused socket anomalies\"], \"component\": \"productcatalogservice2\", \"diagnostic_implication\": \"Ambiguous; may be symptom of tidb issue or upstream\", \"event_id\": \"event:7:productcatalogservice2:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1647743160.0, \"mechanism_strength\": \"weak\", \"multimodal_evidence\": [\"Socket metrics (TCP connections) to basic_tidb dropped at onset, indicating reduced dependency traffic\"], \"source_like_cues\": [], \"symptom_like_cues\": []}, {\"ambiguity_cues\": [\"Close temporal proximity to node anomaly; may be early symptom propagation\"], \"causal_links_to_check\": [\"Distinguish if latency originates in productcatalogservice or its dependency (tidb)\"], \"component\": \"productcatalogservice\", \"diagnostic_implication\": \"Downstream symptom\", \"event_id\": \"event:8:productcatalogservice:primary\", \"event_kind\": \"latency_symptom_candidate_event\", \"event_time\": 1647743160.0, \"mechanism_strength\": \"symptom_like\", \"multimodal_evidence\": [\"Latency on incoming calls from recommendationservice2 spiked 60s after onset\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"Latency‑only onset\", \"Late dominant spike\"]}, {\"ambiguity_cues\": [\"Likely surface symptom of backend issues\"], \"causal_links_to_check\": [\"Trace to adservice2, productcatalogservice2 to find origin\"], \"component\": \"frontend2\", \"diagnostic_implication\": \"Entry surface symptom; not root cause\", \"event_id\": \"event:9:frontend2:primary\", \"event_kind\": \"latency_symptom_candidate_event\", \"event_time\": 1647743160.0, \"mechanism_strength\": \"symptom_like\", \"multimodal_evidence\": [\"Inbound latency metrics from productcatalogservice2 and recommendationservice2 fluctuated\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"Latency‑only; late dominant spike\", \"Entry component with no internal anomalies\"]}, {\"ambiguity_cues\": [\"Might be affected by productcatalogservice2 or upstream\"], \"causal_links_to_check\": [\"Look for memory/cpu anomalies or dependency issues\"], \"component\": \"recommendationservice2\", \"diagnostic_implication\": \"Symptom\", \"event_id\": \"event:10:recommendationservice2:primary\", \"event_kind\": \"latency_symptom_candidate_event\", \"event_time\": 1647743160.0, \"mechanism_strength\": \"symptom_like\", \"multimodal_evidence\": [\"Latency metrics to frontend2 and productcatalogservice dropped slightly at onset\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"Latency‑only onset\"]}, {\"ambiguity_cues\": [\"Potential dependency on redis; unclear if redis or cartservice slow first\"], \"causal_links_to_check\": [\"Check redis health and cartservice's redis calls\"], \"component\": \"cartservice\", \"diagnostic_implication\": \"Symptom; may be victim of redis or node\", \"event_id\": \"event:11:cartservice:primary\", \"event_kind\": \"latency_symptom_candidate_event\", \"event_time\": 1647743160.0, \"mechanism_strength\": \"symptom_like\", \"multimodal_evidence\": [\"Latency to redis dropped, then grpc_mrt spiked 180s later\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"Latency‑only; late dominant metric\"]}, {\"ambiguity_cues\": [\"Surface symptom; need to investigate all downstream services\"], \"causal_links_to_check\": [\"Investigate all downstream services to locate origin\"], \"component\": \"frontend\", \"diagnostic_implication\": \"Entry surface; symptom\", \"event_id\": \"event:12:frontend:primary\", \"event_kind\": \"latency_symptom_candidate_event\", \"event_time\": 1647743160.0, \"mechanism_strength\": \"symptom_like\", \"multimodal_evidence\": [\"Latency to cartservice and other backends increased; entry point latency\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"Latency‑only onset\", \"Entry component, no internal anomalies\"]}, {\"ambiguity_cues\": [\"Similar to recommendationservice2\"], \"causal_links_to_check\": [\"Check for upstream/productcatalogservice issues\"], \"component\": \"recommendationservice\", \"diagnostic_implication\": \"Symptom\", \"event_id\": \"event:13:recommendationservice:primary\", \"event_kind\": \"latency_symptom_candidate_event\", \"event_time\": 1647743160.0, \"mechanism_strength\": \"symptom_like\", \"multimodal_evidence\": [\"Latency to frontend increased; workload changed later\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"Latency‑only onset\"]}, {\"ambiguity_cues\": [\"Redis dependency; could be cause or effect\"], \"causal_links_to_check\": [\"Examine redis_cart2 for anomalies\"], \"component\": \"cartservice2\", \"diagnostic_implication\": \"Symptom; may point to redis\", \"event_id\": \"event:14:cartservice2:primary\", \"event_kind\": \"latency_symptom_candidate_event\", \"event_time\": 1647743220.0, \"mechanism_strength\": \"symptom_like\", \"multimodal_evidence\": [\"TCP sent/received bytes to redis_cart2 dropped at onset\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"Latency‑only onset; may indicate redis issue\"]}, {\"ambiguity_cues\": [\"Might be reaction to earlier dependency failure\"], \"causal_links_to_check\": [\"Correlate with dependency or upstream anomaly\"], \"component\": \"productcatalogservice\", \"diagnostic_implication\": \"Confirms productcatalogservice latency, but timing suggests symptom\", \"event_id\": \"event:8:productcatalogservice:late_dominant_metric\", \"event_kind\": \"late_dominant_metric_followup\", \"event_time\": 1647743220.0, \"mechanism_strength\": \"unknown\", \"multimodal_evidence\": [\"Large latency spike on inbound call from recommendationservice2\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"Late follow‑up spike, not onset\"]}, {\"ambiguity_cues\": [\"May reflect backend degradation\"], \"causal_links_to_check\": [\"Correlate with cartservice or its dependency\"], \"component\": \"frontend\", \"diagnostic_implication\": \"Further evidence of symptom\", \"event_id\": \"event:12:frontend:late_dominant_metric\", \"event_kind\": \"late_dominant_metric_followup\", \"event_time\": 1647743280.0, \"mechanism_strength\": \"unknown\", \"multimodal_evidence\": [\"Large latency spike on call to cartservice\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"Late spike confirms frontend latency symptom\"]}, {\"ambiguity_cues\": [\"May be late symptom of node or other issues\"], \"causal_links_to_check\": [\"Check dependency chain to frontend\"], \"component\": \"shippingservice\", \"diagnostic_implication\": \"Downstream symptom\", \"event_id\": \"event:15:shippingservice:primary\", \"event_kind\": \"latency_symptom_candidate_event\", \"event_time\": 1647743280.0, \"mechanism_strength\": \"symptom_like\", \"multimodal_evidence\": [\"Latency on Jaeger collector and workload drop\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"Latency‑only onset; later than most events\"]}], \"ivd\": {\"interpretation\": \"IVD uses pairwise tournament (Copeland score) to identify the initiator vs victim among source candidates. The initiator is the candidate whose anomaly is least explainable by others and most explanatory for others. Do not select a candidate labeled as 'victim' over one labeled as 'initiator'.\", \"ivd_enabled\": true, \"ranking\": [\"node\", \"istio\", \"adservice2\"], \"verdicts\": {\"adservice2\": {\"caller_anomalies\": [], \"caller_anomalies_count\": 0, \"copeland_score\": -2, \"downstream_coverage_count\": 0, \"fault_signature_label\": \"ambiguous_or_no_exception\", \"ivd_role\": \"victim\", \"resource_magnitude\": 56.769862223992874, \"temporal_gap_secon..."
+      },
+      "event_causal_fact_count": 22,
+      "final_belief_state": [
+        {
+          "contradicting_factors": [
+            "No direct request paths to services (expected for host-level component)",
+            "Node logs missing, mechanism inferred from metrics"
+          ],
+          "hypothesis_id": "H1-node-latency-degradation",
+          "missing_information": [],
+          "position": "leading",
+          "root_component": "node",
+          "source_vs_symptom_judgment": "source (IVD initiator)",
+          "supporting_factors": [
+            "IVD initiator with highest Copeland score (2) and resource magnitude (9475.97)",
+            "Near-onset multi-signal internal mechanism (cpu, disk, memory, socket) at 1647743160",
+            "Downstream explanation confirms node anomaly precedes all service-level latency symptoms",
+            "No independent error logs in any service; all latency symptoms traceable to node resource starvation"
+          ],
+          "why_not_others": "Istio shares onset but is IVD-ambiguous with lower magnitude; its memory changes are explainable by node pressure. Adservice2 is IVD victim with only a single weak memory signal. No other component has near-onset internal mechanism across multiple resource dimensions."
+        },
+        {
+          "contradicting_factors": [
+            "Shared onset with node and IVD-ambiguous (Copeland 0)",
+            "Node's comprehensive surge likely causes istio's memory changes",
+            "No independent istio error logs found"
+          ],
+          "hypothesis_id": "H3-istio-latency-degradation",
+          "missing_information": [],
+          "position": "weakened",
+          "root_component": "istio",
+          "source_vs_symptom_judgment": "ambiguous, leaning victim",
+          "supporting_factors": [
+            "Strong near-onset memory and cpu signals"
+          ],
+          "why_not_others": "Node has stronger, more systemic mechanism signals and IVD initiator role."
+        },
+        {
+          "contradicting_factors": [
+            "IVD victim with negative Copeland score",
+            "Weak single signal, likely reactive to node pressure or request queueing",
+            "No internal error evidence (logs absent)"
+          ],
+          "hypothesis_id": "H4-adservice2-latency-degradation",
+          "missing_information": [],
+          "position": "unlikely",
+          "root_component": "adservice2",
+          "source_vs_symptom_judgment": "symptom",
+          "supporting_factors": [
+            "Single JVM memory signal at onset"
+          ],
+          "why_not_others": "Node's multi-signal anomaly is earlier and more explanatory; adservice2's weak signal cannot cause widespread latency."
+        }
+      ],
+      "transcript": [
+        {
+          "step_index": 0,
+          "agent_response": {
+            "belief_state": [
+              {
+                "hypothesis_id": "H1-node-latency-degradation",
+                "root_component": "node",
+                "position": "leading",
+                "supporting_factors": [
+                  "IVD initiator with Copeland score 2, highest resource magnitude",
+                  "Strong near-onset multi-signal internal mechanism: cpu, disk, memory, socket spikes",
+                  "Node hosts multiple services, so pressure can explain downstream latency"
+                ],
+                "contradicting_factors": [],
+                "missing_information": [
+                  "Node logs to confirm resource spike nature",
+                  "Whether any service workload triggered node pressure"
+                ],
+                "source_vs_symptom_judgment": "likely source",
+                "why_not_others": "istio shares onset but has ambiguous IVD and could be victim of node pressure; node's anomaly explains broader impact"
+              },
+              {
+                "hypothesis_id": "H3-istio-latency-degradation",
+                "root_component": "istio",
+                "position": "weakened",
+                "supporting_factors": [
+                  "Strong memory and cpu signals in istio near onset",
+                  "Could independently cause mesh-wide latency"
+                ],
+                "contradicting_factors": [
+                  "Shared onset with node makes independent cause ambiguous",
+                  "IVD ambiguous, copeland score 0",
+                  "Node's comprehensive resource surge could cause istio's memory changes"
+                ],
+                "missing_information": [
+                  "Independent istio error logs",
+                  "Whether istio memory change is correlated only with node metrics"
+                ],
+                "source_vs_symptom_judgment": "ambiguous, leaning victim",
+                "why_not_others": "node has stronger and more systemic mechanism signals, plus IVD initiator role; istio's memory anomaly can be explained by node pressure"
+              },
+              {
+                "hypothesis_id": "H4-adservice2-latency-degradation",
+                "root_component": "adservice2",
+                "position": "unlikely",
+                "supporting_factors": [
+                  "Single JVM memory signal at onset"
+                ],
+                "contradicting_factors": [
+                  "IVD victim, negative copeland",
+                  "Weak single signal likely reactive to request queueing or node pressure",
+                  "No internal error evidence"
+                ],
+                "missing_information": [
+                  "adservice2 logs for OOM or GC",
+                  "Correlation with incoming traffic"
+                ],
+                "source_vs_symptom_judgment": "symptom",
+                "why_not_others": "node's multi-signal anomaly is earlier and more explanatory; adservice2's single signal cannot explain widespread latency"
+              }
+            ],
+            "case_narrative": "At event time 1647743133, node experienced a sudden multi-resource surge (memory, cpu, disk, socket), coinciding with istio's memory anomaly. The event causal profile identifies node as the IVD initiator with strong internal mechanism, while istio's role is ambiguous and adservice2 is a victim. Latency degradation propagated from node to hosted services and entry components. Without further evidence, node is the primary root cause candidate.",
+            "next_action": {
+              "action_id": "inspect_noise_features_1",
+              "tool_name": "inspect_noise_features",
+              "args": {
+                "component_scope": [
+                  "node",
+                  "istio"
+                ],
+                "feature_groups": [
+                  "onset",
+                  "local_mechanism",
+                  "logs",
+                  "propagation"
+                ],
+                "time_window": [
+                  1647743130,
+                  1647743190
+                ]
+              },
+              "expected_information_gain": "Determine if node has internal error logs or if istio has independent faults, clarifying the source-vs-symptom ambiguity between node and istio.",
+              "question": "What are the fused onset, local mechanism, log, and propagation features for node and istio near the event time?",
+              "target_hypothesis_ids": [
+                "H1-node-latency-degradation",
+                "H3-istio-latency-degradation"
+              ]
+            },
+            "final_decision": null
+          },
+          "executed_action": {
+            "action_id": "inspect_noise_features_1",
+            "tool_name": "inspect_noise_features",
+            "target_hypothesis_ids": [
+              "H1-node-latency-degradation",
+              "H3-istio-latency-degradation"
+            ],
+            "question": "What are the fused onset, local mechanism, log, and propagation features for node and istio near the event time?",
+            "args": {
+              "component_scope": [
+                "node",
+                "istio"
+              ],
+              "time_window": [
+                1647743130.0,
+                1647743190.0
+              ],
+              "feature_groups": [
+                "onset",
+                "local_mechanism",
+                "logs",
+                "propagation"
+              ]
+            },
+            "expected_information_gain": "Determine if node has internal error logs or if istio has independent faults, clarifying the source-vs-symptom ambiguity between node and istio."
+          },
+          "evidence_id": "evidence:ad52017885f39be496d6fd4b582c841d8e5d5f0eced8c0b19478e4562d267a51"
+        },
+        {
+          "step_index": 1,
+          "agent_response": {
+            "agent": "continuous_noise_native",
+            "belief_state": [
+              {
+                "hypothesis_id": "H1-node-latency-degradation",
+                "root_component": "node",
+                "position": "leading",
+                "source_vs_symptom_judgment": "likely source",
+                "supporting_factors": [
+                  "IVD initiator with Copeland score 2, highest resource magnitude (9475.97)",
+                  "Strong near-onset multi-signal internal mechanism: cpu, disk, memory, socket spikes",
+                  "Node hosts multiple services, so its pressure explains broad downstream latency"
+                ],
+                "contradicting_factors": [],
+                "missing_information": [
+                  "Counterfactual evidence that removing node's anomaly eliminates downstream symptoms",
+                  "Node logs are absent; root-cause mechanism remains inferred from metrics"
+                ],
+                "why_not_others": "istio shares onset but has ambiguous IVD and lower magnitude; its memory changes can be explained by node pressure. adservice2 is an IVD victim with only a single weak memory signal."
+              },
+              {
+                "hypothesis_id": "H3-istio-latency-degradation",
+                "root_component": "istio",
+                "position": "weakened",
+                "source_vs_symptom_judgment": "ambiguous, leaning victim",
+                "supporting_factors": [
+                  "Strong memory and cpu signals in istio near onset",
+                  "Could independently cause mesh-wide latency"
+                ],
+                "contradicting_factors": [
+                  "Shared onset with node makes independent cause ambiguous",
+                  "IVD ambiguous, Copeland score 0",
+                  "Node's comprehensive resource surge likely causes istio's memory changes"
+                ],
+                "missing_information": [
+                  "Independent istio error logs not found; no evidence of internal fault",
+                  "Counterfactual: would istio's anomaly disappear if node were healthy?"
+                ],
+                "why_not_others": "Node has stronger, more systemic mechanism signals and IVD initiator role; istio's anomaly is secondary."
+              },
+              {
+                "hypothesis_id": "H4-adservice2-latency-degradation",
+                "root_component": "adservice2",
+                "position": "unlikely",
+                "source_vs_symptom_judgment": "symptom",
+                "supporting_factors": [
+                  "Single JVM memory signal at onset"
+                ],
+                "contradicting_factors": [
+                  "IVD victim, negative Copeland score",
+                  "Weak single signal likely reactive to request queueing or node pressure",
+                  "No internal error evidence"
+                ],
+                "missing_information": [
+                  "adservice2 logs for OOM or GC",
+                  "Correlation with incoming traffic"
+                ],
+                "why_not_others": "Node's multi-signal anomaly is earlier and more explanatory; adservice2's single signal cannot explain widespread latency."
+              }
+            ],
+            "case_narrative": "At event time 1647743133, node experienced a severe multi-resource surge (memory, cpu, disk, socket), while istio had a coincident memory anomaly. IVD analysis designates node as the sole initiator with highest Copeland score and resource magnitude; istio is ambiguous and adservice2 a victim. Node's lack of logs and its hosting of multiple services suggest its resource pressure explains the broad latency degradation. To confirm, we will simulate removing node's anomaly and test whether it resolves downstream symptoms.",
+            "next_action": {
+              "action_id": "counterfactual_remove_node",
+              "tool_name": "counterfactual_remove",
+              "args": {
+                "component": "node",
+                "symptom_components": [
+                  "frontend",
+                  "frontend2",
+                  "istio",
+                  "adservice",
+                  "adservice2",
+                  "checkoutservice",
+                  "cartservice",
+                  "productcatalogservice",
+                  "productcatalogservice2",
+                  "shippingservice",
+                  "shippingservice2",
+                  "recommendationservice",
+                  "recommendationservice2"
+                ],
+                "time_window": [
+                  1647743130.0,
+                  1647743190.0
+                ]
+              },
+              "question": "If we counterfactually remove node's resource anomaly, do the latency symptoms in the downstream services disappear?",
+              "expected_information_gain": "Determine whether removal of node's anomaly would eliminate the observed latency symptoms downstream, confirming node as the necessary root cause.",
+              "target_hypothesis_ids": [
+                "H1-node-latency-degradation",
+                "H3-istio-latency-degradation"
+              ]
+            },
+            "final_decision": null
+          },
+          "executed_action": {
+            "action_id": "counterfactual_remove_node",
+            "tool_name": "counterfactual_remove",
+            "target_hypothesis_ids": [
+              "H1-node-latency-degradation",
+              "H3-istio-latency-degradation"
+            ],
+            "question": "If we counterfactually remove node's resource anomaly, do the latency symptoms in the downstream services disappear?",
+            "args": {
+              "component": "node",
+              "symptom_components": [
+                "frontend",
+                "frontend2",
+                "istio",
+                "adservice",
+                "adservice2",
+                "checkoutservice",
+                "cartservice",
+                "productcatalogservice",
+                "productcatalogservice2",
+                "shippingservice",
+                "shippingservice2",
+                "recommendationservice",
+                "recommendationservice2"
+              ],
+              "time_window": [
+                1647743130.0,
+                1647743190.0
+              ]
+            },
+            "expected_information_gain": "Determine whether removal of node's anomaly would eliminate the observed latency symptoms downstream, confirming node as the necessary root cause."
+          },
+          "evidence_id": "evidence:02041f3a208710d84a4616024e8412294ccbbea974869685e337672ff91f7bcb"
+        },
+        {
+          "step_index": 2,
+          "agent_response": {
+            "case_narrative": "Node's severe host-level resource surge (memory, cpu, disk, socket) remains the leading root cause candidate (IVD initiator). Istio has coincident but weaker memory anomaly, classified as ambiguous. Counterfactual removal of node showed no direct request paths to services, expected for a host-level component. To solidify the case, we will test whether node's anomaly can explain the observed downstream latency across all services.",
+            "belief_state": [
+              {
+                "hypothesis_id": "H1-node-latency-degradation",
+                "root_component": "node",
+                "position": "leading",
+                "supporting_factors": [
+                  "IVD initiator with highest Copeland score (2) and resource magnitude (9475.97)",
+                  "Near-onset multi-signal internal mechanism (cpu, disk, memory, socket) at 1647743160",
+                  "Hosts multiple services; resource pressure can propagate to all containers"
+                ],
+                "contradicting_factors": [
+                  "Counterfactual found no trace paths from node to any service (expected for host; does not disprove)",
+                  "Node logs missing, mechanism inferred from metrics"
+                ],
+                "missing_information": [
+                  "Direct evidence that node's anomaly explains the full extent of service-level latency"
+                ],
+                "source_vs_symptom_judgment": "likely source",
+                "why_not_others": "Istio shares onset but is IVD-ambiguous with lower magnitude; its memory changes are explainable by node pressure. Adservice2 is IVD victim with only a single weak memory signal."
+              },
+              {
+                "hypothesis_id": "H3-istio-latency-degradation",
+                "root_component": "istio",
+                "position": "weakened",
+                "supporting_factors": [
+                  "Strong near-onset memory and cpu signals"
+                ],
+                "contradicting_factors": [
+                  "Shared onset with node and IVD-ambiguous (Copeland 0)",
+                  "Node's comprehensive surge likely causes istio's memory changes",
+                  "No independent istio error logs found"
+                ],
+                "missing_information": [
+                  "Evidence that istio's anomaly is independent of node pressure"
+                ],
+                "source_vs_symptom_judgment": "ambiguous, leaning victim",
+                "why_not_others": "Node has stronger, more systemic mechanism signals and IVD initiator role."
+              },
+              {
+                "hypothesis_id": "H4-adservice2-latency-degradation",
+                "root_component": "adservice2",
+                "position": "unlikely",
+                "supporting_factors": [
+                  "Single JVM memory signal at onset"
+                ],
+                "contradicting_factors": [
+                  "IVD victim with negative Copeland score",
+                  "Weak single signal, likely reactive to node pressure or request queueing",
+                  "No internal error evidence (logs absent)"
+                ],
+                "missing_information": [
+                  "adservice2 logs for GC/OOM errors"
+                ],
+                "source_vs_symptom_judgment": "symptom",
+                "why_not_others": "Node's multi-signal anomaly is earlier and more explanatory; adservice2's weak signal cannot cause widespread latency."
+              }
+            ],
+            "next_action": {
+              "action_id": "test_downstream_explanation_node",
+              "tool_name": "test_downstream_explanation",
+              "args": {
+                "candidate_component": "node",
+                "symptom_components": [
+                  "frontend",
+                  "frontend2",
+                  "istio",
+                  "adservice",
+                  "adservice2",
+                  "checkoutservice",
+                  "cartservice",
+                  "productcatalogservice",
+                  "productcatalogservice2",
+                  "shippingservice",
+                  "shippingservice2",
+                  "recommendationservice",
+                  "recommendationservice2"
+                ],
+                "time_window": [
+                  1647743130.0,
+                  1647743190.0
+                ]
+              },
+              "question": "Does node's resource anomaly explain the downstream latency symptoms in the service components?",
+              "expected_information_gain": "Determine whether node's multi-resource surge is sufficient to cause the observed latency across all service components, closing the explanatory gap.",
+              "target_hypothesis_ids": [
+                "H1-node-latency-degradation"
+              ]
+            },
+            "final_decision": null
+          },
+          "executed_action": {
+            "action_id": "test_downstream_explanation_node",
+            "tool_name": "test_downstream_explanation",
+            "target_hypothesis_ids": [
+              "H1-node-latency-degradation",
+              "H2-adservice-latency-degradation",
+              "H3-istio-latency-degradation"
+            ],
+            "question": "Does node's resource anomaly explain the downstream latency symptoms in the service components?",
+            "args": {
+              "candidate_component": "node",
+              "symptom_components": [
+                "frontend",
+                "frontend2",
+                "istio",
+                "adservice",
+                "adservice2",
+                "checkoutservice",
+                "cartservice",
+                "productcatalogservice",
+                "productcatalogservice2",
+                "shippingservice",
+                "shippingservice2",
+                "recommendationservice",
+                "recommendationservice2"
+              ],
+              "time_window": [
+                1647743130.0,
+                1647743190.0
+              ]
+            },
+            "expected_information_gain": "Determine whether node's multi-resource surge is sufficient to cause the observed latency across all service components, closing the explanatory gap."
+          },
+          "evidence_id": "evidence:12ab2fb3e65083207db7e1ed0262f5fe7120e20a2ed0f95409ded232f7d83ec4"
+        },
+        {
+          "step_index": 3,
+          "agent_response": {
+            "agent": "continuous_noise_native",
+            "belief_state": [
+              {
+                "hypothesis_id": "H1-node-latency-degradation",
+                "root_component": "node",
+                "position": "leading",
+                "source_vs_symptom_judgment": "likely source",
+                "supporting_factors": [
+                  "IVD initiator with highest Copeland score (2) and resource magnitude (9475.97)",
+                  "Near-onset multi-signal internal mechanism (cpu, disk, memory, socket) at 1647743160",
+                  "Downstream explanation test: node anomaly precedes all service-level latency symptoms"
+                ],
+                "contradicting_factors": [
+                  "No direct request paths to services (expected for host-level component)",
+                  "Node logs missing, mechanism inferred from metrics"
+                ],
+                "missing_information": [
+                  "Comparative source-vs-symptom scores against istio and adservice2 to eliminate ambiguity"
+                ],
+                "why_not_others": "Istio shares onset but is IVD-ambiguous with lower magnitude; its memory changes are explainable by node pressure. Adservice2 is IVD victim with only a single weak memory signal."
+              },
+              {
+                "hypothesis_id": "H3-istio-latency-degradation",
+                "root_component": "istio",
+                "position": "weakened",
+                "source_vs_symptom_judgment": "ambiguous, leaning victim",
+                "supporting_factors": [
+                  "Strong near-onset memory and cpu signals"
+                ],
+                "contradicting_factors": [
+                  "Shared onset with node and IVD-ambiguous (Copeland 0)",
+                  "Node's comprehensive surge likely causes istio's memory changes",
+                  "No independent istio error logs found"
+                ],
+                "missing_information": [
+                  "Evidence that istio's anomaly is independent of node pressure"
+                ],
+                "why_not_others": "Node has stronger, more systemic mechanism signals and IVD initiator role."
+              },
+              {
+                "hypothesis_id": "H4-adservice2-latency-degradation",
+                "root_component": "adservice2",
+                "position": "unlikely",
+                "source_vs_symptom_judgment": "symptom",
+                "supporting_factors": [
+                  "Single JVM memory signal at onset"
+                ],
+                "contradicting_factors": [
+                  "IVD victim with negative Copeland score",
+                  "Weak single signal, likely reactive to node pressure or request queueing",
+                  "No internal error evidence (logs absent)"
+                ],
+                "missing_information": [
+                  "adservice2 logs for GC/OOM errors"
+                ],
+                "why_not_others": "Node's multi-signal anomaly is earlier and more explanatory; adservice2's weak signal cannot cause widespread latency."
+              }
+            ],
+            "case_narrative": "Node's host-level resource surge (cpu, disk, memory, socket) is the IVD initiator and precedes all service latency. Downstream explanation confirms node anomaly predates symptoms, though no direct trace paths (expected for host). Istio's memory changes are likely reactive; adservice2 is a weak victim. Next, compare source-symptom across node, istio, and adservice2 to confirm node's primacy and solidify root cause.",
+            "next_action": {
+              "action_id": "compare_source_symptom_final",
+              "tool_name": "compare_source_symptom",
+              "args": {
+                "component_scope": [
+                  "node",
+                  "istio",
+                  "adservice2"
+                ],
+                "time_window": [
+                  1647743130.0,
+                  1647743190.0
+                ]
+              },
+              "question": "How do source-vs-symptom cues compare across node, istio, and adservice2 near the onset?",
+              "expected_information_gain": "Direct comparative scores will confirm node as the strongest initiator or reveal latent independence of istio.",
+              "target_hypothesis_ids": [
+                "H1-node-latency-degradation",
+                "H3-istio-latency-degradation",
+                "H4-adservice2-latency-degradation"
+              ]
+            },
+            "final_decision": null
+          },
+          "executed_action": {
+            "action_id": "compare_source_symptom_final",
+            "tool_name": "compare_source_symptom",
+            "target_hypothesis_ids": [
+              "H1-node-latency-degradation",
+              "H3-istio-latency-degradation",
+              "H4-adservice2-latency-degradation"
+            ],
+            "question": "How do source-vs-symptom cues compare across node, istio, and adservice2 near the onset?",
+            "args": {
+              "component_scope": [
+                "node",
+                "istio",
+                "adservice2"
+              ],
+              "time_window": [
+                1647743130.0,
+                1647743190.0
+              ]
+            },
+            "expected_information_gain": "Direct comparative scores will confirm node as the strongest initiator or reveal latent independence of istio."
+          },
+          "evidence_id": "evidence:8399122ba29c802ff2f556aa5cf715417beebeec1d614d7b600e4feffc3cf989"
+        }
+      ],
+      "case_id": "OpenRCA-Market/cloudbed-1/task_1@2022_03_20",
+      "expected_component": "node-1",
+      "hit": false,
+      "elapsed_sec": 401.182,
+      "error": null,
+      "token_usage": {
+        "call_count": 6,
+        "prompt_tokens": 132213,
+        "completion_tokens": 25777,
+        "total_tokens": 157990,
+        "by_purpose": {
+          "event_causalizer_state_update": {
+            "call_count": 1,
+            "prompt_tokens": 19733,
+            "completion_tokens": 14139,
+            "total_tokens": 33872
+          },
+          "continuous_noise_native_state_update": {
+            "call_count": 5,
+            "prompt_tokens": 112480,
+            "completion_tokens": 11638,
+            "total_tokens": 124118
+          },
+          "continuous_noise_native_json_repair": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    }
+  ]
+}

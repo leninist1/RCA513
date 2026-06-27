@@ -1,0 +1,41 @@
+RE2-TT/ts-auth-service_delay/2: predicted=ts-auth-service expected=ts-auth-service hit=True tokens=139179 error=None
+RE2-TT/ts-auth-service_loss/2: predicted=ts-admin-order-service expected=ts-auth-service hit=False tokens=150573 error=None
+RE2-TT/ts-auth-service_socket/3: predicted=ts-auth-service expected=ts-auth-service hit=True tokens=146557 error=None
+RE2-TT/ts-order-service_cpu/2: predicted=ts-auth-service expected=ts-order-service hit=False tokens=142292 error=None
+RE2-TT/ts-route-service_loss/1: predicted=ts-consign-price-service expected=ts-route-service hit=False tokens=143600 error=None
+RE2-TT/ts-train-service_cpu/1: predicted=ts-price-service expected=ts-train-service hit=False tokens=149289 error=None
+RE2-TT/ts-train-service_delay/1: predicted=ts-contacts-service expected=ts-train-service hit=False tokens=142632 error=None
+RE2-TT/ts-train-service_socket/2: predicted=ts-train-service expected=ts-train-service hit=True tokens=133925 error=None
+{
+  "dataset": "RE3",
+  "system": "RE2-TT",
+  "mode": "continuous-noise-native-event-causalizer",
+  "total_cases": 8,
+  "top1_accuracy": 0.375,
+  "top1_hits": 3,
+  "recall_pool_size": 15,
+  "max_hypotheses": 10,
+  "elapsed_sec": 3160.423,
+  "cost": {
+    "total_calls": 48,
+    "total_prompt_tokens": 1059774,
+    "total_completion_tokens": 88273,
+    "total_tokens": 1148047,
+    "avg_tokens_per_case": 143505,
+    "by_purpose": {
+      "event_causalizer_state_update": {
+        "call_count": 8,
+        "prompt_tokens": 172051,
+        "completion_tokens": 39915,
+        "total_tokens": 211966
+      },
+      "continuous_noise_native_state_update": {
+        "call_count": 40,
+        "prompt_tokens": 887723,
+        "completion_tokens": 48358,
+        "total_tokens": 936081
+      }
+    }
+  }
+}
+wrote prismv4/results/prism_cht/RE2-TT_ambig_full.json

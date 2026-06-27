@@ -1,0 +1,41 @@
+Eadro-TT/TT.2022-04-17T212101D2022-04-17T230842/fault0: predicted=ts-contacts-service expected=ts-food-service hit=False tokens=144433 error=None
+Eadro-TT/TT.2022-04-17T212101D2022-04-17T230842/fault7: predicted=ts-assurance-service expected=ts-contacts-service hit=False tokens=134230 error=None
+Eadro-TT/TT.2022-04-17T212101D2022-04-17T230842/fault8: predicted=ts-assurance-service expected=ts-contacts-service hit=False tokens=139162 error=None
+Eadro-TT/TT.2022-04-18T102520D2022-04-18T121301/fault8: predicted=ts-assurance-service expected=ts-inside-payment-service hit=False tokens=108558 error=None
+Eadro-TT/TT.2022-04-18T121515D2022-04-18T140256/fault0: predicted=ts-assurance-service expected=ts-route-plan-service hit=False tokens=140606 error=None
+Eadro-TT/TT.2022-04-18T121515D2022-04-18T140256/fault6: predicted=ts-auth-service expected=ts-price-service hit=False tokens=143388 error=None
+Eadro-TT/TT.2022-04-18T121515D2022-04-18T140256/fault7: predicted=ts-auth-service expected=ts-price-service hit=False tokens=137741 error=None
+Eadro-TT/TT.2022-04-18T121515D2022-04-18T140256/fault8: predicted=ts-auth-service expected=ts-price-service hit=False tokens=141850 error=None
+{
+  "dataset": "Eadro",
+  "system": "Eadro-TT",
+  "mode": "continuous-noise-native-event-causalizer",
+  "total_cases": 8,
+  "top1_accuracy": 0.0,
+  "top1_hits": 0,
+  "recall_pool_size": 15,
+  "max_hypotheses": 10,
+  "elapsed_sec": 660.956,
+  "cost": {
+    "total_calls": 48,
+    "total_prompt_tokens": 1007274,
+    "total_completion_tokens": 82694,
+    "total_tokens": 1089968,
+    "avg_tokens_per_case": 136246,
+    "by_purpose": {
+      "event_causalizer_state_update": {
+        "call_count": 8,
+        "prompt_tokens": 168753,
+        "completion_tokens": 38643,
+        "total_tokens": 207396
+      },
+      "continuous_noise_native_state_update": {
+        "call_count": 40,
+        "prompt_tokens": 838521,
+        "completion_tokens": 44051,
+        "total_tokens": 882572
+      }
+    }
+  }
+}
+wrote prismv4/results/prism_cht/Eadro-TT_ambig_full.json

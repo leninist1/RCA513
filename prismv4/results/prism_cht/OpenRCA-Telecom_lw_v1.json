@@ -1,0 +1,2476 @@
+{
+  "dataset": "OpenRCA",
+  "system": "OpenRCA-Telecom",
+  "mode": "lightweight",
+  "total_cases": 51,
+  "top1_accuracy": 0.0,
+  "top1_hits": 0,
+  "recall_pool_size": 15,
+  "max_hypotheses": 10,
+  "elapsed_sec": 1831.087,
+  "cost": {
+    "total_calls": 51,
+    "total_prompt_tokens": 17027,
+    "total_completion_tokens": 2408,
+    "total_tokens": 19435,
+    "avg_tokens_per_case": 381,
+    "by_purpose": {
+      "lightweight_rca_decision": {
+        "call_count": 51,
+        "prompt_tokens": 17027,
+        "completion_tokens": 2408,
+        "total_tokens": 19435
+      }
+    }
+  },
+  "results": [
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "osb",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1586534700.0,
+        1586534760.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "Only component in the recall pool; emits error and latency signals with a large anomaly magnitude; no emitter exception or storage/entry disqualification.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "osb"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"osb\", \"rationale\": \"Only component in the recall pool; emits error and latency signals with a large anomaly magnitude; no emitter exception or storage/entry disqualification.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "OpenRCA-Telecom/_/task_2@2020_04_11",
+      "expected_component": "docker_003",
+      "hit": false,
+      "elapsed_sec": 44.425,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 338,
+        "completion_tokens": 43,
+        "total_tokens": 381,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 338,
+            "completion_tokens": 43,
+            "total_tokens": 381
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "osb",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1586540400.0,
+        1586540460.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "osb is the only component with anomalies, initiator not determined, no storage or entry indicators, and has latency and workload signals suggesting it is the likely root cause.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "osb"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"osb\", \"rationale\": \"osb is the only component with anomalies, initiator not determined, no storage or entry indicators, and has latency and workload signals suggesting it is the likely root cause.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "OpenRCA-Telecom/_/task_4@2020_04_11",
+      "expected_component": "docker_004",
+      "hit": false,
+      "elapsed_sec": 33.067,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 335,
+        "completion_tokens": 49,
+        "total_tokens": 384,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 335,
+            "completion_tokens": 49,
+            "total_tokens": 384
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "osb",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1586542500.0,
+        1586542560.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "Only component with anomalies; no IVD verdict, no emitter exceptions, and no storage or entry type disqualification. osb is the sole candidate in recall pool.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "osb"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"osb\", \"rationale\": \"Only component with anomalies; no IVD verdict, no emitter exceptions, and no storage or entry type disqualification. osb is the sole candidate in recall pool.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "OpenRCA-Telecom/_/task_2@2020_04_11",
+      "expected_component": "db_007",
+      "hit": false,
+      "elapsed_sec": 38.886,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 334,
+        "completion_tokens": 48,
+        "total_tokens": 382,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 334,
+            "completion_tokens": 48,
+            "total_tokens": 382
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "osb",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1586544600.0,
+        1586544660.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "Only component with anomalies and no entry or storage indicators.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "osb"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"osb\", \"rationale\": \"Only component with anomalies and no entry or storage indicators.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "OpenRCA-Telecom/_/task_2@2020_04_11",
+      "expected_component": "docker_002",
+      "hit": false,
+      "elapsed_sec": 32.872,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 334,
+        "completion_tokens": 26,
+        "total_tokens": 360,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 334,
+            "completion_tokens": 26,
+            "total_tokens": 360
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "osb",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1586551200.0,
+        1586551260.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "Only one component present; IVD is null, so no disambiguation needed. osb has resource anomalies and is the sole candidate.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "osb"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"osb\", \"rationale\": \"Only one component present; IVD is null, so no disambiguation needed. osb has resource anomalies and is the sole candidate.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "OpenRCA-Telecom/_/task_7@2020_04_11",
+      "expected_component": "docker_008",
+      "hit": false,
+      "elapsed_sec": 36.378,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 334,
+        "completion_tokens": 42,
+        "total_tokens": 376,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 334,
+            "completion_tokens": 42,
+            "total_tokens": 376
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "osb",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1586555100.0,
+        1586555160.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "osb is the only component with anomalies (error signals) and is listed as a source_candidate. Despite being an entry component, there are no other candidates to consider, and it has no emitter exception or storage role.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "osb"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"osb\", \"rationale\": \"osb is the only component with anomalies (error signals) and is listed as a source_candidate. Despite being an entry component, there are no other candidates to consider, and it has no emitter exception or storage role.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "OpenRCA-Telecom/_/task_1@2020_04_11",
+      "expected_component": "db_003",
+      "hit": false,
+      "elapsed_sec": 32.194,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 337,
+        "completion_tokens": 60,
+        "total_tokens": 397,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 337,
+            "completion_tokens": 60,
+            "total_tokens": 397
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "osb",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1590077220.0,
+        1590077280.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "Only component osb is in the recall pool with high anomaly magnitude (3.9) and significant signals (error, latency, workload). It is an entry-like component, but as the only candidate with emitter_exception=False and no other candidates, it is selected as the root cause.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "osb"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"osb\", \"rationale\": \"Only component osb is in the recall pool with high anomaly magnitude (3.9) and significant signals (error, latency, workload). It is an entry-like component, but as the only candidate with emitter_exception=False and no other candidates, it is selected as the root cause.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "OpenRCA-Telecom/_/task_4@2020_05_22",
+      "expected_component": "db_003",
+      "hit": false,
+      "elapsed_sec": 33.297,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 337,
+        "completion_tokens": 73,
+        "total_tokens": 410,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 337,
+            "completion_tokens": 73,
+            "total_tokens": 410
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "osb",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1590079680.0,
+        1590079740.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "Only component osb exists with anomalies (latency, workload). It is the sole candidate in recall_pool with no emitter exception, entry role, or storage suffix. IVD is null, so no disambiguation occurs. Select osb.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "osb"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"osb\", \"rationale\": \"Only component osb exists with anomalies (latency, workload). It is the sole candidate in recall_pool with no emitter exception, entry role, or storage suffix. IVD is null, so no disambiguation occurs. Select osb.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "OpenRCA-Telecom/_/task_7@2020_05_22",
+      "expected_component": "docker_001",
+      "hit": false,
+      "elapsed_sec": 29.332,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 334,
+        "completion_tokens": 64,
+        "total_tokens": 398,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 334,
+            "completion_tokens": 64,
+            "total_tokens": 398
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "osb",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1590083280.0,
+        1590083340.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "osb is the only component with anomalies (latency and workload), and no higher-ranked initiator or propagation symptoms contradicting it.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "osb"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"osb\", \"rationale\": \"osb is the only component with anomalies (latency and workload), and no higher-ranked initiator or propagation symptoms contradicting it.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "OpenRCA-Telecom/_/task_5@2020_05_22",
+      "expected_component": "os_018",
+      "hit": false,
+      "elapsed_sec": 27.746,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 334,
+        "completion_tokens": 42,
+        "total_tokens": 376,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 334,
+            "completion_tokens": 42,
+            "total_tokens": 376
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "osb",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1590085080.0,
+        1590085140.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "osb is the only component with anomalies (latency, workload). No IVD, emitter exception, or storage component identified; osb is an entry component but there are no other candidates, so it is selected as root cause.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "osb"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"osb\",\n  \"rationale\": \"osb is the only component with anomalies (latency, workload). No IVD, emitter exception, or storage component identified; osb is an entry component but there are no other candidates, so it is selected as root cause.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "OpenRCA-Telecom/_/task_1@2020_05_22",
+      "expected_component": "docker_005",
+      "hit": false,
+      "elapsed_sec": 35.659,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 334,
+        "completion_tokens": 65,
+        "total_tokens": 399,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 334,
+            "completion_tokens": 65,
+            "total_tokens": 399
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "osb",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1590163500.0,
+        1590163560.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "Only component osb is present and has significant anomaly signals (error, latency, workload). No other candidates exist. IVD is null, so default to recall_pool's sole candidate.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "osb"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"osb\",\n  \"rationale\": \"Only component osb is present and has significant anomaly signals (error, latency, workload). No other candidates exist. IVD is null, so default to recall_pool's sole candidate.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "OpenRCA-Telecom/_/task_1@2020_05_23",
+      "expected_component": "docker_004",
+      "hit": false,
+      "elapsed_sec": 34.309,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 338,
+        "completion_tokens": 56,
+        "total_tokens": 394,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 338,
+            "completion_tokens": 56,
+            "total_tokens": 394
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "osb",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1590165600.0,
+        1590165660.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "osb is the only component with error signals and no mitigating factors.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "osb"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"osb\", \"rationale\": \"osb is the only component with error signals and no mitigating factors.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "OpenRCA-Telecom/_/task_6@2020_05_23",
+      "expected_component": "db_003",
+      "hit": false,
+      "elapsed_sec": 31.839,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 333,
+        "completion_tokens": 29,
+        "total_tokens": 362,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 333,
+            "completion_tokens": 29,
+            "total_tokens": 362
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "osb",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1590167760.0,
+        1590167820.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "osb is the only candidate in the recall pool, exhibits error and latency signals, and has no higher-ranked alternative.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "osb"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"osb\",\n  \"rationale\": \"osb is the only candidate in the recall pool, exhibits error and latency signals, and has no higher-ranked alternative.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "OpenRCA-Telecom/_/task_7@2020_05_23",
+      "expected_component": "os_021",
+      "hit": false,
+      "elapsed_sec": 33.006,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 338,
+        "completion_tokens": 42,
+        "total_tokens": 380,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 338,
+            "completion_tokens": 42,
+            "total_tokens": 380
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "osb",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1590169920.0,
+        1590169980.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "The only candidate is osb with latency and workload anomalies. It has no emitter exception, is not storage, but is the sole component in the recall pool with significant anomaly magnitude (396.5), making it the root cause.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "osb"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"osb\", \"rationale\": \"The only candidate is osb with latency and workload anomalies. It has no emitter exception, is not storage, but is the sole component in the recall pool with significant anomaly magnitude (396.5), making it the root cause.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "OpenRCA-Telecom/_/task_1@2020_05_23",
+      "expected_component": "os_009",
+      "hit": false,
+      "elapsed_sec": 39.914,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 334,
+        "completion_tokens": 61,
+        "total_tokens": 395,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 334,
+            "completion_tokens": 61,
+            "total_tokens": 395
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "osb",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1590176160.0,
+        1590176220.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "Only component osb available in recall pool. IVD null, no emitter exception, but osb is the only candidate. Entry status disregarded due to absence of other candidates.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "osb"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"osb\", \"rationale\": \"Only component osb available in recall pool. IVD null, no emitter exception, but osb is the only candidate. Entry status disregarded due to absence of other candidates.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "OpenRCA-Telecom/_/task_1@2020_05_23",
+      "expected_component": "os_021",
+      "hit": false,
+      "elapsed_sec": 29.803,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 334,
+        "completion_tokens": 50,
+        "total_tokens": 384,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 334,
+            "completion_tokens": 50,
+            "total_tokens": 384
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "osb",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1590180420.0,
+        1590180480.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "The recall pool and observations point to 'osb' as the only component with anomalies. IVD is null, so no initiator verdict. 'osb' is an entry component, but since it is the only candidate with signals, it is selected as root cause.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "osb"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"osb\", \"rationale\": \"The recall pool and observations point to 'osb' as the only component with anomalies. IVD is null, so no initiator verdict. 'osb' is an entry component, but since it is the only candidate with signals, it is selected as root cause.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "OpenRCA-Telecom/_/task_7@2020_05_23",
+      "expected_component": "docker_006",
+      "hit": false,
+      "elapsed_sec": 34.835,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 335,
+        "completion_tokens": 70,
+        "total_tokens": 405,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 335,
+            "completion_tokens": 70,
+            "total_tokens": 405
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "osb",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1590256020.0,
+        1590256080.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "osb is the only component with high signal magnitude (165.8), error signature, and emitter_exception indicator (false) but since there are no other candidates, it is selected as root cause.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "osb"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"osb\", \"rationale\": \"osb is the only component with high signal magnitude (165.8), error signature, and emitter_exception indicator (false) but since there are no other candidates, it is selected as root cause.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "OpenRCA-Telecom/_/task_7@2020_05_24",
+      "expected_component": "db_007",
+      "hit": false,
+      "elapsed_sec": 47.398,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 337,
+        "completion_tokens": 56,
+        "total_tokens": 393,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 337,
+            "completion_tokens": 56,
+            "total_tokens": 393
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "osb",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1590261420.0,
+        1590261480.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "osb is the only component in the recall pool, and while it is an entry component, there are no other candidates. The high magnitude anomaly and presence of latency and workload signals suggest it is the root cause.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "osb"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"osb\", \"rationale\": \"osb is the only component in the recall pool, and while it is an entry component, there are no other candidates. The high magnitude anomaly and presence of latency and workload signals suggest it is the root cause.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "OpenRCA-Telecom/_/task_2@2020_05_24",
+      "expected_component": "docker_003",
+      "hit": false,
+      "elapsed_sec": 34.479,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 335,
+        "completion_tokens": 58,
+        "total_tokens": 393,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 335,
+            "completion_tokens": 58,
+            "total_tokens": 393
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "osb",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1590265020.0,
+        1590265080.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "Only component present and shows latency and workload anomalies, no emitter exception or storage traits.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "osb"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"osb\", \"rationale\": \"Only component present and shows latency and workload anomalies, no emitter exception or storage traits.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "OpenRCA-Telecom/_/task_2@2020_05_24",
+      "expected_component": "docker_006",
+      "hit": false,
+      "elapsed_sec": 36.257,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 334,
+        "completion_tokens": 32,
+        "total_tokens": 366,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 334,
+            "completion_tokens": 32,
+            "total_tokens": 366
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "osb",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1590342420.0,
+        1590342480.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "Only component present with error signal and source_candidate role.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "osb"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"osb\", \"rationale\": \"Only component present with error signal and source_candidate role.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "OpenRCA-Telecom/_/task_4@2020_05_25",
+      "expected_component": "os_020",
+      "hit": false,
+      "elapsed_sec": 34.723,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 337,
+        "completion_tokens": 27,
+        "total_tokens": 364,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 337,
+            "completion_tokens": 27,
+            "total_tokens": 364
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "osb",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1590349620.0,
+        1590349680.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "Only component in recall pool with latency and workload anomalies; no emitter exception or entry/storage traits disqualify it.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "osb"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"osb\", \"rationale\": \"Only component in recall pool with latency and workload anomalies; no emitter exception or entry/storage traits disqualify it.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "OpenRCA-Telecom/_/task_2@2020_05_25",
+      "expected_component": "os_017",
+      "hit": false,
+      "elapsed_sec": 35.042,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 334,
+        "completion_tokens": 38,
+        "total_tokens": 372,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 334,
+            "completion_tokens": 38,
+            "total_tokens": 372
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "osb",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1590353220.0,
+        1590353280.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "Only candidate with source_candidate role and error signature, no emitter exception or storage type.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "osb"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"osb\", \"rationale\": \"Only candidate with source_candidate role and error signature, no emitter exception or storage type.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "OpenRCA-Telecom/_/task_7@2020_05_25",
+      "expected_component": "db_003",
+      "hit": false,
+      "elapsed_sec": 38.038,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 337,
+        "completion_tokens": 33,
+        "total_tokens": 370,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 337,
+            "completion_tokens": 33,
+            "total_tokens": 370
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "osb",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1590430140.0,
+        1590430200.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "Only component with both workload feature set and high magnitude anomaly. No IVD or other candidates to disambiguate.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "osb"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"osb\", \"rationale\": \"Only component with both workload feature set and high magnitude anomaly. No IVD or other candidates to disambiguate.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "OpenRCA-Telecom/_/task_4@2020_05_26",
+      "expected_component": "db_007",
+      "hit": false,
+      "elapsed_sec": 44.342,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 330,
+        "completion_tokens": 38,
+        "total_tokens": 368,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 330,
+            "completion_tokens": 38,
+            "total_tokens": 368
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "osb",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1590431940.0,
+        1590432000.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "osb is the only candidate; it shows latency and workload anomalies, and despite being an entry component, no other component exists to be root cause.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "osb"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"osb\", \"rationale\": \"osb is the only candidate; it shows latency and workload anomalies, and despite being an entry component, no other component exists to be root cause.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "OpenRCA-Telecom/_/task_1@2020_05_26",
+      "expected_component": "docker_008",
+      "hit": false,
+      "elapsed_sec": 36.545,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 334,
+        "completion_tokens": 45,
+        "total_tokens": 379,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 334,
+            "completion_tokens": 45,
+            "total_tokens": 379
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "osb",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1590433740.0,
+        1590433800.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "osb is the only component with anomalies and no emitter exception, but since it is also an entry component, it is a traffic surface and not root cause. However, per rules, if only one candidate exists and no IVD is available, it must be selected as root cause.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "osb"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"osb\",\n  \"rationale\": \"osb is the only component with anomalies and no emitter exception, but since it is also an entry component, it is a traffic surface and not root cause. However, per rules, if only one candidate exists and no IVD is available, it must be selected as root cause.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "OpenRCA-Telecom/_/task_2@2020_05_26",
+      "expected_component": "os_021",
+      "hit": false,
+      "elapsed_sec": 33.55,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 334,
+        "completion_tokens": 75,
+        "total_tokens": 409,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 334,
+            "completion_tokens": 75,
+            "total_tokens": 409
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "osb",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1590435540.0,
+        1590435600.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD is null, but osb is the only source_candidate with emitter_exception=False. However, osb is the only component and exhibits error signals, so it is selected as root cause.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "osb"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"osb\", \"rationale\": \"IVD is null, but osb is the only source_candidate with emitter_exception=False. However, osb is the only component and exhibits error signals, so it is selected as root cause.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "OpenRCA-Telecom/_/task_4@2020_05_26",
+      "expected_component": "os_018",
+      "hit": false,
+      "elapsed_sec": 34.672,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 337,
+        "completion_tokens": 56,
+        "total_tokens": 393,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 337,
+            "completion_tokens": 56,
+            "total_tokens": 393
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "osb",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1590437700.0,
+        1590437760.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "Only component with anomalies and source_candidate role. No IVD, emitter exception, or storage/entry conflicts.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "osb"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"osb\", \"rationale\": \"Only component with anomalies and source_candidate role. No IVD, emitter exception, or storage/entry conflicts.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "OpenRCA-Telecom/_/task_3@2020_05_26",
+      "expected_component": "os_020",
+      "hit": false,
+      "elapsed_sec": 32.832,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 337,
+        "completion_tokens": 38,
+        "total_tokens": 375,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 337,
+            "completion_tokens": 38,
+            "total_tokens": 375
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "osb",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1590439500.0,
+        1590439560.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD is null, only component is osb with no emitter exception or storage indicator, and it is the only candidate in recall pool.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "osb"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"osb\", \"rationale\": \"IVD is null, only component is osb with no emitter exception or storage indicator, and it is the only candidate in recall pool.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "OpenRCA-Telecom/_/task_7@2020_05_26",
+      "expected_component": "os_001",
+      "hit": false,
+      "elapsed_sec": 34.489,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 334,
+        "completion_tokens": 43,
+        "total_tokens": 377,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 334,
+            "completion_tokens": 43,
+            "total_tokens": 377
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "osb",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1590441300.0,
+        1590441360.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "Only component in recall pool with latency and workload anomalies; no other candidates or IVD to override.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "osb"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"osb\", \"rationale\": \"Only component in recall pool with latency and workload anomalies; no other candidates or IVD to override.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "OpenRCA-Telecom/_/task_7@2020_05_26",
+      "expected_component": "docker_002",
+      "hit": false,
+      "elapsed_sec": 35.986,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 334,
+        "completion_tokens": 35,
+        "total_tokens": 369,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 334,
+            "completion_tokens": 35,
+            "total_tokens": 369
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "osb",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1590510180.0,
+        1590510240.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "osb is the only component with anomalies (latency, workload) and appears in recall pool and observations. It is the sole component with no storage/entry characteristics, and no other candidates exist.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "osb"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"osb\", \"rationale\": \"osb is the only component with anomalies (latency, workload) and appears in recall pool and observations. It is the sole component with no storage/entry characteristics, and no other candidates exist.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "OpenRCA-Telecom/_/task_4@2020_05_27",
+      "expected_component": "os_018",
+      "hit": false,
+      "elapsed_sec": 36.983,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 334,
+        "completion_tokens": 55,
+        "total_tokens": 389,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 334,
+            "completion_tokens": 55,
+            "total_tokens": 389
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "osb",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1590511980.0,
+        1590512040.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "osb is the only candidate in the recall pool, showing high latency and workload anomalies. It has no emitter exceptions or storage suffix, and no IVD provided.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "osb"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"osb\", \"rationale\": \"osb is the only candidate in the recall pool, showing high latency and workload anomalies. It has no emitter exceptions or storage suffix, and no IVD provided.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "OpenRCA-Telecom/_/task_3@2020_05_27",
+      "expected_component": "os_017",
+      "hit": false,
+      "elapsed_sec": 40.076,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 334,
+        "completion_tokens": 48,
+        "total_tokens": 382,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 334,
+            "completion_tokens": 48,
+            "total_tokens": 382
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "osb",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1590513780.0,
+        1590513840.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "osb is the only component with anomalies and it is the entry point; no other candidates exist, so it is selected as the root cause.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "osb"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"osb\", \"rationale\": \"osb is the only component with anomalies and it is the entry point; no other candidates exist, so it is selected as the root cause.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "OpenRCA-Telecom/_/task_4@2020_05_27",
+      "expected_component": "docker_006",
+      "hit": false,
+      "elapsed_sec": 39.459,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 334,
+        "completion_tokens": 44,
+        "total_tokens": 378,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 334,
+            "completion_tokens": 44,
+            "total_tokens": 378
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "osb",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1590515580.0,
+        1590515640.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "Only component in recall pool with no other candidates to disambiguate; no emitter exception or storage anomaly present.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "osb"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"osb\", \"rationale\": \"Only component in recall pool with no other candidates to disambiguate; no emitter exception or storage anomaly present.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "OpenRCA-Telecom/_/task_6@2020_05_27",
+      "expected_component": "db_003",
+      "hit": false,
+      "elapsed_sec": 41.499,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 303,
+        "completion_tokens": 37,
+        "total_tokens": 340,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 303,
+            "completion_tokens": 37,
+            "total_tokens": 340
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "osb",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1590517380.0,
+        1590517440.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "Only component in recall pool with workload signature anomaly. No IVD or emitter exceptions; osb is the sole candidate despite being entry-like.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "osb"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"osb\", \"rationale\": \"Only component in recall pool with workload signature anomaly. No IVD or emitter exceptions; osb is the sole candidate despite being entry-like.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "OpenRCA-Telecom/_/task_6@2020_05_27",
+      "expected_component": "db_007",
+      "hit": false,
+      "elapsed_sec": 40.614,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 330,
+        "completion_tokens": 43,
+        "total_tokens": 373,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 330,
+            "completion_tokens": 43,
+            "total_tokens": 373
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "osb",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1590519180.0,
+        1590519240.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "osb is the only component with high magnitude anomaly (mag=10.7) and matches recall pool; IVD null, no emitter exceptions, and no storage/entry rules apply.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "osb"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"osb\", \"rationale\": \"osb is the only component with high magnitude anomaly (mag=10.7) and matches recall pool; IVD null, no emitter exceptions, and no storage/entry rules apply.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "OpenRCA-Telecom/_/task_7@2020_05_27",
+      "expected_component": "db_007",
+      "hit": false,
+      "elapsed_sec": 38.63,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 330,
+        "completion_tokens": 53,
+        "total_tokens": 383,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 330,
+            "completion_tokens": 53,
+            "total_tokens": 383
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "osb",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1590527340.0,
+        1590527400.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD not available; only candidate is osb, which is listed as entry component but no other components exist. Anomaly signals present in latency and workload. Since this is the sole component with anomalies, it is selected as root cause.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "osb"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"osb\", \"rationale\": \"IVD not available; only candidate is osb, which is listed as entry component but no other components exist. Anomaly signals present in latency and workload. Since this is the sole component with anomalies, it is selected as root cause.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "OpenRCA-Telecom/_/task_6@2020_05_27",
+      "expected_component": "docker_001",
+      "hit": false,
+      "elapsed_sec": 35.723,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 334,
+        "completion_tokens": 64,
+        "total_tokens": 398,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 334,
+            "completion_tokens": 64,
+            "total_tokens": 398
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "osb",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1590529140.0,
+        1590529200.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "Only component 'osb' is present, identified as both entry and propagation symptom with latency and workload anomalies, and ivd is null. Despite being an entry-like component, no other candidates exist, so it is chosen as root cause.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "osb"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"osb\", \"rationale\": \"Only component 'osb' is present, identified as both entry and propagation symptom with latency and workload anomalies, and ivd is null. Despite being an entry-like component, no other candidates exist, so it is chosen as root cause.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "OpenRCA-Telecom/_/task_4@2020_05_27",
+      "expected_component": "os_021",
+      "hit": false,
+      "elapsed_sec": 35.364,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 334,
+        "completion_tokens": 63,
+        "total_tokens": 397,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 334,
+            "completion_tokens": 63,
+            "total_tokens": 397
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "osb",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1590598020.0,
+        1590598080.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "Only component in recall pool and all observations point to it; no IVD data available; no emitter exception, but no other candidates exist.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "osb"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"osb\", \"rationale\": \"Only component in recall pool and all observations point to it; no IVD data available; no emitter exception, but no other candidates exist.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "OpenRCA-Telecom/_/task_2@2020_05_28",
+      "expected_component": "docker_001",
+      "hit": false,
+      "elapsed_sec": 38.983,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 334,
+        "completion_tokens": 43,
+        "total_tokens": 377,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 334,
+            "completion_tokens": 43,
+            "total_tokens": 377
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "osb",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1590608820.0,
+        1590608880.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "Only candidate, entry component but no alternative initiator; IVD null, must select.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "osb"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"osb\", \"rationale\": \"Only candidate, entry component but no alternative initiator; IVD null, must select.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "OpenRCA-Telecom/_/task_2@2020_05_28",
+      "expected_component": "os_018",
+      "hit": false,
+      "elapsed_sec": 36.741,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 334,
+        "completion_tokens": 33,
+        "total_tokens": 367,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 334,
+            "completion_tokens": 33,
+            "total_tokens": 367
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "osb",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1590689460.0,
+        1590689520.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "Only component with anomaly, no IVD, no emitter exception, high magnitude.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "osb"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"osb\", \"rationale\": \"Only component with anomaly, no IVD, no emitter exception, high magnitude.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "OpenRCA-Telecom/_/task_3@2020_05_29",
+      "expected_component": "db_003",
+      "hit": false,
+      "elapsed_sec": 38.451,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 330,
+        "completion_tokens": 31,
+        "total_tokens": 361,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 330,
+            "completion_tokens": 31,
+            "total_tokens": 361
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "osb",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1590691260.0,
+        1590691320.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "Only component in recall pool with significant anomaly magnitude (4.4) and workload signal.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "osb"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"osb\", \"rationale\": \"Only component in recall pool with significant anomaly magnitude (4.4) and workload signal.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "OpenRCA-Telecom/_/task_2@2020_05_29",
+      "expected_component": "docker_008",
+      "hit": false,
+      "elapsed_sec": 32.499,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 330,
+        "completion_tokens": 33,
+        "total_tokens": 363,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 330,
+            "completion_tokens": 33,
+            "total_tokens": 363
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "osb",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1590694860.0,
+        1590694920.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "osb is the only candidate in the recall pool, with latency and workload anomalies. No IVD verdict present, no emitter exceptions or storage roles. Although osb is an entry component, the lack of other candidates forces selection.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "osb"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"osb\", \"rationale\": \"osb is the only candidate in the recall pool, with latency and workload anomalies. No IVD verdict present, no emitter exceptions or storage roles. Although osb is an entry component, the lack of other candidates forces selection.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "OpenRCA-Telecom/_/task_1@2020_05_29",
+      "expected_component": "docker_001",
+      "hit": false,
+      "elapsed_sec": 28.98,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 334,
+        "completion_tokens": 61,
+        "total_tokens": 395,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 334,
+            "completion_tokens": 61,
+            "total_tokens": 395
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "osb",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1590768780.0,
+        1590768840.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "Only component 'osb' is present with high magnitude (635.3) and anomalies in error/latency/workload; no IVD initiator, no emitter exception, no storage or entry conflict, so it is selected as the root cause.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "osb"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"osb\", \"rationale\": \"Only component 'osb' is present with high magnitude (635.3) and anomalies in error/latency/workload; no IVD initiator, no emitter exception, no storage or entry conflict, so it is selected as the root cause.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "OpenRCA-Telecom/_/task_5@2020_05_30",
+      "expected_component": "os_021",
+      "hit": false,
+      "elapsed_sec": 42.544,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 337,
+        "completion_tokens": 66,
+        "total_tokens": 403,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 337,
+            "completion_tokens": 66,
+            "total_tokens": 403
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "osb",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1590777780.0,
+        1590777840.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "osb is the only component in the recall pool and shows error, latency, and workload anomalies, with no emitter exception or storage indicators.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "osb"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"osb\", \"rationale\": \"osb is the only component in the recall pool and shows error, latency, and workload anomalies, with no emitter exception or storage indicators.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "OpenRCA-Telecom/_/task_6@2020_05_30",
+      "expected_component": "os_009",
+      "hit": false,
+      "elapsed_sec": 34.699,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 337,
+        "completion_tokens": 43,
+        "total_tokens": 380,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 337,
+            "completion_tokens": 43,
+            "total_tokens": 380
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "osb",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1590781380.0,
+        1590781440.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "Only component in recall_pool; IVD signal absent; osb is the sole candidate.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "osb"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"osb\",\n  \"rationale\": \"Only component in recall_pool; IVD signal absent; osb is the sole candidate.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "OpenRCA-Telecom/_/task_5@2020_05_30",
+      "expected_component": "os_020",
+      "hit": false,
+      "elapsed_sec": 34.081,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 334,
+        "completion_tokens": 37,
+        "total_tokens": 371,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 334,
+            "completion_tokens": 37,
+            "total_tokens": 371
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "osb",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1590783180.0,
+        1590783240.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "Only component osb present with latency and workload anomalies, and it is the sole candidate.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "osb"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"osb\", \"rationale\": \"Only component osb present with latency and workload anomalies, and it is the sole candidate.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "OpenRCA-Telecom/_/task_1@2020_05_30",
+      "expected_component": "docker_002",
+      "hit": false,
+      "elapsed_sec": 36.72,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 334,
+        "completion_tokens": 33,
+        "total_tokens": 367,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 334,
+            "completion_tokens": 33,
+            "total_tokens": 367
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "osb",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1590786780.0,
+        1590786840.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "Only component in recall pool with latency and workload anomalies, and no other candidates available.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "osb"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"osb\", \"rationale\": \"Only component in recall pool with latency and workload anomalies, and no other candidates available.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "OpenRCA-Telecom/_/task_6@2020_05_30",
+      "expected_component": "os_018",
+      "hit": false,
+      "elapsed_sec": 38.734,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 334,
+        "completion_tokens": 32,
+        "total_tokens": 366,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 334,
+            "completion_tokens": 32,
+            "total_tokens": 366
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "osb",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1590864420.0,
+        1590864480.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "Only component in recall pool; no IVD, no storage, no emitter exception; must be root cause.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "osb"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"osb\",\n  \"rationale\": \"Only component in recall pool; no IVD, no storage, no emitter exception; must be root cause.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "OpenRCA-Telecom/_/task_3@2020_05_31",
+      "expected_component": "os_021",
+      "hit": false,
+      "elapsed_sec": 41.473,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 334,
+        "completion_tokens": 40,
+        "total_tokens": 374,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 334,
+            "completion_tokens": 40,
+            "total_tokens": 374
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "osb",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1590866220.0,
+        1590866280.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "Only component osb is available in the recall pool with no emitter exception or storage indicators, and it is an entry component. Despite being an entry component, it is the only candidate and must be selected.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "osb"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"osb\",\n  \"rationale\": \"Only component osb is available in the recall pool with no emitter exception or storage indicators, and it is an entry component. Despite being an entry component, it is the only candidate and must be selected.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "OpenRCA-Telecom/_/task_1@2020_05_31",
+      "expected_component": "os_017",
+      "hit": false,
+      "elapsed_sec": 30.082,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 338,
+        "completion_tokens": 59,
+        "total_tokens": 397,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 338,
+            "completion_tokens": 59,
+            "total_tokens": 397
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "osb",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1590868020.0,
+        1590868080.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "Only component with anomaly; entry-like but no other candidates.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "osb"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"osb\", \"rationale\": \"Only component with anomaly; entry-like but no other candidates.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "OpenRCA-Telecom/_/task_1@2020_05_31",
+      "expected_component": "db_003",
+      "hit": false,
+      "elapsed_sec": 30.586,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 330,
+        "completion_tokens": 27,
+        "total_tokens": 357,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 330,
+            "completion_tokens": 27,
+            "total_tokens": 357
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "osb",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1590869820.0,
+        1590869880.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "The only candidate osb is an entry component, but there are no other components in the system. It has emitter_exception=False and no anomalies, yet it is the sole component with error/latency/workload anomalies, so it is the root cause by default.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "osb"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"osb\", \"rationale\": \"The only candidate osb is an entry component, but there are no other components in the system. It has emitter_exception=False and no anomalies, yet it is the sole component with error/latency/workload anomalies, so it is the root cause by default.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "OpenRCA-Telecom/_/task_5@2020_05_31",
+      "expected_component": "docker_004",
+      "hit": false,
+      "elapsed_sec": 32.248,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 337,
+        "completion_tokens": 69,
+        "total_tokens": 406,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 337,
+            "completion_tokens": 69,
+            "total_tokens": 406
+          }
+        }
+      }
+    }
+  ]
+}

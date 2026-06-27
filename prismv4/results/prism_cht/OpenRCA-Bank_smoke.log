@@ -1,0 +1,35 @@
+OpenRCA-Bank/_/task_1@2021_03_04: predicted=Tomcat01 expected=Mysql02 hit=False tokens=188899 error=None
+OpenRCA-Bank/_/task_6@2021_03_04: predicted=Tomcat04 expected=Redis02 hit=False tokens=158465 error=None
+{
+  "dataset": "OpenRCA",
+  "system": "OpenRCA-Bank",
+  "mode": "continuous-noise-native-event-causalizer",
+  "total_cases": 2,
+  "top1_accuracy": 0.0,
+  "top1_hits": 0,
+  "recall_pool_size": 15,
+  "max_hypotheses": 10,
+  "elapsed_sec": 1098.488,
+  "cost": {
+    "total_calls": 12,
+    "total_prompt_tokens": 260007,
+    "total_completion_tokens": 87357,
+    "total_tokens": 347364,
+    "avg_tokens_per_case": 173682,
+    "by_purpose": {
+      "event_causalizer_state_update": {
+        "call_count": 2,
+        "prompt_tokens": 41831,
+        "completion_tokens": 40221,
+        "total_tokens": 82052
+      },
+      "continuous_noise_native_state_update": {
+        "call_count": 10,
+        "prompt_tokens": 218176,
+        "completion_tokens": 47136,
+        "total_tokens": 265312
+      }
+    }
+  }
+}
+wrote prismv4/results/prism_cht/OpenRCA-Bank_smoke.json

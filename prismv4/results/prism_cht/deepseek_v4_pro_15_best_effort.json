@@ -1,0 +1,433 @@
+{
+  "dataset": "RCAEval",
+  "system": "RE3-OB",
+  "mode": "llm-provider",
+  "total_cases": 15,
+  "top1_accuracy": 0.4,
+  "top1_hits": 6,
+  "elapsed_sec": 5445.812,
+  "results": [
+    {
+      "status": "best_effort_final",
+      "hypothesis_id": "H2-adservice-service-error",
+      "predicted_component": "adservice",
+      "reason_family": "service error",
+      "onset_interval": [
+        1731903930.0,
+        1731903990.0
+      ],
+      "rounds_completed": 4,
+      "challenge_status": "challenge_inconclusive",
+      "evidence_count": 5,
+      "referenced_evidence_ids": [
+        "evidence:03b9be85d8842f375799cb9dba2d45613479113670fd38165d69906d57a1e510",
+        "evidence:8726cbc7cf380f4486b06fdf0f9fa6809d7f3117ce5056470f2e01396cf226ab"
+      ],
+      "best_effort_rationale": "Onset tie between adservice and frontend, but reason signature evidence shows adservice has significantly larger magnitude (934M vs 667M) and frontend logs show 'failed to retrieve ads', pointing to adservice as the failure source. Despite lack of trace path, the local service error signature and dependency pattern make adservice the most likely root cause.",
+      "best_effort_uncertainties": [
+        "No trace path found from adservice to frontend",
+        "Propagation checks inconclusive",
+        "Challenge against H3 was inconclusive due to missing propagation",
+        "Onset tie makes temporal ordering ambiguous"
+      ],
+      "best_effort_terminal_reason": "challenge did not produce survived_challenge; forcing the model to choose the most likely current root cause",
+      "case_id": "RE3-OB/adservice_f3/1",
+      "expected_component": "adservice",
+      "hit": true,
+      "elapsed_sec": 491.674,
+      "error": null
+    },
+    {
+      "status": "best_effort_final",
+      "hypothesis_id": "H5-shippingservice-latency-degradation",
+      "predicted_component": "shippingservice",
+      "reason_family": "latency degradation",
+      "onset_interval": [
+        1732275169.0,
+        1732275229.0
+      ],
+      "rounds_completed": 1,
+      "challenge_status": "challenge_inconclusive",
+      "evidence_count": 2,
+      "referenced_evidence_ids": [
+        "evidence:429ea4d371aadf118f9035a42591f35556a130eb9723d8722d21bbae0640e506"
+      ],
+      "best_effort_rationale": "Earliest onset across components supports shippingservice as root cause. Challenge propagation test inconclusive but did not falsify hypothesis.",
+      "best_effort_uncertainties": [
+        "No observed propagation path from shippingservice to frontend, which could indicate it is not the true root cause."
+      ],
+      "best_effort_terminal_reason": "challenge did not produce survived_challenge; forcing the model to choose the most likely current root cause",
+      "case_id": "RE3-OB/adservice_f3/2",
+      "expected_component": "adservice",
+      "hit": false,
+      "elapsed_sec": 176.075,
+      "error": null
+    },
+    {
+      "status": "best_effort_final",
+      "hypothesis_id": "H3-frontend-latency-degradation",
+      "predicted_component": "frontend",
+      "reason_family": "latency degradation",
+      "onset_interval": [
+        1732363968.0,
+        1732364028.0
+      ],
+      "rounds_completed": 3,
+      "challenge_status": "challenge_inconclusive",
+      "evidence_count": 4,
+      "referenced_evidence_ids": [
+        "evidence:bfeababd2929fdb16e341e004eb8ea2342659b688216e6cab482eb9e6fba1ff2",
+        "evidence:8640f2717b72c071d9adc0d90e19a0658d751ae16cc2e8748309b87c5f6d7ec1",
+        "evidence:64911415840428bdbe14971bb54c4cda07b589ae684ec776e4b77b07cfc79ced"
+      ],
+      "best_effort_rationale": "Frontend tied for earliest onset at 1732363998, exhibited a strongly dominant latency degradation reason signature (magnitude 525 vs. paymentservice's 42), and propagation from frontend to paymentservice was confirmed (5 paths). Competitors were weakened by later onset, weaker signatures, or being downstream. Despite an inconclusive raw metric challenge, the preponderance of evidence supports frontend as the root cause.",
+      "best_effort_uncertainties": [
+        "Raw metric retrieval was inconclusive, missing explicit verification of latency spikes, though available frontend metrics (memory drop, cpu drop, workload rise) are consistent with latency degradation.",
+        "Frontend's latency onset is relatively late (1732364219), but earlier memory and cpu anomalies align with the degradation mechanism."
+      ],
+      "best_effort_terminal_reason": "challenge did not produce survived_challenge; forcing the model to choose the most likely current root cause",
+      "case_id": "RE3-OB/adservice_f3/3",
+      "expected_component": "adservice",
+      "hit": false,
+      "elapsed_sec": 304.664,
+      "error": null
+    },
+    {
+      "status": "best_effort_final",
+      "hypothesis_id": "H2-adservice-service-error",
+      "predicted_component": "adservice",
+      "reason_family": "service error",
+      "onset_interval": [
+        1731905483.0,
+        1731905543.0
+      ],
+      "rounds_completed": 4,
+      "challenge_status": "returned_to_lead",
+      "evidence_count": 5,
+      "referenced_evidence_ids": [
+        "evidence:35de530ae227bc04a5c208c10e0197f7da790ea819af15bc53786fda6bee3f62",
+        "evidence:7e70aab53eead914ac740a12096df909f6bad38e69fd6c1e4e14dc564670a639"
+      ],
+      "best_effort_rationale": "Despite a slightly later onset (1731905513) compared to some components, adservice shows a massive service error signature (magnitude 667003479) with NullPointerException logs and latency increase. Frontend logs 'failed to retrieve ads', directly implicating adservice. The challenge refuted H1 (redis) by showing no trace path to frontend, leaving adservice as the most plausible root cause. Other hypotheses are weakened by later onset, unexplained symptoms, or weak signatures.",
+      "best_effort_uncertainties": [
+        "Adservice onset is 9 seconds later than earliest deviations (redis memory at 1731905504); an earlier undetected adservice anomaly is possible.",
+        "No direct trace path from adservice to frontend was verified, though dependency is inferred from logs.",
+        "Redis memory changes remain unexplained and could be a secondary effect."
+      ],
+      "best_effort_terminal_reason": "challenge did not produce survived_challenge; forcing the model to choose the most likely current root cause",
+      "case_id": "RE3-OB/adservice_f4/1",
+      "expected_component": "adservice",
+      "hit": true,
+      "elapsed_sec": 617.127,
+      "error": null
+    },
+    {
+      "status": "best_effort_final",
+      "hypothesis_id": "H1-redis-cpu-saturation",
+      "predicted_component": "redis",
+      "reason_family": "cpu saturation",
+      "onset_interval": [
+        1732276713.0,
+        1732276773.0
+      ],
+      "rounds_completed": 4,
+      "challenge_status": null,
+      "evidence_count": 4,
+      "referenced_evidence_ids": [
+        "evidence:0102b5ec76068c0fe5759cd4a66edb0bb031721ea92499df675de36cfacfd439",
+        "evidence:c87fb9242172b2cdfd91f1565e94da50728ba6ecd34fb398446abbea18bd586c"
+      ],
+      "best_effort_rationale": "Redis and cartservice share the earliest onset, but redis has an extremely high reason signature magnitude (1.34e14) for CPU saturation, far exceeding cartservice's minor latency degradation (magnitude 33). This indicates redis is the primary faulty component, with cartservice likely experiencing downstream effects. Weakened hypotheses H2-H4 have later onsets, and no evidence refutes H1.",
+      "best_effort_uncertainties": [
+        "Missing propagation traces between redis and cartservice",
+        "Onset time tie with cartservice leaves some ambiguity"
+      ],
+      "best_effort_terminal_reason": "NominationRejectedError: Addressed competitor 'H5-cartservice-latency-degradation' has status 'supported', must be WEAKENED or REFUTED",
+      "case_id": "RE3-OB/adservice_f4/2",
+      "expected_component": "adservice",
+      "hit": false,
+      "elapsed_sec": 300.361,
+      "error": null
+    },
+    {
+      "status": "best_effort_final",
+      "hypothesis_id": "H3-frontend-latency-degradation",
+      "predicted_component": "frontend",
+      "reason_family": "latency degradation",
+      "onset_interval": [
+        1732365521.0,
+        1732365581.0
+      ],
+      "rounds_completed": 4,
+      "challenge_status": null,
+      "evidence_count": 4,
+      "referenced_evidence_ids": [
+        "evidence:750380d44574bb932a91afbc1c3563962372dd4bf8b817056ee650da3bcdde47",
+        "evidence:107c5c17ee776cb6cbc29d285d738a28006a6aafe2b630b0b8fa5ef1678165df",
+        "evidence:6524ebc31ea5ab6a9ce0a6349eaa427b0fe11b26fe51cb41b50a7b346ef3c86b"
+      ],
+      "best_effort_rationale": "H3 is the only fully supported hypothesis with no contradicting evidence. Propagation analysis shows no inbound paths to frontend, consistent with it being the root. Onset order places frontend latency near the early symptom window, and its reason signature includes direct log errors. Competing hypotheses (H1, H2, H4, H5) are weakened by later onsets, weaker signatures, or propagation contradictions.",
+      "best_effort_uncertainties": [
+        "Frontend logs contain 'failed to retrieve ads' suggesting adservice dependency, yet propagation tool found no path from adservice to frontend—possible tool limitation or indirect dependency.",
+        "Magnitude of frontend latency is lower than adservice error magnitude, raising ambiguity about localization."
+      ],
+      "best_effort_terminal_reason": "NominationRejectedError: Addressed competitor 'H3-frontend-latency-degradation' has status 'supported', must be WEAKENED or REFUTED",
+      "case_id": "RE3-OB/adservice_f4/3",
+      "expected_component": "adservice",
+      "hit": false,
+      "elapsed_sec": 439.346,
+      "error": null
+    },
+    {
+      "status": "best_effort_final",
+      "hypothesis_id": "H2-adservice-service-error",
+      "predicted_component": "adservice",
+      "reason_family": "service error",
+      "onset_interval": [
+        1731907018.0,
+        1731907078.0
+      ],
+      "rounds_completed": 4,
+      "challenge_status": null,
+      "evidence_count": 4,
+      "referenced_evidence_ids": [
+        "evidence:1ea31cf15ede196575bf07d2e8ec4030606f42994cd785357feffbb0f2a19358",
+        "evidence:e107ba23ba61cefe6388b7e94fae643f3020983d537b80a6808efe1a3750d0b0"
+      ],
+      "best_effort_rationale": "Adservice shows extremely strong local service error (magnitude 1.67e9) with port-binding failure logs, indicating a clear initiating fault. Frontend errors ('failed to retrieve ads') align with adservice unavailability, making it the likely downstream symptom. Despite no explicit propagation path found, the log semantics and severity point to adservice as root.",
+      "best_effort_uncertainties": [
+        "Propagation tool found no adservice→frontend path, potentially missing a causal link or suggesting an alternative frontend/network root.",
+        "Adservice's error onset at 1731907066 is slightly later than initial workload deviation at 1731907048, which could imply an upstream trigger."
+      ],
+      "best_effort_terminal_reason": "NominationRejectedError: Nominated hypothesis 'H3-frontend-service-error' has status 'active', must be SUPPORTED",
+      "case_id": "RE3-OB/adservice_f5/1",
+      "expected_component": "adservice",
+      "hit": true,
+      "elapsed_sec": 382.103,
+      "error": null
+    },
+    {
+      "status": "best_effort_final",
+      "hypothesis_id": "H1-redis-cpu-saturation",
+      "predicted_component": "redis",
+      "reason_family": "cpu saturation",
+      "onset_interval": [
+        1732278257.0,
+        1732278317.0
+      ],
+      "rounds_completed": 4,
+      "challenge_status": "challenge_inconclusive",
+      "evidence_count": 5,
+      "referenced_evidence_ids": [
+        "evidence:21e09d12de0ef39b5e0114d078ebdc2d224118bf0d6f2f609c4970021992788d",
+        "evidence:1bcdc3c682eeaa74664fafc5b33715319fbccbcab75b8e1fd7611072258fe11d",
+        "evidence:09fe3bba65a93cf3dd51c18d1a0328c6e5f36ffb239e035bff4f38ebbc878bdb"
+      ],
+      "best_effort_rationale": "Redis cpu saturation has an earliest onset (1732278287) and an extremely high reason-signature magnitude (1.03e14), indicating a strong local root cause. In contrast, recommendationservice's latency degradation magnitude is negligible (68.4), making it an unlikely primary fault. The challenge evidence reveals many unexplained symptoms if recommendationservice were the root, further weakening its candidacy. Although no trace path from redis to recommendationservice was found, the massive local anomaly and widespread impact across components make redis the most plausible initiating failure.",
+      "best_effort_uncertainties": [
+        "No direct or indirect trace path from redis to recommendationservice observed; propagation to that specific component is unconfirmed.",
+        "The challenge tool (find_unexplained_symptoms) returned symptoms without detailed analysis, leaving some ambiguity about the full propagation graph."
+      ],
+      "best_effort_terminal_reason": "challenge did not produce survived_challenge; forcing the model to choose the most likely current root cause",
+      "case_id": "RE3-OB/adservice_f5/2",
+      "expected_component": "adservice",
+      "hit": false,
+      "elapsed_sec": 360.754,
+      "error": null
+    },
+    {
+      "status": "best_effort_final",
+      "hypothesis_id": "H4-checkoutservice-latency-degradation",
+      "predicted_component": "checkoutservice",
+      "reason_family": "latency degradation",
+      "onset_interval": [
+        1732367056.0,
+        1732367116.0
+      ],
+      "rounds_completed": 4,
+      "challenge_status": "challenge_inconclusive",
+      "evidence_count": 5,
+      "referenced_evidence_ids": [
+        "evidence:16d796810eadf68976e0077441da85edf0dbc57b8ef55a9ce49ad9d979af0f38",
+        "evidence:7566cd0382052c4a5463d15c7ab941983700606b811234a5f774049254f734a2"
+      ],
+      "best_effort_rationale": "Checkoutservice latency degradation exhibits earliest onset (tied) and a strong local mechanism signature, making it the most plausible initiating fault. Competing hypotheses (H1, H2, H3, H5) are weakened by later onset or missing propagation evidence.",
+      "best_effort_uncertainties": [
+        "No propagation path observed from checkoutservice to frontend, challenging root-cause status.",
+        "Redis cpu saturation also has an early onset but lacks trace propagation to downstream components.",
+        "The exact causal chain remains unresolved; checkoutservice may still be a symptom rather than the root."
+      ],
+      "best_effort_terminal_reason": "challenge did not produce survived_challenge; forcing the model to choose the most likely current root cause",
+      "case_id": "RE3-OB/adservice_f5/3",
+      "expected_component": "adservice",
+      "hit": false,
+      "elapsed_sec": 427.325,
+      "error": null
+    },
+    {
+      "status": "best_effort_final",
+      "hypothesis_id": "H4-currencyservice-latency-degradation",
+      "predicted_component": "currencyservice",
+      "reason_family": "latency degradation",
+      "onset_interval": [
+        1731908562.0,
+        1731908622.0
+      ],
+      "rounds_completed": 4,
+      "challenge_status": null,
+      "evidence_count": 4,
+      "referenced_evidence_ids": [
+        "evidence:b06991ecbfdfe2197e2dd1f06e783568e13388f294cbd99a3073b9582a401a6e",
+        "evidence:8006706b7feecd922919bd8d2a24886cf292693a76bf85593d6e475c9a648f12"
+      ],
+      "best_effort_rationale": "Currencyservice shows earliest onset (1731908592.0, tied with recommendationservice) but has a significantly stronger reason signature (magnitude 59.25 vs 46.47), indicating a more intense local latency degradation. This breaks the onset tie and points to currencyservice as the initiating component, despite inconclusive propagation paths.",
+      "best_effort_uncertainties": [
+        "Propagation path from currencyservice to frontend not directly observed",
+        "Onset tie with recommendationservice creates residual ambiguity",
+        "Case fault name 'cartservice_f1' suggests cartservice, but evidence places it downstream"
+      ],
+      "best_effort_terminal_reason": "NominationRejectedError: Addressed competitor 'H5-recommendationservice-latency-degradation' has status 'supported', must be WEAKENED or REFUTED",
+      "case_id": "RE3-OB/cartservice_f1/1",
+      "expected_component": "cartservice",
+      "hit": false,
+      "elapsed_sec": 364.464,
+      "error": null
+    },
+    {
+      "status": "best_effort_final",
+      "hypothesis_id": "H3-cartservice-latency-degradation",
+      "predicted_component": "cartservice",
+      "reason_family": "latency degradation",
+      "onset_interval": [
+        1732279809.0,
+        1732279869.0
+      ],
+      "rounds_completed": 4,
+      "challenge_status": "challenge_inconclusive",
+      "evidence_count": 5,
+      "referenced_evidence_ids": [
+        "evidence:3a29ce9c5da848be282c5dca0723196e0b258b05e89bf4c17acaf08fd30ff918",
+        "evidence:faeeeec5c579d2c198044c3879a0c5ea82d64eded49f087e5866e5e6d4ebceb8"
+      ],
+      "best_effort_rationale": "H4 nomination refuted by missing checkoutservice→frontend propagation; H5 weakened by missing adservice→checkoutservice trace. Fault name 'cartservice_f1' strongly suggests cartservice root cause. Cartservice exhibits latency degradation with relevant symptoms (latency, memory, CPU changes), consistent with its reason family. Earlier onsets in adservice/checkoutservice may be pre-existing or secondary, and cartservice’s onset delay could reflect monitoring lag or fault manifestation timing.",
+      "best_effort_uncertainties": [
+        "Cartservice onset (1732279839) is later than adservice/checkoutservice (1732279831), contradicting temporal precedence heuristics.",
+        "No direct propagation evidence from cartservice to frontend was tested.",
+        "Reliance on fault name as a strong prior may bias the decision."
+      ],
+      "best_effort_terminal_reason": "challenge did not produce survived_challenge; forcing the model to choose the most likely current root cause",
+      "case_id": "RE3-OB/cartservice_f1/2",
+      "expected_component": "cartservice",
+      "hit": true,
+      "elapsed_sec": 412.551,
+      "error": null
+    },
+    {
+      "status": "best_effort_final",
+      "hypothesis_id": "H3-cartservice-latency-degradation",
+      "predicted_component": "cartservice",
+      "reason_family": "latency degradation",
+      "onset_interval": [
+        1732368600.0,
+        1732368660.0
+      ],
+      "rounds_completed": 4,
+      "challenge_status": null,
+      "evidence_count": 4,
+      "referenced_evidence_ids": [
+        "evidence:0db41130a2ad436215cdcea8c992eb650121d870b59662c972dc70bd3b87d7b1",
+        "evidence:d902f3c0a9114618ca7d087ba5d6c648e3127cd31c26dc8c74054952580217bc"
+      ],
+      "best_effort_rationale": "Cartservice shows extraordinarily strong latency degradation reason signature (magnitude 4828) with error logs indicating storage access failure, making it the most likely initiating component. Other components have weak or contradictory signatures. Onset times are among the earliest.",
+      "best_effort_uncertainties": [
+        "Propagation paths from cartservice to downstream services were not observed, which may indicate incomplete trace data or a more complex interaction. Redis saturation could be a contributing factor, but its local anomaly is weak."
+      ],
+      "best_effort_terminal_reason": "NominationRejectedError: Nominated hypothesis 'H3-cartservice-latency-degradation' has status 'weakened', must be SUPPORTED",
+      "case_id": "RE3-OB/cartservice_f1/3",
+      "expected_component": "cartservice",
+      "hit": true,
+      "elapsed_sec": 380.023,
+      "error": null
+    },
+    {
+      "status": "best_effort_final",
+      "hypothesis_id": "H3-currencyservice-latency-degradation",
+      "predicted_component": "currencyservice",
+      "reason_family": "latency degradation",
+      "onset_interval": [
+        1731910105.0,
+        1731910165.0
+      ],
+      "rounds_completed": 2,
+      "challenge_status": "challenge_inconclusive",
+      "evidence_count": 3,
+      "referenced_evidence_ids": [
+        "evidence:a4bfa8bef859b92f1d5e7e9058602a5d84e5aa374506ea19afdd8da2b22ca407",
+        "evidence:ea3ddd1aacf7d9c6fb40c71ef65f76b926551ddfc6522ea93d570fca5f37fc75"
+      ],
+      "best_effort_rationale": "Currencyservice ties with adservice for earliest onset (1731910135), but shows earlier memory change and higher magnitude, suggesting it is more likely the initiator. Propagation from both to frontend is absent, but the challenge evidence weakening H5 shifts preference to H3, consistent with the fault name currencyservice_f1.",
+      "best_effort_uncertainties": [
+        "Propagation evidence from currencyservice to downstream components is missing, weakening the hypothesis.",
+        "Adservice could still be the root cause with similar onset time, and the tie cannot be fully resolved.",
+        "The true root cause might involve a different mechanism not captured by the current hypotheses."
+      ],
+      "best_effort_terminal_reason": "challenge did not produce survived_challenge; forcing the model to choose the most likely current root cause",
+      "case_id": "RE3-OB/currencyservice_f1/1",
+      "expected_component": "currencyservice",
+      "hit": true,
+      "elapsed_sec": 294.654,
+      "error": null
+    },
+    {
+      "status": "best_effort_final",
+      "hypothesis_id": "H2-frontend-service-error",
+      "predicted_component": "frontend",
+      "reason_family": "service error",
+      "onset_interval": [
+        1732281345.0,
+        1732281405.0
+      ],
+      "rounds_completed": 4,
+      "challenge_status": null,
+      "evidence_count": 4,
+      "referenced_evidence_ids": [
+        "evidence:368c4f4ce96fd4114e4ab69d3de2267fe5e771b97796a8aa5fcd55cd46f6312f",
+        "evidence:ddd283b212d4f9a93464f305f4a52a2538a6d201feb43ccdae54a9eaf258bd0a"
+      ],
+      "best_effort_rationale": "Frontend shows the earliest onset (tied with currencyservice and checkoutservice) and a reason-signature magnitude five orders larger than others, indicating a massive local service error. Trace paths confirm frontend calls currencyservice, supporting frontend as the initiator of the anomaly cascade.",
+      "best_effort_uncertainties": [
+        "Onset tie with currencyservice and checkoutservice leaves residual ambiguity",
+        "H4-checkoutservice remains active without direct evidence, not fully refuted",
+        "Propagation path from currencyservice to frontend was checked and found none, but that does not implicate checkoutservice"
+      ],
+      "best_effort_terminal_reason": "NominationRejectedError: Addressed competitor 'H4-checkoutservice-latency-degradation' has status 'active', must be WEAKENED or REFUTED",
+      "case_id": "RE3-OB/currencyservice_f1/2",
+      "expected_component": "currencyservice",
+      "hit": false,
+      "elapsed_sec": 337.867,
+      "error": null
+    },
+    {
+      "status": "final_verified",
+      "hypothesis_id": "H5-checkoutservice-latency-degradation",
+      "predicted_component": "checkoutservice",
+      "reason_family": "latency degradation",
+      "onset_interval": [
+        1732370144.0,
+        1732370204.0
+      ],
+      "rounds_completed": 1,
+      "challenge_status": "survived_challenge",
+      "evidence_count": 2,
+      "referenced_evidence_ids": [
+        "evidence:a060e62b239ee94409a1db8d7488789ba7189c8288823d8abaed6fe4fe2b2f80",
+        "evidence:fa86467a3f15d2660139188d6d88ea55c55900f0257cf162fb09ef7decb9a734"
+      ],
+      "case_id": "RE3-OB/currencyservice_f1/3",
+      "expected_component": "currencyservice",
+      "hit": false,
+      "elapsed_sec": 156.822,
+      "error": null
+    }
+  ]
+}

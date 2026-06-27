@@ -1,0 +1,644 @@
+{
+  "dataset": "RCAEval",
+  "system": "RE3-TT",
+  "mode": "continuous-noise-native-event-causalizer",
+  "total_cases": 1,
+  "top1_accuracy": 1.0,
+  "top1_hits": 1,
+  "recall_pool_size": 15,
+  "max_hypotheses": 10,
+  "elapsed_sec": 821.643,
+  "results": [
+    {
+      "status": "continuous_final",
+      "hypothesis_id": "H1-ts-auth-service-latency-degradation",
+      "predicted_component": "ts-auth-service",
+      "reason_family": "latency degradation",
+      "onset_interval": [
+        1733591917.0,
+        1733591977.0
+      ],
+      "steps_completed": 4,
+      "evidence_count": 4,
+      "referenced_evidence_ids": [
+        "evidence:fb5d259c05b2a699c99265e1b7ab32f640fdc4c3b83deed3fd2da92d08ecb399",
+        "evidence:326dab4486c0ab851e2cae4597b3c801110f14374048ed7395a7576d8181bfb4",
+        "evidence:89d64938e13039457480d28ac1f493ec68d08af96349e9874a95c7a256522e88",
+        "evidence:b2ca0297ee3f8d4b63a1809a775684a801215b4ecf8d0c4f5d033d1a0d4626ca"
+      ],
+      "rationale": "ts-auth-service exhibited near-onset internal mechanism signals: a large memory spike, cpu changes, and log entries showing channel removal and error logger shutdown at ~1733591970. These strongly indicate an internal fault, not a mere reaction to a dependency. Although a log later mentioned ts-auth-mongo, it was a cluster creation message during a probable restart, not a confirmed dependency failure. No trace path linked auth-mongo to other services, and auth-service's self-contained signs outweigh the weak dependency clue. Entry components like ts-preserve-service later showed CPU/memory saturation, likely caused by holding threads waiting for authentication, making them symptoms. The absence of direct caller traces for auth-service is a minor uncertainty but does not undermine its internal evidence.",
+      "uncertainties": [
+        "The log mention of ts-auth-mongo could still indicate a prior database issue that triggered auth-service's restart, but the content suggests normal behavior.",
+        "Direct trace links between auth-service and entry components are missing, limiting certainty on propagation exactness."
+      ],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "ts-auth-service",
+        "ts-train-service",
+        "ts-auth-mongo",
+        "ts-contacts-service",
+        "ts-consign-service",
+        "ts-security-service",
+        "ts-travel-mongo",
+        "ts-user-mongo",
+        "ts-station-mongo",
+        "ts-order-service",
+        "ts-preserve-service",
+        "ts-admin-basic-info-service",
+        "ts-admin-travel-service",
+        "ts-food-map-mongo",
+        "ts-contacts-mongo"
+      ],
+      "event_causal_profile": {
+        "truncated_json": "{\"causal_story_options\": [{\"initiating_event_ids\": [\"event:7:ts-auth-mongo:primary\", \"event:6:ts-travel-mongo:primary\", \"event:8:ts-station-mongo:primary\"], \"propagation_reading\": \"A mongo database (auth-mongo, travel-mongo, station-mongo) experienced early CPU/memory/disk pressure at 1733591947.0, causing dependent services (e.g., ts-auth-service, ts-travel-service, ts-station-service) to slow...\", \"story_id\": \"storage_root_story\", \"what_would_support_it\": [], \"what_would_weaken_it\": []}, {\"initiating_event_ids\": [\"event:5:ts-auth-service:primary\"], \"propagation_reading\": \"ts-auth-service, a background authentication service, encountered internal memory/cpu anomalies and log events (channel removal) at 1733591947.0. This degradation could affect any service relying on authentication, ca...\", \"story_id\": \"auth_service_story\", \"what_would_support_it\": [], \"what_would_weaken_it\": []}, {\"initiating_event_ids\": [\"event:4:ts-preserve-service:primary\"], \"propagation_reading\": \"ts-preserve-service, an entry component, suffered internal CPU/memory pressure at 1733591947.0. As the entry point, its own resource starvation caused it to be slow in handling requests and in making calls to its depe...\", \"story_id\": \"entry_overload_story\", \"what_would_support_it\": [], \"what_would_weaken_it\": []}], \"component_event_features\": [{\"component\": \"ts-contacts-service\", \"missing_checks\": [\"no cpu/memory/disk signals; need to verify if caller's internal faults caused its latency\"], \"near_onset_mechanism\": [\"latency/workload at 1733591947.0; no internal mechanism signals\"], \"primary_event_ids\": [\"event:1:ts-contacts-service:primary\"], \"symptom_visibility\": [\"called by ts-preserve-service with high latencies; visible as downstream latency\"], \"timing_cautions\": [], \"topology_notes\": [\"direct callers are entry component ts-preserve-service; leaf service\"]}, {\"component\": \"ts-consign-service\", \"missing_checks\": [\"verify if callee ts-consign-price-service experienced related degradation\"], \"near_onset_mechanism\": [\"cpu and memory anomalies at 1733591947.0\"], \"primary_event_ids\": [\"event:2:ts-consign-service:primary\"], \"symptom_visibility\": [\"latency and workload increased; calls ts-consign-price-service\"], \"timing_cautions\": [], \"topology_notes\": [\"direct callee ts-consign-price-service; no callers shown\"]}, {\"component\": \"ts-security-service\", \"missing_checks\": [\"check if caller has internal anomalies; check callees for error propagation\"], \"near_onset_mechanism\": [\"latency/workload at 1733591947.0; no internal signals\"], \"primary_event_ids\": [\"event:3:ts-security-service:primary\"], \"symptom_visibility\": [\"called by ts-preserve-service; calls ts-order-other-service and ts-order-service\"], \"timing_cautions\": [], \"topology_notes\": [\"both caller and callee; intermediary\"]}, {\"component\": \"ts-preserve-service\", \"missing_checks\": [\"determine if cpu/memory pressure is independent or induced by callee slowness\"], \"near_onset_mechanism\": [\"cpu and memory anomalies at 1733591947.0\"], \"primary_event_ids\": [\"event:4:ts-preserve-service:primary\"], \"symptom_visibility\": [\"entry component; calls many services, which all show latency\"], \"timing_cautions\": [], \"topology_notes\": [\"entry component with multiple callees; no callers\"]}, {\"component\": \"ts-auth-service\", \"missing_checks\": [\"determine if logs indicate self-fault or dependency failure; check if it accesses auth-mongo\"], \"near_onset_mechanism\": [\"memory spike 638, cpu drop, log entries at 1733591970\"], \"primary_event_ids\": [\"event:5:ts-auth-service:primary\"], \"symptom_visibility\": [\"background service, no trace callers/callees; internal log events (channel removal)\"], \"timing_cautions\": [], \"topology_notes\": [\"isolated in trace graph\"]}, {\"component\": \"ts-travel-mongo\", \"missing_checks\": [\"identify services using this mongo; check if their latency aligns\"], \"near_onset_mechanism\": [\"memory spike 181.8, cpu, disk at 1733591947.0\"], \"primary_event_ids\": [\"event:6:ts-travel-mongo:primary\"], \"symptom_visibility\": [\"database component; no direct callers/callees\"], \"timing_cautions\": [], \"topology_notes\": [\"database; impact via data access\"]}, {\"component\": \"ts-auth-mongo\", \"missing_checks\": [\"confirm dependency link to ts-auth-service\"], \"near_onset_mechanism\": [\"memory spike 186.4, cpu, disk, socket at 1733591947.0\"], \"primary_event_ids\": [\"event:7:ts-auth-mongo:primary\"], \"symptom_visibility\": [\"likely supports ts-auth-service\"], \"timing_cautions\": [], \"topology_notes\": [\"database\"]}, {\"component\": \"ts-station-mongo\", \"missing_checks\": [\"check ts-station-service for symptoms\"], \"near_onset_mechanism\": [\"memory spike 163.6, cpu, disk at 1733591947.0\"], \"primary_event_ids\": [\"event:8:ts-station-mongo:primary\"], \"symptom_visibility\": [\"supports station service\"], \"timing_cautions\": [], \"topology_notes\": [\"database\"]}, {\"component\": \"ts-order-service\", \"missing_checks\": [\"determine if exception is root or symptom; check if ts-station-service is source of invalid UUID\"], \"near_onset_mechanism\": [\"latency/workload at 1733591947.0, exception at 1733592009 (Invalid UUID)\"], \"primary_event_ids\": [\"event:9:ts-order-service:primary\", \"event:9:ts-order-service:late_dominant_metric\"], \"symptom_visibility\": [\"called by multiple services; calls ts-station-service\"], \"timing_cautions\": [\"dominant cpu spike at 1733592035 is 88s after primary\"], \"topology_notes\": [\"intermediary with many callers and one callee\"]}, {\"component\": \"ts-admin-basic-info-service\", \"missing_checks\": [\"check if callees are slow; weak socket signal may be blocking on dependency\"], \"near_onset_mechanism\": [\"socket change at 1733591947.0, latency later\"], \"primary_event_ids\": [\"event:10:ts-admin-basic-info-service:primary\", \"event:10:ts-admin-basic-info-service:late_dominant_metric\"], \"symptom_visibility\": [\"calls ts-config-service and ts-price-service\"], \"timing_cautions\": [\"dominant latency spike 41 at 1733591982, 35s after\"], \"topology_notes\": [\"admin service, not in main entry path\"]}, {\"component\": \"ts-train-service\", \"missing_checks\": [\"check if callers are retrying or increasing load\"], \"near_onset_mechanism\": [\"workload spike at 1733591947.0, no internal signals\"], \"primary_event_ids\": [\"event:11:ts-train-service:primary\", \"event:11:ts-train-service:late_dominant_metric\"], \"symptom_visibility\": [\"called by travel services; high call volume\"], \"timing_cautions\": [\"dominant latency spike 301.5 at 1733591993, 46s after\"], \"topology_notes\": [\"leaf with callers only\"]}, {\"component\": \"ts-user-mongo\", \"missing_checks\": [\"identify service dependencies\"], \"near_onset_mechanism\": [\"cpu, disk, memory at 1733591955\"], \"primary_event_ids\": [\"event:12:ts-user-mongo:primary\"], \"symptom_visibility\": [\"database\"], \"timing_cautions\": [], \"topology_notes\": [\"database\"]}, {\"component\": \"ts-food-map-mongo\", \"missing_checks\": [\"identify consumers; late memory spike may be unrelated\"], \"near_onset_mechanism\": [\"cpu, disk at 1733591962; memory spike late at 1733592007\"], \"primary_event_ids\": [\"event:13:ts-food-map-mongo:primary\", \"event:13:ts-food-map-mongo:late_dominant_metric\"], \"symptom_visibility\": [\"database\"], \"timing_cautions\": [\"dominant metric (memory) is 45s late\"], \"topology_notes\": [\"database\"]}, {\"component\": \"ts-contacts-mongo\", \"missing_checks\": [\"identify consumers; late memory spike may be unrelated\"], \"near_onset_mechanism\": [\"cpu, disk at 1733591973; memory spike late at 1733592008\"], \"primary_event_ids\": [\"event:14:ts-contacts-mongo:primary\", \"event:14:ts-contacts-mongo:late_dominant_metric\"], \"symptom_visibility\": [\"database\"], \"timing_cautions\": [\"dominant metric (memory) is 35s late\"], \"topology_notes\": [\"database\"]}, {\"component\": \"ts-admin-travel-service\", \"missing_checks\": [\"late onset; likely symptom of earlier issues in travel services\"], \"near_onset_mechanism\": [\"cpu, memory at 1733591995\"], \"primary_event_ids\": [\"event:15:ts-admin-travel-service:primary\"], \"symptom_visibility\": [\"calls ts-travel-service and ts-travel2-service\"], \"timing_cautions\": [], \"topology_notes\": [\"admin service with callees\"]}], \"event_timeline\": [{\"ambiguity_cues\": [\"has direct callers, but mechanism evidence is weak\", \"near-onset evidence is latency/workload only\"], \"causal_links_to_check\": [\"check if ts-preserve-service or ts-preserve-other-service show corresponding internal anomalies\"], \"component\": \"ts-contacts-service\", \"diagnostic_implication\": \"likely downstream symptom; weak source candidate\", \"event_id\": \"event:1:ts-contacts-service:primary\", \"event_kind\": \"latency_symptom_candidate_event\", \"event_time\": 1733591947.0, \"mechanism_strength\": \"symptom_like\", \"multimodal_evidence\": [\"latency increased at 1733591947.0, followed by 267M workload spike at 1733591958.0\", \"no internal mechanism signals (cpu/memory/disk) at onset\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"near-onset evidence is latency/workload only, which is often a downstream symptom\"]}, {\"ambiguity_cues\": [\"has direct callees; request path to callee does not prove caller-root causality\"], \"causal_links_to_check\": [\"verify if ts-consign-price-service shows corresponding dependency symptoms\"], \"component\": \"ts-consign-service\", \"diagnostic_implication\": \"strong source candidate; internal resource pressure could propagate to callee\", \"event_id\": \"event:2:ts-consign-service:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1733591947.0, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"cpu and memory increased at onset 1733591947.0; latency and workload spiked\", \"calls ts-consign-price-service\"], \"source_like_cues\": [\"near-onset internal mechanism signals observed: cpu, memory\"], \"symptom_like_cues\": []}, {\"ambiguity_cues\": [\"has direct callers and callees\", \"near-onset evidence is latency/workload only\"], \"causal_links_to_check\": [\"check if callers (ts-preserve-service, ts-preserve-other-service) have internal faults\", \"check if callees (ts-order-other-service, ts-order-service) show errors\"], \"component\": \"ts-security-service\", \"diagnostic_implication\": \"likely symptom; strong callee/caller dependencies\", \"event_id\": \"event:3:ts-security-service:primary\", \"event_kind\": \"latency_symptom_candidate_event\", \"event_time\": 1733591947.0, \"mechanism_strength\": \"symptom_like\", \"multimodal_evidence\": [\"latency increased at 1733591947.0, workload spike at 1733591957.0 (133M)\", \"no internal mechanism signals\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"near-onset evidence is latency/workload only\"]}, {\"ambiguity_cues\": [\"has direct callees; request path to callee does not prove caller-root causality\"], \"causal_links_to_check\": [\"assess whether callee latencies are caused by this component's resource pressure or independent\"], \"component\": \"ts-preserve-service\", \"diagnostic_implication\": \"strong source candidate as entry component; internal pressure could affect outgoing requests\", \"event_id\": \"event:4:ts-preserve-service:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1733591947.0, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"cpu and memory increased at onset 1733591947.0; workload spike later at 1733591958.0 (133M)\", \"calls multiple services: station, contacts, order, seat, security\"], \"source_like_cues\": [\"near-onset internal mechanism signals observed: cpu, memory\"], \"symptom_like_cues\": []}, {\"ambiguity_cues\": [\"emitter log mentions dependency/storage failure; mentioned dependency is evidence, not a label\"], \"causal_links_to_check\": [\"determine if log exceptions indicate internal fault or reaction to dependency failure\"], \"component\": \"ts-auth-service\", \"diagnostic_implication\": \"likely internal fault; background role may limit direct propagation visibility\", \"event_id\": \"event:5:ts-auth-service:primary\", \"event_kind\": \"emitter_dependency_failure_event\", \"event_time\": 1733591947.0, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"memory spike 638 at 1733591957.0, cpu drop later, log entries at 1733591970 about channel removal\", \"no trace callees or callers\"], \"source_like_cues\": [\"near-onset internal mechanism signals: cpu, log, memory\", \"emitter-side exception/log evidence\"], \"symptom_like_cues\": []}, {\"ambiguity_cues\": [], \"causal_links_to_check\": [\"identify services that read from this mongo; check if their latency coincides\"], \"component\": \"ts-travel-mongo\", \"diagnostic_implication\": \"strong storage candidate; internal resource pressure could delay dependent services\", \"event_id\": \"event:6:ts-travel-mongo:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1733591947.0, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"memory spike 181.8 at 1733591947.0, cpu and disk changes\", \"no direct trace dependencies\"], \"source_like_cues\": [\"near-onset internal mechanism signals: cpu, disk, memory\"], \"symptom_like_cues\": []}, {\"ambiguity_cues\": [], \"causal_links_to_check\": [\"confirm if ts-auth-service depends on this mongo and if auth-service anomalies align\"], \"component\": \"ts-auth-mongo\", \"diagnostic_implication\": \"strong storage candidate; could underlie auth-service anomalies\", \"event_id\": \"event:7:ts-auth-mongo:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1733591947.0, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"memory spike 186.4 at onset, cpu and disk anomalies; socket change later\"], \"source_like_cues\": [\"near-onset internal mechanism signals: cpu, disk, memory\"], \"symptom_like_cues\": []}, {\"ambiguity_cues\": [], \"causal_links_to_check\": [\"check services dependent on station-mongo for downstream symptoms\"], \"component\": \"ts-station-mongo\", \"diagnostic_implication\": \"strong storage candidate\", \"event_id\": \"event:8:ts-station-mongo:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1733591947.0, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"memory spike 163.6 at onset, cpu and disk changes\"], \"source_like_cues\": [\"near-onset internal mechanism signals: cpu, disk, memory\"], \"symptom_like_cues\": []}, {\"ambiguity_cues\": [\"dominant metric spike is late\", \"has direct callers and callees\", \"emitter log mentions dependency/storage failure\"], \"causal_links_to_check\": [\"determine if exception is cause or consequence of earlier latency\", \"check if callee ts-station-service is slow or faulty\"], \"component\": \"ts-order-service\", \"diagnostic_implication\": \"exception may be a symptom of upstream failure; late dominant metric (cpu) suggests degradation\", \"event_id\": \"event:9:ts-order-service:primary\", \"event_kind\": \"emitter_dependency_failure_event\", \"event_time\": 1733591947.0, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"latency spike at onset (1733591947.0), exception at 1733592009: Invalid UUID string\", \"calls ts-station-service; called by seat, travel, etc.\"], \"source_like_cues\": [\"emitter-side exception/log evidence\"], \"symptom_like_cues\": [\"near-onset evidence is latency/workload only\"]}, {\"ambiguity_cues\": [\"near-onset internal signal is weak/single-signal\", \"dominant metric spike is late\", \"has direct callees\"], \"causal_links_to_check\": [\"check if callees are slow; weak socket change may indicate waiting on dependencies\"], \"component\": \"ts-admin-basic-info-service\", \"diagnostic_implication\": \"weak candidate; likely queueing on slow dependencies\", \"event_id\": \"event:10:ts-admin-basic-info-service:primary\", \"event_kind\": \"weak_internal_or_queueing_candidate_event\", \"event_time\": 1733591947.0, \"mechanism_strength\": \"weak\", \"multimodal_evidence\": [\"socket increased at onset, latency spikes later (1733591982)\", \"calls ts-config-service and ts-price-service\"], \"source_like_cues\": [], \"symptom_like_cues\": []}, {\"ambiguity_cues\": [\"dominant metric spike is late\", \"has direct callers but mechanism is weak\"], \"causal_links_to_check\": [\"verify if callers have internal faults; high volume could cause latency\"], \"component\": \"ts-train-service\", \"diagnostic_implication\": \"likely symptom; high call volume may be from upstream retries or load\", \"event_id\": \"event:11:ts-train-service:primary\", \"event_kind\": \"latency_symptom_candidate_event\", \"event_time\": 1733591947.0, \"mechanism_strength\": \"symptom_like\", \"multimodal_evidence\": [\"workload spike at 1733591947.0, latency spike later (1733591993)\", \"called by ts-travel2-service, ts-travel-service, ts-basic-service\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"near-onset evidence is latency/workload only\"]}, {\"ambiguity_cues\": [], \"causal_links_to_check\": [\"identify services using user-mongo; check if any show latency\"], \"component\": \"ts-user-mongo\", \"diagnostic_implication\": \"strong candidate but later onset; may be consequence rather than root\", \"event_id\": \"event:12:ts-user-mongo:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1733591955.0, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"memory spike 195.2 at 1733591958, cpu and disk anomalies\"], \"source_like_cues\": [\"near-onset internal mechanism signals: cpu, disk, memory\"], \"symptom_like_cues\": []}, {\"ambiguity_cues\": [\"dominant metric spike is late\"], \"causal_links_to_check\": [\"check service consumers of food-map; late spike may be unrelated to root\"], \"component\": \"ts-food-map-mongo\", \"diagnostic_implication\": \"later onset reduces root likelihood; could be impact of broader issue\", \"event_id\": \"event:13:ts-food-map-mongo:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1733591962.0, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"cpu and disk anomalies at onset, memory spike late (1733592007, 158.5)\"], \"source_like_cues\": [\"near-onset internal mechanism signals: cpu, disk\"], \"symptom_like_cues\": []}, {\"ambiguity_cues\": [\"dominant metric spike is late\"], \"causal_links_to_check\": [\"check if ts-contacts-service is dependent; contacts-service had earlier latency\"], \"component\": \"ts-contacts-mongo\", \"diagnostic_implication\": \"later onset; may be downstream effect from contacts-service load\", \"event_id\": \"event:14:ts-contacts-mongo:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1733591973.0, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"cpu and disk anomalies at onset, memory spike late (1733592008)\"], \"source_like_cues\": [\"near-onset internal mechanism signals: cpu, disk\"], \"symptom_like_cues\": []}, {\"ambiguity_cues\": [\"has direct callees; request path to a callee does not prove caller-root causality\"], \"causal_links_to_check\": [\"check if callees are slow; late onset suggests it is a symptom\"], \"component\": \"ts-admin-travel-service\", \"diagnostic_implication\": \"likely symptom; callee calls may be experiencing delays from earlier issues\", \"event_id\": \"event:15:ts-admin-travel-service:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1733591988.0, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"cpu and memory anomalies at 1733591995, latency spike\", \"calls ts-travel-service and ts-travel2-service\"], \"source_like_cues\": [\"near-onset internal mechanism signals: cpu, memory\"], \"symptom_like_cues\": []}, {\"ambiguity_cues\": [], \"causal_links_to_check\": [], \"component\": \"ts-admin-basic-info-service\", \"diagnostic_implication\": \"dominant metric is late; separates metric spike from initiation\", \"event_id\": \"event:10:ts-admin-basic-info-service:late_dominant_metric\", \"event_kind\": \"late_dominant_metric_followup\", \"event_time\": 1733591982.0, \"mechanism_strength\": \"unknown\", \"multimodal_evidence\": [\"latency-90 spike 41 at 1733591982, 35s after primary onset\"], \"source_like_cues\": [], \"symptom_like_cues\": []}, {\"ambiguity_cues\": [], \"causal_links_to_check\": [], \"component\": \"ts-train-service\", \"diagnostic_implication\": \"dominant latency spike is late; primary onset was workload change\", \"event_id\": \"event:11:ts-train-service:late_dominant_metric\", \"event_kind\": \"late_dominant_metric_followup\", \"event_time\": 1733591993.0, \"mechanism_strength\": \"unknown\", \"multimodal_evidence\": [\"latency-90 spike 301.5 at 1733591993, 46s after primary\"], \"source_like_cues\": [], \"symptom_like_cues\": ..."
+      },
+      "event_causal_fact_count": 20,
+      "final_belief_state": [
+        {
+          "contradicting_factors": [
+            "Log mention of ts-auth-mongo is a cluster creation message, not a clear failure report; diagnostic role may be misclassified",
+            "No trace path to ts-auth-service, and no other services reporting auth failures beyond latency"
+          ],
+          "hypothesis_id": "H1-ts-auth-service-latency-degradation",
+          "missing_information": [
+            "Direct evidence that auth-service restarted/faulted and caused downstream timeouts"
+          ],
+          "position": "leading",
+          "root_component": "ts-auth-service",
+          "source_vs_symptom_judgment": "Strong source candidate with internal mechanism signals (memory, cpu, logs) and emitter-side exceptions, outweighing storage dependency clue due to weak log content.",
+          "supporting_factors": [
+            "Near-onset internal signals: memory spike 638, cpu drop, log entries indicating channel removal and error logger shutdown at 1733591970",
+            "Emitter-side exception/log evidence suggesting internal fault rather than pure dependency reaction"
+          ],
+          "why_not_others": "ts-preserve-service lacks such clear internal fault logs and could be a symptom of auth delays; ts-auth-mongo's mention is not a confirmed failure and auth-service's own internal signals are stronger."
+        },
+        {
+          "contradicting_factors": [
+            "CPU/memory saturation may be caused by waiting on slow dependencies (e.g., auth-service) rather than internal fault",
+            "No internal error logs or exceptions observed"
+          ],
+          "hypothesis_id": "H10-ts-preserve-service-cpu-saturation",
+          "missing_information": [
+            "Whether callee health is independent of preserve-service's own resource usage"
+          ],
+          "position": "plausible",
+          "root_component": "ts-preserve-service",
+          "source_vs_symptom_judgment": "Ambiguous: internal signals suggest possible source, but no direct fault evidence, and it could be a symptom of downstream auth delays.",
+          "supporting_factors": [
+            "Entry component with near-onset cpu and memory anomalies at 1733591947",
+            "Broad call fan-out to many services that later showed latency"
+          ],
+          "why_not_others": "Lacks log-based internal fault evidence present in ts-auth-service; its saturation is more consistent with holding threads while waiting for authentication."
+        },
+        {
+          "contradicting_factors": [
+            "No trace path to ts-auth-service despite log mention, and that log may not indicate a true failure",
+            "ts-auth-service exhibits strong self-contained internal signals that could explain its own restart without requiring storage failure"
+          ],
+          "hypothesis_id": "H3-ts-auth-mongo-cpu-saturation",
+          "missing_information": [
+            "Direct trace of auth-service database calls to ts-auth-mongo during the incident"
+          ],
+          "position": "weakened",
+          "root_component": "ts-auth-mongo",
+          "source_vs_symptom_judgment": "Candidate source, but dependency evidence is weak: the log mention is a cluster creation message, not a confirmed failure, and topology support is missing.",
+          "supporting_factors": [
+            "Near-onset internal signals (memory, cpu, disk) at 1733591947",
+            "Mentioned in ts-auth-service log, suggesting a dependency relationship"
+          ],
+          "why_not_others": "Weaker than ts-auth-service because the log link is ambiguous and auth-service's own internal fault signals are more direct and stronger."
+        },
+        {
+          "contradicting_factors": [
+            "No service log or trace link to downstream failures",
+            "Less propagation evidence than auth-mongo, and downstream travel services not prominently affected"
+          ],
+          "hypothesis_id": "H7-ts-travel-mongo-cpu-saturation",
+          "missing_information": [
+            "Identification of dependent services and correlation with their symptoms"
+          ],
+          "position": "unlikely",
+          "root_component": "ts-travel-mongo",
+          "source_vs_symptom_judgment": "Candidate source but missing propagation support and no log-based dependency evidence.",
+          "supporting_factors": [
+            "Near-onset internal signals at 1733591947"
+          ],
+          "why_not_others": "Weaker than ts-auth-service due to lack of any dependency log; weaker than ts-preserve-service with internal signals and broad impact."
+        },
+        {
+          "contradicting_factors": [
+            "Downstream memory pressure occurs much later (1733592264), weakening direct causation",
+            "Limited callee scope compared to ts-preserve-service"
+          ],
+          "hypothesis_id": "H5-ts-consign-service-latency-degradation",
+          "missing_information": [
+            "Whether ts-consign-price-service's late memory is a consequence or independent"
+          ],
+          "position": "unlikely",
+          "root_component": "ts-consign-service",
+          "source_vs_symptom_judgment": "Candidate source, but later downstream effect reduces likelihood; more likely a symptom of broader issue.",
+          "supporting_factors": [
+            "Entry component with near-onset cpu and memory anomalies",
+            "Calls ts-consign-price-service which shows later memory pressure"
+          ],
+          "why_not_others": "Strong internal signals but narrower impact than preserve-service; late effects make it less immediate, and no log evidence of internal fault."
+        }
+      ],
+      "transcript": [
+        {
+          "step_index": 0,
+          "agent_response": {
+            "truncated_json": "{\"agent\": \"continuous_noise_native\", \"allowed_tool_names\": [\"inspect_noise_features\", \"compare_source_symptom\", \"counterfactual_remove\", \"test_downstream_explanation\"], \"case_context_without_label_leakage\": {\"components\": [\"ts-admin-basic-info-service\", \"ts-admin-order-service\", \"ts-admin-route-service\", \"ts-admin-travel-service\", \"ts-admin-user-service\", \"ts-assurance-mongo\", \"ts-assurance-service\", \"ts-auth-mongo\", \"ts-auth-service\", \"ts-avatar-service\", \"ts-basic-service\", \"ts-cancel-service\", \"ts-config-mongo\", \"ts-config-service\", \"ts-consign-mongo\", \"ts-consign-price-mongo\", \"ts-consign-price-service\", \"ts-consign-service\", \"ts-contacts-mongo\", \"ts-contacts-service\", \"ts-execute-service\", \"ts-food-map-mongo\", \"ts-food-map-service\", \"ts-food-mongo\", \"ts-food-mysql\", \"ts-food-service\", \"ts-inside-payment-mongo\", \"ts-inside-payment-service\", \"ts-news-service\", \"ts-notification-mongo\", \"ts-notification-service\", \"ts-order-mongo\", \"ts-order-other-mongo\", \"ts-order-other-service\", \"ts-order-service\", \"ts-payment-mongo\", \"ts-payment-service\", \"ts-preserve-mongo\", \"ts-preserve-other-mongo\", \"ts-preserve-other-service\", \"ts-preserve-service\", \"ts-price-mongo\", \"ts-price-service\", \"ts-rebook-service\", \"ts-route-mongo\", \"ts-route-plan-service\", \"ts-route-service\", \"ts-seat-service\", \"ts-security-mongo\", \"ts-security-service\", \"ts-station-mongo\", \"ts-station-service\", \"ts-ticket-office-mongo\", \"ts-ticket-office-service\", \"ts-ticketinfo-service\", \"ts-train-mongo\", \"ts-train-service\", \"ts-travel-mongo\", \"ts-travel-plan-service\", \"ts-travel-service\", \"ts-travel2-mongo\", \"ts-travel2-service\", \"ts-ui-dashboard\", \"ts-user-mongo\", \"ts-user-service\", \"ts-verification-code-service\", \"ts-voucher-mysql\", \"ts-voucher-service\"], \"entry_components\": [\"ts-preserve-service\", \"ts-admin-basic-info-service\", \"ts-admin-travel-service\", \"ts-consign-service\"], \"event_time\": 1733591947.0, \"observations\": [{\"component\": \"ts-contacts-service\", \"first_seen\": 1733591947.0, \"magnitude\": 267000075.79590806, \"reason_family\": \"latency degradation\", \"signals\": [\"latency\", \"workload\"], \"symptoms\": [\"ts-contacts-service workload changed near 1733591958.000\", \"ts-contacts-service latency changed near 1733591947.000\", \"ts-contacts-service latency changed near 1733591947.000\"]}, {\"component\": \"ts-consign-price-service\", \"first_seen\": 1733591965.0, \"magnitude\": 267000008.82967034, \"reason_family\": \"memory pressure\", \"signals\": [\"memory\", \"socket\", \"workload\"], \"symptoms\": [\"ts-consign-price-service workload changed near 1733591965.000\", \"ts-consign-price-service socket changed near 1733592264.000\", \"ts-consign-price-service memory changed near 1733592264.000\"]}, {\"component\": \"ts-consign-service\", \"first_seen\": 1733591947.0, \"magnitude\": 200000053.58381248, \"reason_family\": \"latency degradation\", \"signals\": [\"cpu\", \"latency\", \"memory\", \"socket\", \"workload\"], \"symptoms\": [\"ts-consign-service workload changed near 1733591958.000\", \"ts-consign-service latency changed near 1733591947.000\", \"ts-consign-service latency changed near 1733591947.000\"]}, {\"component\": \"ts-security-service\", \"first_seen\": 1733591947.0, \"magnitude\": 133000040.0, \"reason_family\": \"latency degradation\", \"signals\": [\"latency\", \"workload\"], \"symptoms\": [\"ts-security-service workload changed near 1733591957.000\", \"ts-security-service latency changed near 1733591947.000\", \"ts-security-service latency changed near 1733591947.000\"]}, {\"component\": \"ts-user-service\", \"first_seen\": 1733591947.0, \"magnitude\": 133000033.37964168, \"reason_family\": \"latency degradation\", \"signals\": [\"cpu\", \"latency\", \"socket\", \"workload\"], \"symptoms\": [\"ts-user-service workload changed near 1733591958.000\", \"ts-user-service latency changed near 1733591947.000\", \"ts-user-service latency changed near 1733591947.000\"]}, {\"component\": \"ts-preserve-service\", \"first_seen\": 1733591947.0, \"magnitude\": 133000030.33941059, \"reason_family\": \"cpu saturation\", \"signals\": [\"cpu\", \"memory\", \"workload\"], \"symptoms\": [\"ts-preserve-service workload changed near 1733591958.000\", \"ts-preserve-service cpu changed near 1733591947.000\", \"ts-preserve-service memory changed near 1733591947.000\"]}, {\"component\": \"ts-auth-service\", \"first_seen\": 1733591947.0, \"magnitude\": 1001.963560676917, \"reason_family\": \"latency degradation\", \"signals\": [\"cpu\", \"latency\", \"log\", \"memory\", \"socket\", \"workload\"], \"symptoms\": [\"ts-auth-service memory changed near 1733591957.000\", \"ts-auth-service cpu changed near 1733591965.000\", \"ts-auth-service socket changed near 1733592012.000\"]}, {\"component\": \"ts-train-service\", \"first_seen\": 1733591947.0, \"magnitude\": 333.99023216523165, \"reason_family\": \"latency degradation\", \"signals\": [\"cpu\", \"latency\", \"memory\", \"socket\", \"workload\"], \"symptoms\": [\"ts-train-service latency changed near 1733591993.000\", \"ts-train-service workload changed near 1733591947.000\", \"ts-train-service cpu changed near 1733591978.000\"]}, {\"component\": \"ts-auth-mongo\", \"first_seen\": 1733591947.0, \"magnitude\": 214.01517788101825, \"reason_family\": \"cpu saturation\", \"signals\": [\"cpu\", \"disk\", \"memory\", \"socket\"], \"symptoms\": [\"ts-auth-mongo memory changed near 1733591947.000\", \"ts-auth-mongo socket changed near 1733591980.000\", \"ts-auth-mongo cpu changed near 1733591952.000\"]}, {\"component\": \"ts-travel-mongo\", \"first_seen\": 1733591947.0, \"magnitude\": 208.57737453884326, \"reason_family\": \"cpu saturation\", \"signals\": [\"cpu\", \"disk\", \"memory\"], \"symptoms\": [\"ts-travel-mongo memory changed near 1733591947.000\", \"ts-travel-mongo cpu changed near 1733591968.000\", \"ts-travel-mongo disk changed near 1733591950.000\"]}, {\"component\": \"ts-user-mongo\", \"first_seen\": 1733591955.0, \"magnitude\": 207.55016644977334, \"reason_family\": \"cpu saturation\", \"signals\": [\"cpu\", \"disk\", \"memory\"], \"symptoms\": [\"ts-user-mongo memory changed near 1733591958.000\", \"ts-user-mongo cpu changed near 1733591973.000\", \"ts-user-mongo disk changed near 1733591955.000\"]}, {\"component\": \"ts-food-map-mongo\", \"first_seen\": 1733591962.0, \"magnitude\": 180.856228364097, \"reason_family\": \"cpu saturation\", \"signals\": [\"cpu\", \"disk\", \"memory\"], \"symptoms\": [\"ts-food-map-mongo memory changed near 1733592007.000\", \"ts-food-map-mongo cpu changed near 1733591981.000\", \"ts-food-map-mongo disk changed near 1733591962.000\"]}, {\"component\": \"ts-station-mongo\", \"first_seen\": 1733591947.0, \"magnitude\": 178.29653628590816, \"reason_family\": \"cpu saturation\", \"signals\": [\"cpu\", \"disk\", \"memory\"], \"symptoms\": [\"ts-station-mongo memory changed near 1733591947.000\", \"ts-station-mongo cpu changed near 1733591957.000\", \"ts-station-mongo disk changed near 1733591957.000\"]}, {\"component\": \"ts-contacts-mongo\", \"first_seen\": 1733591973.0, \"magnitude\": 161.01500736501512, \"reason_family\": \"cpu saturation\", \"signals\": [\"cpu\", \"disk\", \"memory\"], \"symptoms\": [\"ts-contacts-mongo memory changed near 1733592008.000\", \"ts-contacts-mongo cpu changed near 1733591974.000\", \"ts-contacts-mongo disk changed near 1733591973.000\"]}, {\"component\": \"ts-consign-price-mongo\", \"first_seen\": 1733591956.0, \"magnitude\": 154.90346465214108, \"reason_family\": \"cpu saturation\", \"signals\": [\"cpu\", \"disk\", \"memory\"], \"symptoms\": [\"ts-consign-price-mongo memory changed near 1733592033.000\", \"ts-consign-price-mongo cpu changed near 1733591989.000\", \"ts-consign-price-mongo disk changed near 1733591956.000\"]}]}, \"event_causal_profile\": {\"causal_story_options\": [{\"initiating_event_ids\": [\"event:7:ts-auth-mongo:primary\", \"event:6:ts-travel-mongo:primary\", \"event:8:ts-station-mongo:primary\"], \"propagation_reading\": \"A mongo database (auth-mongo, travel-mongo, station-mongo) experienced early CPU/memory/disk pressure at 1733591947.0, causing dependent services (e.g., ts-auth-service, ts-travel-service, ts-station-service) to slow...\", \"story_id\": \"storage_root_story\", \"what_would_support_it\": [], \"what_would_weaken_it\": []}, {\"initiating_event_ids\": [\"event:5:ts-auth-service:primary\"], \"propagation_reading\": \"ts-auth-service, a background authentication service, encountered internal ..."
+          },
+          "executed_action": {
+            "action_id": "fallback-features-0",
+            "tool_name": "inspect_noise_features",
+            "target_hypothesis_ids": [
+              "H1-ts-auth-service-latency-degradation",
+              "H2-ts-train-service-latency-degradation",
+              "H3-ts-auth-mongo-cpu-saturation",
+              "H4-ts-contacts-service-latency-degradation",
+              "H5-ts-consign-service-latency-degradation",
+              "H6-ts-security-service-latency-degradation",
+              "H7-ts-travel-mongo-cpu-saturation",
+              "H8-ts-user-mongo-cpu-saturation",
+              "H9-ts-station-mongo-cpu-saturation",
+              "H10-ts-preserve-service-cpu-saturation"
+            ],
+            "question": "Build fused NoiseLab feature table for all candidates.",
+            "args": {
+              "component_scope": [
+                "ts-auth-service",
+                "ts-train-service",
+                "ts-auth-mongo",
+                "ts-contacts-service",
+                "ts-consign-service",
+                "ts-security-service",
+                "ts-travel-mongo",
+                "ts-user-mongo",
+                "ts-station-mongo",
+                "ts-preserve-service"
+              ],
+              "time_window": [
+                1733591647.0,
+                1733592847.0
+              ],
+              "feature_groups": [
+                "onset",
+                "local_mechanism",
+                "logs",
+                "propagation"
+              ]
+            },
+            "expected_information_gain": "Establish shared feature memory before narrowing candidates."
+          },
+          "evidence_id": "evidence:fb5d259c05b2a699c99265e1b7ab32f640fdc4c3b83deed3fd2da92d08ecb399"
+        },
+        {
+          "step_index": 1,
+          "agent_response": {
+            "belief_state": [
+              {
+                "contradicting_factors": [
+                  "The log mention is an INFO-level cluster creation message, not a clear failure or error",
+                  "ts-auth-service also exhibits strong self-contained internal signals (memory 638, cpu drop) that could be independent"
+                ],
+                "hypothesis_id": "H3-ts-auth-mongo-cpu-saturation",
+                "missing_information": [
+                  "Whether auth-mongo's slowness causally explains ts-auth-service's memory/cpu/log anomalies",
+                  "Evidence that other services depending on auth-mongo are also affected"
+                ],
+                "position": "plausible",
+                "root_component": "ts-auth-mongo",
+                "source_vs_symptom_judgment": "Candidate source: early mechanism and dependency link, but no direct causal confirmation yet",
+                "supporting_factors": [
+                  "Near-onset (1733591947) internal signals: memory spike 186.4, cpu, disk, socket anomalies",
+                  "Mentioned in ts-auth-service log (cluster creation with auth-mongo host), suggesting a dependency relationship"
+                ],
+                "why_not_others": "Compared to ts-travel-mongo, auth-mongo has a traceable dependency log from a service; compared to entry components, storage provides a common explanation"
+              },
+              {
+                "contradicting_factors": [
+                  "No service log or trace evidence linking it to downstream failures",
+                  "Lacks a clear dependent service exhibiting correlated anomalies"
+                ],
+                "hypothesis_id": "H7-ts-travel-mongo-cpu-saturation",
+                "missing_information": [
+                  "Which services directly depend on travel-mongo and if they show correlated latency or errors",
+                  "Comparison with other early mongos"
+                ],
+                "position": "plausible",
+                "root_component": "ts-travel-mongo",
+                "source_vs_symptom_judgment": "Candidate source but lacks propagation evidence; less supported than auth-mongo",
+                "supporting_factors": [
+                  "Near-onset (1733591947) internal signals: memory spike 181.8, cpu, disk anomalies"
+                ],
+                "why_not_others": "Less evidence than auth-mongo which has a log link; weaker than entry components with internal signals and broad impact"
+              },
+              {
+                "contradicting_factors": [
+                  "No direct trace callers to propagate failure; background role may limit impact on entry services",
+                  "The dependency log to auth-mongo is non-erroneous, suggesting it observed auth-mongo but may not have been caused by it"
+                ],
+                "hypothesis_id": "H1-ts-auth-service-latency-degradation",
+                "missing_information": [
+                  "Whether auth-service's internal degradation led to authentication failures in other services",
+                  "Source-vs-symptom analysis vs auth-mongo"
+                ],
+                "position": "plausible",
+                "root_component": "ts-auth-service",
+                "source_vs_symptom_judgment": "Likely source if its internal fault propagated, but the dependency mention raises the possibility of being a symptom of auth-mongo",
+                "supporting_factors": [
+                  "Strong near-onset internal signals: memory spike 638, cpu drop, multiple log events",
+                  "Emitter-side log/exceptions indicating internal channel removal and configuration issues",
+                  "Isolated component, so its anomalies are self-contained"
+                ],
+                "why_not_others": "Stronger internal signal magnitude than most, but isolation weakens its propagation; entry components have wider impact"
+              },
+              {
+                "contradicting_factors": [
+                  "As entry, its resource pressure could be a consequence of waiting on slow callees, not the root cause",
+                  "Multiple downstream services show latency-only without internal signals, suggesting they might be symptoms of something else"
+                ],
+                "hypothesis_id": "H10-ts-preserve-service-cpu-saturation",
+                "missing_information": [
+                  "Counterfactual: if callees were healthy, would preserve-service still exhibit cpu/memory pressure?",
+                  "Source-vs-symptom comparison with its downstream services"
+                ],
+                "position": "plausible",
+                "root_component": "ts-preserve-service",
+                "source_vs_symptom_judgment": "Ambiguous: internal signals suggest source, but callee health could explain it as symptom",
+                "supporting_factors": [
+                  "Entry component with strong near-onset cpu and memory anomalies",
+                  "Broad call fan-out to many downstream services that all show latency symptoms"
+                ],
+                "why_not_others": "Its entry status makes it a candidate, but without ruling out callee-induced slowness, it's less certain; storage/auth hypotheses provide a common cause for many services"
+              },
+              {
+                "contradicting_factors": [
+                  "The downstream memory pressure occurs much later (1733592264), reducing likelihood of direct causation",
+                  "Only one callee identified, limiting scope of impact"
+                ],
+                "hypothesis_id": "H5-ts-consign-service-latency-degradation",
+                "missing_information": [
+                  "Whether consign-price-service's late memory is a consequence or independent",
+                  "Comparison with other entry components"
+                ],
+                "position": "plausible",
+                "root_component": "ts-consign-service",
+                "source_vs_symptom_judgment": "Candidate source, but later downstream effect weakens causal link",
+                "supporting_factors": [
+                  "Entry component with strong near-onset cpu and memory anomalies",
+                  "Calls ts-consign-price-service which later shows memory pressure, suggesting downstream propagation"
+                ],
+                "why_not_others": "Strong internal signals but later downstream effect; preserve-service has broader impact"
+              }
+            ],
+            "case_narrative": "At 1733591947, multiple components across the TrainTicket system exhibited anomalies. Several MongoDB databases (auth-mongo, travel-mongo, station-mongo) showed early CPU/memory/disk pressure. ts-auth-service, a background authentication service, displayed a large memory spike and logs referencing ts-auth-mongo. Entry components ts-preserve-service and ts-consign-service experienced concurrent CPU/memory saturation, while numerous downstream services like ts-contacts-service and ts-security-service showed latency degradations without internal mechanism signals. The event signature suggests a potential storage-level root initiating the failure cascade, but the entry components' own resource pressure and the auth-service's internal anomalies remain competitive hypotheses. The current evidence is evenly divided between storage, auth-service, and entry overload.",
+            "final_decision": null,
+            "next_action": {
+              "action_id": "downstream-auth-mongo",
+              "args": {
+                "candidate_component": "ts-auth-mongo",
+                "symptom_components": [
+                  "ts-auth-service"
+                ],
+                "time_window": [
+                  1733591647.0,
+                  1733592847.0
+                ]
+              },
+              "expected_information_gain": "Determine if auth-mongo's storage-level anomaly causally explains auth-service's memory/cpu/log events, resolving the main ambiguity between storage and auth-service.",
+              "question": "Does ts-auth-mongo's anomaly explain the symptoms observed in ts-auth-service?",
+              "target_hypothesis_ids": [
+                "H3-ts-auth-mongo-cpu-saturation",
+                "H1-ts-auth-service-latency-degradation"
+              ],
+              "tool_name": "test_downstream_explanation"
+            }
+          },
+          "executed_action": {
+            "action_id": "downstream-auth-mongo",
+            "tool_name": "test_downstream_explanation",
+            "target_hypothesis_ids": [
+              "H3-ts-auth-mongo-cpu-saturation",
+              "H1-ts-auth-service-latency-degradation"
+            ],
+            "question": "Does ts-auth-mongo's anomaly explain the symptoms observed in ts-auth-service?",
+            "args": {
+              "candidate_component": "ts-auth-mongo",
+              "symptom_components": [
+                "ts-auth-service"
+              ],
+              "time_window": [
+                1733591647.0,
+                1733592847.0
+              ]
+            },
+            "expected_information_gain": "Determine if auth-mongo's storage-level anomaly causally explains auth-service's memory/cpu/log events, resolving the main ambiguity between storage and auth-service."
+          },
+          "evidence_id": "evidence:326dab4486c0ab851e2cae4597b3c801110f14374048ed7395a7576d8181bfb4"
+        },
+        {
+          "step_index": 2,
+          "agent_response": {
+            "agent": "continuous_noise_native",
+            "belief_state": [
+              {
+                "hypothesis_id": "H3-ts-auth-mongo-cpu-saturation",
+                "root_component": "ts-auth-mongo",
+                "position": "plausible",
+                "supporting_factors": [
+                  "Near-onset internal signals (memory, cpu, disk) at 1733591947",
+                  "Mentioned in ts-auth-service log, indicating dependency"
+                ],
+                "contradicting_factors": [
+                  "No trace path to ts-auth-service despite log mention",
+                  "ts-auth-service shows strong self-contained internal signals"
+                ],
+                "missing_information": [
+                  "Impact on other services depending on auth-mongo",
+                  "Causal direction between auth-mongo and auth-service"
+                ],
+                "source_vs_symptom_judgment": "Candidate source with early mechanism and dependency link, but causal direction ambiguous",
+                "why_not_others": "Lacks propagation evidence compared to entry components with broad fan-out; auth-service has stronger internal signal magnitude"
+              },
+              {
+                "hypothesis_id": "H1-ts-auth-service-latency-degradation",
+                "root_component": "ts-auth-service",
+                "position": "plausible",
+                "supporting_factors": [
+                  "Strong near-onset internal signals: memory spike 638, cpu drop, log entries",
+                  "Emitter-side log/exceptions indicating internal channel removal and configuration issues"
+                ],
+                "contradicting_factors": [
+                  "Isolated component with no trace callers, limiting direct propagation to entry services",
+                  "Log mention of auth-mongo may indicate dependency failure"
+                ],
+                "missing_information": [
+                  "Authentication failure propagation to other services",
+                  "Source-vs-symptom analysis vs auth-mongo"
+                ],
+                "source_vs_symptom_judgment": "Ambiguous: strong self-contained signals suggest source, but dependency mention and isolation suggest possible symptom",
+                "why_not_others": "Internal signal strength surpasses most, but isolation reduces scope; entry components have wider impact"
+              },
+              {
+                "hypothesis_id": "H10-ts-preserve-service-cpu-saturation",
+                "root_component": "ts-preserve-service",
+                "position": "plausible",
+                "supporting_factors": [
+                  "Entry component with near-onset cpu and memory anomalies",
+                  "Broad call fan-out to many downstream services showing latency"
+                ],
+                "contradicting_factors": [
+                  "Resource pressure could be caused by waiting on slow callees",
+                  "Multiple downstream services lack internal mechanism signals"
+                ],
+                "missing_information": [
+                  "Whether callee health is independent of preserve-service",
+                  "Counterfactual evidence isolating preserve-service as cause"
+                ],
+                "source_vs_symptom_judgment": "Ambiguous: internal signals suggest source, but callee-induced slowness cannot be ruled out",
+                "why_not_others": "Entry status gives broad impact, but lacks a direct mechanism like auth-service's logs or storage's common dependency explanation"
+              },
+              {
+                "hypothesis_id": "H7-ts-travel-mongo-cpu-saturation",
+                "root_component": "ts-travel-mongo",
+                "position": "plausible",
+                "supporting_factors": [
+                  "Near-onset internal signals at 1733591947"
+                ],
+                "contradicting_factors": [
+                  "No service log or trace link to downstream failures",
+                  "Less propagation evidence than auth-mongo"
+                ],
+                "missing_information": [
+                  "Services depending on travel-mongo and their symptom correlation",
+                  "Comparison with auth-mongo's dependency link"
+                ],
+                "source_vs_symptom_judgment": "Candidate source but missing propagation support",
+                "why_not_others": "Weaker than auth-mongo due to lack of dependency log; weaker than entry components with internal signals and broad impact"
+              },
+              {
+                "hypothesis_id": "H5-ts-consign-service-latency-degradation",
+                "root_component": "ts-consign-service",
+                "position": "plausible",
+                "supporting_factors": [
+                  "Entry component with near-onset cpu and memory anomalies",
+                  "Calls ts-consign-price-service which shows later memory pressure"
+                ],
+                "contradicting_factors": [
+                  "Downstream memory pressure occurs much later, weakening direct causation",
+                  "Limited callee scope compared to preserve-service"
+                ],
+                "missing_information": [
+                  "Whether consign-price-service's late memory is consequence or independent",
+                  "Comparison with preserve-service's broader impact"
+                ],
+                "source_vs_symptom_judgment": "Candidate source, but later downstream effect reduces likelihood",
+                "why_not_others": "Strong internal signals but narrower impact than preserve-service; later effects make it less immediate"
+              }
+            ],
+            "case_narrative": "At 1733591947, multiple MongoDB databases (auth-mongo, travel-mongo, station-mongo) showed early CPU/memory/disk pressure. ts-auth-service exhibited a large memory spike and logs referencing ts-auth-mongo, but no direct trace path between them. Entry components ts-preserve-service and ts-consign-service experienced concurrent CPU/memory saturation, while numerous downstream services showed latency-only symptoms. Tested whether auth-mongo explains auth-service's symptoms; no trace paths found, but a log mention links them. The ambiguity between storage, auth-service, and entry overload persists, with none decisively confirmed as the root cause.",
+            "next_action": {
+              "action_id": "compare_source_symptom_auth_preserve_storage",
+              "tool_name": "compare_source_symptom",
+              "args": {
+                "component_scope": [
+                  "ts-auth-service",
+                  "ts-preserve-service",
+                  "ts-auth-mongo"
+                ],
+                "time_window": [
+                  1733591647.0,
+                  1733592847.0
+                ]
+              },
+              "question": "Compare source-vs-symptom cues across the leading hypotheses: ts-auth-service, ts-preserve-service, and ts-auth-mongo.",
+              "target_hypothesis_ids": [
+                "H1-ts-auth-service-latency-degradation",
+                "H10-ts-preserve-service-cpu-saturation",
+                "H3-ts-auth-mongo-cpu-saturation"
+              ],
+              "expected_information_gain": "Resolve the main ambiguity between entry overload, auth-service, and storage root by comparing source-symptom cues."
+            },
+            "final_decision": null
+          },
+          "executed_action": {
+            "action_id": "compare_source_symptom_auth_preserve_storage",
+            "tool_name": "compare_source_symptom",
+            "target_hypothesis_ids": [
+              "H1-ts-auth-service-latency-degradation",
+              "H10-ts-preserve-service-cpu-saturation",
+              "H3-ts-auth-mongo-cpu-saturation"
+            ],
+            "question": "Compare source-vs-symptom cues across the leading hypotheses: ts-auth-service, ts-preserve-service, and ts-auth-mongo.",
+            "args": {
+              "component_scope": [
+                "ts-auth-service",
+                "ts-preserve-service",
+                "ts-auth-mongo"
+              ],
+              "time_window": [
+                1733591647.0,
+                1733592847.0
+              ]
+            },
+            "expected_information_gain": "Resolve the main ambiguity between entry overload, auth-service, and storage root by comparing source-symptom cues."
+          },
+          "evidence_id": "evidence:89d64938e13039457480d28ac1f493ec68d08af96349e9874a95c7a256522e88"
+        },
+        {
+          "step_index": 3,
+          "agent_response": {
+            "belief_state": [
+              {
+                "contradicting_factors": [
+                  "No trace path to ts-auth-service despite log mention",
+                  "ts-auth-service shows strong self-contained internal signals"
+                ],
+                "hypothesis_id": "H3-ts-auth-mongo-cpu-saturation",
+                "missing_information": [
+                  "Impact on other services depending on auth-mongo",
+                  "Causal direction between auth-mongo and auth-service"
+                ],
+                "position": "plausible",
+                "root_component": "ts-auth-mongo",
+                "source_vs_symptom_judgment": "Candidate source with early mechanism and dependency link, but causal direction ambiguous",
+                "supporting_factors": [
+                  "Near-onset internal signals (memory, cpu, disk) at 1733591947",
+                  "Mentioned in ts-auth-service log, indicating dependency"
+                ],
+                "why_not_others": "Lacks propagation evidence compared to entry components with broad fan-out; auth-service has stronger internal signal magnitude"
+              },
+              {
+                "contradicting_factors": [
+                  "Isolated component with no trace callers, limiting direct propagation to entry services",
+                  "Log mention of auth-mongo may indicate dependency failure"
+                ],
+                "hypothesis_id": "H1-ts-auth-service-latency-degradation",
+                "missing_information": [
+                  "Authentication failure propagation to other services",
+                  "Source-vs-symptom analysis vs auth-mongo"
+                ],
+                "position": "plausible",
+                "root_component": "ts-auth-service",
+                "source_vs_symptom_judgment": "Ambiguous: strong self-contained signals suggest source, but dependency mention and isolation suggest possible symptom",
+                "supporting_factors": [
+                  "Strong near-onset internal signals: memory spike 638, cpu drop, log entries",
+                  "Emitter-side log/exceptions indicating internal channel removal and configuration issues"
+                ],
+                "why_not_others": "Internal signal strength surpasses most, but isolation reduces scope; entry components have wider impact"
+              },
+              {
+                "contradicting_factors": [
+                  "Resource pressure could be caused by waiting on slow callees",
+                  "Multiple downstream services lack internal mechanism signals"
+                ],
+                "hypothesis_id": "H10-ts-preserve-service-cpu-saturation",
+                "missing_information": [
+                  "Whether callee health is independent of preserve-service",
+                  "Counterfactual evidence isolating preserve-service as cause"
+                ],
+                "position": "plausible",
+                "root_component": "ts-preserve-service",
+                "source_vs_symptom_judgment": "Ambiguous: internal signals suggest source, but callee-induced slowness cannot be ruled out",
+                "supporting_factors": [
+                  "Entry component with near-onset cpu and memory anomalies",
+                  "Broad call fan-out to many downstream services showing latency"
+                ],
+                "why_not_others": "Entry status gives broad impact, but lacks a direct mechanism like auth-service's logs or storage's common dependency explanation"
+              },
+              {
+                "contradicting_factors": [
+                  "No service log or trace link to downstream failures",
+                  "Less propagation evidence than auth-mongo"
+                ],
+                "hypothesis_id": "H7-ts-travel-mongo-cpu-saturation",
+                "missing_information": [
+                  "Services depending on travel-mongo and their symptom correlation",
+                  "Comparison with auth-mongo's dependency link"
+                ],
+                "position": "plausible",
+                "root_component": "ts-travel-mongo",
+                "source_vs_symptom_judgment": "Candidate source but missing propagation support",
+                "supporting_factors": [
+                  "Near-onset internal signals at 1733591947"
+                ],
+                "why_not_others": "Weaker than auth-mongo due to lack of dependency log; weaker than entry components with internal signals and broad impact"
+              },
+              {
+                "contradicting_factors": [
+                  "Downstream memory pressure occurs much later, weakening direct causation",
+                  "Limited callee scope compared to preserve-service"
+                ],
+                "hypothesis_id": "H5-ts-consign-service-latency-degradation",
+                "missing_information": [
+                  "Whether consign-price-service's late memory is consequence or independent",
+                  "Comparison with preserve-service's broader impact"
+                ],
+                "position": "plausible",
+                "root_component": "ts-consign-service",
+                "source_vs_symptom_judgment": "Candidate source, but later downstream effect reduces likelihood",
+                "supporting_factors": [
+                  "Entry component with near-onset cpu and memory anomalies",
+                  "Calls ts-consign-price-service which shows later memory pressure"
+                ],
+                "why_not_others": "Strong internal signals but narrower impact than preserve-service; later effects make it less immediate"
+              }
+            ],
+            "case_narrative": "At 1733591947, multiple MongoDB databases (auth-mongo, travel-mongo, station-mongo) showed early CPU/memory/disk pressure. ts-auth-service exhibited a large memory spike and logs referencing ts-auth-mongo, but no direct trace path between them. Entry components ts-preserve-service and ts-consign-service experienced concurrent CPU/memory saturation, while numerous downstream services showed latency-only symptoms. Tested whether auth-mongo explains auth-service's symptoms; no trace paths found, but a log mention links them. The ambiguity between storage, auth-service, and entry overload persists, with none decisively confirmed as the root cause.",
+            "final_decision": null,
+            "next_action": {
+              "action_id": "counterfactual-auth-mongo",
+              "args": {
+                "component": "ts-auth-mongo",
+                "symptom_components": [
+                  "ts-auth-service"
+                ],
+                "time_window": [
+                  1733591647.0,
+                  1733592847.0
+                ]
+              },
+              "expected_information_gain": "If removing ts-auth-mongo's anomaly explains ts-auth-service's symptoms, it would establish auth-mongo as the root. Otherwise, auth-service's internal issues become more likely.",
+              "question": "Would removing the anomaly in ts-auth-mongo explain the symptoms observed in ts-auth-service?",
+              "target_hypothesis_ids": [
+                "H3-ts-auth-mongo-cpu-saturation",
+                "H1-ts-auth-service-latency-degradation"
+              ],
+              "tool_name": "counterfactual_remove"
+            }
+          },
+          "executed_action": {
+            "action_id": "counterfactual-auth-mongo",
+            "tool_name": "counterfactual_remove",
+            "target_hypothesis_ids": [
+              "H3-ts-auth-mongo-cpu-saturation",
+              "H1-ts-auth-service-latency-degradation"
+            ],
+            "question": "Would removing the anomaly in ts-auth-mongo explain the symptoms observed in ts-auth-service?",
+            "args": {
+              "component": "ts-auth-mongo",
+              "symptom_components": [
+                "ts-auth-service"
+              ],
+              "time_window": [
+                1733591647.0,
+                1733592847.0
+              ]
+            },
+            "expected_information_gain": "If removing ts-auth-mongo's anomaly explains ts-auth-service's symptoms, it would establish auth-mongo as the root. Otherwise, auth-service's internal issues become more likely."
+          },
+          "evidence_id": "evidence:b2ca0297ee3f8d4b63a1809a775684a801215b4ecf8d0c4f5d033d1a0d4626ca"
+        }
+      ],
+      "case_id": "RE3-TT/ts-auth-service_f1/1",
+      "expected_component": "ts-auth-service",
+      "hit": true,
+      "elapsed_sec": 821.643,
+      "error": null
+    }
+  ]
+}

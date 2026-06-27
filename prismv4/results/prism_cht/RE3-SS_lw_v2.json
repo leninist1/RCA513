@@ -1,0 +1,1951 @@
+{
+  "dataset": "RE3",
+  "system": "RE3-SS",
+  "mode": "lightweight",
+  "total_cases": 30,
+  "top1_accuracy": 0.8666666666666667,
+  "top1_hits": 26,
+  "recall_pool_size": 15,
+  "max_hypotheses": 10,
+  "elapsed_sec": 37.987,
+  "cost": {
+    "total_calls": 4,
+    "total_prompt_tokens": 7967,
+    "total_completion_tokens": 617,
+    "total_tokens": 8584,
+    "avg_tokens_per_case": 286,
+    "by_purpose": {
+      "lightweight_rca_decision": {
+        "call_count": 4,
+        "prompt_tokens": 7967,
+        "completion_tokens": 617,
+        "total_tokens": 8584
+      }
+    }
+  },
+  "results": [
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "carts",
+      "predicted_ranking": [
+        "carts",
+        "queue-master",
+        "front-end",
+        "rabbitmq",
+        "orders"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1732243203.0,
+        1732243263.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "session-db",
+        "carts",
+        "orders",
+        "front-end",
+        "carts-db",
+        "queue-master",
+        "user-db",
+        "rabbitmq",
+        "orders-db",
+        "payment",
+        "catalogue",
+        "user",
+        "shipping",
+        "catalogue-db",
+        "rabbitmq-exporter"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "RE3-SS/carts_f1/1",
+      "expected_component": "carts",
+      "hit": true,
+      "elapsed_sec": 1.118,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {}
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "carts",
+      "predicted_ranking": [
+        "carts",
+        "front-end",
+        "queue-master",
+        "payment",
+        "orders"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1732254135.0,
+        1732254195.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "session-db",
+        "carts",
+        "orders",
+        "front-end",
+        "payment",
+        "shipping",
+        "carts-db",
+        "orders-db",
+        "queue-master",
+        "user-db",
+        "catalogue",
+        "user",
+        "rabbitmq",
+        "catalogue-db",
+        "rabbitmq-exporter"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "RE3-SS/carts_f1/2",
+      "expected_component": "carts",
+      "hit": true,
+      "elapsed_sec": 1.232,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {}
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "carts",
+      "predicted_ranking": [
+        "carts",
+        "front-end",
+        "user",
+        "queue-master",
+        "orders"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1732386836.0,
+        1732386896.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "carts",
+        "session-db",
+        "orders",
+        "front-end",
+        "shipping",
+        "queue-master",
+        "carts-db",
+        "user",
+        "user-db",
+        "payment",
+        "rabbitmq-exporter",
+        "catalogue",
+        "orders-db",
+        "rabbitmq",
+        "catalogue-db"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "RE3-SS/carts_f1/3",
+      "expected_component": "carts",
+      "hit": true,
+      "elapsed_sec": 0.918,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {}
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "carts",
+      "predicted_ranking": [
+        "carts",
+        "payment",
+        "front-end",
+        "catalogue",
+        "queue-master"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1732452160.0,
+        1732452220.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "carts",
+        "session-db",
+        "orders",
+        "front-end",
+        "catalogue",
+        "carts-db",
+        "user",
+        "payment",
+        "orders-db",
+        "queue-master",
+        "shipping",
+        "user-db",
+        "rabbitmq",
+        "catalogue-db",
+        "rabbitmq-exporter"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "RE3-SS/carts_f1/4",
+      "expected_component": "carts",
+      "hit": true,
+      "elapsed_sec": 1.212,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {}
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "front-end",
+      "predicted_ranking": [
+        "front-end",
+        "user",
+        "queue-master",
+        "carts",
+        "orders"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1732244765.0,
+        1732244825.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD identifies front-end as initiator with copeland_score 3 > 0. It has a 'own_code_stack_trace' fault signature, high mag (345.1), and significant log/error signals. No emitter exception flag, but front-end is not a storage component and is not entry? Though it is entry-like, IVD verdict overrides default rules. user and queue-master have positive CS and high relevance. Carts has ambiguous role with dependency_induced_exception but high mag; orders is victim. Storage components (session-db, orders-db, etc.) are reactive. Shipping is propagation_symptom.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "session-db",
+        "carts",
+        "orders",
+        "catalogue",
+        "orders-db",
+        "user-db",
+        "carts-db",
+        "front-end",
+        "user",
+        "queue-master",
+        "payment",
+        "shipping",
+        "rabbitmq-exporter",
+        "rabbitmq",
+        "catalogue-db"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n    \"root_component\": \"front-end\",\n    \"ranking\": [\"front-end\", \"user\", \"queue-master\", \"carts\", \"orders\"],\n    \"rationale\": \"IVD identifies front-end as initiator with copeland_score 3 > 0. It has a 'own_code_stack_trace' fault signature, high mag (345.1), and significant log/error signals. No emitter exception flag, but front-end is not a storage component and is not entry? Though it is entry-like, IVD verdict overrides default rules. user and queue-master have positive CS and high relevance. Carts has ambiguous role with dependency_induced_exception but high mag; orders is victim. Storage components (session-db, orders-db, etc.) are reactive. Shipping is propagation_symptom.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "RE3-SS/carts_f3/1",
+      "expected_component": "carts",
+      "hit": false,
+      "elapsed_sec": 3.532,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 2075,
+        "completion_tokens": 172,
+        "total_tokens": 2247,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 2075,
+            "completion_tokens": 172,
+            "total_tokens": 2247
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "carts",
+      "predicted_ranking": [
+        "carts",
+        "front-end",
+        "catalogue",
+        "queue-master",
+        "shipping"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1732255694.0,
+        1732255754.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "session-db",
+        "carts",
+        "orders",
+        "front-end",
+        "catalogue",
+        "shipping",
+        "carts-db",
+        "orders-db",
+        "user",
+        "queue-master",
+        "payment",
+        "user-db",
+        "catalogue-db",
+        "rabbitmq-exporter",
+        "rabbitmq"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "RE3-SS/carts_f3/2",
+      "expected_component": "carts",
+      "hit": true,
+      "elapsed_sec": 1.052,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "carts",
+      "predicted_ranking": [
+        "carts",
+        "front-end",
+        "queue-master",
+        "rabbitmq",
+        "shipping"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1732388394.0,
+        1732388454.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "carts",
+        "session-db",
+        "orders",
+        "queue-master",
+        "rabbitmq",
+        "payment",
+        "orders-db",
+        "front-end",
+        "carts-db",
+        "shipping",
+        "catalogue",
+        "user",
+        "user-db",
+        "catalogue-db",
+        "rabbitmq-exporter"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "RE3-SS/carts_f3/3",
+      "expected_component": "carts",
+      "hit": true,
+      "elapsed_sec": 0.923,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "carts",
+      "predicted_ranking": [
+        "carts",
+        "front-end",
+        "queue-master",
+        "shipping",
+        "catalogue"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1732453719.0,
+        1732453779.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "carts",
+        "session-db",
+        "orders",
+        "queue-master",
+        "shipping",
+        "carts-db",
+        "front-end",
+        "payment",
+        "user-db",
+        "catalogue",
+        "orders-db",
+        "user",
+        "rabbitmq",
+        "catalogue-db",
+        "rabbitmq-exporter"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "RE3-SS/carts_f3/4",
+      "expected_component": "carts",
+      "hit": true,
+      "elapsed_sec": 0.927,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "carts",
+      "predicted_ranking": [
+        "carts",
+        "shipping",
+        "queue-master",
+        "front-end",
+        "user"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1732246326.0,
+        1732246386.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "session-db",
+        "carts",
+        "orders",
+        "queue-master",
+        "shipping",
+        "payment",
+        "carts-db",
+        "front-end",
+        "user",
+        "user-db",
+        "orders-db",
+        "catalogue",
+        "catalogue-db",
+        "rabbitmq",
+        "rabbitmq-exporter"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "RE3-SS/carts_f4/1",
+      "expected_component": "carts",
+      "hit": true,
+      "elapsed_sec": 0.936,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "carts",
+      "predicted_ranking": [
+        "carts",
+        "front-end",
+        "queue-master",
+        "orders",
+        "payment"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1732257253.0,
+        1732257313.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "session-db",
+        "carts",
+        "orders",
+        "front-end",
+        "shipping",
+        "payment",
+        "carts-db",
+        "queue-master",
+        "orders-db",
+        "catalogue",
+        "user-db",
+        "user",
+        "rabbitmq",
+        "rabbitmq-exporter",
+        "catalogue-db"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "RE3-SS/carts_f4/2",
+      "expected_component": "carts",
+      "hit": true,
+      "elapsed_sec": 1.447,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "carts",
+      "predicted_ranking": [
+        "carts",
+        "front-end",
+        "rabbitmq",
+        "shipping",
+        "orders"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1732389953.0,
+        1732390013.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "carts",
+        "session-db",
+        "orders",
+        "carts-db",
+        "shipping",
+        "rabbitmq",
+        "user-db",
+        "catalogue",
+        "front-end",
+        "queue-master",
+        "payment",
+        "orders-db",
+        "user",
+        "catalogue-db",
+        "rabbitmq-exporter"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "RE3-SS/carts_f4/3",
+      "expected_component": "carts",
+      "hit": true,
+      "elapsed_sec": 0.924,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "carts",
+      "predicted_ranking": [
+        "carts",
+        "queue-master",
+        "orders",
+        "front-end"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1732455278.0,
+        1732455338.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "carts",
+        "session-db",
+        "orders",
+        "queue-master",
+        "carts-db",
+        "shipping",
+        "front-end",
+        "orders-db",
+        "user-db",
+        "payment",
+        "catalogue",
+        "user",
+        "rabbitmq",
+        "catalogue-db",
+        "rabbitmq-exporter"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "RE3-SS/carts_f4/4",
+      "expected_component": "carts",
+      "hit": true,
+      "elapsed_sec": 0.985,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "front-end",
+      "predicted_ranking": [
+        "front-end",
+        "queue-master",
+        "rabbitmq",
+        "orders"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1732247889.0,
+        1732247949.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "session-db",
+        "front-end",
+        "queue-master",
+        "orders",
+        "rabbitmq",
+        "orders-db",
+        "user-db",
+        "carts-db",
+        "rabbitmq-exporter",
+        "catalogue",
+        "payment",
+        "user",
+        "shipping",
+        "carts",
+        "catalogue-db"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "RE3-SS/front-end_f1/1",
+      "expected_component": "front-end",
+      "hit": true,
+      "elapsed_sec": 1.046,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "front-end",
+      "predicted_ranking": [
+        "front-end",
+        "queue-master",
+        "orders",
+        "user"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1732258812.0,
+        1732258872.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "session-db",
+        "front-end",
+        "queue-master",
+        "shipping",
+        "orders",
+        "catalogue-db",
+        "orders-db",
+        "user",
+        "carts-db",
+        "catalogue",
+        "carts",
+        "user-db",
+        "payment",
+        "rabbitmq",
+        "rabbitmq-exporter"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "RE3-SS/front-end_f1/2",
+      "expected_component": "front-end",
+      "hit": true,
+      "elapsed_sec": 1.189,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "front-end",
+      "predicted_ranking": [
+        "front-end",
+        "queue-master",
+        "carts",
+        "catalogue",
+        "orders"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1732391511.0,
+        1732391571.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD identifies front-end as initiator with positive copeland_score (2). It has high anomaly magnitude (491.7) and resource anomalies (cpu, memory, socket) with log spikes, making it the likely root cause. queue-master also has high magnitude and emitter_exception flag, but front-end's IVD verdict as initiator and higher magnitude override. Storage components (orders-db, session-db, etc.) are reactive dependencies. Carts is a victim per IVD. front-end is not an entry component (carts is the only entry listed).",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "session-db",
+        "queue-master",
+        "front-end",
+        "carts",
+        "shipping",
+        "orders-db",
+        "carts-db",
+        "catalogue",
+        "user-db",
+        "orders",
+        "rabbitmq-exporter",
+        "payment",
+        "user",
+        "catalogue-db",
+        "rabbitmq"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"front-end\",\n  \"ranking\": [\"front-end\", \"queue-master\", \"carts\", \"catalogue\", \"orders\"],\n  \"rationale\": \"IVD identifies front-end as initiator with positive copeland_score (2). It has high anomaly magnitude (491.7) and resource anomalies (cpu, memory, socket) with log spikes, making it the likely root cause. queue-master also has high magnitude and emitter_exception flag, but front-end's IVD verdict as initiator and higher magnitude override. Storage components (orders-db, session-db, etc.) are reactive dependencies. Carts is a victim per IVD. front-end is not an entry component (carts is the only entry listed).\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "RE3-SS/front-end_f1/3",
+      "expected_component": "front-end",
+      "hit": true,
+      "elapsed_sec": 3.186,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 1901,
+        "completion_tokens": 160,
+        "total_tokens": 2061,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 1901,
+            "completion_tokens": 160,
+            "total_tokens": 2061
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "front-end",
+      "predicted_ranking": [
+        "front-end",
+        "shipping",
+        "queue-master",
+        "orders",
+        "rabbitmq"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1732249439.0,
+        1732249499.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD identifies front-end as initiator with highest copeland score (3) and no caller anomaly; it also has very high anomaly magnitude (mag=512.6) and rich signal set. Storage components (e.g., session-db, orders-db) are reactive dependencies. Queue-master has emitter_exception in IVD (fs: ambiguous_or_no_exception) but low mag relative to front-end; shipping has high mag but is ambiguous. Ranking follows IVD order: front-end, shipping, queue-master, orders, rabbitmq.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "session-db",
+        "shipping",
+        "front-end",
+        "orders-db",
+        "catalogue-db",
+        "rabbitmq",
+        "orders",
+        "carts-db",
+        "user-db",
+        "queue-master",
+        "catalogue",
+        "user",
+        "carts",
+        "payment",
+        "rabbitmq-exporter"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"front-end\", \"ranking\": [\"front-end\", \"shipping\", \"queue-master\", \"orders\", \"rabbitmq\"], \"rationale\": \"IVD identifies front-end as initiator with highest copeland score (3) and no caller anomaly; it also has very high anomaly magnitude (mag=512.6) and rich signal set. Storage components (e.g., session-db, orders-db) are reactive dependencies. Queue-master has emitter_exception in IVD (fs: ambiguous_or_no_exception) but low mag relative to front-end; shipping has high mag but is ambiguous. Ranking follows IVD order: front-end, shipping, queue-master, orders, rabbitmq.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "RE3-SS/front-end_f2/1",
+      "expected_component": "front-end",
+      "hit": true,
+      "elapsed_sec": 4.574,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 1997,
+        "completion_tokens": 152,
+        "total_tokens": 2149,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 1997,
+            "completion_tokens": 152,
+            "total_tokens": 2149
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "front-end",
+      "predicted_ranking": [
+        "front-end",
+        "queue-master",
+        "user",
+        "orders"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1732260362.0,
+        1732260422.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "session-db",
+        "front-end",
+        "queue-master",
+        "orders-db",
+        "carts-db",
+        "catalogue-db",
+        "user-db",
+        "user",
+        "orders",
+        "catalogue",
+        "payment",
+        "shipping",
+        "carts",
+        "rabbitmq-exporter",
+        "rabbitmq"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "RE3-SS/front-end_f2/2",
+      "expected_component": "front-end",
+      "hit": true,
+      "elapsed_sec": 1.311,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "front-end",
+      "predicted_ranking": [
+        "front-end",
+        "orders",
+        "user",
+        "queue-master"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1732393062.0,
+        1732393122.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "session-db",
+        "queue-master",
+        "front-end",
+        "user",
+        "orders",
+        "catalogue",
+        "user-db",
+        "orders-db",
+        "carts-db",
+        "payment",
+        "shipping",
+        "rabbitmq",
+        "rabbitmq-exporter",
+        "carts",
+        "catalogue-db"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "RE3-SS/front-end_f2/3",
+      "expected_component": "front-end",
+      "hit": true,
+      "elapsed_sec": 1.23,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "front-end",
+      "predicted_ranking": [
+        "front-end",
+        "queue-master",
+        "user",
+        "rabbitmq",
+        "shipping"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1732349836.0,
+        1732349896.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "session-db",
+        "catalogue",
+        "front-end",
+        "queue-master",
+        "user",
+        "carts-db",
+        "user-db",
+        "shipping",
+        "orders-db",
+        "payment",
+        "orders",
+        "carts",
+        "catalogue-db",
+        "rabbitmq",
+        "rabbitmq-exporter"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "RE3-SS/front-end_f3/1",
+      "expected_component": "front-end",
+      "hit": true,
+      "elapsed_sec": 0.336,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "front-end",
+      "predicted_ranking": [
+        "front-end",
+        "rabbitmq",
+        "queue-master",
+        "user"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1732351388.0,
+        1732351448.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "session-db",
+        "front-end",
+        "catalogue",
+        "payment",
+        "orders",
+        "rabbitmq",
+        "orders-db",
+        "user",
+        "queue-master",
+        "carts",
+        "user-db",
+        "catalogue-db",
+        "shipping",
+        "carts-db",
+        "rabbitmq-exporter"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "RE3-SS/front-end_f3/2",
+      "expected_component": "front-end",
+      "hit": true,
+      "elapsed_sec": 0.421,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "front-end",
+      "predicted_ranking": [
+        "front-end",
+        "queue-master",
+        "orders"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1732394612.0,
+        1732394672.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "session-db",
+        "front-end",
+        "user",
+        "carts",
+        "queue-master",
+        "catalogue-db",
+        "carts-db",
+        "orders",
+        "user-db",
+        "catalogue",
+        "payment",
+        "orders-db",
+        "shipping",
+        "rabbitmq",
+        "rabbitmq-exporter"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "RE3-SS/front-end_f3/3",
+      "expected_component": "front-end",
+      "hit": true,
+      "elapsed_sec": 0.36,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "orders",
+      "predicted_ranking": [
+        "orders",
+        "queue-master",
+        "user",
+        "catalogue",
+        "shipping"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1732352938.0,
+        1732352998.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "session-db",
+        "orders",
+        "front-end",
+        "user",
+        "orders-db",
+        "payment",
+        "carts-db",
+        "catalogue",
+        "user-db",
+        "queue-master",
+        "carts",
+        "rabbitmq",
+        "shipping",
+        "catalogue-db",
+        "rabbitmq-exporter"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "RE3-SS/orders_f1/1",
+      "expected_component": "orders",
+      "hit": true,
+      "elapsed_sec": 0.887,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "orders",
+      "predicted_ranking": [
+        "orders",
+        "queue-master",
+        "payment",
+        "front-end"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1732354496.0,
+        1732354556.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "session-db",
+        "orders",
+        "front-end",
+        "payment",
+        "user",
+        "shipping",
+        "orders-db",
+        "carts-db",
+        "queue-master",
+        "user-db",
+        "carts",
+        "catalogue",
+        "catalogue-db",
+        "rabbitmq",
+        "rabbitmq-exporter"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "RE3-SS/orders_f1/2",
+      "expected_component": "orders",
+      "hit": true,
+      "elapsed_sec": 0.898,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "orders",
+      "predicted_ranking": [
+        "orders",
+        "rabbitmq",
+        "queue-master",
+        "front-end"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1732396164.0,
+        1732396224.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "session-db",
+        "orders",
+        "carts",
+        "front-end",
+        "rabbitmq",
+        "catalogue-db",
+        "orders-db",
+        "user-db",
+        "queue-master",
+        "payment",
+        "rabbitmq-exporter",
+        "user",
+        "carts-db",
+        "shipping",
+        "catalogue"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "RE3-SS/orders_f1/3",
+      "expected_component": "orders",
+      "hit": true,
+      "elapsed_sec": 1.015,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "orders",
+      "predicted_ranking": [
+        "orders",
+        "queue-master",
+        "front-end",
+        "carts",
+        "shipping"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1732356055.0,
+        1732356115.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD identifies orders as initiator with copeland_score=3 > 0. It has high anomaly magnitude (889.8), resource anomalies (cpu, memory, socket), and is not storage. queue-master has magnitude 111.5 and emitter_exception_no_dependency but mag < 2x larger resource anomaly candidate. front-end is an entry component, not root cause. carts is a victim per IVD. shipping has low magnitude.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "session-db",
+        "orders",
+        "front-end",
+        "queue-master",
+        "carts",
+        "carts-db",
+        "orders-db",
+        "shipping",
+        "payment",
+        "user",
+        "user-db",
+        "catalogue",
+        "catalogue-db",
+        "rabbitmq",
+        "rabbitmq-exporter"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"orders\",\n  \"ranking\": [\"orders\", \"queue-master\", \"front-end\", \"carts\", \"shipping\"],\n  \"rationale\": \"IVD identifies orders as initiator with copeland_score=3 > 0. It has high anomaly magnitude (889.8), resource anomalies (cpu, memory, socket), and is not storage. queue-master has magnitude 111.5 and emitter_exception_no_dependency but mag < 2x larger resource anomaly candidate. front-end is an entry component, not root cause. carts is a victim per IVD. shipping has low magnitude.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "RE3-SS/orders_f3/1",
+      "expected_component": "orders",
+      "hit": true,
+      "elapsed_sec": 2.78,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 1994,
+        "completion_tokens": 133,
+        "total_tokens": 2127,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 1994,
+            "completion_tokens": 133,
+            "total_tokens": 2127
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "orders",
+      "predicted_ranking": [
+        "orders",
+        "queue-master",
+        "carts",
+        "front-end"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1732357613.0,
+        1732357673.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "session-db",
+        "orders",
+        "front-end",
+        "carts-db",
+        "user-db",
+        "catalogue-db",
+        "carts",
+        "orders-db",
+        "queue-master",
+        "payment",
+        "user",
+        "rabbitmq",
+        "shipping",
+        "rabbitmq-exporter",
+        "catalogue"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "RE3-SS/orders_f3/2",
+      "expected_component": "orders",
+      "hit": true,
+      "elapsed_sec": 0.867,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "orders",
+      "predicted_ranking": [
+        "orders",
+        "carts",
+        "queue-master",
+        "front-end"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1732397724.0,
+        1732397784.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "session-db",
+        "orders",
+        "front-end",
+        "carts",
+        "user-db",
+        "queue-master",
+        "orders-db",
+        "carts-db",
+        "payment",
+        "user",
+        "shipping",
+        "rabbitmq",
+        "rabbitmq-exporter",
+        "catalogue-db",
+        "catalogue"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "RE3-SS/orders_f3/3",
+      "expected_component": "orders",
+      "hit": true,
+      "elapsed_sec": 0.903,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "front-end",
+      "predicted_ranking": [
+        "front-end",
+        "queue-master",
+        "orders"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1732359171.0,
+        1732359231.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "session-db",
+        "orders",
+        "front-end",
+        "catalogue",
+        "payment",
+        "queue-master",
+        "carts-db",
+        "user-db",
+        "orders-db",
+        "user",
+        "carts",
+        "shipping",
+        "catalogue-db",
+        "rabbitmq",
+        "rabbitmq-exporter"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "RE3-SS/orders_f4/1",
+      "expected_component": "orders",
+      "hit": false,
+      "elapsed_sec": 0.474,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "front-end",
+      "predicted_ranking": [
+        "front-end",
+        "orders",
+        "queue-master",
+        "carts",
+        "shipping"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1732360730.0,
+        1732360790.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "session-db",
+        "orders",
+        "front-end",
+        "shipping",
+        "carts",
+        "catalogue",
+        "orders-db",
+        "user",
+        "user-db",
+        "queue-master",
+        "payment",
+        "carts-db",
+        "catalogue-db",
+        "rabbitmq",
+        "rabbitmq-exporter"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "RE3-SS/orders_f4/2",
+      "expected_component": "orders",
+      "hit": false,
+      "elapsed_sec": 0.814,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "front-end",
+      "predicted_ranking": [
+        "front-end",
+        "orders",
+        "queue-master",
+        "rabbitmq"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1732399286.0,
+        1732399346.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "session-db",
+        "orders",
+        "front-end",
+        "payment",
+        "rabbitmq",
+        "orders-db",
+        "carts-db",
+        "shipping",
+        "queue-master",
+        "catalogue",
+        "user",
+        "carts",
+        "catalogue-db",
+        "user-db",
+        "rabbitmq-exporter"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "RE3-SS/orders_f4/3",
+      "expected_component": "orders",
+      "hit": false,
+      "elapsed_sec": 0.488,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    }
+  ]
+}

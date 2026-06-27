@@ -1,0 +1,387 @@
+{
+  "dataset": "RCAEval",
+  "system": "RE3-OB",
+  "mode": "llm-provider",
+  "total_cases": 30,
+  "top1_accuracy": 0.16666666666666666,
+  "top1_hits": 5,
+  "elapsed_sec": 7825.867,
+  "results": [
+    {
+      "status": "best_effort_final",
+      "hypothesis_id": "H2-adservice-service-error",
+      "predicted_component": "adservice",
+      "reason_family": "service error",
+      "onset_interval": [
+        1731903930.0,
+        1731903990.0
+      ],
+      "rounds_completed": 4,
+      "challenge_status": null,
+      "evidence_count": 4,
+      "referenced_evidence_ids": [
+        "evidence:f54f944a80d46481422a3bf386d444b1e2e72f590570ae7d123c42183f913b64",
+        "evidence:8497da33cbb5320a613935501a1c04190f7f1723ab605653729376426f9334da"
+      ],
+      "best_effort_rationale": "Adservice's high magnitude service error signature and tied earliest onset at 1731903960.0, coupled with frontend logs showing repeated 'failed to retrieve ads' errors, strongly suggest adservice as the initiating fault. The case identifier 'adservice_f3' further corroborates this. H1 is weakened by later redis onset; H4/H5 are weak latency degradations contradicted by low reasonsignature magnitudes.",
+      "best_effort_uncertainties": [
+        "Inconclusive propagation consistency check between adservice and frontend.",
+        "Onset tie with frontend leaves ambiguity, but frontend errors are downstream symptoms of adservice."
+      ],
+      "best_effort_terminal_reason": "NominationRejectedError: Addressed competitor 'H4-recommendationservice-latency-degradation' has status 'active', must be WEAKENED or REFUTED",
+      "case_id": "RE3-OB/adservice_f3/1",
+      "expected_component": "adservice",
+      "hit": true,
+      "elapsed_sec": 427.08,
+      "error": null
+    },
+    {
+      "case_id": "RE3-OB/adservice_f3/2",
+      "expected_component": "adservice",
+      "predicted_component": null,
+      "hit": false,
+      "elapsed_sec": 355.12,
+      "error": "ValueError: component_evidence_ids must contain at least one evidence ID"
+    },
+    {
+      "case_id": "RE3-OB/adservice_f3/3",
+      "expected_component": "adservice",
+      "predicted_component": null,
+      "hit": false,
+      "elapsed_sec": 301.969,
+      "error": "AssessmentRejectedError: assessment.evidence_id 'evidence:8907faff694d88fb1648645c7d23be585dccf9cc2c5e1d21ca961f9d9ab1b0be' does not match evidence.evidence_id 'evidence:8907faff694d88fb1648645c7d23be585dcc9fcc2c5e1d21ca961f9d9ab1b0be'"
+    },
+    {
+      "case_id": "RE3-OB/adservice_f4/1",
+      "expected_component": "adservice",
+      "predicted_component": null,
+      "hit": false,
+      "elapsed_sec": 492.235,
+      "error": "ChallengeRejectedError: Competitor 'H5-currencyservice-latency-degradation' is not in lead_result.nomination.addressed_competitor_ids"
+    },
+    {
+      "case_id": "RE3-OB/adservice_f4/2",
+      "expected_component": "adservice",
+      "predicted_component": null,
+      "hit": false,
+      "elapsed_sec": 183.231,
+      "error": "ProviderTransportError: transport error: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1000)"
+    },
+    {
+      "status": "best_effort_final",
+      "hypothesis_id": "H2-adservice-service-error",
+      "predicted_component": "adservice",
+      "reason_family": "service error",
+      "onset_interval": [
+        1732365519.0,
+        1732365579.0
+      ],
+      "rounds_completed": 4,
+      "challenge_status": null,
+      "evidence_count": 4,
+      "referenced_evidence_ids": [
+        "evidence:bb0bb8d513a63bd7ad2d85bec44b6fe9a3a384f247a5b685fbe76e9f2a84d3ee"
+      ],
+      "best_effort_rationale": "Adservice exhibits an extremely strong service error signature (magnitude ~1e9) with explicit NullPointerException logs, indicating a definitive local fault. Although checkoutservice shows an earlier weak CPU onset and no trace path exists from adservice to checkoutservice, the severity of adservice’s anomaly strongly suggests it is the root cause, and the earlier checkoutservice signal is likely a coincidental minor variation or unconnected load change.",
+      "best_effort_uncertainties": [
+        "No trace path from adservice to checkoutservice leaves the earlier checkoutservice CPU increase unexplained; onset order contradicts typical root-cause expectation; reason signature for checkoutservice is very weak, making it an unconvincing independent root."
+      ],
+      "best_effort_terminal_reason": "NominationRejectedError: Addressed competitor 'H3-frontend-latency-degradation' has status 'active', must be WEAKENED or REFUTED",
+      "case_id": "RE3-OB/adservice_f4/3",
+      "expected_component": "adservice",
+      "hit": true,
+      "elapsed_sec": 399.69,
+      "error": null
+    },
+    {
+      "case_id": "RE3-OB/adservice_f5/1",
+      "expected_component": "adservice",
+      "predicted_component": null,
+      "hit": false,
+      "elapsed_sec": 164.119,
+      "error": "IncompleteRead: IncompleteRead(0 bytes read)"
+    },
+    {
+      "status": "best_effort_final",
+      "hypothesis_id": "H1-redis-cpu-saturation",
+      "predicted_component": "redis",
+      "reason_family": "cpu saturation",
+      "onset_interval": [
+        1732278257.0,
+        1732278317.0
+      ],
+      "rounds_completed": 4,
+      "challenge_status": null,
+      "evidence_count": 4,
+      "referenced_evidence_ids": [
+        "evidence:a0f5e5d0f152c31db38806d0255e8c1d68537a2529106ea36649005000dae44c",
+        "evidence:32c4fb8dd38bd9fcd891f0bdee6968a3917e9f0a4cd84de3caf5bc80a224b39e"
+      ],
+      "best_effort_rationale": "Redis had earliest anomaly onset (1732278287) with extreme cpu saturation magnitude (1e14), dwarfing other components' signals. The reason signature strongly matches cpu saturation. Other hypotheses were weakened by later onsets or weak local evidence.",
+      "best_effort_uncertainties": [
+        "No observed propagation path from redis to recommendationservice",
+        "Inconclusive raw metric evidence for recommendationservice latency significance",
+        "Possible undetected fault in adservice hinted by fault name 'adservice_f5'"
+      ],
+      "best_effort_terminal_reason": "NominationRejectedError: Nominated hypothesis 'H1-redis-cpu-saturation' has status 'active', must be SUPPORTED",
+      "case_id": "RE3-OB/adservice_f5/2",
+      "expected_component": "adservice",
+      "hit": false,
+      "elapsed_sec": 336.538,
+      "error": null
+    },
+    {
+      "case_id": "RE3-OB/adservice_f5/3",
+      "expected_component": "adservice",
+      "predicted_component": null,
+      "hit": false,
+      "elapsed_sec": 129.677,
+      "error": "TypeError: cannot pickle 'mappingproxy' object"
+    },
+    {
+      "case_id": "RE3-OB/cartservice_f1/1",
+      "expected_component": "cartservice",
+      "predicted_component": null,
+      "hit": false,
+      "elapsed_sec": 358.221,
+      "error": "TypeError: cannot pickle 'mappingproxy' object"
+    },
+    {
+      "case_id": "RE3-OB/cartservice_f1/2",
+      "expected_component": "cartservice",
+      "predicted_component": null,
+      "hit": false,
+      "elapsed_sec": 143.53,
+      "error": "ProviderTransportError: transport error: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1000)"
+    },
+    {
+      "status": "best_effort_final",
+      "hypothesis_id": "H3-cartservice-latency-degradation",
+      "predicted_component": "cartservice",
+      "reason_family": "latency degradation",
+      "onset_interval": [
+        1732368600.0,
+        1732368660.0
+      ],
+      "rounds_completed": 4,
+      "challenge_status": null,
+      "evidence_count": 4,
+      "referenced_evidence_ids": [
+        "evidence:39a5729d18ce89c3cb208739e305f526d61dda8e960492b7d1db2899b99d8a87",
+        "evidence:53fbd0e0bb890593d1944db8429eecbb49a2445323b8d110f3e72d64ae306fed"
+      ],
+      "best_effort_rationale": "Cartservice exhibits the strongest local anomaly (magnitude 4836) with memory, CPU, socket signals, and error logs indicating 'Can't access cart storage' (OverflowException). Despite missing observed propagation paths, its early onset and severe signature suggest it is the root cause, with other services showing weaker, likely cascading, effects.",
+      "best_effort_uncertainties": [
+        "No observed propagation from cartservice to checkoutservice or frontend",
+        "Onset times are nearly identical across multiple components, complicating temporal ordering",
+        "The OverflowException could be a symptom of prior resource pressure rather than the initiating fault"
+      ],
+      "best_effort_terminal_reason": "NominationRejectedError: Nominated hypothesis 'H4-recommendationservice-latency-degradation' has status 'active', must be SUPPORTED",
+      "case_id": "RE3-OB/cartservice_f1/3",
+      "expected_component": "cartservice",
+      "hit": true,
+      "elapsed_sec": 406.51,
+      "error": null
+    },
+    {
+      "case_id": "RE3-OB/currencyservice_f1/1",
+      "expected_component": "currencyservice",
+      "predicted_component": null,
+      "hit": false,
+      "elapsed_sec": 19.586,
+      "error": "ActionRejectedError: Action 'action-1' rejected: all expected_outcomes are identical after normalization; action has no discriminative power"
+    },
+    {
+      "case_id": "RE3-OB/currencyservice_f1/2",
+      "expected_component": "currencyservice",
+      "predicted_component": null,
+      "hit": false,
+      "elapsed_sec": 126.033,
+      "error": "TypeError: cannot pickle 'mappingproxy' object"
+    },
+    {
+      "case_id": "RE3-OB/currencyservice_f1/3",
+      "expected_component": "currencyservice",
+      "predicted_component": null,
+      "hit": false,
+      "elapsed_sec": 216.933,
+      "error": "IncompleteRead: IncompleteRead(9629 bytes read)"
+    },
+    {
+      "status": "best_effort_final",
+      "hypothesis_id": "H5-adservice-latency-degradation",
+      "predicted_component": "adservice",
+      "reason_family": "latency degradation",
+      "onset_interval": [
+        1731911650.0,
+        1731911710.0
+      ],
+      "rounds_completed": 4,
+      "challenge_status": null,
+      "evidence_count": 4,
+      "referenced_evidence_ids": [
+        "evidence:5542c557df48e9849c244d584bda430478b49fe293219c08877b4170eb1d73fd",
+        "evidence:f45aa9af4aabf25e028126ea90adee79090ed4ad0821120c995cd823abb9e675"
+      ],
+      "best_effort_rationale": "H5 has earliest onset (adservice latency at 1731911680.0) and the strongest reason signature (magnitude 74.4 for latency degradation), making it the most likely initiating failure among competitors. H1 (redis) has moderate support and H2 (frontend) is contradicted by weak signature. Propagation paths missing for H5 and H1 are inconclusive, but do not outweigh signature and onset evidence.",
+      "best_effort_uncertainties": [
+        "Missing propagation path adservice→frontend weakens causal chain, though still possible with incomplete data",
+        "H3 (emailservice) is weakened by later onset despite case name suggesting emailservice fault; evidence may be incomplete",
+        "H1 (redis) also has earliest onset and moderate signature, so fault equivalence cannot be entirely ruled out"
+      ],
+      "best_effort_terminal_reason": "NominationRejectedError: Addressed competitor 'H1-redis-cpu-saturation' has status 'supported', must be WEAKENED or REFUTED",
+      "case_id": "RE3-OB/emailservice_f1/1",
+      "expected_component": "emailservice",
+      "hit": false,
+      "elapsed_sec": 415.87,
+      "error": null
+    },
+    {
+      "case_id": "RE3-OB/emailservice_f1/2",
+      "expected_component": "emailservice",
+      "predicted_component": null,
+      "hit": false,
+      "elapsed_sec": 31.208,
+      "error": "ActionRejectedError: Action 'round0_onset_comparison' rejected: all expected_outcomes are identical after normalization; action has no discriminative power"
+    },
+    {
+      "case_id": "RE3-OB/emailservice_f1/3",
+      "expected_component": "emailservice",
+      "predicted_component": null,
+      "hit": false,
+      "elapsed_sec": 388.929,
+      "error": "TypeError: cannot pickle 'mappingproxy' object"
+    },
+    {
+      "case_id": "RE3-OB/emailservice_f2/1",
+      "expected_component": "emailservice",
+      "predicted_component": null,
+      "hit": false,
+      "elapsed_sec": 233.847,
+      "error": "TypeError: cannot pickle 'mappingproxy' object"
+    },
+    {
+      "case_id": "RE3-OB/emailservice_f2/2",
+      "expected_component": "emailservice",
+      "predicted_component": null,
+      "hit": false,
+      "elapsed_sec": 246.742,
+      "error": "ProviderResponseError: response choices[0].message.content must be non-empty"
+    },
+    {
+      "case_id": "RE3-OB/emailservice_f2/3",
+      "expected_component": "emailservice",
+      "predicted_component": null,
+      "hit": false,
+      "elapsed_sec": 25.381,
+      "error": "ActionRejectedError: Action 'action_1' rejected: all expected_outcomes are identical after normalization; action has no discriminative power"
+    },
+    {
+      "case_id": "RE3-OB/emailservice_f3/1",
+      "expected_component": "emailservice",
+      "predicted_component": null,
+      "hit": false,
+      "elapsed_sec": 154.505,
+      "error": "TypeError: cannot pickle 'mappingproxy' object"
+    },
+    {
+      "case_id": "RE3-OB/emailservice_f3/2",
+      "expected_component": "emailservice",
+      "predicted_component": null,
+      "hit": false,
+      "elapsed_sec": 89.517,
+      "error": "ProviderTransportError: transport error: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1000)"
+    },
+    {
+      "case_id": "RE3-OB/emailservice_f3/3",
+      "expected_component": "emailservice",
+      "predicted_component": null,
+      "hit": false,
+      "elapsed_sec": 129.238,
+      "error": "TypeError: cannot pickle 'mappingproxy' object"
+    },
+    {
+      "status": "best_effort_final",
+      "hypothesis_id": "H4-emailservice-latency-degradation",
+      "predicted_component": "emailservice",
+      "reason_family": "latency degradation",
+      "onset_interval": [
+        1731916301.0,
+        1731916361.0
+      ],
+      "rounds_completed": 4,
+      "challenge_status": null,
+      "evidence_count": 4,
+      "referenced_evidence_ids": [
+        "evidence:b2a87046d682a08cedcfa5f8b85632031726e3f9169b75ad637b7739164fc6b1"
+      ],
+      "best_effort_rationale": "Checkoutservice logs show errors sending order confirmations via emailservice, indicating emailservice is the root cause of checkoutservice latency and failures. Despite emailservice metrics onset being slightly later, the error logs in dependent services implicate emailservice as the initiator.",
+      "best_effort_uncertainties": [
+        "Emailservice metrics onset is later than checkoutservice, suggesting possible monitoring delay or failure mode that doesn't immediately spike resource usage.",
+        "Emailservice hypothesis weakened by onset order; however, the evidence of cascading errors in upstream services points to emailservice as the true source."
+      ],
+      "best_effort_terminal_reason": "NominationRejectedError: Addressed competitor 'H5-cartservice-latency-degradation' has status 'supported', must be WEAKENED or REFUTED",
+      "case_id": "RE3-OB/emailservice_f4/1",
+      "expected_component": "emailservice",
+      "hit": true,
+      "elapsed_sec": 345.738,
+      "error": null
+    },
+    {
+      "case_id": "RE3-OB/emailservice_f4/2",
+      "expected_component": "emailservice",
+      "predicted_component": null,
+      "hit": false,
+      "elapsed_sec": 337.445,
+      "error": "ProviderTransportError: transport error: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1000)"
+    },
+    {
+      "case_id": "RE3-OB/emailservice_f4/3",
+      "expected_component": "emailservice",
+      "predicted_component": null,
+      "hit": false,
+      "elapsed_sec": 307.326,
+      "error": "ProviderTransportError: transport error: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1000)"
+    },
+    {
+      "case_id": "RE3-OB/emailservice_f5/1",
+      "expected_component": "emailservice",
+      "predicted_component": null,
+      "hit": false,
+      "elapsed_sec": 234.891,
+      "error": "ProviderTransportError: transport error: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1000)"
+    },
+    {
+      "case_id": "RE3-OB/emailservice_f5/2",
+      "expected_component": "emailservice",
+      "predicted_component": null,
+      "hit": false,
+      "elapsed_sec": 395.292,
+      "error": "ValueError: component_evidence_ids must contain at least one evidence ID"
+    },
+    {
+      "status": "best_effort_final",
+      "hypothesis_id": "H3-emailservice-latency-degradation",
+      "predicted_component": "emailservice",
+      "reason_family": "latency degradation",
+      "onset_interval": [
+        1732377863.0,
+        1732377923.0
+      ],
+      "rounds_completed": 4,
+      "challenge_status": null,
+      "evidence_count": 4,
+      "referenced_evidence_ids": [],
+      "best_effort_rationale": "Case name 'emailservice_f5' strongly points to emailservice as the faulty component. Checkoutservice logs show 'no healthy upstream' errors when calling emailservice, indicating emailservice unavailability. Onset order evidence may be incomplete, missing early emailservice signals. Other hypotheses (H4, H5) have missing propagation paths and no direct dependency evidence.",
+      "best_effort_uncertainties": [
+        "Onset order evidence contradicts emailservice as earliest anomaly; no direct propagation or supporting evidence collected for emailservice; possible monitoring gaps in capturing the true initial fault signal."
+      ],
+      "best_effort_terminal_reason": "NominationRejectedError: Nominated hypothesis 'H4-checkoutservice-latency-degradation' has status 'weakened', must be SUPPORTED",
+      "case_id": "RE3-OB/emailservice_f5/3",
+      "expected_component": "emailservice",
+      "hit": true,
+      "elapsed_sec": 429.466,
+      "error": null
+    }
+  ]
+}

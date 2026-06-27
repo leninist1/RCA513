@@ -1,0 +1,2068 @@
+{
+  "dataset": "Eadro",
+  "system": "Eadro-SN",
+  "mode": "lightweight",
+  "total_cases": 36,
+  "top1_accuracy": 0.16666666666666666,
+  "top1_hits": 6,
+  "recall_pool_size": 15,
+  "max_hypotheses": 10,
+  "elapsed_sec": 167.281,
+  "cost": {
+    "total_calls": 15,
+    "total_prompt_tokens": 27426,
+    "total_completion_tokens": 1180,
+    "total_tokens": 28606,
+    "avg_tokens_per_case": 794,
+    "by_purpose": {
+      "lightweight_rca_decision": {
+        "call_count": 15,
+        "prompt_tokens": 27426,
+        "completion_tokens": 1180,
+        "total_tokens": 28606
+      }
+    }
+  },
+  "results": [
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "media-service",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1650161568.334613,
+        1650161628.334613
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD identifies media-service as the initiator with copeland_score 6 > 0. It is not a storage component, entry-like component, and has no emitter_exception flag, but as initiator it outranks others.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "media-service",
+        "text-service",
+        "home-timeline-service",
+        "user-timeline-service",
+        "user-service",
+        "compose-post-service",
+        "unique-id-service",
+        "nginx-web-server",
+        "social-graph-service",
+        "user-mention-service",
+        "url-shorten-service",
+        "post-storage-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"media-service\", \"rationale\": \"IVD identifies media-service as the initiator with copeland_score 6 > 0. It is not a storage component, entry-like component, and has no emitter_exception flag, but as initiator it outranks others.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "Eadro-SN/SN.2022-04-17T181245D2022-04-17T183616/fault0",
+      "expected_component": "text-service",
+      "hit": false,
+      "elapsed_sec": 14.789,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 1979,
+        "completion_tokens": 63,
+        "total_tokens": 2042,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 1979,
+            "completion_tokens": 63,
+            "total_tokens": 2042
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "home-timeline-service",
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650161721.479809,
+        1650161781.479809
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "media-service",
+        "home-timeline-service",
+        "social-graph-service",
+        "user-service",
+        "compose-post-service",
+        "user-timeline-service",
+        "user-mention-service",
+        "nginx-web-server",
+        "post-storage-service",
+        "url-shorten-service",
+        "text-service",
+        "unique-id-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-SN/SN.2022-04-17T181245D2022-04-17T183616/fault1",
+      "expected_component": "text-service",
+      "hit": false,
+      "elapsed_sec": 3.262,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "home-timeline-service",
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650161884.413672,
+        1650161944.413672
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "media-service",
+        "home-timeline-service",
+        "social-graph-service",
+        "nginx-web-server",
+        "compose-post-service",
+        "user-timeline-service",
+        "text-service",
+        "post-storage-service",
+        "unique-id-service",
+        "user-service",
+        "user-mention-service",
+        "url-shorten-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-SN/SN.2022-04-17T181245D2022-04-17T183616/fault2",
+      "expected_component": "text-service",
+      "hit": false,
+      "elapsed_sec": 3.129,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "home-timeline-service",
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650162038.515397,
+        1650162098.515397
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "media-service",
+        "home-timeline-service",
+        "nginx-web-server",
+        "user-timeline-service",
+        "compose-post-service",
+        "url-shorten-service",
+        "social-graph-service",
+        "user-service",
+        "user-mention-service",
+        "text-service",
+        "post-storage-service",
+        "unique-id-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-SN/SN.2022-04-17T181245D2022-04-17T183616/fault3",
+      "expected_component": "home-timeline-service",
+      "hit": true,
+      "elapsed_sec": 3.04,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "media-service",
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650162191.561502,
+        1650162251.561502
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "media-service",
+        "social-graph-service",
+        "user-service",
+        "post-storage-service",
+        "nginx-web-server",
+        "home-timeline-service",
+        "user-timeline-service",
+        "compose-post-service",
+        "user-mention-service",
+        "text-service",
+        "url-shorten-service",
+        "unique-id-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-SN/SN.2022-04-17T181245D2022-04-17T183616/fault4",
+      "expected_component": "home-timeline-service",
+      "hit": false,
+      "elapsed_sec": 3.057,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "media-service",
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650162354.523656,
+        1650162414.523656
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "media-service",
+        "nginx-web-server",
+        "social-graph-service",
+        "home-timeline-service",
+        "compose-post-service",
+        "user-timeline-service",
+        "user-mention-service",
+        "url-shorten-service",
+        "unique-id-service",
+        "user-service",
+        "post-storage-service",
+        "text-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-SN/SN.2022-04-17T181245D2022-04-17T183616/fault5",
+      "expected_component": "home-timeline-service",
+      "hit": false,
+      "elapsed_sec": 3.133,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "media-service",
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650162508.596611,
+        1650162568.596611
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "user-timeline-service",
+        "compose-post-service",
+        "text-service",
+        "media-service",
+        "user-mention-service",
+        "unique-id-service",
+        "nginx-web-server",
+        "social-graph-service",
+        "home-timeline-service",
+        "url-shorten-service",
+        "user-service",
+        "post-storage-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-SN/SN.2022-04-17T181245D2022-04-17T183616/fault6",
+      "expected_component": "media-service",
+      "hit": true,
+      "elapsed_sec": 3.116,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "social-graph-service",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1650162661.628528,
+        1650162721.628528
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD identifies social-graph-service as initiator with copeland_score > 0, and it has the highest magnitude and severity level among source candidates with no storage role or entry component designation.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "social-graph-service",
+        "compose-post-service",
+        "user-timeline-service",
+        "home-timeline-service",
+        "user-service",
+        "nginx-web-server",
+        "text-service",
+        "post-storage-service",
+        "url-shorten-service",
+        "unique-id-service",
+        "media-service",
+        "user-mention-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"social-graph-service\", \"rationale\": \"IVD identifies social-graph-service as initiator with copeland_score > 0, and it has the highest magnitude and severity level among source candidates with no storage role or entry component designation.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "Eadro-SN/SN.2022-04-17T181245D2022-04-17T183616/fault7",
+      "expected_component": "media-service",
+      "hit": false,
+      "elapsed_sec": 4.53,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 1656,
+        "completion_tokens": 56,
+        "total_tokens": 1712,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 1656,
+            "completion_tokens": 56,
+            "total_tokens": 1712
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "social-graph-service",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1650162824.513932,
+        1650162884.513932
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD identifies social-graph-service as the initiator with copeland_score > 0, and it has the strongest anomaly signal (magnitude 40000157.3) including CPU, log, memory, and socket anomalies, with the earliest first spike time (1650162825.1). No storage components or entry components are selected.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "social-graph-service",
+        "compose-post-service",
+        "user-timeline-service",
+        "nginx-web-server",
+        "home-timeline-service",
+        "post-storage-service",
+        "user-service",
+        "text-service",
+        "user-mention-service",
+        "url-shorten-service",
+        "media-service",
+        "unique-id-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"social-graph-service\", \"rationale\": \"IVD identifies social-graph-service as the initiator with copeland_score > 0, and it has the strongest anomaly signal (magnitude 40000157.3) including CPU, log, memory, and socket anomalies, with the earliest first spike time (1650162825.1). No storage components or entry components are selected.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "Eadro-SN/SN.2022-04-17T181245D2022-04-17T183616/fault8",
+      "expected_component": "media-service",
+      "hit": false,
+      "elapsed_sec": 4.958,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 1870,
+        "completion_tokens": 87,
+        "total_tokens": 1957,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 1870,
+            "completion_tokens": 87,
+            "total_tokens": 1957
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "social-graph-service",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1650163052.42589,
+        1650163112.42589
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD identifies social-graph-service as initiator with copeland_score 6 (>0) and no emitter_exception. Other source_candidates have either victim role or are storage/entry components. Storage components like post-storage-service are reactive. Entry component compose-post-service is a victim.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "post-storage-service",
+        "url-shorten-service",
+        "social-graph-service",
+        "compose-post-service",
+        "user-service",
+        "user-timeline-service",
+        "home-timeline-service",
+        "unique-id-service",
+        "nginx-web-server",
+        "media-service",
+        "user-mention-service",
+        "text-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"social-graph-service\", \"rationale\": \"IVD identifies social-graph-service as initiator with copeland_score 6 (>0) and no emitter_exception. Other source_candidates have either victim role or are storage/entry components. Storage components like post-storage-service are reactive. Entry component compose-post-service is a victim.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "Eadro-SN/SN.2022-04-17T183729D2022-04-17T190100/fault0",
+      "expected_component": "post-storage-service",
+      "hit": false,
+      "elapsed_sec": 7.982,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 1977,
+        "completion_tokens": 76,
+        "total_tokens": 2053,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 1977,
+            "completion_tokens": 76,
+            "total_tokens": 2053
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "social-graph-service",
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650163205.491651,
+        1650163265.491651
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "url-shorten-service",
+        "social-graph-service",
+        "compose-post-service",
+        "user-service",
+        "text-service",
+        "unique-id-service",
+        "home-timeline-service",
+        "user-mention-service",
+        "post-storage-service",
+        "user-timeline-service",
+        "media-service",
+        "nginx-web-server"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-SN/SN.2022-04-17T183729D2022-04-17T190100/fault1",
+      "expected_component": "post-storage-service",
+      "hit": false,
+      "elapsed_sec": 3.512,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "social-graph-service",
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650163368.39697,
+        1650163428.39697
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "social-graph-service",
+        "url-shorten-service",
+        "nginx-web-server",
+        "user-service",
+        "home-timeline-service",
+        "compose-post-service",
+        "user-timeline-service",
+        "post-storage-service",
+        "user-mention-service",
+        "unique-id-service",
+        "media-service",
+        "text-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-SN/SN.2022-04-17T183729D2022-04-17T190100/fault2",
+      "expected_component": "post-storage-service",
+      "hit": false,
+      "elapsed_sec": 3.45,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "social-graph-service",
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650163522.43612,
+        1650163582.43612
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "social-graph-service",
+        "url-shorten-service",
+        "nginx-web-server",
+        "home-timeline-service",
+        "compose-post-service",
+        "user-service",
+        "user-timeline-service",
+        "post-storage-service",
+        "text-service",
+        "unique-id-service",
+        "user-mention-service",
+        "media-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-SN/SN.2022-04-17T183729D2022-04-17T190100/fault3",
+      "expected_component": "social-graph-service",
+      "hit": true,
+      "elapsed_sec": 3.388,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "media-service",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1650163675.643966,
+        1650163735.643966
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD identifies media-service as initiator with copeland_score=2 > 0, and no emitter_exception. It is not storage or entry. Other source_candidates have no emitter_exception and are not initiators.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "url-shorten-service",
+        "compose-post-service",
+        "user-service",
+        "home-timeline-service",
+        "nginx-web-server",
+        "social-graph-service",
+        "user-timeline-service",
+        "post-storage-service",
+        "unique-id-service",
+        "user-mention-service",
+        "media-service",
+        "text-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"media-service\", \"rationale\": \"IVD identifies media-service as initiator with copeland_score=2 > 0, and no emitter_exception. It is not storage or entry. Other source_candidates have no emitter_exception and are not initiators.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "Eadro-SN/SN.2022-04-17T183729D2022-04-17T190100/fault4",
+      "expected_component": "social-graph-service",
+      "hit": false,
+      "elapsed_sec": 5.308,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 1928,
+        "completion_tokens": 61,
+        "total_tokens": 1989,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 1928,
+            "completion_tokens": 61,
+            "total_tokens": 1989
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "url-shorten-service",
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650163838.593423,
+        1650163898.593423
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "url-shorten-service",
+        "nginx-web-server",
+        "social-graph-service",
+        "user-timeline-service",
+        "user-service",
+        "compose-post-service",
+        "home-timeline-service",
+        "text-service",
+        "unique-id-service",
+        "media-service",
+        "user-mention-service",
+        "post-storage-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-SN/SN.2022-04-17T183729D2022-04-17T190100/fault5",
+      "expected_component": "social-graph-service",
+      "hit": false,
+      "elapsed_sec": 3.392,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "social-graph-service",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1650163992.665189,
+        1650164052.665189
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD identifies social-graph-service as initiator with copeland_score 2 (fs ambiguous_or_no_exception). It has higher anomaly magnitude (50000272.8), longer severity level (6.0), and log anomaly (300 logs). Other candidates either have lower magnitude or are victims (compose-post-service, home-timeline-service) or are traffic surfaces (compose-post-service also entry). No emitter exceptions present; storage components absent. Thus social-graph-service is the root cause.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "user-timeline-service",
+        "compose-post-service",
+        "home-timeline-service",
+        "post-storage-service",
+        "text-service",
+        "url-shorten-service",
+        "nginx-web-server",
+        "user-service",
+        "user-mention-service",
+        "social-graph-service",
+        "media-service",
+        "unique-id-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"social-graph-service\",\n  \"rationale\": \"IVD identifies social-graph-service as initiator with copeland_score 2 (fs ambiguous_or_no_exception). It has higher anomaly magnitude (50000272.8), longer severity level (6.0), and log anomaly (300 logs). Other candidates either have lower magnitude or are victims (compose-post-service, home-timeline-service) or are traffic surfaces (compose-post-service also entry). No emitter exceptions present; storage components absent. Thus social-graph-service is the root cause.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "Eadro-SN/SN.2022-04-17T183729D2022-04-17T190100/fault6",
+      "expected_component": "url-shorten-service",
+      "hit": false,
+      "elapsed_sec": 6.229,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 1969,
+        "completion_tokens": 123,
+        "total_tokens": 2092,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 1969,
+            "completion_tokens": 123,
+            "total_tokens": 2092
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "social-graph-service",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1650164145.71798,
+        1650164205.71798
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "Highest severity (mag=5e7), earliest timestamp (fs=1650164145.8), and IVD ranks it first among source_candidates. Entry components (compose-post-service) are traffic surfaces, not root causes. No emitter exceptions or storage components with resource anomalies.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "social-graph-service",
+        "compose-post-service",
+        "user-service",
+        "home-timeline-service",
+        "user-timeline-service",
+        "nginx-web-server",
+        "text-service",
+        "post-storage-service",
+        "media-service",
+        "unique-id-service",
+        "url-shorten-service",
+        "user-mention-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"social-graph-service\",\n  \"rationale\": \"Highest severity (mag=5e7), earliest timestamp (fs=1650164145.8), and IVD ranks it first among source_candidates. Entry components (compose-post-service) are traffic surfaces, not root causes. No emitter exceptions or storage components with resource anomalies.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "Eadro-SN/SN.2022-04-17T183729D2022-04-17T190100/fault7",
+      "expected_component": "url-shorten-service",
+      "hit": false,
+      "elapsed_sec": 5.548,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 1515,
+        "completion_tokens": 78,
+        "total_tokens": 1593,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 1515,
+            "completion_tokens": 78,
+            "total_tokens": 1593
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "social-graph-service",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1650164308.636401,
+        1650164368.636401
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD identifies social-graph-service as initiator with copeland_score > 0 (cs=2, role=initiator), and it has the highest anomaly magnitude (mag=40000169.5) and multiple signals (cpu, log, memory, socket), with emitter_exception not present. No storage or entry components qualify.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "social-graph-service",
+        "user-service",
+        "home-timeline-service",
+        "nginx-web-server",
+        "compose-post-service",
+        "text-service",
+        "media-service",
+        "post-storage-service",
+        "unique-id-service",
+        "user-timeline-service",
+        "user-mention-service",
+        "url-shorten-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"social-graph-service\",\n  \"rationale\": \"IVD identifies social-graph-service as initiator with copeland_score > 0 (cs=2, role=initiator), and it has the highest anomaly magnitude (mag=40000169.5) and multiple signals (cpu, log, memory, socket), with emitter_exception not present. No storage or entry components qualify.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "Eadro-SN/SN.2022-04-17T183729D2022-04-17T190100/fault8",
+      "expected_component": "url-shorten-service",
+      "hit": false,
+      "elapsed_sec": 5.43,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 1929,
+        "completion_tokens": 89,
+        "total_tokens": 2018,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 1929,
+            "completion_tokens": 89,
+            "total_tokens": 2018
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "unique-id-service",
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650164537.266328,
+        1650164597.266328
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "unique-id-service",
+        "user-service",
+        "compose-post-service",
+        "user-timeline-service",
+        "home-timeline-service",
+        "nginx-web-server",
+        "social-graph-service",
+        "text-service",
+        "media-service",
+        "url-shorten-service",
+        "user-mention-service",
+        "post-storage-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-SN/SN.2022-04-17T190213D2022-04-17T192544/fault0",
+      "expected_component": "nginx-web-server",
+      "hit": false,
+      "elapsed_sec": 3.803,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "user-service",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1650164690.293385,
+        1650164750.293385
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD designates user-service as initiator with copeland_score=6, and it has high severity (sl=3) with multiple signals (cpu, memory, socket), no emitter exception but it is not a storage or entry component.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "unique-id-service",
+        "user-service",
+        "compose-post-service",
+        "media-service",
+        "post-storage-service",
+        "nginx-web-server",
+        "text-service",
+        "url-shorten-service",
+        "user-mention-service",
+        "social-graph-service",
+        "home-timeline-service",
+        "user-timeline-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"user-service\",\n  \"rationale\": \"IVD designates user-service as initiator with copeland_score=6, and it has high severity (sl=3) with multiple signals (cpu, memory, socket), no emitter exception but it is not a storage or entry component.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "Eadro-SN/SN.2022-04-17T190213D2022-04-17T192544/fault1",
+      "expected_component": "nginx-web-server",
+      "hit": false,
+      "elapsed_sec": 4.924,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 1909,
+        "completion_tokens": 67,
+        "total_tokens": 1976,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 1909,
+            "completion_tokens": 67,
+            "total_tokens": 1976
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "unique-id-service",
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650164853.258483,
+        1650164913.258483
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "unique-id-service",
+        "user-service",
+        "social-graph-service",
+        "user-timeline-service",
+        "nginx-web-server",
+        "home-timeline-service",
+        "compose-post-service",
+        "text-service",
+        "user-mention-service",
+        "media-service",
+        "url-shorten-service",
+        "post-storage-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-SN/SN.2022-04-17T190213D2022-04-17T192544/fault2",
+      "expected_component": "nginx-web-server",
+      "hit": false,
+      "elapsed_sec": 3.234,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "unique-id-service",
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650165007.362766,
+        1650165067.362766
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "user-timeline-service",
+        "social-graph-service",
+        "compose-post-service",
+        "home-timeline-service",
+        "post-storage-service",
+        "text-service",
+        "unique-id-service",
+        "user-service",
+        "nginx-web-server",
+        "url-shorten-service",
+        "user-mention-service",
+        "media-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-SN/SN.2022-04-17T190213D2022-04-17T192544/fault3",
+      "expected_component": "unique-id-service",
+      "hit": true,
+      "elapsed_sec": 3.114,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "social-graph-service",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1650165160.40338,
+        1650165220.40338
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD identifies social-graph-service as initiator with copeland score 2 > 0. It is a source_candidate with high anomaly magnitude and no entry role. It has multiple signals (CPU, log, memory) and high severity level. No emitter exceptions, so it outranks other candidates. Compose-post-service and home-timeline-service are victims with dependency_induced_exception. Nginx-web-server is ambiguous. Social-graph-service is the most probable root cause.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "user-service",
+        "social-graph-service",
+        "compose-post-service",
+        "home-timeline-service",
+        "user-timeline-service",
+        "nginx-web-server",
+        "post-storage-service",
+        "url-shorten-service",
+        "unique-id-service",
+        "text-service",
+        "media-service",
+        "user-mention-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"social-graph-service\",\n  \"rationale\": \"IVD identifies social-graph-service as initiator with copeland score 2 > 0. It is a source_candidate with high anomaly magnitude and no entry role. It has multiple signals (CPU, log, memory) and high severity level. No emitter exceptions, so it outranks other candidates. Compose-post-service and home-timeline-service are victims with dependency_induced_exception. Nginx-web-server is ambiguous. Social-graph-service is the most probable root cause.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "Eadro-SN/SN.2022-04-17T190213D2022-04-17T192544/fault4",
+      "expected_component": "unique-id-service",
+      "hit": false,
+      "elapsed_sec": 5.375,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 1660,
+        "completion_tokens": 120,
+        "total_tokens": 1780,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 1660,
+            "completion_tokens": 120,
+            "total_tokens": 1780
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "social-graph-service",
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650165323.309462,
+        1650165383.309462
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "user-service",
+        "social-graph-service",
+        "nginx-web-server",
+        "url-shorten-service",
+        "text-service",
+        "user-timeline-service",
+        "home-timeline-service",
+        "media-service",
+        "post-storage-service",
+        "compose-post-service",
+        "unique-id-service",
+        "user-mention-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-SN/SN.2022-04-17T190213D2022-04-17T192544/fault5",
+      "expected_component": "unique-id-service",
+      "hit": false,
+      "elapsed_sec": 3.321,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "user-service",
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650165477.325246,
+        1650165537.325246
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "user-service",
+        "social-graph-service",
+        "text-service",
+        "home-timeline-service",
+        "compose-post-service",
+        "nginx-web-server",
+        "post-storage-service",
+        "user-timeline-service",
+        "user-mention-service",
+        "unique-id-service",
+        "media-service",
+        "url-shorten-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-SN/SN.2022-04-17T190213D2022-04-17T192544/fault6",
+      "expected_component": "user-service",
+      "hit": true,
+      "elapsed_sec": 3.213,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "social-graph-service",
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650165630.416768,
+        1650165690.416768
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "social-graph-service",
+        "compose-post-service",
+        "user-timeline-service",
+        "nginx-web-server",
+        "home-timeline-service",
+        "media-service",
+        "unique-id-service",
+        "post-storage-service",
+        "text-service",
+        "user-service",
+        "user-mention-service",
+        "url-shorten-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-SN/SN.2022-04-17T190213D2022-04-17T192544/fault7",
+      "expected_component": "user-service",
+      "hit": false,
+      "elapsed_sec": 3.132,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "social-graph-service",
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650165793.36087,
+        1650165853.36087
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "social-graph-service",
+        "nginx-web-server",
+        "compose-post-service",
+        "user-timeline-service",
+        "user-service",
+        "url-shorten-service",
+        "post-storage-service",
+        "text-service",
+        "home-timeline-service",
+        "unique-id-service",
+        "media-service",
+        "user-mention-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-SN/SN.2022-04-17T190213D2022-04-17T192544/fault8",
+      "expected_component": "user-service",
+      "hit": false,
+      "elapsed_sec": 3.118,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "compose-post-service",
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650166021.842828,
+        1650166081.842828
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "user-mention-service",
+        "user-timeline-service",
+        "compose-post-service",
+        "user-service",
+        "home-timeline-service",
+        "social-graph-service",
+        "nginx-web-server",
+        "text-service",
+        "url-shorten-service",
+        "post-storage-service",
+        "media-service",
+        "unique-id-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-SN/SN.2022-04-17T192658D2022-04-17T195031/fault0",
+      "expected_component": "compose-post-service",
+      "hit": true,
+      "elapsed_sec": 5.939,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "user-mention-service",
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650166174.957304,
+        1650166234.957304
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "user-mention-service",
+        "user-timeline-service",
+        "user-service",
+        "social-graph-service",
+        "home-timeline-service",
+        "url-shorten-service",
+        "unique-id-service",
+        "nginx-web-server",
+        "compose-post-service",
+        "text-service",
+        "media-service",
+        "post-storage-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-SN/SN.2022-04-17T192658D2022-04-17T195031/fault1",
+      "expected_component": "compose-post-service",
+      "hit": false,
+      "elapsed_sec": 3.911,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "social-graph-service",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1650166337.885631,
+        1650166397.885631
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "Highest severity (sl=6) and strong anomaly signals (cpu, log, memory); IVD ranking places it first among source_candidates; no emitter exceptions but high log count indicates internal issues; not storage or entry-like.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "user-mention-service",
+        "user-timeline-service",
+        "social-graph-service",
+        "nginx-web-server",
+        "user-service",
+        "home-timeline-service",
+        "unique-id-service",
+        "url-shorten-service",
+        "compose-post-service",
+        "text-service",
+        "media-service",
+        "post-storage-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"social-graph-service\",\n  \"rationale\": \"Highest severity (sl=6) and strong anomaly signals (cpu, log, memory); IVD ranking places it first among source_candidates; no emitter exceptions but high log count indicates internal issues; not storage or entry-like.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "Eadro-SN/SN.2022-04-17T192658D2022-04-17T195031/fault2",
+      "expected_component": "compose-post-service",
+      "hit": false,
+      "elapsed_sec": 6.263,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 1603,
+        "completion_tokens": 66,
+        "total_tokens": 1669,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 1603,
+            "completion_tokens": 66,
+            "total_tokens": 1669
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "social-graph-service",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1650166492.846008,
+        1650166552.846008
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD identifies social-graph-service as initiator with copeland_score 3 > 0. It has emitter_exception=False but is the top initiator. No component has emitter_exception=True, so highest initiator score dictates.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "user-mention-service",
+        "user-timeline-service",
+        "social-graph-service",
+        "nginx-web-server",
+        "user-service",
+        "text-service",
+        "home-timeline-service",
+        "post-storage-service",
+        "media-service",
+        "compose-post-service",
+        "url-shorten-service",
+        "unique-id-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"social-graph-service\",\n  \"rationale\": \"IVD identifies social-graph-service as initiator with copeland_score 3 > 0. It has emitter_exception=False but is the top initiator. No component has emitter_exception=True, so highest initiator score dictates.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "Eadro-SN/SN.2022-04-17T192658D2022-04-17T195031/fault3",
+      "expected_component": "user-timeline-service",
+      "hit": false,
+      "elapsed_sec": 5.351,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 1984,
+        "completion_tokens": 68,
+        "total_tokens": 2052,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 1984,
+            "completion_tokens": 68,
+            "total_tokens": 2052
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "social-graph-service",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1650166645.939456,
+        1650166705.939456
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD identifies social-graph-service as initiator with copeland_score 2 and role initiator. It is a source_candidate with high severity (6.0) and multiple signal anomalies, and no storage or entry characteristics.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "user-mention-service",
+        "social-graph-service",
+        "compose-post-service",
+        "home-timeline-service",
+        "nginx-web-server",
+        "text-service",
+        "user-timeline-service",
+        "unique-id-service",
+        "user-service",
+        "post-storage-service",
+        "media-service",
+        "url-shorten-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"social-graph-service\",\n  \"rationale\": \"IVD identifies social-graph-service as initiator with copeland_score 2 and role initiator. It is a source_candidate with high severity (6.0) and multiple signal anomalies, and no storage or entry characteristics.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "Eadro-SN/SN.2022-04-17T192658D2022-04-17T195031/fault4",
+      "expected_component": "user-timeline-service",
+      "hit": false,
+      "elapsed_sec": 5.311,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 1803,
+        "completion_tokens": 67,
+        "total_tokens": 1870,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 1803,
+            "completion_tokens": 67,
+            "total_tokens": 1870
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "social-graph-service",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1650166808.879189,
+        1650166868.879189
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "Highest anomaly magnitude (40000103.0) and severity level (6.0), earliest failure time, and broadest signal set (cpu, log, memory, socket). IVD ambiguous but no emitter exceptions or storage components with higher rank.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "user-mention-service",
+        "social-graph-service",
+        "compose-post-service",
+        "nginx-web-server",
+        "home-timeline-service",
+        "user-service",
+        "url-shorten-service",
+        "unique-id-service",
+        "media-service",
+        "user-timeline-service",
+        "text-service",
+        "post-storage-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"social-graph-service\", \"rationale\": \"Highest anomaly magnitude (40000103.0) and severity level (6.0), earliest failure time, and broadest signal set (cpu, log, memory, socket). IVD ambiguous but no emitter exceptions or storage components with higher rank.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "Eadro-SN/SN.2022-04-17T192658D2022-04-17T195031/fault5",
+      "expected_component": "user-timeline-service",
+      "hit": false,
+      "elapsed_sec": 5.868,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 1677,
+        "completion_tokens": 67,
+        "total_tokens": 1744,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 1677,
+            "completion_tokens": 67,
+            "total_tokens": 1744
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "social-graph-service",
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1650166963.929301,
+        1650167023.929301
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD verdicts identify social-graph-service as initiator (copeland_score 3, role 'initiator'), while other services are victims or ambiguous. It also has the highest severity (1300.0, normalized) and strong anomaly signals (cpu, memory, socket, log). No storage components or entry points are selected, and no emitter exceptions are present.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "user-mention-service",
+        "nginx-web-server",
+        "social-graph-service",
+        "url-shorten-service",
+        "media-service",
+        "home-timeline-service",
+        "compose-post-service",
+        "text-service",
+        "user-service",
+        "user-timeline-service",
+        "post-storage-service",
+        "unique-id-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"social-graph-service\", \"rationale\": \"IVD verdicts identify social-graph-service as initiator (copeland_score 3, role 'initiator'), while other services are victims or ambiguous. It also has the highest severity (1300.0, normalized) and strong anomaly signals (cpu, memory, socket, log). No storage components or entry points are selected, and no emitter exceptions are present.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "Eadro-SN/SN.2022-04-17T192658D2022-04-17T195031/fault6",
+      "expected_component": "user-mention-service",
+      "hit": false,
+      "elapsed_sec": 6.304,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 1967,
+        "completion_tokens": 92,
+        "total_tokens": 2059,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 1967,
+            "completion_tokens": 92,
+            "total_tokens": 2059
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "social-graph-service",
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650167116.974618,
+        1650167176.974618
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "social-graph-service",
+        "compose-post-service",
+        "user-service",
+        "home-timeline-service",
+        "unique-id-service",
+        "nginx-web-server",
+        "media-service",
+        "user-mention-service",
+        "user-timeline-service",
+        "text-service",
+        "post-storage-service",
+        "url-shorten-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-SN/SN.2022-04-17T192658D2022-04-17T195031/fault7",
+      "expected_component": "user-mention-service",
+      "hit": false,
+      "elapsed_sec": 3.943,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "social-graph-service",
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1650167279.904504,
+        1650167339.904504
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "social-graph-service",
+        "compose-post-service",
+        "user-timeline-service",
+        "text-service",
+        "nginx-web-server",
+        "home-timeline-service",
+        "user-mention-service",
+        "media-service",
+        "post-storage-service",
+        "user-service",
+        "url-shorten-service",
+        "unique-id-service"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "Eadro-SN/SN.2022-04-17T192658D2022-04-17T195031/fault8",
+      "expected_component": "user-mention-service",
+      "hit": false,
+      "elapsed_sec": 3.903,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    }
+  ]
+}

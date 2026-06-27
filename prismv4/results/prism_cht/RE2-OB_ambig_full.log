@@ -1,0 +1,37 @@
+RE2-OB/checkoutservice_delay/1: predicted=currencyservice expected=checkoutservice hit=False tokens=102871 error=None
+RE2-OB/checkoutservice_delay/3: predicted=recommendationservice expected=checkoutservice hit=False tokens=119253 error=None
+RE2-OB/currencyservice_cpu/2: predicted=currencyservice expected=currencyservice hit=True tokens=109074 error=None
+RE2-OB/recommendationservice_delay/1: predicted=currencyservice expected=recommendationservice hit=False tokens=129563 error=None
+{
+  "dataset": "RE3",
+  "system": "RE2-OB",
+  "mode": "continuous-noise-native-event-causalizer",
+  "total_cases": 4,
+  "top1_accuracy": 0.25,
+  "top1_hits": 1,
+  "recall_pool_size": 15,
+  "max_hypotheses": 10,
+  "elapsed_sec": 668.875,
+  "cost": {
+    "total_calls": 24,
+    "total_prompt_tokens": 426495,
+    "total_completion_tokens": 34266,
+    "total_tokens": 460761,
+    "avg_tokens_per_case": 115190,
+    "by_purpose": {
+      "event_causalizer_state_update": {
+        "call_count": 4,
+        "prompt_tokens": 73540,
+        "completion_tokens": 11723,
+        "total_tokens": 85263
+      },
+      "continuous_noise_native_state_update": {
+        "call_count": 20,
+        "prompt_tokens": 352955,
+        "completion_tokens": 22543,
+        "total_tokens": 375498
+      }
+    }
+  }
+}
+wrote prismv4/results/prism_cht/RE2-OB_ambig_full.json

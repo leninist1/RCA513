@@ -1,0 +1,39 @@
+=== RE3-SS ambiguous full mode started at 2026年 06月 23日 星期二 20:19:02 CST ===
+RE3-SS/carts_f3/1: predicted=carts expected=carts hit=True tokens=113352 error=None
+RE3-SS/front-end_f1/3: predicted=front-end expected=front-end hit=True tokens=141646 error=None
+RE3-SS/front-end_f2/1: predicted=front-end expected=front-end hit=True tokens=127566 error=None
+RE3-SS/orders_f3/1: predicted=orders expected=orders hit=True tokens=126347 error=None
+{
+  "dataset": "RE3",
+  "system": "RE3-SS",
+  "mode": "continuous-noise-native-event-causalizer",
+  "total_cases": 4,
+  "top1_accuracy": 1.0,
+  "top1_hits": 4,
+  "recall_pool_size": 15,
+  "max_hypotheses": 10,
+  "elapsed_sec": 348.1,
+  "cost": {
+    "total_calls": 24,
+    "total_prompt_tokens": 471673,
+    "total_completion_tokens": 37238,
+    "total_tokens": 508911,
+    "avg_tokens_per_case": 127227,
+    "by_purpose": {
+      "event_causalizer_state_update": {
+        "call_count": 4,
+        "prompt_tokens": 80036,
+        "completion_tokens": 14972,
+        "total_tokens": 95008
+      },
+      "continuous_noise_native_state_update": {
+        "call_count": 20,
+        "prompt_tokens": 391637,
+        "completion_tokens": 22266,
+        "total_tokens": 413903
+      }
+    }
+  }
+}
+wrote prismv4/results/prism_cht/RE3-SS_ambig_full.json
+=== RE3-SS done at 2026年 06月 23日 星期二 20:24:51 CST ===

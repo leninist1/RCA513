@@ -1,0 +1,42 @@
+OpenRCA-Market/cloudbed-1/task_6@2022_03_20: predicted=node expected=shippingservice-1 hit=False tokens=201433 error=None
+OpenRCA-Market/cloudbed-1/task_1@2022_03_20: predicted=node expected=emailservice-0 hit=False tokens=174862 error=None
+OpenRCA-Market/cloudbed-1/task_1@2022_03_20: predicted=node expected=node-1 hit=False tokens=157990 error=None
+{
+  "dataset": "OpenRCA",
+  "system": "OpenRCA-Market",
+  "mode": "continuous-noise-native-event-causalizer",
+  "total_cases": 3,
+  "top1_accuracy": 0.0,
+  "top1_hits": 0,
+  "recall_pool_size": 15,
+  "max_hypotheses": 10,
+  "elapsed_sec": 1796.839,
+  "cost": {
+    "total_calls": 20,
+    "total_prompt_tokens": 401144,
+    "total_completion_tokens": 133141,
+    "total_tokens": 534285,
+    "avg_tokens_per_case": 178095,
+    "by_purpose": {
+      "event_causalizer_state_update": {
+        "call_count": 3,
+        "prompt_tokens": 59414,
+        "completion_tokens": 58572,
+        "total_tokens": 117986
+      },
+      "continuous_noise_native_state_update": {
+        "call_count": 15,
+        "prompt_tokens": 312134,
+        "completion_tokens": 68883,
+        "total_tokens": 381017
+      },
+      "continuous_noise_native_json_repair": {
+        "call_count": 2,
+        "prompt_tokens": 29596,
+        "completion_tokens": 5686,
+        "total_tokens": 35282
+      }
+    }
+  }
+}
+wrote prismv4/results/prism_cht/OpenRCA-Market_smoke.json

@@ -1,0 +1,91 @@
+{
+  "dataset": "RCAEval",
+  "system": "RE3-OB",
+  "mode": "llm-provider",
+  "total_cases": 3,
+  "top1_accuracy": 0.6666666666666666,
+  "top1_hits": 2,
+  "elapsed_sec": 1109.991,
+  "results": [
+    {
+      "status": "best_effort_final",
+      "hypothesis_id": "H2-adservice-service-error",
+      "predicted_component": "adservice",
+      "reason_family": "service error",
+      "onset_interval": [
+        1731903930.0,
+        1731903990.0
+      ],
+      "rounds_completed": 4,
+      "challenge_status": "challenge_inconclusive",
+      "evidence_count": 5,
+      "referenced_evidence_ids": [
+        "evidence:3824d78f2632bb8aba348b63988db97bb530ecd1efeb5c09a778a6124e320d22",
+        "evidence:086f19d1213ff577c9a32af9156480080778ac4ddbb3e0cb0764ae4e1e0e60e8"
+      ],
+      "best_effort_rationale": "Adservice ties for earliest onset with frontend, but has a significantly stronger local service-error signature (1.4x magnitude) and log evidence (frontend errors 'failed to retrieve ads' point to adservice dependency). Non-frontend symptoms across multiple services are better explained by adservice as root cause. Competitors are weakened by later onsets or incomplete symptom coverage.",
+      "best_effort_uncertainties": [
+        "Propagation path from adservice to frontend not confirmed (nor reverse), but circumstantial evidence outweighs.",
+        "Adservice's strong signature could still be a symptom of an unobserved shared cause."
+      ],
+      "best_effort_terminal_reason": "challenge did not produce survived_challenge; forcing the model to choose the most likely current root cause",
+      "case_id": "RE3-OB/adservice_f3/1",
+      "expected_component": "adservice",
+      "hit": true,
+      "elapsed_sec": 406.878,
+      "error": null
+    },
+    {
+      "status": "best_effort_final",
+      "hypothesis_id": "H2-adservice-service-error",
+      "predicted_component": "adservice",
+      "reason_family": "service error",
+      "onset_interval": [
+        1732275180.0,
+        1732275240.0
+      ],
+      "rounds_completed": 4,
+      "challenge_status": null,
+      "evidence_count": 4,
+      "referenced_evidence_ids": [
+        "evidence:39ca180c51cfa1a28e755932851228b79eaa2272b2d5db0870554ff805575e45",
+        "evidence:7ddcecedd054e51dc9ab8d2476a279482945f3027e2fc2cd1f30bb2b1d1b36f4"
+      ],
+      "best_effort_rationale": "Frontend logs show 'failed to retrieve ads', indicating adservice as dependency failure. Adservice has the highest magnitude service error. Despite later telemetry onset, the fault name 'adservice_f3' and log correlation suggest adservice as root. Reason signature matches service error. The early frontend/shippingservice onsets may be pre-existing or quick side-effects, and propagation paths are missing, weakening alternative hypotheses.",
+      "best_effort_uncertainties": [
+        "Adservice telemetry onset is later than frontend and shippingservice (tie at 1732275199).",
+        "No direct trace or propagation path confirms adservice as source.",
+        "Evidence is inconclusive; decision relies on circumstantial clues (log messages, fault name, magnitude)."
+      ],
+      "best_effort_terminal_reason": "NominationRejectedError: Nominated hypothesis 'H3-frontend-service-error' has status 'weakened', must be SUPPORTED",
+      "case_id": "RE3-OB/adservice_f3/2",
+      "expected_component": "adservice",
+      "hit": true,
+      "elapsed_sec": 414.789,
+      "error": null
+    },
+    {
+      "status": "final_verified",
+      "hypothesis_id": "H3-frontend-latency-degradation",
+      "predicted_component": "frontend",
+      "reason_family": "latency degradation",
+      "onset_interval": [
+        1732363968.0,
+        1732364028.0
+      ],
+      "rounds_completed": 3,
+      "challenge_status": "survived_challenge",
+      "evidence_count": 4,
+      "referenced_evidence_ids": [
+        "evidence:f1c6600e6d5d57aca50e88956a8b258302456ae7102d8a416cf7c74d7785876c",
+        "evidence:a2022e8b59ba664510299d622ca9f997c19015e2991ce02acc755cefc1ea83e2",
+        "evidence:00db5b8e0f2a4eb7d8f4db3f89b52ea4d6f8a115bf2fce2ef1c8a6026521cec7"
+      ],
+      "case_id": "RE3-OB/adservice_f3/3",
+      "expected_component": "adservice",
+      "hit": false,
+      "elapsed_sec": 288.324,
+      "error": null
+    }
+  ]
+}

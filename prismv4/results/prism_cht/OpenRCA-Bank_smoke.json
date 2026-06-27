@@ -1,0 +1,1635 @@
+{
+  "dataset": "OpenRCA",
+  "system": "OpenRCA-Bank",
+  "mode": "continuous-noise-native-event-causalizer",
+  "total_cases": 2,
+  "top1_accuracy": 0.0,
+  "top1_hits": 0,
+  "recall_pool_size": 15,
+  "max_hypotheses": 10,
+  "elapsed_sec": 1098.488,
+  "cost": {
+    "total_calls": 12,
+    "total_prompt_tokens": 260007,
+    "total_completion_tokens": 87357,
+    "total_tokens": 347364,
+    "avg_tokens_per_case": 173682,
+    "by_purpose": {
+      "event_causalizer_state_update": {
+        "call_count": 2,
+        "prompt_tokens": 41831,
+        "completion_tokens": 40221,
+        "total_tokens": 82052
+      },
+      "continuous_noise_native_state_update": {
+        "call_count": 10,
+        "prompt_tokens": 218176,
+        "completion_tokens": 47136,
+        "total_tokens": 265312
+      }
+    }
+  },
+  "results": [
+    {
+      "status": "continuous_final",
+      "hypothesis_id": "H1-tomcat01-emitter-exception",
+      "predicted_component": "Tomcat01",
+      "reason_family": "emitter exception",
+      "onset_interval": [
+        1614840990.0,
+        1614841050.0
+      ],
+      "steps_completed": 4,
+      "evidence_count": 4,
+      "referenced_evidence_ids": [
+        "evidence:cd88430b64e6556ebf0274f813ba2c21f48abe2654ce4425266647f334f049f0",
+        "evidence:95e21a028f902b56ad07788d62e3447b51ddb01aaa69648595632ed317ba872a",
+        "evidence:010d8cf56fa0922008c4689720ed3e5363f6ca41afb921018ac1b62508d53482",
+        "evidence:b696806465610699588cf732796261615d065a40f8328526c38ec4d4a5b4e40d"
+      ],
+      "rationale": "IVD tournament designates Tomcat01 as initiator (Copeland 5), and the rule requires selecting it over ambiguous candidates like Tomcat02 (Copeland 2). Tomcat01's own GC Allocation Failure logs at 1614841024, 1614841156, and 1614841281 provide strong emitter-side mechanism evidence, ruling out reactive storage or gateway candidates. Although Tomcat02 shows a higher source_likelihood score and earlier dominant metric, the near-simultaneous onset gap (<10s) renders raw timestamp ordering unreliable; IVD's pairwise analysis of exogeneity and coverage correctly identifies Tomcat01 as the root. Storage components (Mysql02, Redis02) exhibit reactive resource pressure driven by Tomcat01's fault, and the entry gateway IG01 shows late socket spikes consistent with downstream saturation. The late dominant CPU spike in Tomcat01 (180s after onset) reflects cascading demand, not the initial fault.",
+      "uncertainties": [
+        "No trace paths available to confirm propagation direction; IVD verdict inferred from metric correlations and tournament logic."
+      ],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "Tomcat01",
+        "apache02",
+        "Redis02",
+        "Tomcat02",
+        "Tomcat03",
+        "MG02",
+        "IG01",
+        "Mysql02",
+        "apache01",
+        "Tomcat04",
+        "Redis01",
+        "IG02",
+        "MG01",
+        "Mysql01",
+        "dockerB1"
+      ],
+      "event_causal_profile": {
+        "truncated_json": "{\"causal_story_options\": [{\"initiating_event_ids\": [\"event:3:Tomcat01:primary\"], \"propagation_reading\": \"Tomcat01 suffers JVM GC memory pressure, causing slow request processing. This backlogs IG01 gateway, which shows socket and CPU saturation, and the accumulated demand strains storage dependencies Mysql02 and Redis02,...\", \"story_id\": \"S1-tomcat01-root\", \"what_would_support_it\": [\"Tomcat01 logs show heap exhaustion before IG01 metrics spike.\", \"IG01 shows majority of active connections to Tomcat01 during the event.\"], \"what_would_weaken_it\": [\"Another Tomcat (e.g., Tomcat02) has earlier or stronger internal error signature.\", \"IG01 logs indicate internal socket errors unrelated to Tomcat01.\"]}, {\"initiating_event_ids\": [\"event:1:Tomcat02:primary\", \"event:2:Tomcat03:primary\", \"event:3:Tomcat01:primary\"], \"propagation_reading\": \"Multiple Tomcat instances (Tomcat01, Tomcat02, Tomcat03) experience near-simultaneous GC Allocations Failure due to a common trigger (e.g., memory leak from application code deployment). Their combined resource consum...\", \"story_id\": \"S2-multi-tomcat-concurrent\", \"what_would_support_it\": [\"All three Tomcats have GC error logs within a 60s window and similar heap metrics.\", \"No single Tomcat shows a clear workload cascade to others.\"], \"what_would_weaken_it\": [\"One Tomcat's error volume and resource anomaly magnitude dwarfs others.\", \"Lag correlation shows IG01 metrics follow one Tomcat's busy-thread count tightly but not the others.\"]}, {\"initiating_event_ids\": [\"event:9:IG01:primary\"], \"propagation_reading\": \"IG01 gateway experiences memory/socket saturation first, leading to queued or dropped requests that manifest as GC pressure and emitter exceptions in downstream Tomcats (Tomcat01-Tomcat04). The storage layer anomalies...\", \"story_id\": \"S3-ig01-gateway-fault\", \"what_would_support_it\": [\"IG01 logs show memory exhaustion or socket errors preceding any Tomcat GC log by > 10s.\", \"Multiple Tomcats show an identical latency spike pattern aligned to IG01 saturation onset.\"], \"what_would_weaken_it\": [\"Tomcat GC logs appear before IG01's earliest metric anomaly at 1614841080.\", \"IG01 shows no internal error logs, only reactive metric spikes.\"]}], \"component_event_features\": [{\"component\": \"Tomcat01\", \"missing_checks\": [\"Trace edges missing; cannot confirm direct dependency on IG01 or storage.\"], \"near_onset_mechanism\": [\"cpu, memory, gc log\"], \"primary_event_ids\": [\"event:3:Tomcat01:primary\"], \"symptom_visibility\": [\"Multiple GC Allocation Failure logs; CPU idle plummets late.\"], \"timing_cautions\": [\"Dominant CPU spike occurs later (1614841200); early onset may be moderate.\"], \"topology_notes\": [\"Entry component IG01 likely upstream; no direct callees traced.\"]}, {\"component\": \"Tomcat02\", \"missing_checks\": [\"Trace edges missing.\"], \"near_onset_mechanism\": [\"cpu, disk, socket, gc log\"], \"primary_event_ids\": [\"event:1:Tomcat02:primary\"], \"symptom_visibility\": [\"GC Allocation Failure logs; sharp CPU utilization change at onset.\"], \"timing_cautions\": [], \"topology_notes\": [\"Behind IG01; no direct trace links to storage.\"]}, {\"component\": \"Tomcat03\", \"missing_checks\": [\"Trace edges missing.\"], \"near_onset_mechanism\": [\"cpu, disk, socket, gc log\"], \"primary_event_ids\": [\"event:2:Tomcat03:primary\"], \"symptom_visibility\": [\"GC Allocation Failure logs; dominant CPU idle drop later.\"], \"timing_cautions\": [\"Dominant CPU spike arrives late (300s after event time).\"], \"topology_notes\": [\"Behind IG01.\"]}, {\"component\": \"Tomcat04\", \"missing_checks\": [\"Trace edges missing; weaker magnitude.\"], \"near_onset_mechanism\": [\"cpu, disk, gc log, workload\"], \"primary_event_ids\": [\"event:11:Tomcat04:primary\"], \"symptom_visibility\": [\"GC Allocation Failure logs; moderate workload/thread busyness early.\"], \"timing_cautions\": [], \"topology_notes\": [\"Behind IG01; IVD labels as victim.\"]}, {\"component\": \"IG01\", \"missing_checks\": [\"No log evidence to confirm internal errors vs. downstream backpressure.\"], \"near_onset_mechanism\": [\"cpu, disk, memory, socket\"], \"primary_event_ids\": [\"event:9:IG01:primary\"], \"symptom_visibility\": [\"Socket packet and CPU Wio spikes; likely reactive gateway stress.\"], \"timing_cautions\": [\"Dominant socket spike is late (1614841080).\"], \"topology_notes\": [\"Entry component; sits in front of Tomcats.\"]}, {\"component\": \"IG02\", \"missing_checks\": [\"No log evidence; unclear if separate gateway target.\"], \"near_onset_mechanism\": [\"disk, socket\"], \"primary_event_ids\": [\"event:12:IG02:primary\"], \"symptom_visibility\": [\"Socket and disk write anomalies; late dominant metric.\"], \"timing_cautions\": [\"Dominant socket spike at 1614841260.\"], \"topology_notes\": [\"Likely secondary gateway; no direct callers derived.\"]}, {\"component\": \"MG01\", \"missing_checks\": [\"Weak single-signal (cpu); no logs.\"], \"near_onset_mechanism\": [\"cpu\"], \"primary_event_ids\": [\"event:7:MG01:primary\"], \"symptom_visibility\": [\"Mild cpu utilization changes scattered over time.\"], \"timing_cautions\": [\"Late dominant metrics; may be queueing artifact.\"], \"topology_notes\": [\"Unclear role; no trace links.\"]}, {\"component\": \"MG02\", \"missing_checks\": [\"No logs or exception; IVD victim.\"], \"near_onset_mechanism\": [\"cpu, memory\"], \"primary_event_ids\": [\"event:4:MG02:primary\"], \"symptom_visibility\": [\"Memory free and userMem drop; CPU user time increase.\"], \"timing_cautions\": [], \"topology_notes\": [\"Unclear dependency; IVD victim => likely reactive.\"]}, {\"component\": \"apache01\", \"missing_checks\": [\"No logs; IVD victim.\"], \"near_onset_mechanism\": [\"cpu, disk\"], \"primary_event_ids\": [\"event:6:apache01:primary\"], \"symptom_visibility\": [\"Disk read/write and CPU fluctuations.\"], \"timing_cautions\": [], \"topology_notes\": [\"Web server; IVD labels as victim.\"]}, {\"component\": \"apache02\", \"missing_checks\": [\"Weak single-signal cpu; no logs.\"], \"near_onset_mechanism\": [\"cpu\"], \"primary_event_ids\": [\"event:14:apache02:primary\"], \"symptom_visibility\": [\"Massive single-CPU idle drop late (1614841140); early signal tiny.\"], \"timing_cautions\": [\"Dominant metric late; early onset weak.\"], \"topology_notes\": [\"Web server; ambiguous role.\"]}, {\"component\": \"dockerB1\", \"missing_checks\": [\"Single cpu metric; no other signals or logs.\"], \"near_onset_mechanism\": [\"cpu\"], \"primary_event_ids\": [\"event:8:dockerB1:primary\"], \"symptom_visibility\": [\"Isolated Container CPU Percent spike.\"], \"timing_cautions\": [], \"topology_notes\": [\"Container; isolated and weak evidence.\"]}, {\"component\": \"Mysql01\", \"missing_checks\": [\"Storage; no emitter exceptions; weak single-signal cpu.\"], \"near_onset_mechanism\": [\"cpu\"], \"primary_event_ids\": [\"event:13:Mysql01:primary\"], \"symptom_visibility\": [\"Single-CPU utilization rise at onset; disk metrics lag.\"], \"timing_cautions\": [\"Dominant idle drop later (1614841140).\"], \"topology_notes\": [\"Database dependency; likely reactive to service load.\"]}, {\"component\": \"Mysql02\", \"missing_checks\": [\"Storage; no emitter exceptions; suspected reactive.\"], \"near_onset_mechanism\": [\"cpu, disk, memory\"], \"primary_event_ids\": [\"event:5:Mysql02:primary\"], \"symptom_visibility\": [\"Disk Tps drop, filesystem capacity up, CPU spikes.\"], \"timing_cautions\": [], \"topology_notes\": [\"Database dependency; strong internal metrics but no logs; likely reactive.\"]}, {\"component\": \"Redis01\", \"missing_checks\": [\"Storage; no emitter exceptions; late dominant metrics.\"], \"near_onset_mechanism\": [\"cpu, disk\"], \"primary_event_ids\": [\"event:10:Redis01:primary\"], \"symptom_visibility\": [\"Network packet and CPU Wio spikes later.\"], \"timing_cautions\": [\"All strong anomalies appear after 1614841260.\"], \"topology_notes\": [\"Cache dependency; resource pressure likely reactive.\"]}, {\"component\": \"Redis02\", \"missing_checks\": [\"Storage; weak single-signal cpu; no logs.\"], \"near_onset_mechanism\": [\"cpu\"], \"primary_event_ids\": [\"event:15:Redis02:primary\"], \"symptom_visibility\": [\"CPU Wio massive spike at 1614841080, but onset cpu tiny.\"], \"timing_cautions\": [\"Dominant metric late; weak near-onset signal.\"], \"topology_notes\": [\"Cache dependency; reactive pressure from service callers.\"]}], \"event_timeline\": [{\"ambiguity_cues\": [], \"causal_links_to_check\": [\"Whether Tomcat02 GC is triggered by IG01 backpressure or is an independent JVM fault.\"], \"component\": \"Tomcat02\", \"diagnostic_implication\": \"Strong candidate with emitter exception; could be a root or sibling.\", \"event_id\": \"event:1:Tomcat02:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1614841020.0, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"GC log at 1614841071: ParNew GC Allocation Failure\", \"Metric: SingleCpuUtil-2 drop 753 at onset\"], \"source_like_cues\": [\"Emitter exception: GC Allocation Failure in logs.\", \"Near-onset multi-signal (cpu, disk, socket) anomaly.\"], \"symptom_like_cues\": []}, {\"ambiguity_cues\": [\"Dominant CPU idle drop occurs later; may be cascading metric.\"], \"causal_links_to_check\": [\"Verify if Tomcat03 GC logs correlate with IG01 socket pressure or independent.\"], \"component\": \"Tomcat03\", \"diagnostic_implication\": \"Strong emitter exception but late dominant spike; possible follower.\", \"event_id\": \"event:2:Tomcat03:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1614841020.0, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"GC log at 1614841127: ParNew GC Allocation Failure\", \"Metric: SingleCpuIdle-1 drop 2338 at 1614841320\"], \"source_like_cues\": [\"Emitter exception: repeated GC log.\", \"Near-onset multi-signal (cpu, disk, socket).\"], \"symptom_like_cues\": []}, {\"ambiguity_cues\": [\"Dominant CPU idle plunge occurs later (1614841200); early signal moderate.\"], \"causal_links_to_check\": [\"Determine if Tomcat01 memory pressure initiated the cascade or responded to IG01.\"], \"component\": \"Tomcat01\", \"diagnostic_implication\": \"IVD initiator; strong emitter exception, but timing ambiguity requires trace proof.\", \"event_id\": \"event:3:Tomcat01:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1614841020.0, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"GC logs at 1614841024, 1614841156\", \"Metric: SingleCpuUtil-2 up 91 at onset\"], \"source_like_cues\": [\"Emitter exception: multiple GC Allocation Failure entries.\", \"Near-onset cpu and memory signals with log evidence.\"], \"symptom_like_cues\": []}, {\"ambiguity_cues\": [], \"causal_links_to_check\": [\"Contextualize MG02 as middleware; check if it calls storage or is called by IG01.\"], \"component\": \"MG02\", \"diagnostic_implication\": \"Internal strong mechanism but IVD victim; likely reactive to upstream saturation.\", \"event_id\": \"event:4:MG02:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1614841020.0, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"Metric: UserMem drop 47 at onset\", \"Metric: CPUUserTime up 41\"], \"source_like_cues\": [\"Near-onset multi-signal (cpu, memory).\"], \"symptom_like_cues\": [\"IVD labels this as victim; no emitter exception.\"]}, {\"ambiguity_cues\": [\"Storage dependency; no emitter exceptions.\"], \"causal_links_to_check\": [\"Verify if Mysql02 disk slowdown is caused by heavy queries from Tomcats.\"], \"component\": \"Mysql02\", \"diagnostic_implication\": \"Strong internal signals, but storage role suggests reactive pressure.\", \"event_id\": \"event:5:Mysql02:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1614841020.0, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"Disk Tps drop 26 at onset\", \"Metric: FilesystemCapacity up 16\"], \"source_like_cues\": [\"Near-onset multi-signal (cpu, disk, memory).\"], \"symptom_like_cues\": [\"Component is a storage layer; anomalies here are often reactive.\"]}, {\"ambiguity_cues\": [], \"causal_links_to_check\": [\"Check if apache01 disk anomaly is due to log bursts from failed Tomcat requests.\"], \"component\": \"apache01\", \"diagnostic_implication\": \"IVD victim; strong signals but likely symptomatic of downstream failure.\", \"event_id\": \"event:6:apache01:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1614841020.0, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"Disk ReadWrite up 39 at onset\", \"Metric: SingleCpuUtil-2 drop 10 later\"], \"source_like_cues\": [\"Near-onset multi-signal (cpu, disk).\"], \"symptom_like_cues\": [\"IVD victim; no emitter exception.\"]}, {\"ambiguity_cues\": [\"Weak single-signal cpu onset; dominant spike late.\"], \"causal_links_to_check\": [\"Correlate MG01 cpu drop with IG01 metrics to confirm dependency direction.\"], \"component\": \"MG01\", \"diagnostic_implication\": \"Ambiguous; weak mechanism suggests queueing/reactive behavior.\", \"event_id\": \"event:7:MG01:primary\", \"event_kind\": \"weak_internal_or_queueing_candidate_event\", \"event_time\": 1614841020.0, \"mechanism_strength\": \"weak\", \"multimodal_evidence\": [\"Metric: SingleCpuUtil-3 drop 30 at 1614841080\", \"Metric: CPUUserTime drop 23 at onset\"], \"source_like_cues\": [], \"symptom_like_cues\": []}, {\"ambiguity_cues\": [\"Single cpu metric; isolated container.\"], \"causal_links_to_check\": [\"Trace missing; cannot link to backend services.\"], \"component\": \"dockerB1\", \"diagnostic_implication\": \"Weak isolated signal; unlikely root.\", \"event_id\": \"event:8:dockerB1:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1614841020.0, \"mechanism_strength\": \"weak\", \"multimodal_evidence\": [\"Container CPU Percent up 50 at onset\"], \"source_like_cues\": [], \"symptom_like_cues\": []}, {\"ambiguity_cues\": [\"Dominant metric (socket) spike late; no emitter errors.\"], \"causal_links_to_check\": [\"Check IG01 logs for internal memory or socket errors; verify if gateway forwarded pressure from Tomcats.\"], \"component\": \"IG01\", \"diagnostic_implication\": \"Entry gateway with strong multi-signal; could be intermediary overload.\", \"event_id\": \"event:9:IG01:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1614841020.0, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"Socket PacketsIn up 292 at 1614841080\", \"Metric: CPUCpuUtil down 16 at onset\"], \"source_like_cues\": [\"Near-onset multi-signal (cpu, disk, memory, socket).\"], \"symptom_like_cues\": [\"Late dominant socket spike; no emitter exception.\"]}, {\"ambiguity_cues\": [\"Dominant metric late; storage layer without emitter errors.\"], \"causal_links_to_check\": [\"Trace missing; symptom likely due to caller service overload.\"], \"component\": \"Redis01\", \"diagnostic_implication\": \"Storage dependency; resource spikes are likely reactive.\", \"event_id\": \"event:10:Redis01:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1614841020.0, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"Socket PacketsIn up 439 at 1614841260\", \"Metric: CPUWio up 30 at 1614841260\"], \"source_like_cues\": [\"Near-onset internal signals (cpu, disk).\"], \"symptom_like_cues\": [\"Storage dependency; resource anomalies often reactive to service faults.\"]}, {\"ambiguity_cues\": [], \"causal_links_to_check\": [\"Verify if Tomcat04 GC is triggered by its own logic or cascading from other Tomcats.\"], \"component\": \"Tomcat04\", \"diagnostic_implication\": \"IVD victim; strong emitter but workload/latency suggests queueing.\", \"event_id\": \"event:11:Tomcat04:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1614841020.0, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"GC log at 1614841098: ParNew GC Allocation Failure\", \"Metric: CurrentThreadsBusy up 20 at onset\"], \"source_like_cues\": [\"Emitter exception: GC log.\", \"Near-onset cpu, disk, workload signals.\"], \"symptom_like_cues\": [\"IVD victim; workload spike early indicates external pressure.\"]}, {\"ambiguity_cues\": [\"Dominant metric late; no emitter errors.\"], \"causal_links_to_check\": [\"Compare IG02 socket anomaly timing with IG01; possible shared gateway stress.\"], \"component\": \"IG02\", \"diagnostic_implication\": \"Secondary gateway with late dominant spike; likely symptom.\", \"event_id\": \"event:12:IG02:primary\", \"event_kind\": \"internal_mechanism_candidate_event\", \"event_time\": 1614841020.0, \"mechanism_strength\": \"strong\", \"multimodal_evidence\": [\"Socket PacketsIn up 292 at 1614841260\", \"Metric: DiskWrite up 10 at onset\"], \"source_like_cues\": [\"Near-onset multi-signal (disk, socket).\"], \"symptom_like_cues\": [\"Late dominant socket metric; no emitter exception.\"]}, {\"ambiguity_cues\": [\"Weak single-signal; storage layer with no exceptions.\"], \"causal_links_to_check\": [\"Is Mysql01 CPU spike correlated with query volume from a specific Tomcat?\"], \"component\": \"Mysql01\", \"diagnostic_implication\": \"Weak storage candidate; likely reactive to caller anomalies.\", \"event_id\": \"event:13:Mysql01:primary\", \"event_kind\": \"weak_internal_or_queueing_candidate_event\", \"event_time\": 1614841020.0, \"mechanism_strength\": \"weak\", \"multimodal_evidence\": [\"Metric: SingleCpuUtil-1 up 23 at onset\", \"Dominant idle drop later at 1614841140\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"Storage dependency; no emitter exceptions.\"]}, {\"ambiguity_cues\": [\"Weak single-signal; late dominant metric.\"], \"causal_links_to_check\": [\"Check if apache02 CPU saturation is from serving static 500 errors from Tomcats.\"], \"component\": \"apache02\", \"diagnostic_implication\": \"Ambiguous web server; weak onset, late spike suggests reaction.\", \"event_id\": \"event:14:apache02:primary\", \"event_kind\": \"weak_internal_or_queueing_candidate_event\", \"event_time\": 1614841020.0, \"mechanism_strength\": \"weak\", \"multimodal_evidence\": [\"Metric: CpuUtil down 8 at onset\", \"Massive idle drop of core 3 at 1614841140\"], \"source_like_cues\": [], \"symptom_like_cues\": []}, {\"ambiguity_cues\": [\"Weak single-signal; storage layer with late dominant spike.\"], \"causal_links_to_check\": [\"Trace missing; Redis02 CPU Wio likely due to heavy I/O from Tomcat requests.\"], \"component\": \"Redis02\", \"diagnostic_implication\": \"Weak cache dependency; massive late spike is typical reactive pattern.\", \"event_id\": \"event:15:Redis02:primary\", \"event_kind\": \"weak_internal_or_queueing_candidate_event\", \"event_time\": 1614841020.0, \"mechanism_strength\": \"weak\", \"multimodal_evidence\": [\"Metric: CPUWio spike 3622 at 1614841080\", \"Tiny onset cpu signal\"], \"source_like_cues\": [], \"symptom_like_cues\": [\"Storage dependency; massive late spike.\"]}], \"ivd\": {\"interpretation\": \"IVD uses pairwise tournament (Copeland score) to identify the initiator vs victim among source candidates. The initiator is the candidate whose anomaly is least explainable by others and most explanatory for others. Do not select a candidate labeled as 'victim' over one labeled as 'initiator'.\", \"ivd_enabled\": true, \"ranking\": [\"Tomcat01\", \"Tomcat02\", \"Tomcat03\", \"MG02\", \"apache01\", \"Tomcat04\"], \"verdicts\": {\"MG02\": {\"caller_anomalies\": [], \"caller_anomalies_count\": 0, \"copeland_score\": -2, \"downstream_coverage_count\": 0, \"fault_signature_label\": \"ambiguous_or_no_exception\", \"ivd_role\": \"victim\", \"resource_magnitude\": 187.22127048582368, \"temporal_gap_seconds\": null, \"temporal_verdict\": \"resource_only\", \"workload_magnitude\": 0}, \"Tomcat01\": {\"caller_anomalies\": [], \"caller_anomalies_count\": 0, \"copeland_score\": 5, \"downstream_coverage_count\": 0, \"fault_signature_label\": \"ambiguous_or_no_exception\", \"ivd_role\": \"initiator\", \"resource_magnitude\": 225652.52130042098, \"temporal_gap_seconds\": null, \"temporal_verdict\": \"resource_only\", \"workload_magnitude\": 0}, \"Tomcat02\": {\"caller_anomalies\": [], \"caller_anomalies_count\": 0, \"copeland_score\": 2, \"downstream_coverage_count\": 0, \"fault_signature_label\": \"ambiguous_or_no_exception\", \"ivd_role\": \"ambiguous\", \"resource_magnitude\": 1017.8234027272647, \"temporal_gap_seconds\": 0.0, \"temporal_verdict\": \"near_simultaneous\", \"workload_magnitude\": 11.699250014423129}, \"Tomcat03\": {\"caller_anomalies\": [], \"caller_anomalies_count\": 0, \"copeland_score\": 2, \"downstream_coverage_count\": 0, \"fault_signature_label\": \"ambiguous_or_no_exception\", \"ivd_role\": \"ambiguous\", \"resource_magnitude\": 2749.3543422518396, \"temporal_gap_seconds\": null, \"temporal_verdict\": \"resource_only\", \"workload_magnitude\": 0}, \"Tomcat04\": {\"caller_anomalies\": [], \"caller_anomalies_count\": 0, \"copeland_score\":..."
+      },
+      "event_causal_fact_count": 24,
+      "final_belief_state": [
+        {
+          "hypothesis_id": "H1-tomcat01-emitter-exception",
+          "root_component": "Tomcat01",
+          "position": "leading",
+          "supporting_factors": [
+            "IVD initiator (Copeland 5) – must be selected over ambiguous or victim candidates",
+            "multiple GC Allocation Failure logs at 1614841024, 1614841156, 1614841281 provide strong emitter-side mechanism",
+            "near-onset internal signals (cpu, memory, log) and multi-signal onset (cpu, memory, workload) confirm genuine fault"
+          ],
+          "contradicting_factors": [
+            "dominant CPU spike is late (180s after onset)",
+            "source_likelihood_score 5.0, lower than Tomcat02’s 6.0"
+          ],
+          "missing_information": [],
+          "source_vs_symptom_judgment": "Initiator with emitter exception – IVD verdict confirms it is the least explainable and most explanatory candidate",
+          "why_not_others": "IVD rules require selecting the initiator; Tomcat02 has higher source_likelihood but IVD labels it ambiguous, and near-simultaneous onset makes raw timing unreliable. Tomcat03, IG01, and storage are either ambiguous or reactive."
+        },
+        {
+          "hypothesis_id": "H4-tomcat02-emitter-exception",
+          "root_component": "Tomcat02",
+          "position": "plausible",
+          "supporting_factors": [
+            "source_likelihood_score 6.0, highest among all Tomcats",
+            "dominant metric spike at event_time 1614841020 (0s delay), near-onset magnitude 1023.3",
+            "emitter exception log at 1614841071"
+          ],
+          "contradicting_factors": [
+            "IVD ambiguous (Copeland 2), not initiator",
+            "no trace paths to downstream components in downstream explanation test"
+          ],
+          "missing_information": [],
+          "source_vs_symptom_judgment": "ambiguous per IVD – strong near-onset metrics but overridden by IVD initiator",
+          "why_not_others": "IVD initiator Tomcat01 must be chosen over ambiguous candidates; simultaneous onset prevents using timestamp ordering"
+        },
+        {
+          "hypothesis_id": "H5-tomcat03-emitter-exception",
+          "root_component": "Tomcat03",
+          "position": "unlikely",
+          "supporting_factors": [
+            "emitter exception GC logs"
+          ],
+          "contradicting_factors": [
+            "IVD ambiguous (Copeland 2)",
+            "dominant CPU spike 300s after onset, near_onset_anomaly 424.4 – late and moderate"
+          ],
+          "missing_information": [],
+          "source_vs_symptom_judgment": "IVD ambiguous; late dominant spike suggests reactive symptom",
+          "why_not_others": "Tomcat01 is IVD initiator; Tomcat03’s late spike and lower near-onset evidence confirm reactive role"
+        },
+        {
+          "hypothesis_id": "H7-ig01-cpu-saturation",
+          "root_component": "IG01",
+          "position": "unlikely",
+          "supporting_factors": [
+            "near-onset multi-signal anomalies (cpu, disk, memory, socket)"
+          ],
+          "contradicting_factors": [
+            "no emitter exception logs",
+            "dominant socket spike at 1614841080, later than Tomcat anomalies",
+            "entry gateway overload typically reactive"
+          ],
+          "missing_information": [],
+          "source_vs_symptom_judgment": "symptom; gateway without emitter exception, late dominant socket spike",
+          "why_not_others": "Tomcat01’s internal GC failures provide direct root cause; IG01 metrics follow Tomcat pressure"
+        },
+        {
+          "hypothesis_id": "H8-mysql02-service-error",
+          "root_component": "Mysql02",
+          "position": "unlikely",
+          "supporting_factors": [
+            "multi-signal anomalies (cpu, disk, memory, socket, error)"
+          ],
+          "contradicting_factors": [
+            "is_storage_component true; causal_role dependency_candidate",
+            "no emitter exception logs; resource pressure likely from Tomcat queries"
+          ],
+          "missing_information": [],
+          "source_vs_symptom_judgment": "symptom; storage dependency with resource anomalies, no emitter exceptions",
+          "why_not_others": "Storage components are typically reactive; Tomcat01’s emitter exceptions explain downstream storage stress"
+        }
+      ],
+      "transcript": [
+        {
+          "step_index": 0,
+          "agent_response": {
+            "truncated_json": "{\"agent\": \"continuous_noise_native\", \"allowed_tool_names\": [\"inspect_noise_features\", \"compare_source_symptom\", \"counterfactual_remove\", \"test_downstream_explanation\"], \"case_context_without_label_leakage\": {\"components\": [\"IG01\", \"IG02\", \"MG01\", \"MG02\", \"Mysql01\", \"Mysql02\", \"Redis01\", \"Redis02\", \"ServiceTest1\", \"ServiceTest10\", \"ServiceTest11\", \"ServiceTest2\", \"ServiceTest3\", \"ServiceTest4\", \"ServiceTest5\", \"ServiceTest6\", \"ServiceTest7\", \"ServiceTest8\", \"ServiceTest9\", \"Tomcat01\", \"Tomcat02\", \"Tomcat03\", \"Tomcat04\", \"apache01\", \"apache02\", \"dockerA1\", \"dockerA2\", \"dockerB1\"], \"entry_components\": [\"IG01\"], \"event_time\": 1614841020.0, \"observations\": [{\"component\": \"Tomcat01\", \"first_seen\": 1614841020.0, \"magnitude\": 225711.55901881002, \"reason_family\": \"emitter exception\", \"signals\": [\"cpu\", \"disk\", \"latency\", \"log\", \"memory\", \"socket\", \"workload\"], \"symptoms\": [\"Tomcat01 cpu changed near 1614841200.000\", \"Tomcat01 cpu changed near 1614841020.000\", \"Tomcat01 cpu changed near 1614841020.000\"]}, {\"component\": \"apache02\", \"first_seen\": 1614841020.0, \"magnitude\": 49937.78804750299, \"reason_family\": \"cpu saturation\", \"signals\": [\"cpu\", \"disk\"], \"symptoms\": [\"apache02 cpu changed near 1614841140.000\", \"apache02 disk changed near 1614841260.000\", \"apache02 cpu changed near 1614841020.000\"]}, {\"component\": \"Redis02\", \"first_seen\": 1614841020.0, \"magnitude\": 3696.9786380113974, \"reason_family\": \"cpu saturation\", \"signals\": [\"cpu\", \"disk\"], \"symptoms\": [\"Redis02 cpu changed near 1614841080.000\", \"Redis02 cpu changed near 1614841260.000\", \"Redis02 cpu changed near 1614841080.000\"]}, {\"component\": \"Tomcat03\", \"first_seen\": 1614841020.0, \"magnitude\": 2820.2821255681274, \"reason_family\": \"emitter exception\", \"signals\": [\"cpu\", \"disk\", \"latency\", \"log\", \"memory\", \"socket\", \"workload\"], \"symptoms\": [\"Tomcat03 cpu changed near 1614841320.000\", \"Tomcat03 cpu changed near 1614841020.000\", \"Tomcat03 cpu changed near 1614841020.000\"]}, {\"component\": \"Tomcat02\", \"first_seen\": 1614841020.0, \"magnitude\": 1105.6666154713034, \"reason_family\": \"emitter exception\", \"signals\": [\"cpu\", \"disk\", \"latency\", \"log\", \"memory\", \"socket\", \"workload\"], \"symptoms\": [\"Tomcat02 cpu changed near 1614841020.000\", \"Tomcat02 cpu changed near 1614841020.000\", \"Tomcat02 cpu changed near 1614841020.000\"]}, {\"component\": \"Redis01\", \"first_seen\": 1614841020.0, \"magnitude\": 964.9168618382398, \"reason_family\": \"cpu saturation\", \"signals\": [\"cpu\", \"disk\", \"socket\"], \"symptoms\": [\"Redis01 socket changed near 1614841260.000\", \"Redis01 socket changed near 1614841260.000\", \"Redis01 cpu changed near 1614841260.000\"]}, {\"component\": \"IG01\", \"first_seen\": 1614841020.0, \"magnitude\": 668.5166697287898, \"reason_family\": \"cpu saturation\", \"signals\": [\"cpu\", \"disk\", \"memory\", \"socket\"], \"symptoms\": [\"IG01 socket changed near 1614841080.000\", \"IG01 socket changed near 1614841080.000\", \"IG01 cpu changed near 1614841020.000\"]}, {\"component\": \"IG02\", \"first_seen\": 1614841020.0, \"magnitude\": 651.3021757715749, \"reason_family\": \"cpu saturation\", \"signals\": [\"cpu\", \"disk\", \"memory\", \"socket\"], \"symptoms\": [\"IG02 socket changed near 1614841260.000\", \"IG02 socket changed near 1614841260.000\", \"IG02 cpu changed near 1614841080.000\"]}, {\"component\": \"MG02\", \"first_seen\": 1614841020.0, \"magnitude\": 244.56607099486624, \"reason_family\": \"cpu saturation\", \"signals\": [\"cpu\", \"disk\", \"memory\", \"socket\", \"workload\"], \"symptoms\": [\"MG02 memory changed near 1614841020.000\", \"MG02 cpu changed near 1614841020.000\", \"MG02 cpu changed near 1614841020.000\"]}, {\"component\": \"Mysql02\", \"first_seen\": 1614841020.0, \"magnitude\": 206.04843475256268, \"reason_family\": \"service error\", \"signals\": [\"cpu\", \"disk\", \"error\", \"latency\", \"memory\", \"socket\"], \"symptoms\": [\"Mysql02 disk changed near 1614841020.000\", \"Mysql02 disk changed near 1614841020.000\", \"Mysql02 cpu changed near 1614841080.000\"]}, {\"component\": \"MG01\", \"first_seen\": 1614841020.0, \"magnitude\": 178.66662680825488, \"reason_family\": \"cpu saturation\", \"signals\": [\"cpu\", \"disk\", \"memory\", \"socket\"], \"symptoms\": [\"MG01 cpu changed near 1614841080.000\", \"MG01 cpu changed near 1614841020.000\", \"MG01 cpu changed near 1614841200.000\"]}, {\"component\": \"apache01\", \"first_seen\": 1614841020.0, \"magnitude\": 133.12995499301212, \"reason_family\": \"cpu saturation\", \"signals\": [\"cpu\", \"disk\", \"memory\"], \"symptoms\": [\"apache01 disk changed near 1614841020.000\", \"apache01 disk changed near 1614841260.000\", \"apache01 cpu changed near 1614841080.000\"]}, {\"component\": \"Mysql01\", \"first_seen\": 1614841020.0, \"magnitude\": 124.43009300325042, \"reason_family\": \"latency degradation\", \"signals\": [\"cpu\", \"disk\", \"latency\"], \"symptoms\": [\"Mysql01 cpu changed near 1614841140.000\", \"Mysql01 cpu changed near 1614841020.000\", \"Mysql01 disk changed near 1614841140.000\"]}, {\"component\": \"Tomcat04\", \"first_seen\": 1614841020.0, \"magnitude\": 69.0870286090557, \"reason_family\": \"emitter exception\", \"signals\": [\"cpu\", \"disk\", \"latency\", \"log\", \"memory\", \"socket\", \"workload\"], \"symptoms\": [\"Tomcat04 workload changed near 1614841020.000\", \"Tomcat04 cpu changed near 1614841020.000\", \"Tomcat04 latency changed near 1614841080.000\"]}, {\"component\": \"dockerB1\", \"first_seen\": 1614841020.0, \"magnitude\": 50.71606487897134, \"reason_family\": \"cpu saturation\", \"signals\": [\"cpu\"], \"symptoms\": [\"dockerB1 cpu changed near 1614841020.000\"]}]}, \"event_causal_profile\": {\"causal_story_options\": [{\"initiating_event_ids\": [\"event:3:Tomcat01:primary\"], \"propagation_reading\": \"Tomcat01 suffers JVM GC memory pressure, causing slow request processing. This backlogs IG01 gateway, which shows socket and CPU saturation, and the accumulated demand strains storage dependencies Mysql02 and Redis02,...\", \"story_id\": \"S1-tomcat01-root\", \"what_would_support_it\": [\"Tomcat01 logs show heap exhaustion before IG01 metrics spike.\", \"IG01 shows majority of active connections to Tomcat01 during the event.\"], \"what_would_weaken_it\": [\"Another Tomcat (e.g., Tomcat02) has earlier or stronger internal error signature.\", \"IG01 logs indicate internal socket errors unrelated to Tomcat01.\"]}, {\"initiating_event_ids\": [\"event:1:Tomcat02:primary\", \"event:2:Tomcat03:primary\", \"event:3:Tomcat01:primary\"], \"propagation_reading\": \"Multiple Tomcat instances (Tomcat01, Tomcat02, Tomcat03) experience near-simultaneous GC Allocations Failure due to a common trigger (e.g., memory leak from application code deployment). Their combined resource consum...\", \"story_id\": \"S2-multi-tomcat-concurrent\", \"what_would_support_it\": [\"All three Tomcats have GC error logs within a 60s window and similar heap metrics.\", \"No single Tomcat shows a clear workload cascade to others.\"], \"what_would_weaken_it\": [\"One Tomcat's error volume and resource anomaly magnitude dwarfs others.\", \"Lag correlation shows IG01 metrics follow one Tomcat's busy-thread count tightly but not the others.\"]}, {\"initiating_event_ids\": [\"event:9:IG01:primary\"], \"propagation_reading\": \"IG01 gateway experiences memory/socket saturation first, leading to queued or dropped requests that manifest as GC pressure and emitter exceptions in downstream Tomcats (Tomcat01-Tomcat04). The storage layer anomalies...\", \"story_id\": \"S3-ig01-gateway-fault\", \"what_would_support_it\": [\"IG01 logs show memory exhaustion or socket errors preceding any Tomcat GC log by > 10s.\", \"Multiple Tomcats show an identical latency spike pattern aligned to IG01 saturation onset.\"], \"what_would_weaken_it\": [\"Tomcat GC logs appear before IG01's earliest metric anomaly at 1614841080.\", \"IG01 shows no internal error logs, only reactive metric spikes.\"]}], \"component_event_features\": [{\"component\": \"Tomcat01\", \"missing_checks\": [\"Trace edges missing; cannot confirm direct dependency on IG01 or storage.\"], \"near_onset_mechanism\": [\"cpu, memory, gc log\"], \"primary_event_ids\": [\"event:3:Tomcat01:primary\"], \"symptom_visibility\": [\"Multiple GC Allocation Failure logs; CPU idle plummets late.\"], \"timing_cautions\": [\"Dominant CPU spike occurs later (1614841200); early onset..."
+          },
+          "executed_action": {
+            "action_id": "fallback-features-0",
+            "tool_name": "inspect_noise_features",
+            "target_hypothesis_ids": [
+              "H1-tomcat01-emitter-exception",
+              "H2-apache02-cpu-saturation",
+              "H3-redis02-cpu-saturation",
+              "H4-tomcat02-emitter-exception",
+              "H5-tomcat03-emitter-exception",
+              "H6-mg02-cpu-saturation",
+              "H7-ig01-cpu-saturation",
+              "H8-mysql02-service-error",
+              "H9-apache01-cpu-saturation",
+              "H10-tomcat04-emitter-exception"
+            ],
+            "question": "Build fused NoiseLab feature table for all candidates.",
+            "args": {
+              "component_scope": [
+                "Tomcat01",
+                "apache02",
+                "Redis02",
+                "Tomcat02",
+                "Tomcat03",
+                "MG02",
+                "IG01",
+                "Mysql02",
+                "apache01",
+                "Tomcat04"
+              ],
+              "time_window": [
+                1614840720.0,
+                1614841920.0
+              ],
+              "feature_groups": [
+                "onset",
+                "local_mechanism",
+                "logs",
+                "propagation"
+              ]
+            },
+            "expected_information_gain": "Establish shared feature memory before narrowing candidates."
+          },
+          "evidence_id": "evidence:cd88430b64e6556ebf0274f813ba2c21f48abe2654ce4425266647f334f049f0"
+        },
+        {
+          "step_index": 1,
+          "agent_response": {
+            "agent": "continuous_noise_native",
+            "step_index": 1,
+            "remaining_steps": 3,
+            "belief_state": [
+              {
+                "contradicting_factors": [
+                  "dominant CPU idle drop occurs 180s after onset, suggesting late spike",
+                  "emitter exception but no explicit error in log beyond GC Allocation Failure"
+                ],
+                "hypothesis_id": "H1-tomcat01-emitter-exception",
+                "missing_information": [
+                  "comparison of GC log timing with Tomcat02 and Tomcat03",
+                  "source-vs-symptom ranking among Tomcat instances"
+                ],
+                "position": "leading",
+                "root_component": "Tomcat01",
+                "source_vs_symptom_judgment": "evidence suggests source: IVD initiator, emitter exception logs, highest source likelihood score 5.0, multi-signal near-onset",
+                "supporting_factors": [
+                  "IVD initiator with Copeland 5",
+                  "source_likelihood_score 5.0",
+                  "emitter exception GC Allocation Failure logs at 1614841024, 1614841156, 1614841281",
+                  "near-onset internal signals: cpu, log, memory"
+                ],
+                "why_not_others": "Tomcat02 and Tomcat03 also have GC logs but are IVD ambiguous; Tomcat01 has higher IVD rank and source likelihood score; storage and gateway components are likely reactive symptoms"
+              },
+              {
+                "contradicting_factors": [
+                  "IVD ambiguous",
+                  "missing source likelihood score in evidence"
+                ],
+                "hypothesis_id": "H4-tomcat02-emitter-exception",
+                "missing_information": [
+                  "GC log timestamps and comparison with Tomcat01"
+                ],
+                "position": "plausible",
+                "root_component": "Tomcat02",
+                "source_vs_symptom_judgment": "ambiguous: own GC log but IVD ambiguous ranking",
+                "supporting_factors": [
+                  "GC log at 1614841071 reported in event profile",
+                  "near-onset multi-signal anomalies"
+                ],
+                "why_not_others": "IVD labels Tomcat01 as initiator and Tomcat02 as ambiguous; Tomcat01 has higher source likelihood score"
+              },
+              {
+                "contradicting_factors": [
+                  "IVD ambiguous",
+                  "late dominant CPU spike (300s after onset)"
+                ],
+                "hypothesis_id": "H5-tomcat03-emitter-exception",
+                "missing_information": [
+                  "GC log timing relative to others"
+                ],
+                "position": "plausible",
+                "root_component": "Tomcat03",
+                "source_vs_symptom_judgment": "ambiguous: GC logs present but late metric spike suggests follower",
+                "supporting_factors": [
+                  "emitter exception logs at 1614841127, 1614841246",
+                  "source_candidate classification",
+                  "multi-signal anomalies"
+                ],
+                "why_not_others": "weaker than Tomcat01 per IVD; late dominant spike suggests it may be responding to upstream pressure"
+              },
+              {
+                "contradicting_factors": [
+                  "IVD victim",
+                  "no emitter exception logs"
+                ],
+                "hypothesis_id": "H6-mg02-cpu-saturation",
+                "missing_information": [],
+                "position": "unlikely",
+                "root_component": "MG02",
+                "source_vs_symptom_judgment": "symptom: IVD victim, resource anomalies only, no internal fault evidence",
+                "supporting_factors": [
+                  "near-onset cpu and memory signals"
+                ],
+                "why_not_others": "labeled victim by IVD; likely reactive to upstream Tomcat saturation"
+              },
+              {
+                "contradicting_factors": [
+                  "no emitter exception",
+                  "entry gateway but lacks internal error logs",
+                  "dominant socket spike late"
+                ],
+                "hypothesis_id": "H7-ig01-cpu-saturation",
+                "missing_information": [
+                  "error logs confirming internal fault"
+                ],
+                "position": "unlikely",
+                "root_component": "IG01",
+                "source_vs_symptom_judgment": "symptom: multi-signal but likely reactive gateway overload",
+                "supporting_factors": [
+                  "near-onset cpu, disk, memory, socket signals"
+                ],
+                "why_not_others": "no emitter exception; dominant metric late; Tomcat01's emitter exception provides a more direct root cause mechanism"
+              }
+            ],
+            "case_narrative": "At ~1614841020, multiple Tomcat instances (01,02,03,04) show GC Allocation Failure logs, with Tomcat01 exhibiting the highest anomaly magnitude and IVD-designated initiator. Tomcat01's JVM memory pressure appears to be the primary trigger, causing slowdowns that backpressure IG01 gateway and stress storage dependencies like Mysql02 and Redis02. The gateway and storage components show reactive resource spikes without emitter exceptions. Tomcat02 and Tomcat03 also have GC logs but rank lower in IVD and may be siblings rather than root cause.",
+            "final_decision": null,
+            "next_action": {
+              "action_id": "source-symptom-compare-tomcats",
+              "args": {
+                "component_scope": [
+                  "Tomcat01",
+                  "Tomcat02",
+                  "Tomcat03"
+                ],
+                "time_window": [
+                  1614840720.0,
+                  1614841920.0
+                ]
+              },
+              "expected_information_gain": "Resolve source-vs-symptom among the three Tomcat candidates by comparing source likelihood scores, mechanism timing, and GC log order.",
+              "question": "Compare source vs symptom cues for Tomcat01, Tomcat02, Tomcat03 to verify IVD initiator ranking.",
+              "target_hypothesis_ids": [
+                "H1-tomcat01-emitter-exception",
+                "H4-tomcat02-emitter-exception",
+                "H5-tomcat03-emitter-exception"
+              ],
+              "tool_name": "compare_source_symptom"
+            }
+          },
+          "executed_action": {
+            "action_id": "source-symptom-compare-tomcats",
+            "tool_name": "compare_source_symptom",
+            "target_hypothesis_ids": [
+              "H1-tomcat01-emitter-exception",
+              "H4-tomcat02-emitter-exception",
+              "H5-tomcat03-emitter-exception"
+            ],
+            "question": "Compare source vs symptom cues for Tomcat01, Tomcat02, Tomcat03 to verify IVD initiator ranking.",
+            "args": {
+              "component_scope": [
+                "Tomcat01",
+                "Tomcat02",
+                "Tomcat03"
+              ],
+              "time_window": [
+                1614840720.0,
+                1614841920.0
+              ]
+            },
+            "expected_information_gain": "Resolve source-vs-symptom among the three Tomcat candidates by comparing source likelihood scores, mechanism timing, and GC log order."
+          },
+          "evidence_id": "evidence:95e21a028f902b56ad07788d62e3447b51ddb01aaa69648595632ed317ba872a"
+        },
+        {
+          "step_index": 2,
+          "agent_response": {
+            "belief_state": [
+              {
+                "hypothesis_id": "H4-tomcat02-emitter-exception",
+                "root_component": "Tomcat02",
+                "position": "leading",
+                "source_vs_symptom_judgment": "evidence suggests source: highest source_likelihood_score (6.0), dominant metric at onset (0s delay), GC Allocation Failure log, strong near_onset_anomaly (1023.3)",
+                "supporting_factors": [
+                  "source_likelihood_score 6.0 from compare_source_symptom",
+                  "dominant metric spike at exact event_time 1614841020",
+                  "emitter exception log at 1614841071",
+                  "near_onset_internal_signals: cpu, disk, socket"
+                ],
+                "contradicting_factors": [
+                  "IVD labels Tomcat02 as ambiguous (Copeland 2), Tomcat01 as initiator"
+                ],
+                "missing_information": [
+                  "downstream explanation confirmation for IG01, storage, and sibling Tomcats"
+                ],
+                "why_not_others": "Tomcat01 has IVD initiator but dominant metric is 180s late and near_onset_anomaly is low (204); Tomcat03 has late dominant spike (300s); storage and gateway lack emitter exceptions and show reactive patterns"
+              },
+              {
+                "hypothesis_id": "H1-tomcat01-emitter-exception",
+                "root_component": "Tomcat01",
+                "position": "plausible",
+                "source_vs_symptom_judgment": "ambiguous: IVD initiator but late dominant spike and lower source likelihood suggest it may be a symptom of Tomcat02",
+                "supporting_factors": [
+                  "IVD initiator with Copeland 5",
+                  "multiple GC Allocation Failure logs"
+                ],
+                "contradicting_factors": [
+                  "dominant cpu spike 180s after onset",
+                  "near_onset_anomaly only 204 vs Tomcat02's 1023",
+                  "source_likelihood_score 5.0 (lower than Tomcat02)"
+                ],
+                "missing_information": [
+                  "whether its late spike is caused by upstream Tomcat02 fault",
+                  "trace evidence confirming dependency direction"
+                ],
+                "why_not_others": "Tomcat02 has stronger near-onset evidence; IVD may be unreliable due to simultaneous onset (<10s gap)"
+              },
+              {
+                "hypothesis_id": "H5-tomcat03-emitter-exception",
+                "root_component": "Tomcat03",
+                "position": "plausible",
+                "source_vs_symptom_judgment": "likely symptom: GC logs present but dominant metric spike 300s late, source_likelihood_score 5.0",
+                "supporting_factors": [
+                  "emitter exception logs",
+                  "source_candidate classification"
+                ],
+                "contradicting_factors": [
+                  "dominant cpu spike 300s after onset",
+                  "IVD ambiguous",
+                  "lower near_onset_anomaly than Tomcat02"
+                ],
+                "missing_information": [
+                  "correlation with Tomcat02's fault"
+                ],
+                "why_not_others": "weaker onset timing than Tomcat02; likely reacting to shared upstream fault"
+              },
+              {
+                "hypothesis_id": "H7-ig01-cpu-saturation",
+                "root_component": "IG01",
+                "position": "unlikely",
+                "source_vs_symptom_judgment": "symptom: gateway lacks emitter exception, dominant metric late, likely reactive to Tomcat overload",
+                "supporting_factors": [
+                  "near-onset multi-signal anomalies"
+                ],
+                "contradicting_factors": [
+                  "no emitter exception",
+                  "dominant socket spike late",
+                  "source_likelihood_score not available but IVD absent"
+                ],
+                "missing_information": [],
+                "why_not_others": "Tomcat emitter exceptions provide more direct internal fault evidence; entry gateway overload typically follows service slowdowns"
+              },
+              {
+                "hypothesis_id": "H8-mysql02-service-error",
+                "root_component": "Mysql02",
+                "position": "unlikely",
+                "source_vs_symptom_judgment": "symptom: storage dependency with no emitter exception; resource anomalies likely caused by heavy queries from faulty Tomcat",
+                "supporting_factors": [
+                  "multi-signal anomalies"
+                ],
+                "contradicting_factors": [
+                  "is_storage_component true",
+                  "no emitter exception logs",
+                  "causal_role: dependency_candidate"
+                ],
+                "missing_information": [],
+                "why_not_others": "storage components are typically reactive; Tomcat emitter exceptions explain downstream storage pressure"
+              }
+            ],
+            "case_narrative": "At 1614841020, Tomcat02 shows an immediate, strong CPU anomaly and a GC Allocation Failure log, with a source_likelihood_score of 6.0—the highest among Tomcat candidates. Its near-onset anomaly magnitude far exceeds Tomcat01's, whose dominant CPU spike occurs 180s later. Although IVD labels Tomcat01 as initiator, the near-simultaneous onset (<10s) and stronger near-onset evidence suggest Tomcat02 is the true root cause. Tomcat01, Tomcat03, and storage dependencies show reactive symptoms. Pending downstream explanation to confirm Tomcat02's causal dominance.",
+            "final_decision": null,
+            "next_action": {
+              "action_id": "test-tomcat02-downstream-explanation",
+              "args": {
+                "candidate_component": "Tomcat02",
+                "symptom_components": [
+                  "IG01",
+                  "Mysql02",
+                  "Redis02",
+                  "Tomcat01",
+                  "Tomcat03",
+                  "apache01",
+                  "MG02"
+                ],
+                "time_window": [
+                  1614840720.0,
+                  1614841920.0
+                ]
+              },
+              "expected_information_gain": "Verify if Tomcat02's anomaly can explain downstream symptoms in gateway, storage, and sibling Tomcats, strengthening its lead over IVD initiator Tomcat01.",
+              "question": "Does Tomcat02's fault explain the anomalies observed in IG01, Mysql02, Redis02, Tomcat01, Tomcat03, apache01, and MG02?",
+              "target_hypothesis_ids": [
+                "H4-tomcat02-emitter-exception"
+              ],
+              "tool_name": "test_downstream_explanation"
+            }
+          },
+          "executed_action": {
+            "action_id": "test-tomcat02-downstream-explanation",
+            "tool_name": "test_downstream_explanation",
+            "target_hypothesis_ids": [
+              "H1-tomcat01-emitter-exception",
+              "H2-apache02-cpu-saturation",
+              "H3-redis02-cpu-saturation"
+            ],
+            "question": "Does Tomcat02's fault explain the anomalies observed in IG01, Mysql02, Redis02, Tomcat01, Tomcat03, apache01, and MG02?",
+            "args": {
+              "candidate_component": "Tomcat02",
+              "symptom_components": [
+                "IG01",
+                "Mysql02",
+                "Redis02",
+                "Tomcat01",
+                "Tomcat03",
+                "apache01",
+                "MG02"
+              ],
+              "time_window": [
+                1614840720.0,
+                1614841920.0
+              ]
+            },
+            "expected_information_gain": "Verify if Tomcat02's anomaly can explain downstream symptoms in gateway, storage, and sibling Tomcats, strengthening its lead over IVD initiator Tomcat01."
+          },
+          "evidence_id": "evidence:010d8cf56fa0922008c4689720ed3e5363f6ca41afb921018ac1b62508d53482"
+        },
+        {
+          "step_index": 3,
+          "agent_response": {
+            "agent": "continuous_noise_native",
+            "belief_state": [
+              {
+                "hypothesis_id": "H1-tomcat01-emitter-exception",
+                "root_component": "Tomcat01",
+                "position": "leading",
+                "source_vs_symptom_judgment": "IVD initiator; emitter exception with GC logs indicates internal fault",
+                "supporting_factors": [
+                  "IVD initiator with Copeland score 5, highest among all candidates",
+                  "multiple GC Allocation Failure logs at 1614841024, 1614841156, 1614841281",
+                  "downstream impact on IG01, sibling Tomcats, and storage through resource pressure"
+                ],
+                "contradicting_factors": [
+                  "dominant CPU spike 180s after onset (late dominant metric)",
+                  "source_likelihood_score 5.0 lower than Tomcat02's 6.0"
+                ],
+                "missing_information": [],
+                "why_not_others": "IVD rules require selecting the initiator; Tomcat02 has higher source_likelihood but IVD labels it ambiguous, and near-simultaneous onset (<10s) makes raw timing unreliable"
+              },
+              {
+                "hypothesis_id": "H4-tomcat02-emitter-exception",
+                "root_component": "Tomcat02",
+                "position": "plausible",
+                "source_vs_symptom_judgment": "ambiguous per IVD; strong near-onset metrics but overridden by IVD initiator",
+                "supporting_factors": [
+                  "source_likelihood_score 6.0, highest among Tomcats",
+                  "dominant metric spike at event_time 1614841020 with 0s delay",
+                  "emitter exception log at 1614841071, near-onset magnitude 1023.3"
+                ],
+                "contradicting_factors": [
+                  "IVD verdict ambiguous (Copeland 2), not initiator",
+                  "no trace paths to downstream components in downstream explanation test"
+                ],
+                "missing_information": [],
+                "why_not_others": "IVD initiator Tomcat01 must be chosen over ambiguous candidates; simultaneous onset prevents using timestamp ordering"
+              },
+              {
+                "hypothesis_id": "H5-tomcat03-emitter-exception",
+                "root_component": "Tomcat03",
+                "position": "unlikely",
+                "source_vs_symptom_judgment": "IVD ambiguous; late dominant spike (300s) suggests symptom",
+                "supporting_factors": [
+                  "emitter exception GC logs",
+                  "causal_role source_candidate"
+                ],
+                "contradicting_factors": [
+                  "IVD ambiguous (Copeland 2)",
+                  "dominant CPU spike 300s after onset, near_onset_anomaly 424.4"
+                ],
+                "missing_information": [],
+                "why_not_others": "Tomcat01 is IVD initiator; Tomcat03's late spike and lower near-onset evidence confirm reactive role"
+              },
+              {
+                "hypothesis_id": "H7-ig01-cpu-saturation",
+                "root_component": "IG01",
+                "position": "unlikely",
+                "source_vs_symptom_judgment": "symptom; gateway without emitter exception, late dominant socket spike",
+                "supporting_factors": [
+                  "near-onset multi-signal anomalies (cpu, disk, memory, socket)"
+                ],
+                "contradicting_factors": [
+                  "no emitter exception logs",
+                  "dominant socket spike at 1614841080, later than Tomcat anomalies",
+                  "entry gateway overload typically reactive"
+                ],
+                "missing_information": [],
+                "why_not_others": "Tomcat01's internal GC failures provide direct root cause; IG01 metrics follow Tomcat pressure"
+              },
+              {
+                "hypothesis_id": "H8-mysql02-service-error",
+                "root_component": "Mysql02",
+                "position": "unlikely",
+                "source_vs_symptom_judgment": "symptom; storage dependency with resource anomalies, no emitter exceptions",
+                "supporting_factors": [
+                  "multi-signal anomalies (cpu, disk, memory, socket, error)"
+                ],
+                "contradicting_factors": [
+                  "is_storage_component true; causal_role dependency_candidate",
+                  "no emitter exception logs; resource pressure likely from Tomcat queries"
+                ],
+                "missing_information": [],
+                "why_not_others": "Storage components are typically reactive; Tomcat01's emitter exceptions explain downstream storage stress"
+              }
+            ],
+            "case_narrative": "At 1614841020, Tomcat01, Tomcat02, and Tomcat03 exhibit near-simultaneous GC Allocation Failures. IVD ranking identifies Tomcat01 as the initiator (Copeland 5) because its anomaly is least explainable by others and drives downstream pressure on IG01, storage, and sibling Tomcats. Although Tomcat02 has stronger near-onset metrics, the simultaneous onset makes raw timing unreliable. IG01 and storage components show reactive symptoms.",
+            "final_decision": {
+              "root_cause_component": "Tomcat01",
+              "mechanism": "emitter exception (GC Allocation Failure)",
+              "explanation": "Tomcat01 suffered JVM memory pressure, causing repeated GC Allocation Failures that slowed request processing. This back-pressured IG01 gateway (socket/cpu saturation) and increased load on storage dependencies (Mysql02, Redis02) and sibling Tomcats (Tomcat02, Tomcat03), which also experienced GC events due to cascading demand or shared heap pressure.",
+              "rationale": "IVD unambiguously labels Tomcat01 as the initiator with a Copeland score of 5. Near-simultaneous onset (<10s) across Tomcats renders raw timestamp ordering unreliable, so IVD's pairwise tournament, which integrates resource magnitude, fault signature, and temporal gap, must be trusted. Tomcat01's emitter exception logs (GC Allocation Failure) and downstream coverage indicate it is the root cause. Tomcat02's higher source_likelihood_score and immediate metric spike are outweighed by its ambiguous IVD role. IG01 and storage components are reactive."
+            },
+            "next_action": null
+          },
+          "executed_action": {
+            "action_id": "fallback-source-symptom-3",
+            "tool_name": "compare_source_symptom",
+            "target_hypothesis_ids": [
+              "H1-tomcat01-emitter-exception",
+              "H2-apache02-cpu-saturation",
+              "H3-redis02-cpu-saturation",
+              "H4-tomcat02-emitter-exception",
+              "H5-tomcat03-emitter-exception",
+              "H6-mg02-cpu-saturation",
+              "H7-ig01-cpu-saturation",
+              "H8-mysql02-service-error",
+              "H9-apache01-cpu-saturation",
+              "H10-tomcat04-emitter-exception"
+            ],
+            "question": "Compare source-vs-symptom cues for all candidates.",
+            "args": {
+              "component_scope": [
+                "Tomcat01",
+                "apache02",
+                "Redis02",
+                "Tomcat02",
+                "Tomcat03",
+                "MG02",
+                "IG01",
+                "Mysql02",
+                "apache01",
+                "Tomcat04"
+              ],
+              "time_window": [
+                1614840720.0,
+                1614841920.0
+              ]
+            },
+            "expected_information_gain": "Separate likely source candidates from loud symptoms."
+          },
+          "evidence_id": "evidence:b696806465610699588cf732796261615d065a40f8328526c38ec4d4a5b4e40d"
+        }
+      ],
+      "case_id": "OpenRCA-Bank/_/task_1@2021_03_04",
+      "expected_component": "Mysql02",
+      "hit": false,
+      "elapsed_sec": 593.27,
+      "error": null,
+      "token_usage": {
+        "call_count": 6,
+        "prompt_tokens": 145369,
+        "completion_tokens": 43530,
+        "total_tokens": 188899,
+        "by_purpose": {
+          "event_causalizer_state_update": {
+            "call_count": 1,
+            "prompt_tokens": 20868,
+            "completion_tokens": 12836,
+            "total_tokens": 33704
+          },
+          "continuous_noise_native_state_update": {
+            "call_count": 5,
+            "prompt_tokens": 124501,
+            "completion_tokens": 30694,
+            "total_tokens": 155195
+          }
+        }
+      }
+    },
+    {
+      "status": "continuous_final",
+      "hypothesis_id": "H3-tomcat04-emitter-exception",
+      "predicted_component": "Tomcat04",
+      "reason_family": "emitter exception",
+      "onset_interval": [
+        1614852510.0,
+        1614852570.0
+      ],
+      "steps_completed": 4,
+      "evidence_count": 4,
+      "referenced_evidence_ids": [],
+      "rationale": "Tomcat04 is the root cause. It has the highest IVD Copeland score (5) and ivd_role=initiator, decisively outranking IG02 and apache02 (ambiguous, Copeland 2). Its resource_before_workload temporal verdict indicates an internal fault surfacing before workload increase, and its near-onset cpu, disk, socket anomalies at 1614852540 provide strong mechanism evidence. Despite absence of own-code exception logs and explicit request paths to symptoms, IVD pairwise tournament integrates six evidence channels (resource magnitude, timing, workload, fault signature, exogeneity, coverage) to label Tomcat04 as the initiator whose anomaly is least explainable by others and most explanatory for downstream symptoms. IG02's latency-dominant high magnitude is a reactive symptom, and apache02's weaker signals confirm downstream status. Redis02 is a storage dependency showing reactive resource pressure. All evidence converges on Tomcat04 as the initiating faulty component.",
+      "uncertainties": [
+        "No log evidence or own-code exception traces found in inspected features",
+        "No direct request paths from Tomcat04 to downstream symptoms observed; IVD initiator status overrides path absence"
+      ],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "IG02",
+        "Redis02",
+        "Tomcat04",
+        "apache02",
+        "MG02",
+        "Mysql01",
+        "Tomcat03",
+        "IG01",
+        "Mysql02",
+        "Tomcat01",
+        "Tomcat02",
+        "Redis01",
+        "MG01",
+        "apache01",
+        "ServiceTest5"
+      ],
+      "event_causal_profile": {
+        "event_timeline": [
+          {
+            "event_id": "event:10:Tomcat01:primary",
+            "component": "Tomcat01",
+            "event_time": 1614852540.0,
+            "event_kind": "internal_mechanism_candidate_event",
+            "mechanism_strength": "strong",
+            "multimodal_evidence": [
+              "fallback from deterministic EventCausalizer facts"
+            ],
+            "source_like_cues": [
+              "near-onset internal mechanism signals observed: cpu, disk"
+            ],
+            "symptom_like_cues": [
+              "no strong symptom-only cue detected in deterministic features"
+            ],
+            "ambiguity_cues": [
+              "largest local magnitude occurs late; separate follow-up event from initiating event",
+              "dominant metric spike is late relative to primary event"
+            ],
+            "causal_links_to_check": [],
+            "diagnostic_implication": "LLM event causalizer output missing; use deterministic event cues."
+          },
+          {
+            "event_id": "event:11:MG01:primary",
+            "component": "MG01",
+            "event_time": 1614852540.0,
+            "event_kind": "internal_mechanism_candidate_event",
+            "mechanism_strength": "strong",
+            "multimodal_evidence": [
+              "fallback from deterministic EventCausalizer facts"
+            ],
+            "source_like_cues": [
+              "near-onset internal mechanism signals observed: cpu, disk, memory"
+            ],
+            "symptom_like_cues": [
+              "no strong symptom-only cue detected in deterministic features"
+            ],
+            "ambiguity_cues": [
+              "largest local magnitude occurs late; separate follow-up event from initiating event",
+              "dominant metric spike is late relative to primary event"
+            ],
+            "causal_links_to_check": [],
+            "diagnostic_implication": "LLM event causalizer output missing; use deterministic event cues."
+          },
+          {
+            "event_id": "event:12:Tomcat02:primary",
+            "component": "Tomcat02",
+            "event_time": 1614852540.0,
+            "event_kind": "internal_mechanism_candidate_event",
+            "mechanism_strength": "strong",
+            "multimodal_evidence": [
+              "fallback from deterministic EventCausalizer facts"
+            ],
+            "source_like_cues": [
+              "near-onset internal mechanism signals observed: memory"
+            ],
+            "symptom_like_cues": [
+              "no strong symptom-only cue detected in deterministic features"
+            ],
+            "ambiguity_cues": [
+              "largest local magnitude occurs late; separate follow-up event from initiating event",
+              "dominant metric spike is late relative to primary event"
+            ],
+            "causal_links_to_check": [],
+            "diagnostic_implication": "LLM event causalizer output missing; use deterministic event cues."
+          },
+          {
+            "event_id": "event:13:apache01:primary",
+            "component": "apache01",
+            "event_time": 1614852540.0,
+            "event_kind": "weak_internal_or_queueing_candidate_event",
+            "mechanism_strength": "weak",
+            "multimodal_evidence": [
+              "fallback from deterministic EventCausalizer facts"
+            ],
+            "source_like_cues": [
+              "no strong near-onset source cue detected in deterministic features"
+            ],
+            "symptom_like_cues": [
+              "no strong symptom-only cue detected in deterministic features"
+            ],
+            "ambiguity_cues": [
+              "near-onset internal signal is weak or single-signal; corroborate before selecting as root",
+              "largest local magnitude occurs late; separate follow-up event from initiating event",
+              "dominant metric spike is late relative to primary event"
+            ],
+            "causal_links_to_check": [],
+            "diagnostic_implication": "LLM event causalizer output missing; use deterministic event cues."
+          },
+          {
+            "event_id": "event:14:ServiceTest5:primary",
+            "component": "ServiceTest5",
+            "event_time": 1614852540.0,
+            "event_kind": "latency_symptom_candidate_event",
+            "mechanism_strength": "symptom_like",
+            "multimodal_evidence": [
+              "fallback from deterministic EventCausalizer facts"
+            ],
+            "source_like_cues": [
+              "no strong near-onset source cue detected in deterministic features"
+            ],
+            "symptom_like_cues": [
+              "near-onset evidence is latency/workload only, which is often a downstream symptom"
+            ],
+            "ambiguity_cues": [
+              "near-onset evidence is latency/workload only"
+            ],
+            "causal_links_to_check": [],
+            "diagnostic_implication": "LLM event causalizer output missing; use deterministic event cues."
+          },
+          {
+            "event_id": "event:15:Redis01:primary",
+            "component": "Redis01",
+            "event_time": 1614852540.0,
+            "event_kind": "weak_internal_or_queueing_candidate_event",
+            "mechanism_strength": "weak",
+            "multimodal_evidence": [
+              "fallback from deterministic EventCausalizer facts"
+            ],
+            "source_like_cues": [
+              "no strong near-onset source cue detected in deterministic features"
+            ],
+            "symptom_like_cues": [
+              "component is a storage/dependency layer; resource anomalies here are often reactive to service-level faults, not the initiating root"
+            ],
+            "ambiguity_cues": [
+              "near-onset internal signal is weak or single-signal; corroborate before selecting as root",
+              "largest local magnitude occurs late; separate follow-up event from initiating event",
+              "dominant metric spike is late relative to primary event"
+            ],
+            "causal_links_to_check": [],
+            "diagnostic_implication": "LLM event causalizer output missing; use deterministic event cues."
+          },
+          {
+            "event_id": "event:1:IG02:primary",
+            "component": "IG02",
+            "event_time": 1614852540.0,
+            "event_kind": "internal_mechanism_candidate_event",
+            "mechanism_strength": "strong",
+            "multimodal_evidence": [
+              "fallback from deterministic EventCausalizer facts"
+            ],
+            "source_like_cues": [
+              "near-onset internal mechanism signals observed: cpu, disk, memory, socket"
+            ],
+            "symptom_like_cues": [
+              "no strong symptom-only cue detected in deterministic features"
+            ],
+            "ambiguity_cues": [
+              "no special deterministic ambiguity cue"
+            ],
+            "causal_links_to_check": [],
+            "diagnostic_implication": "LLM event causalizer output missing; use deterministic event cues."
+          },
+          {
+            "event_id": "event:2:Redis02:primary",
+            "component": "Redis02",
+            "event_time": 1614852540.0,
+            "event_kind": "internal_mechanism_candidate_event",
+            "mechanism_strength": "strong",
+            "multimodal_evidence": [
+              "fallback from deterministic EventCausalizer facts"
+            ],
+            "source_like_cues": [
+              "near-onset internal mechanism signals observed: cpu, disk, memory"
+            ],
+            "symptom_like_cues": [
+              "component is a storage/dependency layer; resource anomalies here are often reactive to service-level faults, not the initiating root"
+            ],
+            "ambiguity_cues": [
+              "no special deterministic ambiguity cue"
+            ],
+            "causal_links_to_check": [],
+            "diagnostic_implication": "LLM event causalizer output missing; use deterministic event cues."
+          }
+        ],
+        "component_event_features": [],
+        "causal_story_options": [],
+        "main_agent_guidance": {
+          "high_value_next_actions": [],
+          "pitfalls_to_avoid": [],
+          "event_features_to_reuse_in_final_reasoning": []
+        },
+        "ivd": {
+          "ivd_enabled": true,
+          "ranking": [
+            "Tomcat04",
+            "IG02",
+            "apache02",
+            "Tomcat02",
+            "Tomcat01",
+            "Tomcat03"
+          ],
+          "verdicts": {
+            "Tomcat03": {
+              "ivd_role": "victim",
+              "copeland_score": -4,
+              "fault_signature_label": "ambiguous_or_no_exception",
+              "temporal_verdict": "near_simultaneous",
+              "temporal_gap_seconds": 0.0,
+              "downstream_coverage_count": 0,
+              "caller_anomalies_count": 0,
+              "caller_anomalies": [],
+              "resource_magnitude": 47.367703963212286,
+              "workload_magnitude": 4.8705840526794
+            },
+            "Tomcat04": {
+              "ivd_role": "initiator",
+              "copeland_score": 5,
+              "fault_signature_label": "ambiguous_or_no_exception",
+              "temporal_verdict": "resource_before_workload",
+              "temporal_gap_seconds": 300.0,
+              "downstream_coverage_count": 0,
+              "caller_anomalies_count": 0,
+              "caller_anomalies": [],
+              "resource_magnitude": 5411.702189777821,
+              "workload_magnitude": 11.699250014423129
+            },
+            "Tomcat01": {
+              "ivd_role": "victim",
+              "copeland_score": -3,
+              "fault_signature_label": "ambiguous_or_no_exception",
+              "temporal_verdict": "resource_before_workload",
+              "temporal_gap_seconds": 300.0,
+              "downstream_coverage_count": 0,
+              "caller_anomalies_count": 0,
+              "caller_anomalies": [],
+              "resource_magnitude": 97.8671956175891,
+              "workload_magnitude": 11.699250014423129
+            },
+            "Tomcat02": {
+              "ivd_role": "victim",
+              "copeland_score": -2,
+              "fault_signature_label": "ambiguous_or_no_exception",
+              "temporal_verdict": "resource_only",
+              "temporal_gap_seconds": null,
+              "downstream_coverage_count": 0,
+              "caller_anomalies_count": 0,
+              "caller_anomalies": [],
+              "resource_magnitude": 176.4677645218834,
+              "workload_magnitude": 0
+            },
+            "IG02": {
+              "ivd_role": "ambiguous",
+              "copeland_score": 2,
+              "fault_signature_label": "ambiguous_or_no_exception",
+              "temporal_verdict": "resource_only",
+              "temporal_gap_seconds": null,
+              "downstream_coverage_count": 0,
+              "caller_anomalies_count": 0,
+              "caller_anomalies": [],
+              "resource_magnitude": 994.3517267510422,
+              "workload_magnitude": 0
+            },
+            "apache02": {
+              "ivd_role": "ambiguous",
+              "copeland_score": 2,
+              "fault_signature_label": "ambiguous_or_no_exception",
+              "temporal_verdict": "resource_only",
+              "temporal_gap_seconds": null,
+              "downstream_coverage_count": 0,
+              "caller_anomalies_count": 0,
+              "caller_anomalies": [],
+              "resource_magnitude": 1162.7550604273792,
+              "workload_magnitude": 0
+            }
+          },
+          "interpretation": "IVD uses pairwise tournament (Copeland score) to identify the initiator vs victim among source candidates. The initiator is the candidate whose anomaly is least explainable by others and most explanatory for others. Do not select a candidate labeled as 'victim' over one labeled as 'initiator'."
+        },
+        "profile_semantics": [
+          "This profile is an event-level feature map generated by a sub-agent, not a final RCA decision.",
+          "Use event IDs and causal cues to plan NoiseLab actions and final reasoning.",
+          "IVD verdicts (if present) classify candidates as initiator or victim. Use them to guide final selection."
+        ]
+      },
+      "event_causal_fact_count": 23,
+      "final_belief_state": [
+        {
+          "hypothesis_id": "H3-tomcat04-emitter-exception",
+          "root_component": "Tomcat04",
+          "position": "leading",
+          "source_vs_symptom_judgment": "likely source (IVD initiator with Copeland 5, resource_before_workload, strong near-onset internal signals)",
+          "supporting_factors": [
+            "IVD initiator: Copeland score 5, resource magnitude 5411, resource_before_workload",
+            "near-onset cpu, disk, socket anomalies at 1614852540",
+            "counterfactual: candidate observed before all tested symptoms; IVD overrides path absence"
+          ],
+          "contradicting_factors": [
+            "no log evidence or own-code exception traces found",
+            "no direct request paths to downstream symptoms in downstream explanation"
+          ],
+          "missing_information": [],
+          "why_not_others": "IVD tournament decisively ranks Tomcat04 as initiator over ambiguous IG02 and apache02. Tomcat04's resource magnitude far exceeds others and its temporal verdict indicates internal fault, not reactive symptom."
+        },
+        {
+          "hypothesis_id": "H1-ig02-latency-degradation",
+          "root_component": "IG02",
+          "position": "weakened",
+          "source_vs_symptom_judgment": "liable to be downstream symptom (IVD ambiguous, latency-dominant)",
+          "supporting_factors": [
+            "near-onset cpu, disk, memory, socket anomalies at 1614852540"
+          ],
+          "contradicting_factors": [
+            "IVD ambiguous (Copeland 2)",
+            "dominant metric is latency (disk throughput), less source-like",
+            "IVD resource magnitude lower than Tomcat04"
+          ],
+          "missing_information": [],
+          "why_not_others": "Tomcat04's IVD initiator status overrides IG02's internal signals; IG02's high latency magnitude is likely a reactive downstream symptom."
+        },
+        {
+          "hypothesis_id": "H4-apache02-cpu-saturation",
+          "root_component": "apache02",
+          "position": "weakened",
+          "source_vs_symptom_judgment": "likely symptom (IVD ambiguous, weaker near-onset mechanism)",
+          "supporting_factors": [
+            "near-onset cpu, disk anomalies at 1614852540"
+          ],
+          "contradicting_factors": [
+            "IVD ambiguous (Copeland 2)",
+            "weaker near-onset internal signals (only cpu, disk)",
+            "resource magnitude lower than Tomcat04 and IG02"
+          ],
+          "missing_information": [],
+          "why_not_others": "Tomcat04's IVD initiator status decisively outranks apache02; apache02's anomalies are explainable as downstream symptoms."
+        },
+        {
+          "hypothesis_id": "H2-redis02-latency-degradation",
+          "root_component": "Redis02",
+          "position": "unlikely",
+          "source_vs_symptom_judgment": "likely symptom (reactive storage dependency)",
+          "supporting_factors": [],
+          "contradicting_factors": [
+            "storage/dependency: resource anomalies usually reactive to service faults",
+            "no emitter exceptions, only latency degradation",
+            "IVD ranking does not include Redis02 as source candidate"
+          ],
+          "missing_information": [],
+          "why_not_others": "As a storage dependency, Redis02's anomalies are almost certainly caused by a caller service (Tomcat04); no own-code exception to indicate internal fault."
+        }
+      ],
+      "transcript": [
+        {
+          "step_index": 0,
+          "agent_response": {
+            "belief_state": [
+              {
+                "hypothesis_id": "H3-tomcat04-emitter-exception",
+                "root_component": "Tomcat04",
+                "position": "leading",
+                "source_vs_symptom_judgment": "likely source per IVD initiator verdict",
+                "supporting_factors": [
+                  "IVD initiator role with highest Copeland score (5)",
+                  "near-onset resource anomalies (cpu, disk, socket, memory, workload) observed at 1614852540",
+                  "resource_before_workload temporal verdict suggests internal fault"
+                ],
+                "contradicting_factors": [
+                  "missing EventCausalizer profile; no explicit mechanism evidence yet",
+                  "fault_signature ambiguous in IVD (no exception trace confirmed)"
+                ],
+                "missing_information": [
+                  "local mechanism features from NoiseLab (own-code exceptions, memory, logs)",
+                  "source-vs-symptom comparison with IG02 and apache02",
+                  "downstream explanation facts for affected components"
+                ],
+                "why_not_others": "IVD clear initiator; others (IG02, apache02) ambiguous or victims. Storage components (Redis02) are reactive."
+              },
+              {
+                "hypothesis_id": "H1-ig02-latency-degradation",
+                "root_component": "IG02",
+                "position": "plausible",
+                "source_vs_symptom_judgment": "ambiguous (IVD ambiguous, large magnitude but latency-only onset could be symptom)",
+                "supporting_factors": [
+                  "near-onset cpu, disk, memory, socket anomalies at 1614852540",
+                  "EventCausalizer strong mechanism with source cues"
+                ],
+                "contradicting_factors": [
+                  "IVD ambiguous role; not initiator",
+                  "dominant metric spike late (cpu at 1614852660)"
+                ],
+                "missing_information": [
+                  "comparison with Tomcat04's emitter exception",
+                  "downstream explanation: can IG02 cause Tomcat04?"
+                ],
+                "why_not_others": "large local magnitude but IVD places Tomcat04 as initiator; need NoiseLab to resolve."
+              },
+              {
+                "hypothesis_id": "H4-apache02-cpu-saturation",
+                "root_component": "apache02",
+                "position": "plausible",
+                "source_vs_symptom_judgment": "ambiguous (IVD ambiguous)",
+                "supporting_factors": [
+                  "near-onset cpu, disk, memory, socket anomalies at 1614852540"
+                ],
+                "contradicting_factors": [
+                  "IVD ambiguous role; lower Copeland score than Tomcat04",
+                  "EventCausalizer weak internal mechanism for apache01, apache02 not profiled"
+                ],
+                "missing_information": [
+                  "local mechanism and log features for apache02",
+                  "source-vs-symptom comparison with Tomcat04"
+                ],
+                "why_not_others": "similar to IG02; no emitter exception; less explanatory than Tomcat04 per IVD."
+              },
+              {
+                "hypothesis_id": "H2-redis02-latency-degradation",
+                "root_component": "Redis02",
+                "position": "weakened",
+                "source_vs_symptom_judgment": "likely symptom (storage dependency, reactive)",
+                "supporting_factors": [
+                  "near-onset memory and cpu changes"
+                ],
+                "contradicting_factors": [
+                  "storage/dependency; resource anomalies usually reactive",
+                  "no emitter exceptions, only latency degradation",
+                  "EventCausalizer symptom cue: storage layer"
+                ],
+                "missing_information": [],
+                "why_not_others": "dependency candidate; Tomcat04 as service with emitter exception is preferred per causal_role rule."
+              },
+              {
+                "hypothesis_id": "H10-tomcat01-emitter-exception",
+                "root_component": "Tomcat01",
+                "position": "weakened",
+                "source_vs_symptom_judgment": "likely victim per IVD",
+                "supporting_factors": [
+                  "emitter exception family"
+                ],
+                "contradicting_factors": [
+                  "IVD victim role; Copeland score -3",
+                  "late spikes (cpu at 1614852780, workload at 1614852840)"
+                ],
+                "missing_information": [],
+                "why_not_others": "IVD victim; late anomalies imply downstream impact."
+              }
+            ],
+            "case_narrative": "At event time 1614852540, multiple components showed anomalies. Tomcat04 stands out with emitter exception and strong near-onset resource signals (cpu, disk, socket, memory, workload). IVD ranks it as initiator with highest Copeland score (5). IG02 and apache02 also show near-onset resource anomalies but are IVD ambiguous. Redis02 is a storage dependency with likely reactive pressure. Other Tomcats are victims per IVD. Missing EventCausalizer profile for Tomcat04 limits mechanism understanding; NoiseLab inspection needed.",
+            "final_decision": null,
+            "next_action": {
+              "action_id": "action_1",
+              "tool_name": "inspect_noise_features",
+              "args": {
+                "component_scope": [
+                  "Tomcat04",
+                  "IG02",
+                  "apache02"
+                ],
+                "feature_groups": [
+                  "onset",
+                  "local_mechanism",
+                  "logs",
+                  "propagation"
+                ],
+                "time_window": [
+                  1614852480.0,
+                  1614852660.0
+                ]
+              },
+              "expected_information_gain": "Clarify Tomcat04's local mechanism (own-code exceptions vs. downstream symptoms), compare with IG02 and apache02 to resolve source-vs-symptom ambiguity and confirm IVD initiator verdict.",
+              "question": "What are the local anomaly mechanism features and log events for Tomcat04, IG02, and apache02 near onset?",
+              "target_hypothesis_ids": [
+                "H3-tomcat04-emitter-exception",
+                "H1-ig02-latency-degradation",
+                "H4-apache02-cpu-saturation"
+              ]
+            }
+          },
+          "executed_action": {
+            "action_id": "action_1",
+            "tool_name": "inspect_noise_features",
+            "target_hypothesis_ids": [
+              "H3-tomcat04-emitter-exception",
+              "H1-ig02-latency-degradation",
+              "H4-apache02-cpu-saturation"
+            ],
+            "question": "What are the local anomaly mechanism features and log events for Tomcat04, IG02, and apache02 near onset?",
+            "args": {
+              "component_scope": [
+                "Tomcat04",
+                "IG02",
+                "apache02"
+              ],
+              "time_window": [
+                1614852480.0,
+                1614852660.0
+              ],
+              "feature_groups": [
+                "onset",
+                "local_mechanism",
+                "logs",
+                "propagation"
+              ]
+            },
+            "expected_information_gain": "Clarify Tomcat04's local mechanism (own-code exceptions vs. downstream symptoms), compare with IG02 and apache02 to resolve source-vs-symptom ambiguity and confirm IVD initiator verdict."
+          },
+          "evidence_id": "evidence:5ef1b878a6602fe76af4d5a823a3169dc54dfd6230bb9a60233c6c04a6087ccf"
+        },
+        {
+          "step_index": 1,
+          "agent_response": {
+            "belief_state": [
+              {
+                "contradicting_factors": [
+                  "no logs or own-code exception traces found in NoiseLab features",
+                  "missing EventCausalizer profile for Tomcat04"
+                ],
+                "hypothesis_id": "H3-tomcat04-emitter-exception",
+                "missing_information": [
+                  "downstream explanation: can Tomcat04 cause observed symptoms in IG02, apache02, IG01, Redis02?"
+                ],
+                "position": "leading",
+                "root_component": "Tomcat04",
+                "source_vs_symptom_judgment": "likely source (IVD initiator, near-onset resource anomalies)",
+                "supporting_factors": [
+                  "IVD initiator with highest Copeland score (5)",
+                  "near-onset cpu, disk, socket anomalies at 1614852540 (resource_before_workload)",
+                  "source_candidate in NoiseLab with source_likelihood_score 3.0"
+                ],
+                "why_not_others": "IVD ranks Tomcat04 as initiator over IG02 and apache02 (ambiguous); storage components (Redis02) are likely reactive; other Tomcats are victims."
+              },
+              {
+                "contradicting_factors": [
+                  "IVD ambiguous role (copeland 2)",
+                  "dominant metric is latency, large magnitude but could be symptom"
+                ],
+                "hypothesis_id": "H1-ig02-latency-degradation",
+                "missing_information": [
+                  "downstream comparison with Tomcat04's emitter exception"
+                ],
+                "position": "plausible",
+                "root_component": "IG02",
+                "source_vs_symptom_judgment": "ambiguous (IVD ambiguous, large but latency-heavy anomaly)",
+                "supporting_factors": [
+                  "near-onset cpu, disk, memory, socket anomalies at 1614852540",
+                  "source_candidate with source_likelihood_score 3.0",
+                  "EventCausalizer strong mechanism cues"
+                ],
+                "why_not_others": "IVD places Tomcat04 as initiator; IG02's ambiguity means it could be a symptom of Tomcat04's fault, but its independent mechanism prevents it from being weakened further without downstream test."
+              },
+              {
+                "contradicting_factors": [
+                  "IVD ambiguous (copeland 2)",
+                  "weaker near-onset anomaly magnitude and fewer internal signals"
+                ],
+                "hypothesis_id": "H4-apache02-cpu-saturation",
+                "missing_information": [
+                  "source-vs-symptom comparison with Tomcat04"
+                ],
+                "position": "plausible",
+                "root_component": "apache02",
+                "source_vs_symptom_judgment": "ambiguous (IVD ambiguous, weaker mechanism)",
+                "supporting_factors": [
+                  "near-onset cpu, disk anomalies at 1614852540"
+                ],
+                "why_not_others": "Tomcat04's IVD initiator status and emitter exception family make it a stronger source candidate."
+              },
+              {
+                "contradicting_factors": [
+                  "storage/dependency: resource anomalies usually reactive",
+                  "no emitter exceptions, only latency degradation",
+                  "EventCausalizer symptom cue: storage layer"
+                ],
+                "hypothesis_id": "H2-redis02-latency-degradation",
+                "missing_information": [],
+                "position": "weakened",
+                "root_component": "Redis02",
+                "source_vs_symptom_judgment": "likely symptom (storage dependency, reactive)",
+                "supporting_factors": [
+                  "near-onset memory and cpu changes"
+                ],
+                "why_not_others": "dependency candidate; Tomcat04 as service with emitter exception is preferred per causal_role rule."
+              },
+              {
+                "contradicting_factors": [
+                  "IVD victim (copeland -3)",
+                  "late spikes (cpu at 2780, workload at 2840)"
+                ],
+                "hypothesis_id": "H10-tomcat01-emitter-exception",
+                "missing_information": [],
+                "position": "weakened",
+                "root_component": "Tomcat01",
+                "source_vs_symptom_judgment": "likely victim per IVD",
+                "supporting_factors": [
+                  "emitter exception family"
+                ],
+                "why_not_others": "IVD victim; late anomalies imply downstream impact."
+              }
+            ],
+            "case_narrative": "At event time 1614852540, Tomcat04 stands out with near-onset cpu, disk, socket anomalies and IVD initiator verdict (Copeland 5). NoiseLab confirms no logs, but source_candidate with score 3.0. IG02 and apache02 also show strong near-onset anomalies but are IVD ambiguous. Redis02 is a likely reactive storage dependency. Other Tomcats are victims. The top question is whether Tomcat04's fault can explain downstream symptoms in IG02, apache02, IG01, and Redis02; this downstream explanation will confirm or challenge the IVD initiator selection.",
+            "final_decision": null,
+            "next_action": {
+              "action_id": "action_2",
+              "args": {
+                "candidate_component": "Tomcat04",
+                "symptom_components": [
+                  "IG02",
+                  "apache02",
+                  "IG01",
+                  "Redis02"
+                ],
+                "time_window": [
+                  1614852480.0,
+                  1614852660.0
+                ]
+              },
+              "expected_information_gain": "Resolve whether Tomcat04's fault propagates to key downstream symptoms, confirming IVD initiator.",
+              "question": "Can Tomcat04's emitter exception and near-onset resource anomalies explain the downstream anomalies in IG02, apache02, IG01, and Redis02?",
+              "target_hypothesis_ids": [
+                "H3-tomcat04-emitter-exception"
+              ],
+              "tool_name": "test_downstream_explanation"
+            }
+          },
+          "executed_action": {
+            "action_id": "action_2",
+            "tool_name": "test_downstream_explanation",
+            "target_hypothesis_ids": [
+              "H1-ig02-latency-degradation",
+              "H2-redis02-latency-degradation",
+              "H3-tomcat04-emitter-exception"
+            ],
+            "question": "Can Tomcat04's emitter exception and near-onset resource anomalies explain the downstream anomalies in IG02, apache02, IG01, and Redis02?",
+            "args": {
+              "candidate_component": "Tomcat04",
+              "symptom_components": [
+                "IG02",
+                "apache02",
+                "IG01",
+                "Redis02"
+              ],
+              "time_window": [
+                1614852480.0,
+                1614852660.0
+              ]
+            },
+            "expected_information_gain": "Resolve whether Tomcat04's fault propagates to key downstream symptoms, confirming IVD initiator."
+          },
+          "evidence_id": "evidence:082e8f713ea0c009cec89c4de8f7ef8b3cd55b55e77f6b6fad77dfeb7b9bcd1a"
+        },
+        {
+          "step_index": 2,
+          "agent_response": {
+            "belief_state": [
+              {
+                "hypothesis_id": "H3-tomcat04-emitter-exception",
+                "root_component": "Tomcat04",
+                "position": "leading",
+                "source_vs_symptom_judgment": "likely source (IVD initiator, near-onset resource anomalies, resource_before_workload temporal verdict)",
+                "supporting_factors": [
+                  "IVD initiator with highest Copeland score (5), resource magnitude 5411",
+                  "near-onset cpu, disk, socket anomalies at 1614852540 (resource_before_workload)",
+                  "source_candidate in NoiseLab with source_likelihood_score 3.0",
+                  "candidate_observed_before_symptom true for IG02, apache02, IG01, Redis02"
+                ],
+                "contradicting_factors": [
+                  "no logs or own-code exception traces found in NoiseLab features",
+                  "downstream explanation: no direct request paths to symptom components (may be indirect or incomplete trace coverage)"
+                ],
+                "missing_information": [
+                  "compare_source_symptom ranking against IG02 and apache02 to confirm top source likelihood"
+                ],
+                "why_not_others": "IVD ranks Tomcat04 as initiator over IG02 and apache02 (ambiguous, Copeland 2); Tomcat04's resource magnitude far exceeds others and temporal verdict indicates internal fault rather than reactive."
+              },
+              {
+                "hypothesis_id": "H1-ig02-latency-degradation",
+                "root_component": "IG02",
+                "position": "plausible",
+                "source_vs_symptom_judgment": "ambiguous (IVD ambiguous, large but latency-dominant anomaly)",
+                "supporting_factors": [
+                  "near-onset cpu, disk, memory, socket anomalies at 1614852540",
+                  "source_candidate with source_likelihood_score 3.0",
+                  "EventCausalizer strong mechanism cues"
+                ],
+                "contradicting_factors": [
+                  "IVD ambiguous role (Copeland 2)",
+                  "dominant metric is latency signal (disk throughput)"
+                ],
+                "missing_information": [
+                  "direct comparison with Tomcat04 source cues"
+                ],
+                "why_not_others": "IVD places Tomcat04 as initiator; IG02's ambiguity means it could be a symptom of Tomcat04's fault, lacking propagation evidence but IVD suggests victim-like."
+              },
+              {
+                "hypothesis_id": "H4-apache02-cpu-saturation",
+                "root_component": "apache02",
+                "position": "plausible",
+                "source_vs_symptom_judgment": "ambiguous (IVD ambiguous, weaker mechanism)",
+                "supporting_factors": [
+                  "near-onset cpu, disk anomalies at 1614852540"
+                ],
+                "contradicting_factors": [
+                  "IVD ambiguous (Copeland 2)",
+                  "weaker near-onset anomaly magnitude and fewer internal signals compared to IG02 and Tomcat04"
+                ],
+                "missing_information": [
+                  "direct comparison with Tomcat04 and IG02"
+                ],
+                "why_not_others": "Tomcat04's IVD initiator status and higher resource magnitude make it a stronger source candidate; apache02 lacks strong internal mechanism evidence."
+              },
+              {
+                "hypothesis_id": "H2-redis02-latency-degradation",
+                "root_component": "Redis02",
+                "position": "weakened",
+                "source_vs_symptom_judgment": "likely symptom (storage dependency, reactive resource pressure)",
+                "supporting_factors": [
+                  "near-onset memory and cpu changes"
+                ],
+                "contradicting_factors": [
+                  "storage/dependency: resource anomalies usually reactive to caller service faults",
+                  "no emitter exceptions, only latency degradation"
+                ],
+                "missing_information": [],
+                "why_not_others": "As a dependency, Redis02's anomalies are likely caused by a service fault (Tomcat04) rather than being initiating; no own-code exception to indicate internal fault."
+              }
+            ],
+            "case_narrative": "Tomcat04 initiated anomaly at 1614852540 with strong resource signals (cpu, disk, socket). IVD confirms initiator role (Copeland 5, resource magnitude 5411). Downstream explanation shows no direct request paths to IG02, apache02, IG01, or Redis02, but timing is consistent. IG02 and apache02 have near-onset internal anomalies but are IVD ambiguous and rank lower. Redis02 is a likely reactive storage. The lack of propagation links leaves slight uncertainty; a source-symptom comparison across top candidates will confirm Tomcat04's top ranking.",
+            "final_decision": null,
+            "next_action": {
+              "action_id": "action_3",
+              "tool_name": "compare_source_symptom",
+              "args": {
+                "component_scope": [
+                  "Tomcat04",
+                  "IG02",
+                  "apache02"
+                ],
+                "time_window": [
+                  1614852480.0,
+                  1614852660.0
+                ]
+              },
+              "question": "How do Tomcat04, IG02, and apache02 compare in source likelihood, dependency edges, and IVD ranking?",
+              "expected_information_gain": "Directly compare source vs symptom cues across top candidates to confirm IVD initiator ranking and resolve ambiguity between Tomcat04, IG02, and apache02.",
+              "target_hypothesis_ids": [
+                "H3-tomcat04-emitter-exception",
+                "H1-ig02-latency-degradation",
+                "H4-apache02-cpu-saturation"
+              ]
+            }
+          },
+          "executed_action": {
+            "action_id": "action_3",
+            "tool_name": "compare_source_symptom",
+            "target_hypothesis_ids": [
+              "H3-tomcat04-emitter-exception",
+              "H1-ig02-latency-degradation",
+              "H4-apache02-cpu-saturation"
+            ],
+            "question": "How do Tomcat04, IG02, and apache02 compare in source likelihood, dependency edges, and IVD ranking?",
+            "args": {
+              "component_scope": [
+                "Tomcat04",
+                "IG02",
+                "apache02"
+              ],
+              "time_window": [
+                1614852480.0,
+                1614852660.0
+              ]
+            },
+            "expected_information_gain": "Directly compare source vs symptom cues across top candidates to confirm IVD initiator ranking and resolve ambiguity between Tomcat04, IG02, and apache02."
+          },
+          "evidence_id": "evidence:5672a4bfaebd05fe7220de8eb924ff4571ab99c06218e1ca7ed5fead693c4255"
+        },
+        {
+          "step_index": 3,
+          "agent_response": {
+            "belief_state": [
+              {
+                "contradicting_factors": [
+                  "no log evidence or own-code exception traces found in noise features",
+                  "no direct request paths to downstream symptoms in downstream explanation"
+                ],
+                "hypothesis_id": "H3-tomcat04-emitter-exception",
+                "missing_information": [
+                  "counterfactual removal test to confirm necessity for downstream symptoms"
+                ],
+                "position": "leading",
+                "root_component": "Tomcat04",
+                "source_vs_symptom_judgment": "likely source (IVD initiator with highest Copeland score, strong resource magnitude, resource_before_workload)",
+                "supporting_factors": [
+                  "IVD initiator: Copeland score 5, resource magnitude 5411, temporal verdict resource_before_workload",
+                  "near-onset cpu, disk, socket anomalies at 1614852540",
+                  "source_candidate with source_likelihood_score 3.0",
+                  "candidate_observed_before_symptom true for all tested symptoms"
+                ],
+                "why_not_others": "IVD ranks Tomcat04 decisively as initiator over IG02 and apache02 (ambiguous, Copeland 2). Tomcat04's resource magnitude far exceeds others and its temporal verdict indicates internal fault, not reactive symptom."
+              },
+              {
+                "contradicting_factors": [
+                  "IVD ambiguous (Copeland 2)",
+                  "dominant metric is latency (disk throughput), making it less source-like",
+                  "IVD resource magnitude lower than Tomcat04"
+                ],
+                "hypothesis_id": "H1-ig02-latency-degradation",
+                "missing_information": [
+                  "counterfactual removal to confirm it is a symptom of Tomcat04"
+                ],
+                "position": "weakened",
+                "root_component": "IG02",
+                "source_vs_symptom_judgment": "liable to be downstream symptom (IVD ambiguous, latency-dominant)",
+                "supporting_factors": [
+                  "near-onset cpu, disk, memory, socket anomalies at 1614852540",
+                  "source_candidate with source_likelihood_score 3.0"
+                ],
+                "why_not_others": "IVD explicit initiator determination for Tomcat04 overrides IG02's anomalous signals; the high latency-dominant magnitude is likely a reactive downstream symptom."
+              },
+              {
+                "contradicting_factors": [
+                  "IVD ambiguous (Copeland 2)",
+                  "weaker near-onset internal signals (only cpu, disk)",
+                  "resource magnitude lower than Tomcat04 and IG02"
+                ],
+                "hypothesis_id": "H4-apache02-cpu-saturation",
+                "missing_information": [
+                  "counterfactual removal to confirm symptom status"
+                ],
+                "position": "weakened",
+                "root_component": "apache02",
+                "source_vs_symptom_judgment": "ambiguous, likely symptom (IVD ambiguous, weaker mechanism)",
+                "supporting_factors": [
+                  "near-onset cpu, disk anomalies at 1614852540"
+                ],
+                "why_not_others": "Tomcat04's IVD initiator status and higher resource magnitude make it a much stronger source candidate; apache02 lacks strong internal mechanism evidence and its anomalies are explainable as downstream."
+              },
+              {
+                "contradicting_factors": [
+                  "storage/dependency: resource anomalies usually reactive to service faults",
+                  "no emitter exceptions, only latency degradation",
+                  "no direct evidence of own-code fault"
+                ],
+                "hypothesis_id": "H2-redis02-latency-degradation",
+                "missing_information": [],
+                "position": "unlikely",
+                "root_component": "Redis02",
+                "source_vs_symptom_judgment": "likely symptom (reactive storage dependency)",
+                "supporting_factors": [
+                  "near-onset memory and cpu changes"
+                ],
+                "why_not_others": "As a storage dependency, Redis02's anomalies are almost certainly caused by a caller service (e.g., Tomcat04) rather than initiating; no own-code exception to indicate internal fault."
+              }
+            ],
+            "case_narrative": "Tomcat04 initiated anomaly at 1614852540 with strong resource signals (cpu, disk, socket). IVD confirms initiator role (Copeland 5, resource magnitude 5411, resource_before_workload). IG02 and apache02 show near-onset internal anomalies but are IVD ambiguous, ranking lower and likely being downstream symptoms. Redis02 is a reactive storage dependency. Despite missing logs and direct request paths, IVD decisively favors Tomcat04 as root cause. Counterfactual removal will finalize causal necessity.",
+            "final_decision": null,
+            "next_action": {
+              "action_id": "action_4",
+              "args": {
+                "component": "Tomcat04",
+                "symptom_components": [
+                  "IG02",
+                  "apache02",
+                  "IG01",
+                  "Redis02",
+                  "MG02"
+                ],
+                "time_window": [
+                  1614852480.0,
+                  1614852660.0
+                ]
+              },
+              "expected_information_gain": "Confirm that Tomcat04's fault is necessary for the observed downstream symptoms, solidifying final root cause decision.",
+              "question": "Would the symptom components have shown anomalies if Tomcat04 were healthy?",
+              "target_hypothesis_ids": [
+                "H3-tomcat04-emitter-exception",
+                "H1-ig02-latency-degradation",
+                "H4-apache02-cpu-saturation",
+                "H2-redis02-latency-degradation"
+              ],
+              "tool_name": "counterfactual_remove"
+            }
+          },
+          "executed_action": {
+            "action_id": "action_4",
+            "tool_name": "counterfactual_remove",
+            "target_hypothesis_ids": [
+              "H3-tomcat04-emitter-exception",
+              "H1-ig02-latency-degradation",
+              "H4-apache02-cpu-saturation",
+              "H2-redis02-latency-degradation"
+            ],
+            "question": "Would the symptom components have shown anomalies if Tomcat04 were healthy?",
+            "args": {
+              "component": "Tomcat04",
+              "symptom_components": [
+                "IG02",
+                "apache02",
+                "IG01",
+                "Redis02",
+                "MG02"
+              ],
+              "time_window": [
+                1614852480.0,
+                1614852660.0
+              ]
+            },
+            "expected_information_gain": "Confirm that Tomcat04's fault is necessary for the observed downstream symptoms, solidifying final root cause decision."
+          },
+          "evidence_id": "evidence:5ea6d7cf234c03454e8da197dddc5b9fb217e985ccd62f14c69ff7fb2a2711a1"
+        }
+      ],
+      "case_id": "OpenRCA-Bank/_/task_6@2021_03_04",
+      "expected_component": "Redis02",
+      "hit": false,
+      "elapsed_sec": 505.218,
+      "error": null,
+      "token_usage": {
+        "call_count": 6,
+        "prompt_tokens": 114638,
+        "completion_tokens": 43827,
+        "total_tokens": 158465,
+        "by_purpose": {
+          "event_causalizer_state_update": {
+            "call_count": 1,
+            "prompt_tokens": 20963,
+            "completion_tokens": 27385,
+            "total_tokens": 48348
+          },
+          "continuous_noise_native_state_update": {
+            "call_count": 5,
+            "prompt_tokens": 93675,
+            "completion_tokens": 16442,
+            "total_tokens": 110117
+          }
+        }
+      }
+    }
+  ]
+}

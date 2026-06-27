@@ -1,0 +1,3174 @@
+{
+  "dataset": "AIOps2021",
+  "system": "RE3-OB",
+  "mode": "lightweight",
+  "total_cases": 47,
+  "top1_accuracy": 0.19148936170212766,
+  "top1_hits": 9,
+  "recall_pool_size": 15,
+  "max_hypotheses": 10,
+  "elapsed_sec": 453.935,
+  "cost": {
+    "total_calls": 28,
+    "total_prompt_tokens": 106195,
+    "total_completion_tokens": 3983,
+    "total_tokens": 110178,
+    "avg_tokens_per_case": 2344,
+    "by_purpose": {
+      "lightweight_rca_decision": {
+        "call_count": 28,
+        "prompt_tokens": 106195,
+        "completion_tokens": 3983,
+        "total_tokens": 110178
+      }
+    }
+  },
+  "results": [
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "apache01",
+      "predicted_ranking": [
+        "apache01",
+        "IG01",
+        "MG02",
+        "Tomcat03",
+        "Tomcat01"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1616555280.0,
+        1616555340.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "Redis01",
+        "Redis02",
+        "apache01",
+        "IG01",
+        "apache02",
+        "Tomcat03",
+        "Mysql01",
+        "Mysql02",
+        "Tomcat02",
+        "MG02",
+        "Tomcat01",
+        "dockerA2",
+        "MG01",
+        "Tomcat04"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "aiops2021/0324/2495@Tomcat03/NETWORK",
+      "expected_component": "Tomcat03",
+      "hit": false,
+      "elapsed_sec": 10.016,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {}
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "Tomcat04",
+      "predicted_ranking": [
+        "Tomcat04",
+        "IG02",
+        "MG01",
+        "Tomcat02",
+        "IG01"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1616556660.0,
+        1616556720.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "Tomcat04",
+        "MG01",
+        "IG02",
+        "Redis02",
+        "Mysql02",
+        "Mysql01",
+        "Tomcat01",
+        "IG01",
+        "Tomcat02",
+        "apache02",
+        "Redis01",
+        "MG02",
+        "apache01",
+        "Tomcat03",
+        "dockerA2"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "aiops2021/0324/2496@Tomcat01/NETWORK",
+      "expected_component": "Tomcat01",
+      "hit": false,
+      "elapsed_sec": 8.12,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {}
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "MG02",
+      "predicted_ranking": [
+        "MG02",
+        "Tomcat03",
+        "MG01",
+        "Tomcat04",
+        "IG01"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1616567400.0,
+        1616567460.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD identifies MG02 as initiator with highest copeland_score (6) and high anomaly magnitude; Tomcat03 also has copeland_score 6 but lower magnitude and was flagged ambiguous; no emitter exceptions present, so highest magnitude among source candidates with high IVD score is chosen.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "Mysql02",
+        "Mysql01",
+        "Tomcat03",
+        "MG02",
+        "IG01",
+        "Tomcat04",
+        "MG01",
+        "Tomcat02",
+        "Tomcat01",
+        "apache02",
+        "apache01",
+        "IG02",
+        "Redis02",
+        "Redis01",
+        "dockerA2"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"MG02\",\n  \"ranking\": [\"MG02\", \"Tomcat03\", \"MG01\", \"Tomcat04\", \"IG01\", \"Tomcat02\", \"Tomcat01\", \"IG02\", \"apache02\", \"Mysql02\", \"Mysql01\", \"Redis02\", \"Redis01\", \"apache01\", \"dockerA2\"],\n  \"rationale\": \"IVD identifies MG02 as initiator with highest copeland_score (6) and high anomaly magnitude; Tomcat03 also has copeland_score 6 but lower magnitude and was flagged ambiguous; no emitter exceptions present, so highest magnitude among source candidates with high IVD score is chosen.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "aiops2021/0324/2504@Tomcat02/NETWORK",
+      "expected_component": "Tomcat02",
+      "hit": false,
+      "elapsed_sec": 10.9,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 4359,
+        "completion_tokens": 149,
+        "total_tokens": 4508,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 4359,
+            "completion_tokens": 149,
+            "total_tokens": 4508
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "Tomcat02",
+      "predicted_ranking": [
+        "Tomcat02",
+        "Tomcat04",
+        "apache01",
+        "IG02",
+        "Tomcat03"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1616569560.0,
+        1616569620.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "No component has emitter_exception=true, so rule about emitter outranking does not apply. IVD identifies Tomcat02 as initiator with copeland_score=4 (positive). Storage components (Mysql, Redis) are reactive dependencies. IG01 is entry component, discounted. Tomcat04 and apache01 have high mag and ambiguous roles, but Tomcat02 is the only initiator in IVD. Ranking includes top source_candidates by mag and IVD score.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "Mysql02",
+        "Mysql01",
+        "Tomcat04",
+        "Redis01",
+        "Tomcat02",
+        "Redis02",
+        "apache01",
+        "MG01",
+        "apache02",
+        "IG02",
+        "Tomcat03",
+        "Tomcat01",
+        "IG01",
+        "MG02",
+        "dockerA2"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"Tomcat02\",\n  \"ranking\": [\"Tomcat02\", \"Tomcat04\", \"apache01\", \"IG02\", \"Tomcat03\"],\n  \"rationale\": \"No component has emitter_exception=true, so rule about emitter outranking does not apply. IVD identifies Tomcat02 as initiator with copeland_score=4 (positive). Storage components (Mysql, Redis) are reactive dependencies. IG01 is entry component, discounted. Tomcat04 and apache01 have high mag and ambiguous roles, but Tomcat02 is the only initiator in IVD. Ranking includes top source_candidates by mag and IVD score.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "aiops2021/0324/2505@MG01/NETWORK",
+      "expected_component": "MG01",
+      "hit": false,
+      "elapsed_sec": 10.314,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 4406,
+        "completion_tokens": 143,
+        "total_tokens": 4549,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 4406,
+            "completion_tokens": 143,
+            "total_tokens": 4549
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "Tomcat01",
+      "predicted_ranking": [
+        "Tomcat01",
+        "MG01",
+        "Tomcat02",
+        "IG02",
+        "Tomcat04"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1616585040.0,
+        1616585100.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "Mysql02",
+        "dockerA2",
+        "Mysql01",
+        "Tomcat01",
+        "Tomcat02",
+        "MG01",
+        "Tomcat03",
+        "MG02",
+        "apache02",
+        "apache01",
+        "IG02",
+        "Redis01",
+        "Tomcat04",
+        "IG01",
+        "Redis02"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "aiops2021/0324/2515@MG01/NETWORK",
+      "expected_component": "MG01",
+      "hit": false,
+      "elapsed_sec": 8.099,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "MG01",
+      "predicted_ranking": [
+        "MG01",
+        "MG02",
+        "IG02",
+        "Tomcat04",
+        "Tomcat03"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1616586600.0,
+        1616586660.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD ranks MG01 as initiator with copeland_score=4. MG01 has high anomaly magnitude (9.93e10) and is not storage or entry. MG02 also has high magnitude but IVD marks it ambiguous. IG02 is a victim with lower magnitude. Storage components have high magnitude but are reactive dependencies. MG01 is the best root cause.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "Mysql02",
+        "Mysql01",
+        "MG02",
+        "IG02",
+        "Tomcat04",
+        "MG01",
+        "Redis01",
+        "Tomcat03",
+        "Tomcat02",
+        "Tomcat01",
+        "apache01",
+        "apache02",
+        "IG01",
+        "Redis02",
+        "dockerA2"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"MG01\",\n  \"ranking\": [\"MG01\", \"MG02\", \"IG02\", \"Tomcat04\", \"Tomcat03\"],\n  \"rationale\": \"IVD ranks MG01 as initiator with copeland_score=4. MG01 has high anomaly magnitude (9.93e10) and is not storage or entry. MG02 also has high magnitude but IVD marks it ambiguous. IG02 is a victim with lower magnitude. Storage components have high magnitude but are reactive dependencies. MG01 is the best root cause.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "aiops2021/0324/2516@MG02/NETWORK",
+      "expected_component": "MG02",
+      "hit": false,
+      "elapsed_sec": 10.509,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 4194,
+        "completion_tokens": 119,
+        "total_tokens": 4313,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 4194,
+            "completion_tokens": 119,
+            "total_tokens": 4313
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "Mysql02",
+      "predicted_ranking": [
+        "Mysql02",
+        "Mysql01",
+        "Tomcat04",
+        "Tomcat02",
+        "Tomcat03"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1616589240.0,
+        1616589300.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD has no initiator with copeland_score>0, so rule 1 does not apply. No component has emitter_exception=True, so rule 2 doesn't apply. Storage components Mysql02 and Mysql01 have very high anomaly magnitude (3.3e19 and 1.9e16) with resource anomalies, but according to rule 3, they are reactive dependencies, not root cause. However, in the absence of any emitter or other strong candidate, the storage components are the most anomalous. The recall pool ranking starts with Mysql02 (highest mag, broad sig), then Mysql01, then the top source_candidates by mag. Entry component IG01 is not selected per rule 4. Given the lack of definitive initiator, Mysql02 is chosen as the root component.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "Mysql02",
+        "Mysql01",
+        "apache01",
+        "Tomcat04",
+        "Tomcat02",
+        "Tomcat03",
+        "MG02",
+        "IG02",
+        "MG01",
+        "IG01",
+        "Tomcat01",
+        "Redis01",
+        "Redis02",
+        "apache02",
+        "dockerA2"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"Mysql02\",\n  \"ranking\": [\n    \"Mysql02\",\n    \"Mysql01\",\n    \"Tomcat04\",\n    \"Tomcat02\",\n    \"Tomcat03\"\n  ],\n  \"rationale\": \"IVD has no initiator with copeland_score>0, so rule 1 does not apply. No component has emitter_exception=True, so rule 2 doesn't apply. Storage components Mysql02 and Mysql01 have very high anomaly magnitude (3.3e19 and 1.9e16) with resource anomalies, but according to rule 3, they are reactive dependencies, not root cause. However, in the absence of any emitter or other strong candidate, the storage components are the most anomalous. The recall pool ranking starts with Mysql02 (highest mag, broad sig), then Mysql01, then the top source_candidates by mag. Entry component IG01 is not selected per rule 4. Given the lack of definitive initiator, Mysql02 is chosen as the root component.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "aiops2021/0324/2518@Tomcat03/NETWORK",
+      "expected_component": "Tomcat03",
+      "hit": false,
+      "elapsed_sec": 11.265,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 4187,
+        "completion_tokens": 223,
+        "total_tokens": 4410,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 4187,
+            "completion_tokens": 223,
+            "total_tokens": 4410
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "MG02",
+      "predicted_ranking": [
+        "MG02",
+        "Tomcat03",
+        "MG01",
+        "apache01",
+        "IG02"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1616592480.0,
+        1616592540.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD identifies MG02 as initiator with highest copeland_score (6). No emitter_exception candidates exist; MG02 has extreme anomaly magnitude (mag=7.9e12) affecting disk/memory. Storage components (Mysql02, Redis01) are reactive dependencies. Entry-like IG01/IG02 are victims. Top-5 ranking by anomaly magnitude and IVD score.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "Mysql02",
+        "Mysql01",
+        "MG02",
+        "Tomcat03",
+        "Redis01",
+        "apache01",
+        "MG01",
+        "IG02",
+        "Redis02",
+        "Tomcat01",
+        "Tomcat02",
+        "apache02",
+        "IG01",
+        "Tomcat04",
+        "dockerA2"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"MG02\",\n  \"ranking\": [\n    \"MG02\",\n    \"Tomcat03\",\n    \"MG01\",\n    \"apache01\",\n    \"IG02\"\n  ],\n  \"rationale\": \"IVD identifies MG02 as initiator with highest copeland_score (6). No emitter_exception candidates exist; MG02 has extreme anomaly magnitude (mag=7.9e12) affecting disk/memory. Storage components (Mysql02, Redis01) are reactive dependencies. Entry-like IG01/IG02 are victims. Top-5 ranking by anomaly magnitude and IVD score.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "aiops2021/0324/2520@IG02/NETWORK",
+      "expected_component": "IG02",
+      "hit": false,
+      "elapsed_sec": 10.487,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 4236,
+        "completion_tokens": 131,
+        "total_tokens": 4367,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 4236,
+            "completion_tokens": 131,
+            "total_tokens": 4367
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "Tomcat03",
+      "predicted_ranking": [
+        "Tomcat03",
+        "IG01",
+        "Tomcat04",
+        "IG02",
+        "Tomcat01"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1616602020.0,
+        1616602080.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "Mysql02",
+        "Tomcat03",
+        "Mysql01",
+        "IG01",
+        "Tomcat04",
+        "apache02",
+        "Tomcat01",
+        "Redis01",
+        "IG02",
+        "Tomcat02",
+        "apache01",
+        "MG01",
+        "dockerA2",
+        "MG02",
+        "Redis02"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "aiops2021/0325/2526@MG02/NETWORK",
+      "expected_component": "MG02",
+      "hit": false,
+      "elapsed_sec": 9.469,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "apache01",
+      "predicted_ranking": [
+        "apache01",
+        "IG02",
+        "MG02",
+        "Tomcat02",
+        "MG01"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1616629200.0,
+        1616629260.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "apache01 has the highest anomaly magnitude among source candidates, and IVD identifies it as initiator with copeland_score=6. No emitter exceptions exist, so the default rule of highest mag among source candidates applies. IG02 and MG02 have high mag but are not initiator per IVD. Tomcat02 and MG01 have lower mag and not initiator.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "Mysql02",
+        "IG02",
+        "MG02",
+        "apache01",
+        "Mysql01",
+        "Tomcat02",
+        "Tomcat03",
+        "Tomcat04",
+        "Tomcat01",
+        "IG01",
+        "MG01",
+        "apache02",
+        "Redis02",
+        "Redis01",
+        "dockerA2"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"apache01\",\n  \"ranking\": [\"apache01\", \"IG02\", \"MG02\", \"Tomcat02\", \"MG01\"],\n  \"rationale\": \"apache01 has the highest anomaly magnitude among source candidates, and IVD identifies it as initiator with copeland_score=6. No emitter exceptions exist, so the default rule of highest mag among source candidates applies. IG02 and MG02 have high mag but are not initiator per IVD. Tomcat02 and MG01 have lower mag and not initiator.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "aiops2021/0325/2543@Tomcat03/NETWORK",
+      "expected_component": "Tomcat03",
+      "hit": false,
+      "elapsed_sec": 10.634,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 2632,
+        "completion_tokens": 120,
+        "total_tokens": 2752,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 2632,
+            "completion_tokens": 120,
+            "total_tokens": 2752
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "MG01",
+      "predicted_ranking": [
+        "MG01",
+        "Tomcat02",
+        "Tomcat01",
+        "Tomcat03",
+        "MG02"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1616655240.0,
+        1616655300.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "MG01 has the highest copeland_score (6) in IVD and is identified as initiator. Although emitter_exception is false for all, MG01 has very high anomaly magnitude and is not a storage component. Storage components (Redis, Mysql) and entry components (IG01, IG02) are not root causes. Tomcat components have high magnitude but lower copeland_score, and MG01 edges them out.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "Mysql02",
+        "Mysql01",
+        "Tomcat02",
+        "Tomcat01",
+        "Redis01",
+        "MG01",
+        "Tomcat03",
+        "MG02",
+        "IG01",
+        "apache01",
+        "IG02",
+        "Tomcat04",
+        "apache02",
+        "dockerA2",
+        "Redis02"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"MG01\",\n  \"ranking\": [\"MG01\", \"Tomcat02\", \"Tomcat01\", \"Tomcat03\", \"MG02\"],\n  \"rationale\": \"MG01 has the highest copeland_score (6) in IVD and is identified as initiator. Although emitter_exception is false for all, MG01 has very high anomaly magnitude and is not a storage component. Storage components (Redis, Mysql) and entry components (IG01, IG02) are not root causes. Tomcat components have high magnitude but lower copeland_score, and MG01 edges them out.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "aiops2021/0325/2558@Tomcat03/NETWORK",
+      "expected_component": "Tomcat03",
+      "hit": false,
+      "elapsed_sec": 10.585,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 4200,
+        "completion_tokens": 131,
+        "total_tokens": 4331,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 4200,
+            "completion_tokens": 131,
+            "total_tokens": 4331
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "IG01",
+      "predicted_ranking": [
+        "IG01",
+        "IG02",
+        "MG02",
+        "Tomcat03",
+        "MG01"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1616664120.0,
+        1616664180.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD identifies IG01 as initiator with copeland_score 4 > 0. IG01 is an entry component, but IVD ranking and high magnitude override the entry rule per the provided logic. No emitter exceptions exist, so that rule is not applied. Storage components are excluded. Top 5 selected from IVD ranking and magnitude.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "dockerA2",
+        "IG02",
+        "IG01",
+        "MG02",
+        "Tomcat03",
+        "Mysql02",
+        "Tomcat02",
+        "MG01",
+        "Tomcat01",
+        "Mysql01",
+        "apache02",
+        "apache01",
+        "Tomcat04",
+        "Redis02",
+        "Redis01"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"IG01\",\n  \"ranking\": [\"IG01\", \"IG02\", \"MG02\", \"Tomcat03\", \"MG01\"],\n  \"rationale\": \"IVD identifies IG01 as initiator with copeland_score 4 > 0. IG01 is an entry component, but IVD ranking and high magnitude override the entry rule per the provided logic. No emitter exceptions exist, so that rule is not applied. Storage components are excluded. Top 5 selected from IVD ranking and magnitude.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "aiops2021/0325/2564@Tomcat01/NETWORK",
+      "expected_component": "Tomcat01",
+      "hit": false,
+      "elapsed_sec": 10.621,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 2720,
+        "completion_tokens": 112,
+        "total_tokens": 2832,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 2720,
+            "completion_tokens": 112,
+            "total_tokens": 2832
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "IG01",
+      "predicted_ranking": [
+        "IG01",
+        "Tomcat04",
+        "apache01",
+        "MG02",
+        "Tomcat02"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1616667180.0,
+        1616667240.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IG01 has the highest copeland_score (5) in IVD, clearly initiator. It also has high anomaly magnitude and is a source_candidate with resource anomaly. Tomcat04 and apache01 follow as source_candidates with high magnitudes. Storage components and victims are excluded per rules.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "Mysql02",
+        "Mysql01",
+        "Tomcat01",
+        "Redis01",
+        "IG01",
+        "Tomcat04",
+        "IG02",
+        "apache01",
+        "Tomcat02",
+        "Redis02",
+        "MG02",
+        "MG01",
+        "Tomcat03",
+        "apache02",
+        "dockerA2"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"IG01\",\n  \"ranking\": [\"IG01\", \"Tomcat04\", \"apache01\", \"MG02\", \"Tomcat02\"],\n  \"rationale\": \"IG01 has the highest copeland_score (5) in IVD, clearly initiator. It also has high anomaly magnitude and is a source_candidate with resource anomaly. Tomcat04 and apache01 follow as source_candidates with high magnitudes. Storage components and victims are excluded per rules.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "aiops2021/0325/2565@IG02/NETWORK",
+      "expected_component": "IG02",
+      "hit": false,
+      "elapsed_sec": 10.218,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 4156,
+        "completion_tokens": 105,
+        "total_tokens": 4261,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 4156,
+            "completion_tokens": 105,
+            "total_tokens": 4261
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "IG02",
+      "predicted_ranking": [
+        "IG02",
+        "Tomcat03",
+        "Tomcat01",
+        "Tomcat04",
+        "IG01"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1616670900.0,
+        1616670960.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD identifies IG02 as initiator with highest copeland_score (5) and no emitter exception. IG02 has high anomaly magnitude (7.975e12) and multiple signals. Other source_candidates have lower magnitude or are storage/entry components. MySQL and Redis are storage dependencies not root cause. IG01 is entry component. IG02 is the most plausible root cause.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "Mysql02",
+        "IG02",
+        "Tomcat03",
+        "Tomcat04",
+        "IG01",
+        "MG02",
+        "MG01",
+        "apache02",
+        "Mysql01",
+        "Tomcat01",
+        "Tomcat02",
+        "Redis01",
+        "apache01",
+        "Redis02",
+        "dockerA2"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"IG02\",\n  \"ranking\": [\n    \"IG02\",\n    \"Tomcat03\",\n    \"Tomcat01\",\n    \"Tomcat04\",\n    \"IG01\"\n  ],\n  \"rationale\": \"IVD identifies IG02 as initiator with highest copeland_score (5) and no emitter exception. IG02 has high anomaly magnitude (7.975e12) and multiple signals. Other source_candidates have lower magnitude or are storage/entry components. MySQL and Redis are storage dependencies not root cause. IG01 is entry component. IG02 is the most plausible root cause.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "aiops2021/0325/2568@Tomcat04/NETWORK",
+      "expected_component": "Tomcat04",
+      "hit": false,
+      "elapsed_sec": 10.78,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 3515,
+        "completion_tokens": 130,
+        "total_tokens": 3645,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 3515,
+            "completion_tokens": 130,
+            "total_tokens": 3645
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "MG02",
+      "predicted_ranking": [
+        "MG02",
+        "Tomcat03",
+        "MG01",
+        "Tomcat02",
+        "Tomcat01"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1616675100.0,
+        1616675160.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD ranking has MG02 as initiator with copeland_score=6 (highest). MG02 also has the highest anomaly magnitude (7.789e12). Tomcat03 and MG01 also have high magnitudes but are ambiguous. Storage components (Mysql, Redis) and entry IG01 are not root causes.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "Mysql02",
+        "Mysql01",
+        "Tomcat03",
+        "MG02",
+        "MG01",
+        "Redis02",
+        "Redis01",
+        "Tomcat02",
+        "Tomcat01",
+        "apache02",
+        "apache01",
+        "IG02",
+        "IG01",
+        "Tomcat04",
+        "dockerA2"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"MG02\",\n  \"ranking\": [\"MG02\", \"Tomcat03\", \"MG01\", \"Tomcat02\", \"Tomcat01\"],\n  \"rationale\": \"IVD ranking has MG02 as initiator with copeland_score=6 (highest). MG02 also has the highest anomaly magnitude (7.789e12). Tomcat03 and MG01 also have high magnitudes but are ambiguous. Storage components (Mysql, Redis) and entry IG01 are not root causes.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "aiops2021/0325/2570@MG01/NETWORK",
+      "expected_component": "MG01",
+      "hit": false,
+      "elapsed_sec": 10.433,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 4356,
+        "completion_tokens": 110,
+        "total_tokens": 4466,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 4356,
+            "completion_tokens": 110,
+            "total_tokens": 4466
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "MG02",
+      "predicted_ranking": [
+        "MG02",
+        "IG02",
+        "Tomcat04",
+        "apache01",
+        "Tomcat01"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1616676600.0,
+        1616676660.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD identifies MG02 as initiator with highest anomaly magnitude (979e9) and copeland_score 6. It has no emitter exception, ruling out reactive caller. Top source candidates by magnitude are selected, with storage and entry components excluded.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "Mysql01",
+        "Mysql02",
+        "IG02",
+        "MG02",
+        "Tomcat04",
+        "IG01",
+        "apache01",
+        "Tomcat03",
+        "Tomcat01",
+        "MG01",
+        "Tomcat02",
+        "Redis02",
+        "Redis01",
+        "apache02",
+        "dockerA2"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"MG02\",\n  \"ranking\": [\"MG02\", \"IG02\", \"Tomcat04\", \"apache01\", \"Tomcat01\"],\n  \"rationale\": \"IVD identifies MG02 as initiator with highest anomaly magnitude (979e9) and copeland_score 6. It has no emitter exception, ruling out reactive caller. Top source candidates by magnitude are selected, with storage and entry components excluded.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "aiops2021/0325/2571@apache01/NETWORK",
+      "expected_component": "apache01",
+      "hit": false,
+      "elapsed_sec": 10.532,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 3578,
+        "completion_tokens": 95,
+        "total_tokens": 3673,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 3578,
+            "completion_tokens": 95,
+            "total_tokens": 3673
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "MG01",
+      "predicted_ranking": [
+        "MG01",
+        "Tomcat04",
+        "MG02",
+        "Tomcat03",
+        "Tomcat02"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1616680860.0,
+        1616680920.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD identifies MG01 as initiator with copeland_score 6 > 0. MG01 has highest anomaly magnitude (mag=8031069459571.1) and is a source_candidate with no emitter exceptions. Storage components (Mysql01, Redis01, etc.) are reactive dependencies. Entry component IG01 is victim. Thus MG01 is root cause.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "Mysql02",
+        "Mysql01",
+        "Redis01",
+        "MG01",
+        "MG02",
+        "Redis02",
+        "Tomcat03",
+        "IG02",
+        "Tomcat01",
+        "Tomcat04",
+        "apache01",
+        "Tomcat02",
+        "apache02",
+        "IG01",
+        "dockerA2"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n    \"root_component\": \"MG01\",\n    \"ranking\": [\"MG01\", \"Tomcat04\", \"MG02\", \"Tomcat03\", \"Tomcat02\", \"Tomcat01\", \"IG02\", \"IG01\", \"apache02\", \"apache01\", \"Tomcat04\", \"Mysql02\", \"Mysql01\", \"Redis01\", \"Redis02\", \"dockerA2\"],\n    \"rationale\": \"IVD identifies MG01 as initiator with copeland_score 6 > 0. MG01 has highest anomaly magnitude (mag=8031069459571.1) and is a source_candidate with no emitter exceptions. Storage components (Mysql01, Redis01, etc.) are reactive dependencies. Entry component IG01 is victim. Thus MG01 is root cause.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "aiops2021/0325/2573@MG02/NETWORK",
+      "expected_component": "MG02",
+      "hit": false,
+      "elapsed_sec": 10.883,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 4366,
+        "completion_tokens": 172,
+        "total_tokens": 4538,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 4366,
+            "completion_tokens": 172,
+            "total_tokens": 4538
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "dockerA1",
+      "predicted_ranking": [
+        "dockerA1",
+        "apache01",
+        "IG01",
+        "Tomcat01",
+        "IG02"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1614979860.0,
+        1614979920.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "dockerA1",
+        "dockerB2",
+        "apache01",
+        "Tomcat01",
+        "IG02",
+        "Redis01",
+        "MG02",
+        "Tomcat04",
+        "IG01",
+        "Mysql01",
+        "MG01",
+        "apache02",
+        "Redis02",
+        "Mysql02",
+        "Tomcat02"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "aiops2021/0306/1578@Tomcat02/JVM;\nCPU",
+      "expected_component": "Tomcat02",
+      "hit": false,
+      "elapsed_sec": 8.129,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "Tomcat02",
+      "predicted_ranking": [
+        "Tomcat02",
+        "Tomcat03",
+        "IG01",
+        "MG01",
+        "MG02"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1614988680.0,
+        1614988740.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "Tomcat02",
+        "Mysql02",
+        "MG01",
+        "Tomcat03",
+        "Redis01",
+        "Mysql01",
+        "Tomcat04",
+        "IG01",
+        "Tomcat01",
+        "apache02",
+        "MG02",
+        "IG02",
+        "apache01",
+        "Redis02",
+        "dockerB2"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "aiops2021/0306/1585@Tomcat02/JVM;\nCPU",
+      "expected_component": "Tomcat02",
+      "hit": true,
+      "elapsed_sec": 6.63,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "Tomcat01",
+      "predicted_ranking": [
+        "Tomcat01",
+        "IG01",
+        "Tomcat03",
+        "MG02",
+        "IG02"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1615358220.0,
+        1615358280.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD identifies Tomcat01 as initiator with copeland_score 6 (>0). It has highest anomaly magnitude (mag 7.798e12) among source_candidates with emitter_exception=false. No other candidate has emitter_exception=true, so Tomcat01 is selected as root.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "Mysql01",
+        "IG01",
+        "Tomcat01",
+        "MG02",
+        "Tomcat03",
+        "Tomcat02",
+        "Mysql02",
+        "IG02",
+        "apache02",
+        "Redis01",
+        "Tomcat04",
+        "MG01",
+        "apache01",
+        "Redis02",
+        "dockerB2"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"Tomcat01\",\n  \"ranking\": [\"Tomcat01\", \"IG01\", \"Tomcat03\", \"MG02\", \"IG02\"],\n  \"rationale\": \"IVD identifies Tomcat01 as initiator with copeland_score 6 (>0). It has highest anomaly magnitude (mag 7.798e12) among source_candidates with emitter_exception=false. No other candidate has emitter_exception=true, so Tomcat01 is selected as root.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "aiops2021/0310/1815@Tomcat02/JVM;\nCPU",
+      "expected_component": "Tomcat02",
+      "hit": false,
+      "elapsed_sec": 14.06,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 3138,
+        "completion_tokens": 105,
+        "total_tokens": 3243,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 3138,
+            "completion_tokens": 105,
+            "total_tokens": 3243
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "Tomcat02",
+      "predicted_ranking": [
+        "Tomcat02",
+        "Tomcat01",
+        "MG01",
+        "Tomcat03",
+        "Tomcat04"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1615060740.0,
+        1615060800.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "Redis01",
+        "Mysql01",
+        "Tomcat02",
+        "apache02",
+        "Tomcat01",
+        "Mysql02",
+        "Tomcat03",
+        "MG01",
+        "Tomcat04",
+        "Redis02",
+        "apache01",
+        "IG02",
+        "MG02",
+        "IG01",
+        "dockerB2"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "aiops2021/0307/1625@Tomcat02/JVM;MEMORY",
+      "expected_component": "Tomcat02",
+      "hit": true,
+      "elapsed_sec": 9.974,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "MG01",
+      "predicted_ranking": [
+        "MG01",
+        "MG02",
+        "Tomcat02",
+        "apache02",
+        "Tomcat03"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1615278180.0,
+        1615278240.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD identifies MG01 as initiator with copeland_score=6 (>0). No emitter exceptions (emit: false) for any candidate. MG01 has the highest anomaly magnitude (7.794e12) among source candidates, significantly larger than others. Storage components (Redis/Mysql) and entry (IG) are excluded per rules. Following IVD ranking and magnitude order, the root cause is MG01.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "MG01",
+        "MG02",
+        "Tomcat03",
+        "Tomcat02",
+        "Redis02",
+        "apache02",
+        "IG02",
+        "Mysql02",
+        "Mysql01",
+        "IG01",
+        "apache01",
+        "Tomcat04",
+        "Tomcat01",
+        "Redis01",
+        "dockerB1"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"MG01\",\n  \"ranking\": [\"MG01\", \"MG02\", \"Tomcat02\", \"apache02\", \"Tomcat03\"],\n  \"rationale\": \"IVD identifies MG01 as initiator with copeland_score=6 (>0). No emitter exceptions (emit: false) for any candidate. MG01 has the highest anomaly magnitude (7.794e12) among source candidates, significantly larger than others. Storage components (Redis/Mysql) and entry (IG) are excluded per rules. Following IVD ranking and magnitude order, the root cause is MG01.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "aiops2021/0309/1765@Tomcat02/JVM;MEMORY",
+      "expected_component": "Tomcat02",
+      "hit": false,
+      "elapsed_sec": 12.488,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 3447,
+        "completion_tokens": 129,
+        "total_tokens": 3576,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 3447,
+            "completion_tokens": 129,
+            "total_tokens": 3576
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "IG01",
+      "predicted_ranking": [
+        "IG01",
+        "Tomcat01",
+        "Tomcat04",
+        "apache01",
+        "Tomcat03"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1615369860.0,
+        1615369920.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD assigns IG01 as initiator with highest copeland_score (4) and FS='ambiguous_or_no_exception'. IG01 has highest resource anomaly magnitude among source_candidates and is flagged as entry component (traffic surface). No emitter exceptions present. IG01 is the top-ranked candidate in IVD ranking and recall pool.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "dockerA1",
+        "Tomcat01",
+        "Tomcat04",
+        "IG01",
+        "apache01",
+        "apache02",
+        "Tomcat02",
+        "Mysql02",
+        "MG01",
+        "Tomcat03",
+        "MG02",
+        "Redis02",
+        "Redis01",
+        "IG02",
+        "Mysql01"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n    \"root_component\": \"IG01\",\n    \"ranking\": [\n        \"IG01\",\n        \"Tomcat01\",\n        \"Tomcat04\",\n        \"apache01\",\n        \"Tomcat03\"\n    ],\n    \"rationale\": \"IVD assigns IG01 as initiator with highest copeland_score (4) and FS='ambiguous_or_no_exception'. IG01 has highest resource anomaly magnitude among source_candidates and is flagged as entry component (traffic surface). No emitter exceptions present. IG01 is the top-ranked candidate in IVD ranking and recall pool.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "aiops2021/0310/1824@Tomcat02/JVM;MEMORY",
+      "expected_component": "Tomcat02",
+      "hit": false,
+      "elapsed_sec": 10.308,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 2629,
+        "completion_tokens": 121,
+        "total_tokens": 2750,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 2629,
+            "completion_tokens": 121,
+            "total_tokens": 2750
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "Tomcat04",
+      "predicted_ranking": [
+        "Tomcat04",
+        "Tomcat02",
+        "IG02",
+        "MG01",
+        "Tomcat01"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1615543200.0,
+        1615543260.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "Tomcat04",
+        "Tomcat02",
+        "apache02",
+        "MG01",
+        "IG02",
+        "Tomcat01",
+        "Mysql01",
+        "Tomcat03",
+        "Redis01",
+        "Mysql02",
+        "MG02",
+        "apache01",
+        "IG01",
+        "Redis02",
+        "dockerA2"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "aiops2021/0312/1877@Tomcat02/JVM;MEMORY",
+      "expected_component": "Tomcat02",
+      "hit": false,
+      "elapsed_sec": 9.436,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "Tomcat02",
+      "predicted_ranking": [
+        "Tomcat02",
+        "Tomcat03",
+        "MG01",
+        "Tomcat04",
+        "Tomcat01"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1616432460.0,
+        1616432520.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD indicates Tomcat02 as initiator (copeland_score=5) with highest anomaly magnitude among non-storage components. No emitter exceptions, and storage components (Mysql02, Redis02) are reactive. Entry component IG01 is traffic surface, not root cause. Tomcat02 has strong resource anomalies and high SL, consistent with root cause.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "Mysql02",
+        "Tomcat03",
+        "Tomcat02",
+        "Mysql01",
+        "MG01",
+        "Tomcat04",
+        "MG02",
+        "Tomcat01",
+        "Redis02",
+        "IG01",
+        "apache01",
+        "Redis01",
+        "apache02",
+        "IG02"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"Tomcat02\",\n  \"ranking\": [\n    \"Tomcat02\",\n    \"Tomcat03\",\n    \"MG01\",\n    \"Tomcat04\",\n    \"Tomcat01\"\n  ],\n  \"rationale\": \"IVD indicates Tomcat02 as initiator (copeland_score=5) with highest anomaly magnitude among non-storage components. No emitter exceptions, and storage components (Mysql02, Redis02) are reactive. Entry component IG01 is traffic surface, not root cause. Tomcat02 has strong resource anomalies and high SL, consistent with root cause.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "aiops2021/0323/2418@MG01/DISK",
+      "expected_component": "MG01",
+      "hit": false,
+      "elapsed_sec": 12.642,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 4199,
+        "completion_tokens": 127,
+        "total_tokens": 4326,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 4199,
+            "completion_tokens": 127,
+            "total_tokens": 4326
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "Tomcat02",
+      "predicted_ranking": [
+        "Tomcat02",
+        "apache01",
+        "apache02",
+        "IG01",
+        "MG01"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1616435220.0,
+        1616435280.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "Tomcat02 has the highest anomaly magnitude (mag=7.79e12) and is the sole initiator per IVD (copeland_score=4). No component has emitter_exception=True, so the rule for emitter exceptions does not apply. Storage components (Redis01, Mysql02, Mysql01) are reactive dependencies, not root causes. IG01 is an entry component but not selected as root cause because it has lower mag and is not the initiator.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "Mysql02",
+        "Redis01",
+        "IG01",
+        "Tomcat02",
+        "Mysql01",
+        "apache01",
+        "IG02",
+        "MG01",
+        "Tomcat03",
+        "apache02",
+        "Tomcat04",
+        "MG02",
+        "Tomcat01",
+        "Redis02"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"Tomcat02\", \"ranking\": [\"Tomcat02\", \"apache01\", \"apache02\", \"IG01\", \"MG01\"], \"rationale\": \"Tomcat02 has the highest anomaly magnitude (mag=7.79e12) and is the sole initiator per IVD (copeland_score=4). No component has emitter_exception=True, so the rule for emitter exceptions does not apply. Storage components (Redis01, Mysql02, Mysql01) are reactive dependencies, not root causes. IG01 is an entry component but not selected as root cause because it has lower mag and is not the initiator.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "aiops2021/0323/2420@MG01/DISK",
+      "expected_component": "MG01",
+      "hit": false,
+      "elapsed_sec": 10.538,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 2580,
+        "completion_tokens": 139,
+        "total_tokens": 2719,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 2580,
+            "completion_tokens": 139,
+            "total_tokens": 2719
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "Tomcat02",
+      "predicted_ranking": [
+        "Tomcat02",
+        "Tomcat01",
+        "MG02",
+        "Tomcat03",
+        "IG02"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1616482980.0,
+        1616483040.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "Mysql02",
+        "Mysql01",
+        "Tomcat04",
+        "Redis02",
+        "Tomcat02",
+        "Tomcat01",
+        "IG02",
+        "MG02",
+        "IG01",
+        "Tomcat03",
+        "MG01",
+        "apache01",
+        "Redis01",
+        "apache02"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "aiops2021/0323/2448@Tomcat02/DISK",
+      "expected_component": "Tomcat02",
+      "hit": true,
+      "elapsed_sec": 8.02,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "Tomcat04",
+      "predicted_ranking": [
+        "Tomcat04",
+        "Tomcat01",
+        "Tomcat02",
+        "MG01",
+        "MG02"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1616549700.0,
+        1616549760.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "Mysql02",
+        "Mysql01",
+        "Tomcat04",
+        "Tomcat01",
+        "MG01",
+        "Tomcat02",
+        "MG02",
+        "Tomcat03",
+        "Redis02",
+        "IG02",
+        "apache01",
+        "Redis01",
+        "apache02",
+        "IG01"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "aiops2021/0324/2491@Tomcat04/DISK",
+      "expected_component": "Tomcat04",
+      "hit": true,
+      "elapsed_sec": 7.633,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "MG02",
+      "predicted_ranking": [
+        "MG02",
+        "apache01",
+        "Tomcat01",
+        "Tomcat02",
+        "IG01"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1616560560.0,
+        1616560620.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "MG02",
+        "IG01",
+        "apache01",
+        "apache02",
+        "Tomcat03",
+        "Redis01",
+        "MG01",
+        "IG02",
+        "Mysql02",
+        "Tomcat04",
+        "Tomcat01",
+        "Tomcat02",
+        "Mysql01",
+        "Redis02",
+        "dockerA2"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "aiops2021/0324/2498@MG02/DISK",
+      "expected_component": "MG02",
+      "hit": true,
+      "elapsed_sec": 7.836,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "Tomcat01",
+      "predicted_ranking": [
+        "Tomcat01",
+        "MG01",
+        "Tomcat02",
+        "Tomcat04",
+        "Tomcat03"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1616565900.0,
+        1616565960.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "dockerA2",
+        "Tomcat01",
+        "Redis01",
+        "MG01",
+        "Tomcat04",
+        "Tomcat02",
+        "Mysql01",
+        "Redis02",
+        "MG02",
+        "apache01",
+        "apache02",
+        "IG02",
+        "IG01",
+        "Tomcat03",
+        "Mysql02"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "aiops2021/0324/2502@apache01/DISK",
+      "expected_component": "apache01",
+      "hit": false,
+      "elapsed_sec": 8.125,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "apache01",
+      "predicted_ranking": [
+        "apache01",
+        "Tomcat01",
+        "MG01",
+        "MG02",
+        "IG01"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1616602740.0,
+        1616602800.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "Mysql02",
+        "Mysql01",
+        "apache01",
+        "Tomcat01",
+        "IG01",
+        "MG01",
+        "Redis01",
+        "Tomcat03",
+        "apache02",
+        "MG02",
+        "Tomcat04",
+        "IG02",
+        "Tomcat02",
+        "Redis02",
+        "dockerA2"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "aiops2021/0325/2527@apache01/DISK",
+      "expected_component": "apache01",
+      "hit": true,
+      "elapsed_sec": 8.26,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "MG02",
+      "predicted_ranking": [
+        "MG02",
+        "Tomcat01",
+        "Tomcat03",
+        "Tomcat02",
+        "MG01"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1616611380.0,
+        1616611440.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "Tomcat03",
+        "Mysql02",
+        "MG02",
+        "Tomcat01",
+        "Tomcat02",
+        "Mysql01",
+        "Redis01",
+        "IG02",
+        "MG01",
+        "Tomcat04",
+        "apache02",
+        "apache01",
+        "Redis02",
+        "dockerA2",
+        "IG01"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "aiops2021/0325/2532@MG02/DISK",
+      "expected_component": "MG02",
+      "hit": true,
+      "elapsed_sec": 8.303,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "MG01",
+      "predicted_ranking": [
+        "MG01",
+        "IG01",
+        "IG02",
+        "Tomcat04",
+        "Tomcat03"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1616634240.0,
+        1616634300.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD identifies MG01 as initiator (copeland_score=4, highest). MG01 has highest anomaly magnitude among source_candidates, and no emitter_exception. Storage components (Mysql02, Mysql01, Redis01) are dependencies. IG01 is entry but has high magnitude; however, rule states entry components are not root causes. MG01 is selected per IVD verdict.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "Mysql02",
+        "Mysql01",
+        "MG01",
+        "Tomcat03",
+        "Tomcat02",
+        "apache01",
+        "Tomcat01",
+        "Redis01",
+        "apache02",
+        "Tomcat04",
+        "IG02",
+        "IG01",
+        "MG02",
+        "Redis02",
+        "dockerA2"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"MG01\",\n  \"ranking\": [\"MG01\", \"IG01\", \"IG02\", \"Tomcat04\", \"Tomcat03\", \"Tomcat02\", \"MG02\", \"Tomcat01\", \"apache01\", \"Mysql02\", \"Mysql01\", \"Redis01\", \"apache02\", \"Redis02\", \"dockerA2\"],\n  \"rationale\": \"IVD identifies MG01 as initiator (copeland_score=4, highest). MG01 has highest anomaly magnitude among source_candidates, and no emitter_exception. Storage components (Mysql02, Mysql01, Redis01) are dependencies. IG01 is entry but has high magnitude; however, rule states entry components are not root causes. MG01 is selected per IVD verdict.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "aiops2021/0325/2546@Tomcat01/DISK",
+      "expected_component": "Tomcat01",
+      "hit": false,
+      "elapsed_sec": 10.805,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 4382,
+        "completion_tokens": 171,
+        "total_tokens": 4553,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 4382,
+            "completion_tokens": 171,
+            "total_tokens": 4553
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "Tomcat01",
+      "predicted_ranking": [
+        "Tomcat01",
+        "Tomcat02",
+        "apache01",
+        "apache02",
+        "Tomcat03"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1616428980.0,
+        1616429040.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD identifies Tomcat01 as initiator with highest copeland_score (6). Both Tomcat01 and Tomcat02 have extremely high anomaly magnitudes (~2.7e18) and no emitter exceptions, but Tomcat01 is explicitly ranked first by IVD. Entry components (IG01, IG02) and storage components (Redis, Mysql) are excluded. Top-5 ranking follows IVD order filtered for non-storage, non-entry.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "Tomcat02",
+        "Tomcat01",
+        "Tomcat03",
+        "apache01",
+        "apache02",
+        "Redis02",
+        "MG01",
+        "IG02",
+        "MG02",
+        "Mysql01",
+        "IG01",
+        "Redis01",
+        "Mysql02",
+        "Tomcat04"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"Tomcat01\",\n  \"ranking\": [\n    \"Tomcat01\",\n    \"Tomcat02\",\n    \"apache01\",\n    \"apache02\",\n    \"Tomcat03\"\n  ],\n  \"rationale\": \"IVD identifies Tomcat01 as initiator with highest copeland_score (6). Both Tomcat01 and Tomcat02 have extremely high anomaly magnitudes (~2.7e18) and no emitter exceptions, but Tomcat01 is explicitly ranked first by IVD. Entry components (IG01, IG02) and storage components (Redis, Mysql) are excluded. Top-5 ranking follows IVD order filtered for non-storage, non-entry.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "aiops2021/0323/2415@Tomcat03/CPU",
+      "expected_component": "Tomcat03",
+      "hit": false,
+      "elapsed_sec": 10.989,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 4410,
+        "completion_tokens": 148,
+        "total_tokens": 4558,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 4410,
+            "completion_tokens": 148,
+            "total_tokens": 4558
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "MG02",
+      "predicted_ranking": [
+        "MG02",
+        "Tomcat04",
+        "Tomcat02",
+        "Tomcat03",
+        "Tomcat01"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1616496180.0,
+        1616496240.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD identifies MG02 as initiator with copeland_score 6 > 0. MG02 has high resource anomaly (mag=1.0749e11) and no emitter exception; it is a non-storage component with multiple resource signals (cpu, disk, memory). No emitter exceptions observed, so rule 2 does not apply. Storage components (Mysql02, etc.) are reactive. Entry component IG01 is not root cause. Tomcat04, Tomcat02, Tomcat03, Tomcat01 have high magnitudes and are source candidates, but MG02 is ranked highest by IVD and anomaly magnitude.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "Mysql02",
+        "Mysql01",
+        "Redis02",
+        "MG02",
+        "Tomcat04",
+        "Tomcat02",
+        "Tomcat03",
+        "IG01",
+        "Tomcat01",
+        "MG01",
+        "apache01",
+        "Redis01",
+        "apache02",
+        "IG02"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"MG02\",\n  \"ranking\": [\"MG02\", \"Tomcat04\", \"Tomcat02\", \"Tomcat03\", \"Tomcat01\"],\n  \"rationale\": \"IVD identifies MG02 as initiator with copeland_score 6 > 0. MG02 has high resource anomaly (mag=1.0749e11) and no emitter exception; it is a non-storage component with multiple resource signals (cpu, disk, memory). No emitter exceptions observed, so rule 2 does not apply. Storage components (Mysql02, etc.) are reactive. Entry component IG01 is not root cause. Tomcat04, Tomcat02, Tomcat03, Tomcat01 have high magnitudes and are source candidates, but MG02 is ranked highest by IVD and anomaly magnitude.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "aiops2021/0323/2455@Tomcat03/CPU",
+      "expected_component": "Tomcat03",
+      "hit": false,
+      "elapsed_sec": 10.806,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 4007,
+        "completion_tokens": 173,
+        "total_tokens": 4180,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 4007,
+            "completion_tokens": 173,
+            "total_tokens": 4180
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "Tomcat04",
+      "predicted_ranking": [
+        "Tomcat04",
+        "Tomcat02",
+        "IG01",
+        "IG02",
+        "MG02"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1616575620.0,
+        1616575680.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "Mysql02",
+        "Mysql01",
+        "apache01",
+        "Tomcat04",
+        "IG02",
+        "Tomcat01",
+        "Tomcat03",
+        "IG01",
+        "MG01",
+        "Redis01",
+        "Tomcat02",
+        "MG02",
+        "Redis02",
+        "apache02",
+        "dockerA2"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "aiops2021/0324/2508@Tomcat01/CPU",
+      "expected_component": "Tomcat01",
+      "hit": false,
+      "elapsed_sec": 7.901,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "Tomcat03",
+      "predicted_ranking": [
+        "Tomcat03",
+        "apache02",
+        "IG02",
+        "MG02",
+        "apache01"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1616625600.0,
+        1616625660.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD identifies Tomcat03 as initiator with copeland_score 6 > 0, highest anomaly magnitude among source_candidates (38351415038.2), no emitter exceptions, and non-storage, non-entry component. Other source_candidates have lower magnitude or are listed as victims/ambiguous. Storage components (Mysql02, Mysql01, Redis01, Redis02) excluded as reactive dependencies.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "Mysql02",
+        "IG02",
+        "apache01",
+        "apache02",
+        "Tomcat03",
+        "MG02",
+        "Tomcat01",
+        "MG01",
+        "Tomcat02",
+        "Tomcat04",
+        "Mysql01",
+        "Redis01",
+        "Redis02",
+        "IG01",
+        "dockerA2"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"Tomcat03\",\n  \"ranking\": [\"Tomcat03\", \"apache02\", \"IG02\", \"MG02\", \"apache01\", \"MG01\", \"IG01\", \"Tomcat02\", \"Tomcat04\", \"Tomcat01\", \"Mysql02\", \"Mysql01\", \"Redis01\", \"Redis02\", \"dockerA2\"],\n  \"rationale\": \"IVD identifies Tomcat03 as initiator with copeland_score 6 > 0, highest anomaly magnitude among source_candidates (38351415038.2), no emitter exceptions, and non-storage, non-entry component. Other source_candidates have lower magnitude or are listed as victims/ambiguous. Storage components (Mysql02, Mysql01, Redis01, Redis02) excluded as reactive dependencies.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "aiops2021/0325/2541@apache02/CPU",
+      "expected_component": "apache02",
+      "hit": false,
+      "elapsed_sec": 10.739,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 2738,
+        "completion_tokens": 176,
+        "total_tokens": 2914,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 2738,
+            "completion_tokens": 176,
+            "total_tokens": 2914
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "MG01",
+      "predicted_ranking": [
+        "MG01",
+        "Tomcat01",
+        "Tomcat04",
+        "MG02",
+        "IG02"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1616636280.0,
+        1616636340.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD identifies MG01 as initiator with copeland_score=5. It has high anomaly magnitude (2.15e11), no emitter exception, and is not storage or entry. Tomcat01 also has high mag and copeland_score=5 but is ambiguous in IVD. Ranking ordered by magnitude and IVD scores.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "Mysql02",
+        "Mysql01",
+        "Tomcat01",
+        "Redis01",
+        "MG01",
+        "MG02",
+        "Tomcat02",
+        "IG02",
+        "IG01",
+        "Tomcat03",
+        "Tomcat04",
+        "apache02",
+        "apache01",
+        "Redis02",
+        "dockerA2"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"MG01\",\n  \"ranking\": [\"MG01\", \"Tomcat01\", \"Tomcat04\", \"MG02\", \"IG02\", \"IG01\", \"Tomcat02\", \"apache02\", \"Tomcat03\", \"apache01\", \"dockerA2\", \"Redis01\", \"Mysql01\", \"Mysql02\", \"Redis02\"],\n  \"rationale\": \"IVD identifies MG01 as initiator with copeland_score=5. It has high anomaly magnitude (2.15e11), no emitter exception, and is not storage or entry. Tomcat01 also has high mag and copeland_score=5 but is ambiguous in IVD. Ranking ordered by magnitude and IVD scores.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "aiops2021/0325/2547@MG01/CPU",
+      "expected_component": "MG01",
+      "hit": true,
+      "elapsed_sec": 10.618,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 4296,
+        "completion_tokens": 158,
+        "total_tokens": 4454,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 4296,
+            "completion_tokens": 158,
+            "total_tokens": 4454
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "IG02",
+      "predicted_ranking": [
+        "IG02",
+        "MG01",
+        "Tomcat04",
+        "Tomcat03",
+        "Tomcat02"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1616644380.0,
+        1616644440.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD ranks MG01 as initiator (copeland_score=4) but no emitter_exception exists. IG02 has the highest anomaly magnitude among source_candidates with resource anomalies (mag=7183300032.4) and is not a storage component. Following the rule: 'Entry-like components are traffic surfaces, not root causes' — but IG02 is not an entry component (entry list has only IG01). IG02 shows resource anomalies (cpu, disk, socket) and is a likely root cause propagating to other components.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "Mysql02",
+        "Mysql01",
+        "IG02",
+        "MG01",
+        "Tomcat04",
+        "Tomcat03",
+        "Tomcat02",
+        "Redis01",
+        "Tomcat01",
+        "MG02",
+        "apache01",
+        "IG01",
+        "apache02",
+        "Redis02",
+        "dockerA2"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\"root_component\": \"IG02\", \"ranking\": [\"IG02\", \"MG01\", \"Tomcat04\", \"Tomcat03\", \"Tomcat02\"], \"rationale\": \"IVD ranks MG01 as initiator (copeland_score=4) but no emitter_exception exists. IG02 has the highest anomaly magnitude among source_candidates with resource anomalies (mag=7183300032.4) and is not a storage component. Following the rule: 'Entry-like components are traffic surfaces, not root causes' — but IG02 is not an entry component (entry list has only IG01). IG02 shows resource anomalies (cpu, disk, socket) and is a likely root cause propagating to other components.\"}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "aiops2021/0325/2552@Mysql02/CPU",
+      "expected_component": "Mysql02",
+      "hit": false,
+      "elapsed_sec": 10.846,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 4275,
+        "completion_tokens": 150,
+        "total_tokens": 4425,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 4275,
+            "completion_tokens": 150,
+            "total_tokens": 4425
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "MG01",
+      "predicted_ranking": [
+        "MG01",
+        "Tomcat02",
+        "IG02",
+        "Tomcat01",
+        "IG01"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1616658120.0,
+        1616658180.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "Mysql02",
+        "Mysql01",
+        "Redis01",
+        "Tomcat02",
+        "Tomcat01",
+        "Tomcat03",
+        "apache02",
+        "MG01",
+        "IG02",
+        "MG02",
+        "IG01",
+        "apache01",
+        "Tomcat04",
+        "dockerA2",
+        "Redis02"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "aiops2021/0325/2560@Mysql02/CPU",
+      "expected_component": "Mysql02",
+      "hit": false,
+      "elapsed_sec": 8.473,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "MG01",
+      "predicted_ranking": [
+        "MG01",
+        "Tomcat02",
+        "apache01",
+        "Tomcat03",
+        "Tomcat04"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1616670000.0,
+        1616670060.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD identifies MG01 as initiator with copeland_score=6 (>0) and highest resource anomaly magnitude (7.8e12). No emitter exceptions present, so primary rule applies. Storage components (Mysql, Redis) are reactive. IG01 is entry but not root cause. MG01 is the top source_candidate with highest mag and initiator role.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "Mysql02",
+        "Mysql01",
+        "MG01",
+        "Tomcat02",
+        "Redis02",
+        "Redis01",
+        "IG01",
+        "Tomcat01",
+        "MG02",
+        "apache01",
+        "Tomcat03",
+        "Tomcat04",
+        "IG02",
+        "apache02",
+        "dockerA2"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"MG01\",\n  \"ranking\": [\"MG01\", \"Tomcat02\", \"apache01\", \"Tomcat03\", \"Tomcat04\", \"MG02\", \"IG01\", \"Tomcat01\", \"Mysql02\", \"Redis02\", \"Redis01\", \"Mysql01\", \"IG02\", \"apache02\", \"dockerA2\"],\n  \"rationale\": \"IVD identifies MG01 as initiator with copeland_score=6 (>0) and highest resource anomaly magnitude (7.8e12). No emitter exceptions present, so primary rule applies. Storage components (Mysql, Redis) are reactive. IG01 is entry but not root cause. MG01 is the top source_candidate with highest mag and initiator role.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "aiops2021/0325/2567@IG02/CPU",
+      "expected_component": "IG02",
+      "hit": false,
+      "elapsed_sec": 11.271,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 4284,
+        "completion_tokens": 166,
+        "total_tokens": 4450,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 4284,
+            "completion_tokens": 166,
+            "total_tokens": 4450
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "Tomcat03",
+      "predicted_ranking": [
+        "Tomcat03",
+        "IG01",
+        "IG02",
+        "Tomcat02",
+        "Tomcat04"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1616672400.0,
+        1616672460.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "Mysql02",
+        "dockerA2",
+        "Mysql01",
+        "Redis01",
+        "Tomcat02",
+        "Tomcat01",
+        "MG01",
+        "IG01",
+        "Tomcat04",
+        "Tomcat03",
+        "MG02",
+        "IG02",
+        "Redis02",
+        "apache02",
+        "apache01"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "aiops2021/0325/2569@Tomcat04/CPU",
+      "expected_component": "Tomcat04",
+      "hit": false,
+      "elapsed_sec": 8.321,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "Tomcat04",
+      "predicted_ranking": [
+        "Tomcat04",
+        "apache01",
+        "Tomcat01",
+        "MG02",
+        "apache02"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1616685360.0,
+        1616685420.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD identifies Tomcat04 as initiator with highest copeland_score (5) and largest residual. No emitter exceptions present, so rule defaults to IVD initiator. Tomcat04 also has very high anomaly magnitude (7.79e12) and non-storage, non-entry role. Storage components like Mysql02 are reactive, not root cause. Top ranking follows IVD order and anomaly magnitude.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "Mysql02",
+        "Mysql01",
+        "Tomcat01",
+        "Tomcat04",
+        "Redis01",
+        "apache01",
+        "MG02",
+        "IG02",
+        "apache02",
+        "Tomcat02",
+        "MG01",
+        "IG01",
+        "Tomcat03",
+        "Redis02",
+        "dockerA2"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"Tomcat04\",\n  \"ranking\": [\"Tomcat04\", \"apache01\", \"Tomcat01\", \"MG02\", \"apache02\", \"MG01\", \"IG02\", \"IG01\", \"Tomcat02\", \"Tomcat03\", \"Mysql02\", \"Mysql01\", \"Redis01\", \"Redis02\", \"dockerA2\"],\n  \"rationale\": \"IVD identifies Tomcat04 as initiator with highest copeland_score (5) and largest residual. No emitter exceptions present, so rule defaults to IVD initiator. Tomcat04 also has very high anomaly magnitude (7.79e12) and non-storage, non-entry role. Storage components like Mysql02 are reactive, not root cause. Top ranking follows IVD order and anomaly magnitude.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "aiops2021/0325/2577@Redis02/CPU",
+      "expected_component": "Redis02",
+      "hit": false,
+      "elapsed_sec": 11.095,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 4264,
+        "completion_tokens": 175,
+        "total_tokens": 4439,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 4264,
+            "completion_tokens": 175,
+            "total_tokens": 4439
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "dockerA1",
+      "predicted_ranking": [
+        "dockerA1",
+        "dockerB1",
+        "Tomcat03",
+        "IG01",
+        "apache02"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1614825000.0,
+        1614825060.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD identifies dockerA1 as initiator with copeland_score=6 (>0). dockerA1 has emitter_exception=False but its anomaly magnitude (3.072e+18) is extremely high, far exceeding any other candidate. The next highest mag is dockerB1 at same magnitude but it is ambiguous in IVD. Storage components (Mysql, Redis) are not root causes. Entry components like IG01 are traffic surfaces. Thus, dockerA1 is selected.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "dockerA1",
+        "dockerB1",
+        "Mysql02",
+        "Redis02",
+        "Mysql01",
+        "Tomcat03",
+        "Tomcat02",
+        "Tomcat01",
+        "Tomcat04",
+        "IG01",
+        "MG02",
+        "apache02",
+        "apache01",
+        "Redis01",
+        "MG01"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n  \"root_component\": \"dockerA1\",\n  \"ranking\": [\"dockerA1\", \"dockerB1\", \"Tomcat03\", \"IG01\", \"apache02\"],\n  \"rationale\": \"IVD identifies dockerA1 as initiator with copeland_score=6 (>0). dockerA1 has emitter_exception=False but its anomaly magnitude (3.072e+18) is extremely high, far exceeding any other candidate. The next highest mag is dockerB1 at same magnitude but it is ambiguous in IVD. Storage components (Mysql, Redis) are not root causes. Entry components like IG01 are traffic surfaces. Thus, dockerA1 is selected.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "aiops2021/0304/1476@IG01/MEMORY",
+      "expected_component": "IG01",
+      "hit": false,
+      "elapsed_sec": 8.346,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 3570,
+        "completion_tokens": 144,
+        "total_tokens": 3714,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 3570,
+            "completion_tokens": 144,
+            "total_tokens": 3714
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "MG01",
+      "predicted_ranking": [
+        "MG01",
+        "Tomcat02",
+        "IG01",
+        "IG02",
+        "Tomcat01"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1614789240.0,
+        1614789300.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "Redis01",
+        "Mysql01",
+        "MG02",
+        "MG01",
+        "IG01",
+        "Tomcat04",
+        "Tomcat03",
+        "Tomcat01",
+        "IG02",
+        "Tomcat02",
+        "Mysql02",
+        "Redis02",
+        "apache01",
+        "dockerA1",
+        "apache02"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "aiops2021/0304/1453@MG01/MEMORY",
+      "expected_component": "MG01",
+      "hit": true,
+      "elapsed_sec": 4.994,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_llm",
+      "hypothesis_id": null,
+      "predicted_component": "Tomcat01",
+      "predicted_ranking": [
+        "Tomcat01",
+        "IG01",
+        "apache02",
+        "MG02",
+        "IG02"
+      ],
+      "reason_family": "lightweight",
+      "onset_interval": [
+        1614797100.0,
+        1614797160.0
+      ],
+      "steps_completed": 1,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "No emitter exceptions present. IVD ranks IG01 as initiator with copeland_score 5, but IG01 is an entry component (frontend/gateway) and thus not a root cause per rules. Among source_candidates with highest anomaly magnitude, Tomcat01 has the highest mag (7.79e12) and is not entry nor storage. It also shows multiple severe signals (cpu, disk, memory, socket) with severity level 3.0. Therefore, Tomcat01 is selected as the root cause.",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "Tomcat04",
+        "Tomcat01",
+        "IG01",
+        "Mysql02",
+        "apache02",
+        "Mysql01",
+        "Tomcat03",
+        "MG02",
+        "IG02",
+        "apache01",
+        "Redis01",
+        "MG01",
+        "Tomcat02",
+        "Redis02",
+        "dockerA1"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [
+        {
+          "agent_response": "{\n    \"root_component\": \"Tomcat01\",\n    \"ranking\": [\n        \"Tomcat01\",\n        \"IG01\",\n        \"apache02\",\n        \"MG02\",\n        \"IG02\"\n    ],\n    \"rationale\": \"No emitter exceptions present. IVD ranks IG01 as initiator with copeland_score 5, but IG01 is an entry component (frontend/gateway) and thus not a root cause per rules. Among source_candidates with highest anomaly magnitude, Tomcat01 has the highest mag (7.79e12) and is not entry nor storage. It also shows multiple severe signals (cpu, disk, memory, socket) with severity level 3.0. Therefore, Tomcat01 is selected as the root cause.\"\n}"
+        }
+      ],
+      "llm_calls": 1,
+      "case_id": "aiops2021/0304/1459@Mysql02/MEMORY",
+      "expected_component": "Mysql02",
+      "hit": false,
+      "elapsed_sec": 7.464,
+      "error": null,
+      "token_usage": {
+        "call_count": 1,
+        "prompt_tokens": 3071,
+        "completion_tokens": 161,
+        "total_tokens": 3232,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 1,
+            "prompt_tokens": 3071,
+            "completion_tokens": 161,
+            "total_tokens": 3232
+          }
+        }
+      }
+    },
+    {
+      "status": "lightweight_ivd_shortcut",
+      "hypothesis_id": null,
+      "predicted_component": "Tomcat04",
+      "predicted_ranking": [
+        "Tomcat04",
+        "Tomcat01",
+        "MG01",
+        "MG02",
+        "Tomcat03"
+      ],
+      "reason_family": "ivd_consensus",
+      "onset_interval": [
+        1614807060.0,
+        1614807120.0
+      ],
+      "steps_completed": 0,
+      "evidence_count": 0,
+      "referenced_evidence_ids": [],
+      "rationale": "IVD strong consensus, no LLM needed",
+      "uncertainties": [],
+      "global_rescue": false,
+      "outside_hypothesis_set": false,
+      "recall_pool": [
+        "Redis01",
+        "Mysql02",
+        "Mysql01",
+        "MG01",
+        "MG02",
+        "Tomcat01",
+        "Tomcat04",
+        "IG01",
+        "Redis02",
+        "Tomcat02",
+        "apache02",
+        "apache01",
+        "Tomcat03",
+        "IG02",
+        "dockerA1"
+      ],
+      "event_causal_profile": {},
+      "event_causal_fact_count": 0,
+      "final_belief_state": [],
+      "transcript": [],
+      "llm_calls": 0,
+      "case_id": "aiops2021/0304/1465@Redis02/MEMORY",
+      "expected_component": "Redis02",
+      "hit": false,
+      "elapsed_sec": 5.014,
+      "error": null,
+      "token_usage": {
+        "call_count": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "by_purpose": {
+          "lightweight_rca_decision": {
+            "call_count": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0
+          }
+        }
+      }
+    }
+  ]
+}

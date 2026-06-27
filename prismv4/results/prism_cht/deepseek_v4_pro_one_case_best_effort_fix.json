@@ -1,0 +1,39 @@
+{
+  "dataset": "RCAEval",
+  "system": "RE3-OB",
+  "mode": "llm-provider",
+  "total_cases": 1,
+  "top1_accuracy": 1.0,
+  "top1_hits": 1,
+  "elapsed_sec": 402.969,
+  "results": [
+    {
+      "status": "best_effort_final",
+      "hypothesis_id": "H2-adservice-service-error",
+      "predicted_component": "adservice",
+      "reason_family": "service error",
+      "onset_interval": [
+        1731903930.0,
+        1731903990.0
+      ],
+      "rounds_completed": 4,
+      "challenge_status": null,
+      "evidence_count": 4,
+      "referenced_evidence_ids": [
+        "evidence:06ff3a74e2f51d8ecc722967284bcf72e86bb3ce3ed30e01259cd751bcaee623"
+      ],
+      "best_effort_rationale": "Adservice has a much stronger service error magnitude (934M vs 667M for frontend), and frontend logs contain 'failed to retrieve ads', indicating dependency on adservice. Despite missing trace propagation, the reason signature and log context make adservice the most likely root cause.",
+      "best_effort_uncertainties": [
+        "No direct trace path from adservice to frontend weakens propagation claim",
+        "Onset times are tied, so temporal ordering does not clearly distinguish adservice from frontend",
+        "Frontend remains an active hypothesis with no direct weakening evidence aside from relative magnitude"
+      ],
+      "best_effort_terminal_reason": "NominationRejectedError: Nominated hypothesis 'H2-adservice-service-error' has status 'weakened', must be SUPPORTED",
+      "case_id": "RE3-OB/adservice_f3/1",
+      "expected_component": "adservice",
+      "hit": true,
+      "elapsed_sec": 402.969,
+      "error": null
+    }
+  ]
+}
