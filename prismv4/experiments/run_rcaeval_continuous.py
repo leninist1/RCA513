@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import os
 import re
 import time
@@ -417,6 +418,8 @@ def _extract_compact_signals(
             "sl": round(float(row.get("source_likelihood_score", 0)), 2),
             "mag": round(float(row.get("near_onset_anomaly_magnitude", 0)), 1),
             "sig": list(row.get("near_onset_internal_signals", [])),
+            "all_sig": list(row.get("near_onset_signals", [])),
+            "latency_only": bool(row.get("latency_only_near_onset", False)),
             "log_cnt": int(row.get("log_count", 0)),
             "emit": bool(row.get("has_emitter_exception", False)),
             "entry": bool(row.get("is_entry_like_component", False)),
@@ -482,11 +485,27 @@ def _ivd_has_strong_consensus(
     v = verdicts.get(top)
     if not v:
         return False, None
-    # Strong consensus: initiator with copeland score >= 3 and no tie
+    # Strong consensus: initiator with a clear Copeland margin, plus enough
+    # local source evidence to justify bypassing EG-CDA.  RE2-TT showed that
+    # a merely-positive Copeland score is too permissive in noisy multi-service
+    # incidents.
     if (v.get("role") == "initiator" and
             (v.get("cs") or 0) > 0 and
             (len(ranking) == 1 or
              (verdicts.get(ranking[1], {}).get("cs") or 0) < (v.get("cs") or 0))):
+        top_score = float(v.get("cs") or 0.0)
+        second_score = (
+            float(verdicts.get(ranking[1], {}).get("cs") or 0.0)
+            if len(ranking) > 1
+            else -999.0
+        )
+        margin = top_score - second_score
+        candidate_count = len(ranking)
+        large_noisy_scope = bool(comp_features and len(comp_features) >= 12)
+        if top_score < 3.0 or margin < (3.0 if large_noisy_scope else 2.0):
+            return False, None
+        if large_noisy_scope and candidate_count < 6:
+            return False, None
         # NEW emitter-penalty: reject shortcut if top has emitter=True with
         # near-zero resource anomaly magnitude (reactive caller), particularly
         # when another candidate has resource anomaly but no emitter.
@@ -494,6 +513,10 @@ def _ivd_has_strong_consensus(
             top_feat = next((f for f in comp_features if f["c"] == top), None)
             res_top = float(top_feat.get("mag") or 0) if top_feat else 0.0
             emit_top = bool(top_feat.get("emit")) if top_feat else False
+            sl_top = float(top_feat.get("sl") or 0) if top_feat else 0.0
+            internal_top = set(top_feat.get("sig") or []) if top_feat else set()
+            latency_only_top = bool(top_feat.get("latency_only")) if top_feat else False
+            fs_label = str(v.get("fs") or "")
             # caller_anomalies signals the top is a *reactive* caller, not
             # the true root-cause. ``v.get("call")`` exposes this count.
             caller_anomaly_count = v.get("call") or 0
@@ -501,9 +524,30 @@ def _ivd_has_strong_consensus(
                 f["c"] != top and float(f.get("mag") or 0) > res_top * 2.0
                 for f in comp_features
             )
+            stronger_source_like_alt = any(
+                f["c"] != top
+                and (
+                    float(f.get("sl") or 0.0) >= sl_top + 1.0
+                    or bool(f.get("emit"))
+                )
+                and float(f.get("mag") or 0.0) >= max(1.0, res_top * 0.5)
+                for f in comp_features
+            )
             if emit_top and res_top <= 0.5 and (caller_anomaly_count > 0 or has_alt_resource):
                 # Likely a downstream "Failed to call X" emitter, not the
                 # root cause. Force LLM disambiguation.
+                return False, None
+            if large_noisy_scope and not emit_top and fs_label in {"", "ambiguous_or_no_exception"}:
+                return False, None
+            if large_noisy_scope and stronger_source_like_alt:
+                return False, None
+            if sl_top <= 0 and not emit_top:
+                return False, None
+            if latency_only_top and not emit_top:
+                return False, None
+            if not emit_top and not (internal_top & {"cpu", "disk", "memory", "socket", "error"}):
+                return False, None
+            if has_alt_resource and res_top < 1.5:
                 return False, None
         return True, top
     return False, None
@@ -556,6 +600,30 @@ def run_case_lightweight(
             "llm_calls": 0,
         }
 
+    owner_rerank = _deterministic_owner_rerank(signals)
+    if owner_rerank and os.environ.get("PRISM_CHT_OWNER_RERANK_FALLBACK", "0") == "1":
+        return {
+            "status": "lightweight_owner_rerank",
+            "hypothesis_id": None,
+            "predicted_component": owner_rerank["root_component"],
+            "predicted_ranking": owner_rerank["ranking"],
+            "reason_family": "owner_aware_deterministic_rerank",
+            "onset_interval": [loaded.case.event_time, loaded.case.event_time + 60],
+            "steps_completed": 0,
+            "evidence_count": 0,
+            "referenced_evidence_ids": [],
+            "rationale": owner_rerank["rationale"],
+            "uncertainties": owner_rerank["uncertainties"],
+            "global_rescue": False,
+            "outside_hypothesis_set": False,
+            "recall_pool": signals["recall_pool"],
+            "event_causal_profile": {},
+            "event_causal_fact_count": 0,
+            "final_belief_state": owner_rerank["belief_state"],
+            "transcript": [],
+            "llm_calls": 0,
+        }
+
     # When IVD consensus is not strong, delegate to the full continuous
     # NoiseNative agent (EventCausalizer + NoiseLab loop).
     return run_case(
@@ -565,6 +633,104 @@ def run_case_lightweight(
         client=client,
         recall_pool_size=recall_pool_size,
     )
+
+
+def _deterministic_owner_rerank(signals: Mapping[str, Any]) -> Mapping[str, Any] | None:
+    """Owner-aware rerank for noisy cases before invoking full EG-CDA.
+
+    This is deliberately generic: it uses only compact telemetry-derived
+    feature rows and IVD verdicts, never case IDs, dataset names, or labels.
+    """
+    components = signals.get("components")
+    if not isinstance(components, list) or not components:
+        return None
+    ivd = signals.get("ivd") if isinstance(signals.get("ivd"), Mapping) else {}
+    verdicts = ivd.get("verdicts", {}) if isinstance(ivd, Mapping) else {}
+
+    scored: list[tuple[float, str, Mapping[str, Any], Mapping[str, Any]]] = []
+    for item in components:
+        if not isinstance(item, Mapping):
+            continue
+        comp = str(item.get("c") or "")
+        if not comp:
+            continue
+        internal = set(item.get("sig") or [])
+        all_sig = set(item.get("all_sig") or [])
+        resource_signals = internal & {"cpu", "disk", "memory", "socket", "error"}
+        magnitude = float(item.get("mag") or 0.0)
+        source_likelihood = float(item.get("sl") or 0.0)
+        emit = bool(item.get("emit"))
+        score = 0.0
+        score += 2.0 * math.log1p(max(0.0, magnitude))
+        score += 1.4 * len(resource_signals)
+        score += 0.8 * source_likelihood
+        if emit and magnitude >= 1.0:
+            score += 1.0
+        if item.get("storage"):
+            score -= 2.0
+        if item.get("entry"):
+            score -= 0.8
+        if item.get("latency_only"):
+            score -= 2.0
+        if internal == {"memory"} and not emit:
+            score -= 0.6
+        if all_sig and all_sig <= {"latency", "workload"}:
+            score -= 1.5
+
+        verdict = verdicts.get(comp, {}) if isinstance(verdicts, Mapping) else {}
+        role = str(verdict.get("role") or "")
+        copeland = float(verdict.get("cs") or 0.0)
+        fs_label = str(verdict.get("fs") or "")
+        if role == "initiator":
+            score += min(copeland, 4.0) * 0.2
+        elif role == "victim":
+            score -= min(abs(copeland), 4.0) * 0.4
+        if fs_label in {"own_code_stack_trace", "emitter_exception_no_dependency"}:
+            score += 1.5
+        elif fs_label in {"dependency_client_side_failure", "dependency_induced_exception"}:
+            score -= 1.5
+
+        scored.append((score, comp, item, verdict))
+
+    if not scored:
+        return None
+    scored.sort(key=lambda row: (-row[0], row[1]))
+    ranking = [comp for _, comp, _, _ in scored[:5]]
+    top_score, top_component, top_feature, top_verdict = scored[0]
+    second_score = scored[1][0] if len(scored) > 1 else top_score - 999.0
+    margin = top_score - second_score
+    rationale = (
+        "Owner-aware deterministic rerank selected the component with the "
+        "strongest combination of near-onset resource mechanism, source "
+        "likelihood, storage/entry penalties, and IVD role."
+    )
+    uncertainties = []
+    if margin < 1.0:
+        uncertainties.append("top deterministic scores are close")
+    if str(top_verdict.get("role") or "") != "initiator":
+        uncertainties.append("IVD did not provide a strong initiator shortcut")
+    belief_state = [
+        {
+            "root_component": comp,
+            "position": "leading" if idx == 0 else ("plausible" if idx < 3 else "weakened"),
+            "score": round(score, 4),
+            "source_likelihood": item.get("sl"),
+            "near_onset_magnitude": item.get("mag"),
+            "signals": item.get("all_sig") or item.get("sig") or [],
+            "ivd_role": verdict.get("role") if isinstance(verdict, Mapping) else "",
+            "copeland_score": verdict.get("cs") if isinstance(verdict, Mapping) else "",
+        }
+        for idx, (score, comp, item, verdict) in enumerate(scored[:5])
+    ]
+    return {
+        "root_component": top_component,
+        "ranking": ranking,
+        "score": top_score,
+        "margin": margin,
+        "rationale": rationale,
+        "uncertainties": uncertainties,
+        "belief_state": belief_state,
+    }
 
 
 def run_case(
@@ -671,18 +837,26 @@ def run_case(
         max_steps=max_steps,
         require_final=True,
     )
+    final_context = _extract_working_memory(final_response, fallback=context_state)
     final_decision = _normalize_final_decision(
         final_response.get("final_decision"),
         case=loaded.case,
         hypotheses=bundle.hypotheses,
         graph=graph,
-        context_state=_extract_working_memory(final_response, fallback=context_state),
+        context_state=final_context,
+        recall_pool=recall_pool,
+    )
+    predicted_ranking = _derive_predicted_ranking(
+        root_component=final_decision["root_component"],
+        belief_state=final_context.get("belief_state", []),
+        hypotheses=bundle.hypotheses,
         recall_pool=recall_pool,
     )
     return {
         "status": "continuous_final",
         "hypothesis_id": final_decision["hypothesis_id"],
         "predicted_component": final_decision["root_component"],
+        "predicted_ranking": predicted_ranking,
         "reason_family": final_decision["reason_family"],
         "onset_interval": final_decision["onset_interval"],
         "steps_completed": max_steps,
@@ -700,7 +874,7 @@ def run_case(
             else []
         ),
         "final_belief_state": _truncate_jsonable(
-            final_response.get("belief_state", context_state.get("belief_state", [])),
+            final_context.get("belief_state", []),
             max_chars=12000,
         ),
         "transcript": transcript,
@@ -1627,6 +1801,55 @@ def _initial_belief_state(hypotheses) -> list[dict[str, Any]]:
         }
         for hypothesis in hypotheses
     ]
+
+
+def _derive_predicted_ranking(
+    *,
+    root_component: str,
+    belief_state: Any,
+    hypotheses,
+    recall_pool: Sequence[str] | None,
+) -> list[str]:
+    """Derive a compact top-k ranking from the final belief state.
+
+    The runner historically emitted a ranking for shortcut decisions but not
+    for continuous_final decisions, making AC@3/Avg@5 lower bounds.  This
+    keeps the selected root first, then follows final belief positions and
+    finally fills from hypothesis/recall order.
+    """
+    ranking: list[str] = []
+
+    def add(component: Any) -> None:
+        name = str(component or "").strip()
+        if name and name not in ranking:
+            ranking.append(name)
+
+    add(root_component)
+    if isinstance(belief_state, list):
+        position_rank = {
+            "leading": 0,
+            "plausible": 1,
+            "weakened": 2,
+            "unlikely": 3,
+        }
+        belief_items = [
+            item
+            for item in belief_state
+            if isinstance(item, Mapping) and item.get("root_component")
+        ]
+        belief_items.sort(
+            key=lambda item: (
+                position_rank.get(str(item.get("position") or ""), 4),
+                str(item.get("root_component") or ""),
+            )
+        )
+        for item in belief_items:
+            add(item.get("root_component"))
+    for hypothesis in hypotheses:
+        add(getattr(hypothesis, "root_component", ""))
+    for component in recall_pool or ():
+        add(component)
+    return ranking[:5]
 
 
 def _extract_working_memory(

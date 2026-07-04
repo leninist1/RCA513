@@ -12,7 +12,6 @@ import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-from matplotlib.colors import ListedColormap
 
 from compute_metrics import compute
 from paper_utils import FIGURE_DIR, TABLE_DIR, ensure_dirs
@@ -49,10 +48,10 @@ def _placeholder(name: str, title: str, message: str) -> None:
     _save(fig, name)
 
 
-def fig4_heatmap() -> None:
-    rows = _read_csv(TABLE_DIR / "rcaeval_all_subsets_summary.csv")
+def fig4_re2_re3_performance() -> None:
+    rows = _read_csv(TABLE_DIR / "rcaeval_re2_re3_summary.csv")
     by_id = {row["dataset_id"]: row for row in rows}
-    suites = ["RE1", "RE2", "RE3"]
+    suites = ["RE2", "RE3"]
     systems = [("OB", "Online Boutique"), ("SS", "Sock Shop"), ("TT", "Train Ticket")]
     values: list[list[float]] = []
     labels: list[list[str]] = []
@@ -66,28 +65,19 @@ def fig4_heatmap() -> None:
         values.append(value_row)
         labels.append(label_row)
 
-    cmap = ListedColormap(["#d9d9d9", "#f2f7fb", "#c6dbef", "#6baed6", "#2171b5"])
-    fig, ax = plt.subplots(figsize=(7.2, 4.8))
+    fig, ax = plt.subplots(figsize=(7.2, 3.8))
     display = [[0.0 if item < 0 else item for item in row] for row in values]
-    im = ax.imshow(display, vmin=0.0, vmax=1.0, cmap=cmap)
+    im = ax.imshow(display, vmin=0.0, vmax=1.0, cmap="YlGnBu")
     ax.set_xticks(range(3), [name for _, name in systems], fontsize=10)
-    ax.set_yticks(range(3), suites, fontsize=10)
-    ax.set_title("CAPE-RCA performance across all RCAEval subsets", fontsize=13, pad=12)
-    for i in range(3):
+    ax.set_yticks(range(2), suites, fontsize=10)
+    ax.set_title("CAPE-RCA performance on RCAEval RE2/RE3", fontsize=13, pad=12)
+    for i in range(2):
         for j in range(3):
             color = "black" if values[i][j] < 0 or values[i][j] < 0.68 else "white"
             ax.text(j, i, labels[i][j], ha="center", va="center", fontsize=11, color=color)
     cbar = fig.colorbar(im, ax=ax, fraction=0.046, pad=0.04)
     cbar.set_label("AC@1", fontsize=10)
-    ax.text(
-        0.0,
-        -0.22,
-        "Note: RE1 is metrics-only; RE2 and RE3 use multi-source telemetry. Gray/TODO cells are missing runs.",
-        transform=ax.transAxes,
-        fontsize=9,
-        va="top",
-    )
-    _save(fig, "fig4_rcaeval_all_subsets_heatmap")
+    _save(fig, "fig4_rcaeval_re2_re3_performance")
 
 
 def _truthy(value: str) -> bool:
@@ -109,7 +99,7 @@ def fig5_rcaeval_baselines() -> None:
         )
         return
 
-    summary = _read_csv(TABLE_DIR / "rcaeval_all_subsets_summary.csv")
+    summary = _read_csv(TABLE_DIR / "rcaeval_re2_re3_summary.csv")
     by_id = {row["dataset_id"]: row for row in summary}
     dataset_id = baselines[0].get("dataset") or baselines[0].get("suite") or ""
     cape_value = _float((by_id.get(dataset_id) or {}).get("AC@1"))
@@ -132,57 +122,6 @@ def fig5_rcaeval_baselines() -> None:
         ax.text(min(value + 0.02, 0.98), y, f"{value * 100:.1f}%", va="center", fontsize=10)
     ax.grid(axis="x", alpha=0.25)
     _save(fig, "fig5_rcaeval_published_baseline_comparison")
-
-
-def fig6_eadro_baselines() -> None:
-    rows = _read_csv(TABLE_DIR / "published_baselines_eadro.csv")
-    comparable = [
-        row
-        for row in rows
-        if _truthy(row.get("comparable_to_CAPERCA", "")) and _float(row.get("HR@1")) is not None
-    ]
-    if not comparable:
-        _placeholder(
-            "fig6_eadro_baseline_comparison",
-            "Eadro root-cause localization comparison",
-            "No comparable Eadro published RCA-only baseline value has been resolved yet. "
-            "CAPE-RCA is evaluated under known-fault localization, so end-to-end anomaly detection "
-            "numbers are not plotted.",
-        )
-        return
-
-    summary = {row["dataset"]: row for row in _read_csv(TABLE_DIR / "eadro_summary.csv")}
-    fig, axes = plt.subplots(1, 2, figsize=(11.6, 6.2), sharex=True)
-    for ax, dataset in zip(axes, ["Eadro-TT", "Eadro-SN"]):
-        data_rows = [row for row in comparable if row.get("dataset") == dataset]
-        labels = [row["method"] for row in data_rows]
-        values = [_float(row.get("HR@1")) or 0.0 for row in data_rows]
-        cape = _float((summary.get(dataset) or {}).get("HR@1"))
-        colors = ["#9ecae1"] * len(labels)
-        if cape is not None:
-            labels.append("CAPE-RCA")
-            values.append(cape)
-            colors.append("#238b45")
-        positions = list(range(len(labels)))
-        ax.barh(positions, values, color=colors)
-        ax.set_title(dataset, fontsize=12)
-        ax.set_xlim(0, 1.05)
-        ax.set_yticks(positions, labels, fontsize=9)
-        ax.invert_yaxis()
-        ax.set_xlabel("HR@1", fontsize=10)
-        ax.grid(axis="x", alpha=0.25)
-        for y, value in zip(positions, values):
-            ax.text(min(value + 0.015, 1.0), y, f"{value * 100:.1f}%", va="center", fontsize=8)
-    fig.suptitle("Eadro localization comparison", fontsize=13)
-    fig.text(
-        0.5,
-        0.02,
-        "Note: CAPE-RCA is evaluated under a localization setting with known fault cases.",
-        ha="center",
-        fontsize=9,
-    )
-    fig.subplots_adjust(left=0.14, right=0.98, bottom=0.12, top=0.88, wspace=0.34)
-    _save(fig, "fig6_eadro_baseline_comparison")
 
 
 def fig7_cost_and_path() -> None:
@@ -235,9 +174,8 @@ def main() -> int:
     ensure_dirs()
     if not args.skip_compute:
         compute()
-    fig4_heatmap()
+    fig4_re2_re3_performance()
     fig5_rcaeval_baselines()
-    fig6_eadro_baselines()
     fig7_cost_and_path()
     print(f"wrote figures under {FIGURE_DIR}")
     return 0

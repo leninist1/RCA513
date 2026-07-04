@@ -18,9 +18,6 @@ LOG_DIR = ARTIFACT_ROOT / "logs"
 CASE_STUDY_DIR = ARTIFACT_ROOT / "case_studies"
 
 RCAEVAL_SYSTEMS = [
-    "RE1-OB",
-    "RE1-SS",
-    "RE1-TT",
     "RE2-OB",
     "RE2-SS",
     "RE2-TT",
@@ -30,9 +27,6 @@ RCAEVAL_SYSTEMS = [
 ]
 
 RCAEVAL_SOURCE_FILES = {
-    "RE1-OB": RAW_DIR / "RE1-OB_cape_rca_full.json",
-    "RE1-SS": RAW_DIR / "RE1-SS_cape_rca_full.json",
-    "RE1-TT": RAW_DIR / "RE1-TT_cape_rca_full.json",
     "RE2-OB": REPO_ROOT / "results/prism_cht/v3_full/RE2-OB_v3.json",
     "RE2-SS": REPO_ROOT / "results/prism_cht/v3_full/RE2-SS_v3.json",
     "RE2-TT": REPO_ROOT / "results/prism_cht/v3_full/RE2-TT_v3.json",
@@ -41,10 +35,7 @@ RCAEVAL_SOURCE_FILES = {
     "RE3-TT": REPO_ROOT / "results/prism_cht/v3_full/RE3-TT_v3.json",
 }
 
-EADRO_SOURCE_FILES = {
-    "Eadro-TT": REPO_ROOT / "results/prism_cht/Eadro-TT_ambig_full.json",
-    "Eadro-SN": REPO_ROOT / "results/prism_cht/Eadro-SN_ambig_full.json",
-}
+EADRO_SOURCE_FILES: dict[str, Path] = {}
 
 
 def ensure_dirs() -> None:

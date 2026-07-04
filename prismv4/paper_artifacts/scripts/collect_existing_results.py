@@ -15,7 +15,6 @@ from pathlib import Path
 from typing import Any
 
 from paper_utils import (
-    EADRO_SOURCE_FILES,
     RAW_DIR,
     RCAEVAL_SOURCE_FILES,
     TABLE_DIR,
@@ -48,23 +47,6 @@ RCAEVAL_CASE_COLUMNS = [
     "status",
     "notes",
 ]
-
-EADRO_CASE_COLUMNS = [
-    "dataset",
-    "case_id",
-    "fault_type",
-    "ground_truth",
-    "prediction_top1",
-    "hit@1",
-    "rank_of_ground_truth",
-    "predicted_ranking",
-    "diagnostic_path",
-    "total_tokens",
-    "total_calls",
-    "status",
-    "notes",
-]
-
 
 def _case_cost(row: dict[str, Any]) -> tuple[int, int]:
     usage = row.get("token_usage") or {}
@@ -221,20 +203,17 @@ def collect() -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
         all_cases.extend(cases)
         if summary:
             summaries.append(summary)
-    for dataset_id, source in EADRO_SOURCE_FILES.items():
-        cases, summary = _parse_source(dataset="Eadro", dataset_id=dataset_id, source_path=source)
-        all_cases.extend(cases)
-        if summary:
-            summaries.append(summary)
-
     write_json(RAW_DIR / "normalized_cases.json", all_cases)
     write_json(RAW_DIR / "result_file_summaries.json", summaries)
     write_json(
         RAW_DIR / "result_provenance.json",
         {
             "rcaeval_sources": {key: relpath(path) for key, path in RCAEVAL_SOURCE_FILES.items()},
-            "eadro_sources": {key: relpath(path) for key, path in EADRO_SOURCE_FILES.items()},
-            "note": "Existing files are parsed in place; raw result files are not copied or overwritten.",
+            "excluded_sources": {
+                "RE1": "metrics-only RCAEval subset; moved to paper_artifacts/obsolete/re1_metrics_only/",
+                "Eadro": "protocol mismatch for main comparison; moved to paper_artifacts/obsolete/eadro_exploratory/",
+            },
+            "note": "Existing RE2/RE3 files are parsed in place; raw result files are not copied or overwritten.",
         },
     )
 
@@ -268,9 +247,7 @@ def collect() -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     _write_csv(RAW_DIR / "existing_result_inventory.csv", inventory_rows, inventory_columns)
 
     rcaeval_rows = [row for row in all_cases if row["dataset"] == "RCAEval"]
-    eadro_rows = [row for row in all_cases if row["dataset"] == "Eadro"]
     _write_csv(TABLE_DIR / "case_level_predictions_rcaeval.csv", rcaeval_rows, RCAEVAL_CASE_COLUMNS)
-    _write_csv(TABLE_DIR / "case_level_predictions_eadro.csv", eadro_rows, EADRO_CASE_COLUMNS)
     return all_cases, summaries
 
 
@@ -280,8 +257,7 @@ def main() -> int:
     cases, summaries = collect()
     print(
         f"collected {len(cases)} cases from {len(summaries)} result files; "
-        f"wrote {TABLE_DIR / 'case_level_predictions_rcaeval.csv'} and "
-        f"{TABLE_DIR / 'case_level_predictions_eadro.csv'}"
+        f"wrote {TABLE_DIR / 'case_level_predictions_rcaeval.csv'}"
     )
     return 0
 

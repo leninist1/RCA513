@@ -8,6 +8,7 @@ only sees a generic case and a telemetry store.
 from __future__ import annotations
 
 import json
+import os
 import re
 from dataclasses import dataclass
 from datetime import datetime
@@ -365,8 +366,14 @@ class RCAEvalTelemetryStore:
         # IVD: Initiator–Victim Disambiguation among source_candidates.
         source_candidates = [
             r["component"] for r in rows
-            if r.get("causal_role") in ("source_candidate", "ambiguous")
-            and r.get("source_likelihood_score", 0.0) > 0
+            if (
+                r.get("causal_role") in ("source_candidate", "ambiguous")
+                and r.get("source_likelihood_score", 0.0) > 0
+            )
+            or (
+                r.get("near_onset_internal_signals")
+                and float(r.get("near_onset_anomaly_magnitude", 0.0) or 0.0) > 0.0
+            )
         ]
         all_anomalous = [
             r["component"] for r in rows
@@ -676,8 +683,14 @@ class RCAEvalTelemetryStore:
         """Run IVD among source_candidates found in the event rows."""
         source_candidates = [
             r["component"] for r in rows
-            if r.get("causal_role") in ("source_candidate", "ambiguous")
-            and float(r.get("source_likelihood_score", 0.0)) > 0
+            if (
+                r.get("causal_role") in ("source_candidate", "ambiguous")
+                and float(r.get("source_likelihood_score", 0.0)) > 0
+            )
+            or (
+                r.get("near_onset_internal_signals")
+                and float(r.get("near_onset_anomaly_magnitude", 0.0) or 0.0) > 0.0
+            )
         ]
         all_anomalous = [
             r["component"] for r in rows
@@ -779,6 +792,31 @@ class RCAEvalTelemetryStore:
         mag_nowl = [r["component"] for r in sorted(rows, key=_recall_magnitude_no_workload_key)]
         onset = [r["component"] for r in sorted(rows, key=_recall_onset_key)]
         mechanism = [r["component"] for r in sorted(rows, key=_recall_mechanism_key)]
+        resource_owner = [
+            r["component"]
+            for r in sorted(
+                rows,
+                key=lambda r: (
+                    -float(r.get("near_onset_resource_magnitude", 0.0)),
+                    -float(r.get("source_likelihood_score", 0.0)),
+                    r["earliest_time"] if r["earliest_time"] is not None else float("inf"),
+                    r["component"],
+                ),
+            )
+            if float(r.get("near_onset_resource_magnitude", 0.0)) > 0.0
+        ]
+        source_likelihood = [
+            r["component"]
+            for r in sorted(
+                rows,
+                key=lambda r: (
+                    -float(r.get("source_likelihood_score", 0.0)),
+                    -float(r.get("near_onset_magnitude", 0.0)),
+                    r["component"],
+                ),
+            )
+            if float(r.get("source_likelihood_score", 0.0)) > 0.0
+        ]
         emitters = [
             r["component"]
             for r in sorted(
@@ -804,12 +842,16 @@ class RCAEvalTelemetryStore:
             r["component"] for r in topo if (r["n_callers"] + r["n_callees"]) > 0
         ]
 
-        add(pool, seen, mag_nowl, per_tier)
-        add(pool, seen, onset, per_tier)
-        add(pool, seen, mechanism, per_tier)
-        add(pool, seen, emitters, per_tier)
-        add(pool, seen, topo_names, per_tier)
+        add(pool, seen, mag_nowl, max(2, per_tier))
+        add(pool, seen, onset, max(2, per_tier))
+        add(pool, seen, mechanism, max(2, per_tier))
+        add(pool, seen, resource_owner, max(2, per_tier))
+        add(pool, seen, source_likelihood, max(2, per_tier))
+        add(pool, seen, emitters, max(1, per_tier - 1))
+        add(pool, seen, topo_names, max(1, per_tier - 1))
         add(pool, seen, mag_nowl, pool_size)
+        add(pool, seen, source_likelihood, pool_size)
+        add(pool, seen, onset, pool_size)
         return tuple(pool[:pool_size])
 
     def _recall_score_row(
@@ -823,6 +865,18 @@ class RCAEvalTelemetryStore:
         metrics = self._component_metric_observations(component)
         workload_mag = sum(
             float(m["magnitude"]) for m in metrics if m["signal"] == "workload"
+        )
+        near_deadline = (
+            float(feature["earliest_observed_time"]) + NEAR_ONSET_WINDOW_SECONDS
+            if feature.get("earliest_observed_time") is not None
+            else None
+        )
+        near_onset_resource_mag = sum(
+            float(m["magnitude"])
+            for m in metrics
+            if m["signal"] in {"cpu", "disk", "memory", "socket"}
+            and near_deadline is not None
+            and float(m["first_seen"]) <= near_deadline
         )
         has_workload = any(m["signal"] == "workload" for m in metrics)
         mech = _mechanism_strength(feature, trace_context)
@@ -841,6 +895,8 @@ class RCAEvalTelemetryStore:
             "total_magnitude": float(feature.get("local_anomaly_magnitude", 0.0)),
             "workload_magnitude": workload_mag,
             "near_onset_magnitude": float(feature.get("near_onset_anomaly_magnitude", 0.0)),
+            "near_onset_resource_magnitude": near_onset_resource_mag,
+            "source_likelihood_score": float(feature.get("source_likelihood_score", 0.0)),
             "earliest_time": feature.get("earliest_observed_time"),
             "near_onset_internal": tuple(feature.get("near_onset_internal_signals", []) or ()),
             "latency_only_near_onset": bool(feature.get("latency_only_near_onset")),
@@ -952,21 +1008,30 @@ class RCAEvalTelemetryStore:
             (self.traces["timestamp"] >= time_window[0])
             & (self.traces["timestamp"] <= time_window[1])
         ]
-        for _, group in scoped.groupby("trace_id"):
-            id_to_row = {
-                str(row["span_id"]): row
-                for _, row in group.iterrows()
-                if pd.notna(row.get("span_id"))
-            }
-            for _, row in group.iterrows():
-                parent_id = row.get(parent_col)
-                if pd.isna(parent_id) or str(parent_id) not in id_to_row:
-                    continue
-                parent = id_to_row[str(parent_id)]
-                caller = str(parent.get("service"))
+        if not scoped.empty:
+            keep_cols = [
+                col
+                for col in ("trace_id", "span_id", parent_col, "service", "timestamp", "duration", "status")
+                if col in scoped.columns
+            ]
+            scoped_edges = scoped[keep_cols].copy()
+            scoped_edges["_span_key"] = scoped_edges["span_id"].map(_trace_span_key)
+            scoped_edges["_parent_key"] = scoped_edges[parent_col].map(_trace_span_key)
+            scoped_edges = scoped_edges[scoped_edges["_span_key"] != ""]
+            parents = scoped_edges[["trace_id", "_span_key", "service"]].rename(
+                columns={"_span_key": "_parent_key", "service": "_parent_service"}
+            )
+            child_edges = scoped_edges[scoped_edges["_parent_key"] != ""]
+            edges = child_edges.merge(
+                parents,
+                on=["trace_id", "_parent_key"],
+                how="left",
+            )
+            edges = edges[edges["_parent_service"].notna()]
+            edges = edges[edges["_parent_service"].astype(str) != edges["service"].astype(str)]
+            for row in edges.to_dict("records"):
+                caller = str(row.get("_parent_service"))
                 callee = str(row.get("service"))
-                if caller == callee:
-                    continue
                 if caller in components:
                     _add_trace_edge_feature(
                         context[caller]["direct_callees"],
@@ -1175,6 +1240,12 @@ class RCAEvalTelemetryStore:
                 for item in logs[:5]
             ],
         }
+        row["has_emitter_exception"] = any(
+            feature.get("emitter_exception_observed")
+            or feature.get("diagnostic_role") == "emitter_error_or_internal_exception"
+            for feature in row["log_features"]
+            if isinstance(feature, Mapping)
+        )
         # Add causal_role and source_likelihood_score using trace context.
         # Use all components as scope to leverage the shared cache (a single
         # trace dependency context computation covers all components).
@@ -1282,6 +1353,9 @@ class RCAEvalTelemetryStore:
         if logs.empty:
             self._all_log_obs_cache = []
             return []
+        scan_limit = int(os.environ.get("PRISM_CHT_LOG_SCAN_LIMIT", "20000"))
+        if scan_limit > 0 and len(logs) > scan_limit:
+            logs = logs.sort_values("_ts").head(scan_limit)
         mask = logs["message"].astype(str).str.contains(
             "error|exception|timeout|fail|oom|killed|refused",
             case=False,
@@ -1325,6 +1399,18 @@ def _read_optional_csv(path: Path) -> pd.DataFrame | None:
         return pd.read_csv(path, on_bad_lines="skip")
     except Exception:
         return None
+
+
+def _trace_span_key(value: Any) -> str:
+    """Normalize span/parent IDs for joins across CSV type inference quirks."""
+    if pd.isna(value):
+        return ""
+    text = str(value).strip()
+    if not text or text.lower() == "nan":
+        return ""
+    if text.endswith(".0") and text[:-2].isdigit():
+        return text[:-2]
+    return text
 
 
 def _normalize_traces(traces: pd.DataFrame | None) -> pd.DataFrame | None:
@@ -1516,10 +1602,26 @@ def _source_likelihood_score(
         for f in log_features
     )
     internal = set(row.get("near_onset_internal_signals", []) or [])
+    resource_internal = internal & {"cpu", "disk", "memory", "socket"}
     latency_only = bool(row.get("latency_only_near_onset"))
     is_storage = _is_storage_component(str(row.get("component", "")))
     is_entry = bool(row.get("is_entry_like_component"))
     late_dominant = bool(row.get("late_dominant_metric"))
+    metric_features = [
+        f for f in row.get("metric_features", []) or []
+        if isinstance(f, Mapping)
+    ]
+    near_onset_mag = float(row.get("near_onset_anomaly_magnitude", 0.0) or 0.0)
+    resource_mag = sum(
+        float(f.get("magnitude", 0.0) or 0.0)
+        for f in metric_features
+        if f.get("signal") in {"cpu", "disk", "memory", "socket"}
+    )
+    workload_mag = sum(
+        float(f.get("magnitude", 0.0) or 0.0)
+        for f in metric_features
+        if f.get("signal") == "workload"
+    )
 
     if has_emitter_exception:
         score += 3.0
@@ -1527,6 +1629,12 @@ def _source_likelihood_score(
         score += 2.0
     elif internal - {"log"}:
         score += 1.0
+    if resource_internal:
+        score += min(2.0, 0.5 + 0.5 * len(resource_internal))
+    if resource_mag > 0 and resource_mag >= max(workload_mag * 1.5, 3.0):
+        score += 1.0
+    if near_onset_mag >= 8.0 and resource_internal:
+        score += 0.5
     if not is_storage:
         score += 1.0
     if is_storage:
@@ -1691,9 +1799,10 @@ def _compute_ivd(
             "pairwise_results": [],
         }
 
-    # Pre-filter: keep only candidates with score >= 50% of the max score,
-    # or at most the top 8 by score. This removes weak bystanders that
-    # would pollute the pairwise tournament.
+    # Pre-filter: keep candidates with score near the max, plus a wider
+    # top-N tail.  RE2-TT style systems have many services and the true owner
+    # can have weaker source_likelihood than louder downstream emitters, so a
+    # 50% threshold is too aggressive for recall.
     rows_for_filter = {
         comp: store._noise_feature_row(component=comp, time_window=time_window)
         for comp in candidates
@@ -1704,12 +1813,13 @@ def _compute_ivd(
     )
     max_score = float(rows_for_filter[scored[0]].get("source_likelihood_score", 0.0))
     if max_score > 0:
-        threshold = max_score * 0.5
+        threshold = max_score * 0.35
         filtered = [c for c in scored if float(rows_for_filter[c].get("source_likelihood_score", 0.0)) >= threshold]
     else:
         filtered = list(scored)
-    # Cap at 8 to keep pairwise tournament manageable (max 28 pairs)
-    tournament_candidates = filtered[:8]
+    # Cap at 10 to keep pairwise tournament manageable (max 45 pairs) while
+    # preserving recall on larger microservice graphs.
+    tournament_candidates = filtered[:10]
     # Also require minimum resource magnitude to exclude bystanders
     tournament_candidates = [
         c for c in tournament_candidates
@@ -1721,7 +1831,7 @@ def _compute_ivd(
         or int(rows_for_filter[c].get("log_count", 0)) > 0
     ]
     if len(tournament_candidates) < 2:
-        tournament_candidates = filtered[:5]
+        tournament_candidates = filtered[:8]
 
     # Build feature rows for all tournament candidates
     rows = {

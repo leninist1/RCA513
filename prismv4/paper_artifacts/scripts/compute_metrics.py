@@ -11,7 +11,6 @@ from typing import Any
 
 from collect_existing_results import collect
 from paper_utils import (
-    EADRO_SOURCE_FILES,
     RAW_DIR,
     RCAEVAL_SYSTEMS,
     TABLE_DIR,
@@ -39,28 +38,6 @@ RCAEVAL_SUMMARY_COLUMNS = [
     "AC@3",
     "Avg@5",
     "avg_rank",
-    "total_calls",
-    "avg_calls_per_case",
-    "total_tokens",
-    "avg_tokens_per_case",
-    "elapsed_sec",
-    "avg_elapsed_sec_per_case",
-    "shortcut_cases",
-    "egcda_cases",
-    "failed_cases",
-    "timeout_cases",
-    "error_cases",
-    "notes",
-]
-
-EADRO_SUMMARY_COLUMNS = [
-    "dataset",
-    "cases",
-    "HR@1",
-    "HR@3",
-    "HR@5",
-    "NDCG@3",
-    "NDCG@5",
     "total_calls",
     "avg_calls_per_case",
     "total_tokens",
@@ -264,64 +241,17 @@ def _mean(values: list[float | None]) -> float | None:
     return sum(clean) / len(clean)
 
 
-def _eadro_summary(grouped: dict[str, list[dict[str, Any]]], summaries: dict[str, dict[str, Any]]) -> list[dict[str, Any]]:
-    rows: list[dict[str, Any]] = []
-    for dataset_id in EADRO_SOURCE_FILES:
-        cases = grouped.get(dataset_id, [])
-        paths = _path_counts(cases)
-        _, total, hr1, _ = metric_hits(cases, 1)
-        _, _, hr3, miss3 = metric_hits(cases, 3)
-        _, _, hr5, miss5 = metric_hits(cases, 5)
-        ndcg3_values = [ndcg_at_k(row, 3) for row in cases]
-        ndcg5_values = [ndcg_at_k(row, 5) for row in cases]
-        ndcg3_lower = [0.0 if value is None else value for value in ndcg3_values]
-        ndcg5_lower = [0.0 if value is None else value for value in ndcg5_values]
-        notes: list[str] = [
-            "CAPE-RCA evaluated in known-fault localization setting, not Eadro end-to-end anomaly detection"
-        ]
-        ranking_note = _ranking_notes(cases)
-        if ranking_note:
-            notes.append(ranking_note)
-        if miss3 or miss5:
-            notes.append("HR@3/HR@5/NDCG are lower bounds where only top-1 is available")
-        cost = _cost_values(dataset_id, cases, summaries)
-        rows.append(
-            {
-                "dataset": dataset_id,
-                "cases": total if cases else "",
-                "HR@1": fmt_float(hr1),
-                "HR@3": fmt_float(hr3),
-                "HR@5": fmt_float(hr5),
-                "NDCG@3": fmt_float(sum(ndcg3_lower) / len(cases) if cases else None),
-                "NDCG@5": fmt_float(sum(ndcg5_lower) / len(cases) if cases else None),
-                "total_calls": cost["total_calls"] if cases else "",
-                "avg_calls_per_case": cost["avg_calls_per_case"] if cases else "",
-                "total_tokens": cost["total_tokens"] if cases else "",
-                "avg_tokens_per_case": cost["avg_tokens_per_case"] if cases else "",
-                "elapsed_sec": cost["elapsed_sec"] if cases else "",
-                "avg_elapsed_sec_per_case": cost["avg_elapsed_sec_per_case"] if cases else "",
-                "shortcut_cases": paths.get("shortcut", 0) if cases else "",
-                "egcda_cases": paths.get("egcda", 0) if cases else "",
-                "failed_cases": paths.get("failed", 0) if cases else "",
-                "timeout_cases": paths.get("timeout", 0) if cases else "",
-                "error_cases": _error_case_count(cases) if cases else "",
-                "notes": "; ".join(notes),
-            }
-        )
-    return rows
-
-
 def _path_and_cost_rows(
     grouped: dict[str, list[dict[str, Any]]],
     summaries: dict[str, dict[str, Any]],
 ) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     path_rows: list[dict[str, Any]] = []
     cost_rows: list[dict[str, Any]] = []
-    for dataset_id in [*RCAEVAL_SYSTEMS, *EADRO_SOURCE_FILES.keys()]:
+    for dataset_id in RCAEVAL_SYSTEMS:
         cases = grouped.get(dataset_id, [])
         if not cases:
             continue
-        dataset = "RCAEval" if dataset_id.startswith("RE") else "Eadro"
+        dataset = "RCAEval"
         suite_or_system = dataset_id
         paths = _path_counts(cases)
         total = len(cases)
@@ -399,12 +329,10 @@ def compute() -> None:
     grouped = _group_cases(cases)
     summaries = _summary_by_dataset(file_summaries)
     rcaeval_rows = _rcaeval_summary(grouped, summaries)
-    eadro_rows = _eadro_summary(grouped, summaries)
     path_rows, cost_rows = _path_and_cost_rows(grouped, summaries)
     errors = _error_rows(cases)
 
-    _write_csv(TABLE_DIR / "rcaeval_all_subsets_summary.csv", rcaeval_rows, RCAEVAL_SUMMARY_COLUMNS)
-    _write_csv(TABLE_DIR / "eadro_summary.csv", eadro_rows, EADRO_SUMMARY_COLUMNS)
+    _write_csv(TABLE_DIR / "rcaeval_re2_re3_summary.csv", rcaeval_rows, RCAEVAL_SUMMARY_COLUMNS)
     _write_csv(TABLE_DIR / "diagnostic_path_distribution.csv", path_rows, PATH_COLUMNS)
     _write_csv(TABLE_DIR / "cost_summary.csv", cost_rows, COST_COLUMNS)
     _write_csv(TABLE_DIR / "error_analysis.csv", errors, ERROR_COLUMNS)
