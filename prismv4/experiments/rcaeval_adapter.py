@@ -81,7 +81,8 @@ def discover_re3_cases(
     cases: list[Path] = []
     for fault_dir in sorted(p for p in system_dir.iterdir() if p.is_dir()):
         for rep_dir in sorted(p for p in fault_dir.iterdir() if p.is_dir()):
-            if (rep_dir / "metrics.csv").exists() and (rep_dir / "inject_time.txt").exists():
+            has_metrics = (rep_dir / "metrics.csv").exists() or (rep_dir / "data.csv").exists()
+            if has_metrics and (rep_dir / "inject_time.txt").exists():
                 cases.append(rep_dir)
                 if limit is not None and len(cases) >= limit:
                     return tuple(cases)
@@ -1301,7 +1302,12 @@ class RCAEvalTelemetryStore:
 
 def _read_metrics(case_path: Path) -> pd.DataFrame:
     preferred = case_path / "simple_metrics.csv"
-    path = preferred if preferred.exists() else case_path / "metrics.csv"
+    if preferred.exists():
+        path = preferred
+    elif (case_path / "metrics.csv").exists():
+        path = case_path / "metrics.csv"
+    else:
+        path = case_path / "data.csv"
     df = pd.read_csv(path)
     if "time.1" in df.columns:
         df = df.drop(columns=["time.1"])
