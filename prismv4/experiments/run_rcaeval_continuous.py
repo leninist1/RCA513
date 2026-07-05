@@ -53,6 +53,10 @@ from prismv4.prism_cht.provider_config import load_openai_compatible_config_from
 
 DEFAULT_RE3_ROOT = "/home/dell2/RCA513/ysj/dataset/RCAEval/RE3"
 
+# When "0" (default, relaxed), the IVD shortcut gate uses the pre-2ccf13b1
+# permissive logic.  When "1", all 2ccf13b1 strict rejection conditions apply.
+_IVD_STRICT_GATE = os.environ.get("PRISM_CHT_IVD_STRICT_GATE", "0") == "1"
+
 _INSTANCE_SUFFIX_RE = re.compile(r"-\d+$")
 
 
@@ -486,9 +490,7 @@ def _ivd_has_strong_consensus(
     if not v:
         return False, None
     # Strong consensus: initiator with a clear Copeland margin, plus enough
-    # local source evidence to justify bypassing EG-CDA.  RE2-TT showed that
-    # a merely-positive Copeland score is too permissive in noisy multi-service
-    # incidents.
+    # local source evidence to justify bypassing EG-CDA.
     if (v.get("role") == "initiator" and
             (v.get("cs") or 0) > 0 and
             (len(ranking) == 1 or
@@ -502,13 +504,13 @@ def _ivd_has_strong_consensus(
         margin = top_score - second_score
         candidate_count = len(ranking)
         large_noisy_scope = bool(comp_features and len(comp_features) >= 12)
-        if top_score < 3.0 or margin < (3.0 if large_noisy_scope else 2.0):
-            return False, None
-        if large_noisy_scope and candidate_count < 6:
-            return False, None
-        # NEW emitter-penalty: reject shortcut if top has emitter=True with
-        # near-zero resource anomaly magnitude (reactive caller), particularly
-        # when another candidate has resource anomaly but no emitter.
+        if _IVD_STRICT_GATE:
+            if top_score < 3.0 or margin < (3.0 if large_noisy_scope else 2.0):
+                return False, None
+            if large_noisy_scope and candidate_count < 6:
+                return False, None
+        # emitter-penalty: reject shortcut if top has emitter=True with
+        # near-zero resource anomaly magnitude (reactive caller).
         if comp_features:
             top_feat = next((f for f in comp_features if f["c"] == top), None)
             res_top = float(top_feat.get("mag") or 0) if top_feat else 0.0
@@ -516,9 +518,8 @@ def _ivd_has_strong_consensus(
             sl_top = float(top_feat.get("sl") or 0) if top_feat else 0.0
             internal_top = set(top_feat.get("sig") or []) if top_feat else set()
             latency_only_top = bool(top_feat.get("latency_only")) if top_feat else False
+            storage_top = bool(top_feat.get("storage")) if top_feat else False
             fs_label = str(v.get("fs") or "")
-            # caller_anomalies signals the top is a *reactive* caller, not
-            # the true root-cause. ``v.get("call")`` exposes this count.
             caller_anomaly_count = v.get("call") or 0
             has_alt_resource = any(
                 f["c"] != top and float(f.get("mag") or 0) > res_top * 2.0
@@ -533,22 +534,26 @@ def _ivd_has_strong_consensus(
                 and float(f.get("mag") or 0.0) >= max(1.0, res_top * 0.5)
                 for f in comp_features
             )
+            # Storage components (mongo/redis/mysql/db) are reactive
+            # dependencies: their resource spikes are typically symptoms of
+            # a service-level fault, not the initiating root cause.
+            if storage_top:
+                return False, None
             if emit_top and res_top <= 0.5 and (caller_anomaly_count > 0 or has_alt_resource):
-                # Likely a downstream "Failed to call X" emitter, not the
-                # root cause. Force LLM disambiguation.
                 return False, None
-            if large_noisy_scope and not emit_top and fs_label in {"", "ambiguous_or_no_exception"}:
-                return False, None
-            if large_noisy_scope and stronger_source_like_alt:
-                return False, None
-            if sl_top <= 0 and not emit_top:
-                return False, None
-            if latency_only_top and not emit_top:
-                return False, None
-            if not emit_top and not (internal_top & {"cpu", "disk", "memory", "socket", "error"}):
-                return False, None
-            if has_alt_resource and res_top < 1.5:
-                return False, None
+            if _IVD_STRICT_GATE:
+                if large_noisy_scope and not emit_top and fs_label in {"", "ambiguous_or_no_exception"}:
+                    return False, None
+                if large_noisy_scope and stronger_source_like_alt:
+                    return False, None
+                if sl_top <= 0 and not emit_top:
+                    return False, None
+                if latency_only_top and not emit_top:
+                    return False, None
+                if not emit_top and not (internal_top & {"cpu", "disk", "memory", "socket", "error"}):
+                    return False, None
+                if has_alt_resource and res_top < 1.5:
+                    return False, None
         return True, top
     return False, None
 
@@ -600,39 +605,34 @@ def run_case_lightweight(
             "llm_calls": 0,
         }
 
-    owner_rerank = _deterministic_owner_rerank(signals)
-    if owner_rerank and os.environ.get("PRISM_CHT_OWNER_RERANK_FALLBACK", "0") == "1":
-        return {
-            "status": "lightweight_owner_rerank",
-            "hypothesis_id": None,
-            "predicted_component": owner_rerank["root_component"],
-            "predicted_ranking": owner_rerank["ranking"],
-            "reason_family": "owner_aware_deterministic_rerank",
-            "onset_interval": [loaded.case.event_time, loaded.case.event_time + 60],
-            "steps_completed": 0,
-            "evidence_count": 0,
-            "referenced_evidence_ids": [],
-            "rationale": owner_rerank["rationale"],
-            "uncertainties": owner_rerank["uncertainties"],
-            "global_rescue": False,
-            "outside_hypothesis_set": False,
-            "recall_pool": signals["recall_pool"],
-            "event_causal_profile": {},
-            "event_causal_fact_count": 0,
-            "final_belief_state": owner_rerank["belief_state"],
-            "transcript": [],
-            "llm_calls": 0,
-        }
-
-    # When IVD consensus is not strong, delegate to the full continuous
-    # NoiseNative agent (EventCausalizer + NoiseLab loop).
-    return run_case(
-        loaded=loaded,
-        max_hypotheses=max_hypotheses,
-        max_steps=max_steps,
-        client=client,
-        recall_pool_size=recall_pool_size,
+    # IVD could not reach strong consensus — record and skip.
+    # No fallback, no LLM, no deterministic rerank.
+    ivd_ranking = (
+        signals.get("ivd", {}).get("ranking", [])
+        if signals.get("ivd")
+        else []
     )
+    return {
+        "status": "ivd_no_consensus_skipped",
+        "hypothesis_id": None,
+        "predicted_component": None,
+        "predicted_ranking": ivd_ranking[:5],
+        "reason_family": "ivd_no_consensus",
+        "onset_interval": [loaded.case.event_time, loaded.case.event_time + 60],
+        "steps_completed": 0,
+        "evidence_count": 0,
+        "referenced_evidence_ids": [],
+        "rationale": "IVD did not reach strong consensus; case skipped",
+        "uncertainties": ["no IVD consensus"],
+        "global_rescue": False,
+        "outside_hypothesis_set": False,
+        "recall_pool": signals["recall_pool"],
+        "event_causal_profile": {},
+        "event_causal_fact_count": 0,
+        "final_belief_state": [],
+        "transcript": [],
+        "llm_calls": 0,
+    }
 
 
 def _deterministic_owner_rerank(signals: Mapping[str, Any]) -> Mapping[str, Any] | None:

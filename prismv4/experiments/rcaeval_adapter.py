@@ -27,6 +27,12 @@ from prismv4.prism_cht.telemetry_store import (
 
 BASE_WINDOW_SECONDS = 300
 NEAR_ONSET_WINDOW_SECONDS = 30.0
+
+# Tunable IVD gate thresholds (env-overridable, defaults are the original hardcoded values).
+_IVD_SOURCE_LIKELIHOOD_RATIO = float(os.environ.get("PRISM_CHT_IVD_SOURCE_LIKELIHOOD_RATIO", "0.35"))
+_IVD_TOURNAMENT_CAP = int(os.environ.get("PRISM_CHT_IVD_TOURNAMENT_CAP", "10"))
+_IVD_RESOURCE_MAGNITUDE_MIN = float(os.environ.get("PRISM_CHT_IVD_RESOURCE_MAGNITUDE_MIN", "5.0"))
+_IVD_TOURNAMENT_FALLBACK_CAP = int(os.environ.get("PRISM_CHT_IVD_TOURNAMENT_FALLBACK_CAP", "8"))
 DEFAULT_METRIC_ALIASES = {
     "cpu": ("cpu", "container-cpu-usage-seconds-total", "cpuutil", "cpuload",
             "cpu_user", "cpuwio", "cfs_throttled", "singlecpu",
@@ -1813,13 +1819,11 @@ def _compute_ivd(
     )
     max_score = float(rows_for_filter[scored[0]].get("source_likelihood_score", 0.0))
     if max_score > 0:
-        threshold = max_score * 0.35
+        threshold = max_score * _IVD_SOURCE_LIKELIHOOD_RATIO
         filtered = [c for c in scored if float(rows_for_filter[c].get("source_likelihood_score", 0.0)) >= threshold]
     else:
         filtered = list(scored)
-    # Cap at 10 to keep pairwise tournament manageable (max 45 pairs) while
-    # preserving recall on larger microservice graphs.
-    tournament_candidates = filtered[:10]
+    tournament_candidates = filtered[:_IVD_TOURNAMENT_CAP]
     # Also require minimum resource magnitude to exclude bystanders
     tournament_candidates = [
         c for c in tournament_candidates
@@ -1827,11 +1831,11 @@ def _compute_ivd(
             float(m.get("magnitude", 0))
             for m in rows_for_filter[c].get("metric_features", [])
             if m.get("signal") in ("memory", "cpu", "disk", "socket", "latency")
-        ) > 5
+        ) > _IVD_RESOURCE_MAGNITUDE_MIN
         or int(rows_for_filter[c].get("log_count", 0)) > 0
     ]
     if len(tournament_candidates) < 2:
-        tournament_candidates = filtered[:8]
+        tournament_candidates = filtered[:_IVD_TOURNAMENT_FALLBACK_CAP]
 
     # Build feature rows for all tournament candidates
     rows = {
